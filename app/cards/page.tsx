@@ -433,8 +433,8 @@ export default function CardsPage() {
         {/* Voice + Nav buttons */}
         <div className="mt-4 flex justify-center">
           <VoiceButton
-            text={`${card.headline}. ${card.tip}`}
-            label="Przeczytaj kartę"
+            text={`${card.bigStat} ${card.statLabel}. ${card.headline}. ${card.tip}`}
+            locale={locale}
             variant="pill"
           />
         </div>

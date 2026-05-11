@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import type { WalletName } from "@solana/wallet-adapter-base";
 import { BadgeCheck, ExternalLink, Loader2, Lock, Sparkles } from "lucide-react";
 import { useState } from "react";
 
@@ -190,7 +190,7 @@ export default function RewardsPage() {
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const certificateVoiceText = voiceDemoScripts[voiceLocale].certificateUnlock;
-  const { connected, publicKey } = useWallet();
+  const { connected, connecting, publicKey, select, connect, disconnect, wallets } = useWallet();
   const [mintStep, setMintStep] = useState<MintStep>("idle");
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
   const [mockTxHash, setMockTxHash] = useState("");
@@ -271,12 +271,21 @@ export default function RewardsPage() {
           {/* Wallet */}
           <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
             <p className="mb-3 text-sm font-bold text-muted">{copy.walletTitle}</p>
-            <WalletMultiButton />
-            {connected && publicKey && (
-              <p className="mt-2 break-all font-mono text-xs text-muted">
-                {publicKey.toBase58().slice(0, 16)}…{publicKey.toBase58().slice(-8)}
-              </p>
-            )}
+            <PhantomConnectButton
+              connected={connected}
+              connecting={connecting}
+              publicKey={publicKey?.toBase58()}
+              onConnect={async () => {
+                const phantom = wallets.find((w) => w.adapter.name === "Phantom");
+                if (!phantom) {
+                  window.open("https://phantom.com/download", "_blank");
+                  return;
+                }
+                select("Phantom" as WalletName);
+                try { await connect(); } catch { /* user rejected */ }
+              }}
+              onDisconnect={disconnect}
+            />
             {!connected && (
               <p className="mt-2 text-xs font-semibold text-muted">{copy.walletHelp}</p>
             )}
@@ -429,5 +438,72 @@ export default function RewardsPage() {
         </DialogContent>
       </Dialog>
     </section>
+  );
+}
+
+function PhantomConnectButton({
+  connected,
+  connecting,
+  publicKey,
+  onConnect,
+  onDisconnect,
+}: {
+  connected: boolean;
+  connecting: boolean;
+  publicKey?: string;
+  onConnect: () => void;
+  onDisconnect: () => void;
+}) {
+  if (connected && publicKey) {
+    return (
+      <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-success/30 bg-success/10 px-3 py-2.5">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-success" />
+          <span className="truncate font-mono text-xs font-bold text-text">
+            {publicKey.slice(0, 14)}…{publicKey.slice(-6)}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={onDisconnect}
+          className="shrink-0 rounded-lg border border-primary/20 px-3 py-2.5 text-xs font-bold text-muted transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          Disconnect
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      disabled={connecting}
+      onClick={onConnect}
+      className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-[#AB9FF2] px-4 py-3 text-sm font-black text-white transition hover:bg-[#9B8FE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#AB9FF2] disabled:opacity-60"
+    >
+      {connecting ? (
+        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+      ) : (
+        <PhantomLogo />
+      )}
+      {connecting ? "Connecting…" : "Connect Phantom"}
+    </button>
+  );
+}
+
+function PhantomLogo() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 128 128" fill="none" aria-hidden="true">
+      <rect width="128" height="128" rx="24" fill="white" fillOpacity="0.25" />
+      <path
+        d="M110.6 64c0 25.7-20.9 46.6-46.6 46.6S17.4 89.7 17.4 64 38.3 17.4 64 17.4 110.6 38.3 110.6 64z"
+        fill="white"
+        fillOpacity="0.3"
+      />
+      <path
+        d="M88 55.4H77.5c-1.2-8.7-8.7-15.4-17.7-15.4C49.3 40 40 49.3 40 60.8c0 11.5 9.3 20.8 20.8 20.8 5 0 9.6-1.8 13.1-4.8H88c-4.2 8.5-13 14.3-23.2 14.3C48.2 91.1 36 78.9 36 63.8 36 48.7 48.2 36.5 63.3 36.5c7.4 0 14.2 3 19.1 7.8H88v11.1z"
+        fill="white"
+      />
+    </svg>
   );
 }

@@ -5,6 +5,7 @@ import { Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
+import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
@@ -135,7 +136,15 @@ export default function ChallengePage() {
             transition={{ delay: 0.1 }}
             className="rounded-2xl border border-primary/10 bg-white p-6 shadow-soft"
           >
-            <p className="text-lg font-black leading-7 text-text">{question.question}</p>
+            <div className="flex items-start gap-3">
+              <p className="flex-1 text-lg font-black leading-7 text-text">{question.question}</p>
+              <VoiceButton
+                text={[question.question, ...question.answers.map((a) => `${a.id}. ${a.text}`)].join(". ")}
+                locale={locale}
+                variant="icon"
+                className="mt-0.5 shrink-0"
+              />
+            </div>
 
             <div className="mt-5 grid gap-3">
               {question.answers.map((answer) => {
@@ -182,7 +191,15 @@ export default function ChallengePage() {
                       isCorrect ? "bg-success/15 text-success" : "bg-orange-50 text-orange-700"
                     )}
                   >
-                    <p>{isCorrect ? t.challenge.correctBanner : t.challenge.wrongBanner}</p>
+                    <div className="flex items-start gap-2">
+                      <p className="flex-1">{isCorrect ? t.challenge.correctBanner : t.challenge.wrongBanner}</p>
+                      <VoiceButton
+                        text={`${isCorrect ? t.challenge.correctBanner : t.challenge.wrongBanner}. ${question.explanation}`}
+                        locale={locale}
+                        variant="icon"
+                        className="shrink-0"
+                      />
+                    </div>
                     <p className="mt-2 font-black text-text">{t.challenge.explanation}:</p>
                     <p className="mt-1 font-normal text-muted">{question.explanation}</p>
                   </div>

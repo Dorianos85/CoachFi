@@ -21,7 +21,6 @@ import {
   Swords,
   TrendingUp,
   Trophy,
-  UserCircle2,
   Volume2,
 } from "lucide-react";
 
@@ -62,7 +61,6 @@ const navIcons: Record<string, LucideIcon> = {
   kids: Baby,
   accessibility: Volume2,
   partner: Building2,
-  avatar: UserCircle2,
   vault: TrendingUp,
 };
 
@@ -80,7 +78,6 @@ const navHrefs: Record<string, string> = {
   kids: "/kids",
   accessibility: "/accessibility",
   partner: "/partner",
-  avatar: "/avatar",
   vault: "/vault",
 };
 
@@ -92,7 +89,7 @@ const NAV_GROUPS: Array<{
   id: string;
   label: Record<Locale, string>;
   keys: NavKey[];
-  collapsed?: boolean;
+  defaultOpen?: boolean;
 }> = [
   {
     id: "demo",
@@ -102,6 +99,7 @@ const NAV_GROUPS: Array<{
       ja: "デモ",
     },
     keys: ["home", "healthCheck", "learn", "coach", "accessibility"],
+    defaultOpen: true,
   },
   {
     id: "tools",
@@ -119,7 +117,7 @@ const NAV_GROUPS: Array<{
       pl: "Postęp",
       ja: "進捗",
     },
-    keys: ["rewards", "vault", "avatar"],
+    keys: ["rewards", "vault"],
   },
   {
     id: "more",
@@ -129,7 +127,6 @@ const NAV_GROUPS: Array<{
       ja: "その他",
     },
     keys: ["challenge", "cards", "kids", "partner"],
-    collapsed: true,
   },
 ];
 
@@ -345,11 +342,11 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-1.5">
               {NAV_GROUPS.map((group) => {
                 const groupActive = group.keys.some((key) => getIsActive(pathname, navHrefs[key]));
                 const links = (
-                  <div className="space-y-1">
+                  <div className="space-y-0.5 px-2 pb-2">
                     {group.keys.map((key) => {
                       const item = getNavItem(key);
                       return (
@@ -364,25 +361,18 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                   </div>
                 );
 
-                if (group.collapsed) {
-                  return (
-                    <details key={group.id} open={groupActive} className="group rounded-lg border border-primary/10 bg-white/55">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                        {group.label[locale]}
-                        <ChevronDown className="h-4 w-4 transition group-open:rotate-180" aria-hidden="true" />
-                      </summary>
-                      <div className="px-2 pb-2">{links}</div>
-                    </details>
-                  );
-                }
-
                 return (
-                  <div key={group.id}>
-                    <p className="mb-1 px-3 text-xs font-black uppercase tracking-[0.08em] text-muted">
+                  <details
+                    key={group.id}
+                    open={groupActive || group.defaultOpen}
+                    className="group rounded-lg border border-primary/10 bg-white/55"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                       {group.label[locale]}
-                    </p>
+                      <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </summary>
                     {links}
-                  </div>
+                  </details>
                 );
               })}
             </div>

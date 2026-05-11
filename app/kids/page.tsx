@@ -8,6 +8,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/LanguageContext";
+import { useVoice } from "@/context/VoiceContext";
 import { cn } from "@/lib/utils";
 
 // ─── constants ────────────────────────────────────────────────────────────────
@@ -26,6 +27,51 @@ const STAR_MILESTONES: Record<number, string> = {
   5:  "🏅 Odznaka Młodego Finansisty odblokowana!",
   7:  "🔥 Niesamowite! Jesteś na dobrej drodze!",
   10: "🎉 MISTRZ! Zebrałeś wszystkie gwiazdki!",
+};
+
+const STAR_MILESTONE_SPEECH: Record<string, Record<number, string>> = {
+  en: {
+    3:  "Amazing! You earned 3 stars! You're a real money hero!",
+    5:  "Wow! Young Financial Expert badge unlocked! Keep going!",
+    7:  "Incredible! 7 stars! You're almost a savings champion!",
+    10: "You did it! All 10 stars! You are a true money master!",
+  },
+  pl: {
+    3:  "Brawo! Masz już 3 gwiazdki! Jesteś prawdziwym bohaterem oszczędzania!",
+    5:  "Wow! Odblokowano odznakę Młodego Finansisty! Tak trzymaj!",
+    7:  "Niesamowite! 7 gwiazdek! Jesteś prawie mistrzem oszczędzania!",
+    10: "Zrobiłeś to! Wszystkie 10 gwiazdek! Jesteś prawdziwym mistrzem pieniędzy!",
+  },
+  ja: {
+    3:  "すごい！3つの星を獲得しました！お金のヒーローだね！",
+    5:  "やった！若き金融エキスパートのバッジ解放！続けよう！",
+    7:  "信じられない！7つの星！貯蓄チャンピオンまであと少し！",
+    10: "やり遂げた！星10個全部！本当のお金の達人だ！",
+  },
+};
+
+const STAR_EARN_SPEECH: Record<string, string[]> = {
+  en: [
+    "Great job! One more star for you!",
+    "Excellent! You're learning so fast!",
+    "You earned a star! Keep saving!",
+    "Wonderful! Every star gets you closer to the prize!",
+    "Well done! You are amazing!",
+  ],
+  pl: [
+    "Świetna robota! Masz kolejną gwiazdkę!",
+    "Doskonale! Uczysz się tak szybko!",
+    "Zdobyłeś gwiazdkę! Oszczędzaj dalej!",
+    "Wspaniale! Każda gwiazdka przybliża Cię do nagrody!",
+    "Brawo! Jesteś niesamowity!",
+  ],
+  ja: [
+    "よくできました！もう1つ星を獲得！",
+    "素晴らしい！とても早く覚えているね！",
+    "星を獲得！貯め続けよう！",
+    "すごい！星を集めるほどご褒美に近づくよ！",
+    "よくやった！君はすごい！",
+  ],
 };
 
 const JAR_GOAL = 100;
@@ -139,7 +185,8 @@ function CoinDrop({ active }: { active: boolean }) {
 // ─── main page ────────────────────────────────────────────────────────────────
 
 export default function KidsPage() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const { speak } = useVoice();
   const [stars, setStars] = useState(3);
   const [activeModule, setActiveModule] = useState<string | null>(null);
   const [burst, setBurst] = useState<{ x: number; y: number; id: number } | null>(null);
@@ -152,29 +199,43 @@ export default function KidsPage() {
     theme: MODULE_THEMES[i],
   }));
 
+  const handleModuleOpen = useCallback(
+    (mod: typeof modules[number], isOpening: boolean) => {
+      setActiveModule(isOpening ? mod.id : null);
+      if (isOpening) {
+        void speak(`${mod.title}. ${mod.copy}`, { locale }).catch(() => {});
+      }
+    },
+    [locale, speak]
+  );
+
   const handleEarnStar = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
 
-      // Trigger burst at click position
       const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
       setBurst({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, id: Date.now() });
       setTimeout(() => setBurst(null), 900);
 
-      // Trigger coin drop
       setCoinDrop(true);
       setTimeout(() => setCoinDrop(false), 700);
 
-      const next = stars + 1;
+      const next = Math.min(stars + 1, 10);
       setStars(next);
       setActiveModule(null);
 
-      if (STAR_MILESTONES[next]) {
-        setMilestone(STAR_MILESTONES[next]);
+      const milestoneSpeech = STAR_MILESTONE_SPEECH[locale]?.[next];
+      if (milestoneSpeech) {
+        setMilestone(STAR_MILESTONES[next] ?? "");
         setTimeout(() => setMilestone(null), 3200);
+        void speak(milestoneSpeech, { locale }).catch(() => {});
+      } else {
+        const phrases = STAR_EARN_SPEECH[locale] ?? STAR_EARN_SPEECH.en ?? [];
+        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+        if (phrase) void speak(phrase, { locale }).catch(() => {});
       }
     },
-    [stars]
+    [stars, locale, speak]
   );
 
   return (
@@ -210,11 +271,11 @@ export default function KidsPage() {
                   role="button"
                   tabIndex={0}
                   aria-expanded={isOpen}
-                  onClick={() => setActiveModule(isOpen ? null : mod.id)}
+                  onClick={() => handleModuleOpen(mod, !isOpen)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      setActiveModule(isOpen ? null : mod.id);
+                      handleModuleOpen(mod, !isOpen);
                     }
                   }}
                   className={cn(

@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
+import { VoiceButton } from "@/components/VoiceButton";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -387,7 +388,14 @@ export default function PartnerPage() {
       </div>
 
       <div className="mb-7">
-        <h2 className="mb-4 text-2xl font-black text-text">{copy.valueTitle}</h2>
+        <div className="mb-4 flex items-center gap-3">
+          <h2 className="text-2xl font-black text-text">{copy.valueTitle}</h2>
+          <VoiceButton
+            text={[copy.valueTitle, ...copy.valueCards.map((c) => `${c.title}. ${c.body}`)].join(". ")}
+            locale={locale}
+            variant="icon"
+          />
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {copy.valueCards.map((card, index) => {
             const Icon = valueIcons[index] ?? GraduationCap;
@@ -412,7 +420,14 @@ export default function PartnerPage() {
             <Badge variant="default" className="mb-3">
               {copy.demoBadge}
             </Badge>
-            <h2 className="text-2xl font-black text-text">{copy.ctaTitle}</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl font-black text-text">{copy.ctaTitle}</h2>
+              <VoiceButton
+                text={`${copy.ctaTitle}. ${copy.ctaBody}`}
+                locale={locale}
+                variant="icon"
+              />
+            </div>
             <p className="mt-2 max-w-lg text-base leading-7 text-muted">{copy.ctaBody}</p>
           </div>
           <div className="shrink-0 rounded-lg bg-primary/5 p-5 text-center">

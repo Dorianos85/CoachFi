@@ -1,130 +1,221 @@
-Stwórz mi kompletną, interaktywną prezentację HTML jako jeden plik (single-file HTML z CSS i JS w środku). Prezentacja ma być gotowa do nagrania jako wideo — 2 minuty, 6 slajdów, nawigacja strzałkami lub kliknięciem.
+Stwórz mi kompletny, interaktywny prototyp aplikacji CoachFI jako jeden plik HTML (wszystko inline — CSS i JS w środku, zero zewnętrznych zależności).
 
-STYL:
-- Tło: #0D0D14 (bardzo ciemny, prawie czarny)
-- Kolor główny: #7668E8 (elektryczny fiolet)
-- Akcent: #14F195 (zielony Solana — używaj tylko dla elementów blockchain/NFT)
-- Font: system-ui lub Inter, grubość 900 dla nagłówków
-- Efekty: delikatny glow na liczbach, animacje fade-in dla kolejnych elementów
-- Format slajdów: 16:9, fullscreen
-- Każdy slajd ma w rogu mały timer pokazujący czas (Scene 1: 0:00-0:18 itd.)
+Prototyp ma pokazywać 4 główne ekrany aplikacji z nawigacją między nimi. Styl: premium dark fintech + Web3. Ma wyglądać jak gotowy produkt, nie szkic.
 
----
+════════════════════════════════════════════
+SYSTEM DESIGNU
+════════════════════════════════════════════
 
-SLAJD 1 — THE PROBLEM (0:00–0:18)
+Kolory:
+  --bg:          #0D0D14   (tło aplikacji)
+  --surface:     #13131F   (karty, panele)
+  --surface-2:   #1A1A2E   (zagnieżdżone elementy)
+  --border:      rgba(118,104,232,0.15)
+  --primary:     #7668E8   (fiolet — główny kolor marki)
+  --primary-dim: rgba(118,104,232,0.12)
+  --solana:      #14F195   (zielony — TYLKO dla NFT/blockchain)
+  --text:        #F0F2FF   (główny tekst)
+  --muted:       #6B7494   (drugorzędny tekst)
+  --success:     #10B981
 
-Wielka animowana liczba na środku, cyfry pojawiają się jedna po drugiej:
+Font: system-ui, -apple-system, sans-serif
+Nagłówki: font-weight 900, letter-spacing -0.02em
+Ciało: font-weight 500
 
-4,300,000,000
+Efekty:
+  Karty: border: 1px solid var(--border), background: var(--surface)
+  Glow primary: box-shadow: 0 0 40px rgba(118,104,232,0.25)
+  Glow solana:  box-shadow: 0 0 30px rgba(20,241,149,0.20)
+  Hover kart:   transform: translateY(-2px), glow wzmocniony
+  Przejścia:    all 250ms cubic-bezier(0.4,0,0.2,1)
+  Border-radius kart: 20px, przycisków: 12px
 
-Pod spodem (fade in po 1 sek):
-adults worldwide lack basic financial literacy.
-They have smartphones. They don't have a coach.
+Nawigacja dolna (mobile-first):
+  Fixed bottom bar, background: rgba(13,13,20,0.95), backdrop-blur: 20px
+  5 ikon z etykietami, aktywna ikona świeci --primary z małym glow
 
-Dół slajdu: logo CoachFI po lewej, logo Colosseum po prawej
+════════════════════════════════════════════
+EKRAN 1 — DASHBOARD (Home)
+════════════════════════════════════════════
 
----
+HEADER (sticky top):
+  Lewo: logo "CoachFI" (bold, white) + tagline "Financial Coach AI" (muted, 11px)
+  Prawo: awatar użytkownika (okrąg gradientowy fiolet→niebieski, inicjały "DZ")
 
-SLAJD 2 — MEET MILA (0:18–0:35)
+HERO KARTA (pełna szerokość, gradient od #1a1535 do #0D0D14):
+  Górna część:
+    "Your Financial" (muted, 14px, uppercase, tracking widest)
+    "Health Score" (white, 38px, font-weight 900)
+  
+  Centrum: wielki okrągły wskaźnik (SVG circle progress):
+    Zewnętrzny pierścień: rgba(118,104,232,0.15)
+    Wypełnienie: gradient fiolet #7668E8 → #9B8FF0
+    Środek (białe kółko wewnętrzne):
+      "72" (56px, font-weight 900, kolor #7668E8)
+      "/ 100" (16px, muted)
+    Pod kółkiem: "+5 this week" (zielony, bold, 13px)
+  
+  Dolna część hero karty, 3 mini-statsy obok siebie:
+    [Saving 67%] [Investing 40%] [Credit 80%]
+    Każdy: mała liczba fioletowa (22px bold), etykieta muted (10px)
 
-Centrum: duży tekst "Meet Mila." z pulsującą animacją (fala głosowa pod spodem — CSS animation)
+SEKCJA "Quick Actions" (tytuł 12px uppercase muted):
+  Grid 2x2, każda akcja to karta:
+  
+  [🤖 Ask Mila]              [🩺 Health Check]
+  Talk to your AI coach      Check your finances
+  → gradient fioletowe tło   → ciemne tło
+  
+  [📚 Learn]                 [🏆 Rewards & NFT]
+  8-stage learning path      Mint on Solana
+  → ciemne tło               → lekki zielony akcent na "NFT"
 
-Pod spodem trzy kolumny z ikonami i etykietami:
+SEKCJA "Today's Challenge":
+  Karta z żółtym/amber akcentem na lewym borderze
+  Tytuł: "Daily Challenge 🔥" + "Streak: 12 days" po prawej (mały badge)
+  Pytanie: "What is compound interest?"
+  Przycisk: "Answer Now →" (fioletowy, full-width)
 
-[ikona mózgu]          [ikona mikrofonu]        [ikona łańcucha]
-Claude by Anthropic    ElevenLabs Voice          Solana NFT
-Streams answers        Speaks every word         On-chain proof
+════════════════════════════════════════════
+EKRAN 2 — AI COACH (Chat z Milą)
+════════════════════════════════════════════
 
----
+HEADER:
+  Lewo: strzałka wstecz + "Mila" (bold white)
+  Centrum: zielona kropka "Online" (10px)
+  Prawo: ikona głośnika (Volume2 — ElevenLabs)
 
-SLAJD 3 — LIVE PRODUCT (0:35–1:05)
+AVATAR MILI (centrum, pod headerem):
+  Duży okrąg (80px) gradient fiolet→indigo z literą "M"
+  Pod spodem: "Mila · Financial Coach" (biały bold + muted)
+  Fala głosowa (3 animowane paski CSS) sugerująca głos
 
-Slajd podzielony na 3 karty (grid 3 kolumny), każda karta ma ciemne tło z fioletową ramką:
+HISTORIA CZATU (scrollable):
+  Wiadomość od Mili (lewa strona):
+    Bąbelek: background var(--surface-2), border fioletowy
+    Tekst: "Hello! I'm Mila, your AI financial coach powered by Claude.
+           Ask me anything about personal finance, saving, investing,
+           or building better money habits."
+    Pod spodem: mała ikona głośnika "Read aloud · ElevenLabs"
 
-KARTA 1:
-[ikona czatu]
-AI Coach Chat
-"Ask anything → Claude streams → Mila speaks. Automatically."
+  Wiadomość użytkownika (prawa strona):
+    Bąbelek: background var(--primary-dim), border fioletowy mocniejszy
+    Tekst: "What is compound interest and why does it matter?"
 
-KARTA 2:
-[ikona serca/zdrowia]
-Financial Health Check
-"12 questions → Score 0–100 → Voice explanation → Shareable card"
+  Wiadomość od Mili (lewa, dłuższa):
+    "Compound interest is earning interest on your interest.
+     Example: $1,000 at 7% yearly → $1,967 after 10 years.
+     Without it, you'd have only $1,700. That $267 difference
+     is compound interest working for you. 🚀"
+    Pod spodem: ikona głośnika + znacznik czasu "just now"
 
-KARTA 3:
-[ikona globu]
-3 Languages Live
-"English · Polski · 日本語
-Switch instantly. Every feature works."
+INPUT BAR (fixed bottom, nad nav):
+  Pole tekstowe: "Ask Mila anything..."
+  Prawa strona: przycisk Send (okrągły, fioletowy, ikona strzałki)
 
----
+════════════════════════════════════════════
+EKRAN 3 — REWARDS & NFT
+════════════════════════════════════════════
 
-SLAJD 4 — SOLANA NFT (1:05–1:25)
+HEADER: "Rewards & Certificates"
 
-Tło: delikatny gradient od #0D0D14 do fioletu #1a1535
-Centrum: duża karta certyfikatu (jak prawdziwy dyplom) z etykietami:
+TOKEN BALANCE karta (gradient fioletowy, pełna szerokość):
+  Lewa: ikona monety (złota)
+       "Token Balance" (muted 12px)
+       "1,250 CFI" (32px, font-weight 900, biały)
+  Prawa: progress bar do kolejnego certyfikatu
+         "750 CFI to next certificate"
 
-┌─────────────────────────────────────┐
-│  ✦ Certificate of Achievement       │
-│                                     │
-│     FINANCIAL LITERACY              │
-│         COMPLETE                    │
-│                                     │
-│  [logo Solana w kolorze #14F195]    │
-│  Minted on Solana · On-chain · ✓    │
-└─────────────────────────────────────┘
+SEKCJA "Your Certificates" (tytuł + "3 earned"):
+  
+  KARTA 1 — ZAMINTOWANA (zielony akcent #14F195):
+    Header karty: gradient ciemny-fioletowy z efektem glow
+    Badge "On-chain" w prawym górnym rogu (zielony, Solana logo SVG)
+    Ikona tarcza (duża, gradient fiolet-zielony)
+    "Certificate of Achievement"
+    "SAVING HABIT MASTER" (bold, white, 18px)
+    Separator z "FI" w kółku
+    Status badge: zielony "✓ Minted on Solana"
+    Link: "View on Explorer ↗" (zielony, mały)
+  
+  KARTA 2 — GOTOWA DO MINT (fioletowy akcent):
+    Header: gradient fioletowy
+    Ikona book
+    "FINANCIAL LITERACY BASICS"
+    Status badge: amber "Ready to Mint"
+    Przycisk: "Mint NFT →" (gradient fiolet→zielony, bold)
+  
+  KARTA 3 — ZABLOKOWANA (szara):
+    Ikona kłódka
+    "INVESTMENT FUNDAMENTALS"
+    "Complete Stage 5 to unlock"
+    Progress bar: 60% (fioletowy)
 
-Pod kartą:
-"Not a PDF. Not a badge. A real NFT. Permanent. Verifiable."
+SOLANA WALLET sekcja:
+  Karta z delikatnym zielonym border
+  Lewo: Solana logo (SVG, zielony) + "Devnet Wallet"
+  Prawo: przycisk "Connect" (outline, zielony)
 
-Kolor akcentu na "Solana" i "NFT": #14F195
+════════════════════════════════════════════
+EKRAN 4 — LEARNING PATH
+════════════════════════════════════════════
 
----
+HEADER: "Learning Path" + "8 Stages" badge (fioletowy)
 
-SLAJD 5 — SCALE & STACK (1:25–1:45)
+PROGRESS OVERVIEW (karta):
+  "Your Progress: Stage 3 of 8"
+  Duży progress bar fioletowy: 37.5%
+  Pod spodem: "1,250 CFI earned · 3 certificates"
 
-Dwie kolumny:
+LISTA ETAPÓW (pionowa, scrollable):
 
-LEWA — lista liczb (każda liczba duża, fioletowa, potem mały opis):
-19        working pages
-3 + 6     languages active + ready
-WCAG 2.2  fully accessible
-PWA       installable on any device
+  Etap 1 ✓ COMPLETED:
+    Lewa: okrąg z numerem "1" (fioletowy pełny) + ✓
+    Środek: "Money Mindset" (bold) + "Completed" (zielony mały)
+    Prawa: "200 CFI" (złoty badge)
+    Pionowa linia łącząca etapy (fioletowa, pełna)
 
-PRAWA — lista funkcji (ikony + tekst):
-🧒 Kids Financial Mode
-📈 DeFi Yield Vault (Kamino)
-🏆 Global Leaderboard (Supabase)
-🏢 B2B Portal — 6 institution types
+  Etap 2 ✓ COMPLETED:
+    "Budgeting Basics" + "Completed"
+    Linia fioletowa pełna
 
-Na dole, rząd 4 logotypów (tekst zastępczy jeśli brak obrazków):
-[Claude/Anthropic] [ElevenLabs] [Solana] [Supabase]
+  Etap 3 → IN PROGRESS (podświetlony):
+    Karta ma fioletowy border + delikatne tło primary-dim
+    "Emergency Fund" + "In Progress" (amber)
+    Progress bar wewnętrzny: 60%
+    Przycisk "Continue →" (fioletowy)
+    Linia fioletowa przerywana poniżej
 
----
+  Etap 4 🔒 LOCKED:
+    Okrąg szary z ikoną 🔒
+    "Debt Elimination" (muted)
+    Linia szara przerywana
 
-SLAJD 6 — CLOSE (1:45–2:00)
+  Etap 5–8 (zwinięte, szare, z ikonami kłódki):
+    "Investing · Wealth Building · DeFi · Family Finance"
+    Pokazane jako małe kapsułki w rzędzie, szare
 
-Fullscreen ciemny slajd.
+════════════════════════════════════════════
+NAWIGACJA DOLNA (wszystkie ekrany)
+════════════════════════════════════════════
 
-Centrum, duże:
-CoachFI is live.
-Mila is ready.
+Fixed bottom, 5 pozycji:
+  🏠 Home     💬 Coach     📚 Learn     🏆 Rewards     👤 Avatar
 
-Pod spodem małe, w jednym rzędzie:
-[ElevenLabs] · [Powered by Solana] · [Claude / Anthropic]
+Aktywna zakładka: ikona i tekst w kolorze --primary, delikatny glow pod ikoną
+Nieaktywna: kolor --muted
 
-Jeszcze niżej, URL dużą czcionką fioletową:
-coachfi.app
+════════════════════════════════════════════
+WYMAGANIA TECHNICZNE
+════════════════════════════════════════════
 
-Na dole po lewej małym tekstem:
-Looking for: partnerships · pre-seed · Colosseum recognition
-
----
-
-WYMAGANIA TECHNICZNE:
-- Nawigacja: klawisze strzałek lewo/prawo + kliknięcie myszą
-- Każdy slajd zajmuje pełny ekran (100vw × 100vh)
-- Płynne przejście między slajdami (fade lub slide, 300ms)
-- W lewym dolnym rogu każdego slajdu: numer slajdu (1/6, 2/6 itd.)
-- W prawym górnym rogu: czas sceny (np. "0:00 – 0:18")
-- Żadnych zewnętrznych zależności — wszystko inline w jednym pliku HTML
+- Jeden plik HTML, zero zewnętrznych zależności (nawet brak Google Fonts — używaj system-ui)
+- Nawigacja dolna przełącza między 4 ekranami (JS: show/hide sekcji)
+- Animacje CSS: karty fade-in przy przełączeniu, progress bar fill przy pierwszym pokazaniu
+- Pełna responsywność: max-width 430px (iPhone 14 Pro), wycentrowane na desktop
+- Scrollowanie wewnątrz każdego ekranu (overflow-y: auto na kontenerze ekranu)
+- Ekran czatu: input bar i nawigacja fixed, historia czatu scrollowalna
+- Solana SVG logo wbudowane inline (trzy romby w kolorze #14F195)
+- Nie używaj żadnych emoji jako głównych ikon UI — zastąp prostymi SVG lub unicode shapes
+- Animacja pulse na awatarze Mili w ekranie Coach (sugeruje aktywność głosową)
+- Header sticky na każdym ekranie

@@ -190,6 +190,86 @@ export const challengeQuestions: ChallengeQuestion[] = [
     explanation: "Net worth = all you own (assets) minus all you owe (liabilities). A positive and growing net worth is the real measure of financial health — more meaningful than income alone.",
     reward: 50,
   },
+
+  // ── Poland Financial Literacy (OECD/INFE source) ─────────────────────────
+  {
+    id: "c15",
+    question: "According to OECD data, what percentage of Poles correctly understand compound interest?",
+    answers: [
+      { id: "A", text: "About 75%" },
+      { id: "B", text: "About 50%" },
+      { id: "C", text: "About 33%" },
+      { id: "D", text: "About 10%" },
+    ],
+    correctAnswer: "C",
+    explanation: "Only ~1 in 3 Poles understands compound interest in practice. This is the #1 knowledge gap — it leads to debt spirals and explains why only 47% of employees join voluntary PPK/PPE pension schemes.",
+    reward: 50,
+  },
+  {
+    id: "c16",
+    question: "What percentage of Poles trusted financial institutions for savings in 2022?",
+    answers: [
+      { id: "A", text: "65%" },
+      { id: "B", text: "40%" },
+      { id: "C", text: "28%" },
+      { id: "D", text: "15%" },
+    ],
+    correctAnswer: "D",
+    explanation: "Only 15% of Poles trusted financial institutions in 2022 — and it dropped to just 6% in 2021. This trust deficit is a major barrier to financial participation and long-term wealth building.",
+    reward: 50,
+  },
+  {
+    id: "c17",
+    question: "Poland scored 13/21 on OECD Financial Competency. What does the missing score represent?",
+    answers: [
+      { id: "A", text: "Nothing significant — 13/21 is excellent" },
+      { id: "B", text: "Lost opportunities for wealth accumulation and lack of financial preparedness" },
+      { id: "C", text: "A language barrier in the OECD test" },
+      { id: "D", text: "Low bank account ownership" },
+    ],
+    correctAnswer: "B",
+    explanation: "Poland's 13/21 score places it middle-of-the-pack. The missing 8 points represent concrete lost opportunities: less effective use of capital markets, lower emergency fund rates, and greater vulnerability to economic shocks.",
+    reward: 50,
+  },
+  {
+    id: "c18",
+    question: "Nearly half of Poles report that their finances control their life. What is the recommended mindset shift?",
+    answers: [
+      { id: "A", text: "Earn more money at all costs" },
+      { id: "B", text: "Avoid thinking about money to reduce stress" },
+      { id: "C", text: "Restore a sense of personal agency — treat money as a tool, not a source of stress" },
+      { id: "D", text: "Let a financial advisor handle everything" },
+    ],
+    correctAnswer: "C",
+    explanation: "Short-term thinking is a psychological defense when people feel no agency. Financial education must restore this sense of control — transforming money from a source of stress into a tool for empowerment.",
+    reward: 50,
+  },
+  {
+    id: "c19",
+    question: "Which Polish concept describes an emergency financial cushion?",
+    answers: [
+      { id: "A", text: "Kapitał własny" },
+      { id: "B", text: "Poduszka finansowa" },
+      { id: "C", text: "Rezerwa walutowa" },
+      { id: "D", text: "Dywidenda bezpieczeństwa" },
+    ],
+    correctAnswer: "B",
+    explanation: "'Poduszka finansowa' (financial cushion/pillow) is the Polish term for an emergency fund. It's a core component of financial well-being — providing a safety net to absorb unexpected shocks without resorting to high-interest borrowing.",
+    reward: 50,
+  },
+  {
+    id: "c20",
+    question: "The OECD found that only 26.9% of Poles reach the minimum target financial attitude score. What does 'financial attitude' measure?",
+    answers: [
+      { id: "A", text: "How many financial products someone owns" },
+      { id: "B", text: "Income level and savings rate" },
+      { id: "C", text: "Whether someone plans for the future vs. lives only for the present" },
+      { id: "D", text: "Level of trust in banks" },
+    ],
+    correctAnswer: "C",
+    explanation: "Financial attitude measures orientation toward future planning vs. present-only thinking. Poland's 26.9% reaching the minimum is roughly half the OECD average — reflecting a systemic culture of short-term financial thinking.",
+    reward: 50,
+  },
 ];
 
 export function getDailyQuestion(): ChallengeQuestion {
