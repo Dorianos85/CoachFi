@@ -1,0 +1,17 @@
+<svg width="420" height="420" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Coach FI avatar</title>
+  <desc id="desc">Friendly pastel AI financial coach avatar with a headset and coin badge.</desc>
+  <rect width="420" height="420" rx="84" fill="#F8F7FF"/>
+  <circle cx="210" cy="206" r="138" fill="#FFFFFF" stroke="#7C6FF6" stroke-width="10"/>
+  <path d="M108 232C118 170 154 128 210 128C266 128 302 170 312 232V278C312 296 298 310 280 310H140C122 310 108 296 108 278V232Z" fill="#69D2E7"/>
+  <path d="M135 228C145 178 172 150 210 150C248 150 275 178 285 228V270C285 283 274 294 261 294H159C146 294 135 283 135 270V228Z" fill="#FFF7D6"/>
+  <circle cx="174" cy="223" r="11" fill="#1F2937"/>
+  <circle cx="246" cy="223" r="11" fill="#1F2937"/>
+  <path d="M183 261C199 274 222 274 237 261" stroke="#1F2937" stroke-width="8" stroke-linecap="round"/>
+  <path d="M96 218C83 218 72 229 72 242V263C72 276 83 287 96 287H111V218H96Z" fill="#7C6FF6"/>
+  <path d="M324 218C337 218 348 229 348 242V263C348 276 337 287 324 287H309V218H324Z" fill="#7C6FF6"/>
+  <path d="M116 204C124 142 162 104 210 104C258 104 296 142 304 204" stroke="#7C6FF6" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="295" cy="306" r="45" fill="#FFD166" stroke="#1F2937" stroke-width="8"/>
+  <path d="M276 309L290 323L316 290" stroke="#1F2937" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M114 345C144 366 177 376 210 376C243 376 276 366 306 345" stroke="#80ED99" stroke-width="14" stroke-linecap="round"/>
+</svg>

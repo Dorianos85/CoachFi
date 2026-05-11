@@ -1,0 +1,286 @@
+ ⨯ ./lib/i18n/index.ts
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\doria\Documents\CoachFI\lib\i18n\index.ts
+    1: Nie można odnaleźć określonego pliku. (os error 2)
+
+Import trace for requested module:
+./lib/i18n/index.ts
+./context/LanguageContext.tsx
+./app/providers.tsx
+ ⨯ ./lib/i18n/index.ts
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\doria\Documents\CoachFI\lib\i18n\index.ts
+    1: Nie można odnaleźć określonego pliku. (os error 2)
+
+Import trace for requested module:
+./lib/i18n/index.ts
+./context/LanguageContext.tsx
+./app/providers.tsx
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json',
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json',
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19688)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\health-check\page.js:2:19742) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/health-check'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\page.js:2:17822)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\page.js:2:17879) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+Error: Cannot find module './873.js'
+Require stack:
+- C:\Users\doria\Documents\CoachFI\.next\server\webpack-runtime.js
+- C:\Users\doria\Documents\CoachFI\.next\server\pages\_document.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\require.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\load-components.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\utils.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\options.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\swc\index.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\doria\Documents\CoachFI\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\doria\Documents\CoachFI\.next\server\app\page.js:2:17822)
+    at Object.<anonymous> (C:\Users\doria\Documents\CoachFI\.next\server\app\page.js:2:17879) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\doria\Documents\CoachFI\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\doria\\Documents\\CoachFI\\.next\\routes-manifest.json'
+}

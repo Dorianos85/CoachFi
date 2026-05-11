@@ -1,0 +1,278 @@
+@import "@solana/wallet-adapter-react-ui/styles.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --font-ui: var(--font-nunito), var(--font-noto-sans), "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html:lang(zh) {
+  --font-ui: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", var(--font-noto-sans), system-ui, sans-serif;
+}
+
+html:lang(ja) {
+  --font-ui: "Noto Sans JP", "Yu Gothic", "Hiragino Sans", var(--font-noto-sans), system-ui, sans-serif;
+}
+
+html:lang(hi) {
+  --font-ui: "Noto Sans Devanagari", "Nirmala UI", var(--font-noto-sans), system-ui, sans-serif;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 255, 0.96) 46%, #f8faff),
+    linear-gradient(135deg, rgba(177, 169, 245, 0.16), transparent 36%),
+    linear-gradient(225deg, rgba(137, 211, 221, 0.16), transparent 34%),
+    linear-gradient(45deg, rgba(255, 213, 156, 0.18), transparent 42%),
+    #f8faff;
+  color: #26324a;
+  font-family: var(--font-ui);
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: 0;
+}
+
+.font-black {
+  font-weight: 800;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(118, 104, 232, 0.22);
+}
+
+.app-grid {
+  background-image:
+    linear-gradient(rgba(118, 104, 232, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 220, 0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to bottom, black 0%, black 52%, transparent 100%);
+}
+
+.glass-panel {
+  border: 1px solid rgba(118, 104, 232, 0.14);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.10);
+  backdrop-filter: blur(18px);
+}
+
+.focus-card {
+  border: 1px solid rgba(118, 104, 232, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 70px rgba(38, 50, 74, 0.12);
+}
+
+.large-text {
+  font-size: 112.5%;
+}
+
+html.text-scale-large,
+html:has(.text-scale-large) {
+  font-size: 112.5%;
+}
+
+html.text-scale-xlarge,
+html:has(.text-scale-xlarge) {
+  font-size: 125%;
+}
+
+html.text-scale-large body,
+html.text-scale-xlarge body,
+.text-scale-large,
+.text-scale-xlarge {
+  line-height: 1.65;
+}
+
+html.text-scale-large p,
+html.text-scale-large h1,
+html.text-scale-large h2,
+html.text-scale-large h3,
+html.text-scale-large h4,
+html.text-scale-large h5,
+html.text-scale-large h6,
+html.text-scale-large a,
+html.text-scale-large button,
+html.text-scale-large label,
+html.text-scale-xlarge p,
+html.text-scale-xlarge h1,
+html.text-scale-xlarge h2,
+html.text-scale-xlarge h3,
+html.text-scale-xlarge h4,
+html.text-scale-xlarge h5,
+html.text-scale-xlarge h6,
+html.text-scale-xlarge a,
+html.text-scale-xlarge button,
+html.text-scale-xlarge label,
+.text-scale-large p,
+.text-scale-large h1,
+.text-scale-large h2,
+.text-scale-large h3,
+.text-scale-large h4,
+.text-scale-large h5,
+.text-scale-large h6,
+.text-scale-large a,
+.text-scale-large button,
+.text-scale-large label,
+.text-scale-xlarge p,
+.text-scale-xlarge h1,
+.text-scale-xlarge h2,
+.text-scale-xlarge h3,
+.text-scale-xlarge h4,
+.text-scale-xlarge h5,
+.text-scale-xlarge h6,
+.text-scale-xlarge a,
+.text-scale-xlarge button,
+.text-scale-xlarge label {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.high-contrast {
+  background: #050816;
+  color: #ffffff;
+}
+
+.high-contrast .glass-panel,
+.high-contrast .focus-card,
+.high-contrast [class*="bg-white/"],
+.high-contrast [class*="bg-[#"],
+.high-contrast [class*="bg-primary/"],
+.high-contrast [class*="bg-secondary/"],
+.high-contrast [class*="bg-accent/"],
+.high-contrast [class*="bg-success/"],
+.high-contrast [class*="bg-warning/"] {
+  background-color: #111827 !important;
+}
+
+.high-contrast .bg-background,
+.high-contrast .bg-card,
+.high-contrast .bg-white,
+.high-contrast .bg-white\/80,
+.high-contrast .bg-white\/85,
+.high-contrast .bg-white\/90,
+.high-contrast .bg-primary\/5,
+.high-contrast .bg-primary\/10,
+.high-contrast .bg-secondary\/20,
+.high-contrast .bg-accent\/20,
+.high-contrast .bg-success\/20,
+.high-contrast .bg-slate-50,
+.high-contrast .bg-slate-100 {
+  background-color: #111827 !important;
+}
+
+.high-contrast [class*="from-"],
+.high-contrast [class*="to-"],
+.high-contrast [class*="via-"] {
+  background-image: none !important;
+}
+
+.high-contrast [class*="bg-gradient"] {
+  background-color: #111827 !important;
+}
+
+.high-contrast .bg-primary {
+  background-color: #1d4ed8 !important;
+}
+
+.high-contrast .bg-accent,
+.high-contrast .bg-success,
+.high-contrast .bg-warning,
+.high-contrast .bg-secondary {
+  background-color: #facc15 !important;
+  color: #050816 !important;
+}
+
+.high-contrast .text-text,
+.high-contrast .text-muted,
+.high-contrast [class*="text-muted/"],
+.high-contrast p,
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast label,
+.high-contrast span {
+  color: #ffffff !important;
+}
+
+.high-contrast .text-primary {
+  color: #93c5fd !important;
+}
+
+.high-contrast [class*="text-[#"] {
+  color: #ffffff !important;
+}
+
+.high-contrast .text-white,
+.high-contrast [class*="text-white/"] {
+  color: #ffffff !important;
+}
+
+.high-contrast .border-primary\/10,
+.high-contrast .border-primary\/15,
+.high-contrast .border-primary\/20,
+.high-contrast [class*="border-primary/"],
+.high-contrast .border-slate-200,
+.high-contrast .border-white\/70 {
+  border-color: #ffffff !important;
+}
+
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background: #030712 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.wallet-adapter-button {
+  min-height: 44px !important;
+  border-radius: 8px !important;
+  background: #7668e8 !important;
+  font-family: inherit !important;
+  font-weight: 800 !important;
+}
+
+.wallet-adapter-dropdown {
+  width: 100%;
+}
+
+.wallet-adapter-dropdown .wallet-adapter-button {
+  width: 100%;
+}

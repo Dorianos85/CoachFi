@@ -1,0 +1,11 @@
+{
+  "env": {
+    "COLOSSEUM_COPILOT_PAT": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNvbG9zc2V1bV9jb3BpbG90OnJlYWQiLCJ1c2VybmFtZSI6IkRvcmlhbm9zIiwiZGlzcGxheU5hbWUiOiJEb3JpYW5vcyIsInJvbGVzIjpbXSwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3NzgyODQxNjEsImF1ZCI6ImNvbG9zc2V1bV9jb3BpbG90Iiwic3ViIjoiMTAyMzYyIiwiZXhwIjoxNzg2MDYwMTYxLCJqdGkiOiI4YjYxMDA2YS1kYWY0LTRkZmMtYTdjNi00Y2I5YjUyYjViZTYifQ.dtCX-TKisi3cLXVgW360FkqAILgXQeJNNDwDRQIi7zc",
+    "COLOSSEUM_COPILOT_API_BASE": "https://copilot.colosseum.com/api/v1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx @agentmemory/agentmemory --version)"
+    ]
+  }
+}

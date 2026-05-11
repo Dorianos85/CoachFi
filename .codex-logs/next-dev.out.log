@@ -1,0 +1,153 @@
+
+> coach-fi-colosseum-mvp@0.2.0 dev
+> next dev
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3000
+   - Network:      http://10.5.0.2:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ○ Compiling /api/tts ...
+ ✓ Compiled /api/tts in 7.3s (2024 modules)
+ POST /api/tts 503 in 7566ms
+ GET / 200 in 8426ms
+ ○ Compiling /api/status ...
+ ✓ Compiled /api/status in 1249ms (2202 modules)
+ POST /api/chat 503 in 1635ms
+ GET /api/status 200 in 1842ms
+ ○ Compiling /api/leaderboard ...
+ ✓ Compiled /api/leaderboard in 554ms (2245 modules)
+ GET /api/leaderboard 200 in 653ms
+ ✓ Compiled /nft-metadata/[certificateName] in 415ms (2247 modules)
+ GET /nft-metadata/Saving%20Habit 200 in 1065ms
+ POST /api/tts 503 in 106ms
+ POST /api/tts 503 in 26ms
+ POST /api/tts 503 in 20ms
+ POST /api/tts 503 in 23ms
+ ○ Compiling /coach ...
+ ✓ Compiled /coach in 2.2s (2039 modules)
+ GET /coach 200 in 2709ms
+ GET /coach 200 in 187ms
+ ✓ Compiled in 674ms (913 modules)
+ GET /coach 200 in 39ms
+ GET /coach 200 in 45ms
+ POST /api/tts 503 in 34ms
+ POST /api/tts 503 in 11ms
+ POST /api/tts 503 in 16ms
+ POST /api/tts 503 in 27ms
+ POST /api/tts 503 in 33ms
+ ✓ Compiled /api/chat in 248ms (1215 modules)
+ POST /api/chat 503 in 432ms
+ POST /api/tts 503 in 25ms
+ ○ Compiling /kids ...
+ ✓ Compiled /kids in 1018ms (2137 modules)
+ GET /kids 200 in 1207ms
+ ○ Compiling /manifest.webmanifest ...
+ ✓ Compiled /manifest.webmanifest in 3.1s (2153 modules)
+ GET /manifest.webmanifest 200 in 3282ms
+ POST /api/tts 503 in 37ms
+ ○ Compiling /review ...
+ ✓ Compiled /review in 1845ms (2145 modules)
+ GET /review 200 in 2120ms
+ GET /manifest.webmanifest 200 in 48ms
+ GET /review 200 in 74ms
+ GET /manifest.webmanifest 200 in 21ms
+ ○ Compiling /cards ...
+ ✓ Compiled /cards in 894ms (2070 modules)
+ GET /cards 200 in 1149ms
+ GET /manifest.webmanifest 200 in 34ms
+ ○ Compiling / ...
+ ✓ Compiled / in 950ms (1115 modules)
+ GET / 200 in 1397ms
+ ✓ Compiled in 526ms (927 modules)
+ ✓ Compiled in 392ms (912 modules)
+ ✓ Compiled in 351ms (927 modules)
+ ✓ Compiled in 438ms (927 modules)
+ ✓ Compiled in 6.9s (927 modules)
+ ✓ Compiled in 658ms (928 modules)
+ ✓ Compiled in 483ms (928 modules)
+ ✓ Compiled in 376ms (928 modules)
+ ✓ Compiled in 452ms (927 modules)
+ ✓ Compiled in 292ms (927 modules)
+ ✓ Compiled in 443ms (920 modules)
+ ✓ Compiled in 355ms (920 modules)
+ ✓ Compiled in 396ms (920 modules)
+ ✓ Compiled in 313ms (920 modules)
+ ✓ Compiled in 273ms (920 modules)
+ ✓ Compiled in 514ms (920 modules)
+ ✓ Compiled in 544ms (920 modules)
+ ✓ Compiled in 272ms (920 modules)
+ ✓ Compiled in 754ms (920 modules)
+ ✓ Compiled in 433ms (920 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 1123ms (1113 modules)
+ GET / 200 in 2681ms
+ ✓ Compiled in 1036ms (2033 modules)
+ GET / 200 in 301ms
+ ✓ Compiled in 855ms (920 modules)
+ GET / 200 in 92ms
+ ✓ Compiled in 506ms (920 modules)
+ GET / 200 in 319ms
+ ✓ Compiled in 589ms (920 modules)
+ GET / 200 in 110ms
+ ✓ Compiled in 530ms (920 modules)
+ GET / 200 in 224ms
+ ✓ Compiled in 388ms (920 modules)
+ GET / 200 in 54ms
+ ✓ Compiled in 738ms (2033 modules)
+ GET / 200 in 177ms
+ ✓ Compiled in 543ms (2033 modules)
+ GET / 200 in 152ms
+ ✓ Compiled in 1493ms (2033 modules)
+ GET / 200 in 208ms
+ ✓ Compiled in 1016ms (2033 modules)
+ GET / 200 in 111ms
+ ✓ Compiled in 587ms (920 modules)
+ GET / 200 in 72ms
+ ✓ Compiled in 350ms (920 modules)
+ GET / 200 in 106ms
+ ✓ Compiled in 1128ms (2033 modules)
+ GET / 200 in 153ms
+ ○ Compiling /api/tts ...
+ ✓ Compiled /api/tts in 717ms (1122 modules)
+ POST /api/tts 503 in 887ms
+ ○ Compiling /privacy ...
+ ✓ Compiled /privacy in 954ms (2040 modules)
+ GET /privacy 200 in 1114ms
+ ✓ Compiled in 479ms (924 modules)
+ GET /privacy 200 in 62ms
+ ✓ Compiled /terms in 449ms (2038 modules)
+ GET /terms 200 in 619ms
+ ✓ Compiled in 793ms (2053 modules)
+ GET /terms 200 in 111ms
+ GET /privacy 200 in 53ms
+ ✓ Compiled in 1699ms (2039 modules)
+ GET /privacy 200 in 198ms
+ ✓ Compiled in 1102ms (2054 modules)
+ GET /privacy 200 in 97ms
+ ✓ Compiled in 573ms (2054 modules)
+ GET /privacy 200 in 67ms
+ ✓ Compiled in 856ms (927 modules)
+ GET /privacy 200 in 130ms
+ ✓ Compiled in 740ms (927 modules)
+ GET /privacy 200 in 86ms
+ GET / 200 in 49ms
+ ○ Compiling /health-check ...
+ ✓ Compiled /health-check in 2.6s (2061 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3.2s (2408 modules)
+ GET /health-check 500 in 11638ms
+ GET /health-check 500 in 297ms
+ GET /health-check 500 in 762ms
+ GET /health-check 500 in 427ms
+ GET /health-check 500 in 693ms
+ GET /health-check 500 in 293ms
+ GET /health-check 500 in 692ms
+ GET /health-check 500 in 325ms
+ GET / 500 in 684ms
+ GET / 500 in 303ms
+ ○ Compiling /api/status ...
+ ✓ Compiled /api/status in 792ms (1445 modules)
+ GET /api/status 200 in 1540ms
