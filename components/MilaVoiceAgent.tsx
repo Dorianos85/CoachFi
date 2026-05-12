@@ -123,6 +123,7 @@ export function MilaVoiceFab() {
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
   const [textOnly, setTextOnly] = useState(false);
+  const [quotaExceeded, setQuotaExceeded] = useState(false);
   const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
@@ -242,12 +243,55 @@ export function MilaVoiceFab() {
 
     widget.addEventListener("elevenlabs-convai:call", handleCall);
 
+    // Watch shadow DOM for the specific ElevenLabs quota error message
+    let observer: MutationObserver | null = null;
+    let quotaTimer: ReturnType<typeof setTimeout> | null = null;
+    const attachObserver = (root: ShadowRoot) => {
+      observer = new MutationObserver(() => {
+        const text = root.textContent ?? "";
+        if (text.includes("exceeds your quota limit")) {
+          if (quotaTimer) return;
+          quotaTimer = setTimeout(() => {
+            if ((root.textContent ?? "").includes("exceeds your quota limit")) {
+              setQuotaExceeded(true);
+            }
+            quotaTimer = null;
+          }, 1500);
+        }
+      });
+      observer.observe(root, { subtree: true, childList: true, characterData: true });
+    };
+    const pollForShadow = window.setInterval(() => {
+      if (widget.shadowRoot) {
+        attachObserver(widget.shadowRoot);
+        window.clearInterval(pollForShadow);
+      }
+    }, 200);
+    setTimeout(() => window.clearInterval(pollForShadow), 10000);
+
     return () => {
       widget.removeEventListener("elevenlabs-convai:call", handleCall);
+      observer?.disconnect();
+      if (quotaTimer) clearTimeout(quotaTimer);
+      window.clearInterval(pollForShadow);
     };
   }, [agentContext, enabled, router]);
 
   if (!AGENT_ID || !enabled) return null;
+
+  if (quotaExceeded) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
+        <p className="text-sm font-black text-text">Mila — voice unavailable</p>
+        <p className="mt-1 text-xs font-semibold leading-5 text-muted">
+          Voice agent quota reached. Chat with Mila in{" "}
+          <a href="/coach" className="font-black text-primary underline">
+            text mode →
+          </a>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
