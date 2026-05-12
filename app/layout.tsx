@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Noto_Sans, Nunito } from "next/font/google";
 
 import { AppNavigation } from "@/components/AppNavigation";
+import { MilaVoiceFab } from "@/components/MilaVoiceAgent";
 
 import "./globals.css";
 import { Providers } from "./providers";
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body suppressHydrationWarning>
         <Providers>
           <AppNavigation>{children}</AppNavigation>
+          <MilaVoiceFab />
         </Providers>
       </body>
     </html>

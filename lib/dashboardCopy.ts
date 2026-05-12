@@ -76,7 +76,7 @@ export const dashboardCopy: Record<
         "Coach FI laczy oszczedzanie, kredyty i inwestowanie w jeden dzienny plan. Bez presji, bez tradingowego szumu, z jasnym kolejnym ruchem.",
       diagnosis: "Zrob diagnoze",
       continueLearning: "Kontynuuj nauke",
-      voiceDemo: "🎙️ Wyprobuj demo glosowe",
+      voiceDemo: "Wyprobuj demo glosowe",
     },
     metrics: [
       { label: "Poduszka", value: "53%", caption: "celu" },
@@ -161,7 +161,7 @@ export const dashboardCopy: Record<
         "Coach FI connects saving, credit and investing into one daily plan. No pressure, no trading noise, just the next clear move.",
       diagnosis: "Run diagnosis",
       continueLearning: "Continue learning",
-      voiceDemo: "🎙️ Try voice demo",
+      voiceDemo: "Try voice demo",
     },
     metrics: [
       { label: "Emergency fund", value: "53%", caption: "of goal" },
@@ -246,7 +246,7 @@ export const dashboardCopy: Record<
         "Coach FIは貯蓄、信用、投資を一日の計画につなげます。プレッシャーも取引ノイズもなく、次の行動を明確にします。",
       diagnosis: "診断を始める",
       continueLearning: "学習を続ける",
-      voiceDemo: "🎙️ 音声デモを試す",
+      voiceDemo: "音声デモを試す",
     },
     metrics: [
       { label: "緊急資金", value: "53%", caption: "達成" },

@@ -11,6 +11,7 @@ import {
   CircleDollarSign,
   CreditCard,
   Landmark,
+  Mic,
   PiggyBank,
   Play,
   Plus,
@@ -118,21 +119,30 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="shadow-none">
+              <div className="mt-7 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,11.5rem),1fr))]">
+                <Button asChild size="lg" className="w-full px-4 text-sm font-black leading-tight shadow-none md:text-[15px]">
                   <Link href="/health-check">
-                    <Calculator className="h-5 w-5" aria-hidden="true" />
-                    {copy.hero.diagnosis}
+                    <Calculator className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
+                      {copy.hero.diagnosis}
+                    </span>
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline">
+                <Button asChild size="lg" variant="outline" className="w-full px-4 text-sm font-black leading-tight md:text-[15px]">
                   <Link href="/learn">
-                    <Play className="h-5 w-5" aria-hidden="true" />
-                    {copy.hero.continueLearning}
+                    <Play className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
+                      {copy.hero.continueLearning}
+                    </span>
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/voice-demo">{copy.hero.voiceDemo}</Link>
+                <Button asChild size="lg" variant="outline" className="w-full px-4 text-sm font-black leading-tight md:text-[15px]">
+                  <Link href="/voice-demo">
+                    <Mic className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
+                      {copy.hero.voiceDemo}
+                    </span>
+                  </Link>
                 </Button>
               </div>
             </div>

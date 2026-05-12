@@ -1,5 +1,7 @@
 import { assertSameOrigin, jsonError } from "@/lib/api-security";
 
+const DEFAULT_AGENT_ID = "agent_7601krc9gaf2eaxr811qgk01epzc";
+
 export async function GET(req: Request) {
   try {
     assertSameOrigin(req);
@@ -7,7 +9,7 @@ export async function GET(req: Request) {
     return jsonError("Forbidden", 403);
   }
 
-  const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID?.trim();
+  const agentId = (process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? DEFAULT_AGENT_ID).trim();
   if (!agentId) return jsonError("Agent not configured", 503);
 
   const apiKey = process.env.ELEVENLABS_API_KEY?.trim();

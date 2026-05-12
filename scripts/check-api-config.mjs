@@ -56,6 +56,23 @@ function printService(name, checks) {
   }
 }
 
+async function checkJson(url, options = {}) {
+  try {
+    const res = await fetch(url, options);
+    let data = null;
+    try {
+      data = await res.json();
+    } catch {}
+    return { ok: res.ok, status: res.status, data };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 0,
+      error: error instanceof Error ? error.message : "request failed",
+    };
+  }
+}
+
 async function main() {
   const env = parseEnvFile(ENV_FILE);
   if (!existsSync(ENV_FILE)) {
@@ -81,6 +98,42 @@ async function main() {
     { label: `ELEVENLABS_EN_VOICE_ID=${env.ELEVENLABS_EN_VOICE_ID || "optional"}`, ok: true },
     { label: `ELEVENLABS_JA_VOICE_ID=${env.ELEVENLABS_JA_VOICE_ID || "optional"}`, ok: true },
   ]);
+
+  const agentId = env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || "agent_7601krc9gaf2eaxr811qgk01epzc";
+  const convaiChecks = [
+    { label: `NEXT_PUBLIC_ELEVENLABS_AGENT_ID=${agentId}`, ok: configured(agentId) },
+  ];
+
+  if (configured(agentId)) {
+    const widgetConfig = await checkJson(
+      `https://api.us.elevenlabs.io/v1/convai/agents/${encodeURIComponent(agentId)}/widget`
+    );
+    convaiChecks.push({
+      label: `public widget config reachable (${widgetConfig.status || "network error"})`,
+      ok: widgetConfig.ok && !!widgetConfig.data?.widget_config,
+    });
+
+    if (configured(env.ELEVENLABS_API_KEY)) {
+      const signedUrl = await checkJson(
+        `https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${encodeURIComponent(agentId)}`,
+        { headers: { "xi-api-key": env.ELEVENLABS_API_KEY } }
+      );
+      const missingPermission = signedUrl.data?.detail?.status === "missing_permissions";
+      convaiChecks.push({
+        label: missingPermission
+          ? "signed URL optional: API key is missing convai_write permission"
+          : `signed URL optional (${signedUrl.status || "network error"})`,
+        ok: signedUrl.ok && !!signedUrl.data?.signed_url,
+      });
+    } else {
+      convaiChecks.push({
+        label: "signed URL optional: ELEVENLABS_API_KEY not configured",
+        ok: false,
+      });
+    }
+  }
+
+  printService("ElevenLabs ConvAI Agent", convaiChecks);
 
   printService("Supabase leaderboard", [
     { label: "NEXT_PUBLIC_SUPABASE_URL", ok: configured(env.NEXT_PUBLIC_SUPABASE_URL) },

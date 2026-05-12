@@ -55,11 +55,11 @@ const consentCopy: Record<Locale, ConsentCopy> = {
     options: {
       aiCoach: {
         title: "AI Coach Mila",
-        description: "Send conversation text to the AI model through a secure server endpoint.",
+        description: "Send coach chat text and Conversational AI agent context through secure server or widget integrations.",
       },
       voice: {
         title: "ElevenLabs voice",
-        description: "Send short click-to-play text snippets to speech synthesis. Browser voice is used when ElevenLabs is unavailable.",
+        description: "Use ElevenLabs for click-to-play speech and the optional voice agent after you start it. Browser voice is used when TTS is unavailable.",
       },
       leaderboard: {
         title: "Global leaderboard",
@@ -89,11 +89,11 @@ const consentCopy: Record<Locale, ConsentCopy> = {
     options: {
       aiCoach: {
         title: "AI Coach Mila",
-        description: "Wysyłanie treści rozmowy do modelu AI przez bezpieczny endpoint serwerowy.",
+        description: "Wysyłanie tekstu czatu i kontekstu agenta głosowego przez bezpieczny endpoint lub widget.",
       },
       voice: {
         title: "Głos ElevenLabs",
-        description: "Wysyłanie krótkich fragmentów tekstu po kliknięciu odczytu. Głos przeglądarki działa, gdy ElevenLabs jest niedostępny.",
+        description: "Odczyt tekstu po kliknięciu i opcjonalny agent głosowy po jego uruchomieniu. Głos przeglądarki działa, gdy TTS jest niedostępny.",
       },
       leaderboard: {
         title: "Ranking globalny",
@@ -121,8 +121,8 @@ const consentCopy: Record<Locale, ConsentCopy> = {
     acceptRequired: "必須を承認",
     acceptAll: "すべて承認",
     options: {
-      aiCoach: { title: "AI コーチ Mila", description: "安全なサーバー経由で会話テキストを AI モデルに送信します。" },
-      voice: { title: "ElevenLabs 音声", description: "読み上げボタンを押した短いテキストを音声合成に送信します。ElevenLabs が使えない場合はブラウザ音声を使います。" },
+      aiCoach: { title: "AI コーチ Mila", description: "チャット本文と音声エージェントの文脈を安全なサーバーまたはウィジェット経由で送信します。" },
+      voice: { title: "ElevenLabs 音声", description: "クリック後の読み上げと、ユーザーが開始した音声エージェントに ElevenLabs を使います。TTS が使えない場合はブラウザ音声を使います。" },
       leaderboard: { title: "グローバルランキング", description: "表示名、スコア、連続記録を Supabase に公開します。" },
       blockchain: { title: "NFT 証明書", description: "ウォレットと証明書メタデータを Solana Devnet に保存します。" },
     },

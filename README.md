@@ -103,6 +103,19 @@ Coach FI uses the existing voice system as a first-class accessibility layer:
 - `VoiceButton` supports `icon`, `pill` and `large` variants. The `large` variant is built for Accessibility Mode with a 56px minimum height and strong focus ring.
 - Accessibility Mode is designed for blind, low-vision and elderly users, with five large voice actions and matching readable text cards.
 
+## ElevenLabs Conversational AI Agent
+
+- The global support, reading and education agent uses the ElevenLabs ConvAI web widget.
+- The default public agent ID is `agent_7601krc9gaf2eaxr811qgk01epzc`.
+- Override it with `NEXT_PUBLIC_ELEVENLABS_AGENT_ID` when needed.
+- The widget receives runtime dynamic variables for locale, current page, demo score, learning stage, savings goal, token balance and accessibility/text-only mode.
+- The widget can use a signed URL from `/api/mila-token` when `ELEVENLABS_API_KEY` is configured; otherwise it falls back to the public agent ID.
+- Signed URL mode requires the ElevenLabs API key permission `convai_write`; without it the public widget still works when the agent allows public widget access.
+- Client tools are registered in the browser for safe in-app navigation and context lookup: `navigateToCoachFIPage`, `openHealthCheck`, `openInflation`, `openLearningPath`, `openQuiz`, `openRewards`, `openAccessibilityMode`, `openVoiceDemo`, `getCoachFIContext`, `setCoachFIAgentTextMode`.
+- Text input, transcript and microphone muting are enabled in the widget. AudioWorklet processors are self-hosted from `/elevenlabs-worklets/` to work with strict CSP.
+- API keys remain server-only; never expose `ELEVENLABS_API_KEY` to the browser.
+- Local microphone access requires `Permissions-Policy` to include `microphone=(self)` and browser permission set to Allow.
+
 ---
 
 ## ElevenLabs Creator Plan Usage Strategy
@@ -113,9 +126,10 @@ Coach FI uses the existing voice system as a first-class accessibility layer:
 - Audio never autoplays; the user must click a `VoiceButton`.
 - `VoiceProvider` keeps an in-memory audio cache by text + locale + voiceId + modelId.
 - Browser `speechSynthesis` is used as a fallback when ElevenLabs is unavailable.
-- There is no realtime voice agent, no microphone input, no speech-to-text and no voice cloning.
+- The click-to-play TTS demo does not use the realtime voice agent, microphone input, speech-to-text or voice cloning.
 - Long lesson generation is intentionally excluded.
 - Optional locale voice IDs: `ELEVENLABS_PL_VOICE_ID`, `ELEVENLABS_EN_VOICE_ID`, `ELEVENLABS_JA_VOICE_ID`.
+- Optional ConvAI widget agent ID: `NEXT_PUBLIC_ELEVENLABS_AGENT_ID`.
 
 ---
 
@@ -193,6 +207,10 @@ Szczegolowy przewodnik jest w `docs/API_SETUP.md`.
 - Supabase: `/api/leaderboard`, tabela z `supabase/leaderboard.sql`.
 - Solana: `/api/mint-nft`, Devnet mint authority z `SOLANA_MINT_KEYPAIR`.
 - NFT metadata: `/nft-metadata/[certificateName]`.
+
+### Microphone troubleshooting
+
+If the microphone does not work locally, restart the dev server after changing `next.config.mjs`. Then open Chrome site settings for `http://localhost:3000` and set Microphone to Allow. On Windows, also check Settings → Privacy & security → Microphone and allow desktop apps to access the microphone.
 
 ---
 
