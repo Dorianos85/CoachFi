@@ -20,19 +20,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("en");
 
   useEffect(() => {
-    const stored = localStorage.getItem("coachfi-locale") as Locale | null;
-    if (stored && stored in translations) {
-      setLocaleState(stored);
-    }
-  }, []);
-
-  useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
   function setLocale(next: Locale) {
     setLocaleState(next);
-    localStorage.setItem("coachfi-locale", next);
   }
 
   return (
