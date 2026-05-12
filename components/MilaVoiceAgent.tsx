@@ -123,7 +123,6 @@ export function MilaVoiceFab() {
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
   const [textOnly, setTextOnly] = useState(false);
-  const [quotaExceeded, setQuotaExceeded] = useState(false);
   const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
@@ -243,55 +242,12 @@ export function MilaVoiceFab() {
 
     widget.addEventListener("elevenlabs-convai:call", handleCall);
 
-    // MutationObserver watches inside the widget's shadow DOM for quota error text
-    let observer: MutationObserver | null = null;
-    const attachObserver = () => {
-      const root = widget.shadowRoot;
-      if (!root) return;
-      observer = new MutationObserver(() => {
-        const text = root.textContent ?? "";
-        if (text.toLowerCase().includes("quota")) {
-          setQuotaExceeded(true);
-          observer?.disconnect();
-        }
-      });
-      observer.observe(root, { subtree: true, childList: true, characterData: true });
-    };
-    // Shadow root may not exist until the widget script loads
-    if (widget.shadowRoot) {
-      attachObserver();
-    } else {
-      const scriptPoll = window.setInterval(() => {
-        if (widget.shadowRoot) {
-          attachObserver();
-          window.clearInterval(scriptPoll);
-        }
-      }, 200);
-      setTimeout(() => window.clearInterval(scriptPoll), 10000);
-    }
-
     return () => {
       widget.removeEventListener("elevenlabs-convai:call", handleCall);
-      observer?.disconnect();
     };
   }, [agentContext, enabled, router]);
 
   if (!AGENT_ID || !enabled) return null;
-
-  if (quotaExceeded) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50 max-w-xs rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
-        <p className="text-sm font-black text-text">Mila — voice unavailable</p>
-        <p className="mt-1 text-xs font-semibold leading-5 text-muted">
-          Voice quota reached. Use the{" "}
-          <a href="/coach" className="text-primary underline">
-            AI Coach chat
-          </a>{" "}
-          to talk to Mila in text mode.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <>
