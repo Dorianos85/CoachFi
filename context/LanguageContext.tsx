@@ -11,13 +11,13 @@ interface LanguageContextValue {
 }
 
 const LanguageContext = createContext<LanguageContextValue>({
-  locale: "pl",
+  locale: "en",
   setLocale: () => {},
-  t: translations.pl,
+  t: translations.en,
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("pl");
+  const [locale, setLocaleState] = useState<Locale>("en");
 
   useEffect(() => {
     const stored = localStorage.getItem("coachfi-locale") as Locale | null;
