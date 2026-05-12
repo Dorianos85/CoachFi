@@ -123,6 +123,7 @@ export function MilaVoiceFab() {
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
   const [textOnly, setTextOnly] = useState(false);
+  const [quotaExceeded, setQuotaExceeded] = useState(false);
   const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
@@ -240,11 +241,37 @@ export function MilaVoiceFab() {
       };
     };
 
+    const handleError = (event: Event) => {
+      const msg = (event as CustomEvent<{ message?: string }>).detail?.message ?? "";
+      if (msg.toLowerCase().includes("quota")) {
+        setQuotaExceeded(true);
+      }
+    };
+
     widget.addEventListener("elevenlabs-convai:call", handleCall);
-    return () => widget.removeEventListener("elevenlabs-convai:call", handleCall);
+    widget.addEventListener("elevenlabs-convai:error", handleError);
+    return () => {
+      widget.removeEventListener("elevenlabs-convai:call", handleCall);
+      widget.removeEventListener("elevenlabs-convai:error", handleError);
+    };
   }, [agentContext, enabled, router]);
 
   if (!AGENT_ID || !enabled) return null;
+
+  if (quotaExceeded) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 max-w-xs rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
+        <p className="text-sm font-black text-text">Mila — voice unavailable</p>
+        <p className="mt-1 text-xs font-semibold leading-5 text-muted">
+          Voice quota reached. Use the{" "}
+          <a href="/coach" className="text-primary underline">
+            AI Coach chat
+          </a>{" "}
+          to talk to Mila in text mode.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
