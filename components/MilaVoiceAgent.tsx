@@ -11,7 +11,7 @@ import { mockUser } from "@/data/mockUser";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 
-const DEFAULT_AGENT_ID = "agent_7601krc9gaf2eaxr811qgk01epzc";
+const DEFAULT_AGENT_ID = "agent_2301krbsttc8f21ra1h5vge02071";
 const AGENT_ID = (process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? DEFAULT_AGENT_ID).trim();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
 
