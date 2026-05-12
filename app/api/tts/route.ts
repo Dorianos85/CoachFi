@@ -5,8 +5,8 @@ import {
   readJsonWithLimit,
 } from "@/lib/api-security";
 
-const DEFAULT_MODEL = "eleven_multilingual_v2";
-const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel — eleven_multilingual_v2 supports EN/PL/JA
+const DEFAULT_MODEL = "eleven_flash_v2_5";
+const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel — fallback when no voice ID configured
 const MAX_TTS_TEXT_LENGTH = 500;
 
 type VoiceLocale = "pl" | "en" | "ja";
