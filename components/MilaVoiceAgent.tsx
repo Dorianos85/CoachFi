@@ -241,18 +241,38 @@ export function MilaVoiceFab() {
       };
     };
 
-    const handleError = (event: Event) => {
-      const msg = (event as CustomEvent<{ message?: string }>).detail?.message ?? "";
-      if (msg.toLowerCase().includes("quota")) {
-        setQuotaExceeded(true);
-      }
-    };
-
     widget.addEventListener("elevenlabs-convai:call", handleCall);
-    widget.addEventListener("elevenlabs-convai:error", handleError);
+
+    // MutationObserver watches inside the widget's shadow DOM for quota error text
+    let observer: MutationObserver | null = null;
+    const attachObserver = () => {
+      const root = widget.shadowRoot;
+      if (!root) return;
+      observer = new MutationObserver(() => {
+        const text = root.textContent ?? "";
+        if (text.toLowerCase().includes("quota")) {
+          setQuotaExceeded(true);
+          observer?.disconnect();
+        }
+      });
+      observer.observe(root, { subtree: true, childList: true, characterData: true });
+    };
+    // Shadow root may not exist until the widget script loads
+    if (widget.shadowRoot) {
+      attachObserver();
+    } else {
+      const scriptPoll = window.setInterval(() => {
+        if (widget.shadowRoot) {
+          attachObserver();
+          window.clearInterval(scriptPoll);
+        }
+      }, 200);
+      setTimeout(() => window.clearInterval(scriptPoll), 10000);
+    }
+
     return () => {
       widget.removeEventListener("elevenlabs-convai:call", handleCall);
-      widget.removeEventListener("elevenlabs-convai:error", handleError);
+      observer?.disconnect();
     };
   }, [agentContext, enabled, router]);
 
