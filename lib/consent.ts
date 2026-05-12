@@ -12,8 +12,8 @@ export interface ConsentRecord {
 }
 
 export const DEFAULT_OPTIONAL_CONSENTS: Record<OptionalConsentKey, boolean> = {
-  aiCoach: false,
-  voice: false,
+  aiCoach: true,
+  voice: true,
   leaderboard: false,
   blockchain: false,
 };

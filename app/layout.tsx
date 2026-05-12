@@ -22,9 +22,9 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Coach FI - Mapa Finansowa",
+  title: "Coach FI - Financial Education",
   description:
-    "Aplikacja do oszczedzania, nauki inwestowania, kredytow i dlugoterminowej pewnosci finansowej.",
+    "Build saving habits, understand inflation, investing and long-term financial confidence with AI coach Mila.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
   openGraph: {
     type: "website",
-    title: "Coach FI - Mapa Finansowa",
+    title: "Coach FI - Financial Education",
     description:
-      "Ucz sie oszczedzania, kredytow i inwestowania przez decyzje, symulatory i codzienne kroki.",
+      "Learn saving, credit and investing through simulations, quizzes and daily steps with AI coach Mila.",
     siteName: "Coach FI",
   },
 };
@@ -51,7 +51,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="pl"
+      lang="en"
       suppressHydrationWarning
       className={`${nunito.variable} ${notoSans.variable}`}
     >

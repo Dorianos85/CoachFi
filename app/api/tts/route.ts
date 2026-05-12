@@ -6,6 +6,7 @@ import {
 } from "@/lib/api-security";
 
 const DEFAULT_MODEL = "eleven_multilingual_v2";
+const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel — eleven_multilingual_v2 supports EN/PL/JA
 const MAX_TTS_TEXT_LENGTH = 500;
 
 type VoiceLocale = "pl" | "en" | "ja";
@@ -80,7 +81,8 @@ export async function POST(req: Request) {
   const selectedVoiceId =
     optionalString(payload.voiceId) ??
     getLocaleVoiceId(locale) ??
-    getEnv("ELEVENLABS_VOICE_ID");
+    getEnv("ELEVENLABS_VOICE_ID") ??
+    FALLBACK_VOICE_ID;
   const model = optionalString(payload.modelId) ?? getEnv("ELEVENLABS_MODEL_ID") ?? DEFAULT_MODEL;
   const apiKey = getEnv("ELEVENLABS_API_KEY");
 
