@@ -80,8 +80,8 @@ export const dashboardCopy: Record<
     },
     metrics: [
       { label: "Poduszka", value: "53%", caption: "celu" },
-      { label: "Nadwyzka", value: "dynamic", caption: "w maju" },
-      { label: "Lekcje", value: "7/24", caption: "aktywny sprint" },
+      { label: "Nadwyżka", value: "dynamic", caption: "maj" },
+      { label: "Lekcje", value: "7/24", caption: "sprint" },
     ],
     score: {
       title: "Stabilnosc finansowa",
@@ -164,9 +164,9 @@ export const dashboardCopy: Record<
       voiceDemo: "Try voice demo",
     },
     metrics: [
-      { label: "Emergency fund", value: "53%", caption: "of goal" },
-      { label: "Surplus", value: "dynamic", caption: "in May" },
-      { label: "Lessons", value: "7/24", caption: "active sprint" },
+      { label: "Cushion", value: "53%", caption: "of goal" },
+      { label: "Surplus", value: "dynamic", caption: "May" },
+      { label: "Lessons", value: "7/24", caption: "sprint" },
     ],
     score: {
       title: "Financial stability",

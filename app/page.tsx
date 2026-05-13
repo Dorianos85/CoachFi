@@ -244,9 +244,9 @@ function Metric({
 }) {
   return (
     <div className="rounded-lg border border-primary/10 bg-[#F3F5FF] p-4">
-      <p className="text-xs font-black uppercase text-muted">{label}</p>
-      <p className="mt-2 text-2xl font-black text-text">{value}</p>
-      <p className="text-sm font-bold text-muted">{caption}</p>
+      <p className="truncate text-xs font-black uppercase text-muted">{label}</p>
+      <p className="mt-2 whitespace-nowrap text-2xl font-black text-text">{value}</p>
+      <p className="truncate text-sm font-bold text-muted">{caption}</p>
     </div>
   );
 }
