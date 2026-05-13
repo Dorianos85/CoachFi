@@ -243,10 +243,10 @@ function Metric({
   caption: string;
 }) {
   return (
-    <div className="rounded-lg border border-primary/10 bg-[#F3F5FF] p-4">
-      <p className="truncate text-xs font-black uppercase text-muted">{label}</p>
-      <p className="mt-2 whitespace-nowrap text-2xl font-black text-text">{value}</p>
-      <p className="truncate text-sm font-bold text-muted">{caption}</p>
+    <div className="min-w-0 overflow-hidden rounded-lg border border-primary/10 bg-[#F3F5FF] px-3 py-3">
+      <p className="whitespace-nowrap text-[10px] font-black uppercase tracking-wide text-muted">{label}</p>
+      <p className="mt-1.5 whitespace-nowrap text-xl font-black leading-none text-text">{value}</p>
+      <p className="mt-1 whitespace-nowrap text-xs font-bold text-muted">{caption}</p>
     </div>
   );
 }
