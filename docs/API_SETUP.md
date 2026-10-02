@@ -1,7 +1,7 @@
 # Coach FI API setup
 
-Coach FI is wired to five external services. The app keeps working without them, but those
-features use local/mock fallback until keys are configured.
+Coach FI uses external services for AI, voice, leaderboard and minting. AI chat reports a
+configuration error when no chat provider key is set; other features retain their existing fallbacks.
 
 ## 1. Prepare env
 
@@ -13,32 +13,26 @@ copy .env.example .env.local
 
 Never share `.env.local` and never paste API keys into chat.
 
-## 2. Anthropic Claude for Mila
+## 2. AI Coach: Cerebras primary and Groq fallback
 
-Required:
-
-```bash
-ANTHROPIC_API_KEY=
-ANTHROPIC_MODEL=claude-haiku-4-5-20251001
-ANTHROPIC_MAX_TOKENS=256
-```
-
-`/api/chat` streams Claude responses when the user grants AI Coach consent.
-Without the key, Coach FI tries OpenRouter if configured and otherwise falls back to predefined educational replies.
-
-## 3. OpenRouter AI fallback/provider
-
-Optional:
+Server-only keys (no `NEXT_PUBLIC_` prefix):
 
 ```bash
-OPENROUTER_API_KEY=
-OPENROUTER_MODEL=openrouter/auto
-OPENROUTER_MAX_TOKENS=256
-AI_PROVIDER=
+CEREBRAS_API_KEY=
+GROQ_API_KEY=
+CHAT_MAX_COMPLETION_TOKENS=2048
 ```
 
-By default `/api/chat` tries Anthropic first, then OpenRouter. Set `AI_PROVIDER=openrouter`
-to try OpenRouter first.
+`/api/chat` streams Cerebras `gpt-oss-120b` and uses Groq `openai/gpt-oss-120b`
+for transient failures before streaming starts. Missing primary configuration uses Groq.
+Missing both keys returns a readable configuration error. The Mila prompt and consent guards remain intact.
+
+## 3. Vercel environments and verification
+
+In project **coach-fi**, set both keys for **Preview** and **Production**, then redeploy.
+Also set **Development** if using Vercel's local environment workflow; otherwise use `.env.local`.
+Read [AI_CHAT.md](AI_CHAT.md) for exact APIs, timeouts, logging, tests and controlled fallback verification.
+Anthropic/OpenRouter settings are no longer used by chat.
 
 ## 4. ElevenLabs voice
 

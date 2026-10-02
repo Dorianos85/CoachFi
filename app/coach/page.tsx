@@ -15,54 +15,12 @@ import { getLocalizedContent } from "@/lib/localizedContent";
 import { localeSpeechLang } from "@/lib/i18n";
 import { useSpeechInput } from "@/hooks/useSpeechInput";
 import { cn } from "@/lib/utils";
+import { streamFromAPI } from "@/lib/chat-client";
 
 interface ChatMessage {
   role: "coach" | "user";
   text: string;
   streaming?: boolean;
-}
-
-async function streamFromAPI(
-  message: string,
-  locale: string,
-  history: { role: "user" | "assistant"; content: string }[],
-  onChunk: (chunk: string) => void,
-  onDone: () => void,
-  onFallback: () => void
-) {
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CoachFI-Consent": "ai-coach",
-      },
-      body: JSON.stringify({ message, history, locale }),
-    });
-
-    if (!res.ok || !res.body) {
-      onFallback();
-      return;
-    }
-
-    const data = res.headers.get("Content-Type") ?? "";
-    if (data.includes("application/json")) {
-      onFallback();
-      return;
-    }
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      onChunk(decoder.decode(value, { stream: true }));
-    }
-    onDone();
-  } catch {
-    onFallback();
-  }
 }
 
 const TYPING_SPEED = 14;
@@ -184,14 +142,12 @@ export default function CoachPage() {
           finalizeMessage(liveReply);
           setIsTyping(false);
         },
-        () => {
+        (errorMessage) => {
           setIsLive(false);
-          const fallback = copy.quickReplies[userText] ?? copy.fallback;
-          simulateStream(fallback, appendChunk, () => {
-            apiHistory.current.push({ role: "assistant", content: fallback });
-            finalizeMessage(fallback);
-            setIsTyping(false);
-          });
+          appendChunk((liveReply ? "\n\n" : "") + errorMessage);
+          // Never append an offline answer or store/speak an incomplete AI answer.
+          finalizeMessage();
+          setIsTyping(false);
         }
       );
     }, 500 + Math.random() * 300);

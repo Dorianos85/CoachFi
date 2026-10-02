@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { createChatResponse } from "@/lib/chat-provider";
 
 import {
   assertSameOrigin,
@@ -8,10 +8,9 @@ import {
   requireConsentHeader,
 } from "@/lib/api-security";
 import { localeClaudeLanguage, type Locale } from "@/lib/i18n";
-import { getNumberEnv, getOptionalEnv } from "@/lib/server-env";
 
-const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
-const DEFAULT_OPENROUTER_MODEL = "openrouter/auto";
+export const runtime = "nodejs";
+export const maxDuration = 60;
 
 const SYSTEM_PROMPT = `You are Mila, Coach FI's warm and direct financial education coach.
 
@@ -49,7 +48,7 @@ Topics you cover: saving habits, emergency funds, inflation, budgeting (50/30/20
 - When discussing Poland-specific topics, reference the OECD data naturally and empathetically.`;
 
 function getLanguageInstruction(locale: string | undefined) {
-  if (!locale || !(locale in localeClaudeLanguage)) {
+  if (!locale || !Object.hasOwn(localeClaudeLanguage, locale)) {
     return "Respond in the same language as the user's latest message.";
   }
 
@@ -70,21 +69,13 @@ type NormalizedChat = {
   locale?: string;
 };
 
-type OpenRouterResponse = {
-  choices?: Array<{
-    message?: {
-      content?: string | Array<{ text?: string }>;
-    };
-  }>;
-  error?: { message?: string };
-};
-
 function normalizePayload(payload: ChatPayload): NormalizedChat | null {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
   const message =
     typeof payload.message === "string"
       ? payload.message
       : Array.isArray(payload.messages)
-        ? [...payload.messages].reverse().find((item) => item.role === "user")?.content ?? ""
+        ? [...payload.messages].reverse().find((item) => item?.role === "user")?.content ?? ""
         : "";
 
   if (typeof message !== "string" || message.trim().length === 0 || message.length > 800) {
@@ -100,116 +91,22 @@ function normalizePayload(payload: ChatPayload): NormalizedChat | null {
   const safeHistory = rawHistory
     .filter(
       (item) =>
-        (item.role === "user" || item.role === "assistant") &&
+        item && (item.role === "user" || item.role === "assistant") &&
         typeof item.content === "string" &&
         item.content.length <= 1000
     )
-    .slice(-6);
+    .slice(-6)
+    .map(({ role, content }) => ({ role, content }));
 
   return {
     message: message.trim(),
     safeHistory,
-    locale: payload.locale,
+    locale: typeof payload.locale === "string" ? payload.locale : undefined,
   };
 }
 
 function getSystemPrompt(locale: string | undefined) {
   return `${SYSTEM_PROMPT}\n\n${getLanguageInstruction(locale)}`;
-}
-
-async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
-  const client = new Anthropic({ apiKey });
-  const model = getOptionalEnv("ANTHROPIC_MODEL") ?? DEFAULT_ANTHROPIC_MODEL;
-  const maxTokens = getNumberEnv("ANTHROPIC_MAX_TOKENS", 600, 64, 1024);
-
-  const stream = await client.messages.create({
-    model,
-    max_tokens: maxTokens,
-    system: getSystemPrompt(chat.locale),
-    messages: [
-      ...chat.safeHistory, // last 6 turns for context, keeps costs low
-      { role: "user", content: chat.message },
-    ],
-    stream: true,
-  });
-
-  const encoder = new TextEncoder();
-  const readable = new ReadableStream({
-    async start(controller) {
-      try {
-        for await (const event of stream) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
-            controller.enqueue(encoder.encode(event.delta.text));
-          }
-        }
-        controller.close();
-      } catch (e) {
-        controller.error(e);
-      }
-    },
-  });
-
-  return new Response(readable, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Transfer-Encoding": "chunked",
-      "Cache-Control": "no-cache",
-      "X-CoachFI-Provider": "anthropic",
-      "X-CoachFI-Model": model,
-    },
-  });
-}
-
-async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
-  const model = getOptionalEnv("OPENROUTER_MODEL") ?? DEFAULT_OPENROUTER_MODEL;
-  const maxTokens = getNumberEnv("OPENROUTER_MAX_TOKENS", 600, 64, 1024);
-
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": getOptionalEnv("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000",
-      "X-Title": "Coach FI",
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: maxTokens,
-      messages: [
-        { role: "system", content: getSystemPrompt(chat.locale) },
-        ...chat.safeHistory,
-        { role: "user", content: chat.message },
-      ],
-    }),
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    console.error("[openrouter]", res.status, errorText);
-    return Response.json({ error: "OpenRouter error", fallback: true }, { status: 500 });
-  }
-
-  const data = (await res.json()) as OpenRouterResponse;
-  const content = data.choices?.[0]?.message?.content;
-  const reply = Array.isArray(content)
-    ? content.map((item) => item.text ?? "").join("")
-    : content;
-
-  if (!reply?.trim()) {
-    return Response.json({ error: "OpenRouter empty response", fallback: true }, { status: 500 });
-  }
-
-  return new Response(reply, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "no-cache",
-      "X-CoachFI-Provider": "openrouter",
-      "X-CoachFI-Model": model,
-    },
-  });
 }
 
 export async function POST(req: Request) {
@@ -230,32 +127,16 @@ export async function POST(req: Request) {
       return jsonError("Invalid message", 400);
     }
 
-    const preferredProvider = getOptionalEnv("AI_PROVIDER");
-    const anthropicApiKey = getOptionalEnv("ANTHROPIC_API_KEY");
-    const openRouterApiKey = getOptionalEnv("OPENROUTER_API_KEY");
-
-    if (preferredProvider === "openrouter" && openRouterApiKey) {
-      return createOpenRouterResponse(openRouterApiKey, chat);
-    }
-
-    if (preferredProvider === "anthropic" && anthropicApiKey) {
-      return createAnthropicResponse(anthropicApiKey, chat);
-    }
-
-    if (anthropicApiKey) {
-      return createAnthropicResponse(anthropicApiKey, chat);
-    }
-
-    if (openRouterApiKey) {
-      return createOpenRouterResponse(openRouterApiKey, chat);
-    }
-
-    return Response.json({ error: "AI provider API key not set", fallback: true }, { status: 503 });
+    return await createChatResponse(req, [
+      { role: "system", content: getSystemPrompt(chat.locale) },
+      ...chat.safeHistory,
+      { role: "user", content: chat.message },
+    ], chat.locale);
   } catch (err) {
     if (err instanceof SyntaxError || (err instanceof Error && err.message === "Payload too large")) {
       return jsonError("Invalid payload", 400);
     }
-    console.error("[chat/route]", err);
+    console.error(JSON.stringify({ event: "chat.error", error_category: "internal" }));
     return Response.json({ error: "Model error", fallback: true }, { status: 500 });
   }
 }

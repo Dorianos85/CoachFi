@@ -64,7 +64,7 @@ const PRIVACY_COPY: Record<Locale, PrivacyCopy> = {
     ],
     providersTitle: "External providers",
     providersText:
-      "The app can integrate with Anthropic, ElevenLabs, Supabase and Solana Devnet. Before production, confirm processing regions, data processing agreements, retention and international transfers for each provider.",
+      "The app can integrate with Cerebras, Groq, ElevenLabs, Supabase and Solana Devnet. Before production, confirm processing regions, data processing agreements, retention and international transfers for each provider.",
   },
   pl: {
     eyebrow: "Prywatność i dane",
@@ -114,7 +114,7 @@ const PRIVACY_COPY: Record<Locale, PrivacyCopy> = {
     ],
     providersTitle: "Dostawcy zewnętrzni",
     providersText:
-      "Aplikacja może integrować się z Anthropic, ElevenLabs, Supabase i Solana Devnet. Przed wersją produkcyjną należy potwierdzić region przetwarzania, umowy powierzenia, retencję danych oraz transfery poza EOG dla każdego dostawcy.",
+      "Aplikacja może integrować się z Cerebras, Groq, ElevenLabs, Supabase i Solana Devnet. Przed wersją produkcyjną należy potwierdzić region przetwarzania, umowy powierzenia, retencję danych oraz transfery poza EOG dla każdego dostawcy.",
   },
   ja: {
     eyebrow: "プライバシーとデータ",
@@ -128,7 +128,7 @@ const PRIVACY_COPY: Record<Locale, PrivacyCopy> = {
       { title: "権利", items: ["ローカルデータをエクスポートできます。", "ローカルデータを削除できます。", "本番前に管理者情報と手続きを追加します。"] },
     ],
     providersTitle: "外部プロバイダー",
-    providersText: "Anthropic、ElevenLabs、Supabase、Solana Devnet と統合できます。本番前に契約、地域、保存期間を確認してください。",
+    providersText: "Cerebras、Groq、ElevenLabs、Supabase、Solana Devnet と統合できます。本番前に契約、地域、保存期間を確認してください。",
   },
 };
 
