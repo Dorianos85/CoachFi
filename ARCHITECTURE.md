@@ -2,7 +2,7 @@
 
 > **Stack**: Next.js 15 · TypeScript 5 · Tailwind CSS · Framer Motion  
 > **Blockchain**: Solana Devnet · Metaplex Umi Core · Wallet Adapter  
-> **AI**: Anthropic Claude Haiku (streaming) · OpenRouter fallback/provider · ElevenLabs TTS  
+> **AI**: Cerebras GPT-OSS 120B (streaming) · Groq fallback · ElevenLabs TTS
 > **Backend**: Supabase (leaderboard) · Next.js API Routes  
 > **Storage**: `localStorage` (all user state, no auth required)
 
@@ -13,14 +13,14 @@
 Coach FI is a financial education PWA targeting the Colosseum hackathon. It combines:
 
 - A **spaced-repetition quiz system** (SM-2 algorithm) with 8 progressive learning stages
-- An **AI coach "Mila"** powered by Claude Haiku with streaming responses, optional OpenRouter fallback/provider, and ElevenLabs voice
+- An **AI coach "Mila"** powered by Cerebras GPT-OSS 120B with streaming responses and Groq fallback, and ElevenLabs voice
 - **NFT certificates** minted on Solana Devnet (Metaplex Core) as proof of learning
 - A **global leaderboard** backed by Supabase with local fallback
 - A **personalizable avatar** with financial shield (hexagonal radar chart)
 - Three user modes: Adult, Kids, Accessibility
 - Full i18n: English, Polish, Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and Turkish
 
-All user data is stored in `localStorage` — no account required. External services (Anthropic, OpenRouter, ElevenLabs, Supabase, Solana) degrade gracefully when API keys are absent.
+All user data is stored in `localStorage` — no account required. External services (Cerebras, Groq, ElevenLabs, Supabase, Solana) degrade gracefully when API keys are absent.
 
 ---
 
@@ -55,7 +55,7 @@ coach-fi/
 │   ├── partner/page.tsx          # Sponsor/partner info page
 │   │
 │   └── api/
-│       ├── chat/route.ts         # POST — Claude Haiku / OpenRouter chat
+│       ├── chat/route.ts         # POST — Cerebras / Groq chat
 │       ├── tts/route.ts          # POST — ElevenLabs TTS audio stream
 │       ├── leaderboard/route.ts  # GET/POST — Supabase leaderboard
 │       └── mint-nft/route.ts     # POST — Metaplex Core NFT mint on Devnet
@@ -175,7 +175,7 @@ All client state lives in `localStorage`. No server-side sessions.
 ## 5. API Routes
 
 ### `POST /api/chat`
-**AI Coach Mila** — Claude Haiku streaming, OpenRouter fallback/provider
+**AI Coach Mila** — Cerebras GPT-OSS 120B streaming, Groq GPT-OSS 120B fallback
 
 ```typescript
 Request:  { message: string, history: { role, content }[] }
@@ -183,13 +183,12 @@ Response: text/plain chunked stream (text deltas)
           OR { error, fallback: true } → 503 if provider key missing
 ```
 
-- Model: `claude-haiku-4-5-20251001`
-- Max tokens: 256 (concise 2–4 sentence answers)
-- Context window: last 6 turns (`history.slice(-6)`)
-- System prompt: Mila persona, multilingual, no investment advice
-- Provider order: `AI_PROVIDER=openrouter` forces OpenRouter first; otherwise Anthropic is tried first and OpenRouter second.
-- Env: `ANTHROPIC_API_KEY`, optional `ANTHROPIC_MODEL`, `ANTHROPIC_MAX_TOKENS`
-- OpenRouter env: `OPENROUTER_API_KEY`, optional `OPENROUTER_MODEL`, `OPENROUTER_MAX_TOKENS`
+- Primary: Cerebras `gpt-oss-120b`; fallback: Groq `openai/gpt-oss-120b`.
+- Server env: `CEREBRAS_API_KEY`, `GROQ_API_KEY`, optional `CHAT_MAX_COMPLETION_TOKENS` (default 2048, includes reasoning).
+- Context: last six valid user/assistant history entries; original Mila prompt and guardrails preserved.
+- At most two attempts, 15 seconds to first content each, 45 seconds total; Vercel `maxDuration=60`.
+- Failover only before first content for rate/quota limits, 5xx, timeout and network failures.
+- Full contract, logging and verification: [docs/AI_CHAT.md](docs/AI_CHAT.md).
 
 ---
 
@@ -521,18 +520,11 @@ Font: Nunito for friendly UI text with Noto Sans fallbacks for Polish, Spanish, 
 ```bash
 # .env.local
 
-# ── AI Coach (Claude Haiku streaming) ────────────────────────────────────────
-ANTHROPIC_API_KEY=sk-ant-...
-ANTHROPIC_MODEL=claude-haiku-4-5-20251001
-ANTHROPIC_MAX_TOKENS=256
-# Get at: https://console.anthropic.com/settings/keys
-
-# Optional OpenRouter fallback/provider
-OPENROUTER_API_KEY=sk-or-v1-...
-OPENROUTER_MODEL=openrouter/auto
-OPENROUTER_MAX_TOKENS=256
-AI_PROVIDER=
-# Set AI_PROVIDER=openrouter to try OpenRouter before Anthropic.
+# ── AI Coach (Cerebras / Groq GPT-OSS streaming) ────────────────────────────────────────
+CEREBRAS_API_KEY=
+GROQ_API_KEY=
+CHAT_MAX_COMPLETION_TOKENS=2048
+# Set server-only keys in Vercel Preview and Production. See docs/AI_CHAT.md.
 
 # ── ElevenLabs TTS (Mila voice) ──────────────────────────────────────────────
 ELEVENLABS_API_KEY=sk_...
@@ -586,7 +578,7 @@ Every external service has a defined fallback — the app never breaks without A
 
 | Service | When missing | Fallback behaviour |
 |---------|-------------|-------------------|
-| `ANTHROPIC_API_KEY` | `/api/chat` → 503 | Client uses `matchCoachIntent()` pattern-matching + simulated stream |
+| Both `CEREBRAS_API_KEY` and `GROQ_API_KEY` | `/api/chat` → 503 | Client shows localized configuration error |
 | `ELEVENLABS_API_KEY` | `/api/tts` → 503 | `VoiceContext` falls back to `window.speechSynthesis` (browser TTS) |
 | `SUPABASE_*` | `/api/leaderboard` → `configured: false` | `Leaderboard` component shows 5 hardcoded local players |
 | `SOLANA_MINT_KEYPAIR` | `/api/mint-nft` → 503 | `rewards/page.tsx` runs mock mint with 2.2s simulated steps |
@@ -717,7 +709,7 @@ vercel               # Auto-detects Next.js, sets NODE_ENV=production
 | `typescript` | ^5.7.2 | Type safety (strict mode) |
 | `tailwindcss` | ^3.4.17 | Utility CSS |
 | `framer-motion` | ^12.0.0 | Animations + page transitions |
-| `@anthropic-ai/sdk` | ^0.95.1 | Claude Haiku streaming (server-side only) |
+| `server-only` | ^0.0.1 | Prevent chat provider imports in client bundles; native fetch handles streaming |
 | `@supabase/supabase-js` | ^2.105.4 | Leaderboard database |
 | `@metaplex-foundation/mpl-core` | ^1.10.0 | NFT minting (Metaplex Core standard) |
 | `@metaplex-foundation/umi` | ^1.5.1 | Solana transaction builder |

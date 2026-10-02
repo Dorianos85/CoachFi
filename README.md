@@ -47,7 +47,7 @@ Coach FI is a calm educational platform for financial confidence, saving habits 
 | **Financial Health Check** | 10-field form (income, expenses, savings, debt, cash, cushion, inflation, retirement, investments, goal). Score 0–100. |
 | **Inflation** | Interactive calculator with Recharts chart. Three scenarios: cash / saving habit / educated investor. |
 | **Learning Path** | 8 stages: Mindset → Saving Habit → Inflation → Credit → Emergency Fund → Investing → Retirement → Family Plan. |
-| **AI Coach** | Mila uses Claude Haiku when `ANTHROPIC_API_KEY` is configured, OpenRouter when `OPENROUTER_API_KEY` is configured, and falls back to predefined replies when neither is available. |
+| **AI Coach** | Mila streams Cerebras GPT-OSS 120B with Groq GPT-OSS 120B as a transient-error fallback. Configure server-only `CEREBRAS_API_KEY` and `GROQ_API_KEY`; see [AI chat setup](docs/AI_CHAT.md). |
 | **Quiz** | 4 questions with instant feedback, tokens and read-aloud support. |
 | **Rewards & NFT** | Tokens + certificate cards + real Metaplex Core mint on Solana Devnet, with mock fallback when API/wallet are not ready. |
 | **Kids Mode** | 6 modules (needs, jar, goal, pocket money, stars, sharing). Animations and star system. |
@@ -76,7 +76,7 @@ Coach FI uses Solana for:
 - Mock transaction hash only in fallback
 - Coach FI Tokens (local state)
 - All user data (no backend)
-- AI Coach Mila uses predefined replies only when `ANTHROPIC_API_KEY` / `OPENROUTER_API_KEY` are missing or the API does not respond
+- AI Coach Mila shows readable configuration/unavailability errors; predefined educational replies remain available when AI consent is disabled.
 
 ---
 
@@ -205,7 +205,7 @@ A detailed guide is in `docs/API_SETUP.md`.
 
 | Integration | Route | Notes |
 |---|---|---|
-| Anthropic / OpenRouter | `/api/chat` | Claude Haiku for Mila, OpenRouter as fallback, predefined replies when both missing |
+| Cerebras / Groq | `/api/chat` | GPT-OSS 120B streaming, bounded fallback before first text; [configuration](docs/AI_CHAT.md) |
 | ElevenLabs TTS | `/api/tts` | Real voice for short scripts, `speechSynthesis` fallback |
 | ElevenLabs ConvAI | widget | Set `NEXT_PUBLIC_ELEVENLABS_AGENT_ID` to your own agent |
 | Supabase | `/api/leaderboard` | Table schema in `supabase/leaderboard.sql` |

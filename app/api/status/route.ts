@@ -3,7 +3,6 @@ import { Keypair, Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getOptionalEnv, hasConfiguredEnv } from "@/lib/server-env";
 
 const DEFAULT_SOLANA_RPC = "https://api.devnet.solana.com";
-const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
 const DEFAULT_ELEVENLABS_MODEL = "eleven_multilingual_v2";
 
 function getDefaultElevenLabsVoiceId() {
@@ -42,10 +41,11 @@ export async function GET() {
     ok: true,
     services: {
       chat: {
-        configured: hasConfiguredEnv("ANTHROPIC_API_KEY"),
-        provider: "Anthropic",
+        configured: hasConfiguredEnv("CEREBRAS_API_KEY") || hasConfiguredEnv("GROQ_API_KEY"),
+        provider: hasConfiguredEnv("CEREBRAS_API_KEY") ? "Cerebras" : "Groq",
         endpoint: "/api/chat",
-        model: getOptionalEnv("ANTHROPIC_MODEL") ?? DEFAULT_ANTHROPIC_MODEL,
+        model: hasConfiguredEnv("CEREBRAS_API_KEY") ? "gpt-oss-120b" : "openai/gpt-oss-120b",
+        fallbackConfigured: hasConfiguredEnv("GROQ_API_KEY"),
       },
       voice: {
         configured: hasConfiguredEnv("ELEVENLABS_API_KEY"),

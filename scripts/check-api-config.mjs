@@ -79,15 +79,11 @@ async function main() {
     console.log("TODO .env.local not found. Copy .env.example to .env.local first.");
   }
 
-  printService("Anthropic Claude", [
-    { label: "ANTHROPIC_API_KEY", ok: configured(env.ANTHROPIC_API_KEY) },
-    { label: `ANTHROPIC_MODEL=${env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001"}`, ok: true },
+  printService("Cerebras primary (gpt-oss-120b)", [
+    { label: "CEREBRAS_API_KEY", ok: configured(env.CEREBRAS_API_KEY) },
   ]);
-
-  printService("OpenRouter AI fallback", [
-    { label: "OPENROUTER_API_KEY", ok: configured(env.OPENROUTER_API_KEY) },
-    { label: `OPENROUTER_MODEL=${env.OPENROUTER_MODEL || "openrouter/auto"}`, ok: true },
-    { label: `AI_PROVIDER=${env.AI_PROVIDER || "anthropic first, then openrouter"}`, ok: true },
+  printService("Groq fallback (openai/gpt-oss-120b)", [
+    { label: "GROQ_API_KEY", ok: configured(env.GROQ_API_KEY) },
   ]);
 
   printService("ElevenLabs TTS", [
