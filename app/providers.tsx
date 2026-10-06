@@ -4,6 +4,7 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
+import { PrivyProvider } from "@privy-io/react-auth";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 
@@ -12,20 +13,42 @@ import { StreakProvider } from "@/context/StreakContext";
 import { VoiceProvider } from "@/context/VoiceContext";
 import { ConsentProvider } from "@/context/ConsentContext";
 
+const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID?.trim() ?? "";
+
 export function Providers({ children }: { children: React.ReactNode }) {
   const endpoint = useMemo(() => clusterApiUrl(WalletAdapterNetwork.Devnet), []);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+
+  const solanaWallets = (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect={false}>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  );
 
   return (
     <LanguageProvider>
       <ConsentProvider>
         <StreakProvider>
           <VoiceProvider>
-            <ConnectionProvider endpoint={endpoint}>
-              <WalletProvider wallets={wallets} autoConnect={false}>
-                <WalletModalProvider>{children}</WalletModalProvider>
-              </WalletProvider>
-            </ConnectionProvider>
+            {privyAppId ? (
+              <PrivyProvider
+                appId={privyAppId}
+                config={{
+                  loginMethods: ["email"],
+                  embeddedWallets: {
+                    solana: {
+                      createOnLogin: "users-without-wallets",
+                    },
+                  },
+                }}
+              >
+                {solanaWallets}
+              </PrivyProvider>
+            ) : (
+              solanaWallets
+            )}
           </VoiceProvider>
         </StreakProvider>
       </ConsentProvider>
