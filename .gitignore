@@ -5,4 +5,9 @@ dist/
 out/
 *.tsbuildinfo
 .env*.local
-./my_notes.txt
+.DS_Store
+.cursor/scratchpad.md
+my_notes.txt
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

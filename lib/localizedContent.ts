@@ -122,7 +122,7 @@ const en: LocalizedContent = {
   activeModule: "Active module",
   purchasingPower: "Purchasing power",
   proofLayer: "Proof layer",
-  certificates: "NFT certificates",
+  certificates: "certificates",
   hearMila: "Hear Mila",
   homeMilaIntro:
     "Welcome to Coach FI. I am Mila, your voice-first financial education coach. I can read your score, explain inflation, guide lessons, read quiz questions and help you take the first small step.",
@@ -197,7 +197,7 @@ const en: LocalizedContent = {
       {
         id: "progress",
         label: "Show my progress",
-        text: "You have completed one stage, earned one hundred twenty five Coach FI Tokens, and unlocked your first education certificate.",
+        text: "You have completed one stage, earned one hundred twenty five Coach FI Points, and unlocked your first education certificate.",
       },
     ],
     commandExamples: "Voice command examples",
@@ -287,9 +287,9 @@ const en: LocalizedContent = {
       `Starting with ${amount}, after ${years} years at ${rate} percent average annual inflation, estimated real value is ${realValue}. You would lose about ${lostValue} of purchasing power. Not acting is also a financial decision.`,
   },
   common: {
-    tokens: "Coach FI Tokens",
+    tokens: "Coach FI Points",
     rewardAvailable: "Reward available",
-    tokenDemo: "Mock token balance for the demo story.",
+    tokenDemo: "Mock point balance for the demo story.",
     nextAction: "Next recommended action",
     firstFocus: "First focus: starter emergency fund",
     nextLesson: "Next lesson: inflation and purchasing power",
@@ -306,7 +306,7 @@ const pl: LocalizedContent = {
   proofLayer: "Dowód postępu",
   emergencyFund: "Fundusz awaryjny",
   purchasingPower: "Siła nabywcza",
-  certificates: "Certyfikaty NFT",
+  certificates: "Certyfikaty",
   hearMila: "Posłuchaj Miły",
   homeMilaIntro:
     "Witaj w Coach FI. Jestem Miła, Twoja głosowa coachka edukacji finansowej. Mogę odczytać wynik, wyjaśnić inflację, poprowadzić lekcje, przeczytać quiz i pomóc zrobić pierwszy mały krok.",
@@ -380,7 +380,7 @@ const pl: LocalizedContent = {
       {
         id: "progress",
         label: "Pokaż mój postęp",
-        text: "Ukończyłeś jeden etap, zdobyłeś sto dwadzieścia pięć tokenów Coach FI i odblokowałeś pierwszy certyfikat edukacyjny.",
+        text: "Ukończyłeś jeden etap, zdobyłeś sto dwadzieścia pięć punktów Coach FI i odblokowałeś pierwszy certyfikat edukacyjny.",
       },
     ],
     commandExamples: "Przykłady komend głosowych",
@@ -470,9 +470,9 @@ const pl: LocalizedContent = {
       `Zaczynając od kwoty ${amount}, po ${years} latach przy średniej rocznej inflacji ${rate} procent, szacowana realna wartość to ${realValue}. Utracisz około ${lostValue} siły nabywczej. Brak działania też jest decyzją finansową.`,
   },
   common: {
-    tokens: "Tokeny Coach FI",
+    tokens: "Punkty Coach FI",
     rewardAvailable: "Nagroda dostępna",
-    tokenDemo: "Demo saldo tokenów na potrzeby historii produktu.",
+    tokenDemo: "Demo saldo punktów na potrzeby historii produktu.",
     nextAction: "Następne zalecane działanie",
     firstFocus: "Pierwszy fokus: mały fundusz awaryjny",
     nextLesson: "Następna lekcja: inflacja i siła nabywcza",
@@ -543,6 +543,7 @@ const zh = adapt(en, {
 });
 
 const ja = adapt(zh, {
+  certificates: "証明書",
   appSubtitle: "金融自信コーチ",
   planLabel: "あなたの計画",
   scoreLabel: "金融健康スコア",
@@ -552,6 +553,10 @@ const ja = adapt(zh, {
   accessibility: { ...zh.accessibility, title: "音声優先の金融教育", subtitle: "視覚障害、弱視、高齢のユーザー向けに設計。" },
   coach: { ...zh.coach, heroTitle: "Mila は話せます", introButton: "Mila の紹介を再生", ready: "Mila は準備できています" },
   health: { scoreVoice: (score) => `あなたの金融健康スコアは 100 点中 ${score} 点です。次の一歩は、簡単な貯蓄習慣を作り、インフレを理解することです。`, achievement: "私の実績" },
+  common: {
+    tokens: "Coach FIポイント",
+    tokenDemo: "デモ用のポイント残高です。",
+  },
 });
 
 const hi = adapt(en, {

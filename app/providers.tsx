@@ -8,6 +8,7 @@ import { PrivyProvider } from "@privy-io/react-auth";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 
+import { AccountSync } from "@/components/AccountSync";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { StreakProvider } from "@/context/StreakContext";
 import { VoiceProvider } from "@/context/VoiceContext";
@@ -36,7 +37,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
               <PrivyProvider
                 appId={privyAppId}
                 config={{
-                  loginMethods: ["email"],
                   embeddedWallets: {
                     solana: {
                       createOnLogin: "users-without-wallets",
@@ -44,6 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   },
                 }}
               >
+                <AccountSync />
                 {solanaWallets}
               </PrivyProvider>
             ) : (

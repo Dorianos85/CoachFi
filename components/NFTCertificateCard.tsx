@@ -1,6 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
 export function NFTCertificateCard({
@@ -24,6 +25,7 @@ export function NFTCertificateCard({
   onMint?: () => void;
   txHash?: string;
 }) {
+  const { t } = useLanguage();
   const isMinted = statusVariant === "success" || status.toLowerCase() === "minted";
   const isReady = statusVariant === "accent" || status.toLowerCase() === "ready";
 
@@ -132,7 +134,7 @@ export function NFTCertificateCard({
               onClick={onMint}
               className="rounded-lg bg-gradient-to-r from-[#9945FF] to-[#14F195] px-3 py-1.5 text-xs font-black text-white shadow-sm transition hover:opacity-90"
             >
-              Mint NFT
+              {t.rewards.mint}
             </button>
           )}
         </div>

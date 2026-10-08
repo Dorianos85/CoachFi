@@ -35,7 +35,7 @@ export const en = {
     modeAccessibility: "Accessibility Mode",
     modeAccessibilityDesc: "Large text, high contrast and voice commands.",
     statsUsers: "Active learners",
-    statsCertificates: "NFT certificates minted",
+    statsCertificates: "certificates minted",
     statsScore: "Avg. financial score",
     featuredTitle: "What you'll learn",
     featuredItems: [
@@ -105,7 +105,7 @@ export const en = {
     eyebrow: "Learning path",
     title: "8 stages to financial confidence.",
     description:
-      "From mindset to family plan — complete stages, earn tokens and mint your proof of knowledge as an NFT.",
+      "From mindset to family plan — complete stages, earn points and mint your proof of knowledge as a certificate.",
     readText: "Learning path. 8 stages from Money Mindset to Family Financial Plan.",
     stageLabel: "Stage",
     statusCompleted: "Completed",
@@ -113,7 +113,7 @@ export const en = {
     statusCurrent: "Current stage",
     statusLocked: "Locked",
     reward: "Reward",
-    nftStatus: "NFT",
+    nftStatus: "Certificate",
     startLesson: "Start lesson",
     continueLesson: "Continue",
   },
@@ -132,10 +132,10 @@ export const en = {
 
   quiz: {
     eyebrow: "Test your knowledge",
-    title: "Quiz — earn tokens.",
+    title: "Quiz — earn points.",
     description:
-      "Answer 4 questions correctly and earn Coach FI Tokens. Each correct answer gets you closer to your NFT certificate.",
-    readText: "Financial quiz. Answer 4 questions to earn tokens.",
+      "Answer 4 questions correctly and earn Coach FI Points. Each correct answer gets you closer to your certificate.",
+    readText: "Financial quiz. Answer 4 questions to earn points.",
     progress: "Question {current} of {total}",
     progressPct: "{pct}% complete",
     submit: "Submit answer",
@@ -146,12 +146,12 @@ export const en = {
   },
 
   rewards: {
-    eyebrow: "Tokens & NFTs",
+    eyebrow: "Points & certificates",
     title: "Your proof of knowledge.",
     description:
-      "Every lesson completed and quiz passed earns Coach FI Tokens. Mint your NFT certificate on Solana Devnet.",
-    readText: "Rewards. Your earned tokens and NFT certificates.",
-    tokens: "Coach FI Tokens",
+      "Every lesson completed and quiz passed earns Coach FI Points. Mint your certificate on Solana Devnet.",
+    readText: "Rewards. Your earned points and certificates.",
+    tokens: "Coach FI Points",
     mint: "Mint certificate",
     minting: "Minting...",
     minted: "Minted!",
@@ -267,14 +267,14 @@ export const en = {
   challenge: {
     eyebrow: "Daily Challenge",
     title: "Today's question",
-    description: "One question per day. Double tokens. Keep the streak alive.",
-    readText: "Daily Challenge. Answer today's question to earn double tokens.",
+    description: "One question per day. Double points. Keep the streak alive.",
+    readText: "Daily Challenge. Answer today's question to earn double points.",
     timerLabel: "Next challenge in",
     completedTitle: "Challenge completed!",
     completedDesc: "Come back tomorrow for a new question. Your streak is safe.",
     reward: "Double reward",
-    rewardValue: "+50 tokens",
-    correctBanner: "Correct! You earned 50 tokens 🎉",
+    rewardValue: "+50 points",
+    correctBanner: "Correct! You earned 50 points 🎉",
     wrongBanner: "Not this time — read the explanation and try again tomorrow.",
     explanation: "Explanation",
     answerButton: "Submit answer",
@@ -316,7 +316,7 @@ export const en = {
     close: "Close",
     learnMore: "Learn more",
     seeAll: "See all",
-    tokenUnit: "tokens",
+    tokenUnit: "points",
   },
 
   voiceAgent: {

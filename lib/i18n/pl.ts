@@ -37,7 +37,7 @@ export const pl: Translations = {
     modeAccessibility: "Tryb dostępności",
     modeAccessibilityDesc: "Duży tekst, wysoki kontrast i komendy głosowe.",
     statsUsers: "Aktywnych uczniów",
-    statsCertificates: "Mintowanych certyfikatów NFT",
+    statsCertificates: "Mintowanych certyfikatów",
     statsScore: "Śr. wynik finansowy",
     featuredTitle: "Czego się nauczysz",
     featuredItems: [
@@ -109,7 +109,7 @@ export const pl: Translations = {
     eyebrow: "Ścieżka nauki",
     title: "8 etapów do finansowej pewności siebie.",
     description:
-      "Od nastawienia do planu rodzinnego — ukończ etapy, zarabiaj tokeny i mintuj swój dowód wiedzy jako NFT.",
+      "Od nastawienia do planu rodzinnego — ukończ etapy, zarabiaj punkty i mintuj swój dowód wiedzy jako certyfikat.",
     readText:
       "Ścieżka nauki. 8 etapów od Mindset do Planu rodzinnego.",
     stageLabel: "Etap",
@@ -118,7 +118,7 @@ export const pl: Translations = {
     statusCurrent: "Aktualny etap",
     statusLocked: "Zablokowany",
     reward: "Nagroda",
-    nftStatus: "NFT",
+    nftStatus: "Certyfikat",
     startLesson: "Rozpocznij lekcję",
     continueLesson: "Kontynuuj",
   },
@@ -138,11 +138,11 @@ export const pl: Translations = {
 
   quiz: {
     eyebrow: "Sprawdź swoją wiedzę",
-    title: "Quiz — zarabiaj tokeny.",
+    title: "Quiz — zarabiaj punkty.",
     description:
-      "Odpowiedz poprawnie na 4 pytania i zarabiaj Coach FI Tokeny. Każda poprawna odpowiedź przybliża Cię do certyfikatu NFT.",
+      "Odpowiedz poprawnie na 4 pytania i zarabiaj Punkty Coach FI. Każda poprawna odpowiedź przybliża Cię do certyfikatu.",
     readText:
-      "Quiz finansowy. Odpowiedz na 4 pytania, aby zarabiać tokeny.",
+      "Quiz finansowy. Odpowiedz na 4 pytania, aby zarabiać punkty.",
     progress: "Pytanie {current} z {total}",
     progressPct: "{pct}% ukończone",
     submit: "Zatwierdź odpowiedź",
@@ -153,12 +153,12 @@ export const pl: Translations = {
   },
 
   rewards: {
-    eyebrow: "Tokeny i NFT",
+    eyebrow: "Punkty i certyfikaty",
     title: "Twój dowód wiedzy.",
     description:
-      "Każda ukończona lekcja i zaliczony quiz przynosi Coach FI Tokeny. Mintuj swój certyfikat NFT na Solana Devnet.",
-    readText: "Nagrody. Twoje zarobione tokeny i certyfikaty NFT.",
-    tokens: "Coach FI Tokeny",
+      "Każda ukończona lekcja i zaliczony quiz przynosi Punkty Coach FI. Mintuj swój certyfikat na Solana Devnet.",
+    readText: "Nagrody. Twoje zarobione punkty i certyfikaty.",
+    tokens: "Punkty Coach FI",
     mint: "Mintuj certyfikat",
     minting: "Mintowanie...",
     minted: "Zamintowano!",
@@ -275,14 +275,14 @@ export const pl: Translations = {
   challenge: {
     eyebrow: "Wyzwanie dnia",
     title: "Pytanie na dziś",
-    description: "Jedno pytanie dziennie. Podwójne tokeny. Utrzymaj serię.",
-    readText: "Wyzwanie dnia. Odpowiedz na pytanie i zdobądź podwójne tokeny.",
+    description: "Jedno pytanie dziennie. Podwójne punkty. Utrzymaj serię.",
+    readText: "Wyzwanie dnia. Odpowiedz na pytanie i zdobądź podwójne punkty.",
     timerLabel: "Następne wyzwanie za",
     completedTitle: "Wyzwanie ukończone!",
     completedDesc: "Wróć jutro po nowe pytanie. Twoja seria jest bezpieczna.",
     reward: "Podwójna nagroda",
-    rewardValue: "+50 tokenów",
-    correctBanner: "Poprawnie! Zdobyłeś 50 tokenów 🎉",
+    rewardValue: "+50 punktów",
+    correctBanner: "Poprawnie! Zdobyłeś 50 punktów 🎉",
     wrongBanner: "Nie tym razem — przeczytaj wyjaśnienie i spróbuj jutro.",
     explanation: "Wyjaśnienie",
     answerButton: "Potwierdź odpowiedź",
@@ -324,7 +324,7 @@ export const pl: Translations = {
     close: "Zamknij",
     learnMore: "Dowiedz się więcej",
     seeAll: "Zobacz wszystkie",
-    tokenUnit: "tokenów",
+    tokenUnit: "punktów",
   },
 
   voiceAgent: {

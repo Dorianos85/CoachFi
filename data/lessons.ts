@@ -119,7 +119,7 @@ export const coachIntents: CoachIntent[] = [
     response: "Investing basics: diversify broadly (ETFs beat stock-picking for most people), invest regularly regardless of market conditions (dollar-cost averaging), and think in decades not days. The biggest risk is not investing at all — inflation eats what you don't put to work."
   },
   {
-    keywords: ["nft", "certificate", "certyfikat", "solana", "blockchain", "token", "mint"],
+    keywords: ["nft", "certificate", "certyfikat", "証明書", "solana", "blockchain", "token", "points", "punkty", "puntos", "ポイント", "mint"],
     response: "Coach FI certificates are non-speculative proof of education — not investment products. They live on Solana because blockchain gives you ownership nobody can revoke. Your certificate proves you understand inflation, emergency funds and saving habits. That knowledge has real-world value."
   },
   {

@@ -63,7 +63,7 @@ const rewardsCopy: Record<
   }
 > = {
   pl: {
-    readText: (tokens) => `Nagrody. Masz ${tokens} tokenów Coach FI. Certyfikaty NFT pokazują postęp w edukacji finansowej.`,
+    readText: (tokens) => `Nagrody. Masz ${tokens} punktów Coach FI. Certyfikaty pokazują postęp w edukacji finansowej.`,
     walletTitle: "Portfel Solana Devnet",
     walletHelp: "Połącz portfel, aby przypisać certyfikat do swojego adresu na Devnet.",
     embeddedHelp: "Ten adres jest właścicielem certyfikatu na Devnet.",
@@ -74,12 +74,12 @@ const rewardsCopy: Record<
       "Zgoda blockchain jest wymagana, ponieważ adres portfela i metadane certyfikatu mogą być publiczne.",
     certificateVoiceLabel: "Odtwórz wiadomość certyfikatu",
     proofNote:
-      "Certyfikaty NFT są dowodem edukacji, a nie produktem inwestycyjnym. Nie są przeznaczone do odsprzedaży z zyskiem i oznaczają tylko osobisty etap nauki.",
+      "Certyfikaty są dowodem edukacji, a nie produktem inwestycyjnym. Nie są przeznaczone do odsprzedaży z zyskiem i oznaczają tylko osobisty etap nauki.",
     dialogTitle: "Certyfikat zmintowany na Solana Devnet",
-    dialogDescription: 'Twój certyfikat NFT "Saving Habit" został zapisany on-chain.',
+    dialogDescription: 'Twój certyfikat "Saving Habit" został zapisany on-chain.',
     transactionHash: "Hash transakcji",
     explorer: "Zobacz w Solana Explorer (Devnet)",
-    dialogFootnote: "Ten NFT oznacza postęp w edukacji finansowej, nie produkt inwestycyjny.",
+    dialogFootnote: "Ten certyfikat oznacza postęp w edukacji finansowej, nie produkt inwestycyjny.",
     mintSteps: {
       idle: "",
       preparing: "Przygotowywanie metadanych...",
@@ -89,19 +89,19 @@ const rewardsCopy: Record<
     },
     certificates: [
       {
-        title: "Money Mindset NFT",
+        title: "Certyfikat Money Mindset",
         status: "Zmintowany",
         description: "Dowód ukończenia pierwszej lekcji o nastawieniu do pieniędzy.",
         statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
+        title: "Certyfikat Saving Habit",
         status: "Gotowy",
         description: "Odblokowuje się po quizie o nawyku oszczędzania i 3-dniowej serii.",
         statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
+        title: "Certyfikat Inflation Fighter",
         status: "Zablokowany",
         description: "Zdobywany po ukończeniu kalkulatora inflacji i quizu.",
         statusVariant: "muted",
@@ -109,7 +109,7 @@ const rewardsCopy: Record<
     ],
   },
   en: {
-    readText: (tokens) => `Rewards. You have ${tokens} Coach FI Tokens. NFT certificates are proof of financial education progress.`,
+    readText: (tokens) => `Rewards. You have ${tokens} Coach FI Points. Certificates are proof of financial education progress.`,
     walletTitle: "Solana Devnet wallet",
     walletHelp: "Connect a wallet to associate your certificate with your address on Devnet.",
     embeddedHelp: "This address owns your certificate on Devnet.",
@@ -120,12 +120,12 @@ const rewardsCopy: Record<
       "Blockchain consent is required because wallet address and certificate metadata can become public.",
     certificateVoiceLabel: "Play certificate message",
     proofNote:
-      "NFT certificates are proof of education, not investment products. They cannot be resold for profit and represent only your personal learning milestone.",
+      "Certificates are proof of education, not investment products. They cannot be resold for profit and represent only your personal learning milestone.",
     dialogTitle: "Certificate minted on Solana Devnet",
-    dialogDescription: 'Your "Saving Habit" NFT certificate has been recorded on-chain.',
+    dialogDescription: 'Your "Saving Habit" certificate has been recorded on-chain.',
     transactionHash: "Transaction hash",
     explorer: "View on Solana Explorer (Devnet)",
-    dialogFootnote: "This NFT represents your financial education progress, not an investment product.",
+    dialogFootnote: "This certificate represents your financial education progress, not an investment product.",
     mintSteps: {
       idle: "",
       preparing: "Preparing metadata...",
@@ -135,19 +135,19 @@ const rewardsCopy: Record<
     },
     certificates: [
       {
-        title: "Money Mindset NFT",
+        title: "Money Mindset certificate",
         status: "Minted",
         description: "Proof that you completed the first mindset lesson.",
         statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
+        title: "Saving Habit certificate",
         status: "Ready",
         description: "Unlocks after the saving habit quiz and 3-day streak.",
         statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
+        title: "Inflation Fighter certificate",
         status: "Locked",
         description: "Earned after completing the inflation calculator and quiz.",
         statusVariant: "muted",
@@ -155,7 +155,7 @@ const rewardsCopy: Record<
     ],
   },
   ja: {
-    readText: (tokens) => `報酬。Coach FIトークンは${tokens}です。NFT証明書は金融教育の進捗を示します。`,
+    readText: (tokens) => `報酬。Coach FIポイントは${tokens}です。証明書は金融教育の進捗を示します。`,
     walletTitle: "Solana Devnetウォレット",
     walletHelp: "ウォレットを接続して、証明書をDevnet上のアドレスに関連付けます。",
     embeddedHelp: "このアドレスがDevnet上の証明書の所有者です。",
@@ -165,12 +165,12 @@ const rewardsCopy: Record<
     consentRequired: "ウォレットアドレスと証明書メタデータが公開される可能性があるため、ブロックチェーン同意が必要です。",
     certificateVoiceLabel: "証明書メッセージを再生",
     proofNote:
-      "NFT証明書は教育の証明であり、投資商品ではありません。利益目的で再販売するものではなく、個人の学習マイルストーンを表します。",
+      "証明書は教育の証明であり、投資商品ではありません。利益目的で再販売するものではなく、個人の学習マイルストーンを表します。",
     dialogTitle: "Solana Devnetで証明書をミントしました",
-    dialogDescription: "あなたの「Saving Habit」NFT証明書がオンチェーンに記録されました。",
+    dialogDescription: "あなたの「Saving Habit」証明書がオンチェーンに記録されました。",
     transactionHash: "トランザクションハッシュ",
     explorer: "Solana Explorerで表示 (Devnet)",
-    dialogFootnote: "このNFTは金融教育の進捗を表し、投資商品ではありません。",
+    dialogFootnote: "この証明書は金融教育の進捗を表し、投資商品ではありません。",
     mintSteps: {
       idle: "",
       preparing: "メタデータを準備中...",
@@ -180,19 +180,19 @@ const rewardsCopy: Record<
     },
     certificates: [
       {
-        title: "Money Mindset NFT",
+        title: "Money Mindset 証明書",
         status: "ミント済み",
         description: "最初のお金のマインドセットレッスンを完了した証明です。",
         statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
+        title: "Saving Habit 証明書",
         status: "準備完了",
         description: "貯蓄習慣クイズと3日連続達成後に解除されます。",
         statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
+        title: "Inflation Fighter 証明書",
         status: "ロック中",
         description: "インフレ計算機とクイズを完了すると獲得できます。",
         statusVariant: "muted",
