@@ -6,13 +6,13 @@ const MANUAL_KEY = "coachfi-learn-manual";
 
 // Questions IDs that belong to each learning stage
 export const STAGE_QUESTION_IDS: Record<string, string[]> = {
-  "money-mindset":        ["net-worth", "lifestyle-inflation", "pay-yourself-first", "c12", "c14"],
-  "saving-habit":         ["saving-habit", "budget-50-30-20", "high-yield-savings", "dca", "c1", "c7"],
-  "inflation":            ["inflation-basics", "real-return", "rule-of-72", "inflation-hedge", "c5", "c8"],
-  "credit-rates":         ["interest-rates", "debt-avalanche", "credit-score-factors", "bond-prices", "c4", "c11"],
-  "emergency-fund":       ["emergency-fund", "emergency-fund-characteristics", "emergency-fund-start", "c10"],
-  "long-term-investing":  ["compound-interest", "diversification", "index-fund", "etf-definition", "time-in-market", "c2", "c3", "c6", "c9"],
-  "retirement":           ["retirement-purpose", "retirement-early-start", "c13"],
+  "money-mindset":        ["net-worth", "lifestyle-inflation", "pay-yourself-first"],
+  "saving-habit":         ["saving-habit", "budget-50-30-20", "high-yield-savings", "dca"],
+  "inflation":            ["inflation-basics", "real-return", "rule-of-72", "inflation-hedge"],
+  "credit-rates":         ["interest-rates", "debt-avalanche", "credit-score-factors", "bond-prices"],
+  "emergency-fund":       ["emergency-fund", "emergency-fund-characteristics", "emergency-fund-start"],
+  "long-term-investing":  ["compound-interest", "diversification", "index-fund", "etf-definition", "time-in-market"],
+  "retirement":           ["retirement-purpose", "retirement-early-start"],
   "family-plan":          ["insurance-purpose", "joint-finances", "teaching-kids-money"],
 };
 

@@ -26,6 +26,10 @@ const TOPIC_STAGE: Record<string, keyof typeof STAGE_QUESTION_IDS> = {
   saving: "saving-habit",
   inflation: "inflation",
   credit: "credit-rates",
+  emergency: "emergency-fund",
+  investing: "long-term-investing",
+  retirement: "retirement",
+  family: "family-plan",
 };
 
 function questionsForTopic(localeQuestions: QuizQuestion[], topic?: string) {
