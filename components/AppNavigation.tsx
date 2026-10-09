@@ -393,7 +393,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav
-        className="fixed bottom-3 left-3 right-3 z-50 rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
+        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
         <div className="grid grid-cols-5 gap-1">

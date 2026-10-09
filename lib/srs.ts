@@ -53,6 +53,7 @@ export function getAllCards(): SRSCard[] {
 export function saveCards(cards: SRSCard[]): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(SRS_KEY, JSON.stringify(cards));
+  window.dispatchEvent(new Event("coachfi-learning"));
   persistLearningState("srs");
 }
 

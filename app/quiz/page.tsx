@@ -131,7 +131,12 @@ function QuizPageContent() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="grid gap-5">
-          <QuizCard onReward={handleReward} onComplete={handleComplete} startQuestionId={startQuestionId} />
+          <QuizCard
+            onReward={handleReward}
+            onComplete={handleComplete}
+            startQuestionId={startQuestionId}
+            topic={searchParams.get("topic") ?? undefined}
+          />
 
           {quizDone && (
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/5 to-accent/5 p-5">
