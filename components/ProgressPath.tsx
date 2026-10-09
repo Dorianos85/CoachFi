@@ -65,7 +65,10 @@ export function ProgressPath() {
   const [progress, setProgress] = useState<StageProgress[]>([]);
 
   useEffect(() => {
-    setProgress(getAllStageProgress());
+    const refresh = () => setProgress(getAllStageProgress());
+    refresh();
+    window.addEventListener("coachfi-learning", refresh);
+    return () => window.removeEventListener("coachfi-learning", refresh);
   }, []);
 
   function getLabel(status: StageStatus): string {

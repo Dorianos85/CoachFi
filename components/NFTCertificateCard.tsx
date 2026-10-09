@@ -14,6 +14,7 @@ export function NFTCertificateCard({
   dateIssued,
   onMint,
   txHash,
+  assetAddress,
 }: {
   title: string;
   status: string;
@@ -24,10 +25,16 @@ export function NFTCertificateCard({
   dateIssued?: string;
   onMint?: () => void;
   txHash?: string;
+  assetAddress?: string;
 }) {
   const { t } = useLanguage();
   const isMinted = statusVariant === "success" || status.toLowerCase() === "minted";
   const isReady = statusVariant === "accent" || status.toLowerCase() === "ready";
+  const explorerUrl = txHash
+    ? `https://explorer.solana.com/tx/${txHash}?cluster=devnet`
+    : assetAddress
+      ? `https://explorer.solana.com/address/${assetAddress}?cluster=devnet`
+      : "";
 
   return (
     <div className={cn(
@@ -117,9 +124,9 @@ export function NFTCertificateCard({
             )}
           </div>
 
-          {txHash && (
+          {explorerUrl && (
             <a
-              href={`https://explorer.solana.com/tx/${txHash}?cluster=devnet`}
+              href={explorerUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[10px] font-bold text-[#9945FF] hover:underline"

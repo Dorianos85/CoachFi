@@ -1,3 +1,5 @@
+import { persistLearningState } from "@/lib/account-sync";
+
 const KEY = "coachfi-tokens";
 const INITIAL_BALANCE = 125;
 
@@ -14,6 +16,7 @@ export function addTokens(amount: number): number {
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    persistLearningState("tokens");
   }
   return next;
 }
@@ -25,6 +28,7 @@ export function spendTokens(amount: number): boolean {
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    persistLearningState("tokens");
   }
   return true;
 }

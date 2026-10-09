@@ -1,3 +1,5 @@
+import { persistLearningState } from "@/lib/account-sync";
+
 import { getAllCards } from "./srs";
 
 const MANUAL_KEY = "coachfi-learn-manual";
@@ -40,6 +42,7 @@ export function markStageStarted(stageId: string): void {
   if (!overrides[stageId]) {
     overrides[stageId] = "started";
     localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+    persistLearningState("learnManual");
   }
 }
 
@@ -48,6 +51,7 @@ export function markStageCompleted(stageId: string): void {
   const overrides = getManualOverrides();
   overrides[stageId] = "completed";
   localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+  persistLearningState("learnManual");
 }
 
 export function getAllStageProgress(): StageProgress[] {

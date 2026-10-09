@@ -59,6 +59,57 @@ export async function deleteAccount(privyUserId: string) {
   await deleteSupabaseAccount(supabase, privyUserId);
 }
 
+export const CERTIFICATE_IDS = ["money-mindset", "saving-habit", "inflation-fighter"] as const;
+
+export type CertificateId = (typeof CERTIFICATE_IDS)[number];
+export type CertificateStatus = "owned" | "transferred";
+
+export interface CertificateRecord {
+  privyUserId: string;
+  certificateId: CertificateId;
+  status: CertificateStatus;
+  assetAddress: string;
+  ownerAddress: string;
+  txHash: string | null;
+  chainCheckedAt: string | null;
+  updatedAt: string;
+}
+
+export interface CertificateSave {
+  certificateId: CertificateId;
+  status: CertificateStatus;
+  assetAddress: string;
+  ownerAddress: string;
+  txHash?: string | null;
+  chainCheckedAt?: string | null;
+}
+
+type CertificateRow = {
+  privy_user_id: string;
+  certificate_id: string;
+  status: string;
+  asset_address: string;
+  owner_address: string;
+  tx_hash: string | null;
+  chain_checked_at: string | null;
+  updated_at: string;
+};
+
+export async function listCertificates(privyUserId: string) {
+  if (process.env.NODE_ENV !== "production") return listSqliteCertificates(privyUserId);
+  const supabase = serviceClient();
+  if (!supabase) throw new Error("Account storage is not configured");
+  return listSupabaseCertificates(supabase, privyUserId);
+}
+
+export async function saveCertificate(privyUserId: string, input: CertificateSave) {
+  const next = certificateWrite(input);
+  if (process.env.NODE_ENV !== "production") return saveSqliteCertificate(privyUserId, next);
+  const supabase = serviceClient();
+  if (!supabase) throw new Error("Account storage is not configured");
+  return saveSupabaseCertificate(supabase, privyUserId, next);
+}
+
 function serviceClient() {
   const url = getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL");
   const key = getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY");
@@ -153,6 +204,7 @@ function deleteSqliteAccount(privyUserId: string) {
   const db = getDevDb();
   db.exec("begin immediate");
   try {
+    db.prepare("delete from certificates where privy_user_id = ?").run(privyUserId);
     db.prepare("delete from account_state where privy_user_id = ?").run(privyUserId);
     db.prepare("delete from accounts where privy_user_id = ?").run(privyUserId);
     db.exec("commit");
@@ -215,8 +267,189 @@ async function saveSupabaseAccount(supabase: SupabaseClient, privyUserId: string
 }
 
 async function deleteSupabaseAccount(supabase: SupabaseClient, privyUserId: string) {
+  const certificateResult = await supabase.from("certificates").delete().eq("privy_user_id", privyUserId);
+  if (certificateResult.error) throw new Error(certificateResult.error.message);
   const stateResult = await supabase.from("account_state").delete().eq("privy_user_id", privyUserId);
   if (stateResult.error) throw new Error(stateResult.error.message);
   const accountResult = await supabase.from("accounts").delete().eq("privy_user_id", privyUserId);
   if (accountResult.error) throw new Error(accountResult.error.message);
+}
+
+function isCertificateId(value: string): value is CertificateId {
+  return (CERTIFICATE_IDS as readonly string[]).includes(value);
+}
+
+function isCertificateStatus(value: string): value is CertificateStatus {
+  return value === "owned" || value === "transferred";
+}
+
+function requiredText(value: string, label: string) {
+  const text = value.trim();
+  if (!text || text.length > 128) throw new Error(`Invalid ${label}`);
+  return text;
+}
+
+function optionalText(value: string | null | undefined, label: string) {
+  if (value == null) return null;
+  const text = value.trim();
+  if (!text) return null;
+  if (text.length > 128) throw new Error(`Invalid ${label}`);
+  return text;
+}
+
+function certificateWrite(input: CertificateSave) {
+  if (!isCertificateId(input.certificateId)) throw new Error("Invalid certificate");
+  if (!isCertificateStatus(input.status)) throw new Error("Invalid certificate status");
+  return {
+    certificateId: input.certificateId,
+    status: input.status,
+    assetAddress: requiredText(input.assetAddress, "asset address"),
+    ownerAddress: requiredText(input.ownerAddress, "owner address"),
+    txHash: input.txHash === undefined ? undefined : optionalText(input.txHash, "transaction hash"),
+    chainCheckedAt: input.chainCheckedAt === undefined ? undefined : optionalText(input.chainCheckedAt, "chain check time"),
+  };
+}
+
+function asCertificateRow(value: unknown): CertificateRow | null {
+  if (!value || typeof value !== "object") return null;
+  const row = value as Partial<CertificateRow>;
+  if (
+    typeof row.privy_user_id !== "string" ||
+    typeof row.certificate_id !== "string" ||
+    typeof row.status !== "string" ||
+    typeof row.asset_address !== "string" ||
+    typeof row.owner_address !== "string" ||
+    typeof row.updated_at !== "string"
+  ) {
+    return null;
+  }
+  return {
+    privy_user_id: row.privy_user_id,
+    certificate_id: row.certificate_id,
+    status: row.status,
+    asset_address: row.asset_address,
+    owner_address: row.owner_address,
+    tx_hash: typeof row.tx_hash === "string" ? row.tx_hash : null,
+    chain_checked_at: typeof row.chain_checked_at === "string" ? row.chain_checked_at : null,
+    updated_at: row.updated_at,
+  };
+}
+
+function toCertificate(row: CertificateRow): CertificateRecord {
+  if (!isCertificateId(row.certificate_id) || !isCertificateStatus(row.status)) {
+    throw new Error("Invalid certificate row");
+  }
+  return {
+    privyUserId: row.privy_user_id,
+    certificateId: row.certificate_id,
+    status: row.status,
+    assetAddress: row.asset_address,
+    ownerAddress: row.owner_address,
+    txHash: row.tx_hash,
+    chainCheckedAt: row.chain_checked_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+function listSqliteCertificates(privyUserId: string) {
+  const db = getDevDb();
+  const rows = db
+    .prepare(
+      `select privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+       from certificates
+       where privy_user_id = ?
+       order by certificate_id`,
+    )
+    .all(privyUserId) as unknown[];
+  return rows.map((row) => {
+    const parsed = asCertificateRow(row);
+    if (!parsed) throw new Error("Invalid certificate row");
+    return toCertificate(parsed);
+  });
+}
+
+function saveSqliteCertificate(privyUserId: string, input: ReturnType<typeof certificateWrite>) {
+  const db = getDevDb();
+  const account = db.prepare("select privy_user_id from accounts where privy_user_id = ?").get(privyUserId);
+  if (!account) throw new Error("Account not found");
+  const existing = listSqliteCertificates(privyUserId).find((row) => row.certificateId === input.certificateId);
+  const updatedAt = new Date().toISOString();
+  const txHash = input.txHash === undefined ? existing?.txHash ?? null : input.txHash;
+  const chainCheckedAt = input.chainCheckedAt === undefined ? existing?.chainCheckedAt ?? null : input.chainCheckedAt;
+
+  db.prepare(
+    `insert into certificates (
+       privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+     ) values (?, ?, ?, ?, ?, ?, ?, ?)
+     on conflict(privy_user_id, certificate_id) do update set
+       status = excluded.status,
+       asset_address = excluded.asset_address,
+       owner_address = excluded.owner_address,
+       tx_hash = excluded.tx_hash,
+       chain_checked_at = excluded.chain_checked_at,
+       updated_at = excluded.updated_at`,
+  ).run(
+    privyUserId,
+    input.certificateId,
+    input.status,
+    input.assetAddress,
+    input.ownerAddress,
+    txHash,
+    chainCheckedAt,
+    updatedAt,
+  );
+
+  const saved = listSqliteCertificates(privyUserId).find((row) => row.certificateId === input.certificateId);
+  if (!saved) throw new Error("Certificate save did not persist");
+  return saved;
+}
+
+async function listSupabaseCertificates(supabase: SupabaseClient, privyUserId: string) {
+  const { data, error } = await supabase
+    .from("certificates")
+    .select("privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at")
+    .eq("privy_user_id", privyUserId)
+    .order("certificate_id");
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((row) => {
+    const parsed = asCertificateRow(row);
+    if (!parsed) throw new Error("Invalid certificate row");
+    return toCertificate(parsed);
+  });
+}
+
+async function saveSupabaseCertificate(
+  supabase: SupabaseClient,
+  privyUserId: string,
+  input: ReturnType<typeof certificateWrite>,
+) {
+  const account = await getSupabaseAccount(supabase, privyUserId);
+  if (!account) throw new Error("Account not found");
+  const existing = (await listSupabaseCertificates(supabase, privyUserId)).find(
+    (row) => row.certificateId === input.certificateId,
+  );
+  const updatedAt = new Date().toISOString();
+  const txHash = input.txHash === undefined ? existing?.txHash ?? null : input.txHash;
+  const chainCheckedAt = input.chainCheckedAt === undefined ? existing?.chainCheckedAt ?? null : input.chainCheckedAt;
+
+  const { error } = await supabase.from("certificates").upsert(
+    {
+      privy_user_id: privyUserId,
+      certificate_id: input.certificateId,
+      status: input.status,
+      asset_address: input.assetAddress,
+      owner_address: input.ownerAddress,
+      tx_hash: txHash,
+      chain_checked_at: chainCheckedAt,
+      updated_at: updatedAt,
+    },
+    { onConflict: "privy_user_id,certificate_id" },
+  );
+  if (error) throw new Error(error.message);
+
+  const saved = (await listSupabaseCertificates(supabase, privyUserId)).find(
+    (row) => row.certificateId === input.certificateId,
+  );
+  if (!saved) throw new Error("Certificate save did not persist");
+  return saved;
 }

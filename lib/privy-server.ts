@@ -23,3 +23,17 @@ export async function verifyPrivyUserId(accessToken: string) {
   if (!claims.user_id) throw new Error("Privy token has no user id");
   return claims.user_id;
 }
+
+export async function embeddedSolanaAddress(userId: string) {
+  const privy = getPrivyClient();
+  if (!privy) throw new Error("Privy auth is not configured");
+  const user = await privy.users()._get(userId);
+  const wallet = user.linked_accounts.find(
+    (account) =>
+      account.type === "wallet" &&
+      account.chain_type === "solana" &&
+      account.wallet_client_type === "privy" &&
+      typeof account.address === "string",
+  );
+  return wallet && "address" in wallet ? wallet.address : null;
+}

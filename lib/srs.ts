@@ -1,3 +1,5 @@
+import { persistLearningState } from "@/lib/account-sync";
+
 // SM-2 spaced repetition algorithm (simplified, same core as Duolingo/Anki)
 
 const SRS_KEY = "coachfi-srs";
@@ -51,6 +53,7 @@ export function getAllCards(): SRSCard[] {
 export function saveCards(cards: SRSCard[]): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(SRS_KEY, JSON.stringify(cards));
+  persistLearningState("srs");
 }
 
 export function getCardById(id: string): SRSCard | undefined {

@@ -5,7 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import type { WalletName } from "@solana/wallet-adapter-base";
 import { usePrivy, type LinkedAccountWithMetadata, type WalletWithMetadata } from "@privy-io/react-auth";
 import { BadgeCheck, ExternalLink, Loader2, Lock, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { NFTCertificateCard } from "@/components/NFTCertificateCard";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -22,7 +22,13 @@ import {
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/context/LanguageContext";
 import { certificates } from "@/data/certificates";
+import {
+  CERTIFICATE_STAGE_IDS,
+  certificateCardLabel,
+  type CertificateCardId,
+} from "@/lib/certificate-cards";
 import type { Locale } from "@/lib/i18n";
+import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
@@ -54,11 +60,10 @@ const rewardsCopy: Record<
     explorer: string;
     dialogFootnote: string;
     mintSteps: Record<MintStep, string>;
+    statusLabels: Record<"minted" | "ready" | "locked" | "transferred", string>;
     certificates: Array<{
       title: string;
-      status: string;
       description: string;
-      statusVariant: "success" | "accent" | "muted";
     }>;
   }
 > = {
@@ -87,24 +92,24 @@ const rewardsCopy: Record<
       confirming: "Potwierdzanie na Devnet...",
       done: "Certyfikat zmintowany!",
     },
+    statusLabels: {
+      minted: "Zmintowany",
+      ready: "Gotowy",
+      locked: "Zablokowany",
+      transferred: "Przekazany",
+    },
     certificates: [
       {
         title: "Certyfikat Money Mindset",
-        status: "Zmintowany",
         description: "Dowód ukończenia pierwszej lekcji o nastawieniu do pieniędzy.",
-        statusVariant: "success",
       },
       {
         title: "Certyfikat Saving Habit",
-        status: "Gotowy",
         description: "Odblokowuje się po quizie o nawyku oszczędzania i 3-dniowej serii.",
-        statusVariant: "accent",
       },
       {
         title: "Certyfikat Inflation Fighter",
-        status: "Zablokowany",
         description: "Zdobywany po ukończeniu kalkulatora inflacji i quizu.",
-        statusVariant: "muted",
       },
     ],
   },
@@ -133,24 +138,24 @@ const rewardsCopy: Record<
       confirming: "Confirming on Devnet...",
       done: "Certificate minted!",
     },
+    statusLabels: {
+      minted: "Minted",
+      ready: "Ready",
+      locked: "Locked",
+      transferred: "Transferred",
+    },
     certificates: [
       {
         title: "Money Mindset certificate",
-        status: "Minted",
         description: "Proof that you completed the first mindset lesson.",
-        statusVariant: "success",
       },
       {
         title: "Saving Habit certificate",
-        status: "Ready",
         description: "Unlocks after the saving habit quiz and 3-day streak.",
-        statusVariant: "accent",
       },
       {
         title: "Inflation Fighter certificate",
-        status: "Locked",
         description: "Earned after completing the inflation calculator and quiz.",
-        statusVariant: "muted",
       },
     ],
   },
@@ -178,24 +183,24 @@ const rewardsCopy: Record<
       confirming: "Devnetで確認中...",
       done: "証明書をミントしました!",
     },
+    statusLabels: {
+      minted: "ミント済み",
+      ready: "準備完了",
+      locked: "ロック中",
+      transferred: "譲渡済み",
+    },
     certificates: [
       {
         title: "Money Mindset 証明書",
-        status: "ミント済み",
         description: "最初のお金のマインドセットレッスンを完了した証明です。",
-        statusVariant: "success",
       },
       {
         title: "Saving Habit 証明書",
-        status: "準備完了",
         description: "貯蓄習慣クイズと3日連続達成後に解除されます。",
-        statusVariant: "accent",
       },
       {
         title: "Inflation Fighter 証明書",
-        status: "ロック中",
         description: "インフレ計算機とクイズを完了すると獲得できます。",
-        statusVariant: "muted",
       },
     ],
   },
@@ -214,11 +219,44 @@ export default function RewardsPage() {
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
   const [mockTxHash, setMockTxHash] = useState("");
   const [mintError, setMintError] = useState("");
-  const [tokenBalance] = useState(() => getTokenBalance());
-  const localizedCertificates = certificates.map((certificate, index) => ({
-    ...certificate,
-    ...(copy.certificates[index] ?? {}),
-  }));
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [stageProgress, setStageProgress] = useState<StageProgress[]>([]);
+  const [savedCertificates, setSavedCertificates] = useState<SavedCertificate[]>([]);
+  const accessToken = useRef<(() => Promise<string | null>) | null>(null);
+  const localizedCertificates = certificates.map((certificate, index) => {
+    const text = copy.certificates[index];
+    const stageId = CERTIFICATE_STAGE_IDS[certificate.id];
+    const stage = stageProgress.find((item) => item.stageId === stageId);
+    const row = savedCertificates.find((item) => item.certificateId === certificate.id) ?? null;
+    const label = certificateCardLabel(
+      stage?.status === "completed",
+      row?.status ?? null,
+      certificate.id === "saving-habit",
+    );
+    return {
+      ...certificate,
+      title: text?.title ?? certificate.title,
+      description: text?.description ?? certificate.description,
+      status: copy.statusLabels[label],
+      statusVariant: label === "minted" ? "success" as const : label === "ready" ? "accent" as const : "muted" as const,
+      txHash: row?.txHash || undefined,
+      assetAddress: row?.assetAddress,
+    };
+  });
+
+  useEffect(() => {
+    const refresh = () => {
+      setTokenBalance(getTokenBalance());
+      setStageProgress(getAllStageProgress());
+    };
+    refresh();
+    window.addEventListener("coachfi-tokens", refresh);
+    window.addEventListener("coachfi-learning", refresh);
+    return () => {
+      window.removeEventListener("coachfi-tokens", refresh);
+      window.removeEventListener("coachfi-learning", refresh);
+    };
+  }, []);
 
   async function handleMintCertificate() {
     if (!hasOptionalConsent("blockchain")) {
@@ -256,13 +294,21 @@ export default function RewardsPage() {
           }),
         });
         const json = (await res.json()) as {
-          ok: boolean; txHash?: string; explorerUrl?: string; fallback?: boolean; error?: string;
+          ok: boolean; txHash?: string; assetAddress?: string; explorerUrl?: string; fallback?: boolean; error?: string;
         };
 
         if (json.ok && json.txHash) {
           setMockTxHash(json.txHash);
           setMintStep("done");
           setMintDialogOpen(true);
+          const token = await accessToken.current?.();
+          if (token) {
+            const saved = await syncCertificates(token, {
+              assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
+              txHash: json.txHash,
+            });
+            if (saved) setSavedCertificates(saved);
+          }
           return;
         }
         if (mintImmediately) {
@@ -332,6 +378,9 @@ export default function RewardsPage() {
                     <p className="mt-2 text-xs font-semibold text-muted">{copy.walletHelp}</p>
                   )}
                 </>
+              )}
+              {privyAppId && (
+                <SavedCertificateLoader onCertificates={setSavedCertificates} accessToken={accessToken} />
               )}
               {privyAppId && (
                 <EmbeddedWalletCard
@@ -499,6 +548,91 @@ export default function RewardsPage() {
       </Dialog>
     </section>
   );
+}
+
+type SavedCertificate = {
+  certificateId: CertificateCardId;
+  status: "owned" | "transferred";
+  assetAddress: string;
+  txHash: string | null;
+};
+
+function readSavedCertificate(value: unknown): SavedCertificate | null {
+  if (!value || typeof value !== "object") return null;
+  const row = value as Partial<SavedCertificate>;
+  if (
+    (row.certificateId !== "money-mindset" && row.certificateId !== "saving-habit" && row.certificateId !== "inflation-fighter") ||
+    (row.status !== "owned" && row.status !== "transferred") ||
+    typeof row.assetAddress !== "string" ||
+    !row.assetAddress
+  ) {
+    return null;
+  }
+  return {
+    certificateId: row.certificateId,
+    status: row.status,
+    assetAddress: row.assetAddress,
+    txHash: typeof row.txHash === "string" && row.txHash ? row.txHash : null,
+  };
+}
+
+function SavedCertificateLoader({
+  onCertificates,
+  accessToken,
+}: {
+  onCertificates: (rows: SavedCertificate[]) => void;
+  accessToken: { current: (() => Promise<string | null>) | null };
+}) {
+  const { ready, authenticated, getAccessToken } = usePrivy();
+
+  useEffect(() => {
+    accessToken.current = getAccessToken;
+  });
+
+  useEffect(() => {
+    if (!ready) return;
+    if (!authenticated) {
+      onCertificates([]);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const token = await accessToken.current?.();
+      if (!token || cancelled) return;
+      const saved = await syncCertificates(token);
+      if (!cancelled && saved) onCertificates(saved);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [authenticated, onCertificates, ready]);
+
+  return null;
+}
+
+async function syncCertificates(token: string, hint?: { assetAddress?: string; txHash?: string }) {
+  try {
+    const response = await fetch("/api/certificates", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...(hint?.assetAddress ? { assetAddress: hint.assetAddress } : {}),
+        ...(hint?.txHash ? { txHash: hint.txHash } : {}),
+      }),
+    });
+    const json = (await response.json()) as { ok?: boolean; certificates?: unknown; error?: string };
+    if (!response.ok || json.ok === false || !Array.isArray(json.certificates)) {
+      console.error("[certificates]", json.error || "Certificate sync failed");
+      return null;
+    }
+    return json.certificates.map(readSavedCertificate).filter((row) => row !== null);
+  } catch (error) {
+    console.error("[certificates]", error instanceof Error ? error.message : error);
+    return null;
+  }
 }
 
 function isEmbeddedSolanaWallet(account: LinkedAccountWithMetadata): account is WalletWithMetadata {
