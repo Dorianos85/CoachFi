@@ -3,7 +3,8 @@
 import { useCurrentUser, useGetAccessToken, useIsInitialized, useIsSignedIn } from "@coinbase/cdp-hooks";
 import { useEffect } from "react";
 
-import { stopLearningSync, syncSignedInAccount } from "@/lib/account-sync";
+import { endLearningSession, syncSignedInAccount } from "@/lib/account-sync";
+import { hideSavedProgress, setProgressVisible } from "@/lib/progress-visibility";
 
 export function AccountSync() {
   const { isInitialized } = useIsInitialized();
@@ -14,7 +15,8 @@ export function AccountSync() {
   useEffect(() => {
     if (!isInitialized) return;
     if (!isSignedIn || !currentUser) {
-      void stopLearningSync();
+      hideSavedProgress();
+      void endLearningSession();
       return;
     }
     void syncSignedInAccount(
@@ -23,9 +25,15 @@ export function AccountSync() {
         email: currentUser.authenticationMethods.email?.email,
       },
       getAccessToken,
-    ).catch((error: unknown) => {
-      console.error("[account sync]", error instanceof Error ? error.message : error);
-    });
+    )
+      .then(() => {
+        setProgressVisible(true);
+        window.dispatchEvent(new Event("coachfi-tokens"));
+        window.dispatchEvent(new Event("coachfi-learning"));
+      })
+      .catch((error: unknown) => {
+        console.error("[account sync]", error instanceof Error ? error.message : error);
+      });
   }, [currentUser, getAccessToken, isInitialized, isSignedIn]);
 
   return null;

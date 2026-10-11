@@ -1,6 +1,6 @@
 import type { AccountSnapshot } from "@/lib/account-snapshot";
 
-export const LEARNING_FIELDS = ["srs", "learnManual", "tokens"] as const;
+export const LEARNING_FIELDS = ["srs", "learnManual", "tokens", "streak"] as const;
 
 export type LearningField = (typeof LEARNING_FIELDS)[number];
 
@@ -8,15 +8,18 @@ export const LEARNING_STORAGE_KEYS = {
   srs: "coachfi-srs",
   learnManual: "coachfi-learn-manual",
   tokens: "coachfi-tokens",
+  streak: "coachfi-streak",
 } as const;
 
 export interface LocalLearningFields {
   srs?: unknown;
   learnManual?: unknown;
   tokens?: number;
+  streak?: unknown;
   srsPresent: boolean;
   learnManualPresent: boolean;
   tokensPresent: boolean;
+  streakPresent: boolean;
 }
 
 export function learningStorageWrites(state: AccountSnapshot) {
@@ -35,6 +38,11 @@ export function learningStorageWrites(state: AccountSnapshot) {
       field: "tokens" as const,
       key: LEARNING_STORAGE_KEYS.tokens,
       value: storedTokenValue(state.tokens),
+    },
+    {
+      field: "streak" as const,
+      key: LEARNING_STORAGE_KEYS.streak,
+      value: state.streak === undefined ? null : JSON.stringify(state.streak),
     },
   ];
 }
@@ -59,6 +67,10 @@ export function mergeLearningFields(
     } else {
       delete next.tokens;
     }
+  }
+  if (fields.includes("streak")) {
+    if (local.streakPresent) next.streak = local.streak;
+    else delete next.streak;
   }
   return next;
 }

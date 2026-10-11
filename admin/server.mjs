@@ -163,21 +163,61 @@ function saveCdpIdentities(users) {
   }
 }
 
+function ensureLocalTables(path) {
+  const db = new DatabaseSync(path, { enableForeignKeyConstraints: true });
+  try {
+    db.exec(readFileSync(join(process.cwd(), "db", "schema.sql"), "utf8"));
+    const tables = new Set(db.prepare("select name from sqlite_master where type = 'table'").all().map((table) => table.name));
+    if (!tables.has("certificates")) return;
+    const columns = new Set(db.prepare("pragma table_info(certificates)").all().map((column) => column.name));
+    if (!columns.has("minted")) db.exec("alter table certificates add column minted integer not null default 0");
+    db.exec("update certificates set minted = 1 where status = 'owned' and ifnull(minted, 0) = 0");
+    db.exec(`
+      insert into progress (cdp_user_id, srs, learn_manual, tokens, streak)
+      select cdp_user_id,
+             json_extract(state, '$.srs'),
+             json_extract(state, '$.learnManual'),
+             json_extract(state, '$.tokens'),
+             json_extract(state, '$.streak')
+      from account_state
+      where cdp_user_id not in (select cdp_user_id from progress)
+        and (
+          json_extract(state, '$.srs') is not null
+          or json_extract(state, '$.learnManual') is not null
+          or json_extract(state, '$.tokens') is not null
+          or json_extract(state, '$.streak') is not null
+        )
+    `);
+  } finally {
+    db.close();
+  }
+}
+
 function loadUsers() {
   const path = dbPath();
-  if (!existsSync(path)) return { path, users: [], missing: true };
+  if (!existsSync(path)) return { path, users: [], certificates: [], missing: true };
+  ensureLocalTables(path);
   const db = new DatabaseSync(path, { readOnly: true, enableForeignKeyConstraints: true });
   try {
     const users = db
       .prepare(
         `select a.cdp_user_id, a.email, a.display_name, a.solana_address, a.evm_address, a.auth_provider,
-                a.cdp_created_at, a.last_authenticated_at, a.created_at, a.updated_at, s.state
+                a.cdp_created_at, a.last_authenticated_at, a.created_at, a.updated_at, s.state,
+                p.tokens as progress_tokens, p.srs as progress_srs, p.learn_manual as progress_manual, p.streak as progress_streak
          from accounts a
          left join account_state s on s.cdp_user_id = a.cdp_user_id
+         left join progress p on p.cdp_user_id = a.cdp_user_id
          order by a.updated_at desc`,
       )
       .all();
-    return { path, users, missing: false };
+    const certificates = db
+      .prepare(
+        `select cdp_user_id, certificate_id, minted, asset_address, status
+         from certificates
+         order by certificate_id`,
+      )
+      .all();
+    return { path, users, certificates, missing: false };
   } finally {
     db.close();
   }
@@ -270,10 +310,36 @@ function renderCdp(cdp, savedUsers) {
   </table>`;
 }
 
+function progressSummary(user) {
+  const manual = parseJson(user.progress_manual);
+  const stages = manual && typeof manual === "object" ? Object.keys(manual).length : 0;
+  const cards = parseJson(user.progress_srs);
+  const answered = Array.isArray(cards) ? cards.length : 0;
+  const tokens = user.progress_tokens ?? profileFromState(user.state).tokens;
+  const parts = [];
+  if (tokens !== "" && tokens != null) parts.push(`${tokens} tokens`);
+  if (answered) parts.push(`${answered} quiz cards`);
+  if (stages) parts.push(`${stages} stages`);
+  return parts.join(", ");
+}
+
+function parseJson(value) {
+  if (typeof value !== "string" || !value) return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 function render(result, cdp) {
+  const certificates = result.certificates ?? [];
   const rows = result.users
     .map((user) => {
       const profile = profileFromState(user.state);
+      const minted = certificates
+        .filter((row) => row.cdp_user_id === user.cdp_user_id)
+        .map((row) => `${row.certificate_id}${row.minted ? " minted" : ""} ${row.asset_address || ""}`.trim());
       return `<tr>
         <td class="mono">${escapeHtml(user.cdp_user_id)}</td>
         <td>${escapeHtml(user.email || "—")}</td>
@@ -282,7 +348,8 @@ function render(result, cdp) {
         <td class="mono">${escapeHtml(user.evm_address || "—")}</td>
         <td>${escapeHtml(user.auth_provider || "—")}</td>
         <td>${escapeHtml(profile.goal || "—")}</td>
-        <td>${escapeHtml(profile.tokens || "—")}</td>
+        <td>${escapeHtml(progressSummary(user) || "—")}</td>
+        <td class="mono">${escapeHtml(minted.join(", ") || "—")}</td>
         <td>${escapeHtml(user.last_authenticated_at || "—")}</td>
       </tr>`;
     })
@@ -294,7 +361,7 @@ function render(result, cdp) {
       ? `<p>No users saved yet. A row appears after a signed-in person is stored in the local account database.</p>`
       : `<table>
           <thead>
-            <tr><th>User id</th><th>Email</th><th>Name</th><th>Solana</th><th>EVM</th><th>Login</th><th>Goal</th><th>Tokens</th><th>Last sign-in</th></tr>
+            <tr><th>User id</th><th>Email</th><th>Name</th><th>Solana</th><th>EVM</th><th>Login</th><th>Goal</th><th>Progress</th><th>Certificates</th><th>Last sign-in</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>`;

@@ -102,6 +102,7 @@ export interface CertificateRecord {
   cdpUserId: string;
   certificateId: CertificateId;
   status: CertificateStatus;
+  minted: boolean;
   assetAddress: string;
   ownerAddress: string;
   txHash: string | null;
@@ -122,12 +123,16 @@ type CertificateRow = {
   cdp_user_id: string;
   certificate_id: string;
   status: string;
+  minted: number | boolean | null;
   asset_address: string;
   owner_address: string;
   tx_hash: string | null;
   chain_checked_at: string | null;
   updated_at: string;
 };
+
+const CERTIFICATE_COLUMNS =
+  "cdp_user_id, certificate_id, status, minted, asset_address, owner_address, tx_hash, chain_checked_at, updated_at";
 
 export async function listCertificates(cdpUserId: string) {
   if (process.env.NODE_ENV !== "production") return listSqliteCertificates(cdpUserId);
@@ -181,6 +186,150 @@ function readState(value: unknown): AccountSnapshot | null {
   return sanitizeAccountSnapshot(value);
 }
 
+type ProgressFields = {
+  srs?: unknown;
+  learnManual?: unknown;
+  tokens?: number;
+  streak?: unknown;
+};
+
+function jsonText(value: unknown) {
+  if (value === undefined) return null;
+  return JSON.stringify(value);
+}
+
+function parseStoredJson(value: unknown) {
+  if (typeof value !== "string" || !value) return undefined;
+  try {
+    return JSON.parse(value) as unknown;
+  } catch {
+    return undefined;
+  }
+}
+
+function progressFromState(state: AccountSnapshot | null): ProgressFields {
+  return {
+    srs: state?.srs,
+    learnManual: state?.learnManual,
+    tokens: typeof state?.tokens === "number" ? state.tokens : undefined,
+    streak: state?.streak,
+  };
+}
+
+function overlayProgress(state: AccountSnapshot | null, progress: ProgressFields | null) {
+  if (!progress) return state;
+  const next: AccountSnapshot = { ...(state ?? { version: 1 }), version: 1 };
+  if (progress.srs !== undefined) next.srs = progress.srs;
+  if (progress.learnManual !== undefined) next.learnManual = progress.learnManual;
+  if (typeof progress.tokens === "number") next.tokens = progress.tokens;
+  if (progress.streak !== undefined) next.streak = progress.streak;
+  return next;
+}
+
+function loadSqliteProgress(db: ReturnType<typeof getDevDb>, cdpUserId: string, state: AccountSnapshot | null) {
+  const row = db
+    .prepare("select srs, learn_manual, tokens, streak from progress where cdp_user_id = ?")
+    .get(cdpUserId) as { srs: string | null; learn_manual: string | null; tokens: number | null; streak: string | null } | undefined;
+  if (!row) {
+    const seeded = progressFromState(state);
+    if (seeded.srs === undefined && seeded.learnManual === undefined && seeded.tokens === undefined && seeded.streak === undefined) {
+      return null;
+    }
+    saveSqliteProgress(db, cdpUserId, state ?? { version: 1 }, new Date().toISOString());
+    return seeded;
+  }
+  return {
+    srs: parseStoredJson(row.srs),
+    learnManual: parseStoredJson(row.learn_manual),
+    tokens: typeof row.tokens === "number" ? row.tokens : undefined,
+    streak: parseStoredJson(row.streak),
+  } satisfies ProgressFields;
+}
+
+function saveSqliteProgress(db: ReturnType<typeof getDevDb>, cdpUserId: string, state: AccountSnapshot, updatedAt: string) {
+  const progress = progressFromState(state);
+  db.prepare(
+    `insert into progress (cdp_user_id, srs, learn_manual, tokens, streak, updated_at)
+     values (?, ?, ?, ?, ?, ?)
+     on conflict(cdp_user_id) do update set
+       srs = coalesce(excluded.srs, progress.srs),
+       learn_manual = coalesce(excluded.learn_manual, progress.learn_manual),
+       tokens = coalesce(excluded.tokens, progress.tokens),
+       streak = coalesce(excluded.streak, progress.streak),
+       updated_at = excluded.updated_at`,
+  ).run(
+    cdpUserId,
+    jsonText(progress.srs),
+    jsonText(progress.learnManual),
+    progress.tokens ?? null,
+    jsonText(progress.streak),
+    updatedAt,
+  );
+}
+
+async function loadSupabaseProgress(supabase: SupabaseClient, cdpUserId: string, state: AccountSnapshot | null) {
+  const { data, error } = await supabase
+    .from("progress")
+    .select("srs, learn_manual, tokens, streak")
+    .eq("cdp_user_id", cdpUserId)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) {
+    const seeded = progressFromState(state);
+    if (seeded.srs === undefined && seeded.learnManual === undefined && seeded.tokens === undefined && seeded.streak === undefined) {
+      return null;
+    }
+    await saveSupabaseProgress(supabase, cdpUserId, state ?? { version: 1 }, new Date().toISOString());
+    return seeded;
+  }
+  const row = data as { srs?: unknown; learn_manual?: unknown; tokens?: number | null; streak?: unknown };
+  return {
+    srs: row.srs ?? undefined,
+    learnManual: row.learn_manual ?? undefined,
+    tokens: typeof row.tokens === "number" ? row.tokens : undefined,
+    streak: row.streak ?? undefined,
+  } satisfies ProgressFields;
+}
+
+async function saveSupabaseProgress(
+  supabase: SupabaseClient,
+  cdpUserId: string,
+  state: AccountSnapshot,
+  updatedAt: string,
+) {
+  const existing = await loadSupabaseProgressRow(supabase, cdpUserId);
+  const progress = progressFromState(state);
+  const { error } = await supabase.from("progress").upsert(
+    {
+      cdp_user_id: cdpUserId,
+      srs: progress.srs === undefined ? existing?.srs ?? null : progress.srs,
+      learn_manual: progress.learnManual === undefined ? existing?.learnManual ?? null : progress.learnManual,
+      tokens: progress.tokens === undefined ? existing?.tokens ?? null : progress.tokens,
+      streak: progress.streak === undefined ? existing?.streak ?? null : progress.streak,
+      updated_at: updatedAt,
+    },
+    { onConflict: "cdp_user_id" },
+  );
+  if (error) throw new Error(error.message);
+}
+
+async function loadSupabaseProgressRow(supabase: SupabaseClient, cdpUserId: string) {
+  const { data, error } = await supabase
+    .from("progress")
+    .select("srs, learn_manual, tokens, streak")
+    .eq("cdp_user_id", cdpUserId)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+  const row = data as { srs?: unknown; learn_manual?: unknown; tokens?: number | null; streak?: unknown };
+  return {
+    srs: row.srs,
+    learnManual: row.learn_manual,
+    tokens: row.tokens,
+    streak: row.streak,
+  };
+}
+
 function toRecord(account: AccountRow, state: unknown, stateUpdatedAt?: string): AccountRecord {
   return {
     cdpUserId: account.cdp_user_id,
@@ -205,7 +354,9 @@ function getSqliteAccount(cdpUserId: string): AccountRecord | null {
   const stateRow = db.prepare("select state, updated_at from account_state where cdp_user_id = ?").get(cdpUserId) as
     | StateRow
     | undefined;
-  return toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
+  const record = toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
+  record.state = overlayProgress(record.state, loadSqliteProgress(db, cdpUserId, record.state));
+  return record;
 }
 
 function saveSqliteAccount(cdpUserId: string, input: AccountSave): AccountRecord {
@@ -233,6 +384,7 @@ function saveSqliteAccount(cdpUserId: string, input: AccountSave): AccountRecord
          state = excluded.state,
          updated_at = excluded.updated_at`,
     ).run(cdpUserId, state, updatedAt);
+    saveSqliteProgress(db, cdpUserId, input.state, updatedAt);
     db.exec("commit");
   } catch (error) {
     db.exec("rollback");
@@ -278,6 +430,7 @@ function deleteSqliteAccount(cdpUserId: string) {
   db.exec("begin immediate");
   try {
     db.prepare("delete from certificates where cdp_user_id = ?").run(cdpUserId);
+    db.prepare("delete from progress where cdp_user_id = ?").run(cdpUserId);
     db.prepare("delete from account_state where cdp_user_id = ?").run(cdpUserId);
     db.prepare("delete from accounts where cdp_user_id = ?").run(cdpUserId);
     db.exec("commit");
@@ -304,7 +457,9 @@ async function getSupabaseAccount(supabase: SupabaseClient, cdpUserId: string): 
     .maybeSingle();
   if (stateResult.error) throw new Error(stateResult.error.message);
   const stateRow = stateResult.data as StateRow | null;
-  return toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
+  const record = toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
+  record.state = overlayProgress(record.state, await loadSupabaseProgress(supabase, cdpUserId, record.state));
+  return record;
 }
 
 async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, input: AccountSave) {
@@ -333,6 +488,7 @@ async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, 
     { onConflict: "cdp_user_id" },
   );
   if (stateResult.error) throw new Error(stateResult.error.message);
+  await saveSupabaseProgress(supabase, cdpUserId, input.state, updatedAt);
 
   const saved = await getSupabaseAccount(supabase, cdpUserId);
   if (!saved) throw new Error("Account save did not persist");
@@ -361,6 +517,8 @@ async function saveSupabaseIdentity(supabase: SupabaseClient, cdpUserId: string,
 async function deleteSupabaseAccount(supabase: SupabaseClient, cdpUserId: string) {
   const certificateResult = await supabase.from("certificates").delete().eq("cdp_user_id", cdpUserId);
   if (certificateResult.error) throw new Error(certificateResult.error.message);
+  const progressResult = await supabase.from("progress").delete().eq("cdp_user_id", cdpUserId);
+  if (progressResult.error) throw new Error(progressResult.error.message);
   const stateResult = await supabase.from("account_state").delete().eq("cdp_user_id", cdpUserId);
   if (stateResult.error) throw new Error(stateResult.error.message);
   const accountResult = await supabase.from("accounts").delete().eq("cdp_user_id", cdpUserId);
@@ -419,6 +577,7 @@ function asCertificateRow(value: unknown): CertificateRow | null {
     cdp_user_id: row.cdp_user_id,
     certificate_id: row.certificate_id,
     status: row.status,
+    minted: row.minted === true || row.minted === 1 ? 1 : 0,
     asset_address: row.asset_address,
     owner_address: row.owner_address,
     tx_hash: typeof row.tx_hash === "string" ? row.tx_hash : null,
@@ -435,6 +594,7 @@ function toCertificate(row: CertificateRow): CertificateRecord {
     cdpUserId: row.cdp_user_id,
     certificateId: row.certificate_id,
     status: row.status,
+    minted: row.minted === 1,
     assetAddress: row.asset_address,
     ownerAddress: row.owner_address,
     txHash: row.tx_hash,
@@ -447,7 +607,7 @@ function listSqliteCertificates(cdpUserId: string) {
   const db = getDevDb();
   const rows = db
     .prepare(
-      `select cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+      `select ${CERTIFICATE_COLUMNS}
        from certificates
        where cdp_user_id = ?
        order by certificate_id`,
@@ -469,12 +629,14 @@ function saveSqliteCertificate(cdpUserId: string, input: ReturnType<typeof certi
   const txHash = input.txHash === undefined ? existing?.txHash ?? null : input.txHash;
   const chainCheckedAt = input.chainCheckedAt === undefined ? existing?.chainCheckedAt ?? null : input.chainCheckedAt;
 
+  const minted = input.status === "owned" || existing?.minted ? 1 : 0;
   db.prepare(
     `insert into certificates (
-       cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
-     ) values (?, ?, ?, ?, ?, ?, ?, ?)
+       cdp_user_id, certificate_id, status, minted, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+     ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
      on conflict(cdp_user_id, certificate_id) do update set
        status = excluded.status,
+       minted = max(certificates.minted, excluded.minted),
        asset_address = excluded.asset_address,
        owner_address = excluded.owner_address,
        tx_hash = excluded.tx_hash,
@@ -484,6 +646,7 @@ function saveSqliteCertificate(cdpUserId: string, input: ReturnType<typeof certi
     cdpUserId,
     input.certificateId,
     input.status,
+    minted,
     input.assetAddress,
     input.ownerAddress,
     txHash,
@@ -499,7 +662,7 @@ function saveSqliteCertificate(cdpUserId: string, input: ReturnType<typeof certi
 async function listSupabaseCertificates(supabase: SupabaseClient, cdpUserId: string) {
   const { data, error } = await supabase
     .from("certificates")
-    .select("cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at")
+    .select(CERTIFICATE_COLUMNS)
     .eq("cdp_user_id", cdpUserId)
     .order("certificate_id");
   if (error) throw new Error(error.message);
@@ -529,6 +692,7 @@ async function saveSupabaseCertificate(
       cdp_user_id: cdpUserId,
       certificate_id: input.certificateId,
       status: input.status,
+      minted: input.status === "owned" || existing?.minted === true,
       asset_address: input.assetAddress,
       owner_address: input.ownerAddress,
       tx_hash: txHash,

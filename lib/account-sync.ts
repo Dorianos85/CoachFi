@@ -1,4 +1,5 @@
 import type { AccountSnapshot } from "@/lib/account-snapshot";
+import { setProgressVisible } from "@/lib/progress-visibility";
 import { clearUserName } from "@/lib/user";
 import {
   LEARNING_FIELDS,
@@ -51,6 +52,22 @@ export function stopLearningSync() {
   session = null;
   if (!getter) return Promise.resolve();
   return enqueue(() => flushWith(getter));
+}
+
+export async function endLearningSession() {
+  await stopLearningSync();
+  clearLocalProgress();
+}
+
+function clearLocalProgress() {
+  if (typeof window === "undefined") return;
+  dirty.clear();
+  window.localStorage.removeItem(REV_KEY);
+  for (const key of Object.values(LEARNING_STORAGE_KEYS)) {
+    window.localStorage.removeItem(key);
+  }
+  window.dispatchEvent(new Event("coachfi-tokens"));
+  window.dispatchEvent(new Event("coachfi-learning"));
 }
 
 export function syncSignedInAccount(user: SignedInAccount, getAccessToken: TokenGetter) {
@@ -181,6 +198,7 @@ function fieldsToPush(): LearningField[] {
 
 function applyLearningState(state: AccountSnapshot, skip: Set<LearningField> = new Set()) {
   if (typeof window === "undefined") return;
+  setProgressVisible(true);
   let tokensChanged = false;
   let learningChanged = false;
   for (const write of learningStorageWrites(state)) {
@@ -196,19 +214,22 @@ function applyLearningState(state: AccountSnapshot, skip: Set<LearningField> = n
 
 function readLocalLearning(): LocalLearningFields {
   if (typeof window === "undefined") {
-    return { srsPresent: false, learnManualPresent: false, tokensPresent: false };
+    return { srsPresent: false, learnManualPresent: false, tokensPresent: false, streakPresent: false };
   }
   const srs = readStored(LEARNING_STORAGE_KEYS.srs);
   const learnManual = readStored(LEARNING_STORAGE_KEYS.learnManual);
   const tokensRaw = window.localStorage.getItem(LEARNING_STORAGE_KEYS.tokens);
   const tokens = tokensRaw === null ? undefined : Number(tokensRaw);
+  const streak = readStored(LEARNING_STORAGE_KEYS.streak);
   return {
     srs,
     learnManual,
     tokens,
+    streak,
     srsPresent: srs !== undefined,
     learnManualPresent: learnManual !== undefined,
     tokensPresent: tokensRaw !== null && Number.isFinite(tokens),
+    streakPresent: streak !== undefined,
   };
 }
 

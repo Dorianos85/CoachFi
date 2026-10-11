@@ -23,9 +23,14 @@ export function StreakProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const data = getStreak();
-    setStreak(data);
-    scheduleStreakReminder(data.currentStreak);
+    const refresh = () => {
+      const data = getStreak();
+      setStreak(data);
+      scheduleStreakReminder(data.currentStreak);
+    };
+    refresh();
+    window.addEventListener("coachfi-learning", refresh);
+    return () => window.removeEventListener("coachfi-learning", refresh);
   }, []);
 
   const markActive = useCallback(() => {

@@ -30,7 +30,8 @@ import {
 import type { Locale } from "@/lib/i18n";
 import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
-import { clearSignedInName } from "@/lib/account-sync";
+import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
+import { hideSavedProgress } from "@/lib/progress-visibility";
 import { requestSignIn } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
@@ -306,6 +307,7 @@ export default function RewardsPage() {
           const token = await accessToken.current?.();
           if (token) {
             const saved = await syncCertificates(token, {
+              certificateId: "saving-habit",
               assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
               txHash: json.txHash,
             });
@@ -614,7 +616,10 @@ function SavedCertificateLoader({
   return null;
 }
 
-async function syncCertificates(token: string, hint?: { assetAddress?: string; txHash?: string }) {
+async function syncCertificates(
+  token: string,
+  hint?: { certificateId?: string; assetAddress?: string; txHash?: string },
+) {
   try {
     const response = await fetch("/api/certificates", {
       method: "POST",
@@ -623,6 +628,7 @@ async function syncCertificates(token: string, hint?: { assetAddress?: string; t
         "content-type": "application/json",
       },
       body: JSON.stringify({
+        ...(hint?.certificateId ? { certificateId: hint.certificateId } : {}),
         ...(hint?.assetAddress ? { assetAddress: hint.assetAddress } : {}),
         ...(hint?.txHash ? { txHash: hint.txHash } : {}),
       }),
@@ -686,7 +692,10 @@ function EmbeddedWalletCard({
           <button
             type="button"
             onClick={() => {
-              void clearSignedInName(getAccessToken).finally(() => signOut());
+              hideSavedProgress();
+              void clearSignedInName(getAccessToken)
+                .then(() => endLearningSession())
+                .finally(() => signOut());
             }}
             className="shrink-0 rounded-lg border border-primary/20 px-3 py-2.5 text-xs font-bold text-muted transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >

@@ -1,5 +1,12 @@
 import { assertSameOrigin, isLikelySolanaAddress, jsonError, rateLimit, readJsonWithLimit } from "@/lib/api-security";
-import { accountStorageConfigured, listCertificates, saveCertificate, type CertificateRecord } from "@/lib/account-store";
+import {
+  CERTIFICATE_IDS,
+  accountStorageConfigured,
+  listCertificates,
+  saveCertificate,
+  type CertificateId,
+  type CertificateRecord,
+} from "@/lib/account-store";
 import { ownedCoachCertificates, readCoachCertificate } from "@/lib/certificate-chain";
 import { compareCertificateState, type SeenCertificate, type StoredCertificate } from "@/lib/certificate-compare";
 import { cdpAuthConfigured, verifyCdpUser } from "@/lib/cdp-server";
@@ -37,13 +44,7 @@ export async function GET(req: Request) {
     return Response.json({
       ok: true,
       configured: true,
-      certificates: certificates.map((certificate) => ({
-        certificateId: certificate.certificateId,
-        status: certificate.status,
-        assetAddress: certificate.assetAddress,
-        ownerAddress: certificate.ownerAddress,
-        txHash: certificate.txHash,
-      })),
+      certificates: certificates.map(publicCertificate),
     });
   } catch (error) {
     console.error("[certificates GET]", error instanceof Error ? error.message : "read failed");
@@ -55,6 +56,7 @@ function publicCertificate(certificate: CertificateRecord) {
   return {
     certificateId: certificate.certificateId,
     status: certificate.status,
+    minted: certificate.minted,
     assetAddress: certificate.assetAddress,
     ownerAddress: certificate.ownerAddress,
     txHash: certificate.txHash,
@@ -78,11 +80,15 @@ export async function POST(req: Request) {
 
   let hintAddress = "";
   let hintTx = "";
+  let hintCertificateId: CertificateId | "" = "";
   try {
-    const body = await readJsonWithLimit<{ assetAddress?: unknown; txHash?: unknown }>(req, 1400);
+    const body = await readJsonWithLimit<{ assetAddress?: unknown; txHash?: unknown; certificateId?: unknown }>(req, 1400);
     if (body && typeof body === "object" && !Array.isArray(body)) {
       if (typeof body.assetAddress === "string" && isLikelySolanaAddress(body.assetAddress)) hintAddress = body.assetAddress;
       if (typeof body.txHash === "string" && body.txHash.length <= 128) hintTx = body.txHash.trim();
+      if (typeof body.certificateId === "string" && (CERTIFICATE_IDS as readonly string[]).includes(body.certificateId)) {
+        hintCertificateId = body.certificateId as CertificateId;
+      }
     }
   } catch {
     return jsonError("Invalid payload", 400);
@@ -93,6 +99,16 @@ export async function POST(req: Request) {
     const userId = session.userId;
     const wallet = session.solanaAddress;
     let rows = await listCertificates(userId);
+    if (wallet && hintCertificateId && hintAddress) {
+      await saveCertificate(userId, {
+        certificateId: hintCertificateId,
+        status: "owned",
+        assetAddress: hintAddress,
+        ownerAddress: wallet,
+        txHash: hintTx || null,
+      });
+      rows = await listCertificates(userId);
+    }
     if (!wallet) {
       return Response.json({ ok: true, configured: true, certificates: rows.map(publicCertificate) });
     }

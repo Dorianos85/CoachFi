@@ -27,9 +27,9 @@ function envInt(value: string | undefined, fallback: number) {
 
 // 0 turns that rule off. Change these in `.env.local` without editing the gate.
 export const SIGN_IN_GATE: SignInGateConfig = {
-  lessonsFinished: envInt(process.env.NEXT_PUBLIC_SIGN_IN_LESSONS_FINISHED, 1),
-  stepsInAnotherLesson: envInt(process.env.NEXT_PUBLIC_SIGN_IN_STEPS_IN_ANOTHER_LESSON, 1),
-  agentConversationMs: envInt(process.env.NEXT_PUBLIC_SIGN_IN_AGENT_CONVERSATION_MS, 3 * 60 * 1000),
+  lessonsFinished: envInt(process.env.NEXT_PUBLIC_SIGN_IN_LESSONS_FINISHED, 0),
+  stepsInAnotherLesson: envInt(process.env.NEXT_PUBLIC_SIGN_IN_STEPS_IN_ANOTHER_LESSON, 0),
+  agentConversationMs: envInt(process.env.NEXT_PUBLIC_SIGN_IN_AGENT_CONVERSATION_MS, 0),
 };
 
 export function lessonStepCounts(): Record<string, number> {

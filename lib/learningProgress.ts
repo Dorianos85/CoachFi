@@ -1,4 +1,5 @@
 import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
 
 import { getAllCards } from "./srs";
 
@@ -54,7 +55,18 @@ export function markStageCompleted(stageId: string): void {
   persistLearningState("learnManual");
 }
 
+function emptyStageProgress(): StageProgress[] {
+  return Object.keys(STAGE_QUESTION_IDS).map((stageId, index) => ({
+    stageId,
+    status: index === 0 ? "current" : "locked",
+    progressPct: 0,
+    answeredCount: 0,
+    totalCount: STAGE_QUESTION_IDS[stageId].length,
+  }));
+}
+
 export function getAllStageProgress(): StageProgress[] {
+  if (typeof window !== "undefined" && !isProgressVisible()) return emptyStageProgress();
   const cards = getAllCards();
   const cardMap = new Map(cards.map((c) => [c.id, c]));
   const overrides = getManualOverrides();

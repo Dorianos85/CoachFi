@@ -22,6 +22,16 @@ create table if not exists public.account_state (
   updated_at timestamptz not null default now()
 );
 
+-- Learning progress loaded back into the browser on sign-in.
+create table if not exists public.progress (
+  cdp_user_id text primary key references public.accounts (cdp_user_id) on delete cascade,
+  srs jsonb,
+  learn_manual jsonb,
+  tokens integer,
+  streak jsonb,
+  updated_at timestamptz not null default now()
+);
+
 -- One row per user and certificate. status is owned or transferred.
 -- A transfer keeps the row and updates status and owner_address.
 -- Writes go through server helpers with the service role. No client policies.
@@ -29,6 +39,7 @@ create table if not exists public.certificates (
   cdp_user_id text not null references public.accounts (cdp_user_id) on delete cascade,
   certificate_id text not null check (certificate_id in ('money-mindset', 'saving-habit', 'inflation-fighter')),
   status text not null check (status in ('owned', 'transferred')),
+  minted boolean not null default false,
   asset_address text not null,
   owner_address text not null,
   tx_hash text,
@@ -39,7 +50,11 @@ create table if not exists public.certificates (
 
 alter table public.accounts enable row level security;
 alter table public.account_state enable row level security;
+alter table public.progress enable row level security;
 alter table public.certificates enable row level security;
+
+alter table public.certificates add column if not exists minted boolean not null default false;
+update public.certificates set minted = true where status = 'owned' and minted = false;
 
 -- Snapshot version 1 may hold profile, SRS cards, manual stage progress, streak,
 -- token balance, avatar, vault, and challenge day.
