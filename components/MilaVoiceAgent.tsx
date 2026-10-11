@@ -140,9 +140,11 @@ export function MilaVoiceFab() {
 
     refreshLocalContext();
     window.addEventListener("storage", refreshLocalContext);
+    window.addEventListener("coachfi-user", refreshLocalContext);
     window.addEventListener("coachfi-tokens", refreshLocalContext);
     return () => {
       window.removeEventListener("storage", refreshLocalContext);
+      window.removeEventListener("coachfi-user", refreshLocalContext);
       window.removeEventListener("coachfi-tokens", refreshLocalContext);
     };
   }, []);

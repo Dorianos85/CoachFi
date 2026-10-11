@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut } from "@coinbase/cdp-hooks";
 import {
   Baby,
   BarChart3,
@@ -15,6 +16,7 @@ import {
   Home,
   Info,
   LayoutGrid,
+  Loader2,
   RefreshCw,
   ShieldCheck,
   SlidersHorizontal,
@@ -45,7 +47,17 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getTokenBalance } from "@/lib/tokens";
 import { getLocalizedContent } from "@/lib/localizedContent";
 import type { Locale } from "@/lib/i18n";
+import { clearSignedInName } from "@/lib/account-sync";
+import { requestSignIn } from "@/lib/signInGate";
 import { cn } from "@/lib/utils";
+
+const cdpEnabled = Boolean(process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim());
+
+const ACCOUNT_COPY: Record<Locale, { signIn: string; signOut: string }> = {
+  en: { signIn: "Sign in", signOut: "Sign out" },
+  pl: { signIn: "Zaloguj", signOut: "Wyloguj" },
+  ja: { signIn: "ログイン", signOut: "ログアウト" },
+};
 
 const navIcons: Record<string, LucideIcon> = {
   home: Home,
@@ -211,9 +223,11 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       setTokenBalance(getTokenBalance());
     };
     window.addEventListener("storage", onStorage);
+    window.addEventListener("coachfi-user", onStorage);
     window.addEventListener("coachfi-tokens", onStorage);
     return () => {
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener("coachfi-user", onStorage);
       window.removeEventListener("coachfi-tokens", onStorage);
     };
   }, [locale]);
@@ -260,7 +274,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={shellCopy.homeAria}
           >
             <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
@@ -272,12 +286,13 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             </span>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-2 lg:gap-3">
+          <div className="flex min-w-0 items-center gap-1 overflow-x-auto sm:gap-2 lg:gap-3 [&>*]:shrink-0">
             <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
               <Coins className="h-4 w-4 text-primary" aria-hidden="true" />
               {tokenBalance} {t.common.tokenUnit}
             </div>
             <StreakBadge compact />
+            {cdpEnabled ? <HeaderAccount locale={locale} /> : null}
             <LanguageSwitcher />
             <AccessibilityToggle
               highContrast={highContrast}
@@ -470,6 +485,40 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
     </div>
+  );
+}
+
+function HeaderAccount({ locale }: { locale: Locale }) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { signOut } = useSignOut();
+  const { getAccessToken } = useGetAccessToken();
+  const copy = ACCOUNT_COPY[locale];
+
+  if (isSignedIn) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          void clearSignedInName(getAccessToken).finally(() => signOut());
+        }}
+        className="shrink-0 whitespace-nowrap rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-black text-text transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        {copy.signOut}
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      disabled={!isInitialized}
+      onClick={() => requestSignIn()}
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-primary px-3 py-2 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+    >
+      {!isInitialized ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+      {copy.signIn}
+    </button>
   );
 }
 

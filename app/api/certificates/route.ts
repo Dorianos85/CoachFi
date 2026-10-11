@@ -2,7 +2,7 @@ import { assertSameOrigin, isLikelySolanaAddress, jsonError, rateLimit, readJson
 import { accountStorageConfigured, listCertificates, saveCertificate, type CertificateRecord } from "@/lib/account-store";
 import { ownedCoachCertificates, readCoachCertificate } from "@/lib/certificate-chain";
 import { compareCertificateState, type SeenCertificate, type StoredCertificate } from "@/lib/certificate-compare";
-import { embeddedSolanaAddress, privyAuthConfigured, verifyPrivyUserId } from "@/lib/privy-server";
+import { cdpAuthConfigured, verifyCdpUser } from "@/lib/cdp-server";
 
 export const runtime = "nodejs";
 
@@ -27,12 +27,12 @@ export async function GET(req: Request) {
 
   const token = bearerToken(req);
   if (!token || !looksLikeJwt(token)) return jsonError("Unauthorized", 401);
-  if (!privyAuthConfigured() || !accountStorageConfigured()) {
+  if (!cdpAuthConfigured() || !accountStorageConfigured()) {
     return Response.json({ ok: false, configured: false, certificates: [] });
   }
 
   try {
-    const userId = await verifyPrivyUserId(token);
+    const userId = (await verifyCdpUser(token)).userId;
     const certificates = await listCertificates(userId);
     return Response.json({
       ok: true,
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
 
   const token = bearerToken(req);
   if (!token || !looksLikeJwt(token)) return jsonError("Unauthorized", 401);
-  if (!privyAuthConfigured() || !accountStorageConfigured()) {
+  if (!cdpAuthConfigured() || !accountStorageConfigured()) {
     return Response.json({ ok: false, configured: false, certificates: [] });
   }
 
@@ -89,8 +89,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    const userId = await verifyPrivyUserId(token);
-    const wallet = await embeddedSolanaAddress(userId);
+    const session = await verifyCdpUser(token);
+    const userId = session.userId;
+    const wallet = session.solanaAddress;
     let rows = await listCertificates(userId);
     if (!wallet) {
       return Response.json({ ok: true, configured: true, certificates: rows.map(publicCertificate) });

@@ -150,8 +150,14 @@ function AchievementPageContent() {
 
   useEffect(() => {
     if (!paramName) {
-      setName(getDisplayName(getUser()));
+      const refreshName = () => setName(getDisplayName(getUser()));
+      refreshName();
+      window.addEventListener("coachfi-user", refreshName);
+      return () => window.removeEventListener("coachfi-user", refreshName);
     }
+  }, [paramName]);
+
+  useEffect(() => {
     if (!paramScore) {
       const user = (typeof window !== "undefined" && JSON.parse(localStorage.getItem("coachfi-user") ?? "{}")) as { financialHealthScore?: number };
       setScore(user.financialHealthScore ?? 72);
@@ -159,7 +165,7 @@ function AchievementPageContent() {
     if (!paramStreak) {
       setStreak(getStreak().currentStreak);
     }
-  }, [paramName, paramScore, paramStreak]);
+  }, [paramScore, paramStreak]);
 
   const badge = getBadge(score);
   const badgeLabel = getBadgeLabel(score, copy.badgeLabels);

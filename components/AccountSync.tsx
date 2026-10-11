@@ -1,23 +1,32 @@
 "use client";
 
-import { usePrivy } from "@privy-io/react-auth";
+import { useCurrentUser, useGetAccessToken, useIsInitialized, useIsSignedIn } from "@coinbase/cdp-hooks";
 import { useEffect } from "react";
 
 import { stopLearningSync, syncSignedInAccount } from "@/lib/account-sync";
 
 export function AccountSync() {
-  const { ready, authenticated, user, getAccessToken } = usePrivy();
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { currentUser } = useCurrentUser();
+  const { getAccessToken } = useGetAccessToken();
 
   useEffect(() => {
-    if (!ready) return;
-    if (!authenticated || !user) {
+    if (!isInitialized) return;
+    if (!isSignedIn || !currentUser) {
       void stopLearningSync();
       return;
     }
-    void syncSignedInAccount(user, getAccessToken).catch((error: unknown) => {
+    void syncSignedInAccount(
+      {
+        id: currentUser.userId,
+        email: currentUser.authenticationMethods.email?.email,
+      },
+      getAccessToken,
+    ).catch((error: unknown) => {
       console.error("[account sync]", error instanceof Error ? error.message : error);
     });
-  }, [authenticated, getAccessToken, ready, user]);
+  }, [currentUser, getAccessToken, isInitialized, isSignedIn]);
 
   return null;
 }

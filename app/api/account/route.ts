@@ -1,7 +1,7 @@
 import { assertSameOrigin, jsonError, rateLimit, readJsonWithLimit, sanitizeDisplayName } from "@/lib/api-security";
-import { accountStorageConfigured, deleteAccount, getAccount, saveAccount } from "@/lib/account-store";
+import { accountStorageConfigured, deleteAccount, getAccount, saveAccount, saveCdpIdentity } from "@/lib/account-store";
 import { sanitizeAccountSnapshot } from "@/lib/account-snapshot";
-import { privyAuthConfigured, verifyPrivyUserId } from "@/lib/privy-server";
+import { cdpAuthConfigured, verifyCdpUser } from "@/lib/cdp-server";
 
 export const runtime = "nodejs";
 
@@ -35,12 +35,13 @@ async function begin(req: Request) {
 
   const token = bearerToken(req);
   if (!token || !looksLikeJwt(token)) return jsonError("Unauthorized", 401);
-  if (!privyAuthConfigured() || !accountStorageConfigured()) {
+  if (!cdpAuthConfigured() || !accountStorageConfigured()) {
     return Response.json({ ok: false, configured: false });
   }
 
   try {
-    return { userId: await verifyPrivyUserId(token) };
+    const identity = await verifyCdpUser(token);
+    return { userId: identity.userId, identity };
   } catch (error) {
     console.error("[account] access token rejected", error instanceof Error ? error.message : "invalid token");
     return jsonError("Unauthorized", 401);
@@ -51,9 +52,14 @@ function accountBody(record: Awaited<ReturnType<typeof getAccount>>) {
   if (!record) return { account: null, state: null };
   return {
     account: {
-      privyUserId: record.privyUserId,
+      cdpUserId: record.cdpUserId,
       email: record.email,
       displayName: record.displayName,
+      solanaAddress: record.solanaAddress,
+      evmAddress: record.evmAddress,
+      authProvider: record.authProvider,
+      cdpCreatedAt: record.cdpCreatedAt,
+      lastAuthenticatedAt: record.lastAuthenticatedAt,
       updatedAt: record.updatedAt,
     },
     state: record.state,
@@ -64,6 +70,7 @@ export async function GET(req: Request) {
   const auth = await begin(req);
   if (auth instanceof Response) return auth;
   try {
+    await saveCdpIdentity(auth.userId, auth.identity);
     const record = await getAccount(auth.userId);
     return Response.json({ ok: true, configured: true, ...accountBody(record) });
   } catch (error) {
@@ -95,13 +102,19 @@ export async function PUT(req: Request) {
   }
 
   let displayName: string | null | undefined;
-  if ("displayName" in body && body.displayName != null) {
-    displayName = sanitizeDisplayName(body.displayName, "") || null;
-    if (!displayName) return jsonError("Invalid display name", 400);
+  if ("displayName" in body) {
+    if (body.displayName == null) {
+      displayName = null;
+    } else {
+      displayName = sanitizeDisplayName(body.displayName, "") || null;
+      if (!displayName) return jsonError("Invalid display name", 400);
+    }
   }
 
   try {
-    const record = await saveAccount(auth.userId, { state, email, displayName });
+    await saveAccount(auth.userId, { state, email, displayName });
+    await saveCdpIdentity(auth.userId, auth.identity);
+    const record = await getAccount(auth.userId);
     return Response.json({ ok: true, configured: true, ...accountBody(record) });
   } catch (error) {
     console.error("[account PUT]", error instanceof Error ? error.message : "write failed");

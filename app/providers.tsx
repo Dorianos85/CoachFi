@@ -1,10 +1,10 @@
 "use client";
 
+import { CDPReactProvider } from "@coinbase/cdp-react/components/CDPReactProvider";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
-import { PrivyProvider } from "@privy-io/react-auth";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 
@@ -15,7 +15,7 @@ import { StreakProvider } from "@/context/StreakContext";
 import { VoiceProvider } from "@/context/VoiceContext";
 import { ConsentProvider } from "@/context/ConsentContext";
 
-const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID?.trim() ?? "";
+const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const endpoint = useMemo(() => clusterApiUrl(WalletAdapterNetwork.Devnet), []);
@@ -34,21 +34,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <ConsentProvider>
         <StreakProvider>
           <VoiceProvider>
-            {privyAppId ? (
-              <PrivyProvider
-                appId={privyAppId}
+            {cdpProjectId ? (
+              <CDPReactProvider
                 config={{
-                  embeddedWallets: {
-                    solana: {
-                      createOnLogin: "users-without-wallets",
-                    },
-                  },
+                  projectId: cdpProjectId,
+                  appName: "Coach FI",
+                  authMethods: ["email", "oauth:google", "oauth:apple", "oauth:x", "oauth:telegram"],
+                  solana: { createOnLogin: true },
                 }}
               >
                 <AccountSync />
                 <SignInGate />
                 {solanaWallets}
-              </PrivyProvider>
+              </CDPReactProvider>
             ) : (
               solanaWallets
             )}

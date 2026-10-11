@@ -1,6 +1,5 @@
-import type { User } from "@privy-io/react-auth";
-
 import type { AccountSnapshot } from "@/lib/account-snapshot";
+import { clearUserName } from "@/lib/user";
 import {
   LEARNING_FIELDS,
   LEARNING_STORAGE_KEYS,
@@ -14,6 +13,11 @@ const REV_KEY = "coachfi-learning-rev";
 
 type TokenGetter = () => Promise<string | null>;
 
+type SignedInAccount = {
+  id: string;
+  email?: string;
+};
+
 let session: TokenGetter | null = null;
 let chain: Promise<void> = Promise.resolve();
 let pullQueued = false;
@@ -26,6 +30,22 @@ export function setLearningSyncSession(getter: TokenGetter | null) {
   if (getter) ensurePagehide();
 }
 
+export async function clearSignedInName(getAccessToken: TokenGetter) {
+  clearUserName();
+  try {
+    const token = await getAccessToken();
+    if (!token) return;
+    const current = await accountRequest(token, "GET");
+    if (current.ok === false || !current.account) return;
+    await accountRequest(token, "PUT", {
+      displayName: null,
+      state: current.state ? snapshotWithoutName(current.state) : { version: 1 },
+    });
+  } catch (error) {
+    console.error("[account sync] name clear failed", error instanceof Error ? error.message : error);
+  }
+}
+
 export function stopLearningSync() {
   const getter = session;
   session = null;
@@ -33,7 +53,7 @@ export function stopLearningSync() {
   return enqueue(() => flushWith(getter));
 }
 
-export function syncSignedInAccount(user: User, getAccessToken: TokenGetter) {
+export function syncSignedInAccount(user: SignedInAccount, getAccessToken: TokenGetter) {
   setLearningSyncSession(getAccessToken);
   if (pullQueued) return chain;
   pullQueued = true;
@@ -76,7 +96,7 @@ function ensurePagehide() {
   });
 }
 
-async function pullOrCreate(user: User) {
+async function pullOrCreate(user: SignedInAccount) {
   const getter = session;
   if (!getter) return;
   const token = await getter();
@@ -111,7 +131,7 @@ async function pullOrCreate(user: User) {
   applyLearningState(current.state);
 }
 
-async function uploadSnapshot(user: User, token: string) {
+async function uploadSnapshot(user: SignedInAccount, token: string) {
   const payload = accountPayload(user);
   let saved = await accountRequest(token, "PUT", payload);
   if (saved.ok === false && saved.error === "Invalid display name") {
@@ -203,9 +223,9 @@ function clearUnsynced() {
   if (typeof window !== "undefined") window.localStorage.removeItem(REV_KEY);
 }
 
-function accountPayload(user: User) {
-  const email = firstEmail(user);
-  const displayName = firstName(user);
+function accountPayload(user: SignedInAccount) {
+  const email = usableEmail(user.email);
+  const displayName = readProfileName().trim() || undefined;
   return {
     ...(email ? { email } : {}),
     ...(displayName ? { displayName } : {}),
@@ -213,21 +233,20 @@ function accountPayload(user: User) {
   };
 }
 
-function firstEmail(user: User) {
-  return usableEmail(user.google?.email) || usableEmail(user.email?.address) || usableEmail(user.linkedin?.email) || usableEmail(user.apple?.email);
-}
-
-function firstName(user: User) {
-  const name = user.google?.name || user.twitter?.name || user.linkedin?.name || user.github?.name || readProfileName();
-  const trimmed = name?.trim() ?? "";
-  return trimmed || undefined;
-}
-
 function usableEmail(value: string | null | undefined) {
   if (!value) return undefined;
   const email = value.trim().toLowerCase();
   if (!email || email.length > 320 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return undefined;
   return email;
+}
+
+function snapshotWithoutName(state: AccountSnapshot): AccountSnapshot {
+  if (!state.profile?.name) return state;
+  const { name: _name, ...profile } = state.profile;
+  const next: AccountSnapshot = { ...state, version: 1 };
+  if (Object.keys(profile).length === 0) delete next.profile;
+  else next.profile = profile;
+  return next;
 }
 
 function localSnapshot(displayName: string | undefined): AccountSnapshot {

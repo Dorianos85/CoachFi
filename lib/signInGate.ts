@@ -63,6 +63,23 @@ export function signInRequired(progress: SignInProgress, config: SignInGateConfi
 }
 
 const listeners = new Set<() => void>();
+let signInRequested = false;
+
+export function requestSignIn() {
+  signInRequested = true;
+  notify();
+}
+
+export function dismissSignInRequest() {
+  if (!signInRequested) return;
+  signInRequested = false;
+  notify();
+}
+
+export function isSignInRequested() {
+  return signInRequested;
+}
+
 const openConversations = new Set<string>();
 let storedAgentMs = 0;
 let agentLoaded = false;

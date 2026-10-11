@@ -5,15 +5,21 @@
 -- Leave out consent, voice settings, and health fields unless persistHealth is on.
 
 create table if not exists accounts (
-  privy_user_id text primary key,
+  cdp_user_id text primary key,
   email text,
   display_name text,
+  solana_address text,
+  evm_address text,
+  auth_provider text,
+  cdp_created_at text,
+  last_authenticated_at text,
+  cdp_profile text,
   created_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
 create table if not exists account_state (
-  privy_user_id text primary key references accounts (privy_user_id) on delete cascade,
+  cdp_user_id text primary key references accounts (cdp_user_id) on delete cascade,
   state text not null default '{}',
   updated_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
@@ -21,7 +27,7 @@ create table if not exists account_state (
 -- One row per user and certificate. status is owned or transferred.
 -- A transfer keeps the row and updates status and owner_address.
 create table if not exists certificates (
-  privy_user_id text not null references accounts (privy_user_id) on delete cascade,
+  cdp_user_id text not null references accounts (cdp_user_id) on delete cascade,
   certificate_id text not null check (certificate_id in ('money-mindset', 'saving-habit', 'inflation-fighter')),
   status text not null check (status in ('owned', 'transferred')),
   asset_address text not null,
@@ -29,5 +35,5 @@ create table if not exists certificates (
   tx_hash text,
   chain_checked_at text,
   updated_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-  primary key (privy_user_id, certificate_id)
+  primary key (cdp_user_id, certificate_id)
 );

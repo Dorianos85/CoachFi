@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { WalletName } from "@solana/wallet-adapter-base";
-import { usePrivy, type LinkedAccountWithMetadata, type WalletWithMetadata } from "@privy-io/react-auth";
+import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut, useSolanaAddress } from "@coinbase/cdp-hooks";
 import { BadgeCheck, ExternalLink, Loader2, Lock, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -30,6 +30,8 @@ import {
 import type { Locale } from "@/lib/i18n";
 import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
+import { clearSignedInName } from "@/lib/account-sync";
+import { requestSignIn } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
@@ -37,7 +39,7 @@ import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/li
 type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
 
 const phantomWalletEnabled = false;
-const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID?.trim() ?? "";
+const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
 const devMintRecipient = process.env.NEXT_PUBLIC_DEV_MINT_RECIPIENT?.trim() ?? "";
 const mintImmediately = process.env.NODE_ENV === "development";
 
@@ -72,7 +74,7 @@ const rewardsCopy: Record<
     walletTitle: "Portfel Solana Devnet",
     walletHelp: "Połącz portfel, aby przypisać certyfikat do swojego adresu na Devnet.",
     embeddedHelp: "Ten adres jest właścicielem certyfikatu na Devnet.",
-    embeddedLogin: "Kontynuuj przez e-mail",
+    embeddedLogin: "Zaloguj się",
     embeddedLogout: "Wyloguj",
     mintDescription: 'Zmintuj certyfikat "Saving Habit" na Solana Devnet jako dowód postępu.',
     consentRequired:
@@ -118,7 +120,7 @@ const rewardsCopy: Record<
     walletTitle: "Solana Devnet wallet",
     walletHelp: "Connect a wallet to associate your certificate with your address on Devnet.",
     embeddedHelp: "This address owns your certificate on Devnet.",
-    embeddedLogin: "Continue with email",
+    embeddedLogin: "Sign in",
     embeddedLogout: "Log out",
     mintDescription: 'Mint your "Saving Habit" certificate on Solana Devnet as proof of progress.',
     consentRequired:
@@ -164,7 +166,7 @@ const rewardsCopy: Record<
     walletTitle: "Solana Devnetウォレット",
     walletHelp: "ウォレットを接続して、証明書をDevnet上のアドレスに関連付けます。",
     embeddedHelp: "このアドレスがDevnet上の証明書の所有者です。",
-    embeddedLogin: "メールで続ける",
+    embeddedLogin: "ログイン",
     embeddedLogout: "ログアウト",
     mintDescription: '進捗の証明として、Solana Devnetで「Saving Habit」証明書をミントします。',
     consentRequired: "ウォレットアドレスと証明書メタデータが公開される可能性があるため、ブロックチェーン同意が必要です。",
@@ -354,7 +356,7 @@ export default function RewardsPage() {
         <div className="grid gap-4">
           <TokenRewardCard balance={tokenBalance} status={t.rewards.tokens} />
 
-          {(phantomWalletEnabled || privyAppId) && (
+          {(phantomWalletEnabled || cdpProjectId) && (
             <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
               <p className="mb-3 text-sm font-bold text-muted">{copy.walletTitle}</p>
               {phantomWalletEnabled && (
@@ -379,10 +381,10 @@ export default function RewardsPage() {
                   )}
                 </>
               )}
-              {privyAppId && (
+              {cdpProjectId && (
                 <SavedCertificateLoader onCertificates={setSavedCertificates} accessToken={accessToken} />
               )}
-              {privyAppId && (
+              {cdpProjectId && (
                 <EmbeddedWalletCard
                   help={copy.embeddedHelp}
                   loginLabel={copy.embeddedLogin}
@@ -583,15 +585,17 @@ function SavedCertificateLoader({
   onCertificates: (rows: SavedCertificate[]) => void;
   accessToken: { current: (() => Promise<string | null>) | null };
 }) {
-  const { ready, authenticated, getAccessToken } = usePrivy();
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { getAccessToken } = useGetAccessToken();
 
   useEffect(() => {
     accessToken.current = getAccessToken;
   });
 
   useEffect(() => {
-    if (!ready) return;
-    if (!authenticated) {
+    if (!isInitialized) return;
+    if (!isSignedIn) {
       onCertificates([]);
       return;
     }
@@ -605,7 +609,7 @@ function SavedCertificateLoader({
     return () => {
       cancelled = true;
     };
-  }, [authenticated, onCertificates, ready]);
+  }, [isInitialized, isSignedIn, onCertificates]);
 
   return null;
 }
@@ -635,14 +639,6 @@ async function syncCertificates(token: string, hint?: { assetAddress?: string; t
   }
 }
 
-function isEmbeddedSolanaWallet(account: LinkedAccountWithMetadata): account is WalletWithMetadata {
-  return (
-    account.type === "wallet" &&
-    account.chainType === "solana" &&
-    account.walletClientType === "privy"
-  );
-}
-
 function EmbeddedWalletCard({
   help,
   loginLabel,
@@ -658,15 +654,26 @@ function EmbeddedWalletCard({
   onNeedConsent: () => void;
   onAddress: (address: string | null) => void;
 }) {
-  const { ready, authenticated, login, logout, user } = usePrivy();
-  const embeddedWallet = user?.linkedAccounts.find(isEmbeddedSolanaWallet);
-  const address = authenticated && embeddedWallet ? embeddedWallet.address : null;
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { solanaAddress } = useSolanaAddress();
+  const { signOut } = useSignOut();
+  const { getAccessToken } = useGetAccessToken();
+  const address = isSignedIn ? solanaAddress : null;
 
   useEffect(() => {
     onAddress(address);
   }, [address, onAddress]);
 
-  if (authenticated && address) {
+  if (isSignedIn && !address) {
+    return (
+      <div className="flex items-center justify-center gap-2 rounded-lg border border-primary/15 px-4 py-3 text-sm font-bold text-muted">
+        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+      </div>
+    );
+  }
+
+  if (isSignedIn && address) {
     return (
       <div className="grid gap-2">
         <div className="flex items-center gap-3">
@@ -678,7 +685,9 @@ function EmbeddedWalletCard({
           </div>
           <button
             type="button"
-            onClick={() => logout()}
+            onClick={() => {
+              void clearSignedInName(getAccessToken).finally(() => signOut());
+            }}
             className="shrink-0 rounded-lg border border-primary/20 px-3 py-2.5 text-xs font-bold text-muted transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             {logoutLabel}
@@ -692,17 +701,17 @@ function EmbeddedWalletCard({
   return (
     <button
       type="button"
-      disabled={!ready}
+      disabled={!isInitialized}
       onClick={() => {
         if (!hasConsent) {
           onNeedConsent();
           return;
         }
-        login();
+        requestSignIn();
       }}
       className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
     >
-      {!ready && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+      {!isInitialized && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
       {loginLabel}
     </button>
   );

@@ -5,12 +5,28 @@ import { sanitizeAccountSnapshot, type AccountSnapshot } from "@/lib/account-sna
 import { getOptionalEnv } from "@/lib/server-env";
 
 export interface AccountRecord {
-  privyUserId: string;
+  cdpUserId: string;
   email: string | null;
   displayName: string | null;
+  solanaAddress: string | null;
+  evmAddress: string | null;
+  authProvider: string | null;
+  cdpCreatedAt: string | null;
+  lastAuthenticatedAt: string | null;
   updatedAt: string;
   state: AccountSnapshot | null;
 }
+
+export type CdpIdentitySave = {
+  email: string | null;
+  name: string | null;
+  solanaAddress: string | null;
+  evmAddress: string | null;
+  authProvider: string | null;
+  cdpCreatedAt: string | null;
+  lastAuthenticatedAt: string | null;
+  profileJson: string;
+};
 
 export interface AccountSave {
   state: AccountSnapshot;
@@ -19,11 +35,19 @@ export interface AccountSave {
 }
 
 type AccountRow = {
-  privy_user_id: string;
+  cdp_user_id: string;
   email: string | null;
   display_name: string | null;
+  solana_address: string | null;
+  evm_address: string | null;
+  auth_provider: string | null;
+  cdp_created_at: string | null;
+  last_authenticated_at: string | null;
   updated_at: string;
 };
+
+const ACCOUNT_COLUMNS =
+  "cdp_user_id, email, display_name, solana_address, evm_address, auth_provider, cdp_created_at, last_authenticated_at, updated_at";
 
 type StateRow = {
   state: unknown;
@@ -35,28 +59,38 @@ export function accountStorageConfigured() {
   return Boolean(getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL") && getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY"));
 }
 
-export async function getAccount(privyUserId: string) {
-  if (process.env.NODE_ENV !== "production") return getSqliteAccount(privyUserId);
+export async function getAccount(cdpUserId: string) {
+  if (process.env.NODE_ENV !== "production") return getSqliteAccount(cdpUserId);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
-  return getSupabaseAccount(supabase, privyUserId);
+  return getSupabaseAccount(supabase, cdpUserId);
 }
 
-export async function saveAccount(privyUserId: string, input: AccountSave) {
-  if (process.env.NODE_ENV !== "production") return saveSqliteAccount(privyUserId, input);
+export async function saveAccount(cdpUserId: string, input: AccountSave) {
+  if (process.env.NODE_ENV !== "production") return saveSqliteAccount(cdpUserId, input);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
-  return saveSupabaseAccount(supabase, privyUserId, input);
+  return saveSupabaseAccount(supabase, cdpUserId, input);
 }
 
-export async function deleteAccount(privyUserId: string) {
+export async function saveCdpIdentity(cdpUserId: string, identity: CdpIdentitySave) {
   if (process.env.NODE_ENV !== "production") {
-    deleteSqliteAccount(privyUserId);
+    saveSqliteIdentity(cdpUserId, identity);
     return;
   }
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
-  await deleteSupabaseAccount(supabase, privyUserId);
+  await saveSupabaseIdentity(supabase, cdpUserId, identity);
+}
+
+export async function deleteAccount(cdpUserId: string) {
+  if (process.env.NODE_ENV !== "production") {
+    deleteSqliteAccount(cdpUserId);
+    return;
+  }
+  const supabase = serviceClient();
+  if (!supabase) throw new Error("Account storage is not configured");
+  await deleteSupabaseAccount(supabase, cdpUserId);
 }
 
 export const CERTIFICATE_IDS = ["money-mindset", "saving-habit", "inflation-fighter"] as const;
@@ -65,7 +99,7 @@ export type CertificateId = (typeof CERTIFICATE_IDS)[number];
 export type CertificateStatus = "owned" | "transferred";
 
 export interface CertificateRecord {
-  privyUserId: string;
+  cdpUserId: string;
   certificateId: CertificateId;
   status: CertificateStatus;
   assetAddress: string;
@@ -85,7 +119,7 @@ export interface CertificateSave {
 }
 
 type CertificateRow = {
-  privy_user_id: string;
+  cdp_user_id: string;
   certificate_id: string;
   status: string;
   asset_address: string;
@@ -95,19 +129,19 @@ type CertificateRow = {
   updated_at: string;
 };
 
-export async function listCertificates(privyUserId: string) {
-  if (process.env.NODE_ENV !== "production") return listSqliteCertificates(privyUserId);
+export async function listCertificates(cdpUserId: string) {
+  if (process.env.NODE_ENV !== "production") return listSqliteCertificates(cdpUserId);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
-  return listSupabaseCertificates(supabase, privyUserId);
+  return listSupabaseCertificates(supabase, cdpUserId);
 }
 
-export async function saveCertificate(privyUserId: string, input: CertificateSave) {
+export async function saveCertificate(cdpUserId: string, input: CertificateSave) {
   const next = certificateWrite(input);
-  if (process.env.NODE_ENV !== "production") return saveSqliteCertificate(privyUserId, next);
+  if (process.env.NODE_ENV !== "production") return saveSqliteCertificate(cdpUserId, next);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
-  return saveSupabaseCertificate(supabase, privyUserId, next);
+  return saveSupabaseCertificate(supabase, cdpUserId, next);
 }
 
 function serviceClient() {
@@ -122,11 +156,16 @@ function serviceClient() {
 function asAccountRow(value: unknown): AccountRow | null {
   if (!value || typeof value !== "object") return null;
   const row = value as Partial<AccountRow>;
-  if (typeof row.privy_user_id !== "string" || typeof row.updated_at !== "string") return null;
+  if (typeof row.cdp_user_id !== "string" || typeof row.updated_at !== "string") return null;
   return {
-    privy_user_id: row.privy_user_id,
+    cdp_user_id: row.cdp_user_id,
     email: typeof row.email === "string" ? row.email : null,
     display_name: typeof row.display_name === "string" ? row.display_name : null,
+    solana_address: typeof row.solana_address === "string" ? row.solana_address : null,
+    evm_address: typeof row.evm_address === "string" ? row.evm_address : null,
+    auth_provider: typeof row.auth_provider === "string" ? row.auth_provider : null,
+    cdp_created_at: typeof row.cdp_created_at === "string" ? row.cdp_created_at : null,
+    last_authenticated_at: typeof row.last_authenticated_at === "string" ? row.last_authenticated_at : null,
     updated_at: row.updated_at,
   };
 }
@@ -144,29 +183,34 @@ function readState(value: unknown): AccountSnapshot | null {
 
 function toRecord(account: AccountRow, state: unknown, stateUpdatedAt?: string): AccountRecord {
   return {
-    privyUserId: account.privy_user_id,
+    cdpUserId: account.cdp_user_id,
     email: account.email,
     displayName: account.display_name,
+    solanaAddress: account.solana_address,
+    evmAddress: account.evm_address,
+    authProvider: account.auth_provider,
+    cdpCreatedAt: account.cdp_created_at,
+    lastAuthenticatedAt: account.last_authenticated_at,
     updatedAt: stateUpdatedAt ?? account.updated_at,
     state: readState(state),
   };
 }
 
-function getSqliteAccount(privyUserId: string): AccountRecord | null {
+function getSqliteAccount(cdpUserId: string): AccountRecord | null {
   const db = getDevDb();
   const account = asAccountRow(
-    db.prepare("select privy_user_id, email, display_name, updated_at from accounts where privy_user_id = ?").get(privyUserId),
+    db.prepare(`select ${ACCOUNT_COLUMNS} from accounts where cdp_user_id = ?`).get(cdpUserId),
   );
   if (!account) return null;
-  const stateRow = db.prepare("select state, updated_at from account_state where privy_user_id = ?").get(privyUserId) as
+  const stateRow = db.prepare("select state, updated_at from account_state where cdp_user_id = ?").get(cdpUserId) as
     | StateRow
     | undefined;
   return toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
 }
 
-function saveSqliteAccount(privyUserId: string, input: AccountSave): AccountRecord {
+function saveSqliteAccount(cdpUserId: string, input: AccountSave): AccountRecord {
   const db = getDevDb();
-  const existing = getSqliteAccount(privyUserId);
+  const existing = getSqliteAccount(cdpUserId);
   const updatedAt = new Date().toISOString();
   const email = input.email === undefined ? existing?.email ?? null : input.email;
   const displayName = input.displayName === undefined ? existing?.displayName ?? null : input.displayName;
@@ -175,38 +219,67 @@ function saveSqliteAccount(privyUserId: string, input: AccountSave): AccountReco
   db.exec("begin immediate");
   try {
     db.prepare(
-      `insert into accounts (privy_user_id, email, display_name, updated_at)
+      `insert into accounts (cdp_user_id, email, display_name, updated_at)
        values (?, ?, ?, ?)
-       on conflict(privy_user_id) do update set
+       on conflict(cdp_user_id) do update set
          email = excluded.email,
          display_name = excluded.display_name,
          updated_at = excluded.updated_at`,
-    ).run(privyUserId, email, displayName, updatedAt);
+    ).run(cdpUserId, email, displayName, updatedAt);
     db.prepare(
-      `insert into account_state (privy_user_id, state, updated_at)
+      `insert into account_state (cdp_user_id, state, updated_at)
        values (?, ?, ?)
-       on conflict(privy_user_id) do update set
+       on conflict(cdp_user_id) do update set
          state = excluded.state,
          updated_at = excluded.updated_at`,
-    ).run(privyUserId, state, updatedAt);
+    ).run(cdpUserId, state, updatedAt);
     db.exec("commit");
   } catch (error) {
     db.exec("rollback");
     throw error;
   }
 
-  const saved = getSqliteAccount(privyUserId);
+  const saved = getSqliteAccount(cdpUserId);
   if (!saved) throw new Error("Account save did not persist");
   return saved;
 }
 
-function deleteSqliteAccount(privyUserId: string) {
+function saveSqliteIdentity(cdpUserId: string, identity: CdpIdentitySave) {
+  const db = getDevDb();
+  db.prepare(
+    `insert into accounts (
+       cdp_user_id, email, display_name, solana_address, evm_address, auth_provider,
+       cdp_created_at, last_authenticated_at, cdp_profile
+     ) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+     on conflict(cdp_user_id) do update set
+       email = coalesce(excluded.email, accounts.email),
+       display_name = coalesce(nullif(accounts.display_name, ''), excluded.display_name),
+       solana_address = coalesce(excluded.solana_address, accounts.solana_address),
+       evm_address = coalesce(excluded.evm_address, accounts.evm_address),
+       auth_provider = coalesce(excluded.auth_provider, accounts.auth_provider),
+       cdp_created_at = coalesce(excluded.cdp_created_at, accounts.cdp_created_at),
+       last_authenticated_at = coalesce(excluded.last_authenticated_at, accounts.last_authenticated_at),
+       cdp_profile = excluded.cdp_profile`,
+  ).run(
+    cdpUserId,
+    identity.email,
+    identity.name,
+    identity.solanaAddress,
+    identity.evmAddress,
+    identity.authProvider,
+    identity.cdpCreatedAt,
+    identity.lastAuthenticatedAt,
+    identity.profileJson,
+  );
+}
+
+function deleteSqliteAccount(cdpUserId: string) {
   const db = getDevDb();
   db.exec("begin immediate");
   try {
-    db.prepare("delete from certificates where privy_user_id = ?").run(privyUserId);
-    db.prepare("delete from account_state where privy_user_id = ?").run(privyUserId);
-    db.prepare("delete from accounts where privy_user_id = ?").run(privyUserId);
+    db.prepare("delete from certificates where cdp_user_id = ?").run(cdpUserId);
+    db.prepare("delete from account_state where cdp_user_id = ?").run(cdpUserId);
+    db.prepare("delete from accounts where cdp_user_id = ?").run(cdpUserId);
     db.exec("commit");
   } catch (error) {
     db.exec("rollback");
@@ -214,11 +287,11 @@ function deleteSqliteAccount(privyUserId: string) {
   }
 }
 
-async function getSupabaseAccount(supabase: SupabaseClient, privyUserId: string): Promise<AccountRecord | null> {
+async function getSupabaseAccount(supabase: SupabaseClient, cdpUserId: string): Promise<AccountRecord | null> {
   const { data, error } = await supabase
     .from("accounts")
-    .select("privy_user_id, email, display_name, updated_at")
-    .eq("privy_user_id", privyUserId)
+    .select(ACCOUNT_COLUMNS)
+    .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
   if (error) throw new Error(error.message);
   const account = asAccountRow(data);
@@ -227,51 +300,70 @@ async function getSupabaseAccount(supabase: SupabaseClient, privyUserId: string)
   const stateResult = await supabase
     .from("account_state")
     .select("state, updated_at")
-    .eq("privy_user_id", privyUserId)
+    .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
   if (stateResult.error) throw new Error(stateResult.error.message);
   const stateRow = stateResult.data as StateRow | null;
   return toRecord(account, stateRow?.state ?? null, stateRow?.updated_at);
 }
 
-async function saveSupabaseAccount(supabase: SupabaseClient, privyUserId: string, input: AccountSave) {
-  const existing = await getSupabaseAccount(supabase, privyUserId);
+async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, input: AccountSave) {
+  const existing = await getSupabaseAccount(supabase, cdpUserId);
   const updatedAt = new Date().toISOString();
   const email = input.email === undefined ? existing?.email ?? null : input.email;
   const displayName = input.displayName === undefined ? existing?.displayName ?? null : input.displayName;
 
   const accountResult = await supabase.from("accounts").upsert(
     {
-      privy_user_id: privyUserId,
+      cdp_user_id: cdpUserId,
       email,
       display_name: displayName,
       updated_at: updatedAt,
     },
-    { onConflict: "privy_user_id" },
+    { onConflict: "cdp_user_id" },
   );
   if (accountResult.error) throw new Error(accountResult.error.message);
 
   const stateResult = await supabase.from("account_state").upsert(
     {
-      privy_user_id: privyUserId,
+      cdp_user_id: cdpUserId,
       state: input.state,
       updated_at: updatedAt,
     },
-    { onConflict: "privy_user_id" },
+    { onConflict: "cdp_user_id" },
   );
   if (stateResult.error) throw new Error(stateResult.error.message);
 
-  const saved = await getSupabaseAccount(supabase, privyUserId);
+  const saved = await getSupabaseAccount(supabase, cdpUserId);
   if (!saved) throw new Error("Account save did not persist");
   return saved;
 }
 
-async function deleteSupabaseAccount(supabase: SupabaseClient, privyUserId: string) {
-  const certificateResult = await supabase.from("certificates").delete().eq("privy_user_id", privyUserId);
+async function saveSupabaseIdentity(supabase: SupabaseClient, cdpUserId: string, identity: CdpIdentitySave) {
+  const existing = await getSupabaseAccount(supabase, cdpUserId);
+  const result = await supabase.from("accounts").upsert(
+    {
+      cdp_user_id: cdpUserId,
+      email: identity.email ?? existing?.email ?? null,
+      display_name: existing?.displayName || identity.name,
+      solana_address: identity.solanaAddress ?? existing?.solanaAddress ?? null,
+      evm_address: identity.evmAddress ?? existing?.evmAddress ?? null,
+      auth_provider: identity.authProvider ?? existing?.authProvider ?? null,
+      cdp_created_at: identity.cdpCreatedAt ?? existing?.cdpCreatedAt ?? null,
+      last_authenticated_at: identity.lastAuthenticatedAt ?? existing?.lastAuthenticatedAt ?? null,
+      cdp_profile: JSON.parse(identity.profileJson) as unknown,
+    },
+    { onConflict: "cdp_user_id" },
+  );
+  if (result.error) throw new Error(result.error.message);
+}
+
+async function deleteSupabaseAccount(supabase: SupabaseClient, cdpUserId: string) {
+  const certificateResult = await supabase.from("certificates").delete().eq("cdp_user_id", cdpUserId);
   if (certificateResult.error) throw new Error(certificateResult.error.message);
-  const stateResult = await supabase.from("account_state").delete().eq("privy_user_id", privyUserId);
+  const stateResult = await supabase.from("account_state").delete().eq("cdp_user_id", cdpUserId);
   if (stateResult.error) throw new Error(stateResult.error.message);
-  const accountResult = await supabase.from("accounts").delete().eq("privy_user_id", privyUserId);
+  const accountResult = await supabase.from("accounts").delete().eq("cdp_user_id", cdpUserId);
   if (accountResult.error) throw new Error(accountResult.error.message);
 }
 
@@ -314,7 +406,7 @@ function asCertificateRow(value: unknown): CertificateRow | null {
   if (!value || typeof value !== "object") return null;
   const row = value as Partial<CertificateRow>;
   if (
-    typeof row.privy_user_id !== "string" ||
+    typeof row.cdp_user_id !== "string" ||
     typeof row.certificate_id !== "string" ||
     typeof row.status !== "string" ||
     typeof row.asset_address !== "string" ||
@@ -324,7 +416,7 @@ function asCertificateRow(value: unknown): CertificateRow | null {
     return null;
   }
   return {
-    privy_user_id: row.privy_user_id,
+    cdp_user_id: row.cdp_user_id,
     certificate_id: row.certificate_id,
     status: row.status,
     asset_address: row.asset_address,
@@ -340,7 +432,7 @@ function toCertificate(row: CertificateRow): CertificateRecord {
     throw new Error("Invalid certificate row");
   }
   return {
-    privyUserId: row.privy_user_id,
+    cdpUserId: row.cdp_user_id,
     certificateId: row.certificate_id,
     status: row.status,
     assetAddress: row.asset_address,
@@ -351,16 +443,16 @@ function toCertificate(row: CertificateRow): CertificateRecord {
   };
 }
 
-function listSqliteCertificates(privyUserId: string) {
+function listSqliteCertificates(cdpUserId: string) {
   const db = getDevDb();
   const rows = db
     .prepare(
-      `select privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+      `select cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
        from certificates
-       where privy_user_id = ?
+       where cdp_user_id = ?
        order by certificate_id`,
     )
-    .all(privyUserId) as unknown[];
+    .all(cdpUserId) as unknown[];
   return rows.map((row) => {
     const parsed = asCertificateRow(row);
     if (!parsed) throw new Error("Invalid certificate row");
@@ -368,20 +460,20 @@ function listSqliteCertificates(privyUserId: string) {
   });
 }
 
-function saveSqliteCertificate(privyUserId: string, input: ReturnType<typeof certificateWrite>) {
+function saveSqliteCertificate(cdpUserId: string, input: ReturnType<typeof certificateWrite>) {
   const db = getDevDb();
-  const account = db.prepare("select privy_user_id from accounts where privy_user_id = ?").get(privyUserId);
+  const account = db.prepare("select cdp_user_id from accounts where cdp_user_id = ?").get(cdpUserId);
   if (!account) throw new Error("Account not found");
-  const existing = listSqliteCertificates(privyUserId).find((row) => row.certificateId === input.certificateId);
+  const existing = listSqliteCertificates(cdpUserId).find((row) => row.certificateId === input.certificateId);
   const updatedAt = new Date().toISOString();
   const txHash = input.txHash === undefined ? existing?.txHash ?? null : input.txHash;
   const chainCheckedAt = input.chainCheckedAt === undefined ? existing?.chainCheckedAt ?? null : input.chainCheckedAt;
 
   db.prepare(
     `insert into certificates (
-       privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
+       cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at
      ) values (?, ?, ?, ?, ?, ?, ?, ?)
-     on conflict(privy_user_id, certificate_id) do update set
+     on conflict(cdp_user_id, certificate_id) do update set
        status = excluded.status,
        asset_address = excluded.asset_address,
        owner_address = excluded.owner_address,
@@ -389,7 +481,7 @@ function saveSqliteCertificate(privyUserId: string, input: ReturnType<typeof cer
        chain_checked_at = excluded.chain_checked_at,
        updated_at = excluded.updated_at`,
   ).run(
-    privyUserId,
+    cdpUserId,
     input.certificateId,
     input.status,
     input.assetAddress,
@@ -399,16 +491,16 @@ function saveSqliteCertificate(privyUserId: string, input: ReturnType<typeof cer
     updatedAt,
   );
 
-  const saved = listSqliteCertificates(privyUserId).find((row) => row.certificateId === input.certificateId);
+  const saved = listSqliteCertificates(cdpUserId).find((row) => row.certificateId === input.certificateId);
   if (!saved) throw new Error("Certificate save did not persist");
   return saved;
 }
 
-async function listSupabaseCertificates(supabase: SupabaseClient, privyUserId: string) {
+async function listSupabaseCertificates(supabase: SupabaseClient, cdpUserId: string) {
   const { data, error } = await supabase
     .from("certificates")
-    .select("privy_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at")
-    .eq("privy_user_id", privyUserId)
+    .select("cdp_user_id, certificate_id, status, asset_address, owner_address, tx_hash, chain_checked_at, updated_at")
+    .eq("cdp_user_id", cdpUserId)
     .order("certificate_id");
   if (error) throw new Error(error.message);
   return (data ?? []).map((row) => {
@@ -420,12 +512,12 @@ async function listSupabaseCertificates(supabase: SupabaseClient, privyUserId: s
 
 async function saveSupabaseCertificate(
   supabase: SupabaseClient,
-  privyUserId: string,
+  cdpUserId: string,
   input: ReturnType<typeof certificateWrite>,
 ) {
-  const account = await getSupabaseAccount(supabase, privyUserId);
+  const account = await getSupabaseAccount(supabase, cdpUserId);
   if (!account) throw new Error("Account not found");
-  const existing = (await listSupabaseCertificates(supabase, privyUserId)).find(
+  const existing = (await listSupabaseCertificates(supabase, cdpUserId)).find(
     (row) => row.certificateId === input.certificateId,
   );
   const updatedAt = new Date().toISOString();
@@ -434,7 +526,7 @@ async function saveSupabaseCertificate(
 
   const { error } = await supabase.from("certificates").upsert(
     {
-      privy_user_id: privyUserId,
+      cdp_user_id: cdpUserId,
       certificate_id: input.certificateId,
       status: input.status,
       asset_address: input.assetAddress,
@@ -443,11 +535,11 @@ async function saveSupabaseCertificate(
       chain_checked_at: chainCheckedAt,
       updated_at: updatedAt,
     },
-    { onConflict: "privy_user_id,certificate_id" },
+    { onConflict: "cdp_user_id,certificate_id" },
   );
   if (error) throw new Error(error.message);
 
-  const saved = (await listSupabaseCertificates(supabase, privyUserId)).find(
+  const saved = (await listSupabaseCertificates(supabase, cdpUserId)).find(
     (row) => row.certificateId === input.certificateId,
   );
   if (!saved) throw new Error("Certificate save did not persist");
