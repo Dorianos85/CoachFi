@@ -76,19 +76,19 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Oszczędzaj w dniu wypłaty",
-          body: "Najsilniejszy nawyk to stały przelew zaraz po wypłacie. Czekanie na to, co zostanie, zwykle zostawia zero. Przelew dzieje się, zanim zaczniesz wydawać. Reszta miesiąca idzie z tego, co zostało.",
+          body: "Najmocniejszy nawyk to stały przelew zaraz po wypłacie. Jak odkładasz dopiero to, co zostanie, zwykle nie zostaje nic. Najpierw przelew, potem wydatki. Resztę miesiąca przeżywasz z tego, co zostało.",
         },
         {
-          title: "Reguła 50/30/20",
-          body: "Reguła 50/30/20 dzieli wypłatę na rękę na potrzeby, zachcianki i oszczędności. Około połowy pokrywa potrzeby, takie jak czynsz i jedzenie. Około 30% to zachcianki. Około 20% idzie na oszczędności i spłatę długów.",
+          title: "Zasada 50/30/20",
+          body: "Zasada 50/30/20 dzieli wypłatę na rękę na trzy części. Około połowy idzie na potrzeby: czynsz, jedzenie, rachunki. Około 30% na zachcianki. Około 20% na oszczędności i spłatę długów.",
         },
         {
-          title: "Konto oszczędnościowe z wyższym oprocentowaniem",
-          body: "Takie konto płaci wyraźnie wyższe odsetki niż zwykłe konto. To nadal konto oszczędnościowe, nie inwestycja w akcje. Wyższe odsetki trochę lepiej bronią gotówki. To miejsce na pieniądze, których możesz potrzebować wkrótce.",
+          title: "Konto z wyższym oprocentowaniem",
+          body: "To konto oszczędnościowe z wyraźnie wyższym oprocentowaniem niż zwykłe. To nadal konto, nie akcje. Wyższe odsetki sprawiają, że gotówka wolniej traci na wartości. Trzymaj tu pieniądze, których możesz potrzebować wkrótce.",
         },
         {
           title: "Uśrednianie ceny",
-          body: "Uśrednianie ceny oznacza wpłacanie stałej kwoty w stałym rytmie, niezależnie od ceny. Kupujesz więcej, gdy jest tanio, i mniej, gdy jest drogo. Nie czekasz na idealny dzień. Nawyk zdejmuje zgadywanie.",
+          body: "Uśrednianie ceny, czyli DCA, to wpłacanie stałej kwoty w stałym rytmie, bez patrzenia na cenę. Gdy jest tanio, kupujesz więcej. Gdy jest drogo, mniej. Nie czekasz na idealny moment i nie musisz zgadywać.",
         },
       ],
       ja: [
@@ -136,19 +136,19 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Co znaczy inflacja",
-          body: "Inflacja znaczy, że pieniądze z czasem kupują mniej. Ta sama kwota starcza na mniej zakupów albo ten sam czynsz kosztuje więcej. Zwykłym znakiem są rosnące ceny. Gotówka, która leży bez ruchu, traci siłę nabywczą.",
+          body: "Inflacja znaczy, że z czasem za te same pieniądze kupisz mniej. Ta sama kwota starczy na mniej zakupów, a ten sam czynsz kosztuje więcej. Ceny idą w górę. Gotówka, która leży bez ruchu, traci siłę nabywczą.",
         },
         {
           title: "Realna stopa zwrotu",
-          body: "Realna stopa zwrotu to odsetki minus inflacja. Gdy inflacja wynosi 5%, a bank płaci 2%, realny wynik to około −3%. Saldo może rosnąć, a siła nabywcza spadać. Oprocentowanie konta nie mówi wszystkiego.",
+          body: "Realna stopa zwrotu to oprocentowanie minus inflacja. Jak inflacja wynosi 5%, a bank daje 2%, wychodzi około −3%. Na koncie może przybywać złotówek, a i tak kupisz za nie mniej. Samo oprocentowanie nie mówi, czy naprawdę zarabiasz.",
         },
         {
           title: "Reguła 72",
-          body: "Reguła 72 szacuje, po ilu latach pieniądze się podwoją. Podziel 72 przez roczną stopę zwrotu. Przy 8% rocznie pieniądze podwajają się w około 9 lat. Przy 6% trwa to około 12 lat.",
+          body: "Reguła 72 podpowiada, po ilu latach pieniądze się podwoją. Dzielisz 72 przez roczną stopę zwrotu. Przy 8% rocznie wychodzi około 9 lat. Przy 6% około 12 lat.",
         },
         {
-          title: "Ochrona na długi czas",
-          body: "Ochrona przed inflacją to coś, co przez lata rosło szybciej niż ceny. Szerokie fundusze akcji tak się zachowywały. Gotówka w materacu i konto na 1% nie. Chodzi o długi horyzont, nie o szybki zakład.",
+          title: "Ochrona na lata",
+          body: "Dobra ochrona przed inflacją to coś, co przez lata rosło szybciej niż ceny. Tak było z szerokimi funduszami indeksowymi akcji. Gotówka pod materacem i konto na 1% tak nie działają. Liczy się długi czas, nie szybki zysk.",
         },
       ],
       ja: [
@@ -196,19 +196,19 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Oprocentowanie zmienne",
-          body: "Kredyt o zmiennym oprocentowaniu podąża za stopą rynkową. Gdy bank centralny podnosi stopy, rata zwykle rośnie. Stała stopa zostaje na miejscu. Przy kredycie zmiennym wyższa stopa oznacza wyższą ratę.",
+          body: "Kredyt ze zmienną stopą jest powiązany ze stopami na rynku. Gdy bank centralny je podnosi, rata zwykle rośnie. Przy stałej stopie rata zostaje taka sama. Wyższa stopa to wyższa rata.",
         },
         {
-          title: "Lawina długów",
-          body: "Lawina długów spłaca najpierw dług z najwyższym oprocentowaniem. To obniża odsetki w całym okresie spłaty. Spłata najmniejszego salda może być łatwiejsza, ale zwykle kosztuje więcej. Nowy kredyt na stary nie usuwa kosztu.",
+          title: "Lawina zadłużenia",
+          body: "W lawinie zadłużenia najpierw spłacasz dług z najwyższym oprocentowaniem. W całym okresie oddajesz wtedy mniej odsetek. Spłata najmniejszego długu może być łatwiejsza, ale zwykle wychodzi drożej. Nowy kredyt na spłatę starego niczego nie załatwia.",
         },
         {
-          title: "Co rusza scoring",
-          body: "Historia spłat ma największy wpływ na scoring. Terminowe płatności liczą się bardziej niż liczba kart. Dochód nie jest głównym czynnikiem. Długi ciąg płatności na czas jest najsilniejszym sygnałem.",
+          title: "Ocena kredytowa",
+          body: "Na ocenę kredytową najbardziej wpływa historia płatności. To, czy płacisz w terminie, liczy się bardziej niż liczba kart. Dochód nie jest tu najważniejszy. Najwięcej daje długa historia płatności na czas.",
         },
         {
           title: "Ceny obligacji i stopy",
-          body: "Ceny obligacji spadają, gdy stopy procentowe rosną. Starsza obligacja płaci mniej niż nowa, więc kupujący dają za nią mniej. Te dwie rzeczy idą w przeciwne strony. Wzrost stóp nie zostawia cen obligacji bez zmian.",
+          body: "Gdy stopy procentowe rosną, ceny obligacji spadają. Stara obligacja płaci mniej niż nowa, więc kupujący dają za nią mniej. Cena i stopa idą w przeciwne strony. Podwyżka stóp ściąga ceny w dół.",
         },
       ],
       ja: [
@@ -252,15 +252,15 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Ile trzymać",
-          body: "Fundusz awaryjny pokrywa około 3 do 6 miesięcy wydatków. Jest na utratę pracy, naprawę albo rachunek medyczny. Jeden tydzień to tylko początek. Ten fundusz nie ma trzymać dziesięciu lat wydatków.",
+          body: "Fundusz awaryjny ma pokryć około 3 do 6 miesięcy wydatków. Przyda się, gdy stracisz pracę, coś się zepsuje albo przyjdzie rachunek za leczenie. Jeden tydzień to za mało. Dziesięć lat to nie ten fundusz.",
         },
         {
           title: "Co w nim trzymać",
-          body: "Dobry fundusz jest łatwy do sięgnięcia i oddzielony od codziennych wydatków. Ma pokryć kilka miesięcy kosztów. Nie powinien leżeć w ryzykownych akcjach. Jego zadaniem jest być pod ręką, a nie rosnąć jak najszybciej.",
+          body: "Dobry fundusz da się szybko wyjąć i leży z dala od codziennych wydatków. Ma starczyć na kilka miesięcy. Nie trzymaj go w ryzykownych akcjach. Ma być pod ręką, a nie rosnąć jak najszybciej.",
         },
         {
-          title: "Pierwszy próg",
-          body: "Jeśli 3 do 6 miesięcy wydaje się za duże, zacznij od jednego miesiąca niezbędnych wydatków. To pokrywa wiele zwykłych wstrząsów. Potem dołóż kolejny miesiąc. Okrągła kwota, która ignoruje twoje rachunki, jest słabszym pierwszym celem.",
+          title: "Od czego zacząć",
+          body: "Jak 3 do 6 miesięcy wydaje się za dużo, zacznij od jednego miesiąca niezbędnych wydatków. To już łapie sporo zwykłych niespodzianek. Potem dołóż kolejny miesiąc. Okrągła kwota z powietrza, bez Twoich prawdziwych rachunków, to słaby pierwszy cel.",
         },
       ],
       ja: [
@@ -308,23 +308,23 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Procent składany",
-          body: "Procent składany to odsetki od kwoty początkowej i od odsetek, które już doszły. Saldo rośnie, a kolejna runda odsetek liczy się od tego większego salda. To nie jest opłata banku i nie dotyczy tylko kart kredytowych. Po wielu latach dodane odsetki stają się dużą częścią całości.",
+          body: "Procent składany to odsetki od kapitału i od odsetek, które już doszły. Saldo rośnie, więc kolejne odsetki liczą się od większej kwoty. To nie opłata banku za wcześniejszą wypłatę i nie chodzi tylko o karty. Po latach te dopisane odsetki robią sporą część całej sumy.",
         },
         {
           title: "Dywersyfikacja",
-          body: "Dywersyfikacja oznacza rozłożenie pieniędzy na różne aktywa, żeby jedna strata nie zatopiła planu. Jedna akcja, nawet mocna, to jeden zakład. Same obligacje też nie są pełną mieszanką. Celem jest niższe ryzyko, nie nowy portfel co tydzień.",
+          body: "Dywersyfikacja to rozłożenie pieniędzy na różne aktywa, żeby jedna wpadka nie zniszczyła planu. Jedna akcja, nawet mocna, to jeden zakład. Same obligacje też nie wystarczą. Chodzi o mniejsze ryzyko, a nie o nowy portfel co tydzień.",
         },
         {
           title: "Fundusze indeksowe",
-          body: "Fundusz indeksowy sam śledzi listę rynkową i pobiera niską opłatę. ETF może robić to samo. Fundusz hedgingowy i fundusz venture to inne produkty, z wyższym kosztem. Niska opłata zostaje zainwestowana, zamiast odpływać.",
+          body: "Fundusz indeksowy sam śledzi indeks rynkowy i bierze niską opłatę. ETF robi to samo. Fundusz hedgingowy i fundusz venture capital to co innego i kosztują więcej. Niska opłata zostaje w inwestycji, zamiast iść do pośrednika.",
         },
         {
           title: "Czym jest ETF",
-          body: "ETF to fundusz notowany na giełdzie: koszyk aktywów, który kupujesz i sprzedajesz jak akcję. To nie jest konto oszczędnościowe ani opłata za przelew. Jeden zakup może trzymać wiele firm albo obligacji. Dostajesz mieszankę bez wybierania każdej części osobno.",
+          body: "ETF to fundusz notowany na giełdzie: koszyk aktywów, który kupujesz i sprzedajesz jak akcję. To nie konto oszczędnościowe i nie opłata za przelew. W jednym zakupie masz wiele firm albo obligacji. Nie musisz wybierać każdej z osobna.",
         },
         {
           title: "Czas na rynku",
-          body: "Dla inwestorów długoterminowych zostawanie na rynku zwykle biło zgadywanie dokładnego dołka i szczytu. Sprzedaż po spadku często omija odbicie. Samo złoto nie jest strategią, na którą wskazują te badania. Czas na rynku oznacza zostawanie zainwestowanym przez zwykłe wzrosty i spadki.",
+          body: "Jak inwestujesz na lata, lepiej zostać na rynku niż zgadywać dokładny dołek i szczyt. Sprzedaż tuż po spadku często omija odbicie. Samo złoto nie jest tą strategią. Chodzi o to, żeby zostać w inwestycji przez zwykłe wzrosty i spadki.",
         },
       ],
       ja: [
@@ -368,11 +368,11 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Po co jest to konto",
-          body: "Konto emerytalne ma zastąpić dochód, gdy przestaniesz pracować. Wpłacone pieniądze mogą procentować przez dekady, zanim je wydasz. To nie jest fundusz na wakacje ani miejsce na gotówkę awaryjną. Długie czekanie sprawia, że procent składany jest użyteczny.",
+          body: "Konto emerytalne ma zastąpić dochód, gdy przestaniesz pracować. Pieniądze leżą tam latami i przez ten czas pracuje procent składany. To nie fundusz na wakacje i nie miejsce na gotówkę awaryjną. Właśnie ten długi czas daje procentowi składanemu szansę zadziałać.",
         },
         {
           title: "Wczesny start",
-          body: "Mała miesięczna kwota ma długo na procent, jeśli zaczniesz młodo. Około 200 dolarów miesięcznie przy 7% rocznie, od 25. do 65. roku życia, urasta do około 525 000 dolarów. Ten sam nawyk zaczęty dużo później wymaga dużo większej wpłaty, żeby dogonić. Wczesne lata robią dużą część roboty.",
+          body: "Jak zaczniesz młodo, nawet niewielka kwota co miesiąc ma dużo czasu, żeby rosnąć. Około 200 dolarów miesięcznie przy 7% rocznie, od 25. do 65. roku życia, daje około 525 tysięcy dolarów. Ten sam nawyk zaczęty dużo później wymaga dużo większej wpłaty, żeby to dogonić. Najwięcej robią właśnie pierwsze lata.",
         },
       ],
       ja: [
@@ -408,15 +408,15 @@ export const stageLessons: Record<string, StageLesson> = {
       pl: [
         {
           title: "Ubezpieczenie na życie",
-          body: "Ubezpieczenie na życie zastępuje dochód osobom, które na tobie polegają, jeśli umrzesz. To nie jest sposób, żeby się wzbogacić, ani skrót na giełdę. Wypłata jest po to, żeby czynsz, jedzenie i opieka mogły trwać. Kwota powinna pasować do tej potrzeby.",
+          body: "Ubezpieczenie na życie ma zastąpić dochód bliskim, jeśli zabraknie głównego żywiciela. Nie wzbogacisz się na czyjejś śmierci i nie jest to bezpieczna gra na giełdzie. Wypłata ma wystarczyć na czynsz, jedzenie i opiekę. Suma powinna odpowiadać tej potrzebie.",
         },
         {
           title: "Pieniądze we dwoje",
-          body: "Oboje partnerzy powinni znać cały obraz i planować razem. Gdy jedna osoba trzyma wszystkie decyzje, druga zostaje bez radzenia sobie, gdy coś się stanie. Ukrywanie każdego konta nie jest wspólnym planem. Ten, kto zarabia więcej, nie musi być jedyną osobą, która rozumie rachunki.",
+          body: "Oboje powinniście znać całość i planować razem. Jak jedna osoba trzyma wszystkie decyzje, druga nie wie, co robić, gdy coś się stanie. Chowenie każdego konta to nie wspólny plan. Ten, kto zarabia więcej, nie musi być jedyną osobą, która ogarnia rachunki.",
         },
         {
-          title: "Nauka dzieci",
-          body: "Przydatny start to kieszonkowe z prostym podziałem: część odłożyć, część wydać, część dać. Pieniądze bez zasad uczą niewiele. Czekanie do 18. roku zostawia pierwsze prawdziwe decyzje bez ćwiczenia. Mała zasada, której da się trzymać, jest lepsza niż wykład.",
+          title: "Jak uczyć dzieci",
+          body: "Daj kieszonkowe z prostą zasadą: część odłóż, część wydaj, część podziel się. Pieniądze bez zasad uczą niewiele. Jak czekasz do 18. roku, pierwsze prawdziwe decyzje zostają bez wprawy. Mała zasada, której da się trzymać, działa lepiej niż wykład.",
         },
       ],
       ja: [

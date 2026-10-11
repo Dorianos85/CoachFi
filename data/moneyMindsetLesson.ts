@@ -42,15 +42,15 @@ export const moneyMindsetLesson: Record<Locale, LessonCopy> = {
     steps: [
       {
         title: "Wartość netto",
-        body: "Wartość netto to majątek minus długi. Pensja pokazuje, ile pieniędzy wpływa. Wartość netto pokazuje, czy naprawdę idziesz do przodu. Oszczędności i mieszkanie liczą się jako majątek, a kredyty i saldo karty jako długi.",
+        body: "Wartość netto to wszystko, co masz, minus wszystko, co jesteś winien. Pensja mówi tylko, ile wpływa na konto. Wartość netto mówi, czy naprawdę idziesz do przodu. Oszczędności i mieszkanie to aktywa. Kredyt i dług na karcie to zobowiązania.",
       },
       {
         title: "Inflacja stylu życia",
-        body: "Inflacja stylu życia oznacza, że wydajesz więcej, gdy zarabiasz więcej, a oszczędności stoją w miejscu. Podwyżka znika w wyższym czynszu, lepszych posiłkach albo nowej subskrypcji. Dodatkowe pieniądze przychodzą, a dodatkowe wydatki je zjadają. Odkładanie podwyżki, zanim się do niej przyzwyczaisz, zatrzymuje ten zysk.",
+        body: "Inflacja stylu życia jest wtedy, gdy zarabiasz więcej i od razu więcej wydajesz. Oszczędności stoją w miejscu. Podwyżka znika w wyższym czynszu, droższych obiadach albo nowej subskrypcji. Odłóż ją, zanim się do niej przyzwyczaisz. Wtedy zostaje u Ciebie.",
       },
       {
         title: "Najpierw zapłać sobie",
-        body: "Najpierw zapłać sobie znaczy, że stałą kwotę odkładasz zaraz po wypłacie. Robisz to przed czynszem, jedzeniem i resztą wydatków. Czekanie na to, co zostanie, zwykle zostawia zero. Automatyczny przelew w dniu wypłaty robi ten nawyk bez nowej decyzji.",
+        body: "Zapłać najpierw sobie: zaraz po wypłacie odłóż stałą kwotę, zanim zapłacisz czynsz, jedzenie i resztę. Jak czekasz na to, co zostanie, zwykle zostaje zero. Ustaw przelew stały na dzień wypłaty. Nie musisz co miesiąc decydować o tym od nowa.",
       },
     ],
   },

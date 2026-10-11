@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { stageLessons } from "@/data/stageLessons";
+import { recordLessonStep } from "@/lib/signInGate";
 
 export default function StageLessonPage() {
   const params = useParams<{ stage: string }>();
@@ -22,6 +23,10 @@ function StageLessonBody({ stage }: { stage: string }) {
   const copy = lesson.copy[locale];
   const [stepIndex, setStepIndex] = useState(0);
   const step = copy.steps[stepIndex];
+
+  useEffect(() => {
+    recordLessonStep(stage, stepIndex + 1);
+  }, [stage, stepIndex]);
   const isLast = stepIndex === copy.steps.length - 1;
 
   return (

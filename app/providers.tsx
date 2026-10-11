@@ -9,6 +9,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 
 import { AccountSync } from "@/components/AccountSync";
+import { SignInGate } from "@/components/SignInGate";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { StreakProvider } from "@/context/StreakContext";
 import { VoiceProvider } from "@/context/VoiceContext";
@@ -45,6 +46,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 }}
               >
                 <AccountSync />
+                <SignInGate />
                 {solanaWallets}
               </PrivyProvider>
             ) : (

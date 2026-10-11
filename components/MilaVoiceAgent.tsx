@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
+import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 
@@ -115,6 +116,7 @@ export function MilaVoiceFab() {
   const router = useRouter();
   const pathname = usePathname();
   const widgetRef = useRef<HTMLElement | null>(null);
+  const voiceWatchRef = useRef<number | null>(null);
   const { locale } = useLanguage();
   const { loaded, requiredAccepted, hasOptionalConsent } = useConsent();
   const [signedUrl, setSignedUrl] = useState("");
@@ -200,10 +202,49 @@ export function MilaVoiceFab() {
       return { ok: true, path, page: pageLabels[path] ?? path };
     };
 
+    const buttonLabels = () => {
+      const root = widget.shadowRoot;
+      if (!root) return null;
+      return [...root.querySelectorAll("button")]
+        .map((button) => button.getAttribute("aria-label") ?? "")
+        .filter(Boolean)
+        .sort()
+        .join("|");
+    };
+
+    let idleLabels = buttonLabels();
+
     const handleCall = (event: Event) => {
       const callEvent = event as ConvaiCallEvent;
       const config = callEvent.detail?.config;
       if (!config) return;
+
+      if (voiceWatchRef.current == null) {
+        const idleAtStart = idleLabels ?? buttonLabels() ?? "";
+        let leftIdle = false;
+        let idleTicks = 0;
+        beginAgentConversation("voice");
+        voiceWatchRef.current = window.setInterval(() => {
+          const current = buttonLabels();
+          if (current == null) return;
+          if (!leftIdle) {
+            idleTicks += 1;
+            if (current !== idleAtStart) leftIdle = true;
+            else if (idleTicks >= 40) {
+              endAgentConversation("voice");
+              if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
+              voiceWatchRef.current = null;
+            }
+            return;
+          }
+          if (current === idleAtStart) {
+            endAgentConversation("voice");
+            if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
+            voiceWatchRef.current = null;
+            idleLabels = current;
+          }
+        }, 500);
+      }
 
       config.clientTools = {
         ...config.clientTools,
@@ -274,6 +315,12 @@ export function MilaVoiceFab() {
       observer?.disconnect();
       if (quotaTimer) clearTimeout(quotaTimer);
       window.clearInterval(pollForShadow);
+      queueMicrotask(() => {
+        if (widget.isConnected || voiceWatchRef.current == null) return;
+        window.clearInterval(voiceWatchRef.current);
+        voiceWatchRef.current = null;
+        endAgentConversation("voice");
+      });
     };
   }, [agentContext, enabled, router]);
 

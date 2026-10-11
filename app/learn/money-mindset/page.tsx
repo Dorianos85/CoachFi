@@ -1,18 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { MONEY_MINDSET_QUIZ, moneyMindsetLesson } from "@/data/moneyMindsetLesson";
+import { recordLessonStep } from "@/lib/signInGate";
 
 export default function MoneyMindsetLessonPage() {
   const { locale } = useLanguage();
   const copy = moneyMindsetLesson[locale];
   const [stepIndex, setStepIndex] = useState(0);
   const step = copy.steps[stepIndex];
+
+  useEffect(() => {
+    recordLessonStep("money-mindset", stepIndex + 1);
+  }, [stepIndex]);
   const isLast = stepIndex === copy.steps.length - 1;
 
   return (
