@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useId } from "react";
+import { useVoice } from "@/context/VoiceContext";
 
 import { useLanguage } from "@/context/LanguageContext";
 import type { Locale } from "@/lib/i18n";
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 interface MilaAvatarProps {
   className?: string;
   isSpeaking?: boolean;
+  audioLevel?: number;
   size?: "sm" | "md" | "lg";
 }
 
@@ -25,7 +27,10 @@ const avatarCopy: Record<Locale, { speaking: string; idle: string }> = {
   ja: { speaking: "Milaが話しています", idle: "Mila AI金融コーチのアバター" },
 };
 
-export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaAvatarProps) {
+export function MilaAvatar({ className, isSpeaking = false, audioLevel, size = "md" }: MilaAvatarProps) {
+  const { persona } = useVoice();
+  const reducedMotion = useReducedMotion();
+  if (reducedMotion) isSpeaking = false;
   const { locale } = useLanguage();
   const copy = avatarCopy[locale];
   const id = useId().replace(/:/g, "");
@@ -38,7 +43,7 @@ export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaA
   return (
     <div
       role="img"
-      aria-label={isSpeaking ? copy.speaking : copy.idle}
+      aria-label={persona === "milosz" ? locale === "pl" ? isSpeaking ? "Miłosz mówi" : "Avatar Miłosza, coacha finansowego AI" : isSpeaking ? "Miłosz is speaking" : "Miłosz AI coach avatar" : isSpeaking ? copy.speaking : copy.idle}
       className={cn("relative shrink-0", sizes[size], className)}
     >
       <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
@@ -96,8 +101,7 @@ export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaA
           <path d="M75 92C75 60 94 42 122 42C151 42 169 61 169 94C169 130 149 154 121 154C93 154 75 130 75 92Z" fill={`url(#${faceId})`} />
 
           <path d="M73 95C63 66 82 39 113 32C149 24 178 48 180 86C156 65 111 61 82 82C77 97 78 119 86 140C78 130 73 114 73 95Z" fill="#111827" />
-          <path d="M166 84C184 100 184 128 165 148C171 127 172 104 166 84Z" fill="#111827" />
-          <path d="M78 92C65 109 66 134 82 151C77 132 75 112 82 89L78 92Z" fill="#111827" />
+          {persona === "mila" && <><path d="M166 84C184 100 184 128 165 148C171 127 172 104 166 84Z" fill="#111827" /><path d="M78 92C65 109 66 134 82 151C77 132 75 112 82 89L78 92Z" fill="#111827" /></>}
 
           <path d="M68 104C59 104 52 112 52 122V139C52 149 59 157 68 157H76V104H68Z" fill="#29236E" />
           <path d="M172 104C181 104 188 112 188 122V139C188 149 181 157 172 157H164V104H172Z" fill="#29236E" />
@@ -120,8 +124,8 @@ export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaA
             strokeWidth="3.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            animate={isSpeaking ? { scaleY: [0.72, 1.22, 0.84, 1.12, 0.72] } : { scaleY: 1 }}
-            transition={isSpeaking ? { duration: 0.42, repeat: Infinity, ease: "easeInOut" } : { duration: 0.16 }}
+            animate={audioLevel != null ? { scaleY: isSpeaking ? 0.35 + Math.min(1, audioLevel) * 2 : 1 } : isSpeaking ? { scaleY: [0.72, 1.22, 0.84, 1.12, 0.72] } : { scaleY: 1 }}
+            transition={audioLevel != null ? { duration: 0.08 } : isSpeaking ? { duration: 0.42, repeat: Infinity, ease: "easeInOut" } : { duration: 0.16 }}
             style={{ transformOrigin: "121px 143px" }}
           />
 

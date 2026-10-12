@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
 import { MilaAvatar } from "@/components/MilaAvatar";
+import { CoachVoiceConversation } from "@/components/CoachVoiceConversation";
 import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useVoice } from "@/context/VoiceContext";
@@ -26,6 +27,7 @@ interface ChatMessage {
 async function streamFromAPI(
   message: string,
   locale: string,
+  persona: "mila" | "milosz",
   history: { role: "user" | "assistant"; content: string }[],
   onChunk: (chunk: string) => void,
   onDone: () => void,
@@ -38,7 +40,7 @@ async function streamFromAPI(
         "Content-Type": "application/json",
         "X-CoachFI-Consent": "ai-coach",
       },
-      body: JSON.stringify({ message, history, locale }),
+      body: JSON.stringify({ message, history, locale, persona }),
     });
 
     if (!res.ok || !res.body) {
@@ -85,7 +87,8 @@ export default function CoachPage() {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale).coach;
   const { hasOptionalConsent, openSettings } = useConsent();
-  const { isPlaying: voicePlaying, currentText: spokenText, speak } = useVoice();
+  const { isPlaying: voicePlaying, currentText: spokenText, speak, persona } = useVoice();
+  const [showTextChat, setShowTextChat] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(
     copy.initialMessages.map((text) => ({ role: "coach", text }))
   );
@@ -102,11 +105,10 @@ export default function CoachPage() {
 
   const { isListening, isSupported: speechSupported, start: startListening, stop: stopListening } = useSpeechInput({
     lang: localeSpeechLang[locale],
-    onResult: useCallback((text: string) => {
+    onResult: (text: string) => {
       setSpeechError(null);
       sendMessage(text);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
+    },
     onError: useCallback((msg: string) => setSpeechError(msg), []),
   });
 
@@ -117,7 +119,7 @@ export default function CoachPage() {
   useEffect(() => {
     setMessages(copy.initialMessages.map((text) => ({ role: "coach", text })));
     apiHistory.current = [];
-  }, [locale]);
+  }, [locale, persona]);
 
   useEffect(() => {
     return () => {
@@ -185,6 +187,7 @@ export default function CoachPage() {
       streamFromAPI(
         userText,
         locale,
+        persona,
         historySnapshot,
         (chunk) => {
           liveReply += chunk;
@@ -218,7 +221,9 @@ export default function CoachPage() {
         readText={messages[messages.length - 1]?.text ?? t.coach.description}
       />
 
-      <div className="mb-5 rounded-2xl border border-primary/12 bg-white p-5 shadow-soft">
+      <CoachVoiceConversation />
+      <button type="button" aria-expanded={showTextChat} onClick={() => setShowTextChat(!showTextChat)} className="mb-5 rounded-xl border border-primary/20 bg-white px-4 py-3 font-bold">{locale === "pl" ? showTextChat ? "Ukryj czat tekstowy" : "Wolę napisać — otwórz czat" : showTextChat ? "Hide text chat" : "Prefer typing? Open text chat"}</button>
+      {showTextChat && <><div className="mb-5 rounded-2xl border border-primary/12 bg-white p-5 shadow-soft">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary text-white">
@@ -232,7 +237,7 @@ export default function CoachPage() {
             </div>
           </div>
           <VoiceButton
-            text={copy.introText}
+            text={persona === "milosz" ? copy.introText.replaceAll("Mila", "Miłosz").replaceAll("Twoja", "Twój").replaceAll("gotowa", "gotowy") : copy.introText}
             label={copy.introButton}
             variant="pill"
             className="shrink-0"
@@ -273,7 +278,7 @@ export default function CoachPage() {
                   {message.role === "coach" && (
                     <MilaAvatar
                       size="sm"
-                      isSpeaking={!!message.streaming || (voicePlaying && spokenText === message.text)}
+                      isSpeaking={voicePlaying && spokenText === message.text}
                       className="mr-2 mt-1"
                     />
                   )}
@@ -312,7 +317,7 @@ export default function CoachPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-end gap-2"
               >
-                <MilaAvatar size="sm" isSpeaking />
+                <MilaAvatar size="sm" />
                 <div className="flex gap-1 rounded-2xl rounded-tl-sm border border-primary/10 bg-primary/5 px-4 py-3">
                   {[0, 0.15, 0.3].map((delay) => (
                     <motion.span
@@ -395,7 +400,7 @@ export default function CoachPage() {
           <div className="rounded-2xl border border-primary/10 bg-white p-5 text-center shadow-soft">
             <MilaAvatar
               size="lg"
-              isSpeaking={isTyping || voicePlaying}
+              isSpeaking={voicePlaying}
               className="mx-auto"
             />
             <p className="mt-3 text-sm font-black uppercase tracking-normal text-primary">
@@ -430,7 +435,7 @@ export default function CoachPage() {
             </p>
           </div>
         </div>
-      </div>
+      </div></>}
     </section>
   );
 }

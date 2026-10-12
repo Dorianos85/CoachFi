@@ -63,12 +63,14 @@ type ChatPayload = {
   history?: { role: "user" | "assistant"; content: string }[];
   messages?: { role: "user" | "assistant"; content: string }[];
   locale?: string;
+  persona?: "mila" | "milosz";
 };
 
 type NormalizedChat = {
   message: string;
   safeHistory: { role: "user" | "assistant"; content: string }[];
   locale?: string;
+  persona: "mila" | "milosz";
 };
 
 type OpenRouterResponse = {
@@ -111,11 +113,13 @@ function normalizePayload(payload: ChatPayload): NormalizedChat | null {
     message: message.trim(),
     safeHistory,
     locale: payload.locale,
+    persona: payload.persona === "milosz" ? "milosz" : "mila",
   };
 }
 
-function getSystemPrompt(locale: string | undefined) {
-  return `${SYSTEM_PROMPT}\n\n${getLanguageInstruction(locale)}`;
+function getSystemPrompt(locale: string | undefined, persona: "mila" | "milosz") {
+  const prompt = persona === "milosz" ? SYSTEM_PROMPT.replaceAll("Mila", "Miłosz").replaceAll("feminine", "masculine").replace("never use masculine self-references", "never use feminine self-references") : SYSTEM_PROMPT;
+  return `${prompt}\n\n${getLanguageInstruction(locale)}`;
 }
 
 async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
@@ -126,7 +130,7 @@ async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
   const stream = await client.messages.create({
     model,
     max_tokens: maxTokens,
-    system: getSystemPrompt(chat.locale),
+    system: getSystemPrompt(chat.locale, chat.persona),
     messages: [
       ...chat.safeHistory, // last 6 turns for context, keeps costs low
       { role: "user", content: chat.message },
@@ -180,7 +184,7 @@ async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
       model,
       max_tokens: maxTokens,
       messages: [
-        { role: "system", content: getSystemPrompt(chat.locale) },
+        { role: "system", content: getSystemPrompt(chat.locale, chat.persona) },
         ...chat.safeHistory,
         { role: "user", content: chat.message },
       ],
