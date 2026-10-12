@@ -56,7 +56,7 @@ type StateRow = {
 
 export function accountStorageConfigured() {
   if (process.env.NODE_ENV !== "production") return true;
-  return Boolean(getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL") && getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY"));
+  return Boolean(getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL") && (getOptionalEnv("SUPABASE_SECRET_KEY") ?? getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY")));
 }
 
 export async function getAccount(cdpUserId: string) {
@@ -151,7 +151,7 @@ export async function saveCertificate(cdpUserId: string, input: CertificateSave)
 
 function serviceClient() {
   const url = getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL");
-  const key = getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY");
+  const key = (getOptionalEnv("SUPABASE_SECRET_KEY") ?? getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY"));
   if (!url || !key) return null;
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -269,7 +269,7 @@ function saveSqliteProgress(db: ReturnType<typeof getDevDb>, cdpUserId: string, 
 
 async function loadSupabaseProgress(supabase: SupabaseClient, cdpUserId: string, state: AccountSnapshot | null) {
   const { data, error } = await supabase
-    .from("progress")
+    .from("coachfi_progress")
     .select("srs, learn_manual, tokens, streak")
     .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
@@ -299,7 +299,7 @@ async function saveSupabaseProgress(
 ) {
   const existing = await loadSupabaseProgressRow(supabase, cdpUserId);
   const progress = progressFromState(state);
-  const { error } = await supabase.from("progress").upsert(
+  const { error } = await supabase.from("coachfi_progress").upsert(
     {
       cdp_user_id: cdpUserId,
       srs: progress.srs === undefined ? existing?.srs ?? null : progress.srs,
@@ -315,7 +315,7 @@ async function saveSupabaseProgress(
 
 async function loadSupabaseProgressRow(supabase: SupabaseClient, cdpUserId: string) {
   const { data, error } = await supabase
-    .from("progress")
+    .from("coachfi_progress")
     .select("srs, learn_manual, tokens, streak")
     .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
@@ -442,7 +442,7 @@ function deleteSqliteAccount(cdpUserId: string) {
 
 async function getSupabaseAccount(supabase: SupabaseClient, cdpUserId: string): Promise<AccountRecord | null> {
   const { data, error } = await supabase
-    .from("accounts")
+    .from("coachfi_accounts")
     .select(ACCOUNT_COLUMNS)
     .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
@@ -451,7 +451,7 @@ async function getSupabaseAccount(supabase: SupabaseClient, cdpUserId: string): 
   if (!account) return null;
 
   const stateResult = await supabase
-    .from("account_state")
+    .from("coachfi_account_state")
     .select("state, updated_at")
     .eq("cdp_user_id", cdpUserId)
     .maybeSingle();
@@ -468,7 +468,7 @@ async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, 
   const email = input.email === undefined ? existing?.email ?? null : input.email;
   const displayName = input.displayName === undefined ? existing?.displayName ?? null : input.displayName;
 
-  const accountResult = await supabase.from("accounts").upsert(
+  const accountResult = await supabase.from("coachfi_accounts").upsert(
     {
       cdp_user_id: cdpUserId,
       email,
@@ -479,7 +479,7 @@ async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, 
   );
   if (accountResult.error) throw new Error(accountResult.error.message);
 
-  const stateResult = await supabase.from("account_state").upsert(
+  const stateResult = await supabase.from("coachfi_account_state").upsert(
     {
       cdp_user_id: cdpUserId,
       state: input.state,
@@ -497,7 +497,7 @@ async function saveSupabaseAccount(supabase: SupabaseClient, cdpUserId: string, 
 
 async function saveSupabaseIdentity(supabase: SupabaseClient, cdpUserId: string, identity: CdpIdentitySave) {
   const existing = await getSupabaseAccount(supabase, cdpUserId);
-  const result = await supabase.from("accounts").upsert(
+  const result = await supabase.from("coachfi_accounts").upsert(
     {
       cdp_user_id: cdpUserId,
       email: identity.email ?? existing?.email ?? null,
@@ -515,13 +515,13 @@ async function saveSupabaseIdentity(supabase: SupabaseClient, cdpUserId: string,
 }
 
 async function deleteSupabaseAccount(supabase: SupabaseClient, cdpUserId: string) {
-  const certificateResult = await supabase.from("certificates").delete().eq("cdp_user_id", cdpUserId);
+  const certificateResult = await supabase.from("coachfi_certificates").delete().eq("cdp_user_id", cdpUserId);
   if (certificateResult.error) throw new Error(certificateResult.error.message);
-  const progressResult = await supabase.from("progress").delete().eq("cdp_user_id", cdpUserId);
+  const progressResult = await supabase.from("coachfi_progress").delete().eq("cdp_user_id", cdpUserId);
   if (progressResult.error) throw new Error(progressResult.error.message);
-  const stateResult = await supabase.from("account_state").delete().eq("cdp_user_id", cdpUserId);
+  const stateResult = await supabase.from("coachfi_account_state").delete().eq("cdp_user_id", cdpUserId);
   if (stateResult.error) throw new Error(stateResult.error.message);
-  const accountResult = await supabase.from("accounts").delete().eq("cdp_user_id", cdpUserId);
+  const accountResult = await supabase.from("coachfi_accounts").delete().eq("cdp_user_id", cdpUserId);
   if (accountResult.error) throw new Error(accountResult.error.message);
 }
 
@@ -661,7 +661,7 @@ function saveSqliteCertificate(cdpUserId: string, input: ReturnType<typeof certi
 
 async function listSupabaseCertificates(supabase: SupabaseClient, cdpUserId: string) {
   const { data, error } = await supabase
-    .from("certificates")
+    .from("coachfi_certificates")
     .select(CERTIFICATE_COLUMNS)
     .eq("cdp_user_id", cdpUserId)
     .order("certificate_id");
@@ -687,7 +687,7 @@ async function saveSupabaseCertificate(
   const txHash = input.txHash === undefined ? existing?.txHash ?? null : input.txHash;
   const chainCheckedAt = input.chainCheckedAt === undefined ? existing?.chainCheckedAt ?? null : input.chainCheckedAt;
 
-  const { error } = await supabase.from("certificates").upsert(
+  const { error } = await supabase.from("coachfi_certificates").upsert(
     {
       cdp_user_id: cdpUserId,
       certificate_id: input.certificateId,
