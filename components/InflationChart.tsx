@@ -10,12 +10,11 @@ import {
   YAxis
 } from "recharts";
 
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap, type Locale } from "@/lib/i18n";
 import type { InflationScenario } from "@/lib/inflation";
 import { formatCurrency } from "@/lib/utils";
 
-const chartCopy: Record<
-  Locale,
+const chartCopy: LocalizedMap<
   { aria: string; cash: string; habit: string; investing: string }
 > = {
   pl: {
@@ -47,7 +46,7 @@ export function InflationChart({
   currency?: string;
   locale?: Locale;
 }) {
-  const copy = chartCopy[locale];
+  const copy = pickLocalized(chartCopy, locale);
 
   return (
     <div

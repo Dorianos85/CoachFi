@@ -9,33 +9,32 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { getStoryCards, type StoryCard } from "@/data/storyCards";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const DRAG_THRESHOLD = 80;
-const cardsCopy: Record<
-  Locale,
-  {
-    eyebrow: string;
-    title: string;
-    description: string;
-    readText: string;
-    source: string;
-    learnMore: string;
-    quickTip: string;
-    cardAria: (headline: string) => string;
-    regionAria: string;
-    goTo: (index: number) => string;
-    previous: string;
-    next: string;
-    copied: string;
-    copy: string;
-    share: string;
-    download: string;
-    footer: string;
-    shareTitle: string;
-  }
-> = {
+type CardsCopy = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  readText: string;
+  source: string;
+  learnMore: string;
+  quickTip: string;
+  cardAria: (headline: string) => string;
+  regionAria: string;
+  goTo: (index: number) => string;
+  previous: string;
+  next: string;
+  copied: string;
+  copy: string;
+  share: string;
+  download: string;
+  footer: string;
+  shareTitle: string;
+};
+
+const cardsCopy: LocalizedMap<CardsCopy> = {
   pl: {
     eyebrow: "Karty wiedzy",
     title: "Przesuwaj i ucz się",
@@ -123,7 +122,7 @@ function drawRoundedRect(
   ctx.closePath();
 }
 
-function buildShareText(cards: StoryCard[], idx: number, copy: (typeof cardsCopy)[Locale]): string {
+function buildShareText(cards: StoryCard[], idx: number, copy: CardsCopy): string {
   const card = cards[idx];
   if (!card) return "";
   return [
@@ -143,7 +142,7 @@ async function exportCard(
   cardEl: HTMLElement | null,
   filename: string,
   cards: StoryCard[],
-  copy: (typeof cardsCopy)[Locale]
+  copy: CardsCopy
 ) {
   if (!cardEl) return;
   // Fallback: just download the share text as a .txt
@@ -239,7 +238,7 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
 // Individual card
 function KnowledgeCard({ card, copy, style, onDragEnd }: {
   card: StoryCard;
-  copy: (typeof cardsCopy)[Locale];
+  copy: CardsCopy;
   style?: React.CSSProperties;
   onDragEnd?: (dir: "left" | "right") => void;
 }) {
@@ -318,7 +317,7 @@ function KnowledgeCard({ card, copy, style, onDragEnd }: {
 
 export default function CardsPage() {
   const { locale } = useLanguage();
-  const copy = cardsCopy[locale];
+  const copy = pickLocalized(cardsCopy, locale);
   const cards = getStoryCards(locale);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");

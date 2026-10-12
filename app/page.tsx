@@ -13,7 +13,6 @@ import {
   Landmark,
   Mic,
   PiggyBank,
-  Play,
   Plus,
   ShieldCheck,
   Sparkles,
@@ -22,17 +21,52 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
-import type { Locale } from "@/lib/i18n";
+import { getAllQuestionIds } from "@/lib/allQuestions";
+import { getHealthCheck } from "@/lib/healthCheck";
+import { getAllCards } from "@/lib/srs";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { dashboardCopy } from "@/lib/dashboardCopy";
 import { formatCurrency, formatNumber, LOCALE_INTL } from "@/lib/utils";
 
-type DashboardCopy = (typeof dashboardCopy)[Locale];
+type DashboardCopy = (typeof dashboardCopy)["en"];
+
+// The dashboard ships with illustrative figures. Until the user runs the free
+// Health Check we must label them clearly as an example — never as their data.
+const demoCopy: LocalizedMap<{ badge: string; note: string; yourScore: string }> = {
+  en: {
+    badge: "Example",
+    note: "Sample data — run the free Health Check to see your own numbers.",
+    yourScore: "Your score",
+  },
+  pl: {
+    badge: "Przykład",
+    note: "Dane przykładowe — zrób darmową diagnozę, aby zobaczyć swoje liczby.",
+    yourScore: "Twój wynik",
+  },
+  es: {
+    badge: "Ejemplo",
+    note: "Datos de ejemplo: haz el diagnóstico gratuito para ver tus cifras.",
+    yourScore: "Tu puntuación",
+  },
+  fr: {
+    badge: "Exemple",
+    note: "Données d'exemple — faites le diagnostic gratuit pour voir vos chiffres.",
+    yourScore: "Votre score",
+  },
+  ja: {
+    badge: "サンプル",
+    note: "サンプルデータです。無料診断を実行すると実際の数値が表示されます。",
+    yourScore: "あなたのスコア",
+  },
+};
+
+const DEMO_STABILITY_SCORE = 62;
 
 const routeVisuals = [
   { icon: ShieldCheck, progress: 53, tone: "#7668E8" },
@@ -63,14 +97,67 @@ type ChartDatum = {
 
 export default function Page() {
   const { t, locale } = useLanguage();
-  const copy = dashboardCopy[locale];
+  const copy = pickLocalized(dashboardCopy, locale);
   const intlLocale = LOCALE_INTL[locale] ?? "en-US";
   const fmt = (v: number) => formatCurrency(v, t.currency, intlLocale);
+  const demo = pickLocalized(demoCopy, locale);
 
-  const metrics = copy.metrics.map((metric) => ({
-    ...metric,
-    value: metric.value === "dynamic" ? fmt(840) : metric.value,
-  }));
+  // Real score + metrics once the user has run the diagnosis; demo until then.
+  const [realScore, setRealScore] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<{
+    monthlyIncome: number;
+    monthlyExpenses: number;
+    savings: number;
+  } | null>(null);
+  const [lessonsDone, setLessonsDone] = useState(0);
+  const [lessonsTotal, setLessonsTotal] = useState(0);
+  useEffect(() => {
+    const read = () => {
+      const stored = getHealthCheck();
+      setRealScore(stored?.score ?? null);
+      const a = stored?.answers as Record<string, number> | undefined;
+      setAnswers(
+        a && typeof a.monthlyExpenses === "number"
+          ? {
+              monthlyIncome: Number(a.monthlyIncome) || 0,
+              monthlyExpenses: Number(a.monthlyExpenses) || 0,
+              savings: Number(a.savings) || 0,
+            }
+          : null
+      );
+      const ids = getAllQuestionIds(locale);
+      setLessonsTotal(ids.length);
+      const seen = new Set(getAllCards().filter((c) => c.repetitions > 0).map((c) => c.id));
+      setLessonsDone(ids.filter((id) => seen.has(id)).length);
+    };
+    read();
+    window.addEventListener("coachfi-health-check", read);
+    window.addEventListener("coachfi-cloud-synced", read);
+    return () => {
+      window.removeEventListener("coachfi-health-check", read);
+      window.removeEventListener("coachfi-cloud-synced", read);
+    };
+  }, [locale]);
+  const isDemo = realScore === null;
+
+  // Derive the headline metrics from the user's own Health Check answers once
+  // they exist; the hardcoded figures are only an illustrative fallback.
+  const metrics = copy.metrics.map((metric, index) => {
+    if (!answers) {
+      return { ...metric, value: metric.value === "dynamic" ? fmt(840) : metric.value };
+    }
+    if (index === 0) {
+      // Cushion: savings as a share of a 6-month emergency-fund goal.
+      const goal = Math.max(1, answers.monthlyExpenses * 6);
+      const pct = Math.max(0, Math.min(100, Math.round((answers.savings / goal) * 100)));
+      return { ...metric, value: `${pct}%` };
+    }
+    if (index === 1) {
+      // Monthly surplus: income minus expenses.
+      return { ...metric, value: fmt(answers.monthlyIncome - answers.monthlyExpenses) };
+    }
+    return { ...metric, value: `${lessonsDone}/${lessonsTotal}` };
+  });
 
   const spendingSignals = spendingSignalsData.map((signal, index) => ({
     label: copy.budget.signals[index] ?? "",
@@ -113,45 +200,79 @@ export default function Page() {
                 {copy.hero.description}
               </p>
 
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {metrics.map((metric) => (
-                  <Metric key={metric.label} {...metric} />
-                ))}
+              <div className="mt-7">
+                {isDemo && (
+                  <p className="mb-2 flex items-center gap-2 text-xs font-bold text-muted">
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
+                      {demo.badge}
+                    </span>
+                    {demo.note}
+                  </p>
+                )}
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {metrics.map((metric) => (
+                    <Metric key={metric.label} {...metric} />
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-7 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,11.5rem),1fr))]">
-                <Button asChild size="lg" className="w-full px-4 text-sm font-black leading-tight shadow-none md:text-[15px]">
-                  <Link href="/health-check">
-                    <Calculator className="h-5 w-5 shrink-0" aria-hidden="true" />
-                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
-                      {copy.hero.diagnosis}
-                    </span>
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="w-full px-4 text-sm font-black leading-tight md:text-[15px]">
-                  <Link href="/learn">
-                    <Play className="h-5 w-5 shrink-0" aria-hidden="true" />
-                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
-                      {copy.hero.continueLearning}
-                    </span>
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="w-full px-4 text-sm font-black leading-tight md:text-[15px]">
-                  <Link href="/voice-demo">
-                    <Mic className="h-5 w-5 shrink-0" aria-hidden="true" />
-                    <span className="min-w-0 whitespace-normal [overflow-wrap:normal] [word-break:normal]">
+              {/* One primary action above the fold — which one depends on
+                  whether the user already has a score. A second, secondary
+                  link covers the next-best action instead of three
+                  competing buttons. */}
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+                {isDemo ? (
+                  <>
+                    <Button asChild size="lg" className="px-6 text-sm font-black shadow-none md:text-[15px]">
+                      <Link href="/health-check">
+                        <Calculator className="h-5 w-5 shrink-0" aria-hidden="true" />
+                        {copy.hero.diagnosis}
+                      </Link>
+                    </Button>
+                    <Link
+                      href="/voice-demo"
+                      className="inline-flex items-center gap-1.5 text-sm font-black text-primary hover:underline"
+                    >
+                      <Mic className="h-4 w-4 shrink-0" aria-hidden="true" />
                       {copy.hero.voiceDemo}
-                    </span>
-                  </Link>
-                </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild size="lg" className="px-6 text-sm font-black shadow-none md:text-[15px]">
+                      <Link href="/coach">
+                        <Mic className="h-5 w-5 shrink-0" aria-hidden="true" />
+                        {copy.score.askMila}
+                      </Link>
+                    </Button>
+                    <Link
+                      href="/learn"
+                      className="inline-flex items-center gap-1.5 text-sm font-black text-primary hover:underline"
+                    >
+                      {copy.hero.continueLearning}
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="border-t border-primary/10 bg-[#EEF2FF] p-5 text-text md:p-6 2xl:border-l 2xl:border-t-0">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm font-black uppercase text-muted">{copy.score.title}</p>
-                  <p className="mt-2 text-6xl font-black leading-none text-text">62</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm font-black uppercase text-muted">
+                      {isDemo ? copy.score.title : demo.yourScore}
+                    </p>
+                    {isDemo && (
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
+                        {demo.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-6xl font-black leading-none text-text">
+                    {realScore ?? DEMO_STABILITY_SCORE}
+                  </p>
                   <p className="mt-1 text-sm font-bold text-muted">{copy.score.outOf}</p>
                 </div>
                 <div
@@ -167,6 +288,12 @@ export default function Page() {
                   </div>
                 </div>
               </div>
+
+              {isDemo && (
+                <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-800">
+                  {demo.note}
+                </p>
+              )}
 
               <div className="mt-7 rounded-lg bg-white/72 p-4">
                 <p className="text-sm font-black text-text">{copy.score.nextTitle}</p>

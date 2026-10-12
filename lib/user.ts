@@ -1,3 +1,5 @@
+import { notifyCloud } from "@/lib/sync/syncQueue";
+
 const USER_KEY = "coachfi-user";
 
 export interface UserProfile {
@@ -22,6 +24,7 @@ export function getUser(): UserProfile {
 export function saveUser(profile: UserProfile): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(USER_KEY, JSON.stringify(profile));
+  notifyCloud("profile");
 }
 
 export function getDisplayName(profile: UserProfile): string {

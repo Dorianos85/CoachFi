@@ -4,12 +4,12 @@ import { Eye, Type } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type TextScale = "normal" | "large" | "xlarge";
 
-const COPY: Record<Locale, { contrast: string; textSize: string; normal: string; large: string; xlarge: string }> = {
+const COPY: LocalizedMap<{ contrast: string; textSize: string; normal: string; large: string; xlarge: string }> = {
   en: { contrast: "Contrast", textSize: "Text size", normal: "A", large: "A+", xlarge: "A++" },
   pl: { contrast: "Kontrast", textSize: "Rozmiar tekstu", normal: "A", large: "A+", xlarge: "A++" },
   ja: { contrast: "コントラスト", textSize: "文字サイズ", normal: "A", large: "A+", xlarge: "A++" },
@@ -39,7 +39,7 @@ export function AccessibilityToggle({
   compact?: boolean;
 }) {
   const { locale } = useLanguage();
-  const copy = COPY[locale];
+  const copy = pickLocalized(COPY, locale);
   const activeScale = largeText && textScale === "normal" ? "large" : textScale;
 
   function handleScale(next: TextScale) {
@@ -65,7 +65,12 @@ export function AccessibilityToggle({
       </Button>
 
       <div
-        className="inline-flex min-h-10 flex-wrap items-stretch rounded-lg border border-primary/15 bg-white shadow-sm"
+        className={cn(
+          "inline-flex min-h-10 flex-wrap items-stretch rounded-lg border border-primary/15 bg-white shadow-sm",
+          // In the compact header there is no room for the 3-button scale group on
+          // very narrow screens; the full control stays on the /accessibility page.
+          compact && "hidden sm:inline-flex"
+        )}
         role="group"
         aria-label={copy.textSize}
       >

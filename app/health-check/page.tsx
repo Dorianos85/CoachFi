@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
-import { Share2, Trophy } from "lucide-react";
+import { CheckCircle2, LifeBuoy, LockKeyhole, Mail, Share2, Sparkles, Trophy } from "lucide-react";
 import Link from "next/link";
 
+import { FamilyActionPlan } from "@/components/FamilyActionPlan";
 import { FinancialScoreCard } from "@/components/FinancialScoreCard";
 import { ShareScoreCard } from "@/components/ShareScoreCard";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -15,6 +16,7 @@ import { getStreak } from "@/lib/streak";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
 import { mockUser } from "@/data/mockUser";
+import { getHealthCheck, saveHealthCheck } from "@/lib/healthCheck";
 import { getLocalizedContent } from "@/lib/localizedContent";
 
 interface HealthForm {
@@ -50,8 +52,14 @@ export default function HealthCheckPage() {
     investsAlready: mockUser.investsAlready,
     mainFinancialGoal: mockUser.mainFinancialGoal,
   });
-  const [score, setScore] = useState(mockUser.financialHealthScore);
+  // Start from the last saved result on this device (falls back to the demo value).
+  const [score, setScore] = useState(() => getHealthCheck()?.score ?? mockUser.financialHealthScore);
   const [submitted, setSubmitted] = useState(false);
+  const [scoreUnlocked, setScoreUnlocked] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [trialActive, setTrialActive] = useState(false);
 
   const diagnosis =
     score < 40
@@ -62,6 +70,9 @@ export default function HealthCheckPage() {
           ? t.healthCheck.interpretation.good
           : t.healthCheck.interpretation.excellent;
   const scoreVoiceText = copy.health.scoreVoice(score);
+  const previewInsights = getPreviewInsights(form, locale);
+  const canUnlock = submitted && loginEmail.includes("@") && termsAccepted;
+  const showEmergencyPath = scoreUnlocked && score < 40;
 
   function updateBool(field: keyof HealthForm, val: string) {
     setForm((f) => ({ ...f, [field]: val === "yes" }));
@@ -84,8 +95,13 @@ export default function HealthCheckPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setScore(calculateHealthScore(form));
+            const nextScore = calculateHealthScore(form);
+            setScore(nextScore);
+            // Persist locally (+ push to health_checks when signed in) so the
+            // result survives navigation and feeds the home dashboard.
+            saveHealthCheck(nextScore, { ...form });
             setSubmitted(true);
+            setScoreUnlocked(false);
             markActive();
           }}
           className="focus-card rounded-lg p-5 md:p-6"
@@ -164,15 +180,98 @@ export default function HealthCheckPage() {
             {t.healthCheck.submit}
           </Button>
 
-          {submitted && (
+          {submitted && !scoreUnlocked && (
+            <div className="mt-5 rounded-lg border border-primary/15 bg-primary/5 p-4" aria-live="polite">
+              <div className="flex items-start gap-3">
+                <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <div>
+                  <p className="font-black text-text">
+                    {locale === "pl" ? "Wstępna diagnoza jest gotowa" : "Your preview diagnosis is ready"}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold leading-6 text-muted">
+                    {locale === "pl"
+                      ? "Pełny wynik i plan rodzinny pokażemy po logowaniu oraz akceptacji regulaminu i polityki prywatności."
+                      : "The full score and family plan unlock after login and Terms/Privacy acceptance."}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 grid gap-2">
+                {previewInsights.map((insight) => (
+                  <p key={insight} className="rounded-lg bg-white/80 p-3 text-sm font-bold text-text">
+                    {insight}
+                  </p>
+                ))}
+              </div>
+
+              <div className="mt-4 grid gap-3">
+                <label className="grid gap-1.5 text-sm font-bold text-text">
+                  {locale === "pl" ? "Email do logowania" : "Login email"}
+                  <span className="relative">
+                    <Mail
+                      className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+                      aria-hidden="true"
+                    />
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className={`${inputClass} pl-10`}
+                    />
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 rounded-lg bg-white/80 p-3 text-sm font-bold text-text">
+                  <input
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                    className="mt-1 h-4 w-4 accent-primary"
+                  />
+                  <span>
+                    {locale === "pl"
+                      ? "Akceptuję regulamin, politykę prywatności i rozumiem, że Coach FI ma charakter edukacyjny."
+                      : "I accept Terms, Privacy Policy and understand Coach FI is educational."}
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 rounded-lg bg-white/80 p-3 text-sm font-bold text-text">
+                  <input
+                    type="checkbox"
+                    checked={marketingConsent}
+                    onChange={(e) => setMarketingConsent(e.target.checked)}
+                    className="mt-1 h-4 w-4 accent-primary"
+                  />
+                  <span>
+                    {locale === "pl"
+                      ? "Chcę otrzymywać edukacyjne materiały i informacje o premierze. To zgoda dobrowolna."
+                      : "I want educational launch emails. This consent is optional."}
+                  </span>
+                </label>
+
+                <Button
+                  type="button"
+                  size="lg"
+                  disabled={!canUnlock}
+                  onClick={() => setScoreUnlocked(true)}
+                >
+                  {locale === "pl" ? "Odblokuj wynik i plan" : "Unlock score and plan"}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {submitted && scoreUnlocked && (
             <div className="mt-4 flex flex-col gap-2">
               <p
                 className="rounded-lg bg-success/20 p-3 text-center text-sm font-bold text-text"
                 aria-live="polite"
               >
-                ✓ {t.healthCheck.nextStep}
+                <CheckCircle2 className="mr-2 inline h-4 w-4" aria-hidden="true" />
+                {t.healthCheck.nextStep}
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <Button
                   type="button"
                   variant="outline"
@@ -196,10 +295,86 @@ export default function HealthCheckPage() {
         </form>
 
         <div className="grid content-start gap-3">
-          <FinancialScoreCard score={score} diagnosis={diagnosis} />
-          <VoiceButton text={scoreVoiceText} label={copy.voice.readScore} variant="pill" className="justify-center py-2.5" />
+          {scoreUnlocked ? (
+            <>
+              <FinancialScoreCard score={score} diagnosis={diagnosis} />
+              <VoiceButton text={scoreVoiceText} label={copy.voice.readScore} variant="pill" className="justify-center py-2.5" />
+              <div className="rounded-lg border border-accent/40 bg-accent/35 p-4">
+                <div className="flex items-start gap-3">
+                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[#7A5A00]" aria-hidden="true" />
+                  <div>
+                    <p className="font-black text-text">
+                      {trialActive
+                        ? locale === "pl"
+                          ? "Trial Mili aktywny"
+                          : "Mila trial active"
+                        : "Mila Voice Coach Trial"}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold leading-6 text-muted">
+                      {locale === "pl"
+                        ? "7 dni testu z limitami rozmów głosowych, analiz i lekcji rodzinnych. Premium ma pełny dostęp z zasadami fair-use."
+                        : "7-day test with limits for voice sessions, analyses and family lessons. Premium has full access with fair-use."}
+                    </p>
+                    <Button type="button" size="sm" className="mt-3" onClick={() => setTrialActive(true)}>
+                      {trialActive
+                        ? locale === "pl"
+                          ? "Trial aktywny"
+                          : "Trial active"
+                        : locale === "pl"
+                          ? "Włącz trial"
+                          : "Start trial"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              {showEmergencyPath && (
+                <div className="rounded-lg border border-warning/30 bg-warning/15 p-4">
+                  <p className="text-sm font-bold leading-6 text-text">
+                    {locale === "pl"
+                      ? "Wynik wskazuje napięcie finansowe. Ścieżka bezpłatnej pomocy jest dostępna, ale nie jest głównym produktem Coach FI."
+                      : "The score suggests financial pressure. Free help is available, but it is not the main Coach FI product."}
+                  </p>
+                  <Link
+                    href="/crisis"
+                    className="mt-3 inline-flex items-center gap-2 rounded-lg border border-primary/15 bg-white px-4 py-2 text-sm font-black text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    <LifeBuoy className="h-4 w-4" aria-hidden="true" />
+                    {locale === "pl" ? "Pokaż bezpłatną pomoc" : "Show free help"}
+                  </Link>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="rounded-lg border border-primary/15 bg-white p-5 shadow-soft">
+              <div className="grid h-20 w-20 place-items-center rounded-lg bg-primary/10 text-primary">
+                <LockKeyhole className="h-9 w-9" aria-hidden="true" />
+              </div>
+              <h2 className="mt-4 text-2xl font-black text-text">
+                {locale === "pl" ? "Wynik jest zablokowany" : "Score is locked"}
+              </h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                {locale === "pl"
+                  ? "Zrób darmową analizę. Pełny wynik i rozwiązanie pokażemy po logowaniu oraz akceptacji zasad."
+                  : "Run the free analysis. Full score and solution unlock after login and terms acceptance."}
+              </p>
+            </div>
+          )}
         </div>
       </div>
+
+      {submitted && scoreUnlocked && (
+        <div className="mt-6">
+          <FamilyActionPlan
+            score={score}
+            monthlyIncome={form.monthlyIncome}
+            monthlyExpenses={form.monthlyExpenses}
+            savings={form.savings}
+            goal={form.mainFinancialGoal}
+            trialActive={trialActive}
+            onStartTrial={() => setTrialActive(true)}
+          />
+        </div>
+      )}
 
       <ShareScoreCard score={score} open={shareOpen} onClose={() => setShareOpen(false)} />
     </section>
@@ -294,4 +469,41 @@ function calculateHealthScore(form: HealthForm) {
       )
     )
   );
+}
+
+function getPreviewInsights(form: HealthForm, locale: string) {
+  const isPolish = locale === "pl";
+  const spendingRatio = form.monthlyIncome > 0 ? form.monthlyExpenses / form.monthlyIncome : 1;
+  const cushionMonths = form.monthlyExpenses > 0 ? form.savings / form.monthlyExpenses : 0;
+  const insights: string[] = [];
+
+  insights.push(
+    spendingRatio > 0.75
+      ? isPolish
+        ? "Wydatki są wysokie względem dochodu. To pierwszy obszar do sprawdzenia."
+        : "Spending is high compared with income. This is the first area to check."
+      : isPolish
+        ? "Masz przestrzeń do zbudowania systemu i regularnego planu."
+        : "You have room to build a system and a regular plan."
+  );
+
+  insights.push(
+    cushionMonths < 3
+      ? isPolish
+        ? "Poduszka finansowa wymaga wzmocnienia, zanim zwiększysz ryzyko."
+        : "Your safety cushion needs strengthening before taking more risk."
+      : isPolish
+        ? "Poduszka finansowa daje dobry start do kolejnych nawyków."
+        : "Your financial cushion gives you a good base for the next habits."
+  );
+
+  if (!form.investsAlready || !form.hasRetirementPlan) {
+    insights.push(
+      isPolish
+        ? "Brakuje regularnego planu przyszłości: edukacja, inwestowanie lub emerytura."
+        : "A regular future plan is missing: education, investing or retirement."
+    );
+  }
+
+  return insights.slice(0, 3);
 }

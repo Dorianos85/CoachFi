@@ -2,7 +2,7 @@
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 type LegalPageCopy = {
   eyebrow: string;
@@ -12,7 +12,7 @@ type LegalPageCopy = {
   blocks: Array<{ title: string; items: string[] }>;
 };
 
-const TERMS_COPY: Record<Locale, LegalPageCopy> = {
+const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
   en: {
     eyebrow: "Terms",
     title: "Coach FI Terms of Use",
@@ -145,7 +145,7 @@ const TERMS_COPY: Record<Locale, LegalPageCopy> = {
 
 export default function TermsPage() {
   const { locale } = useLanguage();
-  const copy = TERMS_COPY[locale];
+  const copy = pickLocalized(TERMS_COPY, locale);
   const readText = [copy.title, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`)].join(". ");
 
   return (

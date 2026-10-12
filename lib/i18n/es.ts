@@ -9,6 +9,7 @@ export const es: Translations = {
     home: "Inicio",
     healthCheck: "Diagnóstico",
     inflation: "Inflación",
+    shopping: "Higiene de compras",
     learn: "Aprender",
     coach: "Coach IA",
     quiz: "Quiz",

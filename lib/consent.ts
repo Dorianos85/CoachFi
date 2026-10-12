@@ -1,3 +1,5 @@
+import { notifyCloud } from "@/lib/sync/syncQueue";
+
 export const CONSENT_STORAGE_KEY = "coachfi-consent-v1";
 export const CONSENT_VERSION = "2026-05-10";
 
@@ -70,6 +72,7 @@ export function readStoredConsent(): ConsentRecord | null {
 export function writeStoredConsent(record: ConsentRecord) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(record));
+  notifyCloud("consent");
 }
 
 export function clearStoredConsent() {

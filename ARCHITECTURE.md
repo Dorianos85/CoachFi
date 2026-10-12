@@ -8,6 +8,36 @@
 
 ---
 
+## 0. Current Source of Truth
+
+Coach FI is moving from a broad hackathon prototype into a focused daily learning product. The core product loop is:
+
+**Daily Challenge -> Quiz -> Mila -> Coins -> Level -> Share -> Come back tomorrow**
+
+The architecture must support three clear modes:
+
+- **Adult Mode**: full financial education, AI coach, rewards and optional Solana certificate.
+- **Kids Mode**: simplified lessons, coins/stars and no free-form financial advice.
+- **Accessibility Mode**: voice-first education, large controls, high contrast and readable text.
+
+The implementation roadmap and product boundaries are documented here:
+
+- [Product Architecture](docs/PRODUCT_ARCHITECTURE.md)
+- [Distribution Rollout](docs/DISTRIBUTION_ROLLOUT.md)
+- [API Setup](docs/API_SETUP.md)
+- [Security & Privacy](docs/SECURITY_PRIVACY.md)
+
+Real integrations and fallbacks must be described explicitly. Current verified state:
+
+- Anthropic Claude works when `ANTHROPIC_API_KEY` is configured.
+- OpenRouter is optional and requires `OPENROUTER_API_KEY`.
+- ElevenLabs TTS works through `/api/tts`; browser speech is the fallback.
+- Bank/Open Banking integration is not connected yet; start with manual 6-jar subaccount tracking and add read-only AIS only through licensed providers after explicit consent.
+- Supabase leaderboard is optional and falls back to local data.
+- Solana Devnet minting requires a funded mint authority wallet.
+
+---
+
 ## 1. Project Overview
 
 Coach FI is a financial education PWA targeting the Colosseum hackathon. It combines:
@@ -17,10 +47,11 @@ Coach FI is a financial education PWA targeting the Colosseum hackathon. It comb
 - **NFT certificates** minted on Solana Devnet (Metaplex Core) as proof of learning
 - A **global leaderboard** backed by Supabase with local fallback
 - A **personalizable avatar** with financial shield (hexagonal radar chart)
+- Adult habit tools: Daily Shopping List, Receipt & Invoice Analyzer, Shopping Hygiene, bottle-return counting, Eker 6-jar planning, future 6-jar subaccount preview and Financial Crisis Plan
 - Three user modes: Adult, Kids, Accessibility
 - Full i18n: English, Polish, Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and Turkish
 
-All user data is stored in `localStorage` — no account required. External services (Anthropic, OpenRouter, ElevenLabs, Supabase, Solana) degrade gracefully when API keys are absent.
+All user data is stored in `localStorage` — no account required. External services (Anthropic, OpenRouter, ElevenLabs, Supabase, Solana) degrade gracefully when API keys are absent. The static Receipt & Invoice Analyzer parses pasted text/OCR and previews attached files only; production OCR/vision should run only after explicit user consent. Financial Crisis Plan content routes users toward human support, official resources and emergency services; it is not a medical, legal or debt-advice substitute.
 
 ---
 
@@ -50,6 +81,8 @@ coach-fi/
 │   │   └── layout.tsx            # Open Graph metadata for achievement share links
 │   ├── challenge/page.tsx        # Daily challenge — 1 question per day
 │   ├── inflation/page.tsx        # Interactive inflation calculator + chart
+│   ├── shopping/page.tsx         # Shopping Hygiene + bottle-return counter
+│   ├── crisis/page.tsx           # Adult Financial Crisis Plan
 │   ├── kids/page.tsx             # Simplified kids mode
 │   ├── accessibility/page.tsx    # Accessibility settings page
 │   ├── partner/page.tsx          # Sponsor/partner info page

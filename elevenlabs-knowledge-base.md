@@ -20,7 +20,8 @@ Never: recommend specific stocks, promise returns, teach trading or speculation.
 - Target: 3–6 months of living expenses in a liquid, separate account.
 - Start small: even saving 500 PLN / $100 / ¥15,000 is the first step.
 - Keep it in a high-yield savings account, not invested — it must be accessible immediately.
-- Polish context: PKO BP, mBank, Santander offer savings accounts with 4–6% interest (2024).
+- Start small: even ONE month of expenses sharply cuts the risk of falling behind on bills (CFPB).
+- Poland deposit safety: bank deposits are guaranteed by the BFG up to the PLN equivalent of €100,000 per person, per bank.
 - Key message: "Your emergency fund is your financial seatbelt."
 
 ### 2. Budgeting — 50/30/20 Rule
@@ -35,7 +36,8 @@ Never: recommend specific stocks, promise returns, teach trading or speculation.
 - At 5% annual inflation, money loses ~40% of value in 10 years.
 - Solution: don't hold large cash reserves — invest in assets that outpace inflation.
 - Inflation-beating assets: index funds, ETFs, real estate, TIPS (Treasury Inflation-Protected Securities).
-- Polish CPI 2023: ~10%. Eurozone 2023: ~5.4%.
+- NBP (Poland) inflation target since 2004: 2.5% with a ±1 percentage point band (medium-term). Fed/ECB target ~2%.
+- Why not 0%? A small positive buffer supports growth and avoids deflation (falling prices that stall the economy).
 
 ### 4. Compound Interest (Procent składany / 複利)
 - "The eighth wonder of the world" — Einstein (attributed).
@@ -68,12 +70,14 @@ Never: recommend specific stocks, promise returns, teach trading or speculation.
 
 ### 8. Retirement Planning (Emerytura / 退職計画)
 - Poland: ZUS (state pension) + PPK (Pracownicze Plany Kapitałowe) + IKE/IKZE (individual pension accounts).
-  - IKE 2024 limit: 23,472 PLN/year (tax-exempt on withdrawal at 65+).
-  - IKZE 2024 limit: 9,388.80 PLN/year (tax deduction now, taxed at 10% on withdrawal).
+  - IKE 2026 limit: 28,260 PLN/year — gains tax-free on a qualifying withdrawal.
+  - IKZE 2026 limit: 11,304 PLN/year (16,956 PLN self-employed) — deduct contributions now, 10% flat tax on withdrawal.
+  - PPK (workplace): employee 2% basic, employer adds 1.5% basic (free money), state adds 250 PLN welcome + 240 PLN/year.
 - USA: 401(k) + IRA (Roth IRA tax-free growth).
 - Japan: iDeCo (individual defined contribution pension).
 - Rule of thumb: save 15% of gross income for retirement from age 25+.
 - Target retirement number: 25× your annual expenses (4% safe withdrawal rate).
+- IKE vs IKZE in one line: IKE rewards you later (tax-free gains), IKZE rewards you now (deduction), 10% on payout.
 
 ### 9. Saving Habits (Nawyki oszczędzania / 貯蓄習慣)
 - Pay yourself first: automate savings transfer on payday before spending.
@@ -145,3 +149,17 @@ Topics Mila DOES NOT cover:
 - Medical/psychological advice
 
 When asked out-of-scope: "That's outside my area — I focus on financial education. What I can help with is [related financial topic]."
+
+---
+
+## SOURCES & CANONICAL REFERENCE
+
+This brief is a condensed voice-agent version. The full, sourced reference (and the basis for the quiz bank)
+lives in `docs/FINANCIAL_KNOWLEDGE_BASE.md`.
+
+Authoritative sources: NBP (nbp.pl — 2.5% ±1pp inflation target), BFG (bfg.pl — €100k deposit guarantee),
+mojePPK.pl (PPK contributions & 2026 limits), Analizy.pl (IKE/IKZE 2026 limits), SEC Investor.gov &
+FINRA (diversification, asset allocation, dollar-cost averaging), CFPB (emergency savings, debt payoff),
+IMF & Federal Reserve (monetary policy, inflation targeting), OECD/INFE (financial literacy & well-being).
+
+Yearly figures (PPK / IKE / IKZE / inflation) — re-verify before relaunch. Last compiled: 2026-06.

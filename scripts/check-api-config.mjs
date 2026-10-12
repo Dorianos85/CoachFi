@@ -96,7 +96,13 @@ async function main() {
     { label: `ELEVENLABS_VOICE_ID=${env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM"}`, ok: true },
     { label: `ELEVENLABS_PL_VOICE_ID=${env.ELEVENLABS_PL_VOICE_ID || "optional"}`, ok: true },
     { label: `ELEVENLABS_EN_VOICE_ID=${env.ELEVENLABS_EN_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_ES_VOICE_ID=${env.ELEVENLABS_ES_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_FR_VOICE_ID=${env.ELEVENLABS_FR_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_ZH_VOICE_ID=${env.ELEVENLABS_ZH_VOICE_ID || "optional"}`, ok: true },
     { label: `ELEVENLABS_JA_VOICE_ID=${env.ELEVENLABS_JA_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_HI_VOICE_ID=${env.ELEVENLABS_HI_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_PT_BR_VOICE_ID=${env.ELEVENLABS_PT_BR_VOICE_ID || "optional"}`, ok: true },
+    { label: `ELEVENLABS_TR_VOICE_ID=${env.ELEVENLABS_TR_VOICE_ID || "optional"}`, ok: true },
   ]);
 
   const agentId = env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || "agent_7601krc9gaf2eaxr811qgk01epzc";

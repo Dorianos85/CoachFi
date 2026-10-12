@@ -15,8 +15,10 @@ import {
   Home,
   Info,
   LayoutGrid,
+  LifeBuoy,
   RefreshCw,
   ShieldCheck,
+  ShoppingBag,
   SlidersHorizontal,
   Swords,
   TrendingUp,
@@ -30,27 +32,33 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { getUser, getDisplayName } from "@/lib/user";
+import { getHealthCheck } from "@/lib/healthCheck";
 import { getDueCount } from "@/lib/srs";
 import { getAllQuestionIds } from "@/lib/allQuestions";
 
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
 import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { AccountButton } from "@/components/AccountButton";
+import { ModeGate } from "@/components/ModeGate";
 import { NotificationBanner } from "@/components/NotificationBanner";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { StreakBadge } from "@/components/StreakBadge";
 import { Badge } from "@/components/ui/badge";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { useMode } from "@/context/ModeContext";
 import { getTokenBalance } from "@/lib/tokens";
 import { getLocalizedContent } from "@/lib/localizedContent";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const navIcons: Record<string, LucideIcon> = {
   home: Home,
   healthCheck: HeartPulse,
   inflation: BarChart3,
+  shopping: ShoppingBag,
+  crisis: LifeBuoy,
   learn: BookOpen,
   coach: Bot,
   quiz: Trophy,
@@ -68,6 +76,8 @@ const navHrefs: Record<string, string> = {
   home: "/",
   healthCheck: "/health-check",
   inflation: "/inflation",
+  shopping: "/shopping",
+  crisis: "/crisis",
   learn: "/learn",
   coach: "/coach",
   quiz: "/quiz",
@@ -85,39 +95,50 @@ const scoreMilestones = [25, 50, 75, 100];
 
 type NavKey = keyof typeof navHrefs;
 
+const NAV_LABEL_OVERRIDES: Partial<Record<NavKey, LocalizedMap<string>>> = {
+  shopping: {
+    en: "Shopping Hygiene",
+    pl: "Higiena zakupowa",
+    es: "Higiene de compras",
+    fr: "Hygiene d'achat",
+    zh: "购物卫生",
+    ja: "購入衛生",
+    hi: "खरीद अनुशासन",
+    "pt-BR": "Higiene de compras",
+    tr: "Alisveris hijyeni",
+  },
+  crisis: {
+    en: "Crisis Plan",
+    pl: "Plan kryzysowy",
+    es: "Plan de crisis",
+    fr: "Plan de crise",
+    zh: "危机计划",
+    ja: "危機プラン",
+    hi: "संकट योजना",
+    "pt-BR": "Plano de crise",
+    tr: "Kriz plani",
+  },
+};
+
+// Primary loop: the 6 destinations a new user needs, always expanded.
+// Everything else lives behind a single "More" disclosure — one collapsed
+// section beats three, and Partner Portal (B2B) is deliberately absent from
+// this consumer sidebar; it's reachable only via a direct link.
 const NAV_GROUPS: Array<{
   id: string;
-  label: Record<Locale, string>;
+  label: LocalizedMap<string>;
   keys: NavKey[];
   defaultOpen?: boolean;
 }> = [
   {
-    id: "demo",
+    id: "start",
     label: {
-      en: "Demo flow",
-      pl: "Demo",
-      ja: "デモ",
+      en: "Start",
+      pl: "Start",
+      ja: "Daily",
     },
-    keys: ["home", "healthCheck", "learn", "coach", "accessibility"],
+    keys: ["home", "healthCheck", "challenge", "coach", "rewards", "kids"],
     defaultOpen: true,
-  },
-  {
-    id: "tools",
-    label: {
-      en: "Tools",
-      pl: "Narzędzia",
-      ja: "ツール",
-    },
-    keys: ["inflation", "quiz", "review"],
-  },
-  {
-    id: "proof",
-    label: {
-      en: "Progress",
-      pl: "Postęp",
-      ja: "進捗",
-    },
-    keys: ["rewards", "vault"],
   },
   {
     id: "more",
@@ -126,11 +147,29 @@ const NAV_GROUPS: Array<{
       pl: "Więcej",
       ja: "その他",
     },
-    keys: ["challenge", "cards", "kids", "partner"],
+    keys: ["quiz", "learn", "review", "cards", "inflation", "shopping", "vault", "accessibility"],
   },
 ];
 
-const FOOTER_COPY: Record<Locale, { disclaimer: string; terms: string; privacy: string; consents: string }> = {
+const KIDS_NAV_GROUPS: Array<{
+  id: string;
+  label: LocalizedMap<string>;
+  keys: NavKey[];
+  defaultOpen?: boolean;
+}> = [
+  {
+    id: "kids",
+    label: {
+      en: "Kids Mode",
+      pl: "Kids Mode",
+      ja: "Kids Mode",
+    },
+    keys: ["kids"],
+    defaultOpen: true,
+  },
+];
+
+const FOOTER_COPY: LocalizedMap<{ disclaimer: string; terms: string; privacy: string; consents: string }> = {
   en: {
     disclaimer:
       "Coach FI is an educational application. It does not provide financial advice, investment recommendations or guaranteed returns. It does not teach trading, leverage, futures or speculation. The goal is confidence, saving habits and long-term financial awareness.",
@@ -154,14 +193,16 @@ const FOOTER_COPY: Record<Locale, { disclaimer: string; terms: string; privacy: 
   },
 };
 
-const SHELL_COPY: Record<
-  Locale,
+const SHELL_COPY: LocalizedMap<
   {
     skip: string;
     homeAria: string;
     primaryNav: string;
     mobileNav: string;
     mvpBadge: string;
+    kidsMode: string;
+    changeMode: string;
+    demoBadge: string;
   }
 > = {
   en: {
@@ -170,6 +211,9 @@ const SHELL_COPY: Record<
     primaryNav: "Primary navigation",
     mobileNav: "Mobile navigation",
     mvpBadge: "Hackathon MVP",
+    kidsMode: "Kids Mode",
+    changeMode: "Change mode",
+    demoBadge: "Example",
   },
   pl: {
     skip: "Przejdź do głównej treści",
@@ -177,6 +221,9 @@ const SHELL_COPY: Record<
     primaryNav: "Główna nawigacja",
     mobileNav: "Nawigacja mobilna",
     mvpBadge: "MVP hackathonu",
+    kidsMode: "Kids Mode",
+    changeMode: "Zmień tryb",
+    demoBadge: "Przykład",
   },
   ja: {
     skip: "メインコンテンツへ移動",
@@ -184,37 +231,86 @@ const SHELL_COPY: Record<
     primaryNav: "メインナビゲーション",
     mobileNav: "モバイルナビゲーション",
     mvpBadge: "ハッカソンMVP",
+    kidsMode: "Kids Mode",
+    changeMode: "Change mode",
+    demoBadge: "サンプル",
   },
 };
+
+/** Illustrative score shown in the sidebar until the user runs the Health Check. */
+const DEMO_PLAN_SCORE = 42;
+const ACCESSIBILITY_STORAGE_KEY = "coachfi-accessibility-v1";
+const TEXT_SCALES: TextScale[] = ["normal", "large", "xlarge"];
 
 export function AppNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
-  const shellCopy = SHELL_COPY[locale];
+  const shellCopy = pickLocalized(SHELL_COPY, locale);
   const { requiredAccepted, openSettings } = useConsent();
+  const { loaded: modeLoaded, modeRecord, isKidsMode, openSettings: openModeSettings } = useMode();
   const [highContrast, setHighContrast] = useState(false);
   const [textScale, setTextScale] = useState<TextScale>("normal");
+  const [accessibilityLoaded, setAccessibilityLoaded] = useState(false);
   const [userName, setUserName] = useState("Your");
 
   const [reviewDue, setReviewDue] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
-  const footer = FOOTER_COPY[locale];
+  // null until the user runs the Health Check — the sidebar then shows a demo value.
+  const [healthScore, setHealthScore] = useState<number | null>(null);
+  const planScore = healthScore ?? DEMO_PLAN_SCORE;
+  const footer = pickLocalized(FOOTER_COPY, locale);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(ACCESSIBILITY_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as { highContrast?: unknown; textScale?: unknown };
+        setHighContrast(parsed.highContrast === true);
+        if (isTextScale(parsed.textScale)) {
+          setTextScale(parsed.textScale);
+        }
+      }
+    } catch {
+      // Accessibility preferences still work for the current session if storage is blocked.
+    } finally {
+      setAccessibilityLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!accessibilityLoaded) return;
+    try {
+      window.localStorage.setItem(
+        ACCESSIBILITY_STORAGE_KEY,
+        JSON.stringify({ highContrast, textScale })
+      );
+    } catch {
+      // Ignore persistence errors; the visible controls remain usable.
+    }
+  }, [accessibilityLoaded, highContrast, textScale]);
 
   useEffect(() => {
     const user = getUser();
     setUserName(getDisplayName(user));
     setReviewDue(getDueCount(getAllQuestionIds(locale)));
     setTokenBalance(getTokenBalance());
+    setHealthScore(getHealthCheck()?.score ?? null);
     const onStorage = () => {
       setUserName(getDisplayName(getUser()));
       setTokenBalance(getTokenBalance());
+      setReviewDue(getDueCount(getAllQuestionIds(locale)));
+      setHealthScore(getHealthCheck()?.score ?? null);
     };
+    window.addEventListener("coachfi-health-check", onStorage);
     window.addEventListener("storage", onStorage);
     window.addEventListener("coachfi-tokens", onStorage);
+    window.addEventListener("coachfi-cloud-synced", onStorage);
     return () => {
       window.removeEventListener("storage", onStorage);
       window.removeEventListener("coachfi-tokens", onStorage);
+      window.removeEventListener("coachfi-cloud-synced", onStorage);
+      window.removeEventListener("coachfi-health-check", onStorage);
     };
   }, [locale]);
 
@@ -231,18 +327,24 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
     };
   }, [textScale]);
 
-  const getNavItem = (key: NavKey) => ({
-    key,
-    href: navHrefs[key],
-    label: t.nav[key as keyof typeof t.nav],
-    icon: navIcons[key],
-  });
-  const mobileNavItems = NAV_GROUPS[0].keys.map(getNavItem);
+  const getNavItem = (key: NavKey) => {
+    const labelOverride = NAV_LABEL_OVERRIDES[key];
+
+    return {
+      key,
+      href: navHrefs[key],
+      label: labelOverride ? pickLocalized(labelOverride, locale) : t.nav[key as keyof typeof t.nav],
+      icon: navIcons[key],
+    };
+  };
+  const navGroups = isKidsMode ? KIDS_NAV_GROUPS : NAV_GROUPS;
+  const mobileNavKeys: NavKey[] = isKidsMode ? ["kids"] : ["home", "healthCheck", "challenge", "coach", "kids"];
+  const mobileNavItems = mobileNavKeys.map(getNavItem);
 
   return (
     <div
       className={cn(
-        "min-h-screen bg-background text-text",
+        "app-shell min-h-screen bg-background text-text",
         highContrast && "high-contrast",
         textScale === "large" && "text-scale-large",
         textScale === "xlarge" && "text-scale-xlarge"
@@ -257,27 +359,40 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       </a>
 
       <header className="sticky top-0 z-40 border-b border-white/70 bg-background/72 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
+        <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
           <Link
             href="/"
             className="flex min-w-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={shellCopy.homeAria}
           >
-            <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
               FI
             </span>
-            <span>
-              <span className="block text-lg font-black leading-tight">Coach FI</span>
-              <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
+            <span className="min-w-0 overflow-hidden">
+              <span className="block whitespace-nowrap text-lg font-black leading-tight">Coach FI</span>
+              <span className="hidden truncate text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
             </span>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-2 lg:gap-3">
-            <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
-              <Coins className="h-4 w-4 text-primary" aria-hidden="true" />
-              {tokenBalance} {t.common.tokenUnit}
-            </div>
-            <StreakBadge compact />
+          <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2 lg:gap-3">
+            {isKidsMode ? (
+              <button
+                type="button"
+                onClick={openModeSettings}
+                className="hidden min-h-10 items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-black text-text shadow-sm transition hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:flex"
+              >
+                <Baby className="h-4 w-4 text-amber-600" aria-hidden="true" />
+                {shellCopy.kidsMode}
+              </button>
+            ) : (
+              <>
+                <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
+                  <Coins className="h-4 w-4 text-primary" aria-hidden="true" />
+                  {tokenBalance} {t.common.tokenUnit}
+                </div>
+                <StreakBadge compact />
+              </>
+            )}
             <LanguageSwitcher />
             <AccessibilityToggle
               highContrast={highContrast}
@@ -286,6 +401,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               onTextScaleChange={setTextScale}
               compact
             />
+            <AccountButton />
           </div>
         </div>
       </header>
@@ -298,7 +414,14 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 <p className="text-sm font-black">{copy.planLabel}</p>
                 <ShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
-              <p className="mt-3 text-4xl font-black leading-none">{42}</p>
+              <div className="mt-3 flex items-center gap-2">
+                <p className="text-4xl font-black leading-none">{planScore}</p>
+                {healthScore === null && (
+                  <span className="rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide">
+                    {shellCopy.demoBadge}
+                  </span>
+                )}
+              </div>
               <p className="mt-1 text-sm font-bold text-white/82">{copy.scoreLabel}</p>
               <div className="mt-4">
                 <div
@@ -307,14 +430,14 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                   aria-label={copy.scoreLabel}
                   aria-valuemin={0}
                   aria-valuemax={100}
-                  aria-valuenow={42}
+                  aria-valuenow={planScore}
                 >
                   <div
                     className="h-full rounded-full bg-accent shadow-[0_0_18px_rgba(247,223,166,0.65)]"
-                    style={{ width: `${42}%` }}
+                    style={{ width: `${planScore}%` }}
                   />
                   {scoreMilestones.map((milestone) => {
-                    const reached = 42 >= milestone;
+                    const reached = planScore >= milestone;
                     return (
                       <span
                         key={milestone}
@@ -343,7 +466,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="space-y-1.5">
-              {NAV_GROUPS.map((group) => {
+              {navGroups.map((group) => {
                 const groupActive = group.keys.some((key) => getIsActive(pathname, navHrefs[key]));
                 const links = (
                   <div className="space-y-0.5 px-2 pb-2">
@@ -368,7 +491,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                     className="group rounded-lg border border-primary/10 bg-white/55"
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                      {group.label[locale]}
+                      {pickLocalized(group.label, locale)}
                       <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
                     </summary>
                     {links}
@@ -396,7 +519,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         className="fixed bottom-3 left-3 right-3 z-50 rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
-        <div className="grid grid-cols-5 gap-1">
+        <div
+          className="grid gap-1"
+          style={{ gridTemplateColumns: `repeat(${Math.max(1, mobileNavItems.length)}, minmax(0, 1fr))` }}
+        >
           {mobileNavItems.map((item) => (
             <Link
               key={item.href}
@@ -415,8 +541,12 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         </div>
       </nav>
 
-      <OnboardingModal enabled={requiredAccepted} onDone={() => setUserName(getDisplayName(getUser()))} />
-      <NotificationBanner />
+      <ModeGate />
+      <OnboardingModal
+        enabled={requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
+        onDone={() => setUserName(getDisplayName(getUser()))}
+      />
+      {modeRecord?.mode === "adult" && <NotificationBanner />}
       <ConsentManager />
 
       <footer className="relative border-t border-primary/10 bg-white/70 px-4 py-6 text-sm leading-6 text-muted backdrop-blur lg:px-6">
@@ -461,6 +591,14 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
               {footer.consents}
+            </button>
+            <button
+              type="button"
+              onClick={openModeSettings}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/15 bg-white px-3 py-1.5 font-bold text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <Baby className="h-3.5 w-3.5" aria-hidden="true" />
+              {shellCopy.changeMode}
             </button>
             <Badge variant="muted">
               <Info className="h-3.5 w-3.5" aria-hidden="true" />
@@ -507,4 +645,8 @@ function getIsActive(pathname: string, href: string) {
   if (href.includes("#")) return false;
   if (href === "/") return pathname === "/";
   return pathname.startsWith(href.split("#")[0]);
+}
+
+function isTextScale(value: unknown): value is TextScale {
+  return typeof value === "string" && TEXT_SCALES.includes(value as TextScale);
 }

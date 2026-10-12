@@ -9,11 +9,10 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { ELEVENLABS_VOICES, useVoice } from "@/context/VoiceContext";
 import { AVATAR_STYLES, type AvatarGender, type AvatarStyle, getAvatar, saveAvatar } from "@/lib/avatar";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-const AVATAR_COPY: Record<
-  Locale,
+const AVATAR_COPY: LocalizedMap<
   {
     eyebrow: string;
     title: string;
@@ -95,7 +94,7 @@ const AVATAR_COPY: Record<
   },
 };
 
-const STYLE_COPY: Record<Locale, Record<AvatarStyle, { title: string; desc: string }>> = {
+const STYLE_COPY: LocalizedMap<Record<AvatarStyle, { title: string; desc: string }>> = {
   en: {
     warrior: { title: "Warrior", desc: "Fights debt head-on, disciplined and determined." },
     explorer: { title: "Explorer", desc: "Curious investor, discovers new opportunities." },
@@ -115,7 +114,8 @@ const STYLE_COPY: Record<Locale, Record<AvatarStyle, { title: string; desc: stri
 
 export default function AvatarPage() {
   const { locale } = useLanguage();
-  const copy = AVATAR_COPY[locale];
+  const copy = pickLocalized(AVATAR_COPY, locale);
+  const styleCopy = pickLocalized(STYLE_COPY, locale);
   const [gender, setGender] = useState<AvatarGender>("female");
   const [style, setStyle] = useState<AvatarStyle>("warrior");
   const [saved, setSaved] = useState(false);
@@ -168,10 +168,10 @@ export default function AvatarPage() {
               {/* Archetype badge */}
               <div className="text-center">
                 <p className="text-xs font-black uppercase tracking-widest text-muted">
-                  {STYLE_COPY[locale][style].title}
+                  {styleCopy[style].title}
                 </p>
                 <p className="mt-1 text-xs font-semibold text-muted">
-                  {STYLE_COPY[locale][style].desc}
+                  {styleCopy[style].desc}
                 </p>
               </div>
 
@@ -244,7 +244,7 @@ export default function AvatarPage() {
             <h2 className="mb-3 text-base font-black text-text">{copy.archetype}</h2>
             <div className="grid gap-3">
               {AVATAR_STYLES.map((avatarStyle) => {
-                const styleText = STYLE_COPY[locale][avatarStyle.id];
+                const styleText = styleCopy[avatarStyle.id];
                 return (
                   <motion.button
                     key={avatarStyle.id}

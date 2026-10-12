@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useId } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface MilaAvatarProps {
@@ -19,7 +19,7 @@ const sizes = {
   lg: "h-56 w-56",
 };
 
-const avatarCopy: Record<Locale, { speaking: string; idle: string }> = {
+const avatarCopy: LocalizedMap<{ speaking: string; idle: string }> = {
   pl: { speaking: "Mila mówi", idle: "Avatar Mili, coacha finansowego AI" },
   en: { speaking: "Mila is speaking", idle: "Mila AI financial coach avatar" },
   ja: { speaking: "Milaが話しています", idle: "Mila AI金融コーチのアバター" },
@@ -27,7 +27,7 @@ const avatarCopy: Record<Locale, { speaking: string; idle: string }> = {
 
 export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaAvatarProps) {
   const { locale } = useLanguage();
-  const copy = avatarCopy[locale];
+  const copy = pickLocalized(avatarCopy, locale);
   const id = useId().replace(/:/g, "");
   const compact = size === "sm";
   const panelId = `mila-panel-${id}`;

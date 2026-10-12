@@ -1,7 +1,13 @@
 // SM-2 spaced repetition algorithm (simplified, same core as Duolingo/Anki)
 
+import { notifyCloud } from "@/lib/sync/syncQueue";
+
 const SRS_KEY = "coachfi-srs";
 const MAX_NEW_PER_DAY = 5;
+// Coach FI is a daily-habit product with a finite question bank. Uncapped SM-2
+// intervals balloon (1→6→16→45→131→393… days), so a diligent learner runs out of
+// due cards within weeks. Cap the interval so cards stay in healthy rotation.
+const MAX_INTERVAL_DAYS = 90;
 
 export interface SRSCard {
   id: string;
@@ -34,6 +40,8 @@ export function calculateNext(card: SRSCard, correct: boolean): SRSCard {
     easeFactor = Math.max(1.3, easeFactor - 0.2);
   }
 
+  if (interval > MAX_INTERVAL_DAYS) interval = MAX_INTERVAL_DAYS;
+
   const next = new Date();
   next.setDate(next.getDate() + interval);
 
@@ -51,6 +59,7 @@ export function getAllCards(): SRSCard[] {
 export function saveCards(cards: SRSCard[]): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(SRS_KEY, JSON.stringify(cards));
+  notifyCloud("srs");
 }
 
 export function getCardById(id: string): SRSCard | undefined {

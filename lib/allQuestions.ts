@@ -502,18 +502,329 @@ const plQuestionOverrides: Record<string, QuestionOverride> = {
     explanation: "Wartość netto pokazuje pełniejszy obraz finansów niż sam dochód.",
     category: "Wyzwanie",
   },
+
+  // ── Makroekonomia (NBP / IMF / Fed) ──────────────────────────────────────
+  "nbp-inflation-target": {
+    question: "Jaki cel inflacyjny realizuje Narodowy Bank Polski od 2004 roku?",
+    answers: [
+      { id: "A", text: "0% — ceny nigdy nie powinny rosnąć" },
+      { id: "B", text: "2,5% z pasmem odchyleń ±1 punkt procentowy" },
+      { id: "C", text: "5%, aby zachęcać do wydawania" },
+      { id: "D", text: "Taki, jaki co roku ustali rząd" },
+    ],
+    explanation: "Od 2004 r. cel NBP to 2,5% (±1 pkt proc.), mierzony roczną zmianą wskaźnika CPI.",
+    category: "Makroekonomia",
+  },
+  "inflation-target-why": {
+    question: "Dlaczego banki centralne celują w niską, dodatnią inflację (~2–2,5%), a nie w 0%?",
+    answers: [
+      { id: "A", text: "Aby waluta szybciej traciła wartość" },
+      { id: "B", text: "Mały, stabilny bufor wspiera wzrost i chroni przed groźną deflacją" },
+      { id: "C", text: "Bo wyższe ceny są zawsze dobre" },
+      { id: "D", text: "Tylko po to, by zwiększyć wpływy z podatków" },
+    ],
+    explanation: "Niski dodatni cel utrzymuje margines bezpieczeństwa od deflacji i zapewnia przewidywalność cen.",
+    category: "Makroekonomia",
+  },
+  "monetary-policy-tool": {
+    question: "Jakie jest główne narzędzie banku centralnego do sterowania inflacją?",
+    answers: [
+      { id: "A", text: "Drukowanie banknotów dla obywateli" },
+      { id: "B", text: "Ustalanie referencyjnych stóp procentowych" },
+      { id: "C", text: "Ustalanie ceny chleba" },
+      { id: "D", text: "Zakaz importu" },
+    ],
+    explanation: "Zmieniając stopy referencyjne, bank centralny zmienia koszt kredytu w całej gospodarce.",
+    category: "Makroekonomia",
+  },
+  "rates-and-borrowing": {
+    question: "Co zwykle dzieje się, gdy bank centralny podnosi stopy procentowe?",
+    answers: [
+      { id: "A", text: "Kredyt tanieje i wydatki rosną" },
+      { id: "B", text: "Kredyt drożeje, co schładza popyt i inflację" },
+      { id: "C", text: "Nic się nie zmienia dla gospodarstw domowych" },
+      { id: "D", text: "Konta oszczędnościowe zawsze płacą 0%" },
+    ],
+    explanation: "Podwyżki stóp podnoszą koszt kredytu, więc wydatki maleją i inflacja hamuje.",
+    category: "Makroekonomia",
+  },
+  "gdp-definition": {
+    question: "Co mierzy PKB (Produkt Krajowy Brutto)?",
+    answers: [
+      { id: "A", text: "Łączne oszczędności obywateli" },
+      { id: "B", text: "Wartość wszystkich dóbr i usług wytworzonych w gospodarce" },
+      { id: "C", text: "Ilość gotówki w obiegu" },
+      { id: "D", text: "Dług publiczny" },
+    ],
+    explanation: "PKB to łączna wartość rynkowa dóbr i usług wytworzonych w kraju w danym okresie.",
+    category: "Makroekonomia",
+  },
+  "deflation-risk": {
+    question: "Dlaczego utrzymująca się deflacja (spadające ceny) jest uważana za groźną?",
+    answers: [
+      { id: "A", text: "Wszyscy się bogacą i nie ma żadnych minusów" },
+      { id: "B", text: "Ludzie odkładają zakupy, popyt spada, a długi robią się realnie cięższe" },
+      { id: "C", text: "Zawsze podnosi pensje" },
+      { id: "D", text: "Nie ma wpływu na gospodarkę" },
+    ],
+    explanation: "Przy spadających cenach ludzie zwlekają z zakupami, a realny ciężar długów rośnie — to groźna spirala.",
+    category: "Makroekonomia",
+  },
+
+  // ── Budżet domowy (CFPB / OECD) ──────────────────────────────────────────
+  "zero-based-budget": {
+    question: "Czym jest budżet od zera (zero-based budgeting)?",
+    answers: [
+      { id: "A", text: "Wydawaniem do zera na koncie" },
+      { id: "B", text: "Przypisaniem każdej złotówce zadania, aż dochód minus plan = 0" },
+      { id: "C", text: "Brakiem oszczędności" },
+      { id: "D", text: "Budżetowaniem tylko gotówki" },
+    ],
+    explanation: "W budżecie od zera każda złotówka ma zadanie — w tym oszczędności — więc nic nie wycieka bez planu.",
+    category: "Budżet domowy",
+  },
+  "track-before-budget": {
+    question: "Jaki jest zalecany pierwszy krok przed ułożeniem budżetu domowego?",
+    answers: [
+      { id: "A", text: "Natychmiastowe anulowanie wszystkich subskrypcji" },
+      { id: "B", text: "Śledzenie rzeczywistych wydatków przez około 30 dni" },
+      { id: "C", text: "Wzięcie pożyczki na pokrycie braków" },
+      { id: "D", text: "Zgadywanie wydatków z pamięci" },
+    ],
+    explanation: "Najpierw ~30 dni śledzenia wydatków — nie zarządzisz tym, czego nie mierzysz.",
+    category: "Budżet domowy",
+  },
+  "sinking-fund": {
+    question: "Czym jest fundusz celowy (sinking fund) w budżecie domowym?",
+    answers: [
+      { id: "A", text: "Pieniędzmi, które spodziewasz się stracić" },
+      { id: "B", text: "Gotówką odkładaną stopniowo na znany przyszły wydatek" },
+      { id: "C", text: "Rodzajem ryzykownej inwestycji" },
+      { id: "D", text: "Debetem na koncie" },
+    ],
+    explanation: "Fundusz celowy rozkłada duże znane koszty (serwis auta, wakacje, podatki) na małe miesięczne kwoty.",
+    category: "Budżet domowy",
+  },
+  "impulse-pause": {
+    question: "Jaka taktyka skutecznie ogranicza zakupy impulsowe?",
+    answers: [
+      { id: "A", text: "Kup teraz, zdecyduj później, czy było potrzebne" },
+      { id: "B", text: "Okres oczekiwania (24–72h, a przy dużych zakupach 30 dni) przed rzeczami zbędnymi" },
+      { id: "C", text: "Zakupy zawsze w stresie" },
+      { id: "D", text: "Usunięcie cen, żeby ich nie widzieć" },
+    ],
+    explanation: "Wbudowana pauza pozwala impulsowi wygasnąć — większość zakupów impulsowych nie przeżywa czekania.",
+    category: "Budżet domowy",
+  },
+
+  // ── Oszczędzanie i bezpieczeństwo depozytów ──────────────────────────────
+  "emergency-first-milestone": {
+    question: "Jaki jest realistyczny PIERWSZY cel funduszu awaryjnego, gdy 3–6 miesięcy wydaje się odległe?",
+    answers: [
+      { id: "A", text: "Nie zaczynaj, dopóki nie odłożysz 6 miesięcy naraz" },
+      { id: "B", text: "Jeden miesiąc podstawowych wydatków" },
+      { id: "C", text: "Dwa lata wydatków" },
+      { id: "D", text: "Dokładnie roczna pensja" },
+    ],
+    explanation: "Już jeden miesiąc wydatków znacząco obniża ryzyko zaległości w rachunkach — zacznij mało, potem buduj do 3–6 miesięcy.",
+    category: "Fundusz awaryjny",
+  },
+  "bfg-guarantee": {
+    question: "Do jakiej kwoty depozyty bankowe w Polsce gwarantuje BFG?",
+    answers: [
+      { id: "A", text: "Nie ma żadnej gwarancji depozytów" },
+      { id: "B", text: "Równowartość 100 000 € na deponenta w danym banku" },
+      { id: "C", text: "Dokładnie 10 000 zł łącznie" },
+      { id: "D", text: "Bez limitu, zawsze 100%" },
+    ],
+    explanation: "Bankowy Fundusz Gwarancyjny chroni depozyty do równowartości 100 000 € na osobę w każdym banku, wypłacane w złotych.",
+    category: "Nawyk oszczędzania",
+  },
+
+  // ── Długoterminowe inwestowanie (SEC / FINRA) ────────────────────────────
+  "asset-allocation": {
+    question: "Co oznacza alokacja aktywów?",
+    answers: [
+      { id: "A", text: "Wybór jednej zwycięskiej akcji" },
+      { id: "B", text: "Podział inwestycji między akcje, obligacje i gotówkę" },
+      { id: "C", text: "Pożyczanie pieniędzy na inwestycje" },
+      { id: "D", text: "Trzymanie wszystkiego na rachunku bieżącym" },
+    ],
+    explanation: "Alokacja aktywów — Twój podział na akcje/obligacje/gotówkę — decyduje o większości długoterminowego ryzyka i zwrotu.",
+    category: "Długoterminowe inwestowanie",
+  },
+  rebalancing: {
+    question: "Czym jest rebalancing portfela?",
+    answers: [
+      { id: "A", text: "Sprzedażą wszystkiego, gdy rynek spada" },
+      { id: "B", text: "Okresowym przywracaniem docelowych proporcji portfela" },
+      { id: "C", text: "Dokupowaniem tylko najlepszej akcji" },
+      { id: "D", text: "Codziennym sprawdzaniem salda" },
+    ],
+    explanation: "Rebalancing przycina to, co urosło za bardzo, i uzupełnia to, co zmalało — ryzyko zostaje tam, gdzie je zaplanowano.",
+    category: "Długoterminowe inwestowanie",
+  },
+  "fees-ter": {
+    question: "Dlaczego niskie opłaty bieżące (TER) są tak ważne w długoterminowym inwestowaniu?",
+    answers: [
+      { id: "A", text: "Nie są — opłaty są pomijalne" },
+      { id: "B", text: "Opłaty składają się przeciwko Tobie i po cichu zjadają dekady zwrotów" },
+      { id: "C", text: "Wyższe opłaty zawsze oznaczają wyższe zyski" },
+      { id: "D", text: "Opłaty są zwracane na emeryturze" },
+    ],
+    explanation: "Koszty składają się jak zwroty: 1% vs 0,2% rocznie przez 30 lat potrafi kosztować dużą część końcowego kapitału.",
+    category: "Długoterminowe inwestowanie",
+  },
+  "risk-return": {
+    question: "Jaka jest ogólna zależność między ryzykiem a oczekiwanym zwrotem?",
+    answers: [
+      { id: "A", text: "Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem" },
+      { id: "B", text: "Wysokie zyski są gwarantowane bez ryzyka" },
+      { id: "C", text: "Ryzyko i zwrot nie mają związku" },
+      { id: "D", text: "Niższe ryzyko zawsze oznacza wyższy zwrot" },
+    ],
+    explanation: "Nie ma darmowego obiadu: wyższy potencjalny zwrot wymaga akceptacji większych wahań. Uważaj na oferty „wysoki zysk bez ryzyka”.",
+    category: "Długoterminowe inwestowanie",
+  },
+  "invest-prerequisites": {
+    question: "Co warto mieć ZANIM zainwestujesz w zmienne aktywa?",
+    answers: [
+      { id: "A", text: "Gorący typ giełdowy" },
+      { id: "B", text: "Fundusz awaryjny i opanowane drogie długi" },
+      { id: "C", text: "Wymaksowaną kartę kredytową" },
+      { id: "D", text: "Nic — inwestuj wszystko od razu" },
+    ],
+    explanation: "Najpierw fundamenty: fundusz awaryjny i spłacone wysoko oprocentowane długi chronią przed sprzedażą w najgorszym momencie.",
+    category: "Długoterminowe inwestowanie",
+  },
+  "speculative-allocation": {
+    question: "Jak początkujący powinni traktować wysoce spekulacyjne aktywa, np. kryptowaluty?",
+    answers: [
+      { id: "A", text: "Włożyć wszystkie oszczędności dla maksymalnych zysków" },
+      { id: "B", text: "Ograniczyć do małej części, której utratę mogą w całości zaakceptować" },
+      { id: "C", text: "Pożyczyć pieniądze, by kupić więcej" },
+      { id: "D", text: "Traktować jako bezpieczny fundusz awaryjny" },
+    ],
+    explanation: "Aktywa spekulacyjne są bardzo zmienne — trzymaj je jako mały wycinek portfela i tylko za pieniądze, które możesz stracić.",
+    category: "Długoterminowe inwestowanie",
+  },
+
+  // ── Emerytura w Polsce (IKE / IKZE / PPK) ────────────────────────────────
+  "ike-vs-ikze": {
+    question: "Jaka jest kluczowa różnica podatkowa między IKE a IKZE?",
+    answers: [
+      { id: "A", text: "Są identyczne pod każdym względem" },
+      { id: "B", text: "IKE: zyski bez podatku przy wypłacie na warunkach; IKZE: odliczasz wpłaty teraz, przy wypłacie 10% ryczałtu" },
+      { id: "C", text: "Oba są opodatkowane 19% co roku" },
+      { id: "D", text: "Żadne nie daje korzyści podatkowej" },
+    ],
+    explanation: "IKE nagradza później (zyski bez podatku), IKZE nagradza teraz (odliczenie od dochodu), z 10% ryczałtem przy wypłacie.",
+    category: "Emerytura",
+  },
+  "ppk-employer-match": {
+    question: "Ile w PPK dokłada pracodawca do podstawowej wpłaty pracownika (2%)?",
+    answers: [
+      { id: "A", text: "Nic — płaci tylko pracownik" },
+      { id: "B", text: "Podstawowe 1,5% pensji (plus opcjonalnie do 2,5% dodatkowo)" },
+      { id: "C", text: "Stałe 100 zł niezależnie od pensji" },
+      { id: "D", text: "10% pensji" },
+    ],
+    explanation: "Pracodawca dokłada podstawowe 1,5% Twojej pensji (może więcej) — to praktycznie darmowe pieniądze na emeryturę.",
+    category: "Emerytura",
+  },
+  "ppk-state-bonus": {
+    question: "Jakie dopłaty od państwa otrzymują uczestnicy PPK?",
+    answers: [
+      { id: "A", text: "Żadnych" },
+      { id: "B", text: "250 zł wpłaty powitalnej i 240 zł dopłaty rocznej" },
+      { id: "C", text: "Jednorazowo 50 000 zł" },
+      { id: "D", text: "Darmowe akcje pracodawcy" },
+    ],
+    explanation: "Państwo dodaje 250 zł na start oraz 240 zł co roku — dodatkowy zwrot z oszczędzania w PPK.",
+    category: "Emerytura",
+  },
+
+  // ── Rynki globalne ───────────────────────────────────────────────────────
+  "deposit-guarantee-scope": {
+    question: "Co tak naprawdę chronią systemy gwarantowania depozytów (BFG, FDIC, unijne DGS, FGC)?",
+    answers: [
+      { id: "A", text: "Wszystkie inwestycje, w tym akcje i krypto" },
+      { id: "B", text: "Depozyty bankowe — nie akcje, fundusze, emerytury ani krypto" },
+      { id: "C", text: "Tylko gotówkę trzymaną w domu" },
+      { id: "D", text: "Twoją pensję po utracie pracy" },
+    ],
+    explanation: "Gwarancje depozytów obejmują pieniądze na rachunkach i lokatach. Inwestycje i krypto są poza nimi.",
+    category: "Rynki globalne",
+  },
+  "fdic-coverage": {
+    question: "Do jakiej kwoty FDIC ubezpiecza depozyty w USA (na deponenta, na bank)?",
+    answers: [
+      { id: "A", text: "1 000 dolarów" },
+      { id: "B", text: "250 000 dolarów (na kategorię własności)" },
+      { id: "C", text: "Bez limitu" },
+      { id: "D", text: "W USA nie ma ubezpieczenia depozytów" },
+    ],
+    explanation: "FDIC ubezpiecza 250 000 USD na deponenta, na bank, dla każdej kategorii własności rachunku.",
+    category: "Rynki globalne",
+  },
+  "eu-dgs": {
+    question: "Do jakiej kwoty gwarantowane są depozyty bankowe w całej UE (w tym w Polsce)?",
+    answers: [
+      { id: "A", text: "1 000 € na kraj" },
+      { id: "B", text: "100 000 € na deponenta w danym banku (lub równowartość w walucie krajowej)" },
+      { id: "C", text: "Zawsze 1 000 000 €" },
+      { id: "D", text: "W UE nic nie jest gwarantowane" },
+    ],
+    explanation: "Ochrona depozytów w UE jest zharmonizowana: 100 000 € na deponenta w każdym banku.",
+    category: "Rynki globalne",
+  },
+  "us-401k-match": {
+    question: "Masz w USA plan 401(k) z dopłatą pracodawcy. Jaki jest najmądrzejszy pierwszy ruch?",
+    answers: [
+      { id: "A", text: "Pominąć — dopłaty to podstęp" },
+      { id: "B", text: "Wpłacać co najmniej tyle, by dostać pełną dopłatę pracodawcy (darmowe pieniądze)" },
+      { id: "C", text: "Wpłacać dopiero po 60. roku życia" },
+      { id: "D", text: "Wszystko w akcje jednej spółki" },
+    ],
+    explanation: "Dopłata pracodawcy to natychmiastowy 100% zwrot z tych wpłat — zawsze wykorzystaj ją w całości.",
+    category: "Rynki globalne",
+  },
+  "tax-advantaged-wrapper": {
+    question: "Co łączy brytyjskie ISA, japońskie NISA i polskie IKE?",
+    answers: [
+      { id: "A", text: "Gwarantują stały zysk 10%" },
+      { id: "B", text: "To konta z ulgą podatkową, które chronią zyski z inwestycji" },
+      { id: "C", text: "To rodzaje kart kredytowych" },
+      { id: "D", text: "Są tylko dla milionerów" },
+    ],
+    explanation: "ISA, NISA i IKE to opakowania podatkowe — pozwalają inwestycjom rosnąć bez zwykłego obciążenia podatkiem.",
+    category: "Rynki globalne",
+  },
+  "rbi-inflation-target": {
+    question: "Jaki cel inflacyjny ma bank centralny Indii (RBI)?",
+    answers: [
+      { id: "A", text: "4% z pasmem tolerancji ±2 punkty procentowe" },
+      { id: "B", text: "0%" },
+      { id: "C", text: "15%" },
+      { id: "D", text: "Nie ma celu" },
+    ],
+    explanation: "RBI celuje w 4% inflacji z pasmem ±2 pkt proc. (2–6%), utrzymanym na lata 2026–2031.",
+    category: "Rynki globalne",
+  },
 };
 
-function localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQuestion | undefined {
+function localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQuestion {
   if (!locale || locale === "en") return question;
 
   if (locale === "pl") {
     const override = plQuestionOverrides[question.id];
-    return override ? { ...question, ...override } : undefined;
+    // Fall back to the English question when no translation exists yet, so newly
+    // added questions are still shown (and counted by SRS) for every locale.
+    return override ? { ...question, ...override } : question;
   }
 
   const quizOverride = getQuizQuestions(locale).find((item) => item.id === question.id);
-  if (!quizOverride) return undefined;
+  if (!quizOverride) return question;
 
   return {
     ...question,

@@ -592,7 +592,13 @@ const tr = adapt(en, {
 const content: Record<Locale, LocalizedContent> = {
   en,
   pl,
+  es,
+  fr,
+  zh,
   ja,
+  hi,
+  "pt-BR": ptBR,
+  tr,
 };
 
 export function getLocalizedContent(locale: Locale) {

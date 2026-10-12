@@ -1,3 +1,5 @@
+import { notifyCloud } from "@/lib/sync/syncQueue";
+
 const KEY = "coachfi-tokens";
 const INITIAL_BALANCE = 125;
 
@@ -9,11 +11,13 @@ export function getTokenBalance(): number {
   return isNaN(n) ? INITIAL_BALANCE : n;
 }
 
-export function addTokens(amount: number): number {
-  const next = getTokenBalance() + Math.max(0, Math.round(amount));
+export function addTokens(amount: number, reason = "Tokens earned", source = "app"): number {
+  const delta = Math.max(0, Math.round(amount));
+  const next = getTokenBalance() + delta;
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    if (delta > 0) notifyCloud("reward", { amount: delta, reason, source });
   }
   return next;
 }
@@ -21,10 +25,12 @@ export function addTokens(amount: number): number {
 export function spendTokens(amount: number): boolean {
   const current = getTokenBalance();
   if (current < amount) return false;
-  const next = current - Math.round(amount);
+  const delta = Math.round(amount);
+  const next = current - delta;
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    if (delta > 0) notifyCloud("reward", { amount: -delta, reason: "Tokens spent", source: "app" });
   }
   return true;
 }

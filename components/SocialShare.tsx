@@ -5,7 +5,7 @@ import { Check, Facebook, Link2, MessageCircle, Share2, Twitter } from "lucide-r
 import { useState } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface SocialShareProps {
@@ -40,7 +40,7 @@ const PLATFORMS = [
   },
 ];
 
-const COPY: Record<Locale, { title: string; more: string; copy: string; copied: string; shareOn: string }> = {
+const COPY: LocalizedMap<{ title: string; more: string; copy: string; copied: string; shareOn: string }> = {
   en: { title: "Share and challenge friends", more: "More options", copy: "Copy link", copied: "Copied!", shareOn: "Share on" },
   pl: { title: "Udostępnij i rzuć wyzwanie", more: "Więcej opcji", copy: "Kopiuj link", copied: "Skopiowano!", shareOn: "Udostępnij na" },
   ja: { title: "共有して挑戦", more: "その他", copy: "リンクをコピー", copied: "コピーしました", shareOn: "共有先" },
@@ -48,7 +48,7 @@ const COPY: Record<Locale, { title: string; more: string; copy: string; copied: 
 
 export function SocialShare({ text, url, title, compact = false }: SocialShareProps) {
   const { locale } = useLanguage();
-  const copy = COPY[locale];
+  const copy = pickLocalized(COPY, locale);
   const [copied, setCopied] = useState(false);
 
   async function handleNativeShare() {

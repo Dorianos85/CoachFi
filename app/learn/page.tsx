@@ -1,6 +1,7 @@
 "use client";
 
 import { ProgressPath } from "@/components/ProgressPath";
+import { IncomeJarPlanner } from "@/components/IncomeJarPlanner";
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
@@ -30,6 +31,8 @@ export default function LearnPage() {
           {copy.learn.pathVoice}
         </p>
       </div>
+
+      <IncomeJarPlanner mode="adult" className="mb-5" />
 
       <ProgressPath />
     </section>

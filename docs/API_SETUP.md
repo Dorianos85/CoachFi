@@ -25,6 +25,7 @@ ANTHROPIC_MAX_TOKENS=256
 
 `/api/chat` streams Claude responses when the user grants AI Coach consent.
 Without the key, Coach FI tries OpenRouter if configured and otherwise falls back to predefined educational replies.
+If the Anthropic account has no available credits, the route also falls back to predefined replies so the demo does not crash.
 
 ## 3. OpenRouter AI fallback/provider
 
@@ -55,13 +56,20 @@ Optional locale-specific voices for the simplified multilingual demo:
 ```bash
 ELEVENLABS_PL_VOICE_ID=
 ELEVENLABS_EN_VOICE_ID=
+ELEVENLABS_ES_VOICE_ID=
+ELEVENLABS_FR_VOICE_ID=
+ELEVENLABS_ZH_VOICE_ID=
 ELEVENLABS_JA_VOICE_ID=
+ELEVENLABS_HI_VOICE_ID=
+ELEVENLABS_PT_BR_VOICE_ID=
+ELEVENLABS_TR_VOICE_ID=
 ```
 
 `/api/tts` keeps API keys server-side, accepts only short text snippets up to
 500 characters, and falls back to browser `speechSynthesis` when ElevenLabs is
-not configured or the API fails. The demo supports only Polish, English and
-Japanese, with no microphone input or realtime voice agent.
+not configured or the API fails. The multilingual demo supports Polish, English,
+Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and
+Turkish, with no autoplay.
 
 ## 5. Supabase leaderboard
 

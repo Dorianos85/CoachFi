@@ -4,10 +4,10 @@ import { Download, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 const COACHFI_PREFIX = "coachfi-";
-const COPY: Record<Locale, { title: string; body: string; export: string; delete: string }> = {
+const COPY: LocalizedMap<{ title: string; body: string; export: string; delete: string }> = {
   en: {
     title: "Data control on this device",
     body: "Coach FI stores most app state locally in the browser. You can export or delete local app data from this device.",
@@ -41,7 +41,7 @@ function collectStorage(storage: Storage) {
 
 export function DataSafetyPanel() {
   const { locale } = useLanguage();
-  const copy = COPY[locale];
+  const copy = pickLocalized(COPY, locale);
 
   function exportData() {
     const payload = {

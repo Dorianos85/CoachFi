@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { LOCALE_INTL, cn } from "@/lib/utils";
 
 type SegmentId = "bank" | "broker" | "investment" | "exchange" | "school" | "university";
@@ -107,8 +107,7 @@ const mockPartners: Record<
   },
 };
 
-const partnerCopy: Record<
-  Locale,
+const partnerCopy: LocalizedMap<
   {
     header: { eyebrow: string; title: string; description: string; readText: string };
     segmentAria: string;
@@ -292,7 +291,7 @@ const valueIcons = [GraduationCap, BadgeCheck, Users, Building2];
 
 export default function PartnerPage() {
   const { locale } = useLanguage();
-  const copy = partnerCopy[locale];
+  const copy = pickLocalized(partnerCopy, locale);
   const intlLocale = LOCALE_INTL[locale] ?? "en-US";
   const [activeSegment, setActiveSegment] = useState<SegmentId>("bank");
   const data = mockPartners[activeSegment];

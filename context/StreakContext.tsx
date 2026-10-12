@@ -2,8 +2,13 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import type { ReactNode } from "react";
-import { getStreak, markActiveToday, type StreakData } from "@/lib/streak";
+import { getStreak, markActiveToday, reachedMilestone, type StreakData } from "@/lib/streak";
+import { addTokens } from "@/lib/tokens";
 import { scheduleStreakReminder } from "@/lib/notifications";
+
+// Coin bonus per milestone day (3→15 … 66→330). Awarded once, when the streak
+// first reaches the milestone — computeStreak is a no-op for repeat same-day calls.
+const MILESTONE_BONUS_MULTIPLIER = 5;
 
 interface StreakContextValue {
   streak: StreakData;
@@ -26,12 +31,30 @@ export function StreakProvider({ children }: { children: ReactNode }) {
     const data = getStreak();
     setStreak(data);
     scheduleStreakReminder(data.currentStreak);
+
+    // Re-read after cloud sync pulls a fresher streak from Supabase.
+    const onCloudSync = () => setStreak(getStreak());
+    window.addEventListener("coachfi-cloud-synced", onCloudSync);
+    return () => window.removeEventListener("coachfi-cloud-synced", onCloudSync);
   }, []);
 
   const markActive = useCallback(() => {
+    const before = getStreak();
     const next = markActiveToday();
     setStreak(next);
     scheduleStreakReminder(next.currentStreak);
+
+    // Award a one-time coin bonus when the streak first hits a milestone.
+    if (next.currentStreak !== before.currentStreak) {
+      const milestone = reachedMilestone(next.currentStreak);
+      if (milestone) {
+        addTokens(
+          milestone * MILESTONE_BONUS_MULTIPLIER,
+          `Streak milestone: ${milestone} days`,
+          "streak_bonus"
+        );
+      }
+    }
   }, []);
 
   return (

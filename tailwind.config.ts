@@ -10,19 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFF",
+        background: "#0D0D14",
         primary: "#7668E8",
         secondary: "#7DD3DC",
         accent: "#F7DFA6",
-        success: "#A8E6CF",
-        warning: "#F6A66D",
-        text: "#26324A",
-        muted: "#66758F",
-        card: "#FFFFFF"
+        success: "#10B981",
+        warning: "#F59E0B",
+        text: "#F0F2FF",
+        muted: "#9AA3C7",
+        card: "#151522"
       },
       boxShadow: {
-        soft: "0 18px 50px rgba(38, 50, 74, 0.10)",
-        glow: "0 18px 45px rgba(118, 104, 232, 0.18)"
+        soft: "0 24px 70px rgba(0, 0, 0, 0.32)",
+        glow: "0 18px 45px rgba(118, 104, 232, 0.30)"
       },
       fontFamily: {
         sans: ["var(--font-ui)", "var(--font-noto-sans)", "system-ui", "sans-serif"]

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/context/LanguageContext";
 import { certificates } from "@/data/certificates";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
@@ -29,8 +29,7 @@ import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/li
 
 type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
 
-const rewardsCopy: Record<
-  Locale,
+const rewardsCopy: LocalizedMap<
   {
     readText: (tokens: number) => string;
     walletTitle: string;
@@ -185,7 +184,7 @@ const rewardsCopy: Record<
 
 export default function RewardsPage() {
   const { locale, t } = useLanguage();
-  const copy = rewardsCopy[locale];
+  const copy = pickLocalized(rewardsCopy, locale);
   const { hasOptionalConsent, openSettings } = useConsent();
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);

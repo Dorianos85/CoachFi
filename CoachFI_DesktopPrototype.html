@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coach FI Desktop - Financial Coach AI</title>
+<style>
+:root {
+  --bg: #0D0D14;
+  --surface: #13131F;
+  --surface-2: #1A1A2E;
+  --panel: #13131F;
+  --panel-soft: rgba(19,19,31,0.86);
+  --text: #F0F2FF;
+  --muted: #8A93B5;
+  --primary: #7668E8;
+  --primary-soft: rgba(118,104,232,0.12);
+  --secondary: #7DD3DC;
+  --accent: #F7DFA6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --border: rgba(118,104,232,0.18);
+  --border-strong: rgba(118,104,232,0.38);
+  --shadow: 0 30px 90px rgba(0,0,0,0.36);
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 1120px;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Nunito", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 8% -10%, rgba(118,104,232,0.18), transparent 58%),
+    radial-gradient(900px 620px at 108% 112%, rgba(20,241,149,0.10), transparent 62%),
+    #050509;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.app {
+  display: grid;
+  grid-template-columns: 430px minmax(0, 1fr) 380px;
+  gap: 24px;
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 28px;
+}
+.sidebar, .right-rail, .topbar, .card, .hero, .panel {
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+.sidebar {
+  position: sticky;
+  top: 28px;
+  height: calc(100vh - 56px);
+  max-height: 932px;
+  border: 8px solid #090911;
+  border-radius: 44px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  background:
+    radial-gradient(90% 55% at 50% 0%, rgba(118,104,232,0.20), transparent 64%),
+    var(--bg);
+}
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+}
+.logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 18px 45px rgba(118,104,232,0.24);
+}
+.brand strong { display: block; font-size: 20px; line-height: 1; }
+.brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+.score-card {
+  border-radius: 24px;
+  background:
+    radial-gradient(80% 80% at 50% 0%, rgba(155,143,240,0.34), transparent 62%),
+    linear-gradient(180deg, #1A1535 0%, #0D0D14 100%);
+  border: 1px solid var(--border-strong);
+  color: white;
+  padding: 18px;
+  box-shadow: 0 18px 45px rgba(118,104,232,0.24);
+}
+.score-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.score { font-size: 58px; font-weight: 900; line-height: 1; margin-top: 14px; }
+.score-card p { margin: 4px 0 0; color: rgba(255,255,255,0.82); font-weight: 800; }
+.goal-bar {
+  position: relative;
+  height: 12px;
+  margin-top: 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.24);
+}
+.goal-fill {
+  height: 100%;
+  width: 42%;
+  border-radius: inherit;
+  background: #FFD56B;
+  box-shadow: 0 0 18px rgba(255,213,107,0.72);
+}
+.goal-dot {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid white;
+  background: #FFD56B;
+}
+.goal-dot:nth-child(3) { left: 25%; }
+.goal-dot:nth-child(4) { left: 50%; background: var(--primary); }
+.goal-dot:nth-child(5) { left: 75%; background: var(--primary); }
+.goal-dot:nth-child(6) { left: 100%; background: var(--primary); }
+.nav-group-title {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 6px 8px;
+}
+.nav {
+  display: grid;
+  gap: 6px;
+}
+.nav button {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--muted);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-weight: 900;
+}
+.nav button.active, .nav button:hover {
+  background: rgba(118,104,232,0.16);
+  color: var(--text);
+  box-shadow: 0 0 28px rgba(118,104,232,0.16);
+}
+.dot-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--primary-soft);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.topbar {
+  border-radius: 24px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.search {
+  min-height: 44px;
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-2);
+  padding: 0 14px;
+  color: var(--text);
+  font-weight: 800;
+}
+.pill {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero {
+  border-radius: 28px;
+  padding: 28px;
+  min-height: 240px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 320px;
+  gap: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 100% at 100% 0%, rgba(125,211,220,0.16), transparent 60%),
+    radial-gradient(70% 80% at 0% 0%, rgba(118,104,232,0.24), transparent 58%),
+    linear-gradient(180deg, #1A1535 0%, var(--surface) 100%);
+}
+.eyebrow {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 10px 0 0;
+  font-size: 54px;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+.lead {
+  margin: 16px 0 0;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+  font-weight: 750;
+}
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.primary {
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: white;
+  min-height: 46px;
+  padding: 0 18px;
+  font-weight: 900;
+  box-shadow: 0 18px 45px rgba(118,104,232,0.22);
+}
+.secondary {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--text);
+  min-height: 46px;
+  padding: 0 18px;
+  font-weight: 900;
+}
+.mila-card {
+  border-radius: 24px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 190px;
+}
+.mila-face {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary), #4F7BFF);
+  color: white;
+  font-size: 32px;
+  font-weight: 900;
+  box-shadow: 0 18px 45px rgba(118,104,232,0.25);
+}
+.wave { display: flex; align-items: end; gap: 4px; height: 26px; }
+.wave span {
+  width: 5px;
+  border-radius: 999px;
+  background: var(--primary);
+  animation: wave 1.2s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 30%; }
+.wave span:nth-child(2) { height: 100%; animation-delay: .12s; }
+.wave span:nth-child(3) { height: 55%; animation-delay: .24s; }
+.wave span:nth-child(4) { height: 75%; animation-delay: .36s; }
+.wave span:nth-child(5) { height: 42%; animation-delay: .48s; }
+@keyframes wave { 0%, 100% { transform: scaleY(.55); opacity: .6; } 50% { transform: scaleY(1); opacity: 1; } }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.card {
+  border-radius: 24px;
+  padding: 20px;
+  background: var(--surface);
+}
+.card-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.card-desc {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-weight: 750;
+}
+.metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.metric-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+}
+.challenge {
+  border-left: 4px solid #FFD56B;
+}
+.answer-row {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+.answer {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-2);
+  padding: 12px;
+  color: var(--text);
+  font-weight: 850;
+  text-align: left;
+}
+.answer.correct {
+  background: rgba(16,185,129,0.18);
+  border-color: rgba(16,185,129,0.35);
+}
+.right-rail {
+  position: sticky;
+  top: 28px;
+  height: calc(100vh - 56px);
+  border-radius: 28px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+.shopping-panel {
+  background:
+    radial-gradient(80% 70% at 100% 0%, rgba(246,166,109,0.22), transparent 58%),
+    var(--surface);
+}
+.field {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+.field input, .field select {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 12px;
+  font-weight: 850;
+}
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.range-field { grid-column: 1 / -1; }
+.range-field input { accent-color: var(--primary); padding: 0; }
+.check {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--primary-soft);
+  color: var(--text);
+  font-weight: 850;
+  font-size: 13px;
+}
+.decision {
+  border-radius: 20px;
+  border: 1px solid rgba(246,166,109,0.42);
+  background: rgba(246,166,109,0.16);
+  padding: 16px;
+  margin-top: 14px;
+}
+.decision strong { display: block; font-size: 20px; line-height: 1.18; }
+.decision p { margin: 8px 0 0; color: var(--muted); line-height: 1.5; font-weight: 750; }
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+.mini {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 16px;
+  padding: 10px;
+}
+.mini b { display: block; color: var(--primary); font-size: 20px; }
+.mini span { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; font-weight: 800; }
+.unused-list { display: grid; gap: 8px; margin-top: 10px; }
+.unused-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 16px;
+  padding: 10px;
+  font-weight: 850;
+}
+.bottle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+.bottle-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.bottle-summary .mini {
+  border-color: rgba(20,241,149,0.26);
+  background: rgba(20,241,149,0.08);
+}
+.footer-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  font-weight: 750;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">FI</div>
+      <div>
+        <strong>Coach FI</strong>
+        <span>Voice-first financial coach</span>
+      </div>
+    </div>
+
+    <div class="score-card">
+      <div class="score-row">
+        <strong>Financial Score</strong>
+        <span>+5 pts</span>
+      </div>
+      <div class="score">42</div>
+      <p>out of 100 · next goal: 50 pts</p>
+      <div class="goal-bar">
+        <div class="goal-fill"></div>
+        <span class="goal-dot"></span>
+        <span class="goal-dot"></span>
+        <span class="goal-dot"></span>
+        <span class="goal-dot"></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="nav-group-title">Dzisiaj</div>
+      <nav class="nav">
+        <button class="active"><span class="dot-icon">⌂</span>Start</button>
+        <button><span class="dot-icon">?</span>Daily Challenge</button>
+        <button><span class="dot-icon">M</span>Mila Coach</button>
+        <button><span class="dot-icon">★</span>Rewards</button>
+      </nav>
+    </div>
+    <div>
+      <div class="nav-group-title">Narzędzia</div>
+      <nav class="nav">
+        <button><span class="dot-icon">♥</span>Health Check</button>
+        <button><span class="dot-icon">%</span>Inflation</button>
+        <button><span class="dot-icon">🛍</span>Shopping Hygiene</button>
+      </nav>
+    </div>
+    <p class="footer-note">Educational only. Coach FI nie udziela porad inwestycyjnych i nie obiecuje zysków.</p>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <input class="search" value="Demo Day flow: daily challenge, Mila, shopping hygiene, rewards"/>
+      <button class="pill" id="speakIntro">🔊 Mila speaks</button>
+      <button class="pill">🇵🇱 Polski</button>
+      <button class="pill">125 CFI</button>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Coach FI desktop demo</div>
+        <h1>Prosta edukacja finansowa z nagrodami.</h1>
+        <p class="lead">
+          Coach FI prowadzi użytkownika przez codzienny quiz, głosowe wyjaśnienia Miły,
+          higienę zakupową, poziomy i certyfikaty wiedzy. Bez chaosu, bez trading hype.
+        </p>
+        <div class="cta-row">
+          <button class="primary">Start daily challenge</button>
+          <button class="secondary">Open Shopping Hygiene</button>
+        </div>
+      </div>
+      <div class="mila-card">
+        <div class="mila-face">M</div>
+        <div>
+          <h2 class="card-title">Mila can speak</h2>
+          <p class="card-desc">Voice-first coach for lessons, quiz questions and buying decisions.</p>
+        </div>
+        <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </section>
+
+    <section class="grid-3">
+      <article class="card metric">
+        <div>
+          <h2 class="card-title">Daily streak</h2>
+          <p class="card-desc">Come back tomorrow for another mission.</p>
+        </div>
+        <div class="metric-value">12</div>
+      </article>
+      <article class="card metric">
+        <div>
+          <h2 class="card-title">Tokens</h2>
+          <p class="card-desc">Earned for quizzes and learning.</p>
+        </div>
+        <div class="metric-value">125</div>
+      </article>
+      <article class="card metric">
+        <div>
+          <h2 class="card-title">Level</h2>
+          <p class="card-desc">Next: Smart Saver.</p>
+        </div>
+        <div class="metric-value">2</div>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="card challenge">
+        <div class="eyebrow">Daily Challenge</div>
+        <h2 class="card-title">What does inflation mean?</h2>
+        <p class="card-desc">Answer one question, earn coins, then Mila reads the explanation.</p>
+        <div class="answer-row">
+          <button class="answer">A. Money buys more over time</button>
+          <button class="answer correct">B. Money loses purchasing power over time</button>
+          <button class="answer">C. Banks give free money</button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Learning path</div>
+        <h2 class="card-title">8 stages to financial confidence</h2>
+        <p class="card-desc">Money Mindset → Saving Habit → Inflation → Credit → Emergency Fund → Investing → Retirement → Family Plan.</p>
+        <div class="cta-row">
+          <button class="primary">Continue lesson</button>
+          <button class="secondary">Read path aloud</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <div class="eyebrow">Rewards</div>
+        <h2 class="card-title">Proof of knowledge, not speculation</h2>
+        <p class="card-desc">Tokens and optional Solana Devnet certificates show educational progress.</p>
+      </article>
+      <article class="card">
+        <div class="eyebrow">Kids Mode</div>
+        <h2 class="card-title">Separate path with parent consent</h2>
+        <p class="card-desc">Stars, safe scripts, no wallet, no public leaderboard and no free-form AI chat.</p>
+      </article>
+    </section>
+  </main>
+
+  <aside class="right-rail">
+    <article class="card shopping-panel">
+      <div class="eyebrow">Shopping Hygiene</div>
+      <h2 class="card-title">Zatrzymaj impulsywne zakupy.</h2>
+      <p class="card-desc">Analiza kaca zakupowego: zwróć, sprzedaj, odczekaj albo zostaw.</p>
+
+      <div class="field-grid">
+        <label class="field" style="grid-column:1/-1;">
+          Co kupiłeś?
+          <input id="itemName" value="Kurtka kupiona pod wpływem reklamy"/>
+        </label>
+        <label class="field">
+          Cena
+          <input id="price" type="number" value="399" min="0"/>
+        </label>
+        <label class="field">
+          Dni od zakupu
+          <input id="days" type="number" value="2" min="0"/>
+        </label>
+        <label class="field">
+          Okno zwrotu
+          <input id="returnWindow" type="number" value="14" min="1"/>
+        </label>
+        <label class="field">
+          Użycia
+          <input id="used" type="number" value="0" min="0"/>
+        </label>
+        <label class="field range-field">
+          Realna potrzeba
+          <input id="need" type="range" min="1" max="5" value="2"/>
+        </label>
+        <label class="field range-field">
+          Kac zakupowy
+          <input id="regret" type="range" min="1" max="5" value="4"/>
+        </label>
+        <label class="field" style="grid-column:1/-1;">
+          Trigger
+          <select id="trigger">
+            <option value="ad">Reklama lub influencer</option>
+            <option value="sale">Promocja lub rabat</option>
+            <option value="stress">Stres</option>
+            <option value="boredom">Nuda</option>
+            <option value="social">Presja otoczenia</option>
+            <option value="need">Realna potrzeba</option>
+          </select>
+        </label>
+        <label class="check">
+          <input id="receipt" type="checkbox" checked/>
+          Mam paragon albo potwierdzenie zamówienia.
+        </label>
+      </div>
+
+      <div class="decision">
+        <strong id="decisionTitle">Zwróć, jeśli regulamin na to pozwala</strong>
+        <p id="decisionText">Żałujesz zakupu, potrzeba jest niska, a okno zwrotu może być nadal otwarte.</p>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini"><b id="impulseScore">86</b><span>impuls</span></div>
+        <div class="mini"><b id="cashBack">399</b><span>PLN back</span></div>
+        <div class="mini"><b id="returnStatus">open</b><span>zwrot</span></div>
+      </div>
+
+      <button class="primary" id="readDecision" style="width:100%; margin-top:14px;">🔊 Odczytaj decyzję</button>
+    </article>
+
+    <article class="card">
+      <div class="eyebrow">Bottle deposit return</div>
+      <h2 class="card-title">Policz oddane butelki.</h2>
+      <p class="card-desc">Małe kaucje też są pieniędzmi. Licz, ile butelek oddajesz po zakupach.</p>
+      <div class="bottle-grid">
+        <label class="field">
+          PET
+          <input id="bottlePet" type="number" value="8" min="0"/>
+        </label>
+        <label class="field">
+          Szkło
+          <input id="bottleGlass" type="number" value="4" min="0"/>
+        </label>
+        <label class="field">
+          Kaucja
+          <input id="bottleDeposit" type="number" value="0.50" min="0" step="0.05"/>
+        </label>
+      </div>
+      <div class="bottle-summary">
+        <div class="mini"><b id="bottleCount">12</b><span>butelek</span></div>
+        <div class="mini"><b id="bottleCash">6 PLN</b><span>kaucja</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="eyebrow">Unused things audit</div>
+      <h2 class="card-title">Zamień bałagan na gotówkę.</h2>
+      <div class="field-grid">
+        <label class="field">
+          Rzecz
+          <input id="unusedName" value="Stary smartwatch"/>
+        </label>
+        <label class="field">
+          Wartość
+          <input id="unusedValue" type="number" value="180" min="0"/>
+        </label>
+      </div>
+      <button class="secondary" id="addUnused" style="width:100%; margin-top:12px;">Dodaj do listy</button>
+      <div class="unused-list" id="unusedList"></div>
+      <div class="decision">
+        <strong id="unusedTotal">0 PLN</strong>
+        <p>Gotówka, którą możesz odzyskać z rzeczy, których nie używasz.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="eyebrow">Marketing angle</div>
+      <h2 class="card-title">ElevenLabs content hook</h2>
+      <p class="card-desc">Shorts: “Should I return this purchase?”, “24h pause before buying”, “Turn clutter into savings”.</p>
+    </article>
+  </aside>
+</div>
+
+<script>
+const decisionCopy = {
+  return: {
+    title: "Zwróć, jeśli regulamin na to pozwala",
+    text: "Żałujesz zakupu, potrzeba jest niska, a okno zwrotu może być nadal otwarte. Sprawdź regulamin sklepu dzisiaj.",
+    voice: "Najlepszy następny krok to zwrócić ten produkt, jeśli regulamin sklepu na to pozwala. Odzyskaj gotówkę i przenieś ją do oszczędności."
+  },
+  sell: {
+    title: "Sprzedaj i zamień bałagan na gotówkę",
+    text: "Nie możesz zwrócić produktu, ale go nie używasz. Wystaw go na sprzedaż i ustaw termin siedmiu dni.",
+    voice: "Najlepszy następny krok to sprzedać ten przedmiot. Zamień nieużywaną rzecz na gotówkę."
+  },
+  pause: {
+    title: "Odczekaj przed decyzją",
+    text: "Sygnał wygląda impulsywnie. Odczekaj 24 godziny, usuń bodźce reklamowe i zdecyduj spokojniej.",
+    voice: "Najlepszy następny krok to pauza. Odczekaj dwadzieścia cztery godziny i odetnij bodźce reklamowe."
+  },
+  keep: {
+    title: "Zostaw, ale używaj świadomie",
+    text: "Zakup wygląda bliżej realnej potrzeby. Zostaw tylko wtedy, gdy rozwiązuje problem albo będzie regularnie używany.",
+    voice: "Ten zakup wygląda bliżej realnej potrzeby. Zostaw go tylko wtedy, gdy będzie regularnie używany."
+  }
+};
+
+let currentVoice = "";
+let unusedTotal = 0;
+const fields = ["itemName","price","days","returnWindow","used","need","regret","trigger","receipt","bottlePet","bottleGlass","bottleDeposit"];
+
+function num(id, fallback = 0) {
+  const value = Number(document.getElementById(id).value);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function pln(value) {
+  return `${Math.max(0, Math.round(value)).toLocaleString("pl-PL")} PLN`;
+}
+
+function bottleReturn() {
+  const pet = num("bottlePet");
+  const glass = num("bottleGlass");
+  const deposit = num("bottleDeposit", 0.5);
+  const count = Math.max(0, Math.round(pet + glass));
+  const cash = count * Math.max(0, deposit);
+  return { count, cash };
+}
+
+function updateDecision() {
+  const price = num("price");
+  const days = num("days");
+  const windowDays = num("returnWindow", 14);
+  const used = num("used");
+  const need = num("need", 3);
+  const regret = num("regret", 3);
+  const trigger = document.getElementById("trigger").value;
+  const receipt = document.getElementById("receipt").checked;
+  const returnOpen = receipt && days <= windowDays;
+  const impulse = Math.max(0, Math.min(100, Math.round(
+    regret * 17 +
+    (6 - need) * 13 +
+    (used === 0 ? 14 : used <= 1 ? 8 : 0) +
+    (trigger !== "need" ? 14 : -6) +
+    (price >= 500 ? 8 : price >= 150 ? 4 : 0)
+  )));
+
+  let decision = "keep";
+  if (returnOpen && regret >= 4 && need <= 2) decision = "return";
+  else if (need <= 2 && (used <= 1 || regret >= 3)) decision = "sell";
+  else if (impulse >= 55) decision = "pause";
+
+  const recoverable = decision === "return" ? price : Math.round(price * 0.6);
+  const copy = decisionCopy[decision];
+  const bottles = bottleReturn();
+  document.getElementById("decisionTitle").textContent = copy.title;
+  document.getElementById("decisionText").textContent = copy.text;
+  document.getElementById("impulseScore").textContent = impulse;
+  document.getElementById("cashBack").textContent = Math.round(recoverable).toLocaleString("pl-PL");
+  document.getElementById("returnStatus").textContent = returnOpen ? "open" : "closed";
+  document.getElementById("bottleCount").textContent = bottles.count;
+  document.getElementById("bottleCash").textContent = pln(bottles.cash);
+  currentVoice = `${document.getElementById("itemName").value}. ${copy.voice} Wynik impulsu: ${impulse} na 100. Gotówka do odzyskania: ${pln(recoverable)}. Oddajesz ${bottles.count} butelek i odzyskujesz ${pln(bottles.cash)} kaucji.`;
+}
+
+fields.forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener("input", updateDecision);
+  el.addEventListener("change", updateDecision);
+});
+
+document.getElementById("readDecision").addEventListener("click", () => {
+  updateDecision();
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(currentVoice);
+  utterance.lang = "pl-PL";
+  utterance.rate = 0.95;
+  window.speechSynthesis.speak(utterance);
+});
+
+document.getElementById("speakIntro").addEventListener("click", () => {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance("Witaj w Coach FI. To desktopowa wersja demo z codziennym wyzwaniem, Miłą, nagrodami i higieną zakupową.");
+  utterance.lang = "pl-PL";
+  utterance.rate = 0.95;
+  window.speechSynthesis.speak(utterance);
+});
+
+document.getElementById("addUnused").addEventListener("click", () => {
+  const name = document.getElementById("unusedName").value.trim();
+  const value = Number(document.getElementById("unusedValue").value);
+  if (!name || !Number.isFinite(value) || value <= 0) return;
+  unusedTotal += value;
+  const row = document.createElement("div");
+  row.className = "unused-item";
+  row.innerHTML = `<span>${name}</span><strong>${pln(value)}</strong>`;
+  document.getElementById("unusedList").appendChild(row);
+  document.getElementById("unusedTotal").textContent = pln(unusedTotal);
+  document.getElementById("unusedName").value = "";
+  document.getElementById("unusedValue").value = "80";
+});
+
+updateDecision();
+</script>
+</body>
+</html>

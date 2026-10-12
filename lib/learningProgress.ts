@@ -1,4 +1,5 @@
 import { getAllCards } from "./srs";
+import { notifyCloud } from "@/lib/sync/syncQueue";
 
 const MANUAL_KEY = "coachfi-learn-manual";
 
@@ -40,6 +41,7 @@ export function markStageStarted(stageId: string): void {
   if (!overrides[stageId]) {
     overrides[stageId] = "started";
     localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+    notifyCloud("stages");
   }
 }
 
@@ -48,6 +50,7 @@ export function markStageCompleted(stageId: string): void {
   const overrides = getManualOverrides();
   overrides[stageId] = "completed";
   localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+  notifyCloud("stages");
 }
 
 export function getAllStageProgress(): StageProgress[] {

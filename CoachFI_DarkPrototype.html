@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CoachFI — Financial Coach AI</title>
+<style>
+:root {
+  --bg: #0D0D14;
+  --surface: #13131F;
+  --surface-2: #1A1A2E;
+  --border: rgba(118,104,232,0.15);
+  --border-strong: rgba(118,104,232,0.35);
+  --primary: #7668E8;
+  --primary-2: #9B8FF0;
+  --primary-dim: rgba(118,104,232,0.12);
+  --solana: #14F195;
+  --solana-dim: rgba(20,241,149,0.12);
+  --text: #F0F2FF;
+  --muted: #6B7494;
+  --success: #10B981;
+  --amber: #F59E0B;
+  --amber-dim: rgba(245,158,11,0.15);
+  --destructive: #EF4444;
+  --phantom: #AB9FF2;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  background: #050509;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(1200px 800px at 20% -10%, rgba(118,104,232,0.08), transparent 60%),
+    radial-gradient(900px 600px at 110% 110%, rgba(20,241,149,0.05), transparent 60%),
+    #050509;
+}
+
+/* ─── Device shell ─── */
+.device {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100vh;
+  max-height: 932px;
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+}
+@media (min-width: 480px) {
+  .device { border-radius: 44px; border: 8px solid #0a0a12; }
+}
+
+h1, h2, h3, h4 { font-weight: 900; letter-spacing: -0.02em; }
+
+/* ─── Screens ─── */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 260ms var(--ease), transform 300ms var(--ease), visibility 0s linear 300ms;
+}
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 300ms var(--ease), transform 360ms var(--ease), visibility 0s;
+}
+
+/* ─── Header ─── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(13,13,20,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ─── Scroll area ─── */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px 18px 110px;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.scroll-area::-webkit-scrollbar { display: none; }
+
+/* ─── Cards ─── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+}
+.card.tappable {
+  cursor: pointer;
+  transition: transform 250ms var(--ease), box-shadow 250ms var(--ease), border-color 250ms var(--ease);
+}
+.card.tappable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(118,104,232,0.22);
+  border-color: var(--border-strong);
+}
+
+/* ─── Brand ─── */
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand .name {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand .name::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 0 16px rgba(118,104,232,0.6);
+  flex-shrink: 0;
+}
+.brand .tag { color: var(--muted); font-size: 11px; letter-spacing: 0.04em; }
+
+/* ─── Avatar ─── */
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7668E8 0%, #4F7BFF 100%);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 13px;
+  color: white;
+  box-shadow: 0 0 18px rgba(118,104,232,0.45);
+  flex-shrink: 0;
+}
+
+/* ─── Section title ─── */
+.sec-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+/* ═══════════════════════ DASHBOARD ═══════════════════════ */
+.hero {
+  position: relative;
+  background:
+    radial-gradient(80% 80% at 50% 0%, rgba(118,104,232,0.22), transparent 60%),
+    linear-gradient(180deg, #1a1535 0%, #0D0D14 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 22px 20px 24px;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(118,104,232,0.22), transparent 30%),
+    radial-gradient(circle at 82% 72%, rgba(155,143,240,0.16), transparent 35%);
+  pointer-events: none;
+}
+.hero .eyebrow {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.hero .title { font-size: 30px; line-height: 1.05; margin-top: 4px; }
+
+.gauge-wrap {
+  margin: 14px auto 6px;
+  width: 190px;
+  height: 190px;
+  position: relative;
+}
+.gauge-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-track { stroke: rgba(118,104,232,0.14); }
+.gauge-fill {
+  stroke: url(#gaugeGrad);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(118,104,232,0.6));
+  transition: stroke-dashoffset 1.6s var(--ease);
+}
+.gauge-center {
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #1a1535, #0D0D14);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 30px rgba(118,104,232,0.14);
+}
+.gauge-center .score {
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.gauge-center .denom { font-size: 13px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+
+.delta {
+  text-align: center;
+  color: var(--success);
+  font-weight: 800;
+  font-size: 13px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.delta-arrow {
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 7px solid var(--success);
+}
+
+.ministats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+.ministat { text-align: center; }
+.ministat .v { color: var(--primary); font-weight: 900; font-size: 21px; letter-spacing: -0.02em; }
+.ministat .l { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px; font-weight: 700; }
+
+/* Quick actions */
+.qa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.qa {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 250ms var(--ease), box-shadow 250ms var(--ease), border-color 250ms var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 126px;
+  text-align: left;
+  color: var(--text);
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+.qa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(118,104,232,0.22);
+}
+.qa:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.qa.primary {
+  background: linear-gradient(135deg, rgba(118,104,232,0.32), rgba(118,104,232,0.10));
+  border: 1px solid rgba(118,104,232,0.4);
+  box-shadow: 0 0 28px rgba(118,104,232,0.18);
+}
+.qa.solana { border: 1px solid rgba(20,241,149,0.20); }
+.qa .qa-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(118,104,232,0.18);
+  display: grid; place-items: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.qa.primary .qa-icon { background: rgba(255,255,255,0.12); color: white; }
+.qa.solana .qa-icon { background: rgba(20,241,149,0.12); color: var(--solana); }
+.qa .ttl { font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
+.qa .sub { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.qa.primary .sub { color: rgba(240,242,255,0.75); }
+.qa.solana .ttl-accent { color: var(--solana); }
+
+/* Daily challenge */
+.challenge-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  border-radius: 20px;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.challenge-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.challenge-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.flame {
+  width: 16px; height: 16px; flex-shrink: 0;
+  background: linear-gradient(180deg, #F59E0B, #DC2626);
+  clip-path: polygon(50% 0%, 80% 25%, 100% 60%, 80% 100%, 50% 85%, 20% 100%, 0% 60%, 20% 25%);
+}
+.streak-pill {
+  font-size: 11px;
+  background: var(--amber-dim);
+  color: var(--amber);
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid rgba(245,158,11,0.25);
+}
+.challenge-q { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.4; }
+
+/* Story cards — horizontal scroll */
+.story-strip {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 2px 4px;
+  margin: 0 -4px;
+}
+.story-strip::-webkit-scrollbar { display: none; }
+.story-card {
+  flex-shrink: 0;
+  width: 200px;
+  border-radius: 20px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.story-card .s-stat { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+.story-card .s-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.75; }
+.story-card .s-headline { font-size: 12px; font-weight: 700; line-height: 1.4; opacity: 0.95; }
+.story-card .s-source { font-size: 10px; opacity: 0.55; font-weight: 600; margin-top: auto; padding-top: 8px; }
+
+/* Kids teaser */
+.kids-card {
+  background: linear-gradient(135deg, rgba(20,241,149,0.12), rgba(118,104,232,0.12));
+  border: 1px solid rgba(20,241,149,0.25);
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.kids-emoji { font-size: 36px; flex-shrink: 0; }
+.kids-text .ttl { font-size: 15px; font-weight: 800; }
+.kids-text .sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+/* ═══════════════════════ COACH ═══════════════════════ */
+.back-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: grid; place-items: center;
+  cursor: pointer;
+  color: var(--text);
+  flex-shrink: 0;
+}
+.coach-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 4px;
+}
+.coach-meta .nm { font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
+.coach-meta .online { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
+.online-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
+
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: grid; place-items: center;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mila-intro {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px;
+  padding: 18px 0 8px;
+}
+.mila-avatar {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: linear-gradient(135deg, #7668E8, #4F46E5);
+  display: grid; place-items: center;
+  font-size: 30px; font-weight: 900; color: white;
+  letter-spacing: -0.02em;
+  position: relative;
+  box-shadow: 0 0 40px rgba(118,104,232,0.5);
+}
+.mila-avatar::before {
+  content: "";
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(118,104,232,0.3);
+  animation: mila-pulse 2.4s ease-in-out infinite;
+}
+.mila-avatar::after {
+  content: "";
+  position: absolute; inset: -15px;
+  border-radius: 50%;
+  border: 1px solid rgba(118,104,232,0.16);
+  animation: mila-pulse 2.4s ease-in-out infinite 0.6s;
+}
+@keyframes mila-pulse {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  100% { transform: scale(1.38); opacity: 0; }
+}
+.mila-name { font-weight: 800; font-size: 15px; }
+.mila-role { color: var(--muted); font-size: 11px; margin-top: 1px; }
+.wave-bars {
+  display: flex; align-items: center; gap: 4px; height: 18px;
+}
+.wave-bars span {
+  width: 3px; background: var(--primary); border-radius: 2px;
+  animation: wave-anim 1.2s ease-in-out infinite;
+}
+.wave-bars span:nth-child(1) { height: 30%; animation-delay: 0s; }
+.wave-bars span:nth-child(2) { height: 100%; animation-delay: 0.15s; }
+.wave-bars span:nth-child(3) { height: 55%; animation-delay: 0.3s; }
+.wave-bars span:nth-child(4) { height: 80%; animation-delay: 0.45s; }
+.wave-bars span:nth-child(5) { height: 40%; animation-delay: 0.6s; }
+@keyframes wave-anim {
+  0%, 100% { transform: scaleY(0.45); opacity: 0.55; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* Quick chips */
+.chips {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  padding: 0 2px 2px;
+  flex-shrink: 0;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex-shrink: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 200ms, background 200ms;
+  font-family: inherit;
+}
+.chip:hover { border-color: var(--border-strong); background: rgba(118,104,232,0.08); }
+
+/* Chat */
+.chat-area {
+  display: flex; flex-direction: column;
+  gap: 14px;
+}
+.msg { display: flex; flex-direction: column; gap: 5px; max-width: 88%; }
+.msg.in { align-self: flex-start; }
+.msg.out { align-self: flex-end; align-items: flex-end; }
+.bubble {
+  padding: 13px 15px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.55;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.msg.in .bubble { border-top-left-radius: 4px; }
+.msg.out .bubble {
+  background: var(--primary-dim);
+  border-color: var(--border-strong);
+  border-top-right-radius: 4px;
+}
+.bubble strong { color: var(--primary-2); font-weight: 800; }
+.bubble .oecd-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.25);
+  color: var(--amber);
+  font-size: 10px; font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 100px;
+  margin-top: 8px;
+}
+.msg .foot { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 0 4px; }
+.typing-indicator { display: flex; gap: 4px; align-items: center; padding: 14px 16px; }
+.typing-indicator span {
+  width: 7px; height: 7px;
+  background: var(--muted);
+  border-radius: 50%;
+  animation: typing 1.2s ease-in-out infinite;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.45; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Input bar */
+.input-bar {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 68px;
+  z-index: 35;
+  background: rgba(13,13,20,0.94);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.msg-input {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 200ms;
+}
+.msg-input::placeholder { color: var(--muted); }
+.msg-input:focus { border-color: var(--border-strong); }
+.send-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7668E8, #5D4FD6);
+  border: none;
+  display: grid; place-items: center;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(118,104,232,0.4);
+  transition: transform 200ms, box-shadow 200ms;
+  flex-shrink: 0;
+}
+.send-btn:hover { transform: scale(1.06); box-shadow: 0 0 28px rgba(118,104,232,0.6); }
+
+/* ═══════════════════════ LEARN ═══════════════════════ */
+.lp-badge {
+  background: var(--primary-dim);
+  color: var(--primary);
+  border: 1px solid var(--border-strong);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 100px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.progress-overview {
+  background:
+    radial-gradient(80% 80% at 100% 0%, rgba(118,104,232,0.20), transparent 60%),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.po-title { font-size: 15px; font-weight: 800; }
+.po-bar { height: 10px; background: rgba(118,104,232,0.12); border-radius: 100px; overflow: hidden; }
+.po-bar-fill {
+  display: block; height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7668E8, #9B8FF0);
+  border-radius: 100px;
+  box-shadow: 0 0 12px rgba(118,104,232,0.55);
+  transition: width 1.2s var(--ease);
+}
+.po-foot { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 8px; }
+.po-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+
+.stages { display: flex; flex-direction: column; }
+.stage {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 4px 0;
+}
+.stage-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 900;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+.stage.done .stage-num {
+  background: linear-gradient(135deg, #7668E8, #5D4FD6);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 0 18px rgba(118,104,232,0.45);
+}
+.stage.active .stage-num {
+  background: var(--primary-dim);
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  box-shadow: 0 0 16px rgba(118,104,232,0.45);
+}
+.stage.locked .stage-num {
+  background: rgba(107,116,148,0.08);
+  color: var(--muted);
+  border-color: rgba(107,116,148,0.20);
+}
+.stage-body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 13px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stage.active .stage-body {
+  border-color: var(--border-strong);
+  background:
+    radial-gradient(80% 100% at 100% 0%, rgba(118,104,232,0.16), transparent 60%),
+    var(--surface);
+  box-shadow: 0 0 24px rgba(118,104,232,0.16);
+}
+.stage.locked .stage-body { opacity: 0.65; }
+.stage-name { font-weight: 800; font-size: 14px; letter-spacing: -0.01em; }
+.stage.locked .stage-name { color: var(--muted); }
+.stage-status { font-size: 11px; font-weight: 800; }
+.status-done { color: var(--success); }
+.status-active { color: var(--amber); }
+.status-locked { color: var(--muted); }
+.stage-bar { height: 5px; background: rgba(118,104,232,0.12); border-radius: 100px; overflow: hidden; }
+.stage-bar-fill { display: block; height: 100%; width: 60%; background: linear-gradient(90deg, #7668E8, #9B8FF0); border-radius: 100px; }
+
+.cfi-pill {
+  background: linear-gradient(135deg, rgba(255,213,107,0.18), rgba(200,144,42,0.18));
+  border: 1px solid rgba(255,213,107,0.28);
+  color: #FFD56B;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 9px;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cfi-pill.muted {
+  background: rgba(107,116,148,0.10);
+  border-color: rgba(107,116,148,0.20);
+  color: var(--muted);
+}
+
+/* Connector lines */
+.connector-row { display: grid; grid-template-columns: 44px 1fr; gap: 12px; padding: 0; height: 16px; }
+.connector-line { width: 2px; height: 16px; margin: 0 auto; background: var(--primary); opacity: 0.5; }
+.connector-line.dashed {
+  background-image: linear-gradient(180deg, var(--primary) 50%, transparent 50%);
+  background-size: 2px 6px;
+  background-color: transparent;
+  opacity: 0.65;
+}
+.connector-line.gray {
+  background-color: rgba(107,116,148,0.25);
+  background-image: linear-gradient(180deg, rgba(107,116,148,0.5) 50%, transparent 50%);
+  background-size: 2px 6px;
+}
+
+/* Mini stages */
+.mini-stages {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+}
+.mini-stage {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(107,116,148,0.08);
+  border: 1px solid rgba(107,116,148,0.20);
+  color: var(--muted);
+  font-size: 12px;
+  padding: 7px 11px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+/* ═══════════════════════ REWARDS ═══════════════════════ */
+.token-card {
+  background:
+    radial-gradient(90% 130% at 0% 0%, rgba(155,143,240,0.35), transparent 60%),
+    linear-gradient(135deg, #2a1f5c, #1a1535);
+  border: 1px solid var(--border-strong);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 0 40px rgba(118,104,232,0.18);
+  display: flex; gap: 16px; align-items: center;
+}
+.coin {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #FFD56B, #C8902A 70%, #8B5A14);
+  box-shadow: 0 6px 18px rgba(200,144,42,0.4), inset 0 0 12px rgba(255,255,255,0.2);
+  display: grid; place-items: center;
+  font-weight: 900;
+  color: #5A3D08;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.token-info { flex: 1; min-width: 0; }
+.token-lbl { font-size: 11px; color: rgba(240,242,255,0.6); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; }
+.token-bal { font-size: 30px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; }
+.token-bar { margin-top: 10px; height: 5px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
+.token-bar-fill { display: block; height: 100%; width: 62%; background: linear-gradient(90deg, #9B8FF0, #14F195); border-radius: 100px; }
+.token-bar-lbl { font-size: 11px; color: rgba(240,242,255,0.65); margin-top: 6px; }
+
+/* NFT Certs */
+.cert {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.cert.minted {
+  background:
+    radial-gradient(80% 80% at 50% 0%, rgba(20,241,149,0.10), transparent 60%),
+    linear-gradient(180deg, #1A1535, #13131F);
+  border-color: rgba(20,241,149,0.30);
+  box-shadow: 0 0 30px rgba(20,241,149,0.12);
+}
+.cert.ready {
+  background:
+    radial-gradient(80% 80% at 50% 0%, rgba(118,104,232,0.18), transparent 60%),
+    linear-gradient(180deg, #1A1535, #13131F);
+  border-color: var(--border-strong);
+}
+.cert.locked { opacity: 0.7; }
+.onchain-badge {
+  position: absolute; top: 14px; right: 14px;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(20,241,149,0.10);
+  border: 1px solid rgba(20,241,149,0.32);
+  color: var(--solana);
+  font-size: 10px; padding: 4px 8px; border-radius: 100px;
+  font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+}
+.cert-icon {
+  width: 68px; height: 68px;
+  border-radius: 18px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(118,104,232,0.35), rgba(20,241,149,0.25));
+  box-shadow: 0 0 28px rgba(118,104,232,0.28);
+  color: white;
+}
+.cert.ready .cert-icon { background: linear-gradient(135deg, rgba(118,104,232,0.40), rgba(118,104,232,0.15)); }
+.cert.locked .cert-icon { background: rgba(118,104,232,0.05); box-shadow: none; color: var(--muted); }
+.cert-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+.cert-name { font-size: 17px; font-weight: 900; letter-spacing: 0.01em; text-transform: uppercase; }
+.cert.locked .cert-name { color: var(--muted); }
+.cert-divider { display: flex; align-items: center; gap: 10px; }
+.cert-divider .line { flex: 1; height: 1px; background: var(--border); }
+.fi-chip {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7668E8, #4F46E5);
+  display: grid; place-items: center;
+  font-size: 9px; font-weight: 900; color: white;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 12px rgba(118,104,232,0.45);
+  flex-shrink: 0;
+}
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.status-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 11px;
+  border-radius: 100px;
+  font-size: 11px; font-weight: 800;
+}
+.pill-green { background: rgba(20,241,149,0.10); color: var(--solana); border: 1px solid rgba(20,241,149,0.28); }
+.pill-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.28); }
+.pill-gray { background: rgba(107,116,148,0.10); color: var(--muted); border: 1px solid rgba(107,116,148,0.20); }
+.explorer-link { color: var(--solana); font-size: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+
+.cert-progress { height: 5px; background: rgba(118,104,232,0.12); border-radius: 100px; overflow: hidden; }
+.cert-progress-fill { display: block; height: 100%; width: 55%; background: linear-gradient(90deg, #7668E8, #9B8FF0); border-radius: 100px; }
+
+/* Phantom wallet card */
+.phantom-card {
+  border: 1px solid rgba(171,159,242,0.25);
+  background:
+    radial-gradient(80% 100% at 0% 0%, rgba(171,159,242,0.08), transparent 60%),
+    var(--surface);
+  border-radius: 20px;
+  padding: 18px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.phantom-left { display: flex; align-items: center; gap: 12px; }
+.phantom-logo {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: #AB9FF2;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.phantom-nm { font-weight: 800; font-size: 14px; }
+.phantom-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+.btn-phantom {
+  background: var(--phantom);
+  color: #0D0D14;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 200ms, transform 200ms;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.btn-phantom:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ═══════════════════════ QUIZ/CHALLENGE ═══════════════════════ */
+.reward-banner {
+  background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(234,88,12,0.22));
+  border: 1px solid rgba(245,158,11,0.35);
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.reward-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--amber-dim);
+  display: grid; place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.reward-text .r-label { font-size: 11px; color: rgba(245,158,11,0.8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+.reward-text .r-value { font-size: 22px; font-weight: 900; color: var(--amber); letter-spacing: -0.02em; }
+.reward-timer {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+.timer-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.timer-value { font-size: 16px; font-weight: 900; color: var(--text); font-variant-numeric: tabular-nums; }
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px 20px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.question-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.13em; color: var(--primary); }
+.question-text { font-size: 19px; font-weight: 800; line-height: 1.35; letter-spacing: -0.02em; }
+
+.answers { display: flex; flex-direction: column; gap: 10px; }
+.answer-btn {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid rgba(118,104,232,0.18);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 200ms, background 200ms, transform 120ms;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.answer-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-dim); }
+.answer-btn.selected { border-color: var(--primary); background: var(--primary-dim); }
+.answer-btn.correct { border-color: var(--success); background: rgba(16,185,129,0.12); color: var(--success); }
+.answer-btn.wrong { border-color: var(--destructive); background: rgba(239,68,68,0.10); color: var(--destructive); }
+.answer-btn:disabled { cursor: not-allowed; }
+.answer-btn:active:not(:disabled) { transform: scale(0.98); }
+.ans-id {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(118,104,232,0.14);
+  display: grid; place-items: center;
+  font-size: 12px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: background 200ms;
+}
+.answer-btn.selected .ans-id { background: rgba(118,104,232,0.35); }
+.answer-btn.correct .ans-id { background: rgba(16,185,129,0.25); }
+.answer-btn.wrong .ans-id { background: rgba(239,68,68,0.20); }
+
+/* Submit */
+.btn-primary {
+  background: linear-gradient(135deg, #7668E8, #5D4FD6);
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 0 28px rgba(118,104,232,0.32);
+  transition: transform 200ms, box-shadow 200ms, opacity 200ms;
+  font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 40px rgba(118,104,232,0.5); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Result banner */
+.result-banner {
+  border-radius: 16px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  display: none;
+}
+.result-banner.correct { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.28); }
+.result-banner.wrong { background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.25); }
+.result-banner.show { display: flex; }
+.result-title { font-size: 15px; font-weight: 900; }
+.result-banner.correct .result-title { color: var(--success); }
+.result-banner.wrong .result-title { color: var(--amber); }
+.result-explanation { font-size: 13px; color: var(--muted); line-height: 1.55; font-weight: 600; }
+.result-reward {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, rgba(255,213,107,0.18), rgba(200,144,42,0.18));
+  border: 1px solid rgba(255,213,107,0.28);
+  color: #FFD56B;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 8px 14px;
+  border-radius: 100px;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+/* ═══════════════════════ BOTTOM NAV ═══════════════════════ */
+/* Shopping hygiene */
+.shopping-hero {
+  background:
+    radial-gradient(80% 70% at 100% 0%, rgba(245,158,11,0.18), transparent 58%),
+    linear-gradient(135deg, rgba(118,104,232,0.24), rgba(20,241,149,0.08));
+  border: 1px solid var(--border-strong);
+  border-radius: 24px;
+  padding: 20px;
+}
+.shopping-kicker {
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.shopping-title { font-size: 26px; line-height: 1.05; margin-top: 6px; }
+.shopping-copy { color: rgba(240,242,255,0.74); font-size: 13px; line-height: 1.55; margin-top: 10px; }
+.shopping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.shopping-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+.shopping-field.full { grid-column: 1 / -1; }
+.shopping-field input,
+.shopping-field select {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  outline: none;
+  padding: 10px 12px;
+}
+.shopping-field input:focus,
+.shopping-field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(118,104,232,0.14); }
+.range-line { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 8px; }
+.range-line input { padding: 0; min-height: 34px; accent-color: var(--primary); }
+.range-line span { color: var(--muted); font-size: 10px; text-align: center; }
+.check-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(118,104,232,0.08);
+  padding: 12px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.check-row input { margin-top: 2px; accent-color: var(--primary); }
+.decision-card {
+  border: 1px solid rgba(245,158,11,0.35);
+  background: linear-gradient(135deg, rgba(245,158,11,0.16), rgba(118,104,232,0.10));
+  border-radius: 22px;
+  padding: 18px;
+}
+.decision-label {
+  color: var(--amber);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 900;
+}
+.decision-title { font-size: 21px; font-weight: 900; line-height: 1.15; margin-top: 6px; }
+.decision-text { color: var(--muted); font-size: 13px; line-height: 1.55; margin-top: 8px; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.metric-box {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  background: var(--surface);
+}
+.metric-value { color: var(--primary); font-size: 19px; font-weight: 900; line-height: 1; }
+.metric-label { color: var(--muted); font-size: 10px; font-weight: 800; line-height: 1.35; margin-top: 6px; }
+.unused-row { display: grid; grid-template-columns: 1fr 90px; gap: 8px; }
+.bottle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.bottle-total {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.bottle-total .metric-box { background: rgba(20,241,149,0.08); border-color: rgba(20,241,149,0.24); }
+.shopping-tip {
+  display: flex;
+  gap: 10px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.shopping-tip::before {
+  content: "✓";
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(16,185,129,0.16);
+  color: var(--success);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.bottom-nav {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 40;
+  background: rgba(13,13,20,0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 8px 6px calc(10px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.nav-btn {
+  background: none; border: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 7px 4px;
+  cursor: pointer;
+  position: relative;
+  transition: color 200ms;
+}
+.nav-icon { width: 22px; height: 22px; display: grid; place-items: center; transition: filter 250ms; }
+.nav-btn.active { color: var(--primary); }
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 7px rgba(118,104,232,0.7)); }
+.nav-btn.active::after {
+  content: "";
+  position: absolute; bottom: 2px;
+  width: 4px; height: 4px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--primary);
+}
+
+/* Utility */
+.hidden { display: none !important; }
+.gap-4 { gap: 4px; }
+</style>
+</head>
+<body>
+
+<!-- SVG gradient defs (shared) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7668E8"/>
+      <stop offset="100%" stop-color="#9B8FF0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="device">
+
+  <!-- ══════════════════ HOME ══════════════════ -->
+  <section class="screen active" id="screen-home">
+    <header class="header">
+      <div class="brand">
+        <span class="name">CoachFI</span>
+        <span class="tag">Financial Coach AI · Solana</span>
+      </div>
+      <div class="avatar" aria-label="User DZ">DZ</div>
+    </header>
+
+    <div class="scroll-area">
+      <!-- Hero gauge -->
+      <div class="hero">
+        <div class="eyebrow">Your Financial</div>
+        <h1 class="title">Health Score</h1>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="gauge-track" cx="100" cy="100" r="86" fill="none" stroke-width="14"/>
+            <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="86" fill="none" stroke-width="14"
+              stroke-dasharray="540.35" stroke-dashoffset="540.35"/>
+          </svg>
+          <div class="gauge-center">
+            <div class="score">72</div>
+            <div class="denom">/ 100</div>
+          </div>
+        </div>
+        <div class="delta">
+          <span class="delta-arrow"></span>
+          +5 pts this week
+        </div>
+        <div class="ministats">
+          <div class="ministat"><div class="v">67<span style="font-size:13px">%</span></div><div class="l">Saving</div></div>
+          <div class="ministat"><div class="v">40<span style="font-size:13px">%</span></div><div class="l">Investing</div></div>
+          <div class="ministat"><div class="v">80<span style="font-size:13px">%</span></div><div class="l">Credit</div></div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="sec-title"><span>Quick Actions</span></div>
+      <div class="qa-grid">
+        <button class="qa primary" data-go="coach">
+          <div class="qa-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-4a4 4 0 0 1-1-2.7V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z"/>
+              <circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/>
+            </svg>
+          </div>
+          <div><div class="ttl">Ask Mila</div><div class="sub">Your AI financial coach</div></div>
+        </button>
+
+        <button class="qa" data-go="quiz">
+          <div class="qa-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+            </svg>
+          </div>
+          <div><div class="ttl">Daily Quiz</div><div class="sub">+50 CFI reward today</div></div>
+        </button>
+
+        <button class="qa" data-go="shopping">
+          <div class="qa-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <div><div class="ttl">Shopping Hygiene</div><div class="sub">Return, sell or pause</div></div>
+        </button>
+
+        <button class="qa" data-go="learn">
+          <div class="qa-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <div><div class="ttl">Learn</div><div class="sub">Stage 3 · Emergency Fund</div></div>
+        </button>
+
+        <button class="qa solana" data-go="rewards">
+          <div class="qa-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 21h8"/><path d="M12 17v4"/>
+              <path d="M7 4h10v5a5 5 0 1 1-10 0V4z"/>
+              <path d="M17 5h3v3a3 3 0 0 1-3 3"/><path d="M7 5H4v3a3 3 0 0 0 3 3"/>
+            </svg>
+          </div>
+          <div><div class="ttl">Rewards &amp; <span class="ttl-accent">NFT</span></div><div class="sub">Mint on Solana Devnet</div></div>
+        </button>
+      </div>
+
+      <!-- Daily challenge -->
+      <div class="challenge-card">
+        <div class="challenge-row">
+          <div class="challenge-title"><span class="flame"></span> Daily Challenge</div>
+          <div class="streak-pill">🔥 12 days</div>
+        </div>
+        <div class="challenge-q">What is compound interest — and why do only 33% of Poles understand it?</div>
+        <button class="btn-primary" data-go="quiz" style="margin-top:0;">
+          Answer Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <!-- Poland OECD story cards -->
+      <div class="sec-title"><span>Poland Financial Literacy</span><span style="color:var(--primary);font-size:10px;font-weight:800;">OECD 2020</span></div>
+      <div class="story-strip">
+        <div class="story-card" style="background:linear-gradient(135deg,#4B2E8A,#2D1F5E);color:white;">
+          <div class="s-stat">33%</div>
+          <div class="s-label">Knowledge Gap</div>
+          <div class="s-headline">Poles who correctly understand compound interest</div>
+          <div class="s-source">OECD/INFE 2020</div>
+        </div>
+        <div class="story-card" style="background:linear-gradient(135deg,#78350F,#451A03);color:white;">
+          <div class="s-stat">13/21</div>
+          <div class="s-label">OECD Score</div>
+          <div class="s-headline">Poland's financial competency — 8 pts of lost opportunity</div>
+          <div class="s-source">OECD/INFE 2020</div>
+        </div>
+        <div class="story-card" style="background:linear-gradient(135deg,#064E3B,#022C22);color:white;">
+          <div class="s-stat">6%</div>
+          <div class="s-label">Trust Deficit</div>
+          <div class="s-headline">Poles who trusted financial institutions in 2021</div>
+          <div class="s-source">OECD/INFE 2020</div>
+        </div>
+        <div class="story-card" style="background:linear-gradient(135deg,#1E3A5F,#0F2440);color:white;">
+          <div class="s-stat">50%</div>
+          <div class="s-label">Loss of Control</div>
+          <div class="s-headline">Feel finances control their life — not the other way around</div>
+          <div class="s-source">OECD/INFE 2020</div>
+        </div>
+      </div>
+
+      <!-- Kids mode teaser -->
+      <div class="kids-card">
+        <div class="kids-emoji">🧒</div>
+        <div class="kids-text">
+          <div class="ttl">Kids Mode</div>
+          <div class="sub">Money lessons for children aged 6–14 with star rewards &amp; Mila voice</div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--solana)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ COACH ══════════════════ -->
+  <section class="screen" id="screen-coach">
+    <header class="header">
+      <button class="back-btn" data-go="home" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="coach-meta">
+        <span class="nm">Mila — AI Coach</span>
+        <span class="online"><span class="online-dot"></span> Powered by Claude</span>
+      </div>
+      <button class="icon-btn" aria-label="Voice output">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="scroll-area" id="chatScrollArea" style="padding-bottom:160px; gap:10px;">
+      <!-- Mila intro -->
+      <div class="mila-intro">
+        <div class="mila-avatar">M</div>
+        <div style="text-align:center;">
+          <div class="mila-name">Mila</div>
+          <div class="mila-role">Financial Coach · ElevenLabs Voice</div>
+        </div>
+        <div class="wave-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- Quick chips -->
+      <div class="chips" id="chips">
+        <button class="chip" data-question="What is compound interest?">Compound interest?</button>
+        <button class="chip" data-question="What is poduszka finansowa?">Poduszka finansowa</button>
+        <button class="chip" data-question="Explain the 50/30/20 rule">50/30/20 rule</button>
+        <button class="chip" data-question="How does PPK pension work in Poland?">PPK pension?</button>
+        <button class="chip" data-question="What is dollar-cost averaging?">Dollar-cost averaging</button>
+      </div>
+
+      <!-- Chat messages -->
+      <div class="chat-area" id="chatArea">
+        <div class="msg in">
+          <div class="bubble">
+            Cześć! Jestem Mila, Twój AI coach finansowy stworzony przez Coach FI i zasilany przez Claude.<br><br>
+            Pomogę Ci budować pewność finansową przez jasne, konkretne wyjaśnienia bez żargonu. Zapytaj mnie o cokolwiek — oszczędności, inflację, inwestycje, długi lub planowanie emerytury.
+          </div>
+          <div class="foot">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            ElevenLabs Voice · just now
+          </div>
+        </div>
+
+        <div class="msg out">
+          <div class="bubble">What is compound interest and why does it matter?</div>
+        </div>
+
+        <div class="msg in">
+          <div class="bubble">
+            <strong>Compound interest</strong> means earning interest on your interest — not just on the original amount. It's the most powerful force in personal finance, and it works both for and against you.<br><br>
+            <strong>Example:</strong> 1 000 PLN at 7% annual return:<br>
+            · After 10 years → <strong>1 967 PLN</strong><br>
+            · After 20 years → <strong>3 870 PLN</strong><br>
+            · After 30 years → <strong>7 612 PLN</strong><br><br>
+            The same 1 000 PLN at simple interest would only give you 1 700 PLN after 10 years. The <em>extra 267 PLN</em> — that's compound interest working for you.<br><br>
+            <strong>Why it matters for Poland:</strong> Only ~33% of Poles correctly understand compound interest (OECD 2020). This single gap explains why many people underestimate how fast high-interest debt grows — and why so few join PPK pension schemes early enough.
+            <div class="oecd-badge">📊 OECD/INFE 2020 · Poland</div>
+            <br><strong>One action:</strong> Start contributing to any savings account today. Even 100 PLN/month at 5% will become <strong>15 528 PLN</strong> in 10 years — not 12 000.
+          </div>
+          <div class="foot">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            just now · Read aloud
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="input-bar">
+      <input class="msg-input" id="msgInput" type="text" placeholder="Ask Mila anything…" autocomplete="off"/>
+      <button class="send-btn" id="sendBtn" aria-label="Send">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════════ LEARN ══════════════════ -->
+  <section class="screen" id="screen-learn">
+    <header class="header">
+      <div class="brand">
+        <span class="name">Learning Path</span>
+        <span class="tag">Master your finances, stage by stage</span>
+      </div>
+      <span class="lp-badge">8 Stages</span>
+    </header>
+
+    <div class="scroll-area">
+      <!-- Progress overview -->
+      <div class="progress-overview">
+        <div class="row-between">
+          <div class="po-title">Your Progress</div>
+          <div style="color:var(--primary); font-weight:900; font-size:14px;">3 / 8 stages</div>
+        </div>
+        <div class="po-bar"><span class="po-bar-fill" id="poBarFill"></span></div>
+        <div class="po-foot">
+          <span style="color:#FFD56B; font-weight:800;">1 250 CFI</span> earned
+          <span class="po-dot"></span>
+          <span>3 certificates</span>
+          <span class="po-dot"></span>
+          <span>12-day streak</span>
+        </div>
+      </div>
+
+      <div class="sec-title"><span>Your Journey</span></div>
+
+      <div class="stages">
+        <!-- Stage 1 — Done -->
+        <div class="stage done">
+          <div class="stage-num">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div class="stage-body">
+            <div class="row-between">
+              <div class="stage-name">Money Mindset</div>
+              <div class="stage-status status-done">Completed</div>
+            </div>
+          </div>
+          <div class="cfi-pill">+200 CFI</div>
+        </div>
+        <div class="connector-row"><div class="connector-line"></div></div>
+
+        <!-- Stage 2 — Done -->
+        <div class="stage done">
+          <div class="stage-num">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div class="stage-body">
+            <div class="row-between">
+              <div class="stage-name">Budgeting Basics</div>
+              <div class="stage-status status-done">Completed</div>
+            </div>
+          </div>
+          <div class="cfi-pill">+250 CFI</div>
+        </div>
+        <div class="connector-row"><div class="connector-line"></div></div>
+
+        <!-- Stage 3 — Active -->
+        <div class="stage active">
+          <div class="stage-num">3</div>
+          <div class="stage-body">
+            <div class="row-between">
+              <div class="stage-name">Emergency Fund</div>
+              <div class="stage-status status-active">In Progress</div>
+            </div>
+            <div class="stage-bar"><span class="stage-bar-fill"></span></div>
+            <div class="row-between" style="margin-top:2px;">
+              <div style="font-size:11px; color:var(--muted); font-weight:700;">60% complete</div>
+              <button class="btn-primary" style="padding:7px 13px; font-size:12px; width:auto;">
+                Continue
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cfi-pill">+300 CFI</div>
+        </div>
+        <div class="connector-row"><div class="connector-line dashed"></div></div>
+
+        <!-- Stage 4 — Locked -->
+        <div class="stage locked">
+          <div class="stage-num">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="stage-body">
+            <div class="row-between">
+              <div class="stage-name">Debt Elimination</div>
+              <div class="stage-status status-locked">Locked</div>
+            </div>
+          </div>
+          <div class="cfi-pill muted">+350 CFI</div>
+        </div>
+        <div class="connector-row"><div class="connector-line gray"></div></div>
+
+        <!-- Stages 5-8 compressed -->
+        <div class="stage locked" style="grid-template-columns:1fr; padding: 6px 0;">
+          <div class="stage-body" style="background:transparent; border:none; padding:0;">
+            <div style="font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding: 0 2px;">Upcoming Stages</div>
+            <div class="mini-stages">
+              <div class="mini-stage">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                5 · Investing
+              </div>
+              <div class="mini-stage">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                6 · Wealth Building
+              </div>
+              <div class="mini-stage">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                7 · DeFi &amp; Solana
+              </div>
+              <div class="mini-stage">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                8 · Family Finance
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ REWARDS ══════════════════ -->
+  <section class="screen" id="screen-rewards">
+    <header class="header">
+      <div class="brand">
+        <span class="name">Rewards &amp; NFT</span>
+        <span class="tag">Earn CFI · Mint on Solana</span>
+      </div>
+      <button class="icon-btn" aria-label="Filter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </button>
+    </header>
+
+    <div class="scroll-area">
+      <!-- Token balance -->
+      <div class="token-card">
+        <div class="coin">CFI</div>
+        <div class="token-info">
+          <div class="token-lbl">Token Balance</div>
+          <div class="token-bal">1 250 <span style="font-size:15px;color:rgba(240,242,255,0.6);font-weight:700;">CFI</span></div>
+          <div class="token-bar"><span class="token-bar-fill"></span></div>
+          <div class="token-bar-lbl">750 CFI to next certificate</div>
+        </div>
+      </div>
+
+      <div class="sec-title"><span>Your Certificates</span><span style="color:var(--muted);">3 earned</span></div>
+
+      <!-- Cert 1 — Minted -->
+      <div class="cert minted">
+        <div class="onchain-badge">
+          <svg viewBox="0 0 100 80" width="14" height="11">
+            <defs>
+              <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#14F195"/><stop offset="100%" stop-color="#9945FF"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#sg1)" d="M18 60 L82 60 L100 78 L0 78 Z"/>
+            <path fill="url(#sg1)" d="M0 30 L82 30 L100 48 L18 48 Z"/>
+            <path fill="url(#sg1)" d="M18 0 L100 0 L82 18 L0 18 Z"/>
+          </svg>
+          On-chain
+        </div>
+        <div class="cert-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cert-sub">Certificate of Achievement</div>
+          <div class="cert-name">Saving Habit Master</div>
+        </div>
+        <div class="cert-divider">
+          <span class="line"></span>
+          <span class="fi-chip">FI</span>
+          <span class="line"></span>
+        </div>
+        <div class="row-between">
+          <span class="status-pill pill-green">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Minted on Solana
+          </span>
+          <a href="#" class="explorer-link">
+            Explorer
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Cert 2 — Ready -->
+      <div class="cert ready">
+        <div class="cert-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cert-sub">Certificate of Knowledge</div>
+          <div class="cert-name">Financial Literacy Basics</div>
+        </div>
+        <div class="cert-divider"><span class="line"></span><span class="fi-chip">FI</span><span class="line"></span></div>
+        <div class="row-between">
+          <span class="status-pill pill-amber">Ready to Mint</span>
+          <button class="btn-primary" style="width:auto;padding:10px 16px;font-size:13px;">
+            Mint NFT
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cert 3 — Locked -->
+      <div class="cert locked">
+        <div class="cert-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cert-sub">Locked Certificate</div>
+          <div class="cert-name">Investment Fundamentals</div>
+        </div>
+        <div class="cert-divider"><span class="line"></span><span class="fi-chip" style="opacity:0.4;">FI</span><span class="line"></span></div>
+        <div style="font-size:12px; color:var(--muted); font-weight:600;">Complete Stage 5 · Investing to unlock</div>
+        <div class="cert-progress"><span class="cert-progress-fill"></span></div>
+        <div style="font-size:11px; color:var(--muted); font-weight:700;">55% progress</div>
+      </div>
+
+      <!-- Phantom wallet -->
+      <div class="sec-title"><span>Solana Wallet</span></div>
+      <div class="phantom-card">
+        <div class="phantom-left">
+          <div class="phantom-logo">
+            <svg width="24" height="24" viewBox="0 0 128 128" fill="none">
+              <path d="M110.6 64c0 25.7-20.9 46.6-46.6 46.6S17.4 89.7 17.4 64 38.3 17.4 64 17.4 110.6 38.3 110.6 64z" fill="white" fill-opacity="0.25"/>
+              <path d="M88 55.4H77.5c-1.2-8.7-8.7-15.4-17.7-15.4C49.3 40 40 49.3 40 60.8c0 11.5 9.3 20.8 20.8 20.8 5 0 9.6-1.8 13.1-4.8H88c-4.2 8.5-13 14.3-23.2 14.3C48.2 91.1 36 78.9 36 63.8 36 48.7 48.2 36.5 63.3 36.5c7.4 0 14.2 3 19.1 7.8H88v11.1z" fill="white"/>
+            </svg>
+          </div>
+          <div>
+            <div class="phantom-nm">Phantom Wallet</div>
+            <div class="phantom-sub">Connect to Solana Devnet</div>
+          </div>
+        </div>
+        <button class="btn-phantom" id="phantomBtn">Connect</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ QUIZ ══════════════════ -->
+  <section class="screen" id="screen-quiz">
+    <header class="header">
+      <div class="brand">
+        <span class="name">Daily Challenge</span>
+        <span class="tag">One question · New every day</span>
+      </div>
+      <div class="streak-pill" style="font-size:12px;">🔥 12</div>
+    </header>
+
+    <div class="scroll-area">
+      <!-- Reward banner -->
+      <div class="reward-banner">
+        <div class="reward-icon">⚡</div>
+        <div class="reward-text">
+          <div class="r-label">Today's Reward</div>
+          <div class="r-value">+50 CFI</div>
+        </div>
+        <div class="reward-timer">
+          <div class="timer-label">Resets in</div>
+          <div class="timer-value" id="timerDisplay">08:34:12</div>
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div class="question-card">
+        <div class="question-eyebrow">Financial Knowledge · OECD Context</div>
+        <div class="question-text">What is compound interest — and why does it matter so much?</div>
+
+        <div class="answers" id="answersContainer">
+          <button class="answer-btn" data-answer="A">
+            <span class="ans-id">A</span>
+            Interest paid only on the original amount deposited
+          </button>
+          <button class="answer-btn" data-answer="B">
+            <span class="ans-id">B</span>
+            A bank fee charged for early withdrawal of savings
+          </button>
+          <button class="answer-btn" data-answer="C">
+            <span class="ans-id">C</span>
+            Interest earned on both principal and previously earned interest
+          </button>
+          <button class="answer-btn" data-answer="D">
+            <span class="ans-id">D</span>
+            Interest charged only on credit card balances
+          </button>
+        </div>
+
+        <div class="result-banner" id="resultBanner">
+          <div class="result-title" id="resultTitle"></div>
+          <div class="result-explanation" id="resultExplanation"></div>
+          <div class="result-reward" id="resultReward" style="display:none;">
+            🏆 +50 CFI earned!
+          </div>
+        </div>
+
+        <button class="btn-primary" id="submitBtn" disabled>
+          Submit Answer
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ BOTTOM NAV ══════════════════ -->
+  <!-- SHOPPING HYGIENE -->
+  <section class="screen" id="screen-shopping">
+    <header class="header">
+      <button class="back-btn" data-go="home" aria-label="Back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="brand">
+        <span class="name">Shopping Hygiene</span>
+        <span class="tag">Buyer remorse · returns · unused things</span>
+      </div>
+      <button class="icon-btn" id="shoppingVoiceBtn" aria-label="Read decision">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="scroll-area">
+      <div class="shopping-hero">
+        <div class="shopping-kicker">Impulse spending coach</div>
+        <h1 class="shopping-title">Zwróć, sprzedaj, odczekaj albo zostaw.</h1>
+        <p class="shopping-copy">
+          Coach FI pomaga zatrzymać kaca zakupowego, odzyskać gotówkę i ograniczyć presję reklam.
+          To prosty moduł do budowania higieny zakupowej.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="sec-title" style="padding:0 0 12px;"><span>Purchase analysis</span></div>
+        <div class="shopping-grid">
+          <label class="shopping-field full">
+            Co kupiłeś?
+            <input id="shoppingItem" value="Kurtka kupiona pod wpływem reklamy"/>
+          </label>
+          <label class="shopping-field">
+            Cena
+            <input id="shoppingPrice" type="number" min="0" value="399"/>
+          </label>
+          <label class="shopping-field">
+            Dni od zakupu
+            <input id="shoppingDays" type="number" min="0" value="2"/>
+          </label>
+          <label class="shopping-field">
+            Okno zwrotu
+            <input id="shoppingReturnWindow" type="number" min="1" value="14"/>
+          </label>
+          <label class="shopping-field">
+            Ile razy użyte?
+            <input id="shoppingUsed" type="number" min="0" value="0"/>
+          </label>
+          <label class="shopping-field full">
+            Realna potrzeba
+            <div class="range-line">
+              <span>Niska</span>
+              <input id="shoppingNeed" type="range" min="1" max="5" value="2"/>
+              <span>Wysoka</span>
+            </div>
+          </label>
+          <label class="shopping-field full">
+            Kac zakupowy
+            <div class="range-line">
+              <span>Niski</span>
+              <input id="shoppingRegret" type="range" min="1" max="5" value="4"/>
+              <span>Wysoki</span>
+            </div>
+          </label>
+          <label class="shopping-field full">
+            Co wywołało zakup?
+            <select id="shoppingTrigger">
+              <option value="ad">Reklama lub influencer</option>
+              <option value="sale">Promocja lub rabat</option>
+              <option value="stress">Stres</option>
+              <option value="boredom">Nuda</option>
+              <option value="social">Presja otoczenia</option>
+              <option value="need">Realna zaplanowana potrzeba</option>
+            </select>
+          </label>
+          <label class="check-row">
+            <input id="shoppingReceipt" type="checkbox" checked/>
+            Mam paragon albo potwierdzenie zamówienia.
+          </label>
+        </div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-label">Coach decision</div>
+        <div class="decision-title" id="shoppingDecisionTitle">Zwróć, jeśli regulamin na to pozwala</div>
+        <div class="decision-text" id="shoppingDecisionText">
+          Żałujesz zakupu, potrzeba jest niska, a okno zwrotu może być nadal otwarte. Sprawdź regulamin sklepu dzisiaj.
+        </div>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-box">
+          <div class="metric-value" id="shoppingImpulse">86/100</div>
+          <div class="metric-label">Wynik impulsu</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value" id="shoppingCash">399 PLN</div>
+          <div class="metric-label">Gotówka do odzyskania</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value" id="shoppingReturnStatus">Open</div>
+          <div class="metric-label">Status zwrotu</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title" style="padding:0 0 12px;"><span>Unused things audit</span></div>
+        <p class="shopping-copy" style="margin-top:0;">Dodaj rzeczy, których nie używasz. To może być gotówka do poduszki finansowej.</p>
+        <div class="unused-row" style="margin-top:14px;">
+          <label class="shopping-field">
+            Rzecz
+            <input id="unusedName" value="Stary smartwatch"/>
+          </label>
+          <label class="shopping-field">
+            Wartość
+            <input id="unusedValue" type="number" min="0" value="180"/>
+          </label>
+        </div>
+        <button class="btn-primary" id="addUnusedBtn" style="margin-top:12px;">Dodaj do listy</button>
+        <div id="unusedList" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div class="decision-card" style="margin-top:14px; padding:14px;">
+          <div class="decision-label">Recovery target</div>
+          <div class="decision-title" id="unusedTotal">0 PLN</div>
+          <div class="decision-text">Potencjalna gotówka z rzeczy, które leżą i nie pracują dla Ciebie.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title" style="padding:0 0 12px;"><span>Deposit bottles</span></div>
+        <p class="shopping-copy" style="margin-top:0;">Policz butelki oddane po zakupach i zobacz, ile kaucji wraca do Twojej kieszeni.</p>
+        <div class="bottle-grid">
+          <label class="shopping-field">
+            PET
+            <input id="bottlePet" type="number" min="0" value="8"/>
+          </label>
+          <label class="shopping-field">
+            Szkło
+            <input id="bottleGlass" type="number" min="0" value="4"/>
+          </label>
+          <label class="shopping-field">
+            Kaucja
+            <input id="bottleDeposit" type="number" min="0" step="0.05" value="0.50"/>
+          </label>
+        </div>
+        <div class="bottle-total">
+          <div class="metric-box">
+            <div class="metric-value" id="bottleCount">12</div>
+            <div class="metric-label">Butelek do oddania</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value" id="bottleCash">6 PLN</div>
+            <div class="metric-label">Kaucja do odzyskania</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="sec-title" style="padding:0;"><span>Shopping hygiene rules</span></div>
+        <div class="shopping-tip">Pauza 24 godziny przy zakupach niekoniecznych.</div>
+        <div class="shopping-tip">Wypisz się ze sklepów, które wywołują impulsywne zakupy.</div>
+        <div class="shopping-tip">Trzymaj listę życzeń zamiast koszyka zakupowego.</div>
+        <div class="shopping-tip">Jedna rzecz wchodzi, jedna wychodzi.</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-go="home">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>
+        </svg>
+      </span>
+      Home
+    </button>
+    <button class="nav-btn" data-go="coach">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a4 4 0 0 1-4 4H8l-5 3v-4a4 4 0 0 1-1-2.7V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4z"/>
+        </svg>
+      </span>
+      Coach
+    </button>
+    <button class="nav-btn" data-go="shopping">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </span>
+      Shop
+    </button>
+    <button class="nav-btn" data-go="learn">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </span>
+      Learn
+    </button>
+    <button class="nav-btn" data-go="rewards">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 21h8"/><path d="M12 17v4"/>
+          <path d="M7 4h10v5a5 5 0 1 1-10 0V4z"/>
+          <path d="M17 5h3v3a3 3 0 0 1-3 3"/><path d="M7 5H4v3a3 3 0 0 0 3 3"/>
+        </svg>
+      </span>
+      Rewards
+    </button>
+    <button class="nav-btn" data-go="quiz">
+      <span class="nav-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+        </svg>
+      </span>
+      Quiz
+    </button>
+  </nav>
+
+</div><!-- /device -->
+
+<script>
+// ─── Navigation ───
+const SCREENS = {
+  home: document.getElementById('screen-home'),
+  coach: document.getElementById('screen-coach'),
+  learn: document.getElementById('screen-learn'),
+  rewards: document.getElementById('screen-rewards'),
+  quiz: document.getElementById('screen-quiz'),
+  shopping: document.getElementById('screen-shopping'),
+};
+const navBtns = document.querySelectorAll('#bottomNav .nav-btn');
+
+function showScreen(key) {
+  if (!SCREENS[key]) return;
+  Object.entries(SCREENS).forEach(([k, el]) => {
+    el.classList.toggle('active', k === key);
+  });
+  navBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.go === key);
+  });
+  const sa = SCREENS[key].querySelector('.scroll-area');
+  if (sa) sa.scrollTop = 0;
+  if (key === 'home') animateGauge();
+  if (key === 'learn') animateLearn();
+  if (key === 'shopping') updateShoppingDecision();
+}
+
+document.querySelectorAll('[data-go]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    const k = el.dataset.go;
+    if (SCREENS[k]) showScreen(k);
+  });
+});
+
+// ─── Gauge animation ───
+const gaugeFill = document.getElementById('gaugeFill');
+const C = 2 * Math.PI * 86; // ~540.35
+gaugeFill.setAttribute('stroke-dasharray', C.toFixed(2));
+gaugeFill.setAttribute('stroke-dashoffset', C.toFixed(2));
+
+function animateGauge() {
+  setTimeout(() => {
+    gaugeFill.setAttribute('stroke-dashoffset', (C * (1 - 0.72)).toFixed(2));
+  }, 150);
+}
+
+// ─── Learn bar animation ───
+const poBarFill = document.getElementById('poBarFill');
+let learnAnimated = false;
+function animateLearn() {
+  if (learnAnimated) return;
+  learnAnimated = true;
+  setTimeout(() => { poBarFill.style.width = '37.5%'; }, 150);
+}
+
+// ─── Timer countdown ───
+function updateTimer() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  const secs = Math.floor((midnight - now) / 1000);
+  const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+  const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+  const el = document.getElementById('timerDisplay');
+  if (el) el.textContent = `${h}:${m}:${s}`;
+}
+updateTimer();
+setInterval(updateTimer, 1000);
+
+// ─── Quiz logic ───
+const CORRECT = 'C';
+const EXPLANATION = 'Compound interest means earning interest on your interest, not just the original amount. At 7% annual return, 1 000 PLN becomes 1 967 PLN in 10 years (vs 1 700 with simple interest). Only ~33% of Poles understand this — the #1 knowledge gap driving debt spirals and low PPK participation. (OECD 2020)';
+
+let selectedAnswer = null;
+let quizSubmitted = false;
+
+document.querySelectorAll('.answer-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (quizSubmitted) return;
+    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedAnswer = btn.dataset.answer;
+    document.getElementById('submitBtn').disabled = false;
+  });
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  if (!selectedAnswer || quizSubmitted) return;
+  quizSubmitted = true;
+
+  document.querySelectorAll('.answer-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.answer === CORRECT) {
+      btn.classList.add('correct');
+    } else if (btn.dataset.answer === selectedAnswer && selectedAnswer !== CORRECT) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  const isCorrect = selectedAnswer === CORRECT;
+  const banner = document.getElementById('resultBanner');
+  const title = document.getElementById('resultTitle');
+  const explanation = document.getElementById('resultExplanation');
+  const reward = document.getElementById('resultReward');
+
+  banner.classList.remove('correct', 'wrong');
+  banner.classList.add('show', isCorrect ? 'correct' : 'wrong');
+  title.textContent = isCorrect ? '✓ Correct! Well done.' : '✗ Not quite — good try!';
+  explanation.textContent = EXPLANATION;
+
+  if (isCorrect) {
+    reward.style.display = 'inline-flex';
+    document.getElementById('submitBtn').textContent = '🎉 +50 CFI Earned!';
+    document.getElementById('submitBtn').style.background = 'linear-gradient(135deg, #10B981, #059669)';
+  } else {
+    document.getElementById('submitBtn').textContent = 'Try again tomorrow';
+    document.getElementById('submitBtn').style.background = 'rgba(107,116,148,0.3)';
+  }
+  document.getElementById('submitBtn').disabled = true;
+});
+
+// ─── Phantom connect simulation ───
+// Shopping hygiene logic
+const shoppingIds = [
+  'shoppingItem',
+  'shoppingPrice',
+  'shoppingDays',
+  'shoppingReturnWindow',
+  'shoppingUsed',
+  'shoppingNeed',
+  'shoppingRegret',
+  'shoppingTrigger',
+  'shoppingReceipt',
+  'bottlePet',
+  'bottleGlass',
+  'bottleDeposit',
+];
+let unusedRecoveryTotal = 0;
+let currentShoppingVoice = '';
+
+const SHOPPING_DECISIONS = {
+  return: {
+    title: 'Zwróć, jeśli regulamin na to pozwala',
+    text: 'Żałujesz zakupu, potrzeba jest niska, a okno zwrotu może być nadal otwarte. Sprawdź regulamin sklepu dzisiaj.',
+    voice: 'Najlepszy następny krok to zwrócić ten produkt, jeśli regulamin sklepu na to pozwala. Odzyskaj gotówkę i przenieś ją do oszczędności.',
+  },
+  sell: {
+    title: 'Sprzedaj i zamień bałagan na gotówkę',
+    text: 'Jeśli nie możesz zwrócić produktu, ale go nie używasz, wystaw go na sprzedaż. Ustal uczciwą cenę i termin siedmiu dni.',
+    voice: 'Najlepszy następny krok to sprzedać ten przedmiot. Zamień nieużywaną rzecz na gotówkę i odłóż ją.',
+  },
+  pause: {
+    title: 'Odczekaj przed decyzją',
+    text: 'Sygnał wygląda impulsywnie. Odczekaj 24 godziny, usuń bodźce reklamowe i zdecyduj spokojniej.',
+    voice: 'Najlepszy następny krok to pauza. Odczekaj dwadzieścia cztery godziny i odetnij bodźce reklamowe.',
+  },
+  keep: {
+    title: 'Zostaw, ale używaj świadomie',
+    text: 'To wygląda bliżej realnej potrzeby. Zostaw tylko wtedy, gdy rzecz coś zastępuje, rozwiązuje problem albo jest regularnie używana.',
+    voice: 'Ten zakup wygląda bliżej realnej potrzeby. Zostaw go tylko wtedy, gdy będzie regularnie używany.',
+  },
+};
+
+function numberValue(id, fallback = 0) {
+  const el = document.getElementById(id);
+  const value = Number(el && el.value);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function formatPLN(value) {
+  return `${Math.max(0, Math.round(value)).toLocaleString('pl-PL')} PLN`;
+}
+
+function getBottleReturn() {
+  const pet = numberValue('bottlePet');
+  const glass = numberValue('bottleGlass');
+  const deposit = numberValue('bottleDeposit', 0.5);
+  const count = Math.max(0, Math.round(pet + glass));
+  const cash = count * Math.max(0, deposit);
+  return { count, cash };
+}
+
+function updateShoppingDecision() {
+  const price = numberValue('shoppingPrice');
+  const days = numberValue('shoppingDays');
+  const windowDays = numberValue('shoppingReturnWindow', 14);
+  const used = numberValue('shoppingUsed');
+  const need = numberValue('shoppingNeed', 3);
+  const regret = numberValue('shoppingRegret', 3);
+  const trigger = document.getElementById('shoppingTrigger').value;
+  const hasReceipt = document.getElementById('shoppingReceipt').checked;
+  const returnOpen = hasReceipt && days <= windowDays;
+  const impulseTrigger = trigger !== 'need';
+  const impulse = Math.max(0, Math.min(100, Math.round(
+    regret * 17 +
+    (6 - need) * 13 +
+    (used === 0 ? 14 : used <= 1 ? 8 : 0) +
+    (impulseTrigger ? 14 : -6) +
+    (price >= 500 ? 8 : price >= 150 ? 4 : 0)
+  )));
+
+  let decision = 'keep';
+  if (returnOpen && regret >= 4 && need <= 2) decision = 'return';
+  else if (need <= 2 && (used <= 1 || regret >= 3)) decision = 'sell';
+  else if (impulse >= 55) decision = 'pause';
+
+  const recoverable = decision === 'return' ? price : Math.round(price * 0.6);
+  const copy = SHOPPING_DECISIONS[decision];
+  const item = document.getElementById('shoppingItem').value || 'ten zakup';
+  const bottleReturn = getBottleReturn();
+
+  document.getElementById('shoppingDecisionTitle').textContent = copy.title;
+  document.getElementById('shoppingDecisionText').textContent = copy.text;
+  document.getElementById('shoppingImpulse').textContent = `${impulse}/100`;
+  document.getElementById('shoppingCash').textContent = formatPLN(recoverable);
+  document.getElementById('shoppingReturnStatus').textContent = returnOpen ? 'Open' : 'Closed';
+  document.getElementById('bottleCount').textContent = bottleReturn.count;
+  document.getElementById('bottleCash').textContent = formatPLN(bottleReturn.cash);
+  currentShoppingVoice = `${item}. ${copy.voice} Wynik impulsu: ${impulse} na 100. Potencjalna gotówka do odzyskania: ${formatPLN(recoverable)}. Oddajesz ${bottleReturn.count} butelek i odzyskujesz ${formatPLN(bottleReturn.cash)} kaucji.`;
+}
+
+shoppingIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', updateShoppingDecision);
+    el.addEventListener('change', updateShoppingDecision);
+  }
+});
+
+document.getElementById('addUnusedBtn').addEventListener('click', () => {
+  const nameEl = document.getElementById('unusedName');
+  const valueEl = document.getElementById('unusedValue');
+  const name = nameEl.value.trim();
+  const value = Number(valueEl.value);
+  if (!name || !Number.isFinite(value) || value <= 0) return;
+  unusedRecoveryTotal += value;
+
+  const row = document.createElement('div');
+  row.className = 'metric-box';
+  row.innerHTML = `<div class="metric-value" style="font-size:16px;">${name}</div><div class="metric-label">${formatPLN(value)}</div>`;
+  document.getElementById('unusedList').appendChild(row);
+  document.getElementById('unusedTotal').textContent = formatPLN(unusedRecoveryTotal);
+  nameEl.value = '';
+  valueEl.value = '80';
+});
+
+document.getElementById('shoppingVoiceBtn').addEventListener('click', () => {
+  updateShoppingDecision();
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(currentShoppingVoice);
+  utterance.lang = 'pl-PL';
+  utterance.rate = 0.95;
+  window.speechSynthesis.speak(utterance);
+});
+
+updateShoppingDecision();
+
+const phantomBtn = document.getElementById('phantomBtn');
+let phantomConnected = false;
+phantomBtn.addEventListener('click', () => {
+  if (phantomConnected) return;
+  phantomBtn.textContent = 'Connecting…';
+  phantomBtn.disabled = true;
+  setTimeout(() => {
+    phantomConnected = true;
+    phantomBtn.textContent = 'Connected ✓';
+    phantomBtn.style.background = 'var(--success)';
+    phantomBtn.style.color = 'white';
+    const sub = phantomBtn.closest('.phantom-card').querySelector('.phantom-sub');
+    if (sub) sub.textContent = 'Bw3k…xP9q · Devnet';
+  }, 1400);
+});
+
+// ─── Chat / Mila ───
+const MILA_REPLIES = {
+  'What is poduszka finansowa?': 'Poduszka finansowa (financial cushion/pillow) is the Polish term for an emergency fund. It\'s money set aside to absorb unexpected shocks — job loss, medical bills, car repairs — without needing high-interest loans.\n\nGoal: 3–6 months of living expenses, kept in a liquid savings account. In Poland, trust in financial institutions is only 15% (2022), so many people keep cash at home — but an interest-bearing savings account beats cash under a mattress.\n\nOne action: Open a dedicated savings account today and automate a small transfer on pay day.',
+  'Explain the 50/30/20 rule': 'The 50/30/20 rule splits your take-home pay into three buckets:\n\n· 50% Needs — rent, food, utilities, transport\n· 30% Wants — restaurants, subscriptions, hobbies\n· 20% Savings & debt repayment\n\nIf your net income is 5 000 PLN: save 1 000 PLN automatically before you spend anything else. That\'s the key insight — pay yourself first.\n\nOnly 26.9% of Poles reach the minimum financial attitude score (OECD 2020), partly because saving feels impossible. The 50/30/20 rule makes it concrete.',
+  'How does PPK pension work in Poland?': 'PPK (Pracownicze Plany Kapitałowe) is Poland\'s voluntary workplace pension scheme:\n\n· Employee contributes: 2% of salary (you)\n· Employer adds: 1.5% (your company)\n· State bonus: 250 PLN welcome + 240 PLN/year\n\nTotal: 3.5% of your salary goes into your pension — automatically. Despite this, only 47% of eligible employees participate (OECD 2020). Why? Compound interest is the #1 misunderstood concept — people don\'t see why starting at 25 vs 35 makes a 2× difference in final balance.\n\nOne action: If you haven\'t joined PPK, enroll this month. Every year you delay costs you significantly.',
+  'What is dollar-cost averaging?': 'Dollar-cost averaging (DCA) means investing a fixed amount at regular intervals — say 200 PLN every month — regardless of market price.\n\nWhen prices are high → you buy fewer units\nWhen prices are low → you buy more units\nOver time → you average out market volatility\n\nThis removes the impossible task of "timing the market." DCA is how most index fund investors build wealth steadily without panic-selling during downturns.\n\nOne action: Set up an automatic monthly investment into an index ETF. Even 100 PLN/month becomes ~15 000 PLN in 10 years at 7% return.',
+};
+
+const DEFAULT_REPLY = 'That\'s a great question! As your financial coach, I can tell you that understanding personal finance starts with the basics — budgeting, emergency funds, and compound interest.\n\nFor Poland specifically, OECD data shows that financial literacy is a key barrier to wealth building. The good news: small, consistent actions compound just like interest.\n\nOne action: Ask me a more specific question — about saving, investing, debt, or the Polish PPK pension system.';
+
+function addMessage(text, isOut) {
+  const chatArea = document.getElementById('chatArea');
+  const msg = document.createElement('div');
+  msg.className = `msg ${isOut ? 'out' : 'in'}`;
+
+  // Format newlines and bullet points
+  const formatted = text
+    .replace(/\n·/g, '<br>·')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+
+  msg.innerHTML = `<div class="bubble">${formatted}</div>`;
+  if (!isOut) {
+    msg.innerHTML += `<div class="foot">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      just now · Read aloud
+    </div>`;
+  }
+  chatArea.appendChild(msg);
+  const sa = document.getElementById('chatScrollArea');
+  setTimeout(() => sa.scrollTop = sa.scrollHeight, 50);
+}
+
+function addTyping() {
+  const chatArea = document.getElementById('chatArea');
+  const typing = document.createElement('div');
+  typing.className = 'msg in';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = `<div class="bubble" style="padding:10px 16px;"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  chatArea.appendChild(typing);
+  const sa = document.getElementById('chatScrollArea');
+  setTimeout(() => sa.scrollTop = sa.scrollHeight, 50);
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function sendMessage(text) {
+  if (!text.trim()) return;
+  addMessage(text, true);
+
+  // Hide chips after first send
+  document.getElementById('chips').style.display = 'none';
+
+  addTyping();
+  const delay = 800 + Math.random() * 800;
+  setTimeout(() => {
+    removeTyping();
+    const reply = MILA_REPLIES[text] || DEFAULT_REPLY;
+    addMessage(reply, false);
+  }, delay);
+}
+
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendMessage(text);
+});
+
+document.getElementById('msgInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const text = e.target.value.trim();
+    if (!text) return;
+    e.target.value = '';
+    sendMessage(text);
+  }
+});
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const q = chip.dataset.question;
+    sendMessage(q);
+  });
+});
+
+// ─── Init ───
+animateGauge();
+</script>
+</body>
+</html>

@@ -1,7 +1,6 @@
-import type { Locale } from "@/lib/i18n";
+import type { LocalizedMap } from "@/lib/i18n";
 
-export const dashboardCopy: Record<
-  Locale,
+export const dashboardCopy: LocalizedMap<
   {
     hero: {
       mapLabel: string;
@@ -69,14 +68,14 @@ export const dashboardCopy: Record<
 > = {
   pl: {
     hero: {
-      mapLabel: "Mapa Finansowa",
-      todayStep: "dzis: 1 najlepszy krok",
-      title: "Spokojny system do decyzji o pieniadzach.",
+      mapLabel: "Zdrowie finansowe rodziny",
+      todayStep: "darmowa diagnoza",
+      title: "Masz dochód, ale pieniądze znikają?",
       description:
-        "Coach FI laczy oszczedzanie, kredyty i inwestowanie w jeden dzienny plan. Bez presji, bez tradingowego szumu, z jasnym kolejnym ruchem.",
-      diagnosis: "Zrob diagnoze",
-      continueLearning: "Kontynuuj nauke",
-      voiceDemo: "Wyprobuj demo glosowe",
+        "Coach FI pomaga rodzinom zamienić dochód w spokojny system: świadome wydatki, automatyczne odkładanie, edukację dzieci i plan bez tradingowego szumu.",
+      diagnosis: "Zrób darmową diagnozę",
+      continueLearning: "Zobacz plan",
+      voiceDemo: "Trial Mili",
     },
     metrics: [
       { label: "Poduszka", value: "53%", caption: "celu" },
@@ -84,33 +83,33 @@ export const dashboardCopy: Record<
       { label: "Lekcje", value: "7/24", caption: "sprint" },
     ],
     score: {
-      title: "Stabilnosc finansowa",
+      title: "Zdrowie finansowe",
       outOf: "na 100",
       delta: "+8",
-      nextTitle: "Nastepny najlepszy krok",
+      nextTitle: "Następny najlepszy krok",
       nextText: (amount) =>
-        `Ustaw automatyczne ${amount} miesiecznie na fundusz awaryjny, zanim zaczniesz zwiekszac ryzyko inwestycji.`,
-      askMila: "Zapytaj Mile",
+        `Ustaw automatyczne ${amount} miesięcznie na fundusz bezpieczeństwa, zanim zaczniesz zwiększać ryzyko inwestycji.`,
+      askMila: "Zapytaj Milę",
     },
     coachPocket: {
       alt: "Mila, coach finansowy",
       eyebrow: "Mila AI",
-      title: "Twoj dzienny briefing",
+      title: "Rodzinny briefing",
       briefing:
-        "Masz dobra nadwyzke, ale fundusz awaryjny jest jeszcze za niski. Najpierw zabezpiecz 3 miesiace kosztow, potem porownamy nadplate kredytu z inwestowaniem pasywnym.",
+        "Diagnoza jest darmowa. Pełny wynik, rodzinny plan i głosowe prowadzenie Mili odblokowujesz po akceptacji zasad. Premium rozwija codzienny system bez presji.",
       actions: [
-        { href: "/coach", label: "Zapytaj o decyzje" },
-        { href: "/inflation", label: "Sprawdz sile gotowki" },
-        { href: "/review", label: "Powtorz 6 kart" },
+        { href: "/health-check", label: "Zrób diagnozę" },
+        { href: "/coach", label: "Zapytaj Milę" },
+        { href: "/kids", label: "Kids Mode" },
       ],
     },
     route: {
       eyebrow: "Mapa postepu",
-      title: "Od spokoju gotowkowego do dlugoterminowego planu",
-      description: "Kazdy etap ma lekcje, symulator i jedna akcje w realnym budzecie.",
+      title: "Od diagnozy do rodzinnego systemu",
+      description: "Każdy etap ma lekcję, głos Mili i jedną akcję w realnym budżecie.",
       steps: [
         { title: "Poduszka", subtitle: "3.2 / 6 mies." },
-        { title: "Budzet", subtitle: "surplus", surplus: true },
+        { title: "Budżet", subtitle: "surplus", surplus: true },
         { title: "Kredyty", subtitle: "ryzyko niskie" },
         { title: "Inwestycje", subtitle: "start ETF/obligacje" },
         { title: "Emerytura", subtitle: "plan 15+ lat" },
@@ -118,12 +117,12 @@ export const dashboardCopy: Record<
     },
     simulator: {
       eyebrow: "Symulator decyzji",
-      title: "Co daje maly ruch powtarzany co miesiac",
+      title: "Co daje mały ruch powtarzany co miesiąc",
       badge: "edukacyjnie, bez rekomendacji",
-      monthlySaving: "Odkladam miesiecznie",
+      monthlySaving: "Odkładam miesięcznie",
       years: "Horyzont",
       yearsValue: (years) => `${years} lat`,
-      overpayment: "Nadplata kredytu",
+      overpayment: "Nadpłata kredytu",
       results: {
         emergency: "Poduszka 6 mies.",
         months: (months) => `${months} mies.`,
@@ -137,31 +136,31 @@ export const dashboardCopy: Record<
     },
     budget: {
       eyebrow: "Radar budzetu",
-      title: "Co zmienilo sie w tym miesiacu",
+      title: "Co zmieniło się w tym miesiącu",
       addExpense: "Dodaj wydatek",
-      signals: ["Subskrypcje", "Jedzenie poza domem", "Transport", "Oszczednosci"],
+      signals: ["Subskrypcje", "Jedzenie poza domem", "Transport", "Oszczędności"],
     },
     lessons: {
       eyebrow: "Mikrolekcje",
       title: "Nauka przez decyzje",
       all: "Wszystkie",
       items: [
-        { title: "Nadplacac kredyt czy inwestowac?", time: "4 min", tag: "Kredyty" },
-        { title: "ETF, obligacje i lokata bez zargonu", time: "6 min", tag: "Inwestycje" },
-        { title: "Jak ustawic automatyczne oszczedzanie", time: "3 min", tag: "Nawyk" },
+        { title: "Nadpłacać kredyt czy inwestować?", time: "4 min", tag: "Kredyty" },
+        { title: "ETF, obligacje i lokata bez żargonu", time: "6 min", tag: "Inwestycje" },
+        { title: "Jak ustawić automatyczne oszczędzanie", time: "3 min", tag: "Nawyk" },
       ],
     },
   },
   en: {
     hero: {
-      mapLabel: "Financial Map",
-      todayStep: "today: 1 best step",
-      title: "A calm system for money decisions.",
+      mapLabel: "Family financial health",
+      todayStep: "free diagnosis",
+      title: "You earn money. Does your family have a system?",
       description:
-        "Coach FI connects saving, credit and investing into one daily plan. No pressure, no trading noise, just the next clear move.",
-      diagnosis: "Run diagnosis",
-      continueLearning: "Continue learning",
-      voiceDemo: "Try voice demo",
+        "Coach FI helps families turn income into a calm system: conscious spending, automatic saving, children's education and no trading noise.",
+      diagnosis: "Run free diagnosis",
+      continueLearning: "See plan",
+      voiceDemo: "Mila trial",
     },
     metrics: [
       { label: "Cushion", value: "53%", caption: "of goal" },
@@ -180,19 +179,19 @@ export const dashboardCopy: Record<
     coachPocket: {
       alt: "Mila, financial coach",
       eyebrow: "Mila AI",
-      title: "Your daily briefing",
+      title: "Family briefing",
       briefing:
-        "You have a good surplus, but your emergency fund is still too low. First secure 3 months of costs, then compare loan overpayment with passive investing.",
+        "Diagnosis is free. Full score, family plan and Mila voice guidance unlock after terms acceptance. Premium turns this into a daily system.",
       actions: [
-        { href: "/coach", label: "Ask about a decision" },
-        { href: "/inflation", label: "Check cash power" },
-        { href: "/review", label: "Review 6 cards" },
+        { href: "/health-check", label: "Run diagnosis" },
+        { href: "/coach", label: "Ask Mila" },
+        { href: "/kids", label: "Kids Mode" },
       ],
     },
     route: {
       eyebrow: "Progress map",
-      title: "From cash calm to a long-term plan",
-      description: "Each stage has a lesson, a simulator and one action in your real budget.",
+      title: "From diagnosis to a family system",
+      description: "Each stage has a lesson, Mila voice and one action in your real budget.",
       steps: [
         { title: "Emergency fund", subtitle: "3.2 / 6 mo." },
         { title: "Budget", subtitle: "surplus", surplus: true },

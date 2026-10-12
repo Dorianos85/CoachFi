@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   --font-ui: var(--font-nunito), var(--font-noto-sans), "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -42,12 +42,11 @@ body {
   overflow-wrap: break-word;
   word-break: break-word;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 255, 0.96) 46%, #f8faff),
-    linear-gradient(135deg, rgba(177, 169, 245, 0.16), transparent 36%),
-    linear-gradient(225deg, rgba(137, 211, 221, 0.16), transparent 34%),
-    linear-gradient(45deg, rgba(255, 213, 156, 0.18), transparent 42%),
-    #f8faff;
-  color: #26324a;
+    radial-gradient(circle at 20% -10%, rgba(118, 104, 232, 0.28), transparent 32rem),
+    radial-gradient(circle at 88% 4%, rgba(125, 211, 220, 0.16), transparent 30rem),
+    radial-gradient(circle at 50% 100%, rgba(247, 223, 166, 0.12), transparent 32rem),
+    linear-gradient(180deg, #11111c 0%, #0d0d14 46%, #09090f 100%);
+  color: #f0f2ff;
   font-family: var(--font-ui);
   line-height: 1.55;
   letter-spacing: 0;
@@ -79,23 +78,55 @@ textarea {
 
 .app-grid {
   background-image:
-    linear-gradient(rgba(118, 104, 232, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(118, 104, 232, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(125, 211, 220, 0.06) 1px, transparent 1px);
   background-size: 36px 36px;
   mask-image: linear-gradient(to bottom, black 0%, black 52%, transparent 100%);
 }
 
 .glass-panel {
-  border: 1px solid rgba(118, 104, 232, 0.14);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.10);
+  border: 1px solid rgba(118, 104, 232, 0.18);
+  background: rgba(21, 21, 34, 0.84);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
 }
 
 .focus-card {
-  border: 1px solid rgba(118, 104, 232, 0.14);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 22px 70px rgba(38, 50, 74, 0.12);
+  border: 1px solid rgba(118, 104, 232, 0.18);
+  background: rgba(21, 21, 34, 0.92);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+}
+
+.app-shell .bg-white,
+.app-shell [class*="bg-white/"],
+.app-shell .bg-slate-50,
+.app-shell .bg-slate-100,
+.app-shell .bg-\[\#F3F5FF\],
+.app-shell .bg-\[\#EEF2FF\] {
+  background-color: rgba(21, 21, 34, 0.88) !important;
+}
+
+.app-shell .border-white\/70,
+.app-shell [class*="border-white/"] {
+  border-color: rgba(118, 104, 232, 0.2) !important;
+}
+
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+  background-color: rgba(18, 18, 29, 0.96);
+  color: #f0f2ff;
+  border-color: rgba(118, 104, 232, 0.24);
+}
+
+.app-shell input::placeholder,
+.app-shell textarea::placeholder {
+  color: rgba(154, 163, 199, 0.78);
+}
+
+.app-shell option {
+  background-color: #151522;
+  color: #f0f2ff;
 }
 
 .large-text {

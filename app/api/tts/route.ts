@@ -5,11 +5,11 @@ import {
   readJsonWithLimit,
 } from "@/lib/api-security";
 
-const DEFAULT_MODEL = "eleven_flash_v2_5";
+const DEFAULT_MODEL = "eleven_multilingual_v2";
 const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel — fallback when no voice ID configured
 const MAX_TTS_TEXT_LENGTH = 500;
 
-type VoiceLocale = "pl" | "en" | "ja";
+type VoiceLocale = "pl" | "en" | "es" | "fr" | "zh" | "ja" | "hi" | "pt-BR" | "tr";
 
 interface TtsPayload {
   text?: unknown;
@@ -21,13 +21,25 @@ interface TtsPayload {
 const LOCALE_TO_LANG: Record<VoiceLocale, string> = {
   pl: "pl",
   en: "en",
+  es: "es",
+  fr: "fr",
+  zh: "zh",
   ja: "ja",
+  hi: "hi",
+  "pt-BR": "pt",
+  tr: "tr",
 };
 
 const LOCALE_VOICE_ENV: Record<VoiceLocale, string> = {
   pl: "ELEVENLABS_PL_VOICE_ID",
   en: "ELEVENLABS_EN_VOICE_ID",
+  es: "ELEVENLABS_ES_VOICE_ID",
+  fr: "ELEVENLABS_FR_VOICE_ID",
+  zh: "ELEVENLABS_ZH_VOICE_ID",
   ja: "ELEVENLABS_JA_VOICE_ID",
+  hi: "ELEVENLABS_HI_VOICE_ID",
+  "pt-BR": "ELEVENLABS_PT_BR_VOICE_ID",
+  tr: "ELEVENLABS_TR_VOICE_ID",
 };
 
 function getEnv(name: string) {
@@ -40,7 +52,17 @@ function optionalString(value: unknown) {
 }
 
 function isVoiceLocale(value: unknown): value is VoiceLocale {
-  return value === "pl" || value === "en" || value === "ja";
+  return (
+    value === "pl" ||
+    value === "en" ||
+    value === "es" ||
+    value === "fr" ||
+    value === "zh" ||
+    value === "ja" ||
+    value === "hi" ||
+    value === "pt-BR" ||
+    value === "tr"
+  );
 }
 
 function getLocaleVoiceId(locale?: VoiceLocale) {
