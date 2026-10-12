@@ -226,6 +226,13 @@ export const pl: Translations = {
         example: "Nawet 2 zł tygodniowo na pomoc innym to 100 zł rocznie. Małe kwoty rosną!",
         badge: "Wartości",
       },
+      {
+        id: "nature-savings",
+        title: "Skarbiec natury",
+        copy: "Chomik gromadzi jedzenie, wiewiórka ukrywa nasiona, a wielbłąd magazynuje tłuszcz i oszczędza wodę. Zapasy pomagają zwierzętom przetrwać trudniejszy czas.",
+        example: "Garb wielbłąda przechowuje tłuszcz, nie wodę. Fundusz awaryjny to Twój zaplanowany zapas na niespodziankę albo trudniejszy miesiąc.",
+        badge: "Natura",
+      },
     ],
   },
 

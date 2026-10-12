@@ -20,6 +20,7 @@ const MODULE_THEMES = [
   { bg: "from-emerald-400 to-teal-300",   icon: "👛", card: "border-emerald-200 bg-emerald-50" },
   { bg: "from-sky-400 to-blue-300",       icon: "⭐", card: "border-sky-200 bg-sky-50" },
   { bg: "from-pink-400 to-rose-300",      icon: "🤝", card: "border-pink-200 bg-pink-50" },
+  { bg: "from-lime-400 to-emerald-300",   icon: "🐹", card: "border-lime-200 bg-lime-50" },
 ];
 
 const STAR_MILESTONES: Record<number, string> = {
