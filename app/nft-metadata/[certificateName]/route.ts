@@ -1,3 +1,5 @@
+import { findCertificateArt } from "@/lib/certificate-art";
+
 function normalizeCertificateName(value: string) {
   return decodeURIComponent(value)
     .replace(/[^\p{L}\p{N}\s._-]/gu, "")
@@ -12,7 +14,8 @@ export async function GET(
 ) {
   const { certificateName } = await context.params;
   const safeName = normalizeCertificateName(certificateName);
-  const imageUrl = new URL("/icon-512.png", req.url).toString();
+  const artwork = findCertificateArt(safeName);
+  const imageUrl = new URL(artwork?.image ?? "/icon-512.png", req.url).toString();
 
   return Response.json(
     {

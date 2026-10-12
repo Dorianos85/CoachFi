@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { WalletName } from "@solana/wallet-adapter-base";
 import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut, useSolanaAddress } from "@coinbase/cdp-hooks";
@@ -362,6 +363,10 @@ export default function RewardsPage() {
         description={t.rewards.description}
         readText={copy.readText(tokenBalance)}
       />
+
+      <Link href="/certificate-library" className="mb-6 inline-flex rounded-xl border border-primary/20 bg-white px-4 py-3 font-bold text-primary hover:bg-primary/5">
+        {locale === "pl" ? "Biblioteka grafik certyfikatów" : locale === "ja" ? "証明書作品ライブラリ" : "Certificate artwork library"} →
+      </Link>
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         {/* Left panel */}
