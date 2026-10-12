@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut } from "@coinbase/cdp-hooks";
 import {
   Baby,
   BarChart3,
@@ -16,6 +17,7 @@ import {
   Info,
   LayoutGrid,
   LifeBuoy,
+  Loader2,
   RefreshCw,
   ShieldCheck,
   ShoppingBag,
@@ -48,10 +50,21 @@ import { Badge } from "@/components/ui/badge";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
-import { getTokenBalance } from "@/lib/tokens";
-import { getLocalizedContent } from "@/lib/localizedContent";
+import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
 import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
+import { getLocalizedContent } from "@/lib/localizedContent";
+import { hideSavedProgress, isProgressVisible } from "@/lib/progress-visibility";
+import { requestSignIn } from "@/lib/signInGate";
+import { getTokenBalance } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
+
+const cdpEnabled = Boolean(process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim());
+
+const ACCOUNT_COPY: LocalizedMap<{ signIn: string; signOut: string }> = {
+  en: { signIn: "Sign in", signOut: "Sign out" },
+  pl: { signIn: "Zaloguj", signOut: "Wyloguj" },
+  ja: { signIn: "ログイン", signOut: "ログアウト" },
+};
 
 const navIcons: Record<string, LucideIcon> = {
   home: Home,
@@ -293,23 +306,27 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const user = getUser();
     setUserName(getDisplayName(user));
-    setReviewDue(getDueCount(getAllQuestionIds(locale)));
+    setReviewDue(isProgressVisible() ? getDueCount(getAllQuestionIds(locale)) : 0);
     setTokenBalance(getTokenBalance());
     setHealthScore(getHealthCheck()?.score ?? null);
     const onStorage = () => {
       setUserName(getDisplayName(getUser()));
       setTokenBalance(getTokenBalance());
-      setReviewDue(getDueCount(getAllQuestionIds(locale)));
+      setReviewDue(isProgressVisible() ? getDueCount(getAllQuestionIds(locale)) : 0);
       setHealthScore(getHealthCheck()?.score ?? null);
     };
     window.addEventListener("coachfi-health-check", onStorage);
     window.addEventListener("storage", onStorage);
+    window.addEventListener("coachfi-user", onStorage);
     window.addEventListener("coachfi-tokens", onStorage);
     window.addEventListener("coachfi-cloud-synced", onStorage);
+    window.addEventListener("coachfi-learning", onStorage);
     return () => {
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener("coachfi-user", onStorage);
       window.removeEventListener("coachfi-tokens", onStorage);
       window.removeEventListener("coachfi-cloud-synced", onStorage);
+      window.removeEventListener("coachfi-learning", onStorage);
       window.removeEventListener("coachfi-health-check", onStorage);
     };
   }, [locale]);
@@ -362,7 +379,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={shellCopy.homeAria}
           >
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
@@ -384,6 +401,9 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 <Baby className="h-4 w-4 text-amber-600" aria-hidden="true" />
                 {shellCopy.kidsMode}
               </button>
+            ) : null}
+            {cdpEnabled ? (
+              <HeaderProgress tokenBalance={tokenBalance} tokenUnit={t.common.tokenUnit} />
             ) : (
               <>
                 <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
@@ -393,6 +413,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 <StreakBadge compact />
               </>
             )}
+            {cdpEnabled ? <HeaderAccount locale={locale} /> : null}
             <LanguageSwitcher />
             <AccessibilityToggle
               highContrast={highContrast}
@@ -409,61 +430,21 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       <div className="relative mx-auto flex max-w-[1480px] gap-6 px-4 pb-28 pt-6 lg:px-6">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label={shellCopy.primaryNav}>
           <div className="glass-panel sticky top-24 rounded-lg p-3">
-            <div className="mb-4 rounded-lg bg-primary p-4 text-white shadow-glow">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-black">{copy.planLabel}</p>
-                <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <div className="mt-3 flex items-center gap-2">
-                <p className="text-4xl font-black leading-none">{planScore}</p>
-                {healthScore === null && (
-                  <span className="rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide">
-                    {shellCopy.demoBadge}
-                  </span>
-                )}
-              </div>
-              <p className="mt-1 text-sm font-bold text-white/82">{copy.scoreLabel}</p>
-              <div className="mt-4">
-                <div
-                  className="relative h-3 rounded-full bg-white/25"
-                  role="progressbar"
-                  aria-label={copy.scoreLabel}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={planScore}
-                >
-                  <div
-                    className="h-full rounded-full bg-accent shadow-[0_0_18px_rgba(247,223,166,0.65)]"
-                    style={{ width: `${planScore}%` }}
-                  />
-                  {scoreMilestones.map((milestone) => {
-                    const reached = planScore >= milestone;
-                    return (
-                      <span
-                        key={milestone}
-                        className={cn(
-                          "absolute top-1/2 grid h-5 w-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 text-[9px] font-black",
-                          reached
-                            ? "border-white bg-accent text-text"
-                            : "border-white/80 bg-primary text-white/85"
-                        )}
-                        style={{ left: `${milestone}%` }}
-                        aria-hidden="true"
-                      >
-                        {milestone === 100 ? "*" : ""}
-                      </span>
-                    );
-                  })}
-                </div>
-                <div className="mt-2 grid grid-cols-4 text-[10px] font-black text-white/80">
-                  {scoreMilestones.map((milestone) => (
-                    <span key={milestone} className="text-center">
-                      {milestone}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {cdpEnabled ? (
+              <SignedInPlanScore
+                copy={copy}
+                planScore={planScore}
+                healthScore={healthScore}
+                demoBadge={shellCopy.demoBadge}
+              />
+            ) : (
+              <PlanScoreCard
+                copy={copy}
+                planScore={planScore}
+                healthScore={healthScore}
+                demoBadge={shellCopy.demoBadge}
+              />
+            )}
 
             <div className="space-y-1.5">
               {navGroups.map((group) => {
@@ -516,7 +497,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav
-        className="fixed bottom-3 left-3 right-3 z-50 rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
+        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
         <div
@@ -608,6 +589,147 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
     </div>
+  );
+}
+
+function PlanScoreCard({
+  copy,
+  planScore,
+  healthScore,
+  demoBadge,
+}: {
+  copy: { planLabel: string; scoreLabel: string };
+  planScore: number;
+  healthScore: number | null;
+  demoBadge: string;
+}) {
+  return (
+    <div className="mb-4 rounded-lg bg-primary p-4 text-white shadow-glow">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-black">{copy.planLabel}</p>
+        <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+      </div>
+      <div className="mt-3 flex items-center gap-2">
+        <p className="text-4xl font-black leading-none">{planScore}</p>
+        {healthScore === null && (
+          <span className="rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide">
+            {demoBadge}
+          </span>
+        )}
+      </div>
+      <p className="mt-1 text-sm font-bold text-white/82">{copy.scoreLabel}</p>
+      <div className="mt-4">
+        <div
+          className="relative h-3 rounded-full bg-white/25"
+          role="progressbar"
+          aria-label={copy.scoreLabel}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={planScore}
+        >
+          <div
+            className="h-full rounded-full bg-accent shadow-[0_0_18px_rgba(247,223,166,0.65)]"
+            style={{ width: `${planScore}%` }}
+          />
+          {scoreMilestones.map((milestone) => {
+            const reached = planScore >= milestone;
+            return (
+              <span
+                key={milestone}
+                className={cn(
+                  "absolute top-1/2 grid h-5 w-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 text-[9px] font-black",
+                  reached
+                    ? "border-white bg-accent text-text"
+                    : "border-white/80 bg-primary text-white/85"
+                )}
+                style={{ left: `${milestone}%` }}
+                aria-hidden="true"
+              >
+                {milestone === 100 ? "*" : ""}
+              </span>
+            );
+          })}
+        </div>
+        <div className="mt-2 grid grid-cols-4 text-[10px] font-black text-white/80">
+          {scoreMilestones.map((milestone) => (
+            <span key={milestone} className="text-center">
+              {milestone}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignedInPlanScore({
+  copy,
+  planScore,
+  healthScore,
+  demoBadge,
+}: {
+  copy: { planLabel: string; scoreLabel: string };
+  planScore: number;
+  healthScore: number | null;
+  demoBadge: string;
+}) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  if (!isInitialized || !isSignedIn) return null;
+  return (
+    <PlanScoreCard copy={copy} planScore={planScore} healthScore={healthScore} demoBadge={demoBadge} />
+  );
+}
+
+function HeaderProgress({ tokenBalance, tokenUnit }: { tokenBalance: number; tokenUnit: string }) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  if (!isInitialized || !isSignedIn) return null;
+  return (
+    <>
+      <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
+        <Coins className="h-4 w-4 text-primary" aria-hidden="true" />
+        {tokenBalance} {tokenUnit}
+      </div>
+      <StreakBadge compact />
+    </>
+  );
+}
+
+function HeaderAccount({ locale }: { locale: Locale }) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { signOut } = useSignOut();
+  const { getAccessToken } = useGetAccessToken();
+  const copy = ACCOUNT_COPY[locale] ?? ACCOUNT_COPY.en;
+
+  if (isSignedIn) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          hideSavedProgress();
+          void clearSignedInName(getAccessToken)
+            .then(() => endLearningSession())
+            .finally(() => signOut());
+        }}
+        className="shrink-0 whitespace-nowrap rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-black text-text transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        {copy.signOut}
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      disabled={!isInitialized}
+      onClick={() => requestSignIn()}
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-primary px-3 py-2 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+    >
+      {!isInitialized ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+      {copy.signIn}
+    </button>
   );
 }
 

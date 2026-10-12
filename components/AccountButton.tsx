@@ -197,7 +197,7 @@ export function AccountButton() {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="border-primary/20 bg-[#151522] text-text">
           <DialogHeader>
             <DialogTitle>{tab === "signin" ? copy.signIn : copy.signUp}</DialogTitle>
             <DialogDescription>{copy.description}</DialogDescription>
@@ -208,7 +208,7 @@ export function AccountButton() {
               type="button"
               onClick={() => setTab("signin")}
               className={`flex-1 rounded-md px-3 py-2 transition ${
-                tab === "signin" ? "bg-white text-text shadow-sm" : "text-muted"
+                tab === "signin" ? "bg-primary text-white shadow-sm" : "text-muted"
               }`}
             >
               {copy.tabSignIn}
@@ -217,7 +217,7 @@ export function AccountButton() {
               type="button"
               onClick={() => setTab("signup")}
               className={`flex-1 rounded-md px-3 py-2 transition ${
-                tab === "signup" ? "bg-white text-text shadow-sm" : "text-muted"
+                tab === "signup" ? "bg-primary text-white shadow-sm" : "text-muted"
               }`}
             >
               {copy.tabSignUp}
@@ -233,7 +233,7 @@ export function AccountButton() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                className="mt-1 w-full rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 w-full rounded-lg border border-primary/25 bg-[#12121d] px-3 py-2 text-sm font-medium text-text outline-none focus:ring-2 focus:ring-primary"
               />
             </label>
             <label className="block text-sm font-bold text-text">
@@ -245,7 +245,7 @@ export function AccountButton() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete={tab === "signin" ? "current-password" : "new-password"}
-                className="mt-1 w-full rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 w-full rounded-lg border border-primary/25 bg-[#12121d] px-3 py-2 text-sm font-medium text-text outline-none focus:ring-2 focus:ring-primary"
               />
             </label>
 
@@ -271,7 +271,7 @@ export function AccountButton() {
             type="button"
             onClick={() => void handleMagicLink()}
             disabled={busy}
-            className="w-full rounded-lg border border-primary/20 bg-white px-4 py-2.5 text-sm font-bold text-text transition hover:bg-primary/5 disabled:opacity-60"
+            className="w-full rounded-lg border border-primary/25 bg-transparent px-4 py-2.5 text-sm font-bold text-text transition hover:bg-primary/10 disabled:opacity-60"
           >
             {copy.magicLink}
           </button>

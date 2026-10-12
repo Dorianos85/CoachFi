@@ -28,14 +28,18 @@ export function StreakProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const data = getStreak();
-    setStreak(data);
-    scheduleStreakReminder(data.currentStreak);
-
-    // Re-read after cloud sync pulls a fresher streak from Supabase.
-    const onCloudSync = () => setStreak(getStreak());
-    window.addEventListener("coachfi-cloud-synced", onCloudSync);
-    return () => window.removeEventListener("coachfi-cloud-synced", onCloudSync);
+    const refresh = () => {
+      const data = getStreak();
+      setStreak(data);
+      scheduleStreakReminder(data.currentStreak);
+    };
+    refresh();
+    window.addEventListener("coachfi-cloud-synced", refresh);
+    window.addEventListener("coachfi-learning", refresh);
+    return () => {
+      window.removeEventListener("coachfi-cloud-synced", refresh);
+      window.removeEventListener("coachfi-learning", refresh);
+    };
   }, []);
 
   const markActive = useCallback(() => {

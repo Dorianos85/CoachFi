@@ -1,3 +1,6 @@
+import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
+
 import { getAllCards } from "./srs";
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
@@ -5,13 +8,13 @@ const MANUAL_KEY = "coachfi-learn-manual";
 
 // Questions IDs that belong to each learning stage
 export const STAGE_QUESTION_IDS: Record<string, string[]> = {
-  "money-mindset":        ["net-worth", "lifestyle-inflation", "pay-yourself-first", "c12", "c14"],
-  "saving-habit":         ["saving-habit", "budget-50-30-20", "high-yield-savings", "dca", "c1", "c7"],
-  "inflation":            ["inflation-basics", "real-return", "rule-of-72", "inflation-hedge", "c5", "c8"],
-  "credit-rates":         ["interest-rates", "debt-avalanche", "credit-score-factors", "bond-prices", "c4", "c11"],
-  "emergency-fund":       ["emergency-fund", "emergency-fund-characteristics", "emergency-fund-start", "c10"],
-  "long-term-investing":  ["compound-interest", "diversification", "index-fund", "etf-definition", "time-in-market", "c2", "c3", "c6", "c9"],
-  "retirement":           ["retirement-purpose", "retirement-early-start", "c13"],
+  "money-mindset":        ["net-worth", "lifestyle-inflation", "pay-yourself-first"],
+  "saving-habit":         ["saving-habit", "budget-50-30-20", "high-yield-savings", "dca"],
+  "inflation":            ["inflation-basics", "real-return", "rule-of-72", "inflation-hedge"],
+  "credit-rates":         ["interest-rates", "debt-avalanche", "credit-score-factors", "bond-prices"],
+  "emergency-fund":       ["emergency-fund", "emergency-fund-characteristics", "emergency-fund-start"],
+  "long-term-investing":  ["compound-interest", "diversification", "index-fund", "etf-definition", "time-in-market"],
+  "retirement":           ["retirement-purpose", "retirement-early-start"],
   "family-plan":          ["insurance-purpose", "joint-finances", "teaching-kids-money"],
 };
 
@@ -42,6 +45,7 @@ export function markStageStarted(stageId: string): void {
     overrides[stageId] = "started";
     localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
     notifyCloud("stages");
+    persistLearningState("learnManual");
   }
 }
 
@@ -51,9 +55,21 @@ export function markStageCompleted(stageId: string): void {
   overrides[stageId] = "completed";
   localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
   notifyCloud("stages");
+  persistLearningState("learnManual");
+}
+
+function emptyStageProgress(): StageProgress[] {
+  return Object.keys(STAGE_QUESTION_IDS).map((stageId, index) => ({
+    stageId,
+    status: index === 0 ? "current" : "locked",
+    progressPct: 0,
+    answeredCount: 0,
+    totalCount: STAGE_QUESTION_IDS[stageId].length,
+  }));
 }
 
 export function getAllStageProgress(): StageProgress[] {
+  if (typeof window !== "undefined" && !isProgressVisible()) return emptyStageProgress();
   const cards = getAllCards();
   const cardMap = new Map(cards.map((c) => [c.id, c]));
   const overrides = getManualOverrides();

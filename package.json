@@ -14,11 +14,17 @@
     "backtest": "node scripts/backtest.mjs",
     "check": "npm run typecheck && npm run test && npm run build",
     "api:check": "node scripts/check-api-config.mjs",
-    "seed-codes": "node scripts/seed-codes.mjs"
+    "seed-codes": "node scripts/seed-codes.mjs",
+    "db:init": "node lib/dev-db.ts",
+    "admin": "node admin/server.mjs"
   },
   "dependencies": {
     "@11labs/react": "^0.2.0",
     "@anthropic-ai/sdk": "^0.95.1",
+    "@coinbase/cdp-core": "^0.0.127",
+    "@coinbase/cdp-hooks": "^0.0.127",
+    "@coinbase/cdp-react": "^0.0.127",
+    "@coinbase/cdp-sdk": "^1.58.0",
     "@elevenlabs/client": "^1.7.0",
     "@metaplex-foundation/mpl-core": "^1.10.0",
     "@metaplex-foundation/umi": "^1.5.1",

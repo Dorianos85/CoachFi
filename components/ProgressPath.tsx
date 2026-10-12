@@ -42,14 +42,14 @@ const STAGE_DATA = [
 ];
 
 const STAGE_QUIZ_LINK: Record<string, string> = {
-  "money-mindset": "/quiz?topic=mindset",
-  "saving-habit": "/quiz?topic=saving",
-  inflation: "/quiz?topic=inflation",
-  "credit-rates": "/quiz?topic=credit",
-  "emergency-fund": "/review",
-  "long-term-investing": "/review",
-  retirement: "/review",
-  "family-plan": "/review",
+  "money-mindset": "/learn/money-mindset",
+  "saving-habit": "/learn/saving-habit",
+  inflation: "/learn/inflation",
+  "credit-rates": "/learn/credit-rates",
+  "emergency-fund": "/learn/emergency-fund",
+  "long-term-investing": "/learn/long-term-investing",
+  retirement: "/learn/retirement",
+  "family-plan": "/learn/family-plan",
 };
 
 function statusBadgeVariant(status: StageStatus) {
@@ -65,7 +65,10 @@ export function ProgressPath() {
   const [progress, setProgress] = useState<StageProgress[]>([]);
 
   useEffect(() => {
-    setProgress(getAllStageProgress());
+    const refresh = () => setProgress(getAllStageProgress());
+    refresh();
+    window.addEventListener("coachfi-learning", refresh);
+    return () => window.removeEventListener("coachfi-learning", refresh);
   }, []);
 
   function getLabel(status: StageStatus): string {
@@ -172,7 +175,7 @@ export function ProgressPath() {
                       <div className="mt-4">
                         {completed ? (
                           <Link
-                            href="/review"
+                            href={link}
                             className="inline-flex items-center gap-1.5 text-sm font-bold text-success hover:underline"
                           >
                             {t.learn.statusCompleted} - {t.learn.continueLesson} -&gt;

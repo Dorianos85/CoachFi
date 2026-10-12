@@ -63,7 +63,10 @@ export function Leaderboard({ userScore }: { userScore: number }) {
   const [userName, setUserName] = useState(t.leaderboard.you);
 
   useEffect(() => {
-    setUserName(getUser().name?.trim() || t.leaderboard.you);
+    const refreshName = () => setUserName(getUser().name?.trim() || t.leaderboard.you);
+    refreshName();
+    window.addEventListener("coachfi-user", refreshName);
+    return () => window.removeEventListener("coachfi-user", refreshName);
   }, [t.leaderboard.you]);
 
   useEffect(() => {

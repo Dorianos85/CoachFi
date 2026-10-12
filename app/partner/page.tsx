@@ -154,7 +154,7 @@ const partnerCopy: LocalizedMap<
     healthTitle: "Zdrowie platformy",
     healthDescription: "Średni postęp nauki i sygnały zaangażowania",
     avgProgress: "średni postęp",
-    stats: ["Konwersja do quizu", "Zdawalność quizu", "Mint NFT", "Powroty po 7 dniach"],
+    stats: ["Konwersja do quizu", "Zdawalność quizu", "Mint certyfikatu", "Powroty po 7 dniach"],
     valueTitle: "Dlaczego wdrożyć Coach FI?",
     valueCards: [
       {
@@ -163,7 +163,7 @@ const partnerCopy: LocalizedMap<
       },
       {
         title: "Dowód na Solanie",
-        body: "Certyfikaty NFT dają użytkownikom własność postępu nauki. Bez spekulacji i bez handlu.",
+        body: "Certyfikaty dają użytkownikom własność postępu nauki. Bez spekulacji i bez handlu.",
       },
       {
         title: "Dostępność od początku",
@@ -206,7 +206,7 @@ const partnerCopy: LocalizedMap<
     healthTitle: "Platform health",
     healthDescription: "Average learning progress and engagement signals",
     avgProgress: "avg progress",
-    stats: ["Conversion to quiz", "Quiz pass rate", "NFT mint rate", "Return rate (7-day)"],
+    stats: ["Conversion to quiz", "Quiz pass rate", "Certificate mint rate", "Return rate (7-day)"],
     valueTitle: "Why embed Coach FI?",
     valueCards: [
       {
@@ -215,7 +215,7 @@ const partnerCopy: LocalizedMap<
       },
       {
         title: "Proof on Solana",
-        body: "NFT certificates give users ownership of their learning progress. Non-speculative, non-tradeable proof.",
+        body: "Certificates give users ownership of their learning progress. Non-speculative, non-tradeable proof.",
       },
       {
         title: "Accessible by design",
@@ -258,7 +258,7 @@ const partnerCopy: LocalizedMap<
     healthTitle: "プラットフォーム状態",
     healthDescription: "平均学習進捗とエンゲージメント指標",
     avgProgress: "平均進捗",
-    stats: ["クイズ転換率", "クイズ合格率", "NFTミント率", "7日後の再訪率"],
+    stats: ["クイズ転換率", "クイズ合格率", "証明書の発行率", "7日後の再訪率"],
     valueTitle: "なぜCoach FIを組み込むのか?",
     valueCards: [
       {
@@ -267,7 +267,7 @@ const partnerCopy: LocalizedMap<
       },
       {
         title: "Solana上の証明",
-        body: "NFT証明書により、ユーザーは学習進捗を所有できます。投機的でも取引目的でもありません。",
+        body: "証明書により、ユーザーは学習進捗を所有できます。投機的でも取引目的でもありません。",
       },
       {
         title: "アクセシブル設計",

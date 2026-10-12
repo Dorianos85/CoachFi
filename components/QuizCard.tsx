@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { CheckCircle2, XCircle, ChevronRight, RotateCcw } from "lucide-react";
 
 import type { QuizQuestion } from "@/data/quizQuestions";
@@ -9,13 +9,48 @@ import { useLanguage } from "@/context/LanguageContext";
 import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { challengeQuestions } from "@/data/challengeQuestions";
+import { quizQuestions } from "@/data/quizQuestions";
+import { STAGE_QUESTION_IDS } from "@/lib/learningProgress";
 import { getLocalizedContent } from "@/lib/localizedContent";
 import { getQuizQuestions } from "@/lib/localizedQuiz";
+import { getAllCards, recordAnswer } from "@/lib/srs";
 import { cn } from "@/lib/utils";
 import { getVoiceDemoLocale } from "@/lib/voiceDemoScripts";
 
 const QUIZ_BATCH_SIZE = 4;
 const MAX_QUIZ_VOICE_LENGTH = 500;
+
+const TOPIC_STAGE: Record<string, keyof typeof STAGE_QUESTION_IDS> = {
+  mindset: "money-mindset",
+  saving: "saving-habit",
+  inflation: "inflation",
+  credit: "credit-rates",
+  emergency: "emergency-fund",
+  investing: "long-term-investing",
+  retirement: "retirement",
+  family: "family-plan",
+};
+
+function questionsForTopic(localeQuestions: QuizQuestion[], topic?: string) {
+  const stageId = topic ? TOPIC_STAGE[topic] : undefined;
+  if (!stageId) return localeQuestions;
+  const localizedById = new Map(localeQuestions.map((question) => [question.id, question]));
+  const challengeById = new Map(challengeQuestions.map((question) => [question.id, {
+    id: question.id,
+    question: question.question,
+    answers: question.answers,
+    correctAnswer: question.correctAnswer,
+    reward: question.reward,
+    successMessage: question.explanation,
+    retryMessage: question.explanation,
+    category: "Challenge",
+  } satisfies QuizQuestion]));
+  const staged = STAGE_QUESTION_IDS[stageId]
+    .map((id) => localizedById.get(id) ?? quizQuestions.find((question) => question.id === id) ?? challengeById.get(id))
+    .filter((question): question is QuizQuestion => Boolean(question));
+  return staged.length > 0 ? staged : localeQuestions;
+}
 
 function pickQuestions(questions: QuizQuestion[], startQuestionId?: string) {
   if (startQuestionId) {
@@ -46,27 +81,31 @@ interface QuizCardProps {
   onReward?: (amount: number) => void;
   onComplete?: (correctCount: number, totalCount: number) => void;
   startQuestionId?: string;
+  topic?: string;
 }
 
-export function QuizCard({ onReward, onComplete, startQuestionId }: QuizCardProps) {
+export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizCardProps) {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
   const voiceLocale = getVoiceDemoLocale(locale);
-  const sessionQuestions = useMemo(
-    () => pickQuestions(getQuizQuestions(locale), startQuestionId),
-    [locale, startQuestionId]
-  );
+  const sessionQuestions = useMemo(() => {
+    const pool = questionsForTopic(getQuizQuestions(locale), topic);
+    if (topic && TOPIC_STAGE[topic]) return pool;
+    return pickQuestions(pool, startQuestionId);
+  }, [locale, startQuestionId, topic]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [rewarded, setRewarded] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    setQuestionIndex(0);
+  useLayoutEffect(() => {
     setSelected("");
     setSubmitted(false);
     setRewarded(new Set());
-  }, [locale, startQuestionId]);
+    const answered = new Set(getAllCards().filter((card) => card.repetitions > 0).map((card) => card.id));
+    const firstFresh = sessionQuestions.findIndex((item) => !answered.has(item.id));
+    setQuestionIndex(firstFresh > 0 ? firstFresh : 0);
+  }, [locale, sessionQuestions, startQuestionId, topic]);
 
   const question = sessionQuestions[questionIndex];
   const isCorrect = submitted && selected === question.correctAnswer;
@@ -78,7 +117,9 @@ export function QuizCard({ onReward, onComplete, startQuestionId }: QuizCardProp
     e.preventDefault();
     if (!selected || submitted) return;
     setSubmitted(true);
-    if (selected === question.correctAnswer && !rewarded.has(questionIndex)) {
+    const correct = selected === question.correctAnswer;
+    recordAnswer(question.id, correct);
+    if (correct && !rewarded.has(questionIndex)) {
       onReward?.(question.reward);
       const next = new Set(rewarded).add(questionIndex);
       setRewarded(next);

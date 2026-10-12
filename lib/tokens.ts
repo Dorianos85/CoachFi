@@ -1,3 +1,5 @@
+import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
 const KEY = "coachfi-tokens";
@@ -5,6 +7,7 @@ const INITIAL_BALANCE = 125;
 
 export function getTokenBalance(): number {
   if (typeof window === "undefined") return INITIAL_BALANCE;
+  if (!isProgressVisible()) return 0;
   const raw = localStorage.getItem(KEY);
   if (raw === null) return INITIAL_BALANCE;
   const n = parseInt(raw, 10);
@@ -18,6 +21,7 @@ export function addTokens(amount: number, reason = "Tokens earned", source = "ap
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
     if (delta > 0) notifyCloud("reward", { amount: delta, reason, source });
+    persistLearningState("tokens");
   }
   return next;
 }
@@ -31,6 +35,7 @@ export function spendTokens(amount: number): boolean {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
     if (delta > 0) notifyCloud("reward", { amount: -delta, reason: "Tokens spent", source: "app" });
+    persistLearningState("tokens");
   }
   return true;
 }

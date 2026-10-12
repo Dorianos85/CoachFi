@@ -307,3 +307,9 @@ html.text-scale-xlarge label,
 .wallet-adapter-dropdown .wallet-adapter-button {
   width: 100%;
 }
+
+@media (max-width: 1023px) {
+  elevenlabs-convai {
+    transform: translateY(-6.75rem);
+  }
+}

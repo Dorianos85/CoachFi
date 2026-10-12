@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Coach FI — Financial Education",
     short_name: "Coach FI",
     description:
-      "AI-powered financial education coach. Learn saving habits, beat inflation and earn NFT certificates on Solana.",
+      "AI-powered financial education coach. Learn saving habits, beat inflation and earn certificates on Solana.",
     start_url: "/",
     display: "standalone",
     background_color: "#F8FAFF",

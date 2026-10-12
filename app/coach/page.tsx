@@ -14,6 +14,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getLocalizedContent } from "@/lib/localizedContent";
 import { localeSpeechLang } from "@/lib/i18n";
 import { useSpeechInput } from "@/hooks/useSpeechInput";
+import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { cn } from "@/lib/utils";
 
 interface ChatMessage {
@@ -94,6 +95,7 @@ export default function CoachPage() {
   const [speechError, setSpeechError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const agentConversation = useRef(false);
 
   // API history for context (only user/assistant pairs)
   const apiHistory = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
@@ -116,6 +118,12 @@ export default function CoachPage() {
     setMessages(copy.initialMessages.map((text) => ({ role: "coach", text })));
     apiHistory.current = [];
   }, [locale]);
+
+  useEffect(() => {
+    return () => {
+      if (agentConversation.current) endAgentConversation("coach");
+    };
+  }, []);
 
   function appendChunk(chunk: string) {
     setMessages((prev) => {
@@ -148,6 +156,10 @@ export default function CoachPage() {
 
   function sendMessage(userText: string) {
     if (!userText.trim() || isTyping) return;
+    if (!agentConversation.current) {
+      agentConversation.current = true;
+      beginAgentConversation("coach");
+    }
     setInput("");
     setMessages((prev) => [...prev, { role: "user", text: userText }]);
     apiHistory.current.push({ role: "user", content: userText });

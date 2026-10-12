@@ -30,7 +30,7 @@ export const voiceDemoScripts: Record<VoiceDemoLocale, Record<VoiceDemoScriptKey
     kidsCoach:
       "Cześć, jestem Miła. Każda złotówka ma swoją misję. Najpierw uczymy się różnicy między potrzebą a zachcianką, a potem odkładamy na pierwszy cel.",
     certificateUnlock:
-      "Gratulacje. Ukończyłeś etap Money Mindset, zdobyłeś tokeny Coach FI i odblokowałeś pierwszy certyfikat edukacyjny na Solanie.",
+      "Gratulacje. Ukończyłeś etap Money Mindset, zdobyłeś punkty Coach FI i odblokowałeś pierwszy certyfikat edukacyjny na Solanie.",
   },
   en: {
     milaIntro:
@@ -42,7 +42,7 @@ export const voiceDemoScripts: Record<VoiceDemoLocale, Record<VoiceDemoScriptKey
     kidsCoach:
       "Hi, I am Mila. Every coin has a mission. First, we learn the difference between needs and wants. Then, we save for the first goal.",
     certificateUnlock:
-      "Congratulations. You completed the Money Mindset stage, earned Coach FI Tokens, and unlocked your first education certificate on Solana.",
+      "Congratulations. You completed the Money Mindset stage, earned Coach FI Points, and unlocked your first education certificate on Solana.",
   },
   es: {
     milaIntro:
@@ -90,7 +90,7 @@ export const voiceDemoScripts: Record<VoiceDemoLocale, Record<VoiceDemoScriptKey
     kidsCoach:
       "こんにちは、Milaです。すべてのコインにはミッションがあります。まず必要なものと欲しいものの違いを学び、最初の目標のために貯金します。",
     certificateUnlock:
-      "おめでとうございます。Money Mindsetステージを完了し、Coach FIトークンを獲得し、Solana上の最初の教育証明書を解除しました。",
+      "おめでとうございます。Money Mindsetステージを完了し、Coach FIポイントを獲得し、Solana上の最初の教育証明書を解除しました。",
   },
   hi: {
     milaIntro:

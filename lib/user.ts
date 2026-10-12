@@ -25,6 +25,12 @@ export function saveUser(profile: UserProfile): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(USER_KEY, JSON.stringify(profile));
   notifyCloud("profile");
+  window.dispatchEvent(new Event("coachfi-user"));
+}
+
+export function clearUserName(): void {
+  const profile = getUser();
+  saveUser({ ...profile, name: "" });
 }
 
 export function getDisplayName(profile: UserProfile): string {

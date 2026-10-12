@@ -1,3 +1,5 @@
+import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
 const STREAK_KEY = "coachfi-streak";
@@ -27,7 +29,9 @@ function dayGap(fromStr: string, toStr: string): number {
 }
 
 export function getStreak(): StreakData {
-  if (typeof window === "undefined") return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+  if (typeof window === "undefined" || !isProgressVisible()) {
+    return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+  }
   try {
     const stored = localStorage.getItem(STREAK_KEY);
     if (!stored) return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
@@ -62,6 +66,7 @@ export function markActiveToday(): StreakData {
   if (next === data) return data; // already counted today
   localStorage.setItem(STREAK_KEY, JSON.stringify(next));
   notifyCloud("streak");
+  persistLearningState("streak");
   return next;
 }
 

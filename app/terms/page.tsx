@@ -45,9 +45,9 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
         ],
       },
       {
-        title: "4. NFT certificates",
+        title: "4. Certificates",
         items: [
-          "NFT certificates prove completion of educational elements; they are not investment products.",
+          "Certificates prove completion of educational elements; they are not investment products.",
           "Public blockchain data can be visible, permanent and difficult to delete.",
           "The MVP uses Solana Devnet, a test network with no guaranteed economic value.",
         ],
@@ -102,9 +102,9 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
         ],
       },
       {
-        title: "4. Certyfikaty NFT",
+        title: "4. Certyfikaty",
         items: [
-          "Certyfikaty NFT są dowodem ukończenia elementów edukacyjnych, nie produktem inwestycyjnym.",
+          "Certyfikaty są dowodem ukończenia elementów edukacyjnych, nie produktem inwestycyjnym.",
           "Dane zapisane na publicznym blockchainie mogą być jawne, trwałe i trudne do usunięcia.",
           "Wersja MVP korzysta z Solana Devnet, czyli sieci testowej, bez gwarancji wartości ekonomicznej.",
         ],
@@ -136,7 +136,7 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
       { title: "1. アプリの性質", items: ["Coach FI は金融教育と習慣作りのアプリです。", "投資、税務、法律、信用の助言は提供しません。", "Mila AI は概念を説明しますが、専門家の代替ではありません。"] },
       { title: "2. 利用ルール", items: ["合法的に利用し、第三者データを無断で入力しないでください。", "パスワード、カード、身分証、銀行ログイン情報を入力しないでください。", "金融判断は利用者の責任です。"] },
       { title: "3. AI、音声、ランキング", items: ["AI、ElevenLabs、ランキング、ブロックチェーンは任意同意が必要です。", "同意がなくても基本学習はローカルで使えます。", "ランキングに名前、スコア、連続記録が表示される場合があります。"] },
-      { title: "4. NFT 証明書", items: ["NFT は学習完了の証明であり投資商品ではありません。", "公開ブロックチェーンのデータは永続的な場合があります。", "MVP は Solana Devnet を使用します。"] },
+      { title: "4. 証明書", items: ["証明書は学習完了の証明であり投資商品ではありません。", "公開ブロックチェーンのデータは永続的な場合があります。", "MVP は Solana Devnet を使用します。"] },
       { title: "5. 責任", items: ["Coach FI は MVP であり制限があります。", "金融結果や利益は保証しません。", "判断前に情報を確認してください。"] },
       { title: "6. データとプライバシー", items: ["データ処理はプライバシーポリシーに記載されています。", "多くのデータはブラウザに保存されます。", "同意変更とローカルデータ削除が可能です。"] },
     ],

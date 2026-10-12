@@ -71,7 +71,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
         description: "Publish display name, score and streak in the Supabase leaderboard.",
       },
       blockchain: {
-        title: "NFT certificates",
+        title: "Certificates",
         description: "Store wallet address and certificate metadata on public Solana Devnet.",
       },
     },
@@ -108,7 +108,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
         description: "Publikacja nazwy wyświetlanej, wyniku i serii w tabeli wyników Supabase.",
       },
       blockchain: {
-        title: "Certyfikaty NFT",
+        title: "Certyfikaty",
         description: "Zapis adresu portfela i metadanych certyfikatu na publicznej sieci Solana Devnet.",
       },
     },
@@ -134,7 +134,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
       aiCoach: { title: "AI コーチ Mila", description: "チャット本文と音声エージェントの文脈を安全なサーバーまたはウィジェット経由で送信します。" },
       voice: { title: "ElevenLabs 音声", description: "クリック後の読み上げと、ユーザーが開始した音声エージェントに ElevenLabs を使います。TTS が使えない場合はブラウザ音声を使います。" },
       leaderboard: { title: "グローバルランキング", description: "表示名、スコア、連続記録を Supabase に公開します。" },
-      blockchain: { title: "NFT 証明書", description: "ウォレットと証明書メタデータを Solana Devnet に保存します。" },
+      blockchain: { title: "証明書", description: "ウォレットと証明書メタデータを Solana Devnet に保存します。" },
     },
   },
 };
