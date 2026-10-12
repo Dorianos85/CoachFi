@@ -119,6 +119,29 @@ textarea {
   box-shadow: 0 22px 70px rgba(38, 50, 74, 0.12);
 }
 
+/* Primary-action look for hand-rolled buttons that do not use <Button>: ink outline + hard press shadow. */
+.cf-press {
+  border: var(--cfx-control-border) solid var(--cf-primary-border);
+  box-shadow: var(--cf-shadow-press);
+  transition:
+    transform var(--cf-motion-micro),
+    box-shadow var(--cf-motion-micro);
+}
+
+.cf-press:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+[data-theme="legacy"] .cf-press {
+  border-width: 0;
+}
+
+[data-theme="legacy"] .cf-press:active {
+  transform: none;
+  box-shadow: var(--cf-shadow-press);
+}
+
 .large-text {
   font-size: 112.5%;
 }

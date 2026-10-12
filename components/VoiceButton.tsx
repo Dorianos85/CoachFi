@@ -81,7 +81,7 @@ export function VoiceButton({
         className={cn(
           "flex min-h-14 w-full items-center justify-between gap-4 rounded-lg border px-5 py-4 text-left text-lg font-black transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary focus-visible:ring-offset-4",
           isThisPlaying
-            ? "border-primary bg-primary text-white shadow-glow"
+            ? "border-primary bg-primary text-on-primary shadow-glow"
             : "border-primary/20 bg-white text-text hover:border-primary/45 hover:bg-primary/5",
           className
         )}
@@ -117,7 +117,7 @@ export function VoiceButton({
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
           isThisPlaying
-            ? "border-primary bg-primary text-white"
+            ? "border-primary bg-primary text-on-primary"
             : "border-primary/20 bg-white text-muted hover:border-primary/40 hover:text-primary",
           className
         )}
@@ -138,7 +138,7 @@ export function VoiceButton({
       className={cn(
         "grid h-7 w-7 place-items-center rounded-full border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         isThisPlaying
-          ? "border-primary bg-primary text-white"
+          ? "border-primary bg-primary text-on-primary"
           : "border-primary/20 bg-white text-muted hover:border-primary/40 hover:text-primary",
         className
       )}

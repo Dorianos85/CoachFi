@@ -39,7 +39,7 @@ import { cn } from "@/lib/utils";
 const RISK_BADGE: Record<VaultStrategy["risk"], string> = {
   low: "border-success/40 bg-success/10 text-success",
   medium: "border-warning/40 bg-warning/10 text-warning",
-  high: "border-red-300 bg-red-50 text-red-600",
+  high: "border-attention bg-warning text-text",
 };
 
 const VAULT_COPY: Record<
@@ -542,19 +542,19 @@ export function YieldVault() {
             <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="vaultGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7668E8" stopOpacity={0.18} />
-                  <stop offset="95%" stopColor="#7668E8" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--cf-chart-1)" stopOpacity={0.18} />
+                  <stop offset="95%" stopColor="var(--cf-chart-1)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey="month"
                 tickFormatter={(m) => copy.monthTick(Number(m))}
-                tick={{ fontSize: 10, fontWeight: 700, fill: "#66758F" }}
+                tick={{ fontSize: 10, fontWeight: 700, fill: "var(--cf-text-muted)" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 10, fontWeight: 700, fill: "#66758F" }}
+                tick={{ fontSize: 10, fontWeight: 700, fill: "var(--cf-text-muted)" }}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(v) => `${v}`}
@@ -564,7 +564,7 @@ export function YieldVault() {
                 labelFormatter={(m) => copy.monthLabel(Number(m))}
                 contentStyle={{
                   borderRadius: 10,
-                  border: "1px solid rgba(118,104,232,0.15)",
+                  border: "1px solid var(--cf-border-subtle)",
                   fontSize: 12,
                   fontWeight: 700,
                 }}
@@ -572,7 +572,7 @@ export function YieldVault() {
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="#7668E8"
+                stroke="var(--cf-chart-1)"
                 strokeWidth={2.5}
                 fill="url(#vaultGrad)"
                 dot={false}
@@ -590,7 +590,7 @@ export function YieldVault() {
 
         {/* Kamino attribution */}
         <div className="flex items-center gap-3 rounded-2xl border border-primary/10 bg-primary/3 p-4">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-white">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-on-primary">
             <TrendingUp className="h-4 w-4" />
           </div>
           <div className="min-w-0">

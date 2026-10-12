@@ -42,7 +42,7 @@ export function StreakBadge({ compact = false }: { compact?: boolean }) {
       className={cn(
         "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-black",
         active
-          ? "border-orange-200 bg-orange-50 text-orange-600"
+          ? "border-primary-border bg-area-rewards text-text"
           : "border-primary/10 bg-white text-muted"
       )}
     >

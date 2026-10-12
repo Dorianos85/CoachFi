@@ -96,7 +96,7 @@ export function SocialShare({ text, url, title, compact = false }: SocialSharePr
           type="button"
           onClick={copyLink}
           aria-label={copy.copy}
-          className="grid h-9 w-9 place-items-center rounded-full border border-primary/10 bg-white text-muted transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="grid h-9 w-9 place-items-center rounded-full border border-primary/10 bg-white text-muted transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <AnimatePresence mode="wait">
             {copied ? (
@@ -143,7 +143,7 @@ export function SocialShare({ text, url, title, compact = false }: SocialSharePr
           <button
             type="button"
             onClick={handleNativeShare}
-            className="flex-1 rounded-xl border border-primary/15 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex-1 rounded-xl border border-primary/15 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <Share2 className="mr-1.5 inline h-4 w-4" />
             {copy.more}
@@ -156,7 +156,7 @@ export function SocialShare({ text, url, title, compact = false }: SocialSharePr
             "flex-1 rounded-xl border px-4 py-2.5 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
             copied
               ? "border-success bg-success/10 text-success"
-              : "border-primary/15 bg-primary/5 text-primary hover:bg-primary hover:text-white"
+              : "border-primary/15 bg-primary/5 text-primary hover:bg-primary hover:text-on-primary"
           )}
         >
           <AnimatePresence mode="wait">

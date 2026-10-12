@@ -175,7 +175,7 @@ export function SignInGate() {
 
   return (
     <div
-      className="fixed inset-0 z-[10000] grid place-items-center bg-slate-900/60 p-4"
+      className="fixed inset-0 z-[10000] grid place-items-center bg-text/60 p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="sign-in-gate-title"

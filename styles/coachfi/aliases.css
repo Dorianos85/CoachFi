@@ -62,7 +62,7 @@
   --cfx-shadow-soft: 0 18px 50px rgba(38, 50, 74, 0.1);
   --cfx-shadow-glow: 0 18px 45px rgba(118, 104, 232, 0.18);
   --cfx-ring-width: 2px;
-  --cfx-control-border: 0px;
+  --cfx-control-border: 1px;
   --cfx-radius-lg: 0.5rem;
   --cfx-radius-xl: 0.75rem;
   --cfx-radius-2xl: 1rem;

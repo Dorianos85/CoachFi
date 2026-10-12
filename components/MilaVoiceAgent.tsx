@@ -382,7 +382,7 @@ export function MilaVoiceAgent({ compact: _compact = false }: { compact?: boolea
         {va.hint}
       </p>
       <div className="mt-4 flex items-center gap-3 rounded-xl bg-primary/5 p-3">
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-white">
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary">
           <Mic className="h-5 w-5" />
         </div>
         <p className="text-xs font-bold text-text">

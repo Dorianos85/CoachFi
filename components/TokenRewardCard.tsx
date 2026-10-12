@@ -25,7 +25,7 @@ export function TokenRewardCard({
         <CardDescription>{copy.common.tokenDemo}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid place-items-center rounded-lg bg-primary p-6 text-center text-white shadow-glow">
+        <div className="grid place-items-center rounded-lg bg-primary p-6 text-center text-on-primary shadow-glow">
           <Coins className="h-10 w-10 text-accent" aria-hidden="true" />
           <p className="mt-3 text-5xl font-black leading-none">{balance}</p>
           <p className="font-bold text-white/82">{copy.common.tokens}</p>
