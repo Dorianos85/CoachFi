@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI AI — Walkthroughs, research plan and roadmap</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ECE6DD;font-size:14px;line-height:1.45;vertical-align:top}
+thead th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#4A4560;font-weight:700;background:#FFF8EE}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 2100px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+    <h1 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 48px; letter-spacing: -0.03em; line-height: 1.05">Test, learn, ship</h1>
+    <span style="background: #FFE1D1; color: #6E3417; border-radius: 999px; padding: 8px 16px; font-size: 15px; font-weight: 700">Walkthroughs below are SIMULATED expert reviews — not real usability tests</span>
+  </div>
+
+  <section aria-labelledby="wt-h" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 id="wt-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Simulated walkthroughs · six profiles</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Financially inexperienced adult</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> no income questions; one step at a time felt doable.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> “safety net” vs “emergency fund” used interchangeably — confusing.</span>
+        <span><strong>Fix:</strong> one term in UI (“safety net”), the other in a tap-to-explain glossary.</span>
+      </article>
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Busy parent</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> 2-minute step; shared family goal.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> Sunday review collides with family time; “I did it” assumes they can transfer right now.</span>
+        <span><strong>Fix:</strong> user-chosen review time; add “Remind me tonight” to the step.</span>
+      </article>
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Teenager (13–17)</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> short lessons, visible path.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> falls between Kids (6–12) and adult — adult screen feels like “my parents’ app”.</span>
+        <span><strong>Gap:</strong> design a Teen tier (first pay, phone plans, online shopping) with brighter tints.</span>
+      </article>
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Blind screen-reader user</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> voice-first Mila; quiz uses real radio groups.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> live region would read partial voice transcripts aloud while Mila listens.</span>
+        <span><strong>Fix:</strong> announce only final replies; transcript region aria-live="off" during capture.</span>
+      </article>
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Low-vision user</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> rounded Nunito body face with tabular figures; bands not colour-dependent.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> at 200% the next-step buttons fall below the fold on Today.</span>
+        <span><strong>Fix:</strong> at large text, put the action above the explanation in the card.</span>
+      </article>
+      <article style="background: #FFFFFF; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.5">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 19px">Older adult, new to finance apps</strong>
+        <span><strong style="color: #5B4BC4">Worked:</strong> simplified mode; no jargon in onboarding.</span>
+        <span><strong style="color: #B4532A">Friction:</strong> unsure whether to trust an “AI coach” with money questions; wants a person.</span>
+        <span><strong>Fix:</strong> visible “Contact a person” route in Help [SUPPORT CHANNEL]; explain what Mila can’t do.</span>
+      </article>
+    </div>
+  </section>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px">
+    <section aria-labelledby="rp-h" style="background: #FFFFFF; border-radius: 24px; padding: 8px 8px 16px">
+      <h2 id="rp-h" style="margin: 16px 16px 8px; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Research plan with real participants</h2>
+      <table style="border-collapse: collapse; width: 100%">
+        <thead><tr><th scope="col">Method</th><th scope="col">Question it answers</th><th scope="col">Who · how many</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">First impression</th><td>Does it feel trustworthy, warm, not “crypto”?</td><td>Unmoderated, 5 adjective pairs · 50+</td></tr>
+          <tr><th scope="row">5-second test</th><td>Can people say what CoachFI does after 5 s on the hero?</td><td>Unmoderated · 50+ (US, English)</td></tr>
+          <tr><th scope="row">Logo recognition</th><td>Is the mark recalled and distinguished from look-alikes at 24 px?</td><td>Recall after 24 h + line-up of 6 icons · 40</td></tr>
+          <tr><th scope="row">Task-based usability</th><td>Onboard, finish a step, ask Mila, cancel a trial</td><td>Moderated, think-aloud · 6–8 per segment</td></tr>
+          <tr><th scope="row">Accessibility testing</th><td>Can people complete core tasks with their own assistive tech?</td><td>Blind, low-vision, motor, cognitive · 5+ each, paid</td></tr>
+          <tr><th scope="row">Mobile usability</th><td>One-handed use, outdoors, large text</td><td>In-context sessions · 6</td></tr>
+          <tr><th scope="row">Kids &amp; parents</th><td>Do children understand the story and the money idea?</td><td>Parent present, consent first · 6 families</td></tr>
+          <tr><th scope="row">Retention measurement</th><td>Do weekly progressors rise without time-in-app rising?</td><td>Cohorts by signup week · all users</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="ab-h" style="display: flex; flex-direction: column; gap: 14px">
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <h2 id="ab-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 24px">A/B hypotheses</h2>
+        <ol style="margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.6; display: flex; flex-direction: column; gap: 6px">
+          <li>Check-in <em>before</em> sign-up raises activation vs account-first.</li>
+          <li>Health bands raise “make a plan” clicks vs a 0–100 score, without lowering trust ratings.</li>
+          <li>Opt-in reminders: lower D7, but higher D30 and fewer notification opt-outs than opt-out reminders.</li>
+          <li>Showing “Why this?” inline raises Mila suggestion acceptance.</li>
+        </ol>
+      </div>
+      <div style="background: #EBE1FF; color: #1E1B2E; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <h2 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 24px; color: #1E1B2E">Metrics we will measure (none measured yet)</h2>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.6; color: #4A4560">
+          <li><strong style="color: #1E1B2E">Activation</strong> — finished check-in + saw a next step, day 0</li>
+          <li><strong style="color: #1E1B2E">First lesson completion</strong> — within 7 days</li>
+          <li><strong style="color: #1E1B2E">First useful financial action</strong> — step marked done within 7 days</li>
+          <li><strong style="color: #1E1B2E">D7 / D30 retention</strong> — returned and completed ≥ 1 action</li>
+          <li><strong style="color: #1E1B2E">Repeat learning</strong> — lessons in ≥ 3 of first 4 weeks</li>
+          <li><strong style="color: #1E1B2E">A11y task completion</strong> — core tasks with assistive tech</li>
+          <li><strong style="color: #1E1B2E">Financial confidence</strong> — self-report at day 0, 30, 90 (candidate: CFPB 5-item Financial Well-Being Scale, validated in Polish first)</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <section aria-labelledby="dev-h" style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; font-size: 14.5px; line-height: 1.55">
+    <h2 id="dev-h" style="grid-column: 1 / -1; margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Developer handoff</h2>
+    <div style="display: flex; flex-direction: column; gap: 6px"><strong>Tokens</strong><span>tokens.json (board 06) → CSS custom properties per theme via <code>[data-theme]</code>; same source for native. Lint: no raw hex outside tokens.</span></div>
+    <div style="display: flex; flex-direction: column; gap: 6px"><strong>Logo assets</strong><span>Export symbol (standard + small cut), horizontal, stacked as SVG with <code>title</code>; app icon 1024 px PNG; favicon.svg + 32/16 PNG.</span></div>
+    <div style="display: flex; flex-direction: column; gap: 6px"><strong>Components</strong><span>Build from board 07 with native elements first; each component ships with a screen-reader test script and a reduced-motion story.</span></div>
+    <div style="display: flex; flex-direction: column; gap: 6px"><strong>Text &amp; i18n</strong><span>All sizes in rem; no fixed-height text containers; strings externalised for EN-US first, then PL and more; currency via Intl.NumberFormat.</span></div>
+  </section>
+
+  <section aria-labelledby="rm-h" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 id="rm-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Prioritised roadmap</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+      <div style="background: #CDBEFF; color: #1E1B2E; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px; color: #1E1B2E">Now · weeks 0–4</strong>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.65"><li>Verified audit of the live site</li><li>Trademark clearance (US first, then EU/PL)</li><li>Ship tokens, logo SVGs, type</li><li>Remove variable-ratio rewards</li><li>“AI coach” label + “Why this?” on Mila</li><li>Health check → bands</li></ul>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Next · months 1–3</strong>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.65"><li>Onboarding v2 + Today screen</li><li>Weekly review &amp; notification budget</li><li>Accessibility settings</li><li>Audio for the first 10 lessons</li><li>Moderated tests (incl. assistive tech)</li><li>New landing page, A/B 1 &amp; 2</li></ul>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Later · months 3–6</strong>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.65"><li>Kids pilot after legal review (COPPA)</li><li>Family plan &amp; parent hub</li><li>Desktop dashboard</li><li>NFT certificates: share to LinkedIn + connect your own wallet</li><li>Teen tier exploration</li></ul>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":2100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

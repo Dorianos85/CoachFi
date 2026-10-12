@@ -56,20 +56,20 @@ export function InflationChart({
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ left: 0, right: 16, top: 10, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-          <XAxis dataKey="year" tick={{ fill: "#6B7280", fontSize: 12 }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--cf-border-subtle)" />
+          <XAxis dataKey="year" tick={{ fill: "var(--cf-text-muted)", fontSize: 12 }} />
           <YAxis
-            tick={{ fill: "#6B7280", fontSize: 12 }}
+            tick={{ fill: "var(--cf-text-muted)", fontSize: 12 }}
             tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`}
           />
           <Tooltip formatter={(value) => formatCurrency(Number(value), currency, locale)} />
-          <Line type="monotone" dataKey="Cash only" name={copy.cash} stroke="#FFB703" strokeWidth={3} dot={false} />
-          <Line type="monotone" dataKey="Saving habit" name={copy.habit} stroke="#69D2E7" strokeWidth={3} dot={false} />
+          <Line type="monotone" dataKey="Cash only" name={copy.cash} stroke="var(--cf-chart-3)" strokeWidth={3} dot={false} />
+          <Line type="monotone" dataKey="Saving habit" name={copy.habit} stroke="var(--cf-chart-highlight)" strokeWidth={3} dot={false} />
           <Line
             type="monotone"
             dataKey="Long-term investing scenario"
             name={copy.investing}
-            stroke="#7C6FF6"
+            stroke="var(--cf-chart-1)"
             strokeWidth={3}
             dot={false}
           />

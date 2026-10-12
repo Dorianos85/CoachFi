@@ -33,7 +33,7 @@ interface HealthForm {
 }
 
 const inputClass =
-  "min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+  "min-h-12 rounded-input border-2 border-border bg-white px-3 text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
 export default function HealthCheckPage() {
   const { locale, t } = useLanguage();
@@ -284,7 +284,7 @@ export default function HealthCheckPage() {
                 </Button>
                 <Link
                   href={`/achievement?name=${encodeURIComponent(getDisplayName(getUser()))}&score=${score}&streak=${getStreak().currentStreak}`}
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-primary/15 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-primary/15 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <Trophy className="h-4 w-4" aria-hidden="true" />
                   {copy.health.achievement}

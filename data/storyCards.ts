@@ -23,7 +23,7 @@ export const storyCards: StoryCard[] = [
     headline: "Poor financial knowledge costs the average American $948 every single year.",
     tip: "You're already ahead — knowing the problem exists is step one.",
     source: "WalletHub 2026",
-    gradient: { from: "#6C47FF", via: "#8B5CF6", to: "#A78BFA" },
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
     textLight: true,
   },
   {
@@ -35,7 +35,7 @@ export const storyCards: StoryCard[] = [
     headline: "Half the planet can't correctly answer basic questions about interest, inflation or risk.",
     tip: "Understanding compound interest alone puts you ahead of most of the world.",
     source: "Global Financial Literacy Survey 2025",
-    gradient: { from: "#0EA5E9", via: "#0284C7", to: "#0369A1" },
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
     textLight: true,
   },
   {
@@ -47,7 +47,7 @@ export const storyCards: StoryCard[] = [
     headline: "Gen Z scored the lowest of any generation — yet they face the most complex financial world.",
     tip: "10 minutes of financial learning per day = more knowledge than 95% of your peers in a year.",
     source: "TIAA Institute / GFLEC 2025",
-    gradient: { from: "#F59E0B", via: "#EF4444", to: "#EC4899" },
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
     textLight: true,
   },
   {
@@ -59,7 +59,7 @@ export const storyCards: StoryCard[] = [
     headline: "At 8% return your money doubles every 9 years. At 6% — every 12 years.",
     tip: "Start at 25 instead of 35 and you could end up with 2× the retirement balance.",
     source: "Personal Finance Fundamentals",
-    gradient: { from: "#10B981", via: "#059669", to: "#047857" },
+    gradient: { from: "var(--cf-area-progress)", via: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
     textLight: true,
   },
   {
@@ -71,7 +71,7 @@ export const storyCards: StoryCard[] = [
     headline: "57% of Americans can't cover a $1,000 emergency without going into debt.",
     tip: "Even $500 in an emergency account reduces financial stress dramatically. Start there.",
     source: "Federal Reserve Survey 2025",
-    gradient: { from: "#EC4899", via: "#DB2777", to: "#BE185D" },
+    gradient: { from: "var(--cf-area-rewards)", via: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
     textLight: true,
   },
   {
@@ -83,7 +83,7 @@ export const storyCards: StoryCard[] = [
     headline: "Cash under the mattress doesn't just sit there — it silently shrinks every single day.",
     tip: "Any return below inflation = losing money in real terms. Always compare to CPI.",
     source: "Coach FI Inflation Calculator",
-    gradient: { from: "#EF4444", via: "#DC2626", to: "#B91C1C" },
+    gradient: { from: "var(--cf-area-care)", via: "var(--cf-area-care)", to: "var(--cf-area-care)" },
     textLight: true,
   },
   {
@@ -95,7 +95,7 @@ export const storyCards: StoryCard[] = [
     headline: "The 50/30/20 rule: 50% needs, 30% wants, 20% savings. Simple. Proven. Life-changing.",
     tip: "Automate the 20% transfer the moment your paycheck hits. Never test your willpower.",
     source: "Senator Elizabeth Warren — All Your Worth (2005)",
-    gradient: { from: "#8B5CF6", via: "#7C3AED", to: "#6D28D9" },
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
     textLight: true,
   },
   {
@@ -107,7 +107,7 @@ export const storyCards: StoryCard[] = [
     headline: "A $5,000 credit card balance at 24% APR costs $1,200 per year in interest alone.",
     tip: "Pay off high-interest debt before investing — it's a guaranteed 20%+ return.",
     source: "Federal Reserve Consumer Finance 2025",
-    gradient: { from: "#F97316", via: "#EA580C", to: "#C2410C" },
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
     textLight: true,
   },
   {
@@ -119,7 +119,7 @@ export const storyCards: StoryCard[] = [
     headline: "Over any 20-year period the S&P 500 has never lost money. Time in market beats timing the market.",
     tip: "Low-cost index ETFs beat 92% of actively managed funds over 15 years — per S&P SPIVA Report.",
     source: "S&P SPIVA Report 2025",
-    gradient: { from: "#06B6D4", via: "#0891B2", to: "#0E7490" },
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
     textLight: true,
   },
   {
@@ -131,7 +131,7 @@ export const storyCards: StoryCard[] = [
     headline: "Blockchain credentials are becoming the new standard. Universities & employers are already adopting them.",
     tip: "Your Coach FI certificate on Solana is yours forever — no institution can revoke it.",
     source: "Solana Ecosystem Report Feb 2026",
-    gradient: { from: "#1a1a2e", via: "#16213e", to: "#0f3460" },
+    gradient: { from: "var(--cf-area-progress)", via: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
     textLight: true,
   },
 
@@ -145,7 +145,7 @@ export const storyCards: StoryCard[] = [
     headline: "Poland's trust in financial institutions bottomed at 6% in 2021. Recovered to 15% in 2022 — still dramatically low.",
     tip: "Trust begins with education, not marketing. Understanding finance is your best protection against bad advice.",
     source: "OECD/KNF Financial Literacy Survey 2022",
-    gradient: { from: "#DC143C", via: "#B22222", to: "#8B0000" },
+    gradient: { from: "var(--cf-area-rewards)", via: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
     textLight: true,
   },
   {
@@ -157,7 +157,7 @@ export const storyCards: StoryCard[] = [
     headline: "Only 1 in 3 Poles understands how compound interest actually works. It's the biggest financial literacy gap in the country.",
     tip: "Not understanding compound interest is why debt grows faster than expected — and why retirement savings feel impossible.",
     source: "OECD/INFE Financial Competency Report 2020",
-    gradient: { from: "#7668E8", via: "#5B50C9", to: "#4338CA" },
+    gradient: { from: "var(--cf-area-care)", via: "var(--cf-area-care)", to: "var(--cf-area-care)" },
     textLight: true,
   },
   {
@@ -169,7 +169,7 @@ export const storyCards: StoryCard[] = [
     headline: "Poland scored 13 out of 21 on the OECD Financial Competency index. The missing 8 points represent real lost wealth for millions.",
     tip: "75% of Poles understand inflation and diversification — the gap is in compound interest and long-term planning.",
     source: "OECD/INFE 2020 — 12 Country Comparison",
-    gradient: { from: "#F59E0B", via: "#D97706", to: "#B45309" },
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
     textLight: true,
   },
   {
@@ -181,7 +181,7 @@ export const storyCards: StoryCard[] = [
     headline: "Nearly half of Poles experience money as a source of stress and helplessness. Financial education restores agency.",
     tip: "The shift from 'money controls me' to 'I control money' starts with one decision: learn how it actually works.",
     source: "OECD/KNF Financial Well-being Study 2022",
-    gradient: { from: "#6366F1", via: "#4F46E5", to: "#4338CA" },
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
     textLight: true,
   },
   {
@@ -193,7 +193,7 @@ export const storyCards: StoryCard[] = [
     headline: "Less than half of eligible workers participate in Poland's voluntary pension programs — mostly because compound interest feels abstract.",
     tip: "PPK contributions are matched by your employer and the state. Every year you delay, you leave free money on the table.",
     source: "KNF / Polish Financial Supervision Authority 2023",
-    gradient: { from: "#10B981", via: "#059669", to: "#047857" },
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
     textLight: true,
   },
   {
@@ -205,7 +205,7 @@ export const storyCards: StoryCard[] = [
     headline: "Financial attitude (planning for the future vs. living only for today) is Poland's weakest financial competency.",
     tip: "Setting even one specific financial goal — however small — is the first step from short-term survival to long-term resilience.",
     source: "OECD/INFE 2020 Financial Attitudes Survey",
-    gradient: { from: "#EC4899", via: "#DB2777", to: "#BE185D" },
+    gradient: { from: "var(--cf-area-progress)", via: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
     textLight: true,
   },
 ];

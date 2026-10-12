@@ -139,7 +139,7 @@ export function Leaderboard({ userScore }: { userScore: number }) {
             onClick={() => setTab("global")}
             className={cn(
               "flex items-center gap-1 rounded-md px-2.5 py-1.5 transition",
-              tab === "global" ? "bg-primary text-white" : "text-muted hover:text-text"
+              tab === "global" ? "bg-primary text-on-primary" : "text-muted hover:text-text"
             )}
           >
             <Globe className="h-3 w-3" />
@@ -150,7 +150,7 @@ export function Leaderboard({ userScore }: { userScore: number }) {
             onClick={() => setTab("local")}
             className={cn(
               "flex items-center gap-1 rounded-md px-2.5 py-1.5 transition",
-              tab === "local" ? "bg-primary text-white" : "text-muted hover:text-text"
+              tab === "local" ? "bg-primary text-on-primary" : "text-muted hover:text-text"
             )}
           >
             <Users className="h-3 w-3" />
@@ -189,7 +189,7 @@ export function Leaderboard({ userScore }: { userScore: number }) {
                 transition={{ delay: index * 0.05 }}
                 className={cn(
                   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold",
-                  isYou ? "bg-primary text-white shadow-glow" : "bg-primary/4 text-text"
+                  isYou ? "bg-primary text-on-primary shadow-glow" : "bg-primary/4 text-text"
                 )}
               >
                 <span className="w-6 shrink-0 text-center text-xs font-black leading-none">

@@ -43,6 +43,9 @@ import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AccountButton } from "@/components/AccountButton";
 import { ModeGate } from "@/components/ModeGate";
+
+import { Logo } from "@/components/Logo";
+
 import { NotificationBanner } from "@/components/NotificationBanner";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { StreakBadge } from "@/components/StreakBadge";
@@ -377,6 +380,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
 
       <header className="sticky top-0 z-40 border-b border-white/70 bg-background/72 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
+
           <Link
             href="/"
             className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -389,6 +393,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               <span className="block whitespace-nowrap text-lg font-black leading-tight">Coach FI</span>
               <span className="hidden truncate text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
             </span>
+            <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
           </Link>
 
           <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2 lg:gap-3">
@@ -510,7 +515,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               href={item.href}
               className={cn(
                 "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg px-1.5 py-2 text-center text-[11px] font-bold leading-tight text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                getIsActive(pathname, item.href) && "bg-primary text-white"
+                getIsActive(pathname, item.href) && "bg-primary text-on-primary"
               )}
               aria-current={getIsActive(pathname, item.href) ? "page" : undefined}
               aria-label={item.label}
@@ -540,7 +545,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               href="https://elevenlabs.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-black px-3 py-1.5 text-[11px] font-black text-white transition hover:opacity-80"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-primary-border bg-white px-3 py-1.5 text-[11px] font-black text-text transition hover:bg-primary/10"
             >
               <Volume2 className="h-3 w-3" aria-hidden="true" />
               Powered by ElevenLabs
@@ -549,10 +554,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               href="https://solana.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#9945FF]/20 bg-gradient-to-r from-[#9945FF] to-[#14F195] px-3 py-1.5 text-[11px] font-black text-white transition hover:opacity-80"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-primary-border bg-white px-3 py-1.5 text-[11px] font-black text-text transition hover:bg-primary/10"
             >
               <svg className="h-3 w-3" viewBox="0 0 397 311" fill="none" aria-hidden="true">
-                <path d="M64.6 237.9a11 11 0 0 1 7.8-3.2h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4l62.7-62.7zm0-164.7A11 11 0 0 1 72.4 70h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4L64.6 73.2zM330 3.2A11 11 0 0 0 322.2 0H4.8C-.1 0-2.6 5.9.9 9.4l62.7 62.7a11 11 0 0 0 7.8 3.2h317.4c4.9 0 7.4-5.9 3.9-9.4L330 3.2z" fill="white"/>
+                <path d="M64.6 237.9a11 11 0 0 1 7.8-3.2h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4l62.7-62.7zm0-164.7A11 11 0 0 1 72.4 70h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4L64.6 73.2zM330 3.2A11 11 0 0 0 322.2 0H4.8C-.1 0-2.6 5.9.9 9.4l62.7 62.7a11 11 0 0 0 7.8 3.2h317.4c4.9 0 7.4-5.9 3.9-9.4L330 3.2z" fill="currentColor"/>
               </svg>
               Powered by Solana
             </a>
@@ -568,7 +573,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={openSettings}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/15 bg-white px-3 py-1.5 font-bold text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/15 bg-white px-3 py-1.5 font-bold text-primary transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
               {footer.consents}
@@ -604,7 +609,7 @@ function PlanScoreCard({
   demoBadge: string;
 }) {
   return (
-    <div className="mb-4 rounded-lg bg-primary p-4 text-white shadow-glow">
+    <div className="mb-4 rounded-lg bg-primary p-4 text-on-primary shadow-glow">
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-black">{copy.planLabel}</p>
         <ShieldCheck className="h-5 w-5" aria-hidden="true" />
@@ -618,9 +623,10 @@ function PlanScoreCard({
         )}
       </div>
       <p className="mt-1 text-sm font-bold text-white/82">{copy.scoreLabel}</p>
+
       <div className="mt-4">
         <div
-          className="relative h-3 rounded-full bg-white/25"
+          className="relative h-3 rounded-full bg-white/70"
           role="progressbar"
           aria-label={copy.scoreLabel}
           aria-valuemin={0}
@@ -630,6 +636,7 @@ function PlanScoreCard({
           <div
             className="h-full rounded-full bg-accent shadow-[0_0_18px_rgba(247,223,166,0.65)]"
             style={{ width: `${planScore}%` }}
+
           />
           {scoreMilestones.map((milestone) => {
             const reached = planScore >= milestone;
@@ -639,8 +646,8 @@ function PlanScoreCard({
                 className={cn(
                   "absolute top-1/2 grid h-5 w-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 text-[9px] font-black",
                   reached
-                    ? "border-white bg-accent text-text"
-                    : "border-white/80 bg-primary text-white/85"
+                    ? "border-on-primary bg-accent text-text"
+                    : "border-on-primary/60 bg-white text-on-primary/85"
                 )}
                 style={{ left: `${milestone}%` }}
                 aria-hidden="true"
@@ -650,7 +657,7 @@ function PlanScoreCard({
             );
           })}
         </div>
-        <div className="mt-2 grid grid-cols-4 text-[10px] font-black text-white/80">
+        <div className="mt-2 grid grid-cols-4 text-[10px] font-black text-on-primary/80">
           {scoreMilestones.map((milestone) => (
             <span key={milestone} className="text-center">
               {milestone}
@@ -725,7 +732,7 @@ function HeaderAccount({ locale }: { locale: Locale }) {
       type="button"
       disabled={!isInitialized}
       onClick={() => requestSignIn()}
-      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-primary px-3 py-2 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg cf-press bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
     >
       {!isInitialized ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
       {copy.signIn}
@@ -754,7 +761,7 @@ function NavLink({
       <item.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
       {item.label}
       {badge !== undefined && (
-        <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-[10px] font-black text-white">
+        <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-[10px] font-black text-on-primary">
           {badge}
         </span>
       )}

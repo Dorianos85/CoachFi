@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI AI — Desktop dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+button{font-family:inherit}
+a{color:#5B4BC4}a:hover{color:#1E1B2E}
+a:focus-visible,button:focus-visible{outline:3px solid #2F64C8;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: flex; flex-wrap: wrap; align-items: flex-start">
+
+  <aside style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; padding: 28px 20px; display: flex; flex-direction: column; gap: 28px; background: #EBE1FF; border-right: 1px solid #ECE6DD; align-self: stretch">
+    <a href="#" aria-label="CoachFI AI home" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1E1B2E; padding: 0 8px">
+      <span role="img" aria-label="CoachFI AI" style="display: inline-flex; align-items: flex-end; font-family: 'Nunito', system-ui, sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; color: #1E1B2E; line-height: 1"><img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="" style="height: 1.3em; margin-bottom: 0.08em; margin-right: -0.02em"><span>oach</span><img src="/_blob/9c0162cfd0cceb4eed0b9685ec5aa29f" alt="" style="height: 0.72em; margin-bottom: 0.17em; margin-left: 0.05em"><span style="align-self: flex-start; margin: 0.14em 0 0 0.08em; font-size: 0.26em; font-weight: 500; color: #5B4BC4">AI</span></span>
+    </a>
+    <nav aria-label="Main" style="display: flex; flex-direction: column; gap: 4px">
+      <a href="#" aria-current="page" style="min-height: 48px; padding: 0 14px; border-radius: 12px; background: #DDE6FF; color: #1E1B2E; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="currentColor"></circle></svg>Today</a>
+      <a href="#" style="min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a1 1 0 0 1 1-1h6l1 2h7a1 1 0 0 1 1 1v12z"></path></svg>Learn</a>
+      <a href="#" style="min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"></path><path d="M20 4v4h-4"></path></svg>Goals &amp; habits</a>
+      <a href="#" style="min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"></path></svg>Mila</a>
+      <a href="#" style="min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Health check</a>
+      <a href="#" style="min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-4 3-6 6-6s6 2 6 6M15 20c0-3 1.5-5 4-5"></path></svg>Family</a>
+    </nav>
+    <a href="#" style="margin-top: auto; min-height: 48px; padding: 0 14px; border-radius: 12px; color: #1E1B2E; text-decoration: none; display: flex; align-items: center; gap: 12px; border: 1px solid #ECE6DD"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="4.5" r="1.8"></circle><path d="M5 8l7 1.5L19 8M12 9.5V15l-3 6M12 15l3 6"></path></svg>Accessibility</a>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: clamp(20px, 3vw, 40px); display: flex; flex-direction: column; gap: 24px; max-width: 1240px">
+    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px"><span style="color: #4A4560">Tuesday, October 13</span><h1 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -0.03em">Good morning, Maya. You’re on track.</h1></div>
+      <a href="#" style="min-height: 48px; padding: 0 18px; border-radius: 14px; border: 2px solid #1E1B2E; color: #5B4BC4; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px">Start weekly review</a>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 20px">
+      <section aria-labelledby="ns-h" style="background: #CDBEFF; color: #1E1B2E; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+        <h2 id="ns-h" style="margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1E1B2E">Today’s next step · 2 min</h2>
+        <p style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1.2">Move this week’s $64 takeaway savings to your safety net</p>
+        <p style="margin: 0; color: #4A4560">Why: you’re $1,140 from your goal and this keeps your Friday routine on pace.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px"><button type="button" style="min-height: 48px; padding: 0 20px; border: 2px solid #1E1B2E; border-radius: 12px; background: #FFF0BF; color: #1E1B2E; font-size: 1rem; font-weight: 700; box-shadow: 0 3px 0 #1E1B2E">I did it</button><button type="button" style="min-height: 48px; padding: 0 18px; border: 2px solid #1E1B2E; border-radius: 12px; background: transparent; color: #1E1B2E; font-size: 1rem; font-weight: 700">Ask Mila about it</button></div>
+      </section>
+
+      <section aria-labelledby="mila-d" style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+        <h2 id="mila-d" style="margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 10px"><img src="/_blob/59e1ce8266668440188716dcb0901cc5" alt="" style="width: 32px; height: 32px; border-radius: 50%; background: #EBE1FF; flex-shrink: 0">Mila <span style="background: #DDE6FF; color: #1E1B2E; border-radius: 6px; padding: 2px 8px; font-size: 0.8125rem">AI coach</span></h2>
+        <p style="margin: 0; background: #FFF8EE; border-radius: 4px 18px 18px 18px; padding: 14px 16px; line-height: 1.55">Your card costs more in interest than your savings earn. Once your safety net hits $2,000, want a plan to clear the card by spring?</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px"><button type="button" style="min-height: 44px; padding: 0 14px; border: 2px solid #1E1B2E; border-radius: 12px; background: #FFFFFF; color: #5B4BC4; font-weight: 700">Show me</button><button type="button" style="min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: #5B4BC4; font-weight: 700; text-decoration: underline; text-underline-offset: 3px">Why this?</button></div>
+      </section>
+    </div>
+
+    <section aria-labelledby="goals-h" style="display: flex; flex-direction: column; gap: 14px">
+      <h2 id="goals-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 1.4rem">Goals</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px">
+        <a href="#" style="background: #FFFFFF; border-radius: 22px; padding: 20px; display: flex; gap: 16px; align-items: center; text-decoration: none; color: #1E1B2E"><svg viewBox="0 0 120 120" width="84" height="84" role="img" aria-label="62 percent"><circle cx="60" cy="60" r="48" fill="none" stroke="#DDE6FF" stroke-width="12"></circle><path d="M60 12 A48 48 0 1 1 27.15 95" fill="none" stroke="#5B4BC4" stroke-width="12" stroke-linecap="round"></path><circle cx="27.15" cy="95" r="9" fill="#C85A1E" stroke="#FFFFFF" stroke-width="3"></circle></svg><span style="display: flex; flex-direction: column"><strong style="font-size: 1.1rem">Safety net</strong><span style="color: #4A4560">$1,860 of $3,000 · 62%</span></span></a>
+        <a href="#" style="background: #FFFFFF; border-radius: 22px; padding: 20px; display: flex; gap: 16px; align-items: center; text-decoration: none; color: #1E1B2E"><svg viewBox="0 0 120 120" width="84" height="84" role="img" aria-label="40 percent"><circle cx="60" cy="60" r="48" fill="none" stroke="#DDE6FF" stroke-width="12"></circle><path d="M60 12 A48 48 0 0 1 88.2 98.8" fill="none" stroke="#5B4BC4" stroke-width="12" stroke-linecap="round"></path><circle cx="88.2" cy="98.8" r="9" fill="#C85A1E" stroke="#FFFFFF" stroke-width="3"></circle></svg><span style="display: flex; flex-direction: column"><strong style="font-size: 1.1rem">Summer by the lake</strong><span style="color: #4A4560">$2,400 of $6,000 · 40% · family</span></span></a>
+        <a href="#" style="background: #FFFFFF; border-radius: 22px; padding: 20px; display: flex; gap: 16px; align-items: center; text-decoration: none; color: #1E1B2E"><svg viewBox="0 0 120 120" width="84" height="84" role="img" aria-label="Lessons: 2 of 6"><circle cx="60" cy="60" r="48" fill="none" stroke="#DDE6FF" stroke-width="12"></circle><path d="M60 12 A48 48 0 0 1 101.6 84" fill="none" stroke="#5B4BC4" stroke-width="12" stroke-linecap="round"></path><circle cx="101.6" cy="84" r="9" fill="#C85A1E" stroke="#FFFFFF" stroke-width="3"></circle></svg><span style="display: flex; flex-direction: column"><strong style="font-size: 1.1rem">Safety net basics</strong><span style="color: #4A4560">2 of 6 lessons</span></span></a>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 20px">
+      <section aria-labelledby="ch-h" style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap"><h2 id="ch-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 1.3rem">Saved per week</h2><button type="button" style="min-height: 40px; padding: 0 12px; border: 1px solid #7A7486; border-radius: 10px; background: #FFFFFF; color: #1E1B2E; font-weight: 700">Show as table</button></div>
+        <p style="margin: 0; color: #4A4560">Last 6 weeks: $348 in total. Your best week was this one — $114.</p>
+        <div role="img" aria-label="Bar chart. Weeks 1 to 6: $40, $0, $80, $50, $64, $114." style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; align-items: end; height: 170px; border-bottom: 2px solid #1E1B2E; padding: 0 4px">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem">40</span><div style="width: 100%; height: 35%; background: #5B4BC4; border-radius: 6px 6px 0 0"></div></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem">0</span><div style="width: 100%; height: 2px; background: #7A7486"></div></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem">80</span><div style="width: 100%; height: 70%; background: #5B4BC4; border-radius: 6px 6px 0 0"></div></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem">50</span><div style="width: 100%; height: 44%; background: #5B4BC4; border-radius: 6px 6px 0 0"></div></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem">64</span><div style="width: 100%; height: 56%; background: #5B4BC4; border-radius: 6px 6px 0 0"></div></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; justify-content: flex-end; height: 100%"><span style="font-size: 0.8125rem; font-weight: 700">114</span><div style="width: 100%; height: 86%; background: #C85A1E; border-radius: 6px 6px 0 0"></div></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; text-align: center; font-size: 0.8125rem; color: #4A4560"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>This week</span></div>
+      </section>
+
+      <section aria-labelledby="hc-h" style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+        <h2 id="hc-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 1.3rem">Money health</h2>
+        <p style="margin: 0; color: #4A4560">From your check-in on Oct 12. Re-check monthly.</p>
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+          <li style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #ECE6DD"><span>Spend</span><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: #DDE6FF; color: #1E1B2E; font-size: 0.875rem; font-weight: 700"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5a7 7 0 1 1 0 14V5z" fill="#1E1B2E"></path><circle cx="12" cy="12" r="7" fill="none" stroke="#1E1B2E" stroke-width="2"></circle></svg>Steady</span></li>
+          <li style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #ECE6DD"><span>Save</span><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: #FFE1D1; color: #6E3417; font-size: 0.875rem; font-weight: 700"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#6E3417"></circle></svg>Building</span></li>
+          <li style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #ECE6DD"><span>Borrow</span><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: #DDE6FF; color: #1E1B2E; font-size: 0.875rem; font-weight: 700"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5a7 7 0 1 1 0 14V5z" fill="#1E1B2E"></path><circle cx="12" cy="12" r="7" fill="none" stroke="#1E1B2E" stroke-width="2"></circle></svg>Steady</span></li>
+          <li style="display: flex; justify-content: space-between; align-items: center; min-height: 44px"><span>Plan</span><span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: #FFE1D1; color: #6E3417; font-size: 0.875rem; font-weight: 700"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#6E3417"></circle></svg>Building</span></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -147,7 +147,7 @@ export function ShareScoreCard({ score, open, onClose }: ShareScoreCardProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-text/50 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -166,12 +166,12 @@ export function ShareScoreCard({ score, open, onClose }: ShareScoreCardProps) {
             {/* The shareable card */}
             <div className="overflow-hidden rounded-3xl bg-white shadow-2xl">
               {/* Card header — gradient */}
-              <div className="relative bg-gradient-to-br from-primary via-primary/90 to-accent px-6 pb-8 pt-6 text-white">
+              <div className="relative bg-surface-brand px-6 pb-8 pt-6 text-text">
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label={copy.close}
-                  className="absolute right-4 top-4 rounded-full p-1 opacity-70 transition hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                  className="absolute right-4 top-4 rounded-full p-1 opacity-70 transition hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -183,11 +183,11 @@ export function ShareScoreCard({ score, open, onClose }: ShareScoreCardProps) {
                 <div className="mt-5 flex items-center gap-5">
                   <div className="relative grid h-24 w-24 place-items-center">
                     <svg className="absolute inset-0 -rotate-90" viewBox="0 0 96 96">
-                      <circle cx="48" cy="48" r="42" fill="none" stroke="white" strokeOpacity="0.2" strokeWidth="8" />
+                      <circle cx="48" cy="48" r="42" fill="none" stroke="var(--cf-surface)" strokeWidth="8" />
                       <circle
                         cx="48" cy="48" r="42"
                         fill="none"
-                        stroke="white"
+                        stroke="var(--cf-grape)"
                         strokeWidth="8"
                         strokeLinecap="round"
                         strokeDasharray={`${(score / 100) * 263.9} 263.9`}

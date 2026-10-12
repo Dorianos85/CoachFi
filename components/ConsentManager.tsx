@@ -242,7 +242,7 @@ export function ConsentManager() {
       {open && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4">
           <motion.div
-            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-text/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -270,7 +270,7 @@ export function ConsentManager() {
 
             <div className="shrink-0 border-b border-primary/10 p-4 pr-12 md:p-5 md:pr-14">
               <div className="flex items-start gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary text-white">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary text-on-primary">
                   <ShieldCheck className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <div>
@@ -335,7 +335,7 @@ export function ConsentManager() {
                               <span className="font-black text-text">{option.title}</span>
                               <span
                                 className={`h-6 w-11 shrink-0 rounded-full p-0.5 transition ${
-                                  optional[key] ? "bg-primary" : "bg-slate-300"
+                                  optional[key] ? "bg-grape" : "bg-border"
                                 }`}
                                 aria-hidden="true"
                               >
@@ -357,7 +357,7 @@ export function ConsentManager() {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-lg bg-slate-50 p-4 text-xs font-semibold leading-5 text-muted">
+              <div className="mt-5 rounded-lg bg-background p-4 text-xs font-semibold leading-5 text-muted">
                 {copy.footer}
               </div>
             </div>

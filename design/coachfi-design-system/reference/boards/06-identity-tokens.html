@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI — Identity guide and tokens</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #ECE6DD;font-size:14px;vertical-align:middle}
+thead th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#4A4560;font-weight:800}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 2000px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; align-content: start">
+
+  <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end">
+    <h1 style="margin: 0; font-weight: 900; font-size: 48px; letter-spacing: -0.03em">Identity guide &amp; design tokens · v6 pastel</h1>
+    <p style="margin: 0; font-size: 15px; color: #4A4560; text-align: right">Same values as <strong>tokens.json / tokens.css</strong> in the handoff package.<br>Contrast = WCAG 2.x ratio, computed from the hex values.</p>
+  </div>
+
+  <section aria-labelledby="col-h" style="grid-column: span 7; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+    <h2 id="col-h" style="margin: 0; font-weight: 900; font-size: 24px">Semantic colours · adult light / dark / high contrast</h2>
+    <table style="border-collapse: collapse; width: 100%">
+      <thead><tr><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th><th scope="col">HC</th><th scope="col">Use</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">bg</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #FFF8EE; border: 1px solid #DAD3C8"></span>#FFF8EE</span></td><td>#16141F</td><td>#FFFFFF</td><td>App ground (Cream)</td></tr><tr><th scope="row">surface</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #FFFFFF; border: 1px solid #DAD3C8"></span>#FFFFFF</span></td><td>#221F30</td><td>#FFFFFF</td><td>Cards, sheets</td></tr><tr><th scope="row">surface-brand</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #EBE1FF;"></span>#EBE1FF</span></td><td>#2B2448</td><td>#FFFFFF</td><td>Logo bg, Mila, sidebar</td></tr><tr><th scope="row">text / muted</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #1E1B2E;"></span>#1E1B2E / #4A4560</span></td><td>#F3EFFA / #BDB6CF</td><td>#000000</td><td>Text (15.9 / 8.6)</td></tr><tr><th scope="row">primary</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #CDBEFF;"></span>#CDBEFF + ink border</span></td><td>#B3A6FF</td><td>#FFFFFF + 3 px black</td><td>Buttons · ink text 9.9</td></tr><tr><th scope="row">grape</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #5B4BC4;"></span>#5B4BC4</span></td><td>#B3A6FF</td><td>#3A2C9E</td><td>Links, progress, charts (6.1)</td></tr><tr><th scope="row">accent</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #F07A57;"></span>#F07A57</span></td><td>#F09A73</td><td>#8A2400</td><td>Highlights (ink text 6.1)</td></tr><tr><th scope="row">mascot / deep</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #E8772E;"></span>#E8772E / #C85A1E</span></td><td>same</td><td>same</td><td>Mila only — never text</td></tr><tr><th scope="row">attention</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #B4532A;"></span>#B4532A</span></td><td>#F09A73</td><td>#8A2400</td><td>Always icon + words (5.0)</td></tr><tr><th scope="row">border</th><td><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #7A7486;"></span>#7A7486</span></td><td>#9A93AE</td><td>#000000</td><td>Inputs, toggles (4.5)</td></tr>
+        <tr><th scope="row">focus</th><td colspan="3"><span style="display: inline-flex; gap: 8px; align-items: center"><span style="width: 18px; height: 18px; border-radius: 5px; background: #FFFFFF; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 5px #5B4BC4"></span>Grape #5B4BC4 · dark #B3A6FF · 3 px ring, 2 px offset</span></td><td>Keyboard focus</td></tr>
+      </tbody>
+    </table>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <strong style="font-size: 14px">Area pastels — every area has its colour, always with ink text</strong>
+      <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; font-size: 13px">
+        <span style="background: #DDE6FF; border-radius: 12px; padding: 12px"><strong>Learn</strong><br>#DDE6FF · 13.5</span><span style="background: #FFE1D1; border-radius: 12px; padding: 12px"><strong>Goals</strong><br>#FFE1D1 · 13.5</span><span style="background: #D5F3E5; border-radius: 12px; padding: 12px"><strong>Progress</strong><br>#D5F3E5 · 14.2</span><span style="background: #EBE1FF; border-radius: 12px; padding: 12px"><strong>Mila</strong><br>#EBE1FF · 13.4</span><span style="background: #FFF0BF; border-radius: 12px; padding: 12px"><strong>Rewards</strong><br>#FFF0BF · 14.8</span><span style="background: #FFD9EF; border-radius: 12px; padding: 12px"><strong>Care</strong><br>#FFD9EF · 13.1</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pair-h" style="grid-column: span 5; display: flex; flex-direction: column; gap: 12px">
+    <h2 id="pair-h" style="margin: 0; font-weight: 900; font-size: 24px">Approved pairs</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #FFF8EE; color: #1E1B2E; border: 1px solid #ECE6DD; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Ink on Cream</span><strong>15.9</strong></div><div style="background: #CDBEFF; color: #1E1B2E; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Ink on Lavender 300</span><strong>9.9</strong></div><div style="background: #EBE1FF; color: #1E1B2E; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Ink on Lavender</span><strong>13.4</strong></div><div style="background: #FFF8EE; color: #5B4BC4; border: 1px solid #ECE6DD; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Grape on Cream</span><strong>6.1</strong></div><div style="background: #DDE6FF; color: #5B4BC4; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Grape on Sky</span><strong>5.2</strong></div><div style="background: #FFE1D1; color: #6E3417; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Brown on Peach</span><strong>7.8</strong></div><div style="background: #F07A57; color: #1E1B2E; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Ink on Coral</span><strong>6.1</strong></div><div style="background: #FFD9EF; color: #1E1B2E; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Ink on Pink</span><strong>13.1</strong></div><div style="background: #16141F; color: #B3A6FF; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Lilac on dark</span><strong>8.5</strong></div><div style="background: #FFFFFF; color: #B4532A; border: 1px solid #ECE6DD; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between"><span>Attention on white</span><strong>5.0</strong></div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center; background: #FFFFFF; border-radius: 16px; padding: 14px 16px">
+      <button type="button" style="min-height: 48px; padding: 0 20px; border: 2px solid #1E1B2E; border-radius: 14px; background: #CDBEFF; color: #1E1B2E; font: inherit; font-weight: 800; box-shadow: 0 3px 0 #1E1B2E">Primary</button>
+      <button type="button" style="min-height: 48px; padding: 0 20px; border: 2px solid #1E1B2E; border-radius: 14px; background: #FFFFFF; color: #1E1B2E; font: inherit; font-weight: 800">Secondary</button>
+      <a href="#" style="color: #5B4BC4; font-weight: 800">Link</a>
+    </div>
+    <div style="background: #FFD9EF; color: #1E1B2E; border-radius: 16px; padding: 16px 18px; font-size: 14px; line-height: 1.55"><strong>Never:</strong> white text on pastels or Coral · Squirrel orange as text (2.9) · dark navy blocks in Adult · more than one primary button per screen.</div>
+  </section>
+
+  <section aria-labelledby="type-h" style="grid-column: span 7; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+    <h2 id="type-h" style="margin: 0; font-weight: 900; font-size: 24px">Type · Nunito everywhere · rem-based</h2>
+    <div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">display-xl · 56/60 · 900</span><span style="font-weight: 900; font-size: 56px; line-height: 60px; letter-spacing: -0.03em">You’re on track.</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">display-l · 40/44 · 800</span><span style="font-weight: 800; font-size: 40px; line-height: 44px; letter-spacing: -0.02em">Your safety net</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">title · 28/34 · 800</span><span style="font-weight: 800; font-size: 28px; line-height: 34px">Today’s next step</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">heading · 20/26 · 800</span><span style="font-weight: 800; font-size: 20px; line-height: 26px">Why this matters</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">body-l · 18/28 · 400</span><span style="font-size: 18px; line-height: 28px">Saving $10 a day adds up to about $300 a month.</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">body · 16/24 · 400</span><span style="font-size: 16px; line-height: 24px">Default for running text. Never smaller.</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px; border-bottom: 1px solid #ECE6DD; padding-bottom: 10px"><span style="font-size: 13px; color: #4A4560">label · 14/20 · 700</span><span style="font-size: 14px; line-height: 20px; font-weight: 700">Buttons, chips, tabs</span></div><div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 16px;"><span style="font-size: 13px; color: #4A4560">money · tabular-nums</span><span style="font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums">$1,180.00 · $1,780.00</span></div>
+  </section>
+
+  <section aria-labelledby="sp-h" style="grid-column: span 5; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="sp-h" style="margin: 0; font-weight: 900; font-size: 24px">Space · radius · elevation</h2>
+    <div style="display: flex; align-items: flex-end; gap: 10px; font-size: 12px"><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 4px; height: 4px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>4</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 8px; height: 8px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>8</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 12px; height: 12px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>12</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 16px; height: 16px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>16</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 24px; height: 24px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>24</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 32px; height: 32px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>32</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 48px; height: 48px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>48</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 64px; height: 64px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>64</div><div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="width: 96px; height: 96px; background: #CDBEFF; border: 1px solid #1E1B2E; box-sizing: border-box"></div>96</div></div>
+    <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; font-size: 12px; text-align: center">
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 2px solid #1E1B2E; background: #EBE1FF; border-radius: 8px"></div>8 input</div><div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 2px solid #1E1B2E; background: #EBE1FF; border-radius: 14px"></div>14 button</div><div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 2px solid #1E1B2E; background: #EBE1FF; border-radius: 20px"></div>20 card</div><div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 2px solid #1E1B2E; background: #EBE1FF; border-radius: 28px 28px 0 0"></div>28 sheet</div><div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 2px solid #1E1B2E; background: #EBE1FF; border-radius: 999px"></div>pill</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: center"><div style="width: 50px; height: 50px; border: 3px solid #1D2A1F; border-radius: 6px; box-shadow: 0 5px 0 #1D2A1F"></div>6 kids</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; font-size: 12px; text-align: center">
+      <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 52px; background: #FFFFFF; border: 1px solid #ECE6DD; border-radius: 14px; box-shadow: 0 2px 8px rgba(30,27,46,.06)"></div>e1 card</div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 52px; background: #CDBEFF; border: 2px solid #1E1B2E; border-radius: 14px; box-shadow: 0 3px 0 #1E1B2E"></div>press · 0 3px 0 ink</div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 52px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 24px 64px rgba(30,27,46,.18)"></div>e3 modal</div>
+    </div>
+    <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #4A4560">Dark mode: no soft shadows — elevation = lighter surface (#16141F → #221F30 → #2B2448). Thick 3 px blocks only in Kids.</p>
+  </section>
+
+  <section aria-labelledby="themes-h" style="grid-column: 1 / -1; background: #FFFFFF; border-radius: 28px; padding: 28px; display: grid; grid-template-columns: 200px repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch">
+    <h2 id="themes-h" style="margin: 0; font-weight: 900; font-size: 24px">Themes via data-theme</h2>
+    <div style="background: #FFF8EE; border: 1px solid #ECE6DD; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 8px"><strong>adult-light · launch</strong><div style="display: flex; gap: 6px"><span style="width: 28px; height: 28px; border-radius: 8px; background: #EBE1FF;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #CDBEFF; border: 2px solid #1E1B2E; box-sizing: border-box"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #5B4BC4;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #FFE1D1;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #D5F3E5;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #E8772E;"></span></div></div>
+    <div style="background: #16141F; color: #F3EFFA; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 8px"><strong>adult-dark</strong><div style="display: flex; gap: 6px"><span style="width: 28px; height: 28px; border-radius: 8px; background: #2B2448;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #B3A6FF;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #F09A73;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #E8772E;"></span></div></div>
+    <div style="background: #1B1035; color: #FDF4FF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 8px"><strong style="color: #FF71CE; letter-spacing: 0.1em">TEEN · later</strong><div style="display: flex; gap: 6px"><span style="width: 28px; height: 28px; border-radius: 8px; background: #FF71CE;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #01CDFE;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #B967FF;"></span><span style="width: 28px; height: 28px; border-radius: 8px; background: #FFFB96;"></span></div></div>
+    <div style="background: #FFF8E8; color: #1D2A1F; border: 3px solid #1D2A1F; border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px"><strong>kids · later</strong><div style="display: flex; gap: 6px"><span style="width: 28px; height: 28px; background: #B84E1A; border: 2px solid #1D2A1F"></span><span style="width: 28px; height: 28px; background: #FFC83D; border: 2px solid #1D2A1F"></span><span style="width: 28px; height: 28px; background: #4FB3E8; border: 2px solid #1D2A1F"></span><span style="width: 28px; height: 28px; background: #7CD36B; border: 2px solid #1D2A1F"></span></div></div>
+  </section>
+
+  <section aria-labelledby="mo-h" style="grid-column: span 4; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.55">
+    <h2 id="mo-h" style="margin: 0; font-weight: 900; font-size: 24px">Motion</h2>
+    <span><strong>micro 120 ms</strong> · press (button drops 3 px onto its shadow)</span>
+    <span><strong>standard 200 ms</strong> · sheets, cards</span>
+    <span><strong>emphasis 320 ms</strong> · ring fills</span>
+    <span><strong>celebrate 600 ms</strong> · once, never looping</span>
+    <span><strong>Mila mouth</strong> · 2 frames at ~7 fps on audio level</span>
+    <span style="background: #D5F3E5; border-radius: 12px; padding: 12px">Reduced motion: 0 ms, static Mila frame, captions + optional haptic.</span>
+  </section>
+
+  <section aria-labelledby="ic-h" style="grid-column: span 4; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.55">
+    <h2 id="ic-h" style="margin: 0; font-weight: 900; font-size: 24px">Icons &amp; layout</h2>
+    <div style="display: flex; gap: 16px; color: #1E1B2E">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"></path><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a1 1 0 0 1 1-1h6l1 2h7a1 1 0 0 1 1 1v12z"></path></svg>
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#5B4BC4" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"></path><path d="M20 4v4h-4"></path></svg>
+    </div>
+    <span>Rounded 24 px stroke icons (2–2.2 px) in ink; grape only for active/progress. Always with a label or accessible name. Lucide base.</span>
+    <span>Breakpoints: &lt;480 one column · 768 two columns · 1024 sidebar · 1440 max content 1200 px. Targets ≥ 44 px (kids 60).</span>
+  </section>
+
+  <section aria-labelledby="tok-h" style="grid-column: span 4; background: #EBE1FF; color: #1E1B2E; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+    <h2 id="tok-h" style="margin: 0; font-weight: 900; font-size: 24px">tokens.css (excerpt)</h2>
+    <pre style="margin: 0; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; line-height: 1.55; white-space: pre-wrap">:root, [data-theme="adult-light"] {
+  --cf-bg: #FFF8EE;
+  --cf-surface: #FFFFFF;
+  --cf-surface-brand: #EBE1FF;
+  --cf-text: #1E1B2E;
+  --cf-text-muted: #4A4560;
+  --cf-primary: #CDBEFF;
+  --cf-on-primary: #1E1B2E;
+  --cf-grape: #5B4BC4;
+  --cf-accent: #F07A57;
+  --cf-mascot: #E8772E;
+  --cf-area-learn: #DDE6FF;
+  --cf-area-goals: #FFE1D1;
+  --cf-area-progress: #D5F3E5;
+  --cf-area-rewards: #FFF0BF;
+  --cf-area-care: #FFD9EF;
+  --cf-focus: #5B4BC4;
+  --cf-shadow-press: 0 3px 0 #1E1B2E;
+}</pre>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":2000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

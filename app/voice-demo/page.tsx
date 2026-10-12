@@ -20,27 +20,27 @@ const demoCardMeta = [
   {
     key: "milaIntro",
     icon: Sparkles,
-    tone: "bg-[#EEF2FF] border-[#C8D2FF]",
+    tone: "bg-area-mila border-border-subtle",
   },
   {
     key: "financialScore",
     icon: BarChart3,
-    tone: "bg-[#E8F8FA] border-[#B8E8EE]",
+    tone: "bg-area-learn border-border-subtle",
   },
   {
     key: "inflationWakeUp",
     icon: Languages,
-    tone: "bg-[#FFF4E8] border-[#F7D1A8]",
+    tone: "bg-area-goals border-border-subtle",
   },
   {
     key: "kidsCoach",
     icon: Coins,
-    tone: "bg-[#F0FAF4] border-[#BFE8CF]",
+    tone: "bg-area-progress border-border-subtle",
   },
   {
     key: "certificateUnlock",
     icon: BadgeCheck,
-    tone: "bg-[#F8EEFF] border-[#DEC2F2]",
+    tone: "bg-area-care border-border-subtle",
   },
 ] satisfies Array<{
   key: VoiceDemoScriptKey;
@@ -150,7 +150,7 @@ export default function VoiceDemoPage() {
                   className={cn(
                     "flex min-h-12 items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                     isSelected
-                      ? "border-primary bg-primary text-white shadow-glow"
+                      ? "border-primary bg-primary text-on-primary shadow-glow"
                       : "border-primary/15 bg-white text-text hover:border-primary/35 hover:bg-primary/5"
                   )}
                 >

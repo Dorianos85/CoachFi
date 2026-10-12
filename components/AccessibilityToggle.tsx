@@ -86,7 +86,7 @@ export function AccessibilityToggle({
             aria-pressed={activeScale === option.value}
             className={cn(
               "min-h-10 px-3 py-2 text-sm font-black leading-tight transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-              activeScale === option.value ? "bg-primary text-white" : "text-muted hover:bg-primary/8 hover:text-text",
+              activeScale === option.value ? "bg-primary text-on-primary" : "text-muted hover:bg-primary/8 hover:text-text",
               option.value === "xlarge" && "text-base"
             )}
           >

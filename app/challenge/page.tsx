@@ -114,7 +114,7 @@ export default function ChallengePage() {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-400 px-5 py-4 text-white shadow-lg"
+          className="mb-6 flex items-center gap-3 rounded-2xl border-2 border-primary-border bg-area-rewards px-5 py-4 text-text"
         >
           <Zap className="h-6 w-6 shrink-0" aria-hidden="true" />
           <div>
@@ -208,7 +208,7 @@ export default function ChallengePage() {
                   <div
                     className={cn(
                       "mt-4 rounded-xl p-4 text-sm font-bold",
-                      isCorrect ? "bg-success/15 text-success" : "bg-orange-50 text-orange-700"
+                      isCorrect ? "bg-success/15 text-success" : "bg-warning text-text"
                     )}
                   >
                     <div className="flex items-start gap-2">

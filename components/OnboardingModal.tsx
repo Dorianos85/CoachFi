@@ -43,7 +43,7 @@ export function OnboardingModal({ enabled = true, onDone }: { enabled?: boolean;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-text/50 backdrop-blur-sm"
           />
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
@@ -63,7 +63,7 @@ export function OnboardingModal({ enabled = true, onDone }: { enabled?: boolean;
                 {([1, 2] as const).map((s) => (
                   <motion.div
                     key={s}
-                    animate={{ width: step === s ? 28 : 8, backgroundColor: step >= s ? "#6C47FF" : "#e5e7eb" }}
+                    animate={{ width: step === s ? 28 : 8, backgroundColor: step >= s ? "var(--cf-grape)" : "var(--cf-border-subtle)" }}
                     transition={{ duration: 0.3 }}
                     className="h-2 rounded-full"
                   />
@@ -90,7 +90,7 @@ export function OnboardingModal({ enabled = true, onDone }: { enabled?: boolean;
                         onKeyDown={(e) => e.key === "Enter" && canProceed && handleNext()}
                         placeholder={t.onboarding.step1Placeholder}
                         maxLength={32}
-                        className="mt-5 min-h-14 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-lg font-bold leading-snug text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        className="mt-5 min-h-14 w-full rounded-input border-2 border-border bg-white px-4 py-3 text-lg font-bold leading-snug text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       />
                     </motion.div>
                   )}

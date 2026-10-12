@@ -11,13 +11,14 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getDisplayName, getUser } from "@/lib/user";
+import { resolveCssColor } from "@/lib/cssColor";
 import { getStreak } from "@/lib/streak";
 
 const BADGE_COLORS = [
-  { score: 80, label: "Financial Champion", emoji: "🏆", from: "#7C3AED", to: "#4F46E5" },
-  { score: 60, label: "Money Master", emoji: "💰", from: "#0EA5E9", to: "#6366F1" },
-  { score: 40, label: "Habit Builder", emoji: "📈", from: "#10B981", to: "#0EA5E9" },
-  { score: 0, label: "Financial Learner", emoji: "🌱", from: "#F59E0B", to: "#EF4444" },
+  { score: 80, label: "Financial Champion", emoji: "🏆", from: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
+  { score: 60, label: "Money Master", emoji: "💰", from: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
+  { score: 40, label: "Habit Builder", emoji: "📈", from: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
+  { score: 0, label: "Financial Learner", emoji: "🌱", from: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
 ];
 
 function getBadge(score: number) {
@@ -90,7 +91,7 @@ function AchievementCard({
 }) {
   return (
     <div
-      className="relative overflow-hidden rounded-3xl p-8 text-white shadow-2xl"
+      className="relative overflow-hidden rounded-3xl border-2 border-primary-border p-8 text-text"
       style={{ background: `linear-gradient(135deg, ${badge.from}, ${badge.to})` }}
     >
       <div className="pointer-events-none absolute inset-0 opacity-20">
@@ -118,12 +119,12 @@ function AchievementCard({
         <div className="mt-6 flex gap-6">
           <div>
             <p className="text-5xl font-black leading-none">{score}</p>
-            <p className="mt-1 text-sm font-bold opacity-70">{copy.financialScore}</p>
+            <p className="mt-1 text-sm font-bold opacity-80">{copy.financialScore}</p>
           </div>
-          <div className="w-px bg-white/30" />
+          <div className="w-px bg-text/30" />
           <div>
             <p className="text-5xl font-black leading-none">{streak}</p>
-            <p className="mt-1 text-sm font-bold opacity-70">{copy.dayStreak} 🔥</p>
+            <p className="mt-1 text-sm font-bold opacity-80">{copy.dayStreak} 🔥</p>
           </div>
         </div>
 
@@ -186,8 +187,8 @@ function AchievementPageContent() {
     canvas.height = H;
 
     const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, badge.from);
-    grad.addColorStop(1, badge.to);
+    grad.addColorStop(0, resolveCssColor(badge.from));
+    grad.addColorStop(1, resolveCssColor(badge.to));
     ctx.fillStyle = grad;
     ctx.beginPath();
     const r = 32;
@@ -207,14 +208,14 @@ function AchievementPageContent() {
     }
     ctx.fill();
 
-    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.fillStyle = "rgba(255,255,255,0.35)";
     for (let i = 0; i < 4; i++) {
       ctx.beginPath();
       ctx.arc(W * 0.85 + i * 30, H * 0.1 + i * 40, 80 + i * 50, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    ctx.fillStyle = "white";
+    ctx.fillStyle = resolveCssColor("var(--cf-text)");
     ctx.font = "bold 14px system-ui";
     ctx.fillText(copy.achievement.toUpperCase(), 48, 72);
 

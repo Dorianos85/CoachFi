@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 // Confetti particle
 function Confetti({ active }: { active: boolean }) {
-  const colors = ["#6C47FF", "#F59E0B", "#10B981", "#EF4444", "#3B82F6", "#EC4899"];
+  const colors = ["var(--cf-grape)", "var(--cf-area-rewards)", "var(--cf-area-progress)", "var(--cf-accent)", "var(--cf-area-learn)", "var(--cf-area-care)"];
   const count = 32;
   return (
     <AnimatePresence>
@@ -232,7 +232,7 @@ export default function ReviewPage() {
               {results.map((r) => {
                 const q = getQuestionById(r.id, locale);
                 return (
-                  <div key={r.id} className={cn("rounded-xl p-3 text-left text-xs font-bold", r.correct ? "bg-success/10 text-success" : "bg-rose-50 text-rose-600")}>
+                  <div key={r.id} className={cn("rounded-xl p-3 text-left text-xs font-bold", r.correct ? "bg-success/10 text-success" : "bg-warning text-text")}>
                     {r.correct ? <CheckCircle2 className="mb-1 h-4 w-4" /> : <XCircle className="mb-1 h-4 w-4" />}
                     {q?.question.slice(0, 48)}{copy.resultSuffix}
                   </div>
@@ -324,7 +324,7 @@ export default function ReviewPage() {
                       !revealed && !isSelected && "border-primary/10 bg-white text-text hover:border-primary/30 hover:bg-primary/3",
                       !revealed && isSelected && "border-primary bg-primary/8 text-primary",
                       correct && "border-success bg-success/12 text-success",
-                      wrong && "border-rose-400 bg-rose-50 text-rose-600"
+                      wrong && "border-attention bg-warning text-text"
                     )}
                   >
                     <span className="mr-3 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-current/20 bg-current/8 text-xs font-black">
@@ -346,8 +346,8 @@ export default function ReviewPage() {
                   animate={{ opacity: 1, height: "auto" }}
                   className="overflow-hidden"
                 >
-                  <div className={cn("mt-4 rounded-2xl p-4 text-sm", isCorrect ? "bg-success/10" : "bg-rose-50")}>
-                    <p className={cn("font-black", isCorrect ? "text-success" : "text-rose-600")}>
+                  <div className={cn("mt-4 rounded-2xl p-4 text-sm", isCorrect ? "bg-success/10" : "bg-warning")}>
+                    <p className={cn("font-black", isCorrect ? "text-success" : "text-text")}>
                       {isCorrect ? `✓ ${copy.correct}` : `✗ ${copy.notQuite}`}
                     </p>
                     <div className="flex items-start gap-2">

@@ -458,9 +458,9 @@ export default function RewardsPage() {
                         <span
                           className={
                             done
-                              ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success text-white"
+                              ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success text-text"
                               : active
-                                ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-white"
+                                ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-on-primary"
                                 : "h-5 w-5 shrink-0 rounded-full border-2 border-primary/20"
                           }
                         >
@@ -540,7 +540,7 @@ export default function RewardsPage() {
             href={`https://explorer.solana.com/tx/${mockTxHash}?cluster=devnet`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex items-center justify-center gap-2 rounded-xl cf-press bg-primary px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <ExternalLink className="h-4 w-4" aria-hidden="true" />
             {copy.explorer}
@@ -717,7 +717,7 @@ function EmbeddedWalletCard({
         }
         requestSignIn();
       }}
-      className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2.5 rounded-lg cf-press bg-primary px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
     >
       {!isInitialized && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
       {loginLabel}
@@ -763,7 +763,7 @@ function PhantomConnectButton({
       type="button"
       disabled={connecting}
       onClick={onConnect}
-      className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-[#AB9FF2] px-4 py-3 text-sm font-black text-white transition hover:bg-[#9B8FE2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#AB9FF2] disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2.5 rounded-lg cf-press bg-primary-fill px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#AB9FF2] disabled:opacity-60"
     >
       {connecting ? (
         <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
