@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/supabase-migrate.mjs --if-production && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run build",
     "api:check": "node scripts/check-api-config.mjs",
     "db:init": "node lib/dev-db.ts",
+    "db:migrate": "node scripts/supabase-migrate.mjs",
+    "db:migrate:check": "node scripts/supabase-migrate.mjs --dry-run",
     "admin": "node admin/server.mjs"
   },
   "dependencies": {

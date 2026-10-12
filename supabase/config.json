@@ -1,0 +1,4 @@
+{
+  "$schema": "https://supabase.com/docs/cli/config.schema.json",
+  "project_id": "coachfi"
+}
