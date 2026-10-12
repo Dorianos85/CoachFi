@@ -124,9 +124,15 @@ export function MilaVoiceFab() {
   const [tokenBalance, setTokenBalance] = useState(mockUser.tokenBalance);
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
+  const [setupDone, setSetupDone] = useState(false);
   const [textOnly, setTextOnly] = useState(false);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
-  const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
+  const enabled =
+    loaded &&
+    requiredAccepted &&
+    setupDone &&
+    hasOptionalConsent("aiCoach") &&
+    hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
   useEffect(() => {
@@ -134,6 +140,7 @@ export function MilaVoiceFab() {
       const user = getUser();
       setUserName(getDisplayName(user));
       setUserGoal(user.goal.trim() || mockUser.mainFinancialGoal);
+      setSetupDone(user.setupDone);
       setTokenBalance(getTokenBalance());
       setTextOnly(localStorage.getItem(TEXT_ONLY_KEY) === "true");
     };

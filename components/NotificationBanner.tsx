@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 
 import { requestPermission } from "@/lib/notifications";
 import { Button } from "@/components/ui/button";
+import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Locale } from "@/lib/i18n";
+import { getUser } from "@/lib/user";
 
 const COPY: Record<Locale, { aria: string; dismiss: string; title: string; body: string; enable: string; later: string }> = {
   en: {
@@ -38,18 +40,35 @@ const COPY: Record<Locale, { aria: string; dismiss: string; title: string; body:
 
 export function NotificationBanner() {
   const { locale } = useLanguage();
+  const { loaded, requiredAccepted } = useConsent();
   const copy = COPY[locale];
   const [visible, setVisible] = useState(false);
+  const [setupDone, setSetupDone] = useState(false);
 
   useEffect(() => {
+    const refresh = () => setSetupDone(getUser().setupDone);
+    refresh();
+    window.addEventListener("storage", refresh);
+    window.addEventListener("coachfi-user", refresh);
+    return () => {
+      window.removeEventListener("storage", refresh);
+      window.removeEventListener("coachfi-user", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!loaded || !requiredAccepted || !setupDone) {
+      setVisible(false);
+      return;
+    }
     if (
       typeof Notification === "undefined" ||
       Notification.permission !== "default" ||
       sessionStorage.getItem("coachfi-notif-dismissed")
     ) return;
-    const timer = setTimeout(() => setVisible(true), 4000);
+    const timer = setTimeout(() => setVisible(true), 12000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [loaded, requiredAccepted, setupDone]);
 
   function dismiss() {
     sessionStorage.setItem("coachfi-notif-dismissed", "1");
