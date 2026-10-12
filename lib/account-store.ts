@@ -54,27 +54,32 @@ type StateRow = {
   updated_at: string;
 };
 
+function useSupabaseAccounts() {
+  if (process.env.NODE_ENV === "production") return true;
+  return getOptionalEnv("COACHFI_ACCOUNT_STORE")?.toLowerCase() === "supabase";
+}
+
 export function accountStorageConfigured() {
-  if (process.env.NODE_ENV !== "production") return true;
+  if (!useSupabaseAccounts()) return true;
   return Boolean(getOptionalEnv("NEXT_PUBLIC_SUPABASE_URL") && getOptionalEnv("SUPABASE_SERVICE_ROLE_KEY"));
 }
 
 export async function getAccount(cdpUserId: string) {
-  if (process.env.NODE_ENV !== "production") return getSqliteAccount(cdpUserId);
+  if (!useSupabaseAccounts()) return getSqliteAccount(cdpUserId);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
   return getSupabaseAccount(supabase, cdpUserId);
 }
 
 export async function saveAccount(cdpUserId: string, input: AccountSave) {
-  if (process.env.NODE_ENV !== "production") return saveSqliteAccount(cdpUserId, input);
+  if (!useSupabaseAccounts()) return saveSqliteAccount(cdpUserId, input);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
   return saveSupabaseAccount(supabase, cdpUserId, input);
 }
 
 export async function saveCdpIdentity(cdpUserId: string, identity: CdpIdentitySave) {
-  if (process.env.NODE_ENV !== "production") {
+  if (!useSupabaseAccounts()) {
     saveSqliteIdentity(cdpUserId, identity);
     return;
   }
@@ -84,7 +89,7 @@ export async function saveCdpIdentity(cdpUserId: string, identity: CdpIdentitySa
 }
 
 export async function deleteAccount(cdpUserId: string) {
-  if (process.env.NODE_ENV !== "production") {
+  if (!useSupabaseAccounts()) {
     deleteSqliteAccount(cdpUserId);
     return;
   }
@@ -135,7 +140,7 @@ const CERTIFICATE_COLUMNS =
   "cdp_user_id, certificate_id, status, minted, asset_address, owner_address, tx_hash, chain_checked_at, updated_at";
 
 export async function listCertificates(cdpUserId: string) {
-  if (process.env.NODE_ENV !== "production") return listSqliteCertificates(cdpUserId);
+  if (!useSupabaseAccounts()) return listSqliteCertificates(cdpUserId);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
   return listSupabaseCertificates(supabase, cdpUserId);
@@ -143,7 +148,7 @@ export async function listCertificates(cdpUserId: string) {
 
 export async function saveCertificate(cdpUserId: string, input: CertificateSave) {
   const next = certificateWrite(input);
-  if (process.env.NODE_ENV !== "production") return saveSqliteCertificate(cdpUserId, next);
+  if (!useSupabaseAccounts()) return saveSqliteCertificate(cdpUserId, next);
   const supabase = serviceClient();
   if (!supabase) throw new Error("Account storage is not configured");
   return saveSupabaseCertificate(supabase, cdpUserId, next);
