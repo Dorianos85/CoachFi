@@ -113,7 +113,7 @@ export function ProgressPath() {
                   ? "border-success/25 bg-white"
                   : active
                     ? "border-primary/30 bg-white shadow-glow"
-                    : "border-primary/10 bg-white/70 opacity-70"
+                    : "border-primary/10 bg-white/70 opacity-80"
               }
             >
               <CardContent className="p-5">

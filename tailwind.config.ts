@@ -20,7 +20,7 @@ const fill =
     if (Number.parseFloat(opacityValue) >= 0.5) {
       return `rgb(var(--cfx-${name}-hover) / max(${opacityValue}, var(--cfx-tint-floor)))`;
     }
-    return `rgb(var(--cfx-${name}-tint) / min(1, calc(${opacityValue} * var(--cfx-tint-boost))))`;
+    return `rgb(var(--cfx-${name}-tint) / min(var(--cfx-${name}-tint-cap, 1), calc(${opacityValue} * var(--cfx-tint-boost))))`;
   };
 
 const tokenNames = [

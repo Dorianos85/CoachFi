@@ -282,7 +282,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={shellCopy.homeAria}
           >
-            <span className="flex items-center rounded-lg bg-surface-brand px-3 py-1.5">
+            <span className="cf-logo-tile flex items-center rounded-lg px-3 py-1.5">
               <Logo size="1.6rem" />
             </span>
             <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>

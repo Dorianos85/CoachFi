@@ -7,6 +7,8 @@
   --cfx-primary-hover: var(--cf-primary-strong-rgb);
   --cfx-primary-tint: var(--cf-primary-rgb);
   --cfx-primary-ink: var(--cf-grape-rgb);
+  /* Grape text must stay >= 4.5:1 on lavender tints. */
+  --cfx-primary-tint-cap: 0.5;
 
   --cfx-secondary-fill: var(--cf-area-learn-rgb);
   --cfx-secondary-hover: var(--cf-area-learn-rgb);
@@ -55,6 +57,7 @@
   --cfx-success-ink: var(--cf-area-progress-rgb);
   --cfx-warning-ink: var(--cf-area-care-rgb);
   --cfx-tint-boost: 1;
+  --cfx-primary-tint-cap: 1;
   --cfx-display-tracking: 0;
   --cfx-tint-floor: 0;
 
