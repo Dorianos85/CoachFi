@@ -321,7 +321,7 @@ export default function PartnerPage() {
               className={cn(
                 "flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                 active
-                  ? "border-primary bg-primary text-white shadow-glow"
+                  ? "border-primary bg-primary text-on-primary shadow-glow"
                   : "border-primary/15 bg-white/85 text-muted hover:border-primary/35 hover:text-text"
               )}
             >
@@ -365,7 +365,7 @@ export default function PartnerPage() {
               <div
                 className="grid h-44 w-44 place-items-center rounded-full p-3"
                 style={{
-                  background: `conic-gradient(#7C6FF6 ${data.avgProgress}%, rgba(124, 111, 246, 0.12) 0)`,
+                  background: `conic-gradient(var(--cf-grape) ${data.avgProgress}%, var(--cf-area-learn) 0)`,
                 }}
               >
                 <div className="grid h-full w-full place-items-center rounded-full bg-white">

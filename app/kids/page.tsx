@@ -14,12 +14,12 @@ import { cn } from "@/lib/utils";
 // ─── constants ────────────────────────────────────────────────────────────────
 
 const MODULE_THEMES = [
-  { bg: "from-rose-400 to-orange-300",    icon: "🛒", card: "border-rose-200 bg-rose-50" },
-  { bg: "from-violet-500 to-fuchsia-400", icon: "🐷", card: "border-violet-200 bg-violet-50" },
-  { bg: "from-amber-400 to-yellow-300",   icon: "🎯", card: "border-amber-200 bg-amber-50" },
-  { bg: "from-emerald-400 to-teal-300",   icon: "👛", card: "border-emerald-200 bg-emerald-50" },
-  { bg: "from-sky-400 to-blue-300",       icon: "⭐", card: "border-sky-200 bg-sky-50" },
-  { bg: "from-pink-400 to-rose-300",      icon: "🤝", card: "border-pink-200 bg-pink-50" },
+  { bg: "from-area-care to-area-care",    icon: "🛒", card: "border-border-subtle bg-white" },
+  { bg: "from-area-mila to-area-mila", icon: "🐷", card: "border-border-subtle bg-white" },
+  { bg: "from-area-rewards to-area-rewards",   icon: "🎯", card: "border-border-subtle bg-white" },
+  { bg: "from-area-progress to-area-progress",   icon: "👛", card: "border-border-subtle bg-white" },
+  { bg: "from-area-learn to-area-learn",       icon: "⭐", card: "border-border-subtle bg-white" },
+  { bg: "from-area-goals to-area-goals",      icon: "🤝", card: "border-border-subtle bg-white" },
 ];
 
 const STAR_MILESTONES: Record<number, string> = {
@@ -316,7 +316,7 @@ export default function KidsPage() {
                           ref={idx === 0 ? earnButtonRef : undefined}
                           type="button"
                           size="sm"
-                          className="mt-3 w-full rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 font-black text-white shadow-md hover:from-amber-500 hover:to-orange-500"
+                          className="mt-3 w-full cf-press rounded-xl bg-area-rewards font-black text-text hover:bg-area-rewards"
                           onClick={handleEarnStar}
                         >
                           {t.kids.earnStar}
@@ -334,7 +334,7 @@ export default function KidsPage() {
         <div className="grid gap-5">
 
           {/* Stars card */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 to-yellow-50 p-5 shadow-soft border-2 border-amber-100">
+          <div className="relative overflow-hidden rounded-3xl bg-area-rewards p-5 shadow-soft border-2 border-border-subtle">
             <h2 className="text-xl font-black text-text">{t.kids.starsTitle}</h2>
 
             <div
@@ -367,8 +367,8 @@ export default function KidsPage() {
 
             <motion.p
               key={stars}
-              initial={{ scale: 1.3, color: "#f59e0b" }}
-              animate={{ scale: 1, color: "#1a1a2e" }}
+              initial={{ scale: 1.3, color: "var(--cf-attention)" }}
+              animate={{ scale: 1, color: "var(--cf-text)" }}
               transition={{ duration: 0.4 }}
               className="mt-3 text-2xl font-black"
             >
@@ -386,7 +386,7 @@ export default function KidsPage() {
                   <motion.p
                     animate={{ scale: [1, 1.04, 1] }}
                     transition={{ duration: 1.8, repeat: Infinity }}
-                    className="mt-2 rounded-2xl bg-amber-400/25 p-3 text-center text-sm font-black text-amber-800"
+                    className="mt-2 rounded-2xl bg-white/70 p-3 text-center text-sm font-black text-text"
                   >
                     {t.kids.badgeUnlocked}
                   </motion.p>
@@ -396,7 +396,7 @@ export default function KidsPage() {
           </div>
 
           {/* Saving jar */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-50 to-fuchsia-50 p-5 shadow-soft border-2 border-violet-100">
+          <div className="relative overflow-hidden rounded-3xl bg-area-mila p-5 shadow-soft border-2 border-border-subtle">
             <h2 className="text-xl font-black text-text">{t.kids.jarTitle}</h2>
             <p className="mt-1 text-sm leading-5 text-muted">{t.kids.jarGoalText}</p>
 
@@ -406,7 +406,7 @@ export default function KidsPage() {
                 animate={{ y: [0, -7, 0], rotate: [0, 3, -3, 0] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
               >
-                <PiggyBank className="mx-auto h-20 w-20 text-violet-500" aria-hidden="true" />
+                <PiggyBank className="mx-auto h-20 w-20 text-primary" aria-hidden="true" />
               </motion.div>
 
               <div className="mt-4">
@@ -421,7 +421,7 @@ export default function KidsPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${(JAR_SAVED / JAR_GOAL) * 100}%` }}
                     transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-                    className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400"
+                    className="h-full rounded-full bg-grape"
                   />
                 </div>
                 <p className="mt-2 text-xs font-bold text-muted text-right">
@@ -439,7 +439,7 @@ export default function KidsPage() {
           <motion.div
             animate={{ scale: [1, 1.015, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="rounded-3xl bg-gradient-to-br from-emerald-400 to-teal-400 p-5 text-white shadow-soft"
+            className="rounded-3xl bg-area-progress p-5 text-text shadow-soft"
           >
             <p className="text-2xl">🌱</p>
             <p className="mt-2 text-sm font-black leading-6">

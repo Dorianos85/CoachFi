@@ -65,7 +65,7 @@ function ChallengeBanner({
 
   return (
     <div className="mb-6 flex items-center gap-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 to-accent/10 p-5 shadow-soft">
-      <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-white shadow-glow">
+      <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-on-primary shadow-glow">
         <Swords className="h-6 w-6" aria-hidden="true" />
       </div>
       <div className="min-w-0 flex-1">

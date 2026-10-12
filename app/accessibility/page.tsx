@@ -110,7 +110,7 @@ export default function AccessibilityPage() {
 
               <div className="mt-6 rounded-lg border border-primary/15 bg-primary/5 p-6">
                 <div className="flex items-center gap-4">
-                  <span className="grid h-16 w-16 place-items-center rounded-lg bg-primary text-white">
+                  <span className="grid h-16 w-16 place-items-center rounded-lg bg-primary text-on-primary">
                     <Volume2 className="h-8 w-8" aria-hidden="true" />
                   </span>
                   <div>

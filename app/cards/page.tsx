@@ -9,6 +9,7 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { getStoryCards, type StoryCard } from "@/data/storyCards";
+import { resolveCssColor, tokenWithAlpha } from "@/lib/cssColor";
 import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -158,24 +159,24 @@ async function exportCard(
 
   // Gradient background
   const grad = ctx.createLinearGradient(0, 0, 600, 1000);
-  grad.addColorStop(0, card.gradient.from);
-  grad.addColorStop(0.5, card.gradient.via);
-  grad.addColorStop(1, card.gradient.to);
+  grad.addColorStop(0, resolveCssColor(card.gradient.from));
+  grad.addColorStop(0.5, resolveCssColor(card.gradient.via));
+  grad.addColorStop(1, resolveCssColor(card.gradient.to));
   ctx.fillStyle = grad;
   ctx.beginPath();
   drawRoundedRect(ctx, 0, 0, 600, 1000, 40);
   ctx.fill();
 
-  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  ctx.fillStyle = "rgba(255,255,255,0.4)";
   ctx.beginPath();
   ctx.arc(480, 120, 180, 0, Math.PI * 2);
   ctx.fill();
 
-  const white = "#ffffff";
-  const whiteAlpha = "rgba(255,255,255,0.6)";
+  const white = resolveCssColor("var(--cf-text)");
+  const whiteAlpha = tokenWithAlpha("text", 0.8);
 
   ctx.font = "bold 18px system-ui, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.fillStyle = tokenWithAlpha("text", 0.8);
   ctx.fillText("Coach FI  -  " + card.category, 48, 72);
 
   ctx.font = "bold 90px system-ui, sans-serif";
@@ -189,7 +190,7 @@ async function exportCard(
   ctx.fillText(card.statLabel, 48, 238);
 
   // Divider
-  ctx.fillStyle = "rgba(255,255,255,0.2)";
+  ctx.fillStyle = tokenWithAlpha("text", 0.2);
   ctx.fillRect(48, 270, 504, 2);
 
   // Headline (word wrap)
@@ -199,12 +200,12 @@ async function exportCard(
 
   // Tip
   ctx.font = "bold 18px system-ui, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  ctx.fillStyle = tokenWithAlpha("text", 0.85);
   wrapText(ctx, `💡 ${card.tip}`, 48, 560, 504, 28);
 
   // Source
   ctx.font = "16px system-ui, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.45)";
+  ctx.fillStyle = tokenWithAlpha("text", 0.7);
   ctx.fillText(`${copy.source}: ${card.source}`, 48, 900);
   ctx.fillText("coachfi.app", 48, 930);
 
@@ -262,24 +263,24 @@ function KnowledgeCard({ card, copy, style, onDragEnd }: {
       aria-label={copy.cardAria(card.headline)}
     >
       <div
-        className="h-full w-full overflow-hidden rounded-3xl shadow-2xl"
+        className="h-full w-full overflow-hidden rounded-3xl border-2 border-primary-border shadow-soft"
         style={{ background: `linear-gradient(135deg, ${card.gradient.from}, ${card.gradient.via}, ${card.gradient.to})` }}
       >
         {/* Decorative blob */}
         <div
-          className="absolute -right-12 -top-12 h-48 w-48 rounded-full opacity-20"
+          className="absolute -right-12 -top-12 h-48 w-48 rounded-full opacity-40"
           style={{ background: "white" }}
         />
         <div
-          className="absolute -bottom-16 -left-8 h-56 w-56 rounded-full opacity-10"
+          className="absolute -bottom-16 -left-8 h-56 w-56 rounded-full opacity-30"
           style={{ background: "white" }}
         />
 
-        <div className="relative flex h-full flex-col p-8 text-white">
+        <div className="relative flex h-full flex-col p-8 text-text">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <p className="text-xs font-black uppercase tracking-widest opacity-70">Coach FI</p>
-            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-black">{card.category}</span>
+            <p className="text-xs font-black uppercase tracking-widest opacity-80">Coach FI</p>
+            <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">{card.category}</span>
           </div>
 
           {/* Emoji + stat */}
@@ -288,27 +289,27 @@ function KnowledgeCard({ card, copy, style, onDragEnd }: {
             <p className={cn("mt-3 font-black leading-none", card.bigStat.length > 6 ? "text-5xl" : "text-7xl")}>
               {card.bigStat}
             </p>
-            <p className="mt-2 text-sm font-bold opacity-70">{card.statLabel}</p>
+            <p className="mt-2 text-sm font-bold opacity-80">{card.statLabel}</p>
           </div>
 
           {/* Divider */}
-          <div className="my-6 h-px bg-white/20" />
+          <div className="my-6 h-px bg-text/20" />
 
           {/* Headline */}
           <p className="text-lg font-black leading-7">{card.headline}</p>
 
           {/* Tip */}
-          <div className="mt-4 rounded-2xl bg-white/15 p-4">
-            <p className="text-xs font-black uppercase tracking-wide opacity-60">💡 {copy.quickTip}</p>
+          <div className="mt-4 rounded-2xl bg-white/60 p-4">
+            <p className="text-xs font-black uppercase tracking-wide opacity-80">💡 {copy.quickTip}</p>
             <p className="mt-1 text-sm font-bold leading-6">{card.tip}</p>
           </div>
 
           {/* Footer */}
           <div className="mt-auto pt-4">
-            <p className="text-xs opacity-40">
+            <p className="text-xs opacity-80">
               {copy.source}: {card.source}
             </p>
-            <p className="text-xs font-black opacity-50">coachfi.app</p>
+            <p className="text-xs font-black opacity-80">coachfi.app</p>
           </div>
         </div>
       </div>

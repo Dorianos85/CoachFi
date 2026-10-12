@@ -35,11 +35,11 @@ import { formatCurrency, formatNumber, LOCALE_INTL } from "@/lib/utils";
 type DashboardCopy = (typeof dashboardCopy)[Locale];
 
 const routeVisuals = [
-  { icon: ShieldCheck, progress: 53, tone: "#7668E8" },
-  { icon: WalletCards, progress: 68, tone: "#7DD3DC" },
-  { icon: Landmark, progress: 42, tone: "#F6A66D" },
-  { icon: TrendingUp, progress: 28, tone: "#A89CF6" },
-  { icon: PiggyBank, progress: 18, tone: "#E8C878" },
+  { icon: ShieldCheck, progress: 53, tone: "var(--cf-area-mila)" },
+  { icon: WalletCards, progress: 68, tone: "var(--cf-area-learn)" },
+  { icon: Landmark, progress: 42, tone: "var(--cf-area-goals)" },
+  { icon: TrendingUp, progress: 28, tone: "var(--cf-area-progress)" },
+  { icon: PiggyBank, progress: 18, tone: "var(--cf-area-rewards)" },
 ] satisfies Array<{
   icon: LucideIcon;
   progress: number;
@@ -49,10 +49,10 @@ const routeVisuals = [
 const lessonIcons = [CreditCard, ChartNoAxesCombined, PiggyBank] satisfies LucideIcon[];
 
 const spendingSignalsData = [
-  { value: 132, change: -18, tone: "#7668E8" },
-  { value: 640, change: 96, tone: "#F6A66D" },
-  { value: 418, change: 0, tone: "#7DD3DC" },
-  { value: 840, change: 140, tone: "#55B893" },
+  { value: 132, change: -18, tone: "var(--cf-chart-1)" },
+  { value: 640, change: 96, tone: "var(--cf-chart-3)" },
+  { value: 418, change: 0, tone: "var(--cf-chart-2)" },
+  { value: 840, change: 140, tone: "var(--cf-chart-highlight)" },
 ];
 
 type ChartDatum = {
@@ -90,7 +90,7 @@ export default function Page() {
                   <Sparkles className="h-4 w-4" aria-hidden="true" />
                   {copy.hero.mapLabel}
                 </span>
-                <span className="rounded-lg bg-accent/55 px-3 py-1.5 text-xs font-black uppercase text-[#6D5216]">
+                <span className="rounded-lg bg-accent px-3 py-1.5 text-xs font-black uppercase text-text">
                   {copy.hero.todayStep}
                 </span>
               </div>
@@ -147,7 +147,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="border-t border-primary/10 bg-[#EEF2FF] p-5 text-text md:p-6 2xl:border-l 2xl:border-t-0">
+            <div className="border-t border-primary/10 bg-surface-brand p-5 text-text md:p-6 2xl:border-l 2xl:border-t-0">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-sm font-black uppercase text-muted">{copy.score.title}</p>
@@ -158,7 +158,7 @@ export default function Page() {
                   className="grid h-24 w-24 shrink-0 place-items-center rounded-full"
                   style={{
                     background:
-                      "conic-gradient(#7668E8 0deg 223deg, rgba(118,104,232,.16) 223deg 360deg)",
+                      "conic-gradient(var(--cf-grape) 0deg 223deg, var(--cf-surface) 223deg 360deg)",
                   }}
                   aria-hidden="true"
                 >
@@ -173,7 +173,7 @@ export default function Page() {
                 <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.score.nextText(fmt(500))}</p>
                 <Link
                   href="/coach"
-                  className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-lg cf-press bg-primary px-4 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   {copy.score.askMila}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -243,7 +243,7 @@ function Metric({
   caption: string;
 }) {
   return (
-    <div className="min-w-0 overflow-hidden rounded-lg border border-primary/10 bg-[#F3F5FF] px-3 py-3">
+    <div className="min-w-0 overflow-hidden rounded-lg border border-primary/10 bg-background px-3 py-3">
       <p className="whitespace-nowrap text-[10px] font-black uppercase tracking-wide text-muted">{label}</p>
       <p className="mt-1.5 whitespace-nowrap text-xl font-black leading-none text-text">{value}</p>
       <p className="mt-1 whitespace-nowrap text-xs font-bold text-muted">{caption}</p>
@@ -274,7 +274,7 @@ function CoachPocket({ copy }: { copy: DashboardCopy["coachPocket"] }) {
         </div>
       </div>
 
-      <div className="mt-5 rounded-lg bg-[#F3F5FF] p-4">
+      <div className="mt-5 rounded-lg bg-background p-4">
         <p className="text-sm font-semibold leading-6 text-muted">{copy.briefing}</p>
       </div>
 
@@ -356,7 +356,7 @@ function RouteStep({
   const Icon = step.icon;
 
   return (
-    <article className="relative rounded-lg border border-primary/10 bg-[#F3F5FF] p-4">
+    <article className="relative rounded-lg border border-primary/10 bg-background p-4">
       {index < total - 1 && (
         <span
           className="absolute left-[calc(100%-2px)] top-8 hidden h-0.5 w-4 bg-primary/20 md:block"
@@ -364,7 +364,7 @@ function RouteStep({
         />
       )}
       <div className="flex items-center justify-between gap-3">
-        <span className="grid h-11 w-11 place-items-center rounded-lg text-white" style={{ backgroundColor: step.tone }}>
+        <span className="grid h-11 w-11 place-items-center rounded-lg text-on-area" style={{ backgroundColor: step.tone }}>
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
         <span className="text-xs font-black uppercase text-muted">0{index + 1}</span>
@@ -372,7 +372,7 @@ function RouteStep({
       <h3 className="mt-4 text-lg font-black text-text">{step.title}</h3>
       <p className="mt-1 text-sm font-bold text-muted">{step.subtitle}</p>
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-white">
-        <div className="h-full rounded-full" style={{ width: `${step.progress}%`, backgroundColor: step.tone }} />
+        <div className="h-full rounded-full bg-grape" style={{ width: `${step.progress}%` }} />
       </div>
     </article>
   );
@@ -429,7 +429,7 @@ function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: nu
             {copy.simulator.title}
           </h2>
         </div>
-        <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-success/40 px-3 py-2 text-xs font-black uppercase text-[#276A55]">
+        <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-success px-3 py-2 text-xs font-black uppercase text-text">
           <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
           {copy.simulator.badge}
         </span>
@@ -527,7 +527,7 @@ function SliderControl({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         className="mt-3 h-2 w-full cursor-pointer"
-        style={{ accentColor: "#7668E8" }}
+        style={{ accentColor: "var(--cf-grape)" }}
       />
     </div>
   );
@@ -543,7 +543,7 @@ function ResultTile({
   value: string;
 }) {
   return (
-    <div className="rounded-lg border border-primary/10 bg-[#F3F5FF] p-4">
+    <div className="rounded-lg border border-primary/10 bg-background p-4">
       <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
       <p className="mt-3 text-xs font-black uppercase text-muted">{label}</p>
       <p className="mt-1 text-xl font-black text-text">{value}</p>
@@ -563,7 +563,7 @@ function SignalRow({
   tone: string;
 }) {
   return (
-    <div className="flex min-h-16 items-center justify-between gap-4 rounded-lg border border-primary/10 bg-[#F3F5FF] px-4 py-3">
+    <div className="flex min-h-16 items-center justify-between gap-4 rounded-lg border border-primary/10 bg-background px-4 py-3">
       <div className="flex items-center gap-3">
         <span className="h-3 w-3 rounded-full" style={{ backgroundColor: tone }} />
         <p className="font-black text-text">{label}</p>
@@ -608,16 +608,16 @@ function GrowthChart({
     } ${top + innerHeight} L ${points[0].x} ${top + innerHeight} Z`;
 
   return (
-    <div className="rounded-lg border border-primary/10 bg-[#F3F5FF] p-3">
+    <div className="rounded-lg border border-primary/10 bg-background p-3">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-1">
         <p className="text-sm font-black text-text">{labels.chartTitle}</p>
         <div className="flex flex-wrap items-center gap-3 text-xs font-black text-muted">
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-secondary" />
+            <span className="h-2.5 w-2.5 rounded-full bg-chart-highlight" />
             {labels.chartCash}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+            <span className="h-2.5 w-2.5 rounded-full bg-grape" />
             {labels.chartInvest}
           </span>
         </div>
@@ -631,20 +631,20 @@ function GrowthChart({
       >
         <defs>
           <linearGradient id="coachfi-cash-area" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#7DD3DC" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#7DD3DC" stopOpacity="0.04" />
+            <stop offset="0%" stopColor="var(--cf-chart-highlight)" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="var(--cf-chart-highlight)" stopOpacity="0.04" />
           </linearGradient>
           <linearGradient id="coachfi-invest-area" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#7668E8" stopOpacity="0.26" />
-            <stop offset="100%" stopColor="#7668E8" stopOpacity="0.04" />
+            <stop offset="0%" stopColor="var(--cf-chart-1)" stopOpacity="0.26" />
+            <stop offset="100%" stopColor="var(--cf-chart-1)" stopOpacity="0.04" />
           </linearGradient>
         </defs>
         {[0, 0.25, 0.5, 0.75, 1].map((tick) => {
           const y = top + innerHeight - tick * innerHeight;
           return (
             <g key={tick}>
-              <line x1={left} x2={width - right} y1={y} y2={y} stroke="#DCE2F8" strokeDasharray="5 6" />
-              <text x={8} y={y + 4} fill="#66758F" fontSize="12" fontWeight="800">
+              <line x1={left} x2={width - right} y1={y} y2={y} stroke="var(--cf-border-subtle)" strokeDasharray="5 6" />
+              <text x={8} y={y + 4} fill="var(--cf-text-muted)" fontSize="12" fontWeight="800">
                 {formatNumber((maxValue * tick) / 1000)}k
               </text>
             </g>
@@ -652,15 +652,15 @@ function GrowthChart({
         })}
         <path d={area(cashPoints)} fill="url(#coachfi-cash-area)" />
         <path d={area(investPoints)} fill="url(#coachfi-invest-area)" />
-        <polyline points={line(cashPoints)} fill="none" stroke="#7DD3DC" strokeWidth="4" strokeLinecap="round" />
-        <polyline points={line(investPoints)} fill="none" stroke="#7668E8" strokeWidth="4" strokeLinecap="round" />
+        <polyline points={line(cashPoints)} fill="none" stroke="var(--cf-chart-highlight)" strokeWidth="4" strokeLinecap="round" />
+        <polyline points={line(investPoints)} fill="none" stroke="var(--cf-chart-1)" strokeWidth="4" strokeLinecap="round" />
         {investPoints.map((point, index) => (
           <g key={`${point.year}-${point.value}`}>
-            <circle cx={point.x} cy={point.y} r="5" fill="#7668E8" stroke="#F3F5FF" strokeWidth="3" />
+            <circle cx={point.x} cy={point.y} r="5" fill="var(--cf-chart-1)" stroke="var(--cf-bg)" strokeWidth="3" />
             <text
               x={point.x}
               y={height - 14}
-              fill="#66758F"
+              fill="var(--cf-text-muted)"
               fontSize="12"
               fontWeight="800"
               textAnchor={index === 0 ? "start" : index === investPoints.length - 1 ? "end" : "middle"}
@@ -688,9 +688,9 @@ function LessonCard({
   return (
     <Link
       href="/learn"
-      className="flex min-h-20 items-center gap-4 rounded-lg border border-primary/10 bg-[#F3F5FF] p-4 transition hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="flex min-h-20 items-center gap-4 rounded-lg border border-primary/10 bg-background p-4 transition hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
-      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary text-white">
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary text-on-primary">
         <Icon className="h-5 w-5" aria-hidden="true" />
       </span>
       <span className="min-w-0 flex-1">

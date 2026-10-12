@@ -153,13 +153,13 @@ export default function AvatarPage() {
                 className="relative grid h-24 w-24 place-items-center rounded-2xl shadow-glow"
                 style={{
                   background: style === "warrior"
-                    ? "linear-gradient(135deg,#6C47FF,#4338CA)"
+                    ? "var(--cf-area-mila)"
                     : style === "explorer"
-                    ? "linear-gradient(135deg,#10B981,#059669)"
-                    : "linear-gradient(135deg,#F59E0B,#D97706)",
+                    ? "var(--cf-area-progress)"
+                    : "var(--cf-area-rewards)",
                 }}
               >
-                <User className="h-12 w-12 text-white/90" aria-hidden="true" />
+                <User className="h-12 w-12 text-text" aria-hidden="true" />
                 <span className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white text-base shadow-sm">
                   {gender === "female" ? "👩" : "👨"}
                 </span>
@@ -231,7 +231,7 @@ export default function AvatarPage() {
                 >
                   <span className="text-sm font-black text-text">{item.label}</span>
                   {gender === item.id && (
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-on-primary">
                       <Check className="h-3 w-3" />
                     </span>
                   )}
@@ -269,7 +269,7 @@ export default function AvatarPage() {
                       <p className="text-xs font-semibold text-muted">{styleText.desc}</p>
                     </div>
                     {style === avatarStyle.id && (
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
                         <Check className="h-3.5 w-3.5" />
                       </span>
                     )}
@@ -309,7 +309,7 @@ export default function AvatarPage() {
                   <span className="text-sm font-black text-text">{voice.name}</span>
                   <span className="text-[10px] font-semibold text-muted">{voice.accent}</span>
                   {voiceId === voice.id && (
-                    <span className="mt-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-white">
+                    <span className="mt-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-on-primary">
                       <Check className="h-2.5 w-2.5" />
                     </span>
                   )}
