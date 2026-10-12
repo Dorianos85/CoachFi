@@ -116,11 +116,11 @@ Never: recommend specific stocks, promise returns, teach trading or speculation.
 
 - **Health Check**: Financial score based on income, expenses, savings, debt, emergency fund.
 - **Learning Path**: 8 stages from money mindset to family financial plan.
-- **Quiz**: Earn Coach FI Tokens for correct answers.
+- **Quiz**: Earn Coach FI Points for correct answers.
 - **Yield Vault**: DeFi yield simulation powered by Kamino Finance APY data.
-- **NFT Certificates**: Mint proof-of-knowledge on Solana Devnet.
-- **Daily Challenge**: One question per day for double tokens.
-- **Leaderboard**: Weekly global ranking by tokens and streak.
+- **Certificates**: Mint proof-of-knowledge on Solana Devnet.
+- **Daily Challenge**: One question per day for double points.
+- **Leaderboard**: Weekly global ranking by points and streak.
 
 ---
 

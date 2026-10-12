@@ -1,6 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
 export function NFTCertificateCard({
@@ -13,6 +14,7 @@ export function NFTCertificateCard({
   dateIssued,
   onMint,
   txHash,
+  assetAddress,
 }: {
   title: string;
   status: string;
@@ -23,9 +25,16 @@ export function NFTCertificateCard({
   dateIssued?: string;
   onMint?: () => void;
   txHash?: string;
+  assetAddress?: string;
 }) {
+  const { t } = useLanguage();
   const isMinted = statusVariant === "success" || status.toLowerCase() === "minted";
   const isReady = statusVariant === "accent" || status.toLowerCase() === "ready";
+  const explorerUrl = txHash
+    ? `https://explorer.solana.com/tx/${txHash}?cluster=devnet`
+    : assetAddress
+      ? `https://explorer.solana.com/address/${assetAddress}?cluster=devnet`
+      : "";
 
   return (
     <div className={cn(
@@ -115,9 +124,9 @@ export function NFTCertificateCard({
             )}
           </div>
 
-          {txHash && (
+          {explorerUrl && (
             <a
-              href={`https://explorer.solana.com/tx/${txHash}?cluster=devnet`}
+              href={explorerUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[10px] font-bold text-[#9945FF] hover:underline"
@@ -132,7 +141,7 @@ export function NFTCertificateCard({
               onClick={onMint}
               className="rounded-lg bg-gradient-to-r from-[#9945FF] to-[#14F195] px-3 py-1.5 text-xs font-black text-white shadow-sm transition hover:opacity-90"
             >
-              Mint NFT
+              {t.rewards.mint}
             </button>
           )}
         </div>

@@ -47,7 +47,7 @@ export function scheduleStreakReminder(currentStreak: number) {
 export function scheduleQuizReminder() {
   if (getPermission() !== "granted") return;
   const messages = [
-    { title: "New quiz ready 🎯", body: "Test your knowledge — earn 25 Coach FI Tokens." },
+    { title: "New quiz ready 🎯", body: "Test your knowledge — earn 25 Coach FI Points." },
     { title: "Mila has a question for you 🐷", body: "A 2-minute quiz is waiting. Don't let your score drop." },
     { title: "Your streak needs you 🔥", body: "One question. Two minutes. Keep the streak alive." },
   ];

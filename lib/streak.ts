@@ -1,3 +1,6 @@
+import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
+
 const STREAK_KEY = "coachfi-streak";
 
 export interface StreakData {
@@ -15,7 +18,9 @@ function yesterday(): string {
 }
 
 export function getStreak(): StreakData {
-  if (typeof window === "undefined") return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+  if (typeof window === "undefined" || !isProgressVisible()) {
+    return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+  }
   try {
     const stored = localStorage.getItem(STREAK_KEY);
     if (!stored) return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
@@ -37,6 +42,7 @@ export function markActiveToday(): StreakData {
     longestStreak: Math.max(newStreak, data.longestStreak),
   };
   localStorage.setItem(STREAK_KEY, JSON.stringify(next));
+  persistLearningState("streak");
   return next;
 }
 

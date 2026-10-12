@@ -4,12 +4,15 @@ const require = createRequire(import.meta.url);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // The SDK lazily imports optional @x402 payment packages. Webpack still
+  // tries to resolve those, and this app does not sign x402 payments.
+  serverExternalPackages: ["@coinbase/cdp-sdk"],
   async headers() {
     const securityHeaders = [
       {
         key: "Content-Security-Policy",
         value:
-          "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.devnet.solana.com wss://api.devnet.solana.com https://api.elevenlabs.io wss://api.elevenlabs.io https://api.us.elevenlabs.io wss://api.us.elevenlabs.io https://api.eu.residency.elevenlabs.io wss://api.eu.residency.elevenlabs.io https://api.in.residency.elevenlabs.io wss://api.in.residency.elevenlabs.io; media-src 'self' blob: https://api.elevenlabs.io https://api.us.elevenlabs.io https://api.eu.residency.elevenlabs.io https://api.in.residency.elevenlabs.io; frame-src 'self' https://elevenlabs.io https://*.elevenlabs.io; worker-src 'self' blob: https://cdn.jsdelivr.net; manifest-src 'self';",
+          "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.devnet.solana.com wss://api.devnet.solana.com https://api.elevenlabs.io wss://api.elevenlabs.io https://api.us.elevenlabs.io wss://api.us.elevenlabs.io https://api.eu.residency.elevenlabs.io wss://api.eu.residency.elevenlabs.io https://api.in.residency.elevenlabs.io wss://api.in.residency.elevenlabs.io https://api.cdp.coinbase.com https://cca-lite.coinbase.com; media-src 'self' blob: https://api.elevenlabs.io https://api.us.elevenlabs.io https://api.eu.residency.elevenlabs.io https://api.in.residency.elevenlabs.io; frame-src 'self' https://elevenlabs.io https://*.elevenlabs.io https://secure-wallet.cdp.coinbase.com https://challenges.cloudflare.com; worker-src 'self' blob: https://cdn.jsdelivr.net; manifest-src 'self';",
       },
       { key: "X-Content-Type-Options", value: "nosniff" },
       { key: "X-Frame-Options", value: "DENY" },

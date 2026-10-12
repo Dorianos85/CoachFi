@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Financial Quiz — Coach FI",
-  description: "Test your financial knowledge, earn tokens and challenge friends. One question away from becoming a money master.",
+  description: "Test your financial knowledge, earn points and challenge friends. One question away from becoming a money master.",
   openGraph: {
     title: "🧠 Can you beat me on this financial quiz?",
-    description: "I scored on Coach FI's quiz! Take the challenge — answer 4 questions correctly and earn tokens.",
+    description: "I scored on Coach FI's quiz! Take the challenge — answer 4 questions correctly and earn points.",
     type: "website",
     siteName: "Coach FI",
   },

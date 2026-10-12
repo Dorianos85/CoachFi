@@ -127,7 +127,7 @@ export const storyCards: StoryCard[] = [
     category: "Web3",
     emoji: "⛓️",
     bigStat: "<$0.001",
-    statLabel: "cost per NFT certificate on Solana — nearly free",
+    statLabel: "cost per certificate on Solana — nearly free",
     headline: "Blockchain credentials are becoming the new standard. Universities & employers are already adopting them.",
     tip: "Your Coach FI certificate on Solana is yours forever — no institution can revoke it.",
     source: "Solana Ecosystem Report Feb 2026",
@@ -272,7 +272,7 @@ const localizedStoryCardText: Record<
     },
     {
       category: "Web3",
-      statLabel: "koszt certyfikatu NFT na Solanie, prawie za darmo",
+      statLabel: "koszt certyfikatu na Solanie, prawie za darmo",
       headline: "Cyfrowe poświadczenia stają się standardem. Uczelnie i pracodawcy już je wdrażają.",
       tip: "Certyfikat Coach FI na Solanie należy do Ciebie na zawsze. Instytucja nie może go cofnąć.",
     },
@@ -334,7 +334,7 @@ const localizedStoryCardText: Record<
     },
     {
       category: "Web3",
-      statLabel: "Solana上のNFT証明書1件あたりのコスト",
+      statLabel: "Solana上の証明書1件あたりのコスト",
       headline: "ブロックチェーン証明書は新しい標準になりつつあります。大学や雇用主も導入しています。",
       tip: "Solana上のCoach FI証明書はあなたのものです。機関が取り消すことはできません。",
     },

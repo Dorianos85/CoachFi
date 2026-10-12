@@ -37,7 +37,7 @@ export const es: Translations = {
     modeAccessibility: "Modo accesibilidad",
     modeAccessibilityDesc: "Texto grande, alto contraste y comandos de voz.",
     statsUsers: "Estudiantes activos",
-    statsCertificates: "Certificados NFT acuñados",
+    statsCertificates: "Certificados acuñados",
     statsScore: "Puntuación financiera media",
     featuredTitle: "Lo que aprenderás",
     featuredItems: [
@@ -109,7 +109,7 @@ export const es: Translations = {
     eyebrow: "Ruta de aprendizaje",
     title: "8 etapas hacia la confianza financiera.",
     description:
-      "De mentalidad a plan familiar — completa etapas, gana tokens y acuña tu prueba de conocimiento como NFT.",
+      "De mentalidad a plan familiar — completa etapas, gana puntos y acuña tu prueba de conocimiento como certificado.",
     readText:
       "Ruta de aprendizaje. 8 etapas desde Mentalidad financiera hasta Plan familiar.",
     stageLabel: "Etapa",
@@ -118,7 +118,7 @@ export const es: Translations = {
     statusCurrent: "Etapa actual",
     statusLocked: "Bloqueado",
     reward: "Recompensa",
-    nftStatus: "NFT",
+    nftStatus: "Certificado",
     startLesson: "Comenzar lección",
     continueLesson: "Continuar",
   },
@@ -138,11 +138,11 @@ export const es: Translations = {
 
   quiz: {
     eyebrow: "Pon a prueba tus conocimientos",
-    title: "Quiz — gana tokens.",
+    title: "Quiz — gana puntos.",
     description:
-      "Responde correctamente 4 preguntas y gana Coach FI Tokens. Cada respuesta correcta te acerca a tu certificado NFT.",
+      "Responde correctamente 4 preguntas y gana Puntos Coach FI. Cada respuesta correcta te acerca a tu certificado.",
     readText:
-      "Quiz financiero. Responde 4 preguntas para ganar tokens.",
+      "Quiz financiero. Responde 4 preguntas para ganar puntos.",
     progress: "Pregunta {current} de {total}",
     progressPct: "{pct}% completado",
     submit: "Enviar respuesta",
@@ -153,12 +153,12 @@ export const es: Translations = {
   },
 
   rewards: {
-    eyebrow: "Tokens y NFTs",
+    eyebrow: "Puntos y certificados",
     title: "Tu prueba de conocimiento.",
     description:
-      "Cada lección completada y quiz superado gana Coach FI Tokens. Acuña tu certificado NFT en Solana Devnet.",
-    readText: "Recompensas. Tus tokens ganados y certificados NFT.",
-    tokens: "Coach FI Tokens",
+      "Cada lección completada y quiz superado gana Puntos Coach FI. Acuña tu certificado en Solana Devnet.",
+    readText: "Recompensas. Tus puntos ganados y certificados.",
+    tokens: "Puntos Coach FI",
     mint: "Acuñar certificado",
     minting: "Acuñando...",
     minted: "¡Acuñado!",
@@ -275,14 +275,14 @@ export const es: Translations = {
   challenge: {
     eyebrow: "Reto diario",
     title: "Pregunta de hoy",
-    description: "Una pregunta al día. Tokens dobles. Mantén la racha.",
-    readText: "Reto diario. Responde la pregunta y gana tokens dobles.",
+    description: "Una pregunta al día. Puntos dobles. Mantén la racha.",
+    readText: "Reto diario. Responde la pregunta y gana puntos dobles.",
     timerLabel: "Próximo reto en",
     completedTitle: "¡Reto completado!",
     completedDesc: "Vuelve mañana para una nueva pregunta. Tu racha está a salvo.",
     reward: "Recompensa doble",
-    rewardValue: "+50 tokens",
-    correctBanner: "¡Correcto! Ganaste 50 tokens 🎉",
+    rewardValue: "+50 puntos",
+    correctBanner: "¡Correcto! Ganaste 50 puntos 🎉",
     wrongBanner: "Esta vez no — lee la explicación e inténtalo mañana.",
     explanation: "Explicación",
     answerButton: "Confirmar respuesta",
@@ -324,7 +324,7 @@ export const es: Translations = {
     close: "Cerrar",
     learnMore: "Saber más",
     seeAll: "Ver todo",
-    tokenUnit: "tokens",
+    tokenUnit: "puntos",
   },
 
   voiceAgent: {

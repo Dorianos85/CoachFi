@@ -3,8 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { WalletName } from "@solana/wallet-adapter-base";
+import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut, useSolanaAddress } from "@coinbase/cdp-hooks";
 import { BadgeCheck, ExternalLink, Loader2, Lock, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { NFTCertificateCard } from "@/components/NFTCertificateCard";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -21,13 +22,27 @@ import {
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/context/LanguageContext";
 import { certificates } from "@/data/certificates";
+import {
+  CERTIFICATE_STAGE_IDS,
+  certificateCardLabel,
+  type CertificateCardId,
+} from "@/lib/certificate-cards";
 import type { Locale } from "@/lib/i18n";
+import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
+import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
+import { hideSavedProgress } from "@/lib/progress-visibility";
+import { requestSignIn } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
 type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
+
+const phantomWalletEnabled = false;
+const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
+const devMintRecipient = process.env.NEXT_PUBLIC_DEV_MINT_RECIPIENT?.trim() ?? "";
+const mintImmediately = process.env.NODE_ENV === "development";
 
 const rewardsCopy: Record<
   Locale,
@@ -35,6 +50,9 @@ const rewardsCopy: Record<
     readText: (tokens: number) => string;
     walletTitle: string;
     walletHelp: string;
+    embeddedHelp: string;
+    embeddedLogin: string;
+    embeddedLogout: string;
     mintDescription: string;
     consentRequired: string;
     certificateVoiceLabel: string;
@@ -45,29 +63,31 @@ const rewardsCopy: Record<
     explorer: string;
     dialogFootnote: string;
     mintSteps: Record<MintStep, string>;
+    statusLabels: Record<"minted" | "ready" | "locked" | "transferred", string>;
     certificates: Array<{
       title: string;
-      status: string;
       description: string;
-      statusVariant: "success" | "accent" | "muted";
     }>;
   }
 > = {
   pl: {
-    readText: (tokens) => `Nagrody. Masz ${tokens} tokenów Coach FI. Certyfikaty NFT pokazują postęp w edukacji finansowej.`,
+    readText: (tokens) => `Nagrody. Masz ${tokens} punktów Coach FI. Certyfikaty pokazują postęp w edukacji finansowej.`,
     walletTitle: "Portfel Solana Devnet",
     walletHelp: "Połącz portfel, aby przypisać certyfikat do swojego adresu na Devnet.",
+    embeddedHelp: "Ten adres jest właścicielem certyfikatu na Devnet.",
+    embeddedLogin: "Zaloguj się",
+    embeddedLogout: "Wyloguj",
     mintDescription: 'Zmintuj certyfikat "Saving Habit" na Solana Devnet jako dowód postępu.',
     consentRequired:
       "Zgoda blockchain jest wymagana, ponieważ adres portfela i metadane certyfikatu mogą być publiczne.",
     certificateVoiceLabel: "Odtwórz wiadomość certyfikatu",
     proofNote:
-      "Certyfikaty NFT są dowodem edukacji, a nie produktem inwestycyjnym. Nie są przeznaczone do odsprzedaży z zyskiem i oznaczają tylko osobisty etap nauki.",
+      "Certyfikaty są dowodem edukacji, a nie produktem inwestycyjnym. Nie są przeznaczone do odsprzedaży z zyskiem i oznaczają tylko osobisty etap nauki.",
     dialogTitle: "Certyfikat zmintowany na Solana Devnet",
-    dialogDescription: 'Twój certyfikat NFT "Saving Habit" został zapisany on-chain.',
+    dialogDescription: 'Twój certyfikat "Saving Habit" został zapisany on-chain.',
     transactionHash: "Hash transakcji",
     explorer: "Zobacz w Solana Explorer (Devnet)",
-    dialogFootnote: "Ten NFT oznacza postęp w edukacji finansowej, nie produkt inwestycyjny.",
+    dialogFootnote: "Ten certyfikat oznacza postęp w edukacji finansowej, nie produkt inwestycyjny.",
     mintSteps: {
       idle: "",
       preparing: "Przygotowywanie metadanych...",
@@ -75,42 +95,45 @@ const rewardsCopy: Record<
       confirming: "Potwierdzanie na Devnet...",
       done: "Certyfikat zmintowany!",
     },
+    statusLabels: {
+      minted: "Zmintowany",
+      ready: "Gotowy",
+      locked: "Zablokowany",
+      transferred: "Przekazany",
+    },
     certificates: [
       {
-        title: "Money Mindset NFT",
-        status: "Zmintowany",
+        title: "Certyfikat Money Mindset",
         description: "Dowód ukończenia pierwszej lekcji o nastawieniu do pieniędzy.",
-        statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
-        status: "Gotowy",
+        title: "Certyfikat Saving Habit",
         description: "Odblokowuje się po quizie o nawyku oszczędzania i 3-dniowej serii.",
-        statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
-        status: "Zablokowany",
+        title: "Certyfikat Inflation Fighter",
         description: "Zdobywany po ukończeniu kalkulatora inflacji i quizu.",
-        statusVariant: "muted",
       },
     ],
   },
   en: {
-    readText: (tokens) => `Rewards. You have ${tokens} Coach FI Tokens. NFT certificates are proof of financial education progress.`,
+    readText: (tokens) => `Rewards. You have ${tokens} Coach FI Points. Certificates are proof of financial education progress.`,
     walletTitle: "Solana Devnet wallet",
     walletHelp: "Connect a wallet to associate your certificate with your address on Devnet.",
+    embeddedHelp: "This address owns your certificate on Devnet.",
+    embeddedLogin: "Sign in",
+    embeddedLogout: "Log out",
     mintDescription: 'Mint your "Saving Habit" certificate on Solana Devnet as proof of progress.',
     consentRequired:
       "Blockchain consent is required because wallet address and certificate metadata can become public.",
     certificateVoiceLabel: "Play certificate message",
     proofNote:
-      "NFT certificates are proof of education, not investment products. They cannot be resold for profit and represent only your personal learning milestone.",
+      "Certificates are proof of education, not investment products. They cannot be resold for profit and represent only your personal learning milestone.",
     dialogTitle: "Certificate minted on Solana Devnet",
-    dialogDescription: 'Your "Saving Habit" NFT certificate has been recorded on-chain.',
+    dialogDescription: 'Your "Saving Habit" certificate has been recorded on-chain.',
     transactionHash: "Transaction hash",
     explorer: "View on Solana Explorer (Devnet)",
-    dialogFootnote: "This NFT represents your financial education progress, not an investment product.",
+    dialogFootnote: "This certificate represents your financial education progress, not an investment product.",
     mintSteps: {
       idle: "",
       preparing: "Preparing metadata...",
@@ -118,41 +141,44 @@ const rewardsCopy: Record<
       confirming: "Confirming on Devnet...",
       done: "Certificate minted!",
     },
+    statusLabels: {
+      minted: "Minted",
+      ready: "Ready",
+      locked: "Locked",
+      transferred: "Transferred",
+    },
     certificates: [
       {
-        title: "Money Mindset NFT",
-        status: "Minted",
+        title: "Money Mindset certificate",
         description: "Proof that you completed the first mindset lesson.",
-        statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
-        status: "Ready",
+        title: "Saving Habit certificate",
         description: "Unlocks after the saving habit quiz and 3-day streak.",
-        statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
-        status: "Locked",
+        title: "Inflation Fighter certificate",
         description: "Earned after completing the inflation calculator and quiz.",
-        statusVariant: "muted",
       },
     ],
   },
   ja: {
-    readText: (tokens) => `報酬。Coach FIトークンは${tokens}です。NFT証明書は金融教育の進捗を示します。`,
+    readText: (tokens) => `報酬。Coach FIポイントは${tokens}です。証明書は金融教育の進捗を示します。`,
     walletTitle: "Solana Devnetウォレット",
     walletHelp: "ウォレットを接続して、証明書をDevnet上のアドレスに関連付けます。",
+    embeddedHelp: "このアドレスがDevnet上の証明書の所有者です。",
+    embeddedLogin: "ログイン",
+    embeddedLogout: "ログアウト",
     mintDescription: '進捗の証明として、Solana Devnetで「Saving Habit」証明書をミントします。',
     consentRequired: "ウォレットアドレスと証明書メタデータが公開される可能性があるため、ブロックチェーン同意が必要です。",
     certificateVoiceLabel: "証明書メッセージを再生",
     proofNote:
-      "NFT証明書は教育の証明であり、投資商品ではありません。利益目的で再販売するものではなく、個人の学習マイルストーンを表します。",
+      "証明書は教育の証明であり、投資商品ではありません。利益目的で再販売するものではなく、個人の学習マイルストーンを表します。",
     dialogTitle: "Solana Devnetで証明書をミントしました",
-    dialogDescription: "あなたの「Saving Habit」NFT証明書がオンチェーンに記録されました。",
+    dialogDescription: "あなたの「Saving Habit」証明書がオンチェーンに記録されました。",
     transactionHash: "トランザクションハッシュ",
     explorer: "Solana Explorerで表示 (Devnet)",
-    dialogFootnote: "このNFTは金融教育の進捗を表し、投資商品ではありません。",
+    dialogFootnote: "この証明書は金融教育の進捗を表し、投資商品ではありません。",
     mintSteps: {
       idle: "",
       preparing: "メタデータを準備中...",
@@ -160,24 +186,24 @@ const rewardsCopy: Record<
       confirming: "Devnetで確認中...",
       done: "証明書をミントしました!",
     },
+    statusLabels: {
+      minted: "ミント済み",
+      ready: "準備完了",
+      locked: "ロック中",
+      transferred: "譲渡済み",
+    },
     certificates: [
       {
-        title: "Money Mindset NFT",
-        status: "ミント済み",
+        title: "Money Mindset 証明書",
         description: "最初のお金のマインドセットレッスンを完了した証明です。",
-        statusVariant: "success",
       },
       {
-        title: "Saving Habit NFT",
-        status: "準備完了",
+        title: "Saving Habit 証明書",
         description: "貯蓄習慣クイズと3日連続達成後に解除されます。",
-        statusVariant: "accent",
       },
       {
-        title: "Inflation Fighter NFT",
-        status: "ロック中",
+        title: "Inflation Fighter 証明書",
         description: "インフレ計算機とクイズを完了すると獲得できます。",
-        statusVariant: "muted",
       },
     ],
   },
@@ -191,14 +217,49 @@ export default function RewardsPage() {
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const certificateVoiceText = voiceDemoScripts[voiceLocale].certificateUnlock;
   const { connected, connecting, publicKey, select, connect, disconnect, wallets } = useWallet();
+  const [embeddedAddress, setEmbeddedAddress] = useState<string | null>(null);
   const [mintStep, setMintStep] = useState<MintStep>("idle");
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
   const [mockTxHash, setMockTxHash] = useState("");
-  const [tokenBalance] = useState(() => getTokenBalance());
-  const localizedCertificates = certificates.map((certificate, index) => ({
-    ...certificate,
-    ...(copy.certificates[index] ?? {}),
-  }));
+  const [mintError, setMintError] = useState("");
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [stageProgress, setStageProgress] = useState<StageProgress[]>([]);
+  const [savedCertificates, setSavedCertificates] = useState<SavedCertificate[]>([]);
+  const accessToken = useRef<(() => Promise<string | null>) | null>(null);
+  const localizedCertificates = certificates.map((certificate, index) => {
+    const text = copy.certificates[index];
+    const stageId = CERTIFICATE_STAGE_IDS[certificate.id];
+    const stage = stageProgress.find((item) => item.stageId === stageId);
+    const row = savedCertificates.find((item) => item.certificateId === certificate.id) ?? null;
+    const label = certificateCardLabel(
+      stage?.status === "completed",
+      row?.status ?? null,
+      certificate.id === "saving-habit",
+    );
+    return {
+      ...certificate,
+      title: text?.title ?? certificate.title,
+      description: text?.description ?? certificate.description,
+      status: copy.statusLabels[label],
+      statusVariant: label === "minted" ? "success" as const : label === "ready" ? "accent" as const : "muted" as const,
+      txHash: row?.txHash || undefined,
+      assetAddress: row?.assetAddress,
+    };
+  });
+
+  useEffect(() => {
+    const refresh = () => {
+      setTokenBalance(getTokenBalance());
+      setStageProgress(getAllStageProgress());
+    };
+    refresh();
+    window.addEventListener("coachfi-tokens", refresh);
+    window.addEventListener("coachfi-learning", refresh);
+    return () => {
+      window.removeEventListener("coachfi-tokens", refresh);
+      window.removeEventListener("coachfi-learning", refresh);
+    };
+  }, []);
 
   async function handleMintCertificate() {
     if (!hasOptionalConsent("blockchain")) {
@@ -206,11 +267,18 @@ export default function RewardsPage() {
       return;
     }
 
-    setMintStep("preparing");
-    await wait(400);
-    setMintStep("signing");
+    setMintError("");
+    setMintStep(mintImmediately ? "confirming" : "preparing");
+    if (!mintImmediately) {
+      await wait(400);
+      setMintStep("signing");
+    }
 
-    if (connected && publicKey) {
+    const phantomAddress =
+      phantomWalletEnabled && connected && publicKey ? publicKey.toBase58() : null;
+    const ownerAddress = phantomAddress ?? embeddedAddress ?? (mintImmediately ? devMintRecipient : "");
+
+    if (ownerAddress) {
       // Attempt real on-chain mint via API
       try {
         setMintStep("confirming");
@@ -222,30 +290,52 @@ export default function RewardsPage() {
             "X-CoachFI-Consent": "blockchain",
           },
           body: JSON.stringify({
-            recipientAddress: publicKey.toBase58(),
+            recipientAddress: ownerAddress,
             certificateName: "Saving Habit",
             userName,
             score: 42,
           }),
         });
         const json = (await res.json()) as {
-          ok: boolean; txHash?: string; explorerUrl?: string; fallback?: boolean;
+          ok: boolean; txHash?: string; assetAddress?: string; explorerUrl?: string; fallback?: boolean; error?: string;
         };
 
         if (json.ok && json.txHash) {
           setMockTxHash(json.txHash);
           setMintStep("done");
           setMintDialogOpen(true);
+          const token = await accessToken.current?.();
+          if (token) {
+            const saved = await syncCertificates(token, {
+              certificateId: "saving-habit",
+              assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
+              txHash: json.txHash,
+            });
+            if (saved) setSavedCertificates(saved);
+          }
+          return;
+        }
+        if (mintImmediately) {
+          setMintStep("idle");
+          setMintError(json.error || "Mint failed");
           return;
         }
         // Server returned fallback — fall through to mock
-      } catch { /* network error — fall through */ }
+      } catch {
+        if (mintImmediately) {
+          setMintStep("idle");
+          setMintError("Mint request failed");
+          return;
+        }
+      }
     }
 
     // Fallback: simulated mint (no wallet or API not configured)
-    await wait(800);
-    setMintStep("confirming");
-    await wait(1000);
+    if (!mintImmediately) {
+      await wait(800);
+      setMintStep("confirming");
+      await wait(1000);
+    }
     const hash = createMockTransactionHash();
     setMockTxHash(hash);
     setMintStep("done");
@@ -268,28 +358,46 @@ export default function RewardsPage() {
         <div className="grid gap-4">
           <TokenRewardCard balance={tokenBalance} status={t.rewards.tokens} />
 
-          {/* Wallet */}
-          <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
-            <p className="mb-3 text-sm font-bold text-muted">{copy.walletTitle}</p>
-            <PhantomConnectButton
-              connected={connected}
-              connecting={connecting}
-              publicKey={publicKey?.toBase58()}
-              onConnect={async () => {
-                const phantom = wallets.find((w) => w.adapter.name === "Phantom");
-                if (!phantom) {
-                  window.open("https://phantom.com/download", "_blank");
-                  return;
-                }
-                select("Phantom" as WalletName);
-                try { await connect(); } catch { /* user rejected */ }
-              }}
-              onDisconnect={disconnect}
-            />
-            {!connected && (
-              <p className="mt-2 text-xs font-semibold text-muted">{copy.walletHelp}</p>
-            )}
-          </div>
+          {(phantomWalletEnabled || cdpProjectId) && (
+            <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
+              <p className="mb-3 text-sm font-bold text-muted">{copy.walletTitle}</p>
+              {phantomWalletEnabled && (
+                <>
+                  <PhantomConnectButton
+                    connected={connected}
+                    connecting={connecting}
+                    publicKey={publicKey?.toBase58()}
+                    onConnect={async () => {
+                      const phantom = wallets.find((w) => w.adapter.name === "Phantom");
+                      if (!phantom) {
+                        window.open("https://phantom.com/download", "_blank");
+                        return;
+                      }
+                      select("Phantom" as WalletName);
+                      try { await connect(); } catch { /* user rejected */ }
+                    }}
+                    onDisconnect={disconnect}
+                  />
+                  {!connected && (
+                    <p className="mt-2 text-xs font-semibold text-muted">{copy.walletHelp}</p>
+                  )}
+                </>
+              )}
+              {cdpProjectId && (
+                <SavedCertificateLoader onCertificates={setSavedCertificates} accessToken={accessToken} />
+              )}
+              {cdpProjectId && (
+                <EmbeddedWalletCard
+                  help={copy.embeddedHelp}
+                  loginLabel={copy.embeddedLogin}
+                  logoutLabel={copy.embeddedLogout}
+                  hasConsent={hasOptionalConsent("blockchain")}
+                  onNeedConsent={openSettings}
+                  onAddress={setEmbeddedAddress}
+                />
+              )}
+            </div>
+          )}
 
           {/* Mint button with step display */}
           <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
@@ -298,6 +406,11 @@ export default function RewardsPage() {
             {!hasOptionalConsent("blockchain") && (
               <p className="mt-3 rounded-lg bg-primary/5 p-3 text-xs font-semibold leading-5 text-muted">
                 {copy.consentRequired}
+              </p>
+            )}
+            {mintError && (
+              <p className="mt-3 rounded-lg bg-destructive/10 p-3 text-xs font-semibold leading-5 text-text" role="alert">
+                {mintError}
               </p>
             )}
 
@@ -438,6 +551,178 @@ export default function RewardsPage() {
         </DialogContent>
       </Dialog>
     </section>
+  );
+}
+
+type SavedCertificate = {
+  certificateId: CertificateCardId;
+  status: "owned" | "transferred";
+  assetAddress: string;
+  txHash: string | null;
+};
+
+function readSavedCertificate(value: unknown): SavedCertificate | null {
+  if (!value || typeof value !== "object") return null;
+  const row = value as Partial<SavedCertificate>;
+  if (
+    (row.certificateId !== "money-mindset" && row.certificateId !== "saving-habit" && row.certificateId !== "inflation-fighter") ||
+    (row.status !== "owned" && row.status !== "transferred") ||
+    typeof row.assetAddress !== "string" ||
+    !row.assetAddress
+  ) {
+    return null;
+  }
+  return {
+    certificateId: row.certificateId,
+    status: row.status,
+    assetAddress: row.assetAddress,
+    txHash: typeof row.txHash === "string" && row.txHash ? row.txHash : null,
+  };
+}
+
+function SavedCertificateLoader({
+  onCertificates,
+  accessToken,
+}: {
+  onCertificates: (rows: SavedCertificate[]) => void;
+  accessToken: { current: (() => Promise<string | null>) | null };
+}) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { getAccessToken } = useGetAccessToken();
+
+  useEffect(() => {
+    accessToken.current = getAccessToken;
+  });
+
+  useEffect(() => {
+    if (!isInitialized) return;
+    if (!isSignedIn) {
+      onCertificates([]);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const token = await accessToken.current?.();
+      if (!token || cancelled) return;
+      const saved = await syncCertificates(token);
+      if (!cancelled && saved) onCertificates(saved);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [isInitialized, isSignedIn, onCertificates]);
+
+  return null;
+}
+
+async function syncCertificates(
+  token: string,
+  hint?: { certificateId?: string; assetAddress?: string; txHash?: string },
+) {
+  try {
+    const response = await fetch("/api/certificates", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...(hint?.certificateId ? { certificateId: hint.certificateId } : {}),
+        ...(hint?.assetAddress ? { assetAddress: hint.assetAddress } : {}),
+        ...(hint?.txHash ? { txHash: hint.txHash } : {}),
+      }),
+    });
+    const json = (await response.json()) as { ok?: boolean; certificates?: unknown; error?: string };
+    if (!response.ok || json.ok === false || !Array.isArray(json.certificates)) {
+      console.error("[certificates]", json.error || "Certificate sync failed");
+      return null;
+    }
+    return json.certificates.map(readSavedCertificate).filter((row) => row !== null);
+  } catch (error) {
+    console.error("[certificates]", error instanceof Error ? error.message : error);
+    return null;
+  }
+}
+
+function EmbeddedWalletCard({
+  help,
+  loginLabel,
+  logoutLabel,
+  hasConsent,
+  onNeedConsent,
+  onAddress,
+}: {
+  help: string;
+  loginLabel: string;
+  logoutLabel: string;
+  hasConsent: boolean;
+  onNeedConsent: () => void;
+  onAddress: (address: string | null) => void;
+}) {
+  const { isInitialized } = useIsInitialized();
+  const { isSignedIn } = useIsSignedIn();
+  const { solanaAddress } = useSolanaAddress();
+  const { signOut } = useSignOut();
+  const { getAccessToken } = useGetAccessToken();
+  const address = isSignedIn ? solanaAddress : null;
+
+  useEffect(() => {
+    onAddress(address);
+  }, [address, onAddress]);
+
+  if (isSignedIn && !address) {
+    return (
+      <div className="flex items-center justify-center gap-2 rounded-lg border border-primary/15 px-4 py-3 text-sm font-bold text-muted">
+        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+      </div>
+    );
+  }
+
+  if (isSignedIn && address) {
+    return (
+      <div className="grid gap-2">
+        <div className="flex items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-success/30 bg-success/10 px-3 py-2.5">
+            <span className="h-2 w-2 shrink-0 rounded-full bg-success" />
+            <span className="truncate font-mono text-xs font-bold text-text">
+              {address.slice(0, 14)}…{address.slice(-6)}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              hideSavedProgress();
+              void clearSignedInName(getAccessToken)
+                .then(() => endLearningSession())
+                .finally(() => signOut());
+            }}
+            className="shrink-0 rounded-lg border border-primary/20 px-3 py-2.5 text-xs font-bold text-muted transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            {logoutLabel}
+          </button>
+        </div>
+        <p className="text-xs font-semibold text-muted">{help}</p>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      disabled={!isInitialized}
+      onClick={() => {
+        if (!hasConsent) {
+          onNeedConsent();
+          return;
+        }
+        requestSignIn();
+      }}
+      className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-primary px-4 py-3 text-sm font-black text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+    >
+      {!isInitialized && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+      {loginLabel}
+    </button>
   );
 }
 

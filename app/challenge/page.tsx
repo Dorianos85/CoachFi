@@ -228,7 +228,7 @@ export default function ChallengePage() {
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 rounded-2xl bg-primary/5 px-5 py-4 text-center"
           >
-            <p className="text-sm font-bold text-muted">Zdobyte tokeny tej sesji</p>
+            <p className="text-sm font-bold text-muted">Zdobyte punkty tej sesji</p>
             <p className="text-3xl font-black text-primary">+{tokenBalance}</p>
           </motion.div>
         )}

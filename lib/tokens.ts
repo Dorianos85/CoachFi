@@ -1,8 +1,12 @@
+import { persistLearningState } from "@/lib/account-sync";
+import { isProgressVisible } from "@/lib/progress-visibility";
+
 const KEY = "coachfi-tokens";
 const INITIAL_BALANCE = 125;
 
 export function getTokenBalance(): number {
   if (typeof window === "undefined") return INITIAL_BALANCE;
+  if (!isProgressVisible()) return 0;
   const raw = localStorage.getItem(KEY);
   if (raw === null) return INITIAL_BALANCE;
   const n = parseInt(raw, 10);
@@ -14,6 +18,7 @@ export function addTokens(amount: number): number {
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    persistLearningState("tokens");
   }
   return next;
 }
@@ -25,6 +30,7 @@ export function spendTokens(amount: number): boolean {
   if (typeof window !== "undefined") {
     localStorage.setItem(KEY, String(next));
     window.dispatchEvent(new Event("coachfi-tokens"));
+    persistLearningState("tokens");
   }
   return true;
 }
