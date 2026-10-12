@@ -35,6 +35,7 @@ const SPEECH_LANG_BY_LOCALE: Record<VoiceLocale, string> = {
 };
 
 interface VoiceContextValue {
+  persona: "mila" | "milosz";
   voiceId: string;
   setVoiceId: (id: string) => void;
   isPlaying: boolean;
@@ -45,6 +46,7 @@ interface VoiceContextValue {
 }
 
 const VoiceContext = createContext<VoiceContextValue>({
+  persona: "mila",
   voiceId: DEFAULT_VOICE,
   setVoiceId: () => {},
   isPlaying: false,
@@ -213,7 +215,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     const playbackId = playbackIdRef.current + 1;
     playbackIdRef.current = playbackId;
     const selectedLocale = options.locale ?? locale;
-    const selectedVoiceId = options.voiceId?.trim() || undefined;
+    const selectedVoiceId = options.voiceId?.trim() || voiceId;
     const selectedModelId = options.modelId?.trim() || undefined;
     const speechLang = options.speechLang ?? SPEECH_LANG_BY_LOCALE[selectedLocale];
     const cacheKey = [
@@ -275,7 +277,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <VoiceContext.Provider value={{ voiceId, setVoiceId, isPlaying, isLoading, currentText, speak, stop }}>
+    <VoiceContext.Provider value={{ persona: ELEVENLABS_VOICES.find((voice) => voice.id === voiceId)?.gender === "male" ? "milosz" : "mila", voiceId, setVoiceId, isPlaying, isLoading, currentText, speak, stop }}>
       {children}
     </VoiceContext.Provider>
   );
