@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI Kids — learning pet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E3F4FF}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible{outline:4px solid #1F6FB2;outline-offset:3px}
+</style>
+</helmet>
+<div style="width: 2000px; min-height: 1180px; box-sizing: border-box; padding: 56px 64px; background: #E3F4FF; color: #1D2A1F; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px">
+    <div style="display: flex; align-items: center; gap: 18px">
+      <img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="CoachFI Kids" style="width: 72px; height: 72px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h1 style="margin: 0; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 44px; line-height: 1">A pet that grows when you learn</h1>
+        <span style="font-size: 17px">Prototype — press Play, pick a pet, feed it with learning. The pet never gets sick and never disappears.</span>
+      </div>
+    </div>
+    <span style="font-size: 15px; text-align: right; max-width: 360px">Original blocky voxel characters — not copies of any game’s characters.</span>
+  </div>
+
+  <div style="display: flex; gap: 48px; align-items: flex-start">
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <strong style="font-size: 16px">1 · Pick a pet</strong>
+      <div style="width: 390px; height: 844px; border-radius: 44px; overflow: hidden; background: #FFF8E8; box-shadow: 0 0 0 10px #1D2A1F, 0 30px 60px rgba(29,42,31,.25); display: flex; flex-direction: column; padding: 56px 18px 24px; box-sizing: border-box; gap: 14px">
+        <h2 style="margin: 0; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.05">Choose your pet</h2>
+        <p style="margin: 0; font-size: 17px">Each one has a superpower from real nature.</p>
+        <div role="group" aria-label="Pets" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+          <button type="button" aria-pressed="{{pWiew}}" onClick="{{pickWiew}}" style="background: #FFFFFF; border: 4px solid {{bWiew}}; border-radius: 8px; box-shadow: 0 5px 0 #1D2A1F; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #1D2A1F; min-height: 200px">
+            <img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="" style="height: 110px; width: auto">
+            <strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Mila</strong>
+            <span style="font-size: 14px">A hundred hiding spots</span>
+          </button>
+          <button type="button" aria-pressed="{{pCamel}}" onClick="{{pickCamel}}" style="background: #FFFFFF; border: 4px solid {{bCamel}}; border-radius: 8px; box-shadow: 0 5px 0 #1D2A1F; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #1D2A1F; min-height: 200px">
+            <img src="/_blob/387c14549cfe3b3ee4ec9785e9d6899e" alt="" style="height: 110px; width: auto">
+            <strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Camel</strong>
+            <span style="font-size: 14px">Energy in the hump</span>
+          </button>
+          <button type="button" aria-pressed="{{pBeaver}}" onClick="{{pickBeaver}}" style="background: #FFFFFF; border: 4px solid {{bBeaver}}; border-radius: 8px; box-shadow: 0 5px 0 #1D2A1F; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #1D2A1F; min-height: 200px">
+            <img src="/_blob/f75e01392da2349c5240e5504b3134c3" alt="" style="height: 110px; width: auto">
+            <strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Beaver</strong>
+            <span style="font-size: 14px">Build it step by step</span>
+          </button>
+          <button type="button" aria-pressed="{{pBee}}" onClick="{{pickBee}}" style="background: #FFFFFF; border: 4px solid {{bBee}}; border-radius: 8px; box-shadow: 0 5px 0 #1D2A1F; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #1D2A1F; min-height: 200px">
+            <img src="/_blob/0225c2851214fc6f1bd704a4c4904ba8" alt="" style="height: 110px; width: auto">
+            <strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Bee</strong>
+            <span style="font-size: 14px">Together to the goal</span>
+          </button>
+        </div>
+        <div style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 12px 14px; font-size: 16px; line-height: 1.45"><strong>{{petName}}:</strong> {{petPower}}</div>
+        <button type="button" style="margin-top: auto; min-height: 60px; border: 3px solid #1D2A1F; border-radius: 6px; background: #B84E1A; color: #FFFFFF; font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 24px; font-weight: 700; box-shadow: 0 5px 0 #1D2A1F">I pick {{petShort}}!</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <strong style="font-size: 16px">2 · Pet home — works in Play</strong>
+      <div style="width: 390px; height: 844px; border-radius: 44px; overflow: hidden; background: #FFF8E8; box-shadow: 0 0 0 10px #1D2A1F, 0 30px 60px rgba(29,42,31,.25); display: flex; flex-direction: column; padding: 52px 18px 22px; box-sizing: border-box; gap: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <span style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 28px">{{petName}}</span>
+          <span style="background: #FFC83D; border: 3px solid #1D2A1F; border-radius: 6px; padding: 4px 10px; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 17px">{{levelName}}</span>
+        </div>
+        <div style="position: relative; height: 290px; border: 3px solid #1D2A1F; border-radius: 6px; background: #8FD0F2; overflow: hidden; display: flex; align-items: flex-end; justify-content: center">
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 56px; background: #8B5A2B"></div>
+          <div style="position: absolute; left: 0; right: 0; bottom: 44px; height: 14px; background: #7CD36B; border-top: 3px solid #4E9A3F"></div>
+          <div style="position: absolute; left: 22px; top: 22px; width: 54px; height: 22px; background: #FFFFFF"></div>
+          <div style="position: absolute; left: 36px; top: 12px; width: 30px; height: 14px; background: #FFFFFF"></div>
+          <sc-if value="{{showWiew}}" hint-placeholder-val="{{true}}"><img src="/_blob/81ee9a48f330b28f337907fbcd8398e0" alt="{{petAlt}}" style="position: relative; height: 190px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{showWiewCap}}" hint-placeholder-val="{{false}}"><img src="/_blob/eee86687636c62c3045619203ab9826f" alt="{{petAlt}}" style="position: relative; height: 200px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{showWiewSleep}}" hint-placeholder-val="{{false}}"><img src="/_blob/81ee9a48f330b28f337907fbcd8398e0" alt="{{petAlt}}" style="position: relative; height: 190px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{showCamel}}" hint-placeholder-val="{{false}}"><img src="/_blob/387c14549cfe3b3ee4ec9785e9d6899e" alt="{{petAlt}}" style="position: relative; height: 180px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{showBeaver}}" hint-placeholder-val="{{false}}"><img src="/_blob/f75e01392da2349c5240e5504b3134c3" alt="{{petAlt}}" style="position: relative; height: 180px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{showBee}}" hint-placeholder-val="{{false}}"><img src="/_blob/0225c2851214fc6f1bd704a4c4904ba8" alt="{{petAlt}}" style="position: relative; height: 190px; width: auto; margin-bottom: 30px"></sc-if>
+          <sc-if value="{{sleepOther}}" hint-placeholder-val="{{false}}"><div style="position: absolute; inset: 0; background: rgba(29,42,31,.35)"></div></sc-if>
+          <sc-if value="{{sleeping}}" hint-placeholder-val="{{false}}"><span style="position: absolute; right: 18px; top: 16px; background: #1D2A1F; color: #FFF8E8; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 18px; padding: 4px 10px">Z z z</span></sc-if>
+        </div>
+        <div role="status" aria-live="polite" style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 10px 12px; font-size: 16px; line-height: 1.4; min-height: 66px; box-sizing: border-box">{{msg}}</div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px"><span style="font-weight: 700; font-size: 16px">Learning</span><div role="img" aria-label="{{wLabel}}" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px"><sc-for list="{{wBlocks}}" as="b" hint-placeholder-count="5"><sc-if value="{{b.on}}" hint-placeholder-val="{{true}}"><span style="height: 24px; background: #1F6FB2; border: 3px solid #1D2A1F"></span></sc-if><sc-if value="{{b.off}}" hint-placeholder-val="{{false}}"><span style="height: 24px; background: #FFFFFF; border: 3px dashed #4A5A4C"></span></sc-if></sc-for></div></div>
+          <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px"><span style="font-weight: 700; font-size: 16px">Savings</span><div role="img" aria-label="{{zLabel}}" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px"><sc-for list="{{zBlocks}}" as="b" hint-placeholder-count="5"><sc-if value="{{b.on}}" hint-placeholder-val="{{true}}"><span style="height: 24px; background: #FFC83D; border: 3px solid #1D2A1F"></span></sc-if><sc-if value="{{b.off}}" hint-placeholder-val="{{false}}"><span style="height: 24px; background: #FFFFFF; border: 3px dashed #4A5A4C"></span></sc-if></sc-for></div></div>
+          <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px"><span style="font-weight: 700; font-size: 16px">Joy</span><div role="img" aria-label="{{hLabel}}" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px"><sc-for list="{{hBlocks}}" as="b" hint-placeholder-count="5"><sc-if value="{{b.on}}" hint-placeholder-val="{{true}}"><span style="height: 24px; background: #C2347A; border: 3px solid #1D2A1F"></span></sc-if><sc-if value="{{b.off}}" hint-placeholder-val="{{false}}"><span style="height: 24px; background: #FFFFFF; border: 3px dashed #4A5A4C"></span></sc-if></sc-for></div></div>
+        </div>
+        <sc-if value="{{awake}}" hint-placeholder-val="{{true}}">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: auto">
+            <button type="button" onClick="{{feed}}" style="min-height: 64px; border: 3px solid #1D2A1F; border-radius: 6px; background: #1F6FB2; color: #FFFFFF; box-shadow: 0 5px 0 #1D2A1F; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 19px">Feed with a lesson</strong><span style="font-size: 13px">lesson · 3 min</span></button>
+            <button type="button" onClick="{{save}}" style="min-height: 64px; border: 3px solid #1D2A1F; border-radius: 6px; background: #FFC83D; color: #1D2A1F; box-shadow: 0 5px 0 #1D2A1F; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 19px">Stash it</strong><span style="font-size: 13px">parent confirms</span></button>
+            <button type="button" onClick="{{play}}" style="min-height: 64px; border: 3px solid #1D2A1F; border-radius: 6px; background: #C2347A; color: #FFFFFF; box-shadow: 0 5px 0 #1D2A1F; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 19px">Riddle</strong><span style="font-size: 13px">1 question</span></button>
+            <button type="button" onClick="{{toggleSleep}}" style="min-height: 64px; border: 3px solid #1D2A1F; border-radius: 6px; background: #FFFFFF; color: #1D2A1F; box-shadow: 0 5px 0 #1D2A1F; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 19px">Good night</strong><span style="font-size: 13px">done for today</span></button>
+          </div>
+        </sc-if>
+        <sc-if value="{{sleeping}}" hint-placeholder-val="{{false}}">
+          <button type="button" onClick="{{toggleSleep}}" style="margin-top: auto; min-height: 64px; border: 3px solid #1D2A1F; border-radius: 6px; background: #B84E1A; color: #FFFFFF; box-shadow: 0 5px 0 #1D2A1F; font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 22px; font-weight: 700">Wake up (tomorrow morning)</button>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <strong style="font-size: 16px">3 · How your pet grows</strong>
+      <div style="width: 390px; height: 844px; border-radius: 44px; overflow: hidden; background: #FFF8E8; box-shadow: 0 0 0 10px #1D2A1F, 0 30px 60px rgba(29,42,31,.25); display: flex; flex-direction: column; padding: 56px 18px 24px; box-sizing: border-box; gap: 14px">
+        <h2 style="margin: 0; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.05">Grow together with Mila</h2>
+        <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+          <li style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 14px"><img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="" style="height: 64px; width: 70px; object-fit: contain"><span style="display: flex; flex-direction: column"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Sprout</strong><span style="font-size: 15px">to start</span></span></li>
+          <li style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 14px"><img src="/_blob/81ee9a48f330b28f337907fbcd8398e0" alt="" style="height: 84px; width: 70px; object-fit: contain"><span style="display: flex; flex-direction: column"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Explorer</strong><span style="font-size: 15px">after 5 stories</span></span></li>
+          <li style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 14px"><img src="/_blob/eee86687636c62c3045619203ab9826f" alt="" style="height: 96px; width: 70px; object-fit: contain"><span style="display: flex; flex-direction: column"><strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 20px">Master</strong><span style="font-size: 15px">15 stories + 1 savings-jar goal reached</span></span></li>
+        </ol>
+        <div style="background: #B84E1A; color: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+          <strong style="font-family: 'Pixelify Sans', system-ui, sans-serif; font-size: 22px">Fair-play rules</strong>
+          <ul style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.55">
+            <li>Your pet never gets sick, never dies and is never sad because of you</li>
+            <li>When you’re away it rests and looks forward to seeing you</li>
+            <li>Nothing can be bought with real money</li>
+            <li>After about 15 minutes your pet suggests a break</li>
+            <li>Scarves and backpacks are earned only by learning</li>
+          </ul>
+        </div>
+        <div style="background: #FFFFFF; border: 3px solid #1D2A1F; border-radius: 6px; padding: 12px 14px; font-size: 15px; line-height: 1.45"><strong>For parents:</strong> “Stash it” sends a request to your app. The coin goes into the jar only after you confirm.</div>
+      </div>
+    </div>
+
+    <section aria-labelledby="moce-h" style="width: 540px; flex-shrink: 0; background: #FFFFFF; border: 4px solid #1D2A1F; border-radius: 10px; box-shadow: 0 8px 0 #1D2A1F; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; margin-top: 34px">
+      <h2 id="moce-h" style="margin: 0; font-family: 'Pixelify Sans', system-ui, sans-serif; font-weight: 700; font-size: 30px">Superpowers = real nature + one money lesson</h2>
+      <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; border-top: 3px solid #1D2A1F; padding-top: 14px">
+        <img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="Mila the squirrel" style="width: 88px; height: auto">
+        <span style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.45"><strong style="font-size: 17px">Mila · A hundred hiding spots</strong><span>Squirrels hide nuts in many spots. Some forgotten ones grow into trees.</span><span style="color: #B84E1A; font-weight: 700">→ Split savings into a few jars.</span></span>
+      </div>
+      <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; border-top: 3px solid #1D2A1F; padding-top: 14px">
+        <img src="/_blob/387c14549cfe3b3ee4ec9785e9d6899e" alt="Camel" style="width: 88px; height: auto">
+        <span style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.45"><strong style="font-size: 17px">Dune · Energy in the hump</strong><span>The hump is fat, not water — stored energy for days without food.</span><span style="color: #B84E1A; font-weight: 700">→ Save for surprises.</span></span>
+      </div>
+      <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; border-top: 3px solid #1D2A1F; padding-top: 14px">
+        <img src="/_blob/f75e01392da2349c5240e5504b3134c3" alt="Beaver" style="width: 88px; height: auto">
+        <span style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.45"><strong style="font-size: 17px">Timber · Build it step by step</strong><span>Beavers build dams stick by stick and store branches underwater by their lodge for winter.</span><span style="color: #B84E1A; font-weight: 700">→ A big goal is many small steps.</span></span>
+      </div>
+      <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; border-top: 3px solid #1D2A1F; padding-top: 14px">
+        <img src="/_blob/0225c2851214fc6f1bd704a4c4904ba8" alt="Bee" style="width: 88px; height: auto">
+        <span style="display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.45"><strong style="font-size: 17px">Honey · Together to the goal</strong><span>Honeybees store honey together so the whole hive gets through winter.</span><span style="color: #B84E1A; font-weight: 700">→ Shared family goals.</span></span>
+      </div>
+      <div style="background: #FFF8E8; border: 3px solid #1D2A1F; border-radius: 6px; padding: 12px 14px; font-size: 14.5px; line-height: 1.5">Unlike classic virtual pets: <strong>the pet’s needs are met by learning and saving, not screen time</strong>. No penalty for being away — a requirement from board 13.</div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2000,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { pet: 'wiewiorka', w: 2, z: 1, h: 3, sleeping: false, n: 0, msg: 'Hi! I’m Mila. Will you feed me a lesson today?' };
+  }
+  renderVals() {
+    const P = {
+      wiewiorka: { name: 'Mila', short: 'Mila', alt: 'Mila the squirrel', power: 'hides nuts in many spots — if one is lost, the others are still there.', fact: 'Yum! Did you know some nuts squirrels forget grow into new trees?', hello: 'Hi! I’m Mila. Will you feed me a lesson today?' },
+      wielblad: { name: 'Dune', short: 'Dune', alt: 'Dune the camel', power: 'stores fat, not water, in the hump — energy for hard days.', fact: 'Thanks! My hump is an energy stash — like your surprise jar.', hello: 'Hey! I’m Dune. Ready for a learning trip?' },
+      bobr: { name: 'Timber', short: 'Timber', alt: 'Timber the beaver', power: 'builds a dam stick by stick — a big goal from small steps.', fact: 'Awesome! Stick by stick the dam is done — savings grow the same way.', hello: 'Hey there! I’m Timber. Shall we build something big, step by step?' },
+      pszczola: { name: 'Honey', short: 'Honey', alt: 'Honey the bee', power: 'collects honey for winter with the whole hive — shared goals are easier.', fact: 'Bzzz! One bee makes a little honey, but the whole hive makes lots.', hello: 'Bzzz, hi! I’m Honey. Shall we collect together?' }
+    };
+    const s = this.state;
+    const p = P[s.pet];
+    const cap = (v) => Math.max(0, Math.min(5, v));
+    const tooMuch = () => s.n >= 6;
+    const act = (patch, msg) => {
+      if (tooMuch()) { this.setState({ msg: 'What a day! Let’s take a break — I’ll be back tomorrow with a new riddle.' }); return; }
+      this.setState(Object.assign({}, patch, { n: s.n + 1, msg: msg }));
+    };
+    const pick = (k) => () => this.setState({ pet: k, sleeping: false, msg: P[k].hello });
+    const blocks = (v) => [0, 1, 2, 3, 4].map((i) => ({ on: i < v, off: i >= v }));
+    const level = s.w >= 5 ? 'Master' : (s.w >= 3 ? 'Explorer' : 'Sprout');
+    const sel = '#C2347A', unsel = '#1D2A1F';
+    return {
+      petName: p.name, petShort: p.short, petAlt: p.alt + (s.sleeping ? ', sleeping' : ''), petPower: p.power,
+      pWiew: s.pet === 'wiewiorka', pCamel: s.pet === 'wielblad', pBeaver: s.pet === 'bobr', pBee: s.pet === 'pszczola',
+      bWiew: s.pet === 'wiewiorka' ? sel : unsel, bCamel: s.pet === 'wielblad' ? sel : unsel, bBeaver: s.pet === 'bobr' ? sel : unsel, bBee: s.pet === 'pszczola' ? sel : unsel,
+      pickWiew: pick('wiewiorka'), pickCamel: pick('wielblad'), pickBeaver: pick('bobr'), pickBee: pick('pszczola'),
+      showWiew: s.pet === 'wiewiorka' && !s.sleeping && s.w < 5,
+      showWiewCap: s.pet === 'wiewiorka' && !s.sleeping && s.w >= 5,
+      showWiewSleep: s.pet === 'wiewiorka' && s.sleeping,
+      showCamel: s.pet === 'wielblad', showBeaver: s.pet === 'bobr', showBee: s.pet === 'pszczola',
+      sleepOther: s.sleeping,
+      sleeping: s.sleeping, awake: !s.sleeping,
+      levelName: level,
+      msg: s.msg,
+      wBlocks: blocks(s.w), zBlocks: blocks(s.z), hBlocks: blocks(s.h),
+      wLabel: 'Learning ' + s.w + ' of 5', zLabel: 'Savings ' + s.z + ' of 5', hLabel: 'Joy ' + s.h + ' of 5',
+      feed: () => act({ w: cap(s.w + 1), h: cap(s.h + 1) }, cap(s.w + 1) >= 5 && s.w < 5 ? 'Hooray! I’m a Master! Look at my new scarf!' : p.fact),
+      save: () => act({ z: cap(s.z + 1) }, 'Into the stash! A parent will confirm the coin in their app.'),
+      play: () => act({ h: cap(s.h + 1) }, 'Riddle: which is a need — warm winter boots or a fifth ball? Say it out loud!'),
+      toggleSleep: () => this.setState(s.sleeping
+        ? { sleeping: false, n: 0, msg: 'Good morning! I’m happy you’re here. We didn’t lose anything.' }
+        : { sleeping: true, msg: 'Good night! When you’re away, I rest. Nothing will break.' })
+    };
+  }
+}
+</script>
+</body>
+</html>
