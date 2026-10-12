@@ -42,6 +42,7 @@
   --cfx-radius-2xl: var(--cf-radius-card);
   --cfx-radius-3xl: var(--cf-radius-sheet);
   --cfx-body-bg: var(--cf-bg);
+  --cfx-display-tracking: -0.02em;
 
   --cf-font-sans: var(--font-ui);
 }
@@ -54,6 +55,7 @@
   --cfx-success-ink: var(--cf-area-progress-rgb);
   --cfx-warning-ink: var(--cf-area-care-rgb);
   --cfx-tint-boost: 1;
+  --cfx-display-tracking: 0;
   --cfx-tint-floor: 0;
 
   --cf-shadow-press: 0 18px 45px rgba(118, 104, 232, 0.18);

@@ -49,9 +49,14 @@ body {
   font-family: var(--font-ui);
   line-height: 1.55;
   letter-spacing: 0;
+  /* Money amounts must not jump between values (DESIGN.md §3.3). */
+  font-variant-numeric: tabular-nums;
 }
 
-h1,
+h1 {
+  letter-spacing: var(--cfx-display-tracking);
+}
+
 h2,
 h3,
 h4,
