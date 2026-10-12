@@ -307,9 +307,9 @@ const pl: LocalizedContent = {
   emergencyFund: "Fundusz awaryjny",
   purchasingPower: "Siła nabywcza",
   certificates: "Certyfikaty",
-  hearMila: "Posłuchaj Miły",
+  hearMila: "Posłuchaj Mili",
   homeMilaIntro:
-    "Witaj w Coach FI. Jestem Miła, Twoja głosowa coachka edukacji finansowej. Mogę odczytać wynik, wyjaśnić inflację, poprowadzić lekcje, przeczytać quiz i pomóc zrobić pierwszy mały krok.",
+    "Witaj w Coach FI. Jestem Mila, Twoja głosowa coachka edukacji finansowej. Mogę odczytać wynik, wyjaśnić inflację, poprowadzić lekcje, przeczytać quiz i pomóc zrobić pierwszy mały krok.",
   demoFeedbackEyebrow: "Opinie użytkowników demo",
   demoFeedbackTitle: "Co użytkownik ma poczuć w demo",
   demoFeedbackNote: "Przykładowe opinie do narracji hackathonowej. Pokazują docelową wartość produktu.",
@@ -402,9 +402,9 @@ const pl: LocalizedContent = {
   },
   coach: {
     ...en.coach,
-    heroTitle: "Miła mówi głosem",
+    heroTitle: "Mila mówi głosem",
     heroCopy: "Coach FI czyta lekcje, pytania quizowe i wnioski finansowe, aby wspierać osoby niewidome, słabowidzące i starsze.",
-    introButton: "Odtwórz intro Miły",
+    introButton: "Odtwórz intro Mili",
     introText: "Witaj w Coach FI. Nie musisz być bogaty, żeby zacząć poprawiać swoją przyszłość finansową. Potrzebujesz świadomości, prostego planu i pierwszego małego kroku.",
     initialMessages: [
       "Nie musisz być bogaty, żeby zacząć oszczędzać. Potrzebujesz systemu.",
@@ -423,16 +423,16 @@ const pl: LocalizedContent = {
     quickReplies: {},
     fallback:
       "Pewność finansowa zaczyna się od podstaw: wydawaj mniej niż zarabiasz, zbuduj fundusz awaryjny, rozumiej inflację i zautomatyzuj mały nawyk oszczędzania. Od którego kroku zaczynamy?",
-    live: "Miła AI - na żywo (Claude Haiku)",
-    offline: "Miła AI - tryb lokalny",
-    consentNotice: "Zewnętrzny tryb AI jest wyłączony. Miła odpowiada lokalnie bez wysyłania rozmowy do dostawcy AI.",
+    live: "Mila AI - na żywo (Claude Haiku)",
+    offline: "Mila AI - tryb lokalny",
+    consentNotice: "Zewnętrzny tryb AI jest wyłączony. Mila odpowiada lokalnie bez wysyłania rozmowy do dostawcy AI.",
     changeConsent: "Zmień zgody",
-    speaking: "Miła mówi",
-    answering: "Miła odpowiada",
-    ready: "Miła jest gotowa",
+    speaking: "Mila mówi",
+    answering: "Mila odpowiada",
+    ready: "Mila jest gotowa",
     voiceNote: "Głos używa ElevenLabs po konfiguracji, a w razie potrzeby głosu przeglądarki.",
-    freeQuestionNote: "Miła rozumie też swobodne pytania. Napisz cokolwiek o finansach osobistych.",
-    messageLabel: "Wiadomość Miły",
+    freeQuestionNote: "Mila rozumie też swobodne pytania. Napisz cokolwiek o finansach osobistych.",
+    messageLabel: "Wiadomość Mili",
   },
   learn: {
     pathVoice:

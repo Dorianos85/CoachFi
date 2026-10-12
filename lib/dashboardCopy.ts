@@ -90,7 +90,7 @@ export const dashboardCopy: Record<
       nextTitle: "Nastepny najlepszy krok",
       nextText: (amount) =>
         `Ustaw automatyczne ${amount} miesiecznie na fundusz awaryjny, zanim zaczniesz zwiekszac ryzyko inwestycji.`,
-      askMila: "Zapytaj Mile",
+      askMila: "Zapytaj Milę",
     },
     coachPocket: {
       alt: "Mila, coach finansowy",
