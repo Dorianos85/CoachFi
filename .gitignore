@@ -1,6 +1,7 @@
 .tmp/
 .codex-logs/
 .codex-screenshots/
+.claude/settings.local.json
 node_modules/
 dist/
 .next/
