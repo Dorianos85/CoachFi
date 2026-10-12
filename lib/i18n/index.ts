@@ -1,4 +1,5 @@
 import { en } from "./en";
+import { pl as fullPl } from "./pl";
 
 export type Translations = typeof en;
 export type Locale = "en" | "pl" | "ja";
@@ -192,6 +193,7 @@ const pl = mergeTranslations(en, {
     certificatesTitle: "Twoje certyfikaty",
     locked: "Zablokowany",
   },
+  kids: fullPl.kids,
   accessibility: {
     eyebrow: "Tryb dostępności",
     title: "Finanse dla każdego.",

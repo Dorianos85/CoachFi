@@ -219,6 +219,13 @@ export const en = {
         example: "Even $0.50/week for others adds up to $26/year. Small amounts grow!",
         badge: "Values",
       },
+      {
+        id: "nature-savings",
+        title: "Nature's Savings Vault",
+        copy: "Hamsters store food, squirrels hide seeds, and camels store fat while conserving water. Reserves help animals through lean times.",
+        example: "A camel's hump stores fat, not water. Your emergency fund works like a planned reserve for a surprise or a harder month.",
+        badge: "Nature",
+      },
     ],
   },
 
