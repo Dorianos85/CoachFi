@@ -1,8 +1,12 @@
 .tmp/
+.codex-logs/
+.codex-screenshots/
 node_modules/
 dist/
 .next/
 out/
+test-results/
+playwright-report/
 *.tsbuildinfo
 .env*.local
 .DS_Store
