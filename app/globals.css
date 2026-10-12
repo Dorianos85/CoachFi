@@ -1,4 +1,7 @@
 @import "@solana/wallet-adapter-react-ui/styles.css";
+@import "../styles/coachfi/tokens.css";
+@import "../styles/coachfi/channels.css";
+@import "../styles/coachfi/aliases.css";
 
 @tailwind base;
 @tailwind components;
@@ -41,13 +44,8 @@ body {
   overflow-x: hidden;
   overflow-wrap: break-word;
   word-break: break-word;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 255, 0.96) 46%, #f8faff),
-    linear-gradient(135deg, rgba(177, 169, 245, 0.16), transparent 36%),
-    linear-gradient(225deg, rgba(137, 211, 221, 0.16), transparent 34%),
-    linear-gradient(45deg, rgba(255, 213, 156, 0.18), transparent 42%),
-    #f8faff;
-  color: #26324a;
+  background: var(--cfx-body-bg);
+  color: var(--cf-text);
   font-family: var(--font-ui);
   line-height: 1.55;
   letter-spacing: 0;
@@ -74,10 +72,28 @@ textarea {
 }
 
 ::selection {
-  background: rgba(118, 104, 232, 0.22);
+  background: rgb(var(--cf-primary-rgb) / 0.6);
 }
 
+/* v6: flat cream ground, no decorative grid. */
 .app-grid {
+  display: none;
+}
+
+.glass-panel {
+  border: 1px solid var(--cf-border-subtle);
+  background: var(--cf-surface-brand);
+  box-shadow: var(--cf-shadow-e1);
+}
+
+.focus-card {
+  border: 1px solid var(--cf-border-subtle);
+  background: var(--cf-surface);
+  box-shadow: var(--cf-shadow-e1);
+}
+
+[data-theme="legacy"] .app-grid {
+  display: block;
   background-image:
     linear-gradient(rgba(118, 104, 232, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(125, 211, 220, 0.06) 1px, transparent 1px);
@@ -85,14 +101,14 @@ textarea {
   mask-image: linear-gradient(to bottom, black 0%, black 52%, transparent 100%);
 }
 
-.glass-panel {
+[data-theme="legacy"] .glass-panel {
   border: 1px solid rgba(118, 104, 232, 0.14);
   background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.10);
+  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.1);
   backdrop-filter: blur(18px);
 }
 
-.focus-card {
+[data-theme="legacy"] .focus-card {
   border: 1px solid rgba(118, 104, 232, 0.14);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 22px 70px rgba(38, 50, 74, 0.12);
@@ -263,10 +279,17 @@ html.text-scale-xlarge label,
 
 .wallet-adapter-button {
   min-height: 44px !important;
-  border-radius: 8px !important;
-  background: #7668e8 !important;
+  border: var(--cfx-control-border) solid var(--cf-primary-border) !important;
+  border-radius: var(--cf-radius-button) !important;
+  background: var(--cf-primary) !important;
+  color: var(--cf-on-primary) !important;
+  box-shadow: var(--cf-shadow-press);
   font-family: inherit !important;
   font-weight: 800 !important;
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  background: var(--cf-primary-strong) !important;
 }
 
 .wallet-adapter-dropdown {

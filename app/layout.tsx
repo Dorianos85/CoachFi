@@ -48,10 +48,14 @@ export const viewport: Viewport = {
   themeColor: "#7668E8",
 };
 
+// v6 "pastel" theme is on by default; NEXT_PUBLIC_DESIGN_V6=0 switches back to the pre-v6 palette.
+const designTheme = process.env.NEXT_PUBLIC_DESIGN_V6 === "0" ? "legacy" : "adult-light";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
+      data-theme={designTheme}
       suppressHydrationWarning
       className={`${nunito.variable} ${notoSans.variable}`}
     >
