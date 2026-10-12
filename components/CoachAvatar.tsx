@@ -21,7 +21,7 @@ const COPY: Record<
   },
   pl: {
     online: "Coach AI online",
-    title: "Poznaj Miłę",
+    title: "Poznaj Milę",
     desc: "Spokojna coachka voice-first od nawyków finansowych, pewności i dowodu postępu.",
     voice: "Głos",
     certificates: "Certyfikaty",
