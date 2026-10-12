@@ -405,7 +405,7 @@ export function YieldVault() {
                   value={depositInput}
                   onChange={(e) => setDepositInput(e.target.value)}
                   placeholder={copy.placeholder}
-                  className="min-h-11 flex-1 rounded-xl border border-primary/15 bg-white px-4 text-sm font-bold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="min-h-11 flex-1 rounded-input border-2 border-border bg-white px-4 text-sm font-bold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 />
                 <Button
                   type="button"

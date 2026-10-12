@@ -375,7 +375,7 @@ export default function CoachPage() {
                 placeholder={isListening ? "Słucham…" : t.coach.placeholder}
                 disabled={isTyping}
                 aria-label={t.coach.placeholder}
-                className="min-h-11 flex-1 rounded-xl border border-primary/15 bg-white px-4 text-sm font-semibold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"
+                className="min-h-11 flex-1 rounded-input border-2 border-border bg-white px-4 text-sm font-semibold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"
               />
               <Button
                 type="submit"

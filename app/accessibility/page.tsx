@@ -182,7 +182,7 @@ export default function AccessibilityPage() {
               type="date"
               value={birthDate}
               onChange={(event) => setBirthDate(event.target.value)}
-              className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="min-h-12 rounded-input border-2 border-border bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             />
           </label>
           <Button

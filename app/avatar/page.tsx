@@ -286,7 +286,7 @@ export default function AvatarPage() {
                 href="https://elevenlabs.io"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#111] px-3 py-1 text-[10px] font-black text-white transition hover:opacity-80"
+                className="inline-flex items-center gap-1.5 rounded-full border-2 border-primary-border bg-white px-3 py-1 text-[10px] font-black text-text transition hover:bg-primary/10"
                 aria-label={copy.poweredBy}
               >
                 <Volume2 className="h-3 w-3" aria-hidden="true" />

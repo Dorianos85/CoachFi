@@ -90,7 +90,7 @@ export function OnboardingModal({ enabled = true, onDone }: { enabled?: boolean;
                         onKeyDown={(e) => e.key === "Enter" && canProceed && handleNext()}
                         placeholder={t.onboarding.step1Placeholder}
                         maxLength={32}
-                        className="mt-5 min-h-14 w-full rounded-xl border border-primary/20 bg-white px-4 py-3 text-lg font-bold leading-snug text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        className="mt-5 min-h-14 w-full rounded-input border-2 border-border bg-white px-4 py-3 text-lg font-bold leading-snug text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       />
                     </motion.div>
                   )}

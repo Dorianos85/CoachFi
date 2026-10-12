@@ -90,14 +90,14 @@ export function VoiceButton({
           <span
             className={cn(
               "grid h-10 w-10 shrink-0 place-items-center rounded-lg",
-              isThisPlaying ? "bg-white/18 text-white" : "bg-primary/10 text-primary"
+              isThisPlaying ? "bg-white/70 text-on-primary" : "bg-primary/10 text-primary"
             )}
           >
             {icon}
           </span>
           <span className="min-w-0">
             <span className="block leading-tight">{displayLabel}</span>
-            <span className={cn("mt-1 block text-xs font-bold", isThisPlaying ? "text-white/85" : "text-muted")}>
+            <span className={cn("mt-1 block text-xs font-bold", isThisPlaying ? "text-on-primary/85" : "text-muted")}>
               {isThisLoading ? copy.loading : isThisPlaying ? copy.playing : copy.readAloud}
             </span>
           </span>

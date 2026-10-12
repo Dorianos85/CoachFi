@@ -64,7 +64,7 @@ function ChallengeBanner({
   const decodedFrom = decodeURIComponent(from);
 
   return (
-    <div className="mb-6 flex items-center gap-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 to-accent/10 p-5 shadow-soft">
+    <div className="mb-6 flex items-center gap-4 rounded-2xl border border-primary/20 bg-primary/10 p-5 shadow-soft">
       <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-on-primary shadow-glow">
         <Swords className="h-6 w-6" aria-hidden="true" />
       </div>
@@ -139,7 +139,7 @@ function QuizPageContent() {
           />
 
           {quizDone && (
-            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/5 to-accent/5 p-5">
+            <div className="rounded-2xl border border-primary/10 bg-primary/5 p-5">
               <div className="mb-3 flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-primary" aria-hidden="true" />
                 <p className="font-black text-text">{copy.result(myScore)}</p>

@@ -459,7 +459,7 @@ export default function RewardsPage() {
                         <span
                           className={
                             done
-                              ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success text-white"
+                              ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success text-text"
                               : active
                                 ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-on-primary"
                                 : "h-5 w-5 shrink-0 rounded-full border-2 border-primary/20"
