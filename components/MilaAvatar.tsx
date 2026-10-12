@@ -33,13 +33,6 @@ const MOUTH_FRAME_MS = 1000 / 7;
 export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaAvatarProps) {
   const { locale } = useLanguage();
   const copy = pickLocalized(avatarCopy, locale);
-  const id = useId().replace(/:/g, "");
-  const compact = size === "sm";
-  const panelId = `mila-panel-${id}`;
-  const faceId = `mila-face-${id}`;
-  const suitId = `mila-suit-${id}`;
-  const glowId = `mila-glow-${id}`;
-  const copy = avatarCopy[locale];
   const reduceMotion = useReducedMotion();
   const [mouthOpen, setMouthOpen] = useState(true);
 
