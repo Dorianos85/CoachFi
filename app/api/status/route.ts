@@ -1,6 +1,7 @@
 import { Keypair, Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 import { getOptionalEnv, hasConfiguredEnv } from "@/lib/server-env";
+import { adminServiceClient } from "@/lib/admin-access";
 
 const DEFAULT_SOLANA_RPC = "https://api.devnet.solana.com";
 const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
@@ -23,6 +24,14 @@ function getMintKeypair() {
 }
 
 export async function GET() {
+  const database = adminServiceClient();
+  let accountDatabaseHealthy = false;
+  if (database) {
+    try {
+      const check = await database.from("coachfi_accounts").select("cdp_user_id", { head: true }).limit(1).abortSignal(AbortSignal.timeout(5000));
+      accountDatabaseHealthy = !check.error;
+    } catch { accountDatabaseHealthy = false; }
+  }
   const mintKeypair = getMintKeypair();
   const mintAuthority = mintKeypair?.publicKey.toBase58() ?? null;
   let mintAuthorityBalanceSol: number | null = null;
@@ -41,6 +50,11 @@ export async function GET() {
   return Response.json({
     ok: true,
     services: {
+      accountDatabase: {
+        configured: Boolean(database),
+        healthy: accountDatabaseHealthy,
+        provider: "Supabase",
+      },
       chat: {
         configured: hasConfiguredEnv("ANTHROPIC_API_KEY"),
         provider: "Anthropic",
