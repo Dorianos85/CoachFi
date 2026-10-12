@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/supabase-migrate.mjs --if-production && next build",
+    "build": "node scripts/supabase-migrate.mjs --on-vercel && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run build",
