@@ -1,4 +1,7 @@
 @import "@solana/wallet-adapter-react-ui/styles.css";
+@import "../styles/coachfi/tokens.css";
+@import "../styles/coachfi/channels.css";
+@import "../styles/coachfi/aliases.css";
 
 @tailwind base;
 @tailwind components;
@@ -41,19 +44,19 @@ body {
   overflow-x: hidden;
   overflow-wrap: break-word;
   word-break: break-word;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 255, 0.96) 46%, #f8faff),
-    linear-gradient(135deg, rgba(177, 169, 245, 0.16), transparent 36%),
-    linear-gradient(225deg, rgba(137, 211, 221, 0.16), transparent 34%),
-    linear-gradient(45deg, rgba(255, 213, 156, 0.18), transparent 42%),
-    #f8faff;
-  color: #26324a;
+  background: var(--cfx-body-bg);
+  color: var(--cf-text);
   font-family: var(--font-ui);
   line-height: 1.55;
   letter-spacing: 0;
+  /* Money amounts must not jump between values (DESIGN.md §3.3). */
+  font-variant-numeric: tabular-nums;
 }
 
-h1,
+h1 {
+  letter-spacing: var(--cfx-display-tracking);
+}
+
 h2,
 h3,
 h4,
@@ -74,10 +77,28 @@ textarea {
 }
 
 ::selection {
-  background: rgba(118, 104, 232, 0.22);
+  background: rgb(var(--cf-primary-rgb) / 0.6);
 }
 
+/* v6: flat cream ground, no decorative grid. */
 .app-grid {
+  display: none;
+}
+
+.glass-panel {
+  border: 1px solid var(--cf-border-subtle);
+  background: var(--cf-surface-brand);
+  box-shadow: var(--cf-shadow-e1);
+}
+
+.focus-card {
+  border: 1px solid var(--cf-border-subtle);
+  background: var(--cf-surface);
+  box-shadow: var(--cf-shadow-e1);
+}
+
+[data-theme="legacy"] .app-grid {
+  display: block;
   background-image:
     linear-gradient(rgba(118, 104, 232, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(125, 211, 220, 0.06) 1px, transparent 1px);
@@ -85,17 +106,40 @@ textarea {
   mask-image: linear-gradient(to bottom, black 0%, black 52%, transparent 100%);
 }
 
-.glass-panel {
+[data-theme="legacy"] .glass-panel {
   border: 1px solid rgba(118, 104, 232, 0.14);
   background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.10);
+  box-shadow: 0 18px 60px rgba(38, 50, 74, 0.1);
   backdrop-filter: blur(18px);
 }
 
-.focus-card {
+[data-theme="legacy"] .focus-card {
   border: 1px solid rgba(118, 104, 232, 0.14);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 22px 70px rgba(38, 50, 74, 0.12);
+}
+
+/* Primary-action look for hand-rolled buttons that do not use <Button>: ink outline + hard press shadow. */
+.cf-press {
+  border: var(--cfx-control-border) solid var(--cf-primary-border);
+  box-shadow: var(--cf-shadow-press);
+  transition:
+    transform var(--cf-motion-micro),
+    box-shadow var(--cf-motion-micro);
+}
+
+.cf-press:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+[data-theme="legacy"] .cf-press {
+  border-width: 0;
+}
+
+[data-theme="legacy"] .cf-press:active {
+  transform: none;
+  box-shadow: var(--cf-shadow-press);
 }
 
 .large-text {
@@ -167,6 +211,71 @@ html.text-scale-xlarge label,
 .high-contrast {
   background: #050816;
   color: #ffffff;
+
+  /* The existing high-contrast palette, expressed as tokens so v6 surfaces follow it. */
+  --cf-bg: #050816;
+  --cf-bg-rgb: 5 8 22;
+  --cf-surface: #111827;
+  --cf-surface-rgb: 17 24 39;
+  --cf-surface-brand: #111827;
+  --cf-surface-brand-rgb: 17 24 39;
+  --cf-text: #ffffff;
+  --cf-text-rgb: 255 255 255;
+  --cf-text-muted: #ffffff;
+  --cf-text-muted-rgb: 255 255 255;
+  --cf-primary: #1d4ed8;
+  --cf-primary-rgb: 29 78 216;
+  --cf-primary-strong: #1d4ed8;
+  --cf-primary-strong-rgb: 29 78 216;
+  --cf-primary-soft: #111827;
+  --cf-primary-soft-rgb: 17 24 39;
+  --cf-on-primary: #ffffff;
+  --cf-on-primary-rgb: 255 255 255;
+  --cf-primary-border: #ffffff;
+  --cf-primary-border-rgb: 255 255 255;
+  --cf-grape: #93c5fd;
+  --cf-grape-rgb: 147 197 253;
+  --cf-area-learn: #111827;
+  --cf-area-learn-rgb: 17 24 39;
+  --cf-area-goals: #111827;
+  --cf-area-goals-rgb: 17 24 39;
+  --cf-area-progress: #111827;
+  --cf-area-progress-rgb: 17 24 39;
+  --cf-area-mila: #111827;
+  --cf-area-mila-rgb: 17 24 39;
+  --cf-area-rewards: #111827;
+  --cf-area-rewards-rgb: 17 24 39;
+  --cf-area-care: #111827;
+  --cf-area-care-rgb: 17 24 39;
+  --cf-on-area: #ffffff;
+  --cf-on-area-rgb: 255 255 255;
+  --cf-attention: #facc15;
+  --cf-attention-rgb: 250 204 21;
+  --cf-border: #ffffff;
+  --cf-border-rgb: 255 255 255;
+  --cf-border-subtle: #ffffff;
+  --cf-border-subtle-rgb: 255 255 255;
+  --cf-focus: #facc15;
+  --cf-focus-rgb: 250 204 21;
+  --cf-chart-1: #93c5fd;
+  --cf-chart-2: #ffffff;
+  --cf-chart-3: #facc15;
+  --cf-chart-highlight: #facc15;
+  --cf-shadow-press: 0 3px 0 #ffffff;
+}
+
+/* The logo always sits on its flat lavender tile, in every mode. */
+.cf-logo-tile {
+  background: #ebe1ff;
+}
+
+.high-contrast .cf-logo-tile {
+  --cf-text: #1e1b2e;
+  --cf-grape: #5b4bc4;
+}
+
+.high-contrast .cf-logo-tile span {
+  color: #1e1b2e !important;
 }
 
 .high-contrast .glass-panel,
@@ -263,10 +372,17 @@ html.text-scale-xlarge label,
 
 .wallet-adapter-button {
   min-height: 44px !important;
-  border-radius: 8px !important;
-  background: #7668e8 !important;
+  border: var(--cfx-control-border) solid var(--cf-primary-border) !important;
+  border-radius: var(--cf-radius-button) !important;
+  background: var(--cf-primary) !important;
+  color: var(--cf-on-primary) !important;
+  box-shadow: var(--cf-shadow-press);
   font-family: inherit !important;
   font-weight: 800 !important;
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  background: var(--cf-primary-strong) !important;
 }
 
 .wallet-adapter-dropdown {

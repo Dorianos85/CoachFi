@@ -5,16 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 whitespace-normal break-normal rounded-lg text-center text-sm font-bold leading-snug [overflow-wrap:normal] [word-break:normal] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 whitespace-normal break-normal rounded-button text-center text-sm font-extrabold leading-snug [overflow-wrap:normal] [word-break:normal] transition duration-micro focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow-glow hover:bg-primary/90",
-        secondary: "bg-secondary text-text hover:bg-secondary/85",
-        accent: "bg-accent text-text hover:bg-accent/90",
-        success: "bg-success text-text hover:bg-success/90",
-        outline: "border border-primary/20 bg-white text-text hover:bg-primary/5",
-        ghost: "text-text hover:bg-white/70"
+        default:
+          "border-[length:var(--cfx-control-border)] border-primary-border bg-primary text-on-primary shadow-press hover:bg-primary/90 active:translate-y-[3px] active:shadow-none",
+        secondary: "border-[length:var(--cfx-control-border)] border-primary-border bg-secondary text-text hover:bg-secondary/85",
+        accent: "border-[length:var(--cfx-control-border)] border-primary-border bg-accent text-text hover:bg-accent/90",
+        success: "border-[length:var(--cfx-control-border)] border-primary-border bg-success text-text hover:bg-success/90",
+        outline: "border-[length:var(--cfx-control-border)] border-primary-border bg-white text-text hover:bg-primary/5",
+        ghost: "text-text hover:bg-primary/10"
       },
       size: {
         default: "px-5 py-3",

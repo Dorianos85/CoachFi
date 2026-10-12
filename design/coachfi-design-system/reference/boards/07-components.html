@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI AI — Component library</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+button,input{font-family:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #2F64C8;outline-offset:2px}
+a{color:#5B4BC4}a:hover{color:#1E1B2E}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 2000px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; align-content: start">
+
+  <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end">
+    <h1 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 48px; letter-spacing: -0.03em">Component library</h1>
+    <p style="margin: 0; font-size: 15px; color: #4A4560">Press Play — chips, switch, ring and disclosure are live. Each card ends with its accessibility contract.</p>
+  </div>
+
+  <section aria-labelledby="btn-h" style="grid-column: span 6; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+    <h2 id="btn-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Buttons</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+      <button type="button" style="min-height: 52px; padding: 0 24px; border: 2px solid #1E1B2E; border-radius: 14px; background: #CDBEFF; color: #1E1B2E; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 3px 0 #1E1B2E">Start my check-in</button>
+      <button type="button" style="min-height: 52px; padding: 0 24px; border: 2px solid #1E1B2E; border-radius: 14px; background: #FFFFFF; color: #5B4BC4; font-size: 16px; font-weight: 700; cursor: pointer">Ask Mila</button>
+      <button type="button" style="min-height: 52px; padding: 0 16px; border: 0; border-radius: 14px; background: transparent; color: #5B4BC4; font-size: 16px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Not now</button>
+      <button type="button" disabled style="min-height: 52px; padding: 0 24px; border: 2px dashed #7A7486; border-radius: 14px; background: #FFF8EE; color: #4A4560; font-size: 16px; font-weight: 700">Pick a goal first</button>
+      <button type="button" style="min-height: 52px; padding: 0 24px; border: 2px solid #1E1B2E; border-radius: 14px; background: #CDBEFF; color: #1E1B2E; font-size: 16px; font-weight: 700; outline: 3px solid #2F64C8; outline-offset: 2px; box-shadow: 0 3px 0 #1E1B2E">Focused</button>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> ≥ 52 px tall (44 px minimum target). Disabled state explains why in its label, not just greyed out. Focus ring is 3 px blue in every theme, never removed.</p>
+  </section>
+
+  <section aria-labelledby="in-h" style="grid-column: span 6; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="in-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Inputs</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="goal-amt" style="font-size: 14px; font-weight: 700">Goal amount</label>
+        <input id="goal-amt" type="text" inputmode="decimal" value="$3,000" aria-describedby="goal-help" style="min-height: 52px; padding: 0 14px; border: 2px solid #7A7486; border-radius: 8px; font-size: 18px; color: #1E1B2E; background: #FFFFFF">
+        <span id="goal-help" style="font-size: 14px; color: #4A4560">A round number is fine — you can change it later.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="goal-date" style="font-size: 14px; font-weight: 700">By when?</label>
+        <input id="goal-date" type="text" value="June 2026" aria-invalid="true" aria-describedby="date-err" style="min-height: 52px; padding: 0 14px; border: 2px solid #B4532A; border-radius: 8px; font-size: 18px; color: #1E1B2E; background: #FFFFFF">
+        <span id="date-err" style="font-size: 14px; color: #B4532A; display: flex; gap: 6px; align-items: center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>That date has passed. Try a month from now onwards.</span>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> visible label always (no placeholder-as-label). Errors = icon + words + aria-invalid, announced via aria-describedby. Numeric keyboard on mobile.</p>
+  </section>
+
+  <section aria-labelledby="chip-h" style="grid-column: span 7; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="chip-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Goal chips (multi-select) · Switch</h2>
+    <div role="group" aria-label="What would you like help with?" style="display: flex; flex-wrap: wrap; gap: 10px">
+      <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+        <sc-if value="{{c.on}}" hint-placeholder-val="{{false}}">
+          <button type="button" aria-pressed="true" onClick="{{c.toggle}}" style="min-height: 48px; padding: 0 18px; border: 2px solid #1E1B2E; border-radius: 999px; background: #DDE6FF; color: #1E1B2E; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>{{c.label}}</button>
+        </sc-if>
+        <sc-if value="{{c.off}}" hint-placeholder-val="{{true}}">
+          <button type="button" aria-pressed="false" onClick="{{c.toggle}}" style="min-height: 48px; padding: 0 18px; border: 2px solid #7A7486; border-radius: 999px; background: #FFFFFF; color: #1E1B2E; font-size: 15px; font-weight: 500; cursor: pointer">{{c.label}}</button>
+        </sc-if>
+      </sc-for>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid #ECE6DD; padding-top: 16px">
+      <span id="sw-l" style="font-size: 16px">Gentle weekly reminder <span style="color: #4A4560">· Sundays, 18:00</span></span>
+      <sc-if value="{{swOn}}" hint-placeholder-val="{{true}}">
+        <button type="button" role="switch" aria-checked="true" aria-labelledby="sw-l" onClick="{{toggleSw}}" style="width: 64px; height: 36px; border-radius: 999px; border: 2px solid #1E1B2E; background: #CDBEFF; padding: 2px; display: flex; justify-content: flex-end; align-items: center; cursor: pointer; box-shadow: 0 3px 0 #1E1B2E"><span style="width: 28px; height: 28px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#5B4BC4" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span></button>
+      </sc-if>
+      <sc-if value="{{swOff}}" hint-placeholder-val="{{false}}">
+        <button type="button" role="switch" aria-checked="false" aria-labelledby="sw-l" onClick="{{toggleSw}}" style="width: 64px; height: 36px; border-radius: 999px; border: 2px solid #7A7486; background: #FFFFFF; padding: 2px; display: flex; justify-content: flex-start; align-items: center; cursor: pointer"><span style="width: 28px; height: 28px; border-radius: 50%; background: #7A7486"></span></button>
+      </sc-if>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> selection shown by fill + border + check icon (not colour alone); aria-pressed on chips; real switch semantics with aria-checked; reminders default <em>off</em>.</p>
+  </section>
+
+  <section aria-labelledby="ring-h" style="grid-column: span 5; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+    <h2 id="ring-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Progress ring</h2>
+    <div style="display: flex; align-items: center; gap: 24px">
+      <svg viewBox="0 0 120 120" width="150" height="150" role="img" aria-label="{{ringLabel}}"><circle cx="60" cy="60" r="48" fill="none" stroke="#DDE6FF" stroke-width="12"></circle><path d="{{arc}}" fill="none" stroke="#5B4BC4" stroke-width="12" stroke-linecap="round"></path><circle cx="{{dotX}}" cy="{{dotY}}" r="9" fill="#C85A1E" stroke="#FFFFFF" stroke-width="3"></circle><text x="60" y="66" text-anchor="middle" font-family="Nunito, system-ui, sans-serif" font-weight="800" font-size="22" fill="#1E1B2E">{{pct}}%</text></svg>
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1">
+        <strong style="font-size: 18px">Safety net</strong>
+        <span style="font-size: 15px; color: #4A4560">{{saved}} of $3,000</span>
+        <label for="ring-r" style="font-size: 14px; font-weight: 700; padding-top: 6px">Try it: progress</label>
+        <input id="ring-r" type="range" min="0" max="100" step="1" value="{{pct}}" onChange="{{setPct}}" style="width: 100%; accent-color: #5B4BC4; min-height: 32px">
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> the ring always sits beside the number in text; its accessible name reads “Safety net, 62 percent, $1,860 of $3,000”. Never animated as a loader.</p>
+  </section>
+
+  <section aria-labelledby="mila-h" style="grid-column: span 6; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="mila-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Mila message · voice + text</h2>
+    <div style="display: flex; gap: 12px; align-items: flex-start">
+      <img src="/_blob/30b9441bb0c1f9c3e8d5194469d2c09b" alt="" style="width: 44px; height: 44px; border-radius: 50%; background: #EBE1FF; flex-shrink: 0">
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1">
+        <span style="font-size: 14px"><strong>Mila</strong> <span style="background: #DDE6FF; color: #1E1B2E; border-radius: 6px; padding: 2px 8px; font-size: 13px; font-weight: 700">AI coach</span></span>
+        <div style="background: #FFF8EE; border-radius: 4px 20px 20px 20px; padding: 16px 18px; font-size: 16px; line-height: 1.55">You spent less on takeaways this week — $64 under your usual. Want to move that $64 to your safety net?</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <button type="button" style="min-height: 44px; padding: 0 16px; border: 2px solid #1E1B2E; border-radius: 12px; background: #CDBEFF; color: #1E1B2E; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 3px 0 #1E1B2E">Move $64</button>
+          <button type="button" style="min-height: 44px; padding: 0 16px; border: 2px solid #7A7486; border-radius: 12px; background: #FFFFFF; color: #1E1B2E; font-size: 15px; font-weight: 700; cursor: pointer">Maybe later</button>
+          <button type="button" aria-expanded="{{whyOpen}}" aria-controls="why-p" onClick="{{toggleWhy}}" style="min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: #5B4BC4; font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Why this suggestion?</button>
+        </div>
+        <sc-if value="{{whyOpen}}" hint-placeholder-val="{{false}}">
+          <div id="why-p" style="border: 1px solid #ECE6DD; border-radius: 14px; padding: 14px 16px; font-size: 14px; line-height: 1.55; display: flex; flex-direction: column; gap: 6px">
+            <span>Based on: your 4-week takeaway average (you shared it in your check-in) and your goal “Safety net”.</span>
+            <span>Lesson: <a href="#">Pay yourself first · 3 min</a></span>
+            <span style="color: #4A4560">Mila is an AI. It can be wrong and isn’t a licensed financial adviser.</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> messages in an aria-live="polite" log; every voice reply also has text; suggestions never auto-execute; “Why?” shows data used + source lesson.</p>
+  </section>
+
+  <section aria-labelledby="cards-h" style="grid-column: span 6; background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="cards-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Lesson card · Health band · Milestone</h2>
+    <a href="#" style="text-decoration: none; color: #1E1B2E; border: 1px solid #ECE6DD; border-radius: 20px; padding: 18px; display: flex; gap: 16px; align-items: center">
+      <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 16px; background: #FFE1D1; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#6E3417" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h6l1 2h7a1 1 0 0 1 1 1v12z"></path><path d="M9 13l2 2 4-4"></path></svg></span>
+      <span style="display: flex; flex-direction: column; gap: 4px; flex: 1"><strong style="font-size: 17px">Why a safety net comes first</strong><span style="font-size: 14px; color: #4A4560">3 min · read or listen · Lesson 2 of 6</span></span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5B4BC4" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+    </a>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px">
+      <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: 999px; background: #FFE1D1; color: #6E3417; font-size: 14px; font-weight: 700"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#6E3417"></circle></svg>Building</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: 999px; background: #DDE6FF; color: #1E1B2E; font-size: 14px; font-weight: 700"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 5a7 7 0 1 1 0 14V5z" fill="#1E1B2E"></path><circle cx="12" cy="12" r="7" fill="none" stroke="#1E1B2E" stroke-width="2"></circle></svg>Steady</span>
+      <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: 999px; background: #CDBEFF; color: #1E1B2E; font-size: 14px; font-weight: 700"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#FFFFFF"></circle></svg>Strong</span>
+    </div>
+    <div role="status" style="background: #EBE1FF; color: #1E1B2E; border-radius: 20px; padding: 18px 20px; display: flex; gap: 14px; align-items: center">
+      <img src="/_blob/96311c320d368fa52d02a9bba95f72e0" alt="" style="width: 40px; height: 40px">
+      <span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 17px; color: #1E1B2E">Milestone: first $1,000 saved</strong><span style="font-size: 14px">That’s one month of essentials covered. Share it, or just enjoy it.</span></span>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> bands differ by shape (empty → half → full) and word, not colour. Milestones announced via role="status", optional sound + haptic.</p>
+  </section>
+
+  <section aria-labelledby="nav-h" style="grid-column: 1 / -1; background: #FFFFFF; border-radius: 24px; padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <h2 id="nav-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Bottom navigation · four destinations, always labelled</h2>
+      <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #4A4560"><strong style="color: #1E1B2E">A11y:</strong> nav landmark, aria-current="page", 64 px tall targets, labels never hidden. Mila is a destination, not a floating bubble that covers content. Simplified mode reduces to Today + Mila.</p>
+    </div>
+    <nav aria-label="Main" style="background: #FFFFFF; border: 1px solid #ECE6DD; border-radius: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px">
+      <a href="#" aria-current="page" style="min-height: 64px; border-radius: 14px; background: #DDE6FF; color: #1E1B2E; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 700"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="currentColor"></circle></svg>Today</a>
+      <a href="#" style="min-height: 64px; border-radius: 14px; color: #4A4560; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 700"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a1 1 0 0 1 1-1h6l1 2h7a1 1 0 0 1 1 1v12z"></path></svg>Learn</a>
+      <a href="#" style="min-height: 64px; border-radius: 14px; color: #4A4560; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 700"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"></path><path d="M20 4v4h-4"></path></svg>Goals</a>
+      <a href="#" style="min-height: 64px; border-radius: 14px; color: #4A4560; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 700"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"></path></svg>Mila</a>
+    </nav>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: { 0: true, 2: true }, sw: false, pct: 62, why: false };
+  }
+  renderVals() {
+    const labels = ['Build a safety net', 'Pay off a debt', 'Save for something', 'Understand the basics', 'Teach my kids'];
+    const picked = this.state.picked || {};
+    const chips = labels.map((label, i) => ({
+      label: label,
+      on: !!picked[i],
+      off: !picked[i],
+      toggle: () => {
+        const next = Object.assign({}, this.state.picked);
+        next[i] = !next[i];
+        this.setState({ picked: next });
+      }
+    }));
+    const pct = Math.max(0, Math.min(100, Number(this.state.pct)));
+    const p = Math.min(pct, 99.9);
+    const ang = (-90 + 3.6 * p) * Math.PI / 180;
+    const x = 60 + 48 * Math.cos(ang);
+    const y = 60 + 48 * Math.sin(ang);
+    const large = p > 50 ? 1 : 0;
+    const arc = p <= 0.5 ? 'M60 12' : 'M60 12 A48 48 0 ' + large + ' 1 ' + x.toFixed(2) + ' ' + y.toFixed(2);
+    const savedNum = Math.round(3000 * pct / 100);
+    const saved = '$' + savedNum.toLocaleString('en-US');
+    return {
+      chips: chips,
+      swOn: !!this.state.sw,
+      swOff: !this.state.sw,
+      toggleSw: () => this.setState({ sw: !this.state.sw }),
+      pct: pct,
+      arc: arc,
+      dotX: x.toFixed(2),
+      dotY: y.toFixed(2),
+      saved: saved,
+      ringLabel: 'Safety net, ' + pct + ' percent, ' + savedNum + ' of 3,000 dollars',
+      setPct: (e) => this.setState({ pct: Number(e.target.value) }),
+      whyOpen: !!this.state.why,
+      toggleWhy: () => this.setState({ why: !this.state.why })
+    };
+  }
+}
+</script>
+</body>
+</html>

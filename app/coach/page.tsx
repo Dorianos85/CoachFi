@@ -221,7 +221,7 @@ export default function CoachPage() {
       <div className="mb-5 rounded-2xl border border-primary/12 bg-white p-5 shadow-soft">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary text-white">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary text-on-primary">
               <Volume2 className="h-6 w-6" aria-hidden="true" />
             </span>
             <div>
@@ -282,7 +282,7 @@ export default function CoachPage() {
                       className={cn(
                         "flex items-start gap-2 rounded-2xl px-4 py-3 text-sm font-semibold leading-6",
                         message.role === "user"
-                          ? "rounded-tr-sm bg-primary text-white"
+                          ? "rounded-tr-sm bg-primary text-on-primary"
                           : "rounded-tl-sm border border-primary/10 bg-primary/5 text-text"
                       )}
                     >
@@ -343,7 +343,7 @@ export default function CoachPage() {
               </div>
             )}
             {speechError && (
-              <p className="mb-2 rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-500">
+              <p className="mb-2 rounded-lg bg-warning px-3 py-2 text-xs font-semibold text-text">
                 {speechError}
               </p>
             )}
@@ -360,7 +360,7 @@ export default function CoachPage() {
                   className={cn(
                     "grid h-11 w-11 shrink-0 place-items-center rounded-xl border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40",
                     isListening
-                      ? "border-red-300 bg-red-50 text-red-500 animate-pulse"
+                      ? "border-attention bg-warning text-attention animate-pulse"
                       : "border-primary/15 bg-white text-muted hover:text-primary"
                   )}
                 >
@@ -375,7 +375,7 @@ export default function CoachPage() {
                 placeholder={isListening ? "Słucham…" : t.coach.placeholder}
                 disabled={isTyping}
                 aria-label={t.coach.placeholder}
-                className="min-h-11 flex-1 rounded-xl border border-primary/15 bg-white px-4 text-sm font-semibold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"
+                className="min-h-11 flex-1 rounded-input border-2 border-border bg-white px-4 text-sm font-semibold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"
               />
               <Button
                 type="submit"

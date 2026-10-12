@@ -110,7 +110,7 @@ export default function AccessibilityPage() {
 
               <div className="mt-6 rounded-lg border border-primary/15 bg-primary/5 p-6">
                 <div className="flex items-center gap-4">
-                  <span className="grid h-16 w-16 place-items-center rounded-lg bg-primary text-white">
+                  <span className="grid h-16 w-16 place-items-center rounded-lg bg-primary text-on-primary">
                     <Volume2 className="h-8 w-8" aria-hidden="true" />
                   </span>
                   <div>
@@ -182,7 +182,7 @@ export default function AccessibilityPage() {
               type="date"
               value={birthDate}
               onChange={(event) => setBirthDate(event.target.value)}
-              className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="min-h-12 rounded-input border-2 border-border bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             />
           </label>
           <Button

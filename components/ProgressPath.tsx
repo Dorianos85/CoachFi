@@ -113,7 +113,7 @@ export function ProgressPath() {
                   ? "border-success/25 bg-white"
                   : active
                     ? "border-primary/30 bg-white shadow-glow"
-                    : "border-primary/10 bg-white/70 opacity-70"
+                    : "border-primary/10 bg-white/70 opacity-80"
               }
             >
               <CardContent className="p-5">
@@ -125,7 +125,7 @@ export function ProgressPath() {
                       completed
                         ? "grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-success/15 text-success"
                         : active
-                          ? "grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-white shadow-glow"
+                          ? "grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-on-primary shadow-glow"
                           : "grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/8 text-muted"
                     }
                   >
@@ -138,7 +138,7 @@ export function ProgressPath() {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-lg bg-slate-100 px-2 py-1 text-xs font-black text-muted">
+                      <span className="rounded-lg bg-background px-2 py-1 text-xs font-black text-muted">
                         {t.learn.stageLabel} {index + 1}
                       </span>
                       <Badge variant={statusBadgeVariant(status)}>{getLabel(status)}</Badge>

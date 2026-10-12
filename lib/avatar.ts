@@ -12,20 +12,20 @@ export const AVATAR_STYLES = [
   {
     id: "warrior" as const,
     emoji: "⚔️",
-    from: "#6C47FF",
-    to: "#4338CA",
+    from: "var(--cf-area-mila)",
+    to: "var(--cf-area-mila)",
   },
   {
     id: "explorer" as const,
     emoji: "🧭",
-    from: "#10B981",
-    to: "#059669",
+    from: "var(--cf-area-progress)",
+    to: "var(--cf-area-progress)",
   },
   {
     id: "builder" as const,
     emoji: "🔨",
-    from: "#F59E0B",
-    to: "#D97706",
+    from: "var(--cf-area-rewards)",
+    to: "var(--cf-area-rewards)",
   },
 ] as const;
 

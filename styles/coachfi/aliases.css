@@ -1,0 +1,81 @@
+/* Maps the app's existing Tailwind colour names (primary, success, card…) onto the v6 tokens,
+   so existing classes keep working. Values are RGB channel triples (see channels.css).
+   fill = solid background, hover = strong-opacity background, tint = low-opacity background,
+   ink = text / border / ring / icon colour. */
+:root {
+  --cfx-primary-fill: var(--cf-primary-rgb);
+  --cfx-primary-hover: var(--cf-primary-strong-rgb);
+  --cfx-primary-tint: var(--cf-primary-rgb);
+  --cfx-primary-ink: var(--cf-grape-rgb);
+  /* Grape text must stay >= 4.5:1 on lavender tints. */
+  --cfx-primary-tint-cap: 0.5;
+
+  --cfx-secondary-fill: var(--cf-area-learn-rgb);
+  --cfx-secondary-hover: var(--cf-area-learn-rgb);
+  --cfx-secondary-tint: var(--cf-area-learn-rgb);
+  --cfx-secondary-ink: var(--cf-grape-rgb);
+
+  --cfx-accent-fill: var(--cf-area-rewards-rgb);
+  --cfx-accent-hover: var(--cf-area-rewards-rgb);
+  --cfx-accent-tint: var(--cf-area-rewards-rgb);
+  --cfx-accent-ink: var(--cf-attention-rgb);
+
+  --cfx-success-fill: var(--cf-area-progress-rgb);
+  --cfx-success-hover: var(--cf-area-progress-rgb);
+  --cfx-success-tint: var(--cf-area-progress-rgb);
+  --cfx-success-ink: var(--cf-text-rgb);
+
+  --cfx-warning-fill: var(--cf-area-care-rgb);
+  --cfx-warning-hover: var(--cf-area-care-rgb);
+  --cfx-warning-tint: var(--cf-area-care-rgb);
+  --cfx-warning-ink: var(--cf-attention-rgb);
+
+  /* Pastels are too faint at 5–20 % opacity, so low-opacity tints are boosted and
+     strong-opacity (hover) fills are solid. Legacy turns both off. */
+  --cfx-tint-boost: 6;
+  --cfx-tint-floor: 1;
+
+  --cfx-shadow-soft: var(--cf-shadow-e1);
+  --cfx-shadow-glow: none;
+  --cfx-ring-width: 3px;
+  --cfx-control-border: 2px;
+  --cfx-radius-lg: var(--cf-radius-button);
+  --cfx-radius-xl: 16px;
+  --cfx-radius-2xl: var(--cf-radius-card);
+  --cfx-radius-3xl: var(--cf-radius-sheet);
+  --cfx-body-bg: var(--cf-bg);
+  --cfx-display-tracking: -0.02em;
+
+  --cf-font-sans: var(--font-ui);
+}
+
+/* Pre-v6 look. Switch on with NEXT_PUBLIC_DESIGN_V6=0 (sets data-theme="legacy" on <html>). */
+[data-theme="legacy"] {
+  --cfx-primary-hover: var(--cf-primary-rgb);
+  --cfx-secondary-ink: var(--cf-area-learn-rgb);
+  --cfx-accent-ink: var(--cf-area-rewards-rgb);
+  --cfx-success-ink: var(--cf-area-progress-rgb);
+  --cfx-warning-ink: var(--cf-area-care-rgb);
+  --cfx-tint-boost: 1;
+  --cfx-primary-tint-cap: 1;
+  --cfx-display-tracking: 0;
+  --cfx-tint-floor: 0;
+
+  --cf-shadow-press: 0 18px 45px rgba(118, 104, 232, 0.18);
+  --cfx-shadow-soft: 0 18px 50px rgba(38, 50, 74, 0.1);
+  --cfx-shadow-glow: 0 18px 45px rgba(118, 104, 232, 0.18);
+  --cfx-ring-width: 2px;
+  --cfx-control-border: 1px;
+  --cfx-radius-lg: 0.5rem;
+  --cfx-radius-xl: 0.75rem;
+  --cfx-radius-2xl: 1rem;
+  --cfx-radius-3xl: 1.5rem;
+  --cf-radius-button: 0.5rem;
+  --cf-radius-card: 0.5rem;
+  --cf-radius-input: 0.5rem;
+  --cfx-body-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 255, 0.96) 46%, #f8faff),
+    linear-gradient(135deg, rgba(177, 169, 245, 0.16), transparent 36%),
+    linear-gradient(225deg, rgba(137, 211, 221, 0.16), transparent 34%),
+    linear-gradient(45deg, rgba(255, 213, 156, 0.18), transparent 42%), #f8faff;
+}

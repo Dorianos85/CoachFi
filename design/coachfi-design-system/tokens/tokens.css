@@ -1,0 +1,241 @@
+/* CoachFI design tokens v6 (pastel) — generated from tokens.json. Themes via [data-theme] on <html>. */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Pixelify+Sans:wght@500;700&display=swap");
+
+:root, [data-theme="adult-light"] {
+  --cf-bg: #FFF8EE;
+  --cf-surface: #FFFFFF;
+  --cf-surface-brand: #EBE1FF;
+  --cf-text: #1E1B2E;
+  --cf-text-muted: #4A4560;
+  --cf-primary: #CDBEFF;
+  --cf-primary-border: #1E1B2E;
+  --cf-primary-strong: #B3A6FF;
+  --cf-primary-soft: #EBE1FF;
+  --cf-on-primary: #1E1B2E;
+  --cf-grape: #5B4BC4;
+  --cf-on-grape: #FFFFFF;
+  --cf-accent: #F07A57;
+  --cf-on-accent: #1E1B2E;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-area-learn: #DDE6FF;
+  --cf-area-goals: #FFE1D1;
+  --cf-area-progress: #D5F3E5;
+  --cf-area-mila: #EBE1FF;
+  --cf-area-rewards: #FFF0BF;
+  --cf-area-care: #FFD9EF;
+  --cf-on-area: #1E1B2E;
+  --cf-on-goals-strong: #6E3417;
+  --cf-attention: #B4532A;
+  --cf-border: #7A7486;
+  --cf-border-subtle: #ECE6DD;
+  --cf-focus: #5B4BC4;
+  --cf-chart-1: #5B4BC4;
+  --cf-chart-2: #CDBEFF;
+  --cf-chart-3: #F07A57;
+  --cf-chart-highlight: #C85A1E;
+  --cf-shadow-press: 0 3px 0 #1E1B2E;
+  --cf-font-sans: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --cf-font-pixel: 'Pixelify Sans', 'Nunito', system-ui, sans-serif;
+  --cf-font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --cf-space-0: 0;
+  --cf-space-1: 4px;
+  --cf-space-2: 8px;
+  --cf-space-3: 12px;
+  --cf-space-4: 16px;
+  --cf-space-5: 24px;
+  --cf-space-6: 32px;
+  --cf-space-7: 48px;
+  --cf-space-8: 64px;
+  --cf-space-9: 96px;
+  --cf-radius-input: 8px;
+  --cf-radius-button: 14px;
+  --cf-radius-card: 20px;
+  --cf-radius-sheet: 28px;
+  --cf-radius-pill: 999px;
+  --cf-radius-kids: 6px;
+  --cf-shadow-e0: none;
+  --cf-shadow-e1: 0 1px 2px rgba(30,27,46,.06), 0 2px 8px rgba(30,27,46,.06);
+  --cf-shadow-e2: 0 8px 24px rgba(30,27,46,.10);
+  --cf-shadow-e3: 0 24px 64px rgba(30,27,46,.18);
+  --cf-shadow-kids-block: 0 5px 0 #1D2A1F;
+  --cf-shadow-teen-glow: 0 0 18px rgba(255,113,206,.55);
+  --cf-motion-micro: 120ms;
+  --cf-motion-standard: 200ms;
+  --cf-motion-emphasis: 320ms;
+  --cf-motion-celebrate: 600ms;
+  --cf-motion-easeEnter: cubic-bezier(.2,0,0,1);
+  --cf-motion-easeExit: cubic-bezier(.3,0,1,1);
+  --cf-target-min: 44px;
+  --cf-target-default: 52px;
+  --cf-target-kids: 60px;
+}
+
+[data-theme="adult-dark"] {
+  --cf-bg: #16141F;
+  --cf-surface: #221F30;
+  --cf-surface-brand: #2B2448;
+  --cf-text: #F3EFFA;
+  --cf-text-muted: #BDB6CF;
+  --cf-primary: #B3A6FF;
+  --cf-primary-border: #F3EFFA;
+  --cf-primary-strong: #CDBEFF;
+  --cf-primary-soft: #2B2448;
+  --cf-on-primary: #1E1B2E;
+  --cf-grape: #B3A6FF;
+  --cf-on-grape: #1E1B2E;
+  --cf-accent: #F09A73;
+  --cf-on-accent: #16141F;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-area-learn: #232848;
+  --cf-area-goals: #3A2530;
+  --cf-area-progress: #1E3A33;
+  --cf-area-mila: #2B2448;
+  --cf-area-rewards: #3A3420;
+  --cf-area-care: #3A2338;
+  --cf-on-area: #F3EFFA;
+  --cf-on-goals-strong: #FFD3BF;
+  --cf-attention: #F09A73;
+  --cf-border: #9A93AE;
+  --cf-border-subtle: #34304A;
+  --cf-focus: #B3A6FF;
+  --cf-chart-1: #B3A6FF;
+  --cf-chart-2: #7F6FE0;
+  --cf-chart-3: #F09A73;
+  --cf-chart-highlight: #F09A73;
+  --cf-shadow-press: none;
+}
+
+[data-theme="teen"] {
+  --cf-bg: #1B1035;
+  --cf-surface: #2A1B4D;
+  --cf-surface-brand: #FFD9EF;
+  --cf-text: #FDF4FF;
+  --cf-text-muted: #CDB8F0;
+  --cf-primary: #FF71CE;
+  --cf-primary-strong: #B967FF;
+  --cf-primary-soft: #3D2A66;
+  --cf-on-primary: #1B1035;
+  --cf-accent: #01CDFE;
+  --cf-on-accent: #1B1035;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-area-learn: #2A1B4D;
+  --cf-area-goals: #2A1B4D;
+  --cf-area-progress: #2A1B4D;
+  --cf-area-mila: #2A1B4D;
+  --cf-area-rewards: #2A1B4D;
+  --cf-on-area: #FDF4FF;
+  --cf-on-goals-strong: #FFFB96;
+  --cf-attention: #FFB86B;
+  --cf-border: #9A85C8;
+  --cf-border-subtle: #3D2A66;
+  --cf-focus: #01CDFE;
+  --cf-reward: #FFFB96;
+  --cf-challenge: #B967FF;
+  --cf-sunset: linear-gradient(180deg,#B967FF 0%,#FF71CE 58%,#FFB86B 100%);
+}
+
+[data-theme="kids"] {
+  --cf-bg: #FFF8E8;
+  --cf-surface: #FFFFFF;
+  --cf-surface-brand: #EBE1FF;
+  --cf-text: #1D2A1F;
+  --cf-text-muted: #4A5A4C;
+  --cf-primary: #B84E1A;
+  --cf-primary-strong: #8A3B1A;
+  --cf-primary-soft: #FFE1D1;
+  --cf-on-primary: #FFFFFF;
+  --cf-accent: #FFC83D;
+  --cf-on-accent: #1D2A1F;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-sky: #4FB3E8;
+  --cf-berry: #C2347A;
+  --cf-grass: #7CD36B;
+  --cf-knowledge: #1F6FB2;
+  --cf-border: #1D2A1F;
+  --cf-border-subtle: #1D2A1F;
+  --cf-focus: #1F6FB2;
+  --cf-block-shadow: 0 5px 0 #1D2A1F;
+}
+
+[data-theme="high-contrast"] {
+  --cf-bg: #FFFFFF;
+  --cf-surface: #FFFFFF;
+  --cf-surface-brand: #FFFFFF;
+  --cf-text: #000000;
+  --cf-text-muted: #000000;
+  --cf-primary: #FFFFFF;
+  --cf-primary-strong: #000000;
+  --cf-primary-soft: #FFFFFF;
+  --cf-on-primary: #000000;
+  --cf-accent: #8A2400;
+  --cf-on-accent: #FFFFFF;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-area-learn: #FFFFFF;
+  --cf-area-goals: #FFFFFF;
+  --cf-area-progress: #FFFFFF;
+  --cf-area-mila: #FFFFFF;
+  --cf-area-rewards: #FFFFFF;
+  --cf-on-area: #000000;
+  --cf-on-goals-strong: #000000;
+  --cf-attention: #8A2400;
+  --cf-border: #000000;
+  --cf-border-subtle: #000000;
+  --cf-focus: #3A2C9E;
+  --cf-primary-border: #000000;
+  --cf-grape: #3A2C9E;
+  --cf-on-grape: #FFFFFF;
+  --cf-area-care: #FFFFFF;
+  --cf-shadow-press: 0 3px 0 #000000;
+}
+
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) {
+  --cf-bg: #16141F;
+  --cf-surface: #221F30;
+  --cf-surface-brand: #2B2448;
+  --cf-text: #F3EFFA;
+  --cf-text-muted: #BDB6CF;
+  --cf-primary: #B3A6FF;
+  --cf-primary-border: #F3EFFA;
+  --cf-primary-strong: #CDBEFF;
+  --cf-primary-soft: #2B2448;
+  --cf-on-primary: #1E1B2E;
+  --cf-grape: #B3A6FF;
+  --cf-on-grape: #1E1B2E;
+  --cf-accent: #F09A73;
+  --cf-on-accent: #16141F;
+  --cf-mascot: #E8772E;
+  --cf-mascot-deep: #C85A1E;
+  --cf-area-learn: #232848;
+  --cf-area-goals: #3A2530;
+  --cf-area-progress: #1E3A33;
+  --cf-area-mila: #2B2448;
+  --cf-area-rewards: #3A3420;
+  --cf-area-care: #3A2338;
+  --cf-on-area: #F3EFFA;
+  --cf-on-goals-strong: #FFD3BF;
+  --cf-attention: #F09A73;
+  --cf-border: #9A93AE;
+  --cf-border-subtle: #34304A;
+  --cf-focus: #B3A6FF;
+  --cf-chart-1: #B3A6FF;
+  --cf-chart-2: #7F6FE0;
+  --cf-chart-3: #F09A73;
+  --cf-chart-highlight: #F09A73;
+  --cf-shadow-press: none;
+} }
+
+html { font-family: var(--cf-font-sans); color: var(--cf-text); background: var(--cf-bg); }
+body { font-size: 1rem; line-height: 1.5; }
+a { color: var(--cf-grape); }
+.cf-num, [data-num] { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 3px solid var(--cf-focus); outline-offset: 2px; }
+.cf-btn-primary { background: var(--cf-primary); color: var(--cf-on-primary); border: 2px solid var(--cf-primary-border); border-radius: var(--cf-radius-button); box-shadow: var(--cf-shadow-press); min-height: var(--cf-target-default); font-weight: 800; transition: transform var(--cf-motion-micro), box-shadow var(--cf-motion-micro); }
+.cf-btn-primary:active { transform: translateY(3px); box-shadow: none; }
+.cf-btn-secondary { background: var(--cf-surface); color: var(--cf-text); border: 2px solid var(--cf-primary-border); border-radius: var(--cf-radius-button); min-height: var(--cf-target-default); font-weight: 800; }
+[data-theme="kids"] h1, [data-theme="kids"] h2, [data-theme="kids"] .cf-title { font-family: var(--cf-font-pixel); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0ms !important; transition-duration: 0ms !important; } }

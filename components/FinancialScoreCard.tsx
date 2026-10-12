@@ -15,7 +15,7 @@ export function FinancialScoreCard({
   diagnosis: string;
 }) {
   const ringStyle = {
-    background: `conic-gradient(#7C6FF6 ${score}%, rgba(124, 111, 246, 0.12) 0)`
+    background: `conic-gradient(var(--cf-grape) ${score}%, var(--cf-area-learn) 0)`
   };
   const { locale } = useLanguage();
   const copy = getLocalizedContent(locale);

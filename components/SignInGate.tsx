@@ -175,7 +175,7 @@ export function SignInGate() {
 
   return (
     <div
-      className="fixed inset-0 z-[10000] grid place-items-center bg-slate-900/60 p-4"
+      className="fixed inset-0 z-[10000] grid place-items-center bg-text/60 p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="sign-in-gate-title"
@@ -213,7 +213,7 @@ export function SignInGate() {
               autoComplete="one-time-code"
               value={otp}
               onChange={(event) => setOtp(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-xl border border-primary/15 px-4 text-base font-semibold"
+              className="mt-2 min-h-11 w-full rounded-input border-2 border-border px-4 text-base font-semibold"
             />
           </label>
         ) : (
@@ -224,7 +224,7 @@ export function SignInGate() {
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-xl border border-primary/15 px-4 text-base font-semibold"
+              className="mt-2 min-h-11 w-full rounded-input border-2 border-border px-4 text-base font-semibold"
             />
           </label>
         )}

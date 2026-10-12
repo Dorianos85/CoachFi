@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI — Mila voice and conversation design</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ECE6DD;font-size:15px;line-height:1.45;vertical-align:top}
+thead th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#4A4560;font-weight:800}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 1240px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; align-content: start">
+
+  <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-size: 14px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #5B4BC4">Voice &amp; conversation design</span>
+      <h1 style="margin: 0; font-weight: 900; font-size: 52px; letter-spacing: -0.03em; line-height: 1">Talk for two minutes. Leave with one step.</h1>
+    </div>
+    <p style="margin: 0; font-size: 16px; color: #4A4560; max-width: 460px; text-align: right">Mila is voice-first: every lesson and answer can be heard, and every word is also on screen.</p>
+  </div>
+
+  <section aria-labelledby="loop-h" style="grid-column: 1 / -1; background: #FFFFFF; border-radius: 32px; padding: 28px 32px; display: flex; flex-direction: column; gap: 16px">
+    <h2 id="loop-h" style="margin: 0; font-weight: 900; font-size: 26px">The conversation loop</h2>
+    <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px">
+      <li style="background: #DDE6FF; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><img src="/_blob/f7edbf4790691861226915661698270f" alt="" style="width: 64px; height: 64px"><strong style="font-size: 19px">1 · Listen</strong><span style="font-size: 15px">Hold the mic or type. Mila shows a live caption of what she hears.</span></li>
+      <li style="background: #EBE1FF; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><img src="/_blob/c39edb3bbf7fe91dd2dea4cf108b31dc" alt="" style="width: 64px; height: 64px"><strong style="font-size: 19px">2 · Think</strong><span style="font-size: 15px">Under 1.5 s. If longer, she says so: “Give me a second.”</span></li>
+      <li style="background: #FFE1D1; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><img src="/_blob/30b9441bb0c1f9c3e8d5194469d2c09b" alt="" style="width: 64px; height: 64px"><strong style="font-size: 19px">3 · Explain</strong><span style="font-size: 15px">20–40 seconds, one idea, one example in dollars.</span></li>
+      <li style="background: #D5F3E5; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><img src="/_blob/9c5efb5c68cbe42cc241ae449909f7e4" alt="" style="width: 64px; height: 64px"><strong style="font-size: 19px">4 · One step</strong><span style="font-size: 15px">Ends with a concrete action the user can accept or skip.</span></li>
+      <li style="background: #FFF0BF; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start"><img src="/_blob/59e1ce8266668440188716dcb0901cc5" alt="" style="width: 64px; height: 64px"><strong style="font-size: 19px">5 · Check</strong><span style="font-size: 15px">“Did that help?” — one tap. Feeds the next lesson.</span></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="script-h" style="grid-column: span 7; background: #FFFFFF; border-radius: 32px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+    <h2 id="script-h" style="margin: 0; font-weight: 900; font-size: 26px">Sample conversation</h2>
+    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.5">
+      <div style="align-self: flex-end; background: #DDE6FF; border-radius: 18px 18px 4px 18px; padding: 12px 16px; max-width: 70%"><strong>Maya:</strong> Should I pay off my credit card or start saving first?</div>
+      <div style="display: flex; gap: 10px; align-items: flex-start"><img src="/_blob/30b9441bb0c1f9c3e8d5194469d2c09b" alt="" style="width: 44px; height: 44px; border-radius: 50%; background: #EBE1FF; flex-shrink: 0"><div style="background: #EBE1FF; border-radius: 4px 18px 18px 18px; padding: 12px 16px"><strong>Mila:</strong> Great question. Most people do a bit of both: first a small cushion — around $500 — so a surprise bill doesn’t go on the card. Then extra money goes to the card, because card interest usually costs far more than savings earn. Want to set your $500 cushion goal now?</div></div>
+      <div style="align-self: flex-end; background: #DDE6FF; border-radius: 18px 18px 4px 18px; padding: 12px 16px; max-width: 70%"><strong>Maya:</strong> Yeah, let’s do it.</div>
+      <div style="display: flex; gap: 10px; align-items: flex-start"><img src="/_blob/9c5efb5c68cbe42cc241ae449909f7e4" alt="" style="width: 44px; height: 44px; border-radius: 50%; background: #EBE1FF; flex-shrink: 0"><div style="background: #EBE1FF; border-radius: 4px 18px 18px 18px; padding: 12px 16px"><strong>Mila:</strong> Done — goal saved. Tiny step for today: move $10 when your paycheck lands. Let’s stash a little for winter.</div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="voice-h" style="grid-column: span 5; background: #EBE1FF; border-radius: 32px; padding: 32px; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.55">
+    <h2 id="voice-h" style="margin: 0; font-weight: 900; font-size: 26px">Voice profile</h2>
+    <span><strong>Sound:</strong> warm, mid-pitch, friendly American English; smiles in the voice, never squeaky or cartoonish.</span>
+    <span><strong>Pace:</strong> ~150 words/min; slower in lessons; 0.75×–1.5× speed setting.</span>
+    <span><strong>Provider:</strong> [VOICE PROVIDER] — a licensed synthetic voice, never a clone of a real person.</span>
+    <span><strong>Languages:</strong> English (US) at launch; Polish next, same character, native voice.</span>
+    <span><strong>Words:</strong> plain money words, explains jargon once (“APR — the yearly cost of borrowing”).</span>
+  </section>
+
+  <section aria-labelledby="states-h" style="grid-column: span 7; background: #FFFFFF; border-radius: 32px; padding: 8px 8px 16px">
+    <h2 id="states-h" style="margin: 16px 16px 8px; font-weight: 900; font-size: 26px">Voice states, for everyone</h2>
+    <table style="border-collapse: collapse; width: 100%">
+      <thead><tr><th scope="col">State</th><th scope="col">On screen</th><th scope="col">Sound / haptic</th><th scope="col">Screen reader</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Listening</th><td>Headphones on, live caption</td><td>Soft “open” tick</td><td>“Mila is listening”</td></tr>
+        <tr><th scope="row">Thinking</th><td>Dots above head</td><td>none</td><td>“Mila is thinking” (once)</td></tr>
+        <tr><th scope="row">Talking</th><td>Mouth synced, text appears with audio</td><td>Mila’s voice</td><td>Full text read; not duplicated</td></tr>
+        <tr><th scope="row">Proud</th><td>Proud face, step marked done</td><td>Short chime + haptic</td><td>“Step done: $10 moved”</td></tr>
+        <tr><th scope="row">Resting</th><td>Sleepy face, quiet hours</td><td>none</td><td>“Mila is resting until 8 am”</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="guard-h" style="grid-column: span 5; background: #FFD9EF; color: #1E1B2E; border-radius: 32px; padding: 32px; display: flex; flex-direction: column; gap: 10px">
+    <h2 id="guard-h" style="margin: 0; font-weight: 900; font-size: 26px; color: #1E1B2E">Guardrails</h2>
+    <ul style="margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.65">
+      <li>Opens every new chat with “I’m Mila, an AI coach — not a financial advisor.”</li>
+      <li>Explains principles; never picks a fund, stock, card or loan.</li>
+      <li>Points to a licensed professional for taxes, legal or investment decisions.</li>
+      <li>Suggests a break after ~15 minutes; never guilt-trips a missed day.</li>
+      <li>Audio processed then discarded; transcripts deletable in one tap.</li>
+    </ul>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

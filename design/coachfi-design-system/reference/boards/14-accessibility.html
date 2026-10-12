@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI AI — Accessibility review</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid #ECE6DD;font-size:14px;line-height:1.45;vertical-align:top}
+thead th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#4A4560;font-weight:700;background:#FFF8EE}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 1900px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+    <h1 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 48px; letter-spacing: -0.03em; line-height: 1.05">Accessibility is the product, not a mode.</h1>
+    <p style="margin: 0; font-size: 16px; color: #4A4560; max-width: 560px; text-align: right">Target WCAG 2.2 AA minimum. Design-time review below; must be confirmed with automated checks <em>and</em> blind, low-vision and older participants (board 15).</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">2.4.11 Focus not obscured</strong><span style="font-size: 13.5px; color: #4A4560">Sticky nav and sheets never cover the focused item; scroll-padding set.</span></div>
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">2.5.7 Dragging</strong><span style="font-size: 13.5px; color: #4A4560">Every slider also takes typed values or +/− buttons.</span></div>
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">2.5.8 Target size</strong><span style="font-size: 13.5px; color: #4A4560">Minimum 24 px required; CoachFI uses 44 px, 56–60 px in Kids.</span></div>
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">3.2.6 Consistent help</strong><span style="font-size: 13.5px; color: #4A4560">Mila and Help always in the same place on every screen.</span></div>
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">3.3.7 Redundant entry</strong><span style="font-size: 13.5px; color: #4A4560">Goals entered once, reused in health check and plans.</span></div>
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">3.3.8 Accessible auth</strong><span style="font-size: 13.5px; color: #4A4560">Passkeys / email link; paste allowed; no puzzles.</span></div>
+  </div>
+
+  <section aria-labelledby="comp-h" style="background: #FFFFFF; border-radius: 24px; padding: 8px 8px 16px">
+    <h2 id="comp-h" style="margin: 16px 16px 8px; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Component review</h2>
+    <table style="border-collapse: collapse; width: 100%">
+      <thead><tr><th scope="col" style="width: 14%">Component</th><th scope="col">Screen reader</th><th scope="col">Keyboard &amp; focus</th><th scope="col">Low vision</th><th scope="col">Motion &amp; non-visual</th><th scope="col" style="width: 9%">Risk</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Buttons &amp; links</th><td>Verb-first labels (“Move $64”); icon buttons have aria-label</td><td>Native elements; 3 px focus ring + 2 px offset</td><td>7.9:1 primary; label text never in images</td><td>Press = 120 ms colour change only</td><td>Low</td></tr>
+        <tr><th scope="row">Next-Step ring</th><td>role="img" with full sentence: goal, %, amounts</td><td>Not focusable itself; parent card is the link</td><td>Number always printed beside ring</td><td>Fill animates 320 ms; instant if reduced motion; milestone earcon</td><td>Med — test VoiceOver rotor</td></tr>
+        <tr><th scope="row">Mila chat</th><td>role="log" aria-live="polite"; speaker named per message; “AI coach” in label</td><td>Composer reachable in 1 Tab from content; Esc stops voice</td><td>Bubbles reflow at 200% text; no fixed heights</td><td>Mila’s face changes with each state, always with text status (“Mila is listening…”); captions for every reply</td><td>High — live-region verbosity</td></tr>
+        <tr><th scope="row">Quiz / practice</th><td>fieldset + legend; feedback in role="status"</td><td>Arrow keys within radio group; Enter submits</td><td>Correct/incorrect = icon + word + colour</td><td>Distinct success / retry sounds (optional)</td><td>Low</td></tr>
+        <tr><th scope="row">Health bands</th><td>“Save: building. Savings would cover under a month.”</td><td>Each pillar a heading; “improve” link per pillar</td><td>Band shape (empty/half/full) + word</td><td>None needed</td><td>Low</td></tr>
+        <tr><th scope="row">Charts</th><td>Text summary first; “Show as table” toggle</td><td>Table navigable; bars not individually focusable</td><td>Values printed on bars; 2 px axis</td><td>No animated draw-in</td><td>Med</td></tr>
+        <tr><th scope="row">Switches &amp; chips</th><td>role="switch" aria-checked; chips aria-pressed</td><td>Space toggles; group labelled</td><td>State by position + icon + fill, not hue</td><td>Haptic tick on toggle</td><td>Low</td></tr>
+        <tr><th scope="row">Celebrations</th><td>role="status": “Milestone: first $1,000 saved”</td><td>Never steals focus</td><td>No flashing; under 3 flashes/sec</td><td>One 600 ms moment; sound + haptic; text-only if reduced motion</td><td>Low</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="jr-h" style="background: #FFFFFF; border-radius: 24px; padding: 8px 8px 16px">
+    <h2 id="jr-h" style="margin: 16px 16px 8px; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Journey review</h2>
+    <table style="border-collapse: collapse; width: 100%">
+      <thead><tr><th scope="col" style="width: 14%">Journey</th><th scope="col">Blind (screen reader)</th><th scope="col">Low vision</th><th scope="col">Cognitive / older adults</th><th scope="col">Requirement before launch</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Onboarding</th><td>Progress announced “Step 2 of 5”; goals as toggle buttons</td><td>Works at 200% without horizontal scroll</td><td>5 questions max; skip always visible</td><td>Complete with VoiceOver + TalkBack in &lt; 3 min</td></tr>
+        <tr><th scope="row">Daily check-in</th><td>Whole flow by voice: “Mila, what’s today’s step?”</td><td>Single card, large type</td><td>One decision per screen</td><td>Voice path parity with touch path</td></tr>
+        <tr><th scope="row">Mila voice</th><td>Audio-first; transcript on demand</td><td>High-contrast Mila states + status text</td><td>Slower speech setting; repeat command</td><td>Interruptible at any time</td></tr>
+        <tr><th scope="row">Health check</th><td>Pillars as headings; results read as sentences</td><td>Bands readable without colour</td><td>“Not a credit score” stated twice</td><td>No numeric score shown or announced</td></tr>
+        <tr><th scope="row">Lessons</th><td>Every lesson has audio + transcript</td><td>Text-size respected in player</td><td>3–5 min, one idea</td><td>Captions and transcripts for all media</td></tr>
+        <tr><th scope="row">Kids</th><td>“Read to me” on every page</td><td>60 px targets, 23 px story text</td><td>Pictures carry meaning only alongside words</td><td>Tested with children + parents present</td></tr>
+        <tr><th scope="row">Subscription</th><td>Trial status in plain sentences</td><td>Cancel as visible as Keep</td><td>No countdown pressure</td><td>Cancel in ≤ 2 actions, any assistive tech</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+    <div style="background: #EBE1FF; color: #1E1B2E; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px; color: #1E1B2E">Non-visual progress</strong><span style="font-size: 15px; line-height: 1.55">A rising three-note earcon for milestones, a single soft tick for a done step, haptic patterns that match, and Mila’s spoken weekly summary. All optional, all mirrored in text.</span></div>
+    <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Simplified navigation</strong><span style="font-size: 15px; line-height: 1.55; color: #4A4560">Two destinations (Today, Mila), larger type, no secondary cards. Offered during onboarding and in Settings — never labelled “senior mode”.</span></div>
+    <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 22px">Testing stack</strong><span style="font-size: 15px; line-height: 1.55; color: #4A4560">axe-core in CI, manual VoiceOver/TalkBack/NVDA scripts per release, contrast tokens linted, and a paid panel of disabled testers each quarter.</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

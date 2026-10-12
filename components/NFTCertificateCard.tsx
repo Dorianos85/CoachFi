@@ -38,15 +38,15 @@ export function NFTCertificateCard({
 
   return (
     <div className={cn(
-      "relative overflow-hidden rounded-2xl border-2 bg-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-glow",
-      isMinted ? "border-[#9945FF]/30" : isReady ? "border-primary/25" : "border-primary/10"
+      "relative overflow-hidden rounded-card border-2 bg-white shadow-soft transition hover:-translate-y-0.5",
+      isMinted ? "border-primary-border" : isReady ? "border-primary/25" : "border-border-subtle"
     )}>
       {/* Certificate header gradient */}
       <div className={cn(
         "relative px-6 py-5",
         isMinted
-          ? "bg-gradient-to-r from-[#9945FF]/10 via-[#14F195]/10 to-[#9945FF]/10"
-          : "bg-gradient-to-r from-primary/8 to-accent/8"
+          ? "bg-area-rewards"
+          : "bg-primary/5"
       )}>
         {/* Decorative corner lines */}
         <div className="pointer-events-none absolute inset-3 rounded-xl border border-dashed border-current/10" />
@@ -55,7 +55,7 @@ export function NFTCertificateCard({
           <div className="flex items-center gap-3">
             <div className={cn(
               "grid h-12 w-12 place-items-center rounded-xl shadow-sm",
-              isMinted ? "bg-gradient-to-br from-[#9945FF] to-[#14F195] text-white" : "bg-primary/10 text-primary"
+              isMinted ? "border-2 border-primary-border bg-white text-text" : "bg-primary/10 text-primary"
             )}>
               <Icon className="h-6 w-6" aria-hidden="true" />
             </div>
@@ -68,11 +68,11 @@ export function NFTCertificateCard({
           </div>
 
           {isMinted && (
-            <div className="flex items-center gap-1 rounded-full bg-[#9945FF]/10 px-2.5 py-1">
-              <svg className="h-3 w-3" viewBox="0 0 397 311" fill="none" aria-hidden="true">
-                <path d="M64.6 237.9a11 11 0 0 1 7.8-3.2h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4l62.7-62.7zm0-164.7A11 11 0 0 1 72.4 70h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4L64.6 73.2zM330 3.2A11 11 0 0 0 322.2 0H4.8C-.1 0-2.6 5.9.9 9.4l62.7 62.7a11 11 0 0 0 7.8 3.2h317.4c4.9 0 7.4-5.9 3.9-9.4L330 3.2z" fill="#9945FF"/>
+            <div className="flex items-center gap-1 rounded-full bg-white px-2.5 py-1">
+              <svg className="h-3 w-3 text-primary" viewBox="0 0 397 311" fill="none" aria-hidden="true">
+                <path d="M64.6 237.9a11 11 0 0 1 7.8-3.2h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4l62.7-62.7zm0-164.7A11 11 0 0 1 72.4 70h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4L64.6 73.2zM330 3.2A11 11 0 0 0 322.2 0H4.8C-.1 0-2.6 5.9.9 9.4l62.7 62.7a11 11 0 0 0 7.8 3.2h317.4c4.9 0 7.4-5.9 3.9-9.4L330 3.2z" fill="currentColor"/>
               </svg>
-              <span className="text-[10px] font-black text-[#9945FF]">On-chain</span>
+              <span className="text-[10px] font-black text-primary">On-chain</span>
             </div>
           )}
         </div>
@@ -96,7 +96,7 @@ export function NFTCertificateCard({
           <div className="h-px flex-1 bg-primary/10" />
           <div className={cn(
             "grid h-8 w-8 place-items-center rounded-full border-2 text-xs font-black",
-            isMinted ? "border-[#9945FF]/40 text-[#9945FF]" : "border-primary/20 text-primary"
+            isMinted ? "border-primary-border text-text" : "border-primary/20 text-primary"
           )}>
             FI
           </div>
@@ -108,8 +108,8 @@ export function NFTCertificateCard({
           <div>
             <span className={cn(
               "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-black",
-              isMinted ? "bg-[#9945FF]/10 text-[#9945FF]" :
-              isReady ? "bg-accent/15 text-amber-700" :
+              isMinted ? "bg-area-rewards text-text" :
+              isReady ? "bg-accent text-text" :
               "bg-primary/8 text-muted"
             )}>
               {isMinted && (
@@ -129,7 +129,7 @@ export function NFTCertificateCard({
               href={explorerUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10px] font-bold text-[#9945FF] hover:underline"
+              className="text-[10px] font-bold text-primary underline hover:no-underline"
             >
               View on Solana ↗
             </a>
@@ -139,7 +139,7 @@ export function NFTCertificateCard({
             <button
               type="button"
               onClick={onMint}
-              className="rounded-lg bg-gradient-to-r from-[#9945FF] to-[#14F195] px-3 py-1.5 text-xs font-black text-white shadow-sm transition hover:opacity-90"
+              className="cf-press rounded-lg bg-primary-fill px-3 py-1.5 text-xs font-black text-on-primary hover:bg-primary-strong"
             >
               {t.rewards.mint}
             </button>

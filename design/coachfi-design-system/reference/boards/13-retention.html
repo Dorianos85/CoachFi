@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachFI AI — Healthy retention system</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFF8EE}
+th,td{text-align:left;padding:12px 12px;border-bottom:1px solid #ECE6DD;font-size:14px;line-height:1.45;vertical-align:top}
+thead th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#4A4560;font-weight:700;background:#FFF8EE}
+</style>
+</helmet>
+<div style="width: 1600px; min-height: 1900px; box-sizing: border-box; padding: 64px 72px; background: #FFF8EE; color: #1E1B2E; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; gap: 28px">
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; align-items: stretch">
+    <div style="display: flex; flex-direction: column; gap: 14px; justify-content: flex-end">
+      <h1 style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; font-size: 48px; letter-spacing: -0.03em; line-height: 1.05">Healthy retention: people return because their money got better.</h1>
+      <p style="margin: 0; font-size: 18px; color: #4A4560; max-width: 780px">The goal is not screen time. Every loop below ends in a real-world action or real understanding — and none of them punishes a missed day.</p>
+    </div>
+    <div style="background: #EBE1FF; color: #1E1B2E; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1E1B2E">North-star metric</span>
+      <strong style="font-family: 'Nunito', system-ui, sans-serif; font-size: 28px; line-height: 1.15">Weekly progressors</strong>
+      <span style="font-size: 16px; line-height: 1.5; color: #4A4560">Share of active users who complete ≥ 1 real financial action <em>or</em> lesson in a week. Time-in-app is tracked only as a guardrail — rising time with falling actions is a warning, not a win.</span>
+    </div>
+  </div>
+
+  <section aria-labelledby="loops-h" style="background: #FFFFFF; border-radius: 24px; padding: 8px 8px 16px; overflow: hidden">
+    <h2 id="loops-h" style="margin: 16px 16px 8px; font-family: 'Nunito', system-ui, sans-serif; font-size: 26px">Feature loops</h2>
+    <table style="border-collapse: collapse; width: 100%">
+      <thead><tr><th scope="col" style="width: 13%">Feature</th><th scope="col">Why return</th><th scope="col">Value received</th><th scope="col">Action to complete</th><th scope="col">How progress is measured</th><th scope="col">What keeps motivation</th><th scope="col">Guard against fatigue, guilt &amp; dependence</th></tr></thead>
+      <tbody>
+        <tr><th scope="row" style="font-size: 15px">Daily 2-min check-in</th><td>Clarity: “what’s my one thing today?”</td><td>One tailored next step + 1 fact</td><td>Mark the step done or swap it</td><td>Steps completed / week</td><td>Ring closes visibly; dot moves</td><td>Reminder off by default; 4 of 7 days counts as a great week; no streaks</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Weekly review</th><td>See what changed in money, not in app usage</td><td>3-line summary + 1 idea for next week</td><td>Accept, edit or skip the idea</td><td>Reviews opened; ideas tried</td><td>Visible improvement over time</td><td>One notification max per week; “skip this week” is a first-class button</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Learning path</th><td>Curiosity; short, finishable lessons</td><td>Understanding tied to a goal they chose</td><td>Finish a 3–5 min lesson + practice</td><td>Mastery checks passed, not minutes</td><td>Path position; “why this matters for you”</td><td>Lessons capped at 2 suggested per day; no timers</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Habit routines</th><td>Automation makes good choices easy</td><td>Money moves without willpower</td><td>Set up a routine in their bank</td><td>Routines active after 30 days</td><td>Competence: “it happens on its own now”</td><td>Pause any routine without losing history</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Savings milestones</th><td>Celebrate real amounts reached</td><td>Concrete meaning (“1 month of essentials”)</td><td>Log a transfer</td><td>Milestones reached</td><td>One celebration, then calm</td><td>No comparisons with other users; no leaderboards on money</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Coach Mila</th><td>Ask anything without judgement</td><td>Plain-language answers with sources</td><td>Turn an answer into a step</td><td>Answers → actions rate; “was this helpful?”</td><td>Feeling supported, not watched</td><td>Mila nudges toward offline action; suggests a break after long sessions; never claims to be human</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Optional challenges</th><td>Variety for those who like it</td><td>A guided experiment (e.g. one no-spend day)</td><td>Opt in, try, reflect</td><td>Completion + reflection answer</td><td>Novelty with a clear end date</td><td>Never auto-enrolled; no penalty for leaving</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Kids stories</th><td>Stories they want to hear again</td><td>One money idea grounded in real animal science</td><td>Finish a story, answer one question</td><td>Stories finished; parent “well done” sent</td><td>Parent praise, jar growth</td><td>No push notifications to children; no rewards for time spent; parent sets limits</td></tr>
+        <tr><th scope="row" style="font-size: 15px">Family goals</th><td>Shared purpose</td><td>Everyone sees the same goal</td><td>Contribute or encourage</td><td>Family goal progress</td><td>Relatedness</td><td>Parents choose what kids see; no ranking between siblings</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+    <section aria-labelledby="nb-h" style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h2 id="nb-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 24px">Notification budget</h2>
+      <ul style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.7">
+        <li>Max 1 push per day, 3 per week, across all features</li>
+        <li>Daily reminders opt-in; weekly review suggested once, at a time the user picks</li>
+        <li>Quiet hours 21:00–08:00 by default</li>
+        <li>3 ignored in a row → frequency halves automatically and we tell the user</li>
+        <li>Every notification carries value in itself (“$64 under your usual this week”)</li>
+      </ul>
+    </section>
+    <section aria-labelledby="cp-h" style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h2 id="cp-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 24px">Copy rules</h2>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5">
+        <span style="background: #DDE6FF; color: #1E1B2E; border-radius: 12px; padding: 10px 12px">“Welcome back — your next step is ready.”</span>
+        <span style="background: #FFF8EE; border-radius: 12px; padding: 10px 12px; text-decoration: line-through; color: #4A4560">“You broke your 12-day streak!”</span>
+        <span style="background: #DDE6FF; color: #1E1B2E; border-radius: 12px; padding: 10px 12px">“Quiet month? That happens. Want a lighter plan?”</span>
+        <span style="background: #FFF8EE; border-radius: 12px; padding: 10px 12px; text-decoration: line-through; color: #4A4560">“Only 2 hours left to claim your reward!”</span>
+      </div>
+    </section>
+    <section aria-labelledby="rm-h" style="background: #FFD9EF; color: #1E1B2E; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h2 id="rm-h" style="margin: 0; font-family: 'Nunito', system-ui, sans-serif; font-size: 24px; color: #1E1B2E">Removed on purpose</h2>
+      <ul style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.7">
+        <li><strong>Variable-ratio rewards</strong> — the slot-machine schedule in the current plan; replaced by predictable rewards for real actions</li>
+        <li><strong>Streak loss &amp; paid streak freezes</strong></li>
+        <li><strong>Countdown timers &amp; artificial scarcity</strong></li>
+        <li><strong>Money leaderboards</strong> — social comparison about money harms the people we most want to help</li>
+        <li><strong>Rewards with cash value</strong> — NFT certificates stay: proof of a finished course, earned only by learning, never bought or sold in the app</li>
+      </ul>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
