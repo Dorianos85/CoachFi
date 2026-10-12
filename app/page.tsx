@@ -263,8 +263,8 @@ function CoachPocket({ copy }: { copy: DashboardCopy["coachPocket"] }) {
       aria-labelledby="coach-pocket-title"
     >
       <div className="flex items-center gap-4">
-        <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-lg bg-primary/10">
-          <img src="/coach-fi-avatar.svg" alt={copy.alt} className="h-14 w-14 object-contain" />
+        <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-full bg-area-mila">
+          <img src="/brand/mila/mila-head-neutral.svg" alt={copy.alt} className="h-14 w-14 object-contain" />
         </div>
         <div>
           <p className="text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
