@@ -5,6 +5,29 @@ Built for Solana Colosseum Frontier Hackathon 2026.
 
 ---
 
+## Current Product Direction
+
+Coach FI is being simplified into a daily financial learning product:
+
+**Daily Challenge -> Quiz -> Mila -> Coins -> Level -> Share -> Come back tomorrow**
+
+The demo navigation now prioritizes the daily loop first, with learning, tools and modes grouped behind it. The current architecture source of truth is:
+
+- [Product Architecture](docs/PRODUCT_ARCHITECTURE.md)
+- [Distribution Rollout](docs/DISTRIBUTION_ROLLOUT.md)
+- [ElevenLabs Marketing Plan](docs/MARKETING_PLAN_ELEVENLABS.md)
+- [Launch QA Checklist](docs/LAUNCH_QA_CHECKLIST.md)
+- [API Setup](docs/API_SETUP.md)
+- [Security & Privacy](docs/SECURITY_PRIVACY.md)
+
+The product direction is voice-first, reward-driven and mode-based:
+
+- Adult Mode: personal finance education, daily missions, AI coach Mila and rewards.
+- Kids Mode: simplified financial literacy with strict safety boundaries.
+- Accessibility Mode: large controls, readable text, high contrast and voice narration.
+
+---
+
 ## Problem
 
 Most people are not bad with money. They were simply never taught how money works.
@@ -15,16 +38,17 @@ Millions of people do not understand inflation, saving, credit, interest rates, 
 
 ## Solution
 
-Coach FI guides the user through a financial transformation:
+Coach FI guides a family through a financial transformation:
 
-**Awareness → Diagnosis → Education → Habit → Certification**
+**Free diagnosis -> account + terms -> score -> family plan -> Mila voice trial -> premium habits**
 
-1. User completes the **Financial Health Check** (score 0–100)
-2. Sees how inflation has eroded their purchasing power (**Inflation Reality Check**)
-3. Gets a **personalized learning path** (8 stages)
-4. Talks to **AI coach Mila** — warm, direct and calm
-5. Completes **quizzes** and earns **Coach FI Tokens**
-6. **Mints an NFT certificate** on Solana Devnet as proof of progress
+1. User completes the free **Financial Health Check**.
+2. User logs in and accepts current Terms/Privacy to unlock the final score.
+3. Coach FI shows the **Family Financial Health Score** and top money leaks.
+4. Mila explains the result and proposes a 30-day family plan.
+5. User starts daily missions, Kids Mode lessons and shopping/receipt hygiene.
+6. Trial users can test **Mila Voice Coach** before Premium Family.
+7. Advanced users can mint a Solana Devnet certificate as proof of progress.
 
 ---
 
@@ -43,11 +67,19 @@ Coach FI is a calm educational platform for financial confidence, saving habits 
 
 | Screen | Description |
 |---|---|
-| **Home** | Adult, Kids and Accessibility modes. CTA + Mila avatar. |
-| **Financial Health Check** | 10-field form (income, expenses, savings, debt, cash, cushion, inflation, retirement, investments, goal). Score 0–100. |
+| **Home** | Premium-family positioning with free Financial Health Check as the main CTA. |
+| **Financial Health Check** | Free diagnostic entry point. Current app demo shows preview first, then unlocks the final score and a 30-day family action plan after email + Terms/Privacy acceptance. Real auth persistence is the next step. |
+| **30-Day Family Plan** | Post-score checklist with voice narration, token rewards, Mila trial CTA and links into Shopping Hygiene, Learning Path, Daily Challenge and Kids Mode. |
 | **Inflation** | Interactive calculator with Recharts chart. Three scenarios: cash / saving habit / educated investor. |
+| **Shopping Hygiene** | Purchase regret analyzer with return / sell / pause / keep decision, unused-items cash recovery and advertising hygiene reset. |
+| **Daily Shopping List** | Daily grocery / hygiene / home shopping list with impulse-pause prompts, checklist rewards and read-aloud support. |
+| **Receipt & Invoice Analyzer** | Static demo module for pasted receipt/invoice OCR text plus photo/screenshot preview: compares purchases with the shopping list, flags needed vs impulse items and summarizes expense categories. |
+| **6-Jar Automation** | Eker-style 6-jar income split with practical setup guidance: 6 bank subaccounts, recurring payday transfers, habit discipline and a safe Open Banking roadmap. |
+| **Financial Crisis Plan** | Adult-only hidden/conditional path with emergency contacts, local support search, debt-help steps and copyable request templates. |
+| **Job Recovery** | Conditional income-recovery path after job or business loss: paste CV, name strengths, prepare a LinkedIn/network message and use job portals. |
 | **Learning Path** | 8 stages: Mindset → Saving Habit → Inflation → Credit → Emergency Fund → Investing → Retirement → Family Plan. |
 | **AI Coach** | Mila uses Claude Haiku when `ANTHROPIC_API_KEY` is configured, OpenRouter when `OPENROUTER_API_KEY` is configured, and falls back to predefined replies when neither is available. |
+| **Premium Voice Trial** | Product direction: limited 7-day Mila Voice Coach trial, then Premium Family with fair-use controls for AI/TTS/OCR. |
 | **Quiz** | 4 questions with instant feedback, tokens and read-aloud support. |
 | **Rewards & NFT** | Tokens + certificate cards + real Metaplex Core mint on Solana Devnet, with mock fallback when API/wallet are not ready. |
 | **Kids Mode** | 6 modules (needs, jar, goal, pocket money, stars, sharing). Animations and star system. |
@@ -140,6 +172,8 @@ app/
   voice-demo/           — EN / PL / JA ElevenLabs TTS demo
   health-check/         — Financial Health Check
   inflation/            — Inflation Reality Check
+  shopping/             — Shopping Hygiene purchase analyzer
+  crisis/               — Adult Financial Crisis Plan
   learn/                — Learning path
   coach/                — AI Coach chat
   quiz/                 — Quiz system
@@ -149,6 +183,10 @@ app/
   partner/              — B2B Partner Portal
   layout.tsx
   providers.tsx         — Solana Wallet Adapter
+
+Standalone prototype:
+
+  CoachFI_DemoDay.html  — safe static HTML demo connecting the simplified product loop, Adult Mode, Kids Mode, Daily Shopping List, Receipt & Invoice Analyzer, Shopping Hygiene, Eker jars and Crisis Plan.
 
 components/
   AppNavigation.tsx     — Sidebar + header + footer + mobile nav

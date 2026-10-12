@@ -9,13 +9,12 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
 import { calculateLifePathNumber, numerologyStyles } from "@/lib/numerology";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
-const accessibilityVoiceCopy: Record<
-  Locale,
+const accessibilityVoiceCopy: LocalizedMap<
   {
     title: string;
     subtitle: string;
@@ -72,7 +71,7 @@ const accessibilityVoiceCopy: Record<
 export default function AccessibilityPage() {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale).accessibility;
-  const voiceCopy = accessibilityVoiceCopy[locale];
+  const voiceCopy = pickLocalized(accessibilityVoiceCopy, locale);
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const voiceScripts = voiceDemoScripts[voiceLocale];

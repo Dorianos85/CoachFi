@@ -4,7 +4,7 @@ import { useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface MilaAvatarProps {
@@ -19,7 +19,7 @@ const sizes = {
   lg: "h-48 w-48",
 };
 
-const avatarCopy: Record<Locale, { speaking: string; idle: string }> = {
+const avatarCopy: LocalizedMap<{ speaking: string; idle: string }> = {
   pl: { speaking: "Mila mówi", idle: "Avatar Mili, coacha finansowego AI" },
   en: { speaking: "Mila is speaking", idle: "Mila AI financial coach avatar" },
   ja: { speaking: "Milaが話しています", idle: "Mila AI金融コーチのアバター" },
@@ -32,7 +32,7 @@ const MOUTH_FRAME_MS = 1000 / 7;
 
 export function MilaAvatar({ className, isSpeaking = false, size = "md" }: MilaAvatarProps) {
   const { locale } = useLanguage();
-  const copy = avatarCopy[locale];
+  const copy = pickLocalized(avatarCopy, locale);
   const reduceMotion = useReducedMotion();
   const [mouthOpen, setMouthOpen] = useState(true);
 

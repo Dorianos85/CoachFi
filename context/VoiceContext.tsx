@@ -4,11 +4,11 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
-
-type VoiceLocale = "pl" | "en" | "ja";
+import { localeSpeechLang, type Locale } from "@/lib/i18n";
+import { notifyCloud } from "@/lib/sync/syncQueue";
 
 export interface VoiceSpeakOptions {
-  locale?: VoiceLocale;
+  locale?: Locale;
   voiceId?: string;
   modelId?: string;
   speechLang?: string;
@@ -28,11 +28,7 @@ const DEFAULT_VOICE = ELEVENLABS_VOICES[0].id;
 const TTS_TIMEOUT_MS = 6500;
 const MAX_TTS_TEXT_LENGTH = 500;
 
-const SPEECH_LANG_BY_LOCALE: Record<VoiceLocale, string> = {
-  pl: "pl-PL",
-  en: "en-US",
-  ja: "ja-JP",
-};
+const SPEECH_LANG_BY_LOCALE = localeSpeechLang;
 
 interface VoiceContextValue {
   voiceId: string;
@@ -93,6 +89,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   function setVoiceId(id: string) {
     setVoiceIdState(id);
     localStorage.setItem(VOICE_KEY, id);
+    notifyCloud("profile");
   }
 
   function stop() {

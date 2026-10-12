@@ -12,9 +12,8 @@ import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 
-const DEFAULT_AGENT_ID = "agent_2301krbsttc8f21ra1h5vge02071";
-const AGENT_ID = (process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? DEFAULT_AGENT_ID).trim();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
+const INVITE_CODE_KEY = "coachfi-invite-code";
 
 const agentRoutes = {
   home: "/",
@@ -112,20 +111,27 @@ function resolveAgentPath(args?: Record<string, unknown>) {
   return null;
 }
 
+type VoicePhase = "idle" | "loading" | "ready" | "denied";
+
 export function MilaVoiceFab() {
   const router = useRouter();
   const pathname = usePathname();
   const widgetRef = useRef<HTMLElement | null>(null);
   const voiceWatchRef = useRef<number | null>(null);
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
   const { loaded, requiredAccepted, hasOptionalConsent } = useConsent();
   const [signedUrl, setSignedUrl] = useState("");
-  const [agentId, setAgentId] = useState(AGENT_ID);
   const [tokenBalance, setTokenBalance] = useState(mockUser.tokenBalance);
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
   const [textOnly, setTextOnly] = useState(false);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
+  // Voice session is gated behind an invite code with a hard one-conversation
+  // limit, enforced server-side. The signed URL (and thus code consumption)
+  // is only ever fetched after an explicit user click — never on mount.
+  const [phase, setPhase] = useState<VoicePhase>("idle");
+  const [deniedMessage, setDeniedMessage] = useState("");
+  const [inviteCode, setInviteCode] = useState<string | null>(null);
   const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
@@ -150,27 +156,46 @@ export function MilaVoiceFab() {
   }, []);
 
   useEffect(() => {
-    if (!enabled) return;
-    let cancelled = false;
+    const fromQuery = new URLSearchParams(window.location.search).get("code")?.trim().toUpperCase();
+    if (fromQuery) {
+      localStorage.setItem(INVITE_CODE_KEY, fromQuery);
+      setInviteCode(fromQuery);
+      return;
+    }
+    const stored = localStorage.getItem(INVITE_CODE_KEY)?.trim().toUpperCase();
+    setInviteCode(stored || null);
+  }, []);
 
-    fetch("/api/mila-token", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((data: { signedUrl?: string; agentId?: string }) => {
-        if (cancelled) return;
-        setSignedUrl(data.signedUrl?.trim() ?? "");
-        setAgentId(data.agentId?.trim() || AGENT_ID);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setSignedUrl("");
-          setAgentId(AGENT_ID);
+  const startVoice = async () => {
+    if (!inviteCode || phase === "loading") return;
+    setPhase("loading");
+    try {
+      const res = await fetch(`/api/mila-token?code=${encodeURIComponent(inviteCode)}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = (await res.json()) as { signedUrl?: string };
+        const url = data.signedUrl?.trim();
+        if (url) {
+          setSignedUrl(url);
+          setPhase("ready");
+          return;
         }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [enabled]);
+        setDeniedMessage("Głos chwilowo niedostępny");
+        setPhase("denied");
+        return;
+      }
+      if (res.status === 429) {
+        setDeniedMessage("Wykorzystałeś już swoją rozmowę głosową");
+      } else if (res.status === 403) {
+        setDeniedMessage("Nieprawidłowy kod");
+      } else {
+        setDeniedMessage("Głos chwilowo niedostępny");
+      }
+      setPhase("denied");
+    } catch {
+      setDeniedMessage("Głos chwilowo niedostępny");
+      setPhase("denied");
+    }
+  };
 
   const agentContext = useMemo(
     () => ({
@@ -195,9 +220,16 @@ export function MilaVoiceFab() {
 
   const dynamicVariables = useMemo(() => JSON.stringify(agentContext), [agentContext]);
 
+  // Client tools read the context through a ref so the widget effect below does
+  // not re-run (re-attaching listeners/observers) on every token/path change.
+  const agentContextRef = useRef(agentContext);
+  useEffect(() => {
+    agentContextRef.current = agentContext;
+  }, [agentContext]);
+
   useEffect(() => {
     const widget = widgetRef.current;
-    if (!widget || !enabled) return;
+    if (!widget || !enabled || phase !== "ready") return;
 
     const navigate = (path: string) => {
       router.push(path);
@@ -268,13 +300,16 @@ export function MilaVoiceFab() {
         openRewards: () => navigate("/rewards"),
         openAccessibilityMode: () => navigate("/accessibility"),
         openVoiceDemo: () => navigate("/voice-demo"),
-        getCoachFIContext: () => ({
-          ok: true,
-          context: agentContext,
-          readable_summary:
-            `User is on ${agentContext.current_page}. Financial Health Score is ${agentContext.financial_health_score}. ` +
-            `Current stage is ${agentContext.current_stage}. Savings goal is ${agentContext.savings_goal}.`,
-        }),
+        getCoachFIContext: () => {
+          const context = agentContextRef.current;
+          return {
+            ok: true,
+            context,
+            readable_summary:
+              `User is on ${context.current_page}. Financial Health Score is ${context.financial_health_score}. ` +
+              `Current stage is ${context.current_stage}. Savings goal is ${context.savings_goal}.`,
+          };
+        },
         setCoachFIAgentTextMode: (args) => {
           const enabledTextOnly = args?.enabled !== false;
           setTextOnly(enabledTextOnly);
@@ -286,21 +321,24 @@ export function MilaVoiceFab() {
 
     widget.addEventListener("elevenlabs-convai:call", handleCall);
 
-    // Watch shadow DOM for the specific ElevenLabs quota error message
+    // Watch shadow DOM for the specific ElevenLabs quota error message.
+    // The widget animates constantly, so mutations arrive in high-frequency
+    // bursts — reading root.textContent on every mutation froze the renderer.
+    // Coalesce bursts into one debounced check per second and disconnect for
+    // good once the quota message is found.
     let observer: MutationObserver | null = null;
     let quotaTimer: ReturnType<typeof setTimeout> | null = null;
     const attachObserver = (root: ShadowRoot) => {
       observer = new MutationObserver(() => {
-        const text = root.textContent ?? "";
-        if (text.includes("exceeds your quota limit")) {
-          if (quotaTimer) return;
-          quotaTimer = setTimeout(() => {
-            if ((root.textContent ?? "").includes("exceeds your quota limit")) {
-              setQuotaExceeded(true);
-            }
-            quotaTimer = null;
-          }, 1500);
-        }
+        if (quotaTimer) return;
+        quotaTimer = setTimeout(() => {
+          quotaTimer = null;
+          if ((root.textContent ?? "").includes("exceeds your quota limit")) {
+            observer?.disconnect();
+            observer = null;
+            setQuotaExceeded(true);
+          }
+        }, 1000);
       });
       observer.observe(root, { subtree: true, childList: true, characterData: true });
     };
@@ -324,9 +362,9 @@ export function MilaVoiceFab() {
         endAgentConversation("voice");
       });
     };
-  }, [agentContext, enabled, router]);
+  }, [enabled, phase, router]);
 
-  if (!AGENT_ID || !enabled) return null;
+  if (!enabled) return null;
 
   if (quotaExceeded) {
     return (
@@ -342,29 +380,69 @@ export function MilaVoiceFab() {
     );
   }
 
+  if (phase === "denied") {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
+        <p className="text-sm font-black text-text">Mila — głos niedostępny</p>
+        <p className="mt-1 text-xs font-semibold leading-5 text-muted">{deniedMessage}</p>
+        <button
+          type="button"
+          onClick={() => setPhase("idle")}
+          className="mt-3 text-xs font-black text-primary underline"
+        >
+          Spróbuj ponownie
+        </button>
+      </div>
+    );
+  }
+
+  if (phase === "ready" && signedUrl) {
+    return (
+      <>
+        <Script
+          id="elevenlabs-convai-widget"
+          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+          strategy="afterInteractive"
+        />
+        <elevenlabs-convai
+          ref={widgetRef}
+          key={`${signedUrl}-${locale}-${textOnly ? "text" : "voice"}`}
+          signed-url={signedUrl}
+          server-location="us"
+          dynamic-variables={dynamicVariables}
+          override-language={locale}
+          text-input="true"
+          transcript="true"
+          mic-muting="true"
+          dismissible="true"
+          {...(textOnly ? { "override-text-only": "true" } : {})}
+          worklet-path-raw-audio-processor="/elevenlabs-worklets/rawAudioProcessor.js"
+          worklet-path-audio-concat-processor="/elevenlabs-worklets/audioConcatProcessor.js"
+        />
+      </>
+    );
+  }
+
+  if (!inviteCode) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 max-w-[240px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
+        <p className="text-xs font-semibold leading-5 text-muted">Potrzebujesz kodu zaproszeniowego</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <Script
-        id="elevenlabs-convai-widget"
-        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
-        strategy="afterInteractive"
-      />
-      <elevenlabs-convai
-        ref={widgetRef}
-        key={`${signedUrl || agentId}-${locale}-${textOnly ? "text" : "voice"}`}
-        {...(signedUrl ? { "signed-url": signedUrl } : { "agent-id": agentId })}
-        server-location="us"
-        dynamic-variables={dynamicVariables}
-        override-language={locale}
-        text-input="true"
-        transcript="true"
-        mic-muting="true"
-        dismissible="true"
-        {...(textOnly ? { "override-text-only": "true" } : {})}
-        worklet-path-raw-audio-processor="/elevenlabs-worklets/rawAudioProcessor.js"
-        worklet-path-audio-concat-processor="/elevenlabs-worklets/audioConcatProcessor.js"
-      />
-    </>
+    <button
+      type="button"
+      onClick={startVoice}
+      disabled={phase === "loading"}
+      title={t.voiceAgent.title}
+      aria-label="Rozpocznij rozmowę z Milą"
+      className="fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-black text-white shadow-glow transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-60"
+    >
+      <Mic className="h-4 w-4" aria-hidden="true" />
+      {phase === "loading" ? "Łączenie…" : "Rozpocznij rozmowę z Milą"}
+    </button>
   );
 }
 

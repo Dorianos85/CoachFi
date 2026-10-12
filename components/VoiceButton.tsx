@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useVoice } from "@/context/VoiceContext";
+import type { Locale } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ interface VoiceButtonProps {
   variant?: "icon" | "pill" | "large";
   label?: string;
   ariaLabel?: string;
-  locale?: "pl" | "en" | "ja";
+  locale?: Locale;
   voiceId?: string;
   modelId?: string;
   speechLang?: string;

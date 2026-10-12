@@ -37,10 +37,52 @@ const flagSvgs: Record<Locale, ReactElement> = {
       <rect width="60" height="20" y="20" fill="#DC143C" />
     </svg>
   ),
+  es: (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="60" height="40" fill="#AA151B" />
+      <rect width="60" height="20" y="10" fill="#F1BF00" />
+    </svg>
+  ),
+  fr: (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="20" height="40" fill="#0055A4" />
+      <rect width="20" height="40" x="20" fill="#fff" />
+      <rect width="20" height="40" x="40" fill="#EF4135" />
+    </svg>
+  ),
+  zh: (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="60" height="40" fill="#DE2910" />
+      <polygon points="12,7 14,13 20,13 15,16 17,22 12,18 7,22 9,16 4,13 10,13" fill="#FFDE00" />
+    </svg>
+  ),
   ja: (
     <svg viewBox="0 0 60 40" className={flagClass}>
       <rect width="60" height="40" fill="#fff" />
       <circle cx="30" cy="20" r="11" fill="#BC002D" />
+    </svg>
+  ),
+  hi: (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="60" height="13.33" fill="#FF9933" />
+      <rect width="60" height="13.34" y="13.33" fill="#fff" />
+      <rect width="60" height="13.33" y="26.67" fill="#138808" />
+      <circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" strokeWidth="1.4" />
+    </svg>
+  ),
+  "pt-BR": (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="60" height="40" fill="#009B3A" />
+      <polygon points="30,6 53,20 30,34 7,20" fill="#FFDF00" />
+      <circle cx="30" cy="20" r="8" fill="#002776" />
+    </svg>
+  ),
+  tr: (
+    <svg viewBox="0 0 60 40" className={flagClass}>
+      <rect width="60" height="40" fill="#E30A17" />
+      <circle cx="24" cy="20" r="10" fill="#fff" />
+      <circle cx="28" cy="20" r="8" fill="#E30A17" />
+      <polygon points="39,14 40.7,18 45,18 41.5,20.5 42.9,25 39,22.4 35.1,25 36.5,20.5 33,18 37.3,18" fill="#fff" />
     </svg>
   ),
 };

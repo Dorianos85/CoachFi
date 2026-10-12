@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coach FI - Demo Day</title>
+<style>
+:root {
+  --bg: #f6f8ec;
+  --panel: #ffffff;
+  --panel-soft: #fff8e8;
+  --ink: #21313f;
+  --muted: #667887;
+  --line: #dfe7cf;
+  --green: #58cc02;
+  --green-dark: #46a302;
+  --green-soft: #e7f8d8;
+  --blue: #1cb0f6;
+  --blue-soft: #e2f5ff;
+  --yellow: #ffd34d;
+  --yellow-soft: #fff2bd;
+  --red: #ff6b6b;
+  --red-soft: #ffe3e3;
+  --purple: #8c7bff;
+  --purple-soft: #ebe8ff;
+  --shadow: 0 10px 0 rgba(33, 49, 63, 0.08), 0 22px 60px rgba(33, 49, 63, 0.10);
+  --radius: 22px;
+  --font-size: 16px;
+}
+
+body.large { --font-size: 18px; }
+body.xlarge { --font-size: 21px; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Nunito", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size);
+  background:
+    radial-gradient(720px 420px at 10% -10%, rgba(88, 204, 2, 0.20), transparent 60%),
+    radial-gradient(680px 420px at 100% 0%, rgba(28, 176, 246, 0.18), transparent 58%),
+    var(--bg);
+}
+
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+
+.app {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 18px 96px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  background: linear-gradient(180deg, var(--bg) 72%, rgba(246, 248, 236, 0));
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: #ffffff;
+  font-weight: 1000;
+  box-shadow: 0 6px 0 var(--green-dark);
+  flex: 0 0 auto;
+}
+
+.brand strong { display: block; font-size: 21px; line-height: 1; }
+.brand span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.language-row, .tool-row, .button-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.language-row { justify-content: center; }
+.tool-row { justify-content: flex-end; }
+
+.flag, .chip, .tab, .btn, .nav-btn {
+  border: 2px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: 16px;
+  min-height: 42px;
+  padding: 9px 12px;
+  font-weight: 950;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 0 rgba(33, 49, 63, 0.08);
+}
+
+.flag.active, .tab.active, .nav-btn.active {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.btn.primary {
+  color: #ffffff;
+  background: var(--green);
+  border-color: var(--green);
+  box-shadow: 0 6px 0 var(--green-dark);
+}
+
+.btn.blue {
+  background: var(--blue-soft);
+  border-color: #9adfff;
+}
+
+.btn.yellow {
+  background: var(--yellow-soft);
+  border-color: #f0ca49;
+}
+
+.btn.red {
+  background: var(--red-soft);
+  border-color: #ffb1b1;
+}
+
+.btn:active, .flag:active, .tab:active, .nav-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(33, 49, 63, 0.08); }
+.btn:focus-visible, .flag:focus-visible, .tab:focus-visible, .nav-btn:focus-visible, input:focus, select:focus, textarea:focus {
+  outline: 4px solid rgba(28, 176, 246, 0.26);
+  outline-offset: 2px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 8px 0 18px;
+}
+
+.tab {
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 18px;
+  align-items: start;
+}
+
+.main, .side { min-width: 0; }
+.side {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 14px;
+}
+
+.hero, .card, .side-card {
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 22px;
+  padding: 28px;
+  overflow: hidden;
+}
+
+.hero.duo {
+  background:
+    radial-gradient(340px 240px at 88% 18%, rgba(88, 204, 2, 0.18), transparent 64%),
+    linear-gradient(145deg, #ffffff, #f3ffe9);
+}
+
+.card, .side-card { padding: 20px; }
+.stack { display: grid; gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+
+.eyebrow {
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
+h1 { font-size: clamp(34px, 5vw, 62px); line-height: 0.97; max-width: 740px; }
+h2 { font-size: clamp(24px, 3vw, 36px); line-height: 1.05; }
+h3 { font-size: 20px; line-height: 1.15; }
+p { line-height: 1.58; }
+.muted { color: var(--muted); }
+.small { color: var(--muted); font-size: 13px; line-height: 1.45; font-weight: 800; }
+
+.mila {
+  border-radius: 28px;
+  padding: 18px;
+  background: var(--blue-soft);
+  border: 2px solid #b8e8ff;
+  text-align: center;
+}
+
+.mila-face {
+  width: 118px;
+  height: 118px;
+  border-radius: 38px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, var(--green), var(--blue));
+  color: white;
+  font-size: 48px;
+  font-weight: 1000;
+  box-shadow: 0 10px 0 rgba(33, 49, 63, 0.10);
+}
+
+.path {
+  display: grid;
+  gap: 14px;
+}
+
+.path-step {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  border: 2px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  padding: 14px;
+  box-shadow: 0 6px 0 rgba(33, 49, 63, 0.06);
+}
+
+.step-dot {
+  width: 58px;
+  height: 58px;
+  border-radius: 19px;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  font-size: 24px;
+  font-weight: 1000;
+  box-shadow: 0 6px 0 var(--green-dark);
+}
+
+.step-dot.locked { background: #c9d3dc; box-shadow: 0 6px 0 #aeb9c4; }
+
+.metric {
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel-soft);
+  padding: 15px;
+}
+.metric b { display: block; font-size: 28px; line-height: 1; }
+.metric span { display: block; color: var(--muted); font-size: 12px; font-weight: 950; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; }
+
+.score-hero {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+.score-ring {
+  aspect-ratio: 1;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at center, #fff 0 58%, transparent 59%),
+    conic-gradient(var(--green) calc(var(--score, 0) * 1%), var(--green-soft) 0);
+  border: 2px solid var(--line);
+  box-shadow: inset 0 0 0 10px rgba(255,255,255,0.55);
+}
+.score-ring b { font-size: 38px; }
+.gate-card {
+  border-color: #c7bfff;
+  background: linear-gradient(135deg, #fff, var(--purple-soft));
+}
+.premium-card {
+  border-color: #f0ca49;
+  background: linear-gradient(135deg, #fff, var(--yellow-soft));
+}
+
+.goal-bar {
+  height: 16px;
+  border-radius: 999px;
+  background: #dce8cc;
+  overflow: hidden;
+}
+.goal-fill {
+  height: 100%;
+  width: var(--goal, 42%);
+  border-radius: inherit;
+  background: var(--yellow);
+}
+
+.field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.field { display: grid; gap: 7px; color: var(--muted); font-size: 13px; font-weight: 950; }
+.field.full { grid-column: 1 / -1; }
+input, select, textarea {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 10px 12px;
+  font-weight: 850;
+}
+textarea {
+  min-height: 152px;
+  line-height: 1.48;
+  resize: vertical;
+}
+
+.answer, .row-card {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 14px;
+  text-align: left;
+  font-weight: 900;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 4px 0 rgba(33, 49, 63, 0.06);
+}
+.answer.correct { border-color: var(--green); background: var(--green-soft); }
+.answer.wrong { border-color: var(--red); background: var(--red-soft); }
+
+.jar-dot {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 1000;
+  flex: 0 0 auto;
+}
+.row-body { min-width: 0; flex: 1; }
+.row-body p { margin: 5px 0 0; color: var(--muted); font-size: 13px; font-weight: 760; }
+.mini-bar {
+  height: 9px;
+  border-radius: 999px;
+  background: #e5edd8;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.mini-bar span { display: block; height: 100%; border-radius: inherit; }
+
+.alert {
+  border: 2px solid #ffb1b1;
+  background: var(--red-soft);
+  border-radius: 26px;
+  padding: 20px;
+}
+.phone-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.phone-card {
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  background: #ffffff;
+  padding: 15px;
+  text-decoration: none;
+}
+.phone-card b { display: block; font-size: 24px; }
+.phone-card span { display: block; color: var(--muted); font-size: 13px; line-height: 1.4; margin-top: 4px; }
+
+.source-list { display: grid; gap: 9px; }
+.source-list a {
+  border: 2px solid var(--line);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 11px 12px;
+  text-decoration: none;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+
+.portal-grid, .certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.portal-link, .cert-card {
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 12px;
+  text-decoration: none;
+  font-weight: 950;
+}
+
+.cert-card.unlocked {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.cert-card.locked {
+  color: var(--muted);
+  background: #f6f8f0;
+}
+
+.cert-card span, .portal-link span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+
+.shopping-items {
+  display: grid;
+  gap: 9px;
+}
+
+.shopping-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 10px 12px;
+  font-weight: 900;
+}
+
+.shopping-item.done {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.shopping-item.done span:nth-child(2) {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.receipt-table {
+  display: grid;
+  gap: 8px;
+}
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px 104px 112px;
+  gap: 8px;
+  align-items: center;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 10px;
+  font-weight: 850;
+}
+
+.receipt-row.unplanned {
+  border-color: #ffb1b1;
+  background: var(--red-soft);
+}
+
+.receipt-row.planned {
+  border-color: #9de57b;
+  background: var(--green-soft);
+}
+
+.receipt-preview {
+  max-width: 100%;
+  max-height: 220px;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  object-fit: contain;
+  background: #ffffff;
+}
+
+@media (max-width: 680px) {
+  .receipt-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 30;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 7px;
+  border: 2px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 40px rgba(33, 49, 63, 0.16);
+}
+.nav-btn {
+  min-height: 54px;
+  padding: 7px 4px;
+  font-size: 11px;
+  line-height: 1.1;
+  box-shadow: none;
+  white-space: normal;
+  text-align: center;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 980px) {
+  .topbar { grid-template-columns: 1fr; }
+  .language-row, .tool-row { justify-content: flex-start; }
+  .tabs { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .hero { grid-template-columns: 1fr; }
+  .mobile-nav { display: grid; }
+}
+
+@media (max-width: 680px) {
+  .app { padding: 12px 12px 92px; }
+  .hero, .card, .side-card { box-shadow: none; }
+  .hero, .card, .side-card { padding: 16px; }
+  .grid-2, .grid-3, .grid-4, .field-grid, .phone-grid, .score-hero { grid-template-columns: 1fr; }
+  .path-step { grid-template-columns: 48px minmax(0, 1fr); }
+  .path-step .btn { grid-column: 1 / -1; width: 100%; }
+  .step-dot { width: 48px; height: 48px; border-radius: 16px; }
+  h1 { font-size: 38px; }
+  .flag { min-height: 38px; padding: 7px 9px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+const LANGS = [
+  ["pl", "🇵🇱", "PL", "pl-PL"],
+  ["en", "🇬🇧", "EN", "en-US"],
+  ["fr", "🇫🇷", "FR", "fr-FR"],
+  ["es", "🇪🇸", "ES", "es-ES"],
+  ["zh", "🇨🇳", "ZH", "zh-CN"],
+  ["ja", "🇯🇵", "JA", "ja-JP"],
+  ["hi", "🇮🇳", "HI", "hi-IN"],
+  ["pt", "🇧🇷", "PT", "pt-BR"],
+  ["tr", "🇹🇷", "TR", "tr-TR"],
+];
+
+const C = {
+  pl: {
+    name: "Polski", brandSub: "codzienny trener finansowy", score: "Wynik", coins: "Tokeny", level: "Poziom", progress: "Postęp do kolejnego etapu",
+    text: "Tekst", listen: "Odczytaj", done: "Zrobione", copy: "Kopiuj", copied: "Skopiowano", city: "Miasto", amount: "Kwota",
+    nav: ["Start", "Daily", "Plan", "Kryzys", "Kids", "Architektura"],
+    tabsSmall: ["Start", "Daily", "Plan", "Kryzys", "Kids"],
+    start: {
+      eyebrow: "Prościej, jak Duolingo dla finansów",
+      title: "Jedna finansowa lekcja dziennie. Nagroda od razu.",
+      body: "Coach FI ma prowadzić użytkownika spokojną ścieżką: krótkie zadanie, głos Miły, tokeny, poziomy i następny krok jutro.",
+      cta: "Zacznij dzisiejszą misję", plan: "Policz słoiki", crisis: "Plan kryzysowy",
+      milaTitle: "Mila mówi ludzkim głosem",
+      milaBody: "W HTML demo używamy głosu przeglądarki. W aplikacji głos ma iść przez ElevenLabs, z fallbackiem do speechSynthesis.",
+      voice: "Cześć. Jestem Mila. Zrobimy dziś jeden mały krok: zadanie, nagroda i spokojny plan na jutro.",
+      path: [
+        ["Misja", "Jedno pytanie albo jedna decyzja finansowa."],
+        ["Nauka", "Krótka odpowiedź Miły bez żargonu."],
+        ["Nagroda", "Tokeny, poziom i powód, żeby wrócić jutro."],
+        ["Bezpieczeństwo", "Oddzielny Kids Mode i Plan Kryzysowy dla dorosłych."]
+      ],
+      cards: [
+        ["Adult Mode", "Nawyki, słoiki, inflacja, zakupy, długi i tokeny."],
+        ["Kids Mode", "Proste lekcje, gwiazdki i zgoda rodzica."],
+        ["Accessibility", "Duże przyciski, duży tekst i głos."]
+      ]
+    },
+    daily: {
+      eyebrow: "Dzisiejsze zadanie",
+      title: "Co oznacza inflacja?",
+      body: "Wybierz odpowiedź. Po poprawnej odpowiedzi zdobywasz tokeny.",
+      questionVoice: "Co oznacza inflacja? A: pieniądze kupują więcej z czasem. B: pieniądze tracą siłę nabywczą z czasem. C: banki dają darmowe pieniądze. D: ceny zawsze spadają.",
+      answers: ["Pieniądze kupują więcej z czasem", "Pieniądze tracą siłę nabywczą z czasem", "Banki dają darmowe pieniądze", "Ceny zawsze spadają"],
+      correct: "Dobra odpowiedź. Inflacja oznacza, że pieniądze tracą siłę nabywczą w czasie. Zdobywasz 25 tokenów Coach FI.",
+      wrong: "To nie jest poprawna odpowiedź. Inflacja oznacza, że pieniądze tracą siłę nabywczą w czasie.",
+      reward: "dzisiaj", streak: "seria", next: "następny poziom"
+    },
+    plan: {
+      eyebrow: "Plan pieniędzy",
+      title: "Słoiki, zakupy i kaucje w jednym miejscu.",
+      body: "To jest praktyczna część Coach FI: podział dochodu, zatrzymanie impulsu zakupowego i odzyskiwanie gotówki.",
+      jarTitle: "Model 6 słoików Ekera", mode: "Tryb", adult: "Dorosły", kids: "Kids", readJars: "Odczytaj słoiki",
+      jars: [
+        ["Wydatki konieczne", "Potrzeby", 55, "Rachunki, jedzenie, czynsz, transport, kredyty i ubezpieczenia."],
+        ["Edukacja", "Nauka", 10, "Książki, kursy, szkolenia i rozwój umiejętności."],
+        ["Długoterminowe oszczędności", "Większy cel", 10, "Większe planowane zakupy bez korzystania z kredytu."],
+        ["Przyjemności", "Radość", 10, "Pieniądze na radość, żeby system był zdrowy i możliwy do utrzymania."],
+        ["Inwestycje", "Przyszłość", 10, "Kapitał do pomnażania. Edukacyjnie, bez obietnic zysków."],
+        ["Pomoc innym", "Dzielenie się", 5, "Prezenty, fundacje, akcje charytatywne lub wsparcie bliskich."]
+      ],
+      jarVoice: "Podział pieniędzy według modelu sześciu słoików.",
+      shoppingTitle: "Higiena zakupowa", item: "Co kupiłeś?", price: "Cena", days: "Dni od zakupu", returnWindow: "Okno zwrotu", used: "Liczba użyć", need: "Realna potrzeba", regret: "Kac zakupowy", trigger: "Trigger",
+      triggers: ["Reklama lub influencer", "Promocja lub rabat", "Stres", "Nuda", "Presja otoczenia", "Realna potrzeba"],
+      decisions: {
+        return: ["Zwróć, jeśli regulamin na to pozwala", "Żałujesz zakupu, potrzeba jest niska, a zwrot może być nadal możliwy."],
+        sell: ["Sprzedaj i zamień bałagan na gotówkę", "Nie używasz tej rzeczy. Wystaw ją i ustaw termin siedmiu dni."],
+        pause: ["Odczekaj przed decyzją", "To wygląda impulsywnie. Odczekaj 24 godziny i odetnij bodźce reklamowe."],
+        keep: ["Zostaw, ale używaj świadomie", "Zostaw tylko wtedy, gdy rzecz rozwiązuje problem albo będzie regularnie używana."]
+      },
+      readDecision: "Odczytaj decyzję", impulse: "impuls", recover: "do odzyskania", returnStatus: "zwrot",
+      bottlesTitle: "Oddane butelki", pet: "PET", glass: "Szkło", deposit: "Kaucja za sztukę", bottles: "butelek", back: "wraca",
+      unusedTitle: "Niepotrzebne rzeczy", unusedBody: "Zamień rzeczy, których nie używasz, na gotówkę do poduszki bezpieczeństwa.", thing: "Rzecz", value: "Wartość", add: "Dodaj", total: "potencjalnie do odzyskania"
+    },
+    crisis: {
+      eyebrow: "Tylko dla dorosłych",
+      title: "Kryzys finansowy: najpierw człowiek, potem plan.",
+      body: "Jeśli grozi Ci bezpośrednie niebezpieczeństwo, dzwoń pod 112. Jeśli długi odbierają Ci poczucie bezpieczeństwa, zrób pierwszy bezpieczny krok i poproś o pomoc.",
+      phones: [["112", "nagłe zagrożenie życia lub zdrowia"], ["116 123", "telefon zaufania dla dorosłych"], ["800 70 2222", "centrum wsparcia 24/7"]],
+      stepsTitle: "Plan 24h", steps: ["Napisz do bliskiej osoby, że potrzebujesz rozmowy.", "Zadzwoń na linię wsparcia lub do OIK w swoim mieście.", "Spisz długi bez oceniania siebie.", "Sprawdź MOPS, darmową pomoc prawną, bank, ZUS lub alimenty.", "Wystaw trzy nieużywane rzeczy i odzyskaj gotówkę."],
+      resources: "Pomoc w Twoim mieście", resourcesBody: "Wpisz miasto. Linki otwierają wyszukiwanie albo oficjalną stronę.", resourceLabels: ["Ośrodek Interwencji Kryzysowej", "MOPS / GOPS pomoc finansowa", "Darmowa pomoc prawna", "ZUS ulgi w spłacie", "Centra Zdrowia Psychicznego"],
+      templates: "Wzory wiadomości", chooseTemplate: "Wybierz wzór", templateNames: ["Do bliskiej osoby", "Prośba o pożyczkę", "Wniosek do banku", "Prośba do MOPS/GOPS"],
+      templateText: [
+        "Cześć [IMIĘ],\nMam teraz trudną sytuację finansową i emocjonalną. Nie potrzebuję oceny, tylko rozmowy i pomocy w uporządkowaniu pierwszych kroków. Czy możesz dziś ze mną porozmawiać albo być obok przez telefon?",
+        "Cześć [IMIĘ],\nJestem w krótkoterminowym kryzysie i potrzebuję pożyczki [KWOTA] PLN do dnia [DATA]. Proponuję prostą umowę: kwota, termin zwrotu, sposób przelewu i potwierdzenie spłaty.",
+        "Dzień dobry,\nProszę o czasowe zawieszenie lub restrukturyzację rat kredytu z powodu pogorszenia sytuacji finansowej. Proszę o informację, jakie dokumenty mam złożyć.",
+        "Dzień dobry,\nProszę o informację o możliwej pomocy finansowej i socjalnej. Jestem w trudnej sytuacji: [OPIS]. Proszę o wskazanie dokumentów i terminu rozmowy."
+      ]
+    },
+    kids: {
+      eyebrow: "Oddzielny tryb", title: "Kids Mode wymaga zgody rodzica.", body: "Bez portfela, NFT, publicznego rankingu i swobodnego czatu AI. Są gwiazdki, słoiki i bezpieczne gotowe narracje.", consent: "Jestem rodzicem lub opiekunem i wyrażam zgodę na pokazanie Kids Mode w tym demo.", enter: "Wejdź w Kids Mode",
+      mission: "Misja dziecka", missionBody: "Wybierz jedną potrzebę i jedną zachciankę.", stars: "gwiazdki", addStars: "Zrobione +5 gwiazdek", safe: "Bezpieczne granice", safeBody: "Dziecko nie widzi długów, kryzysu, portfela ani publicznego rankingu.", voice: "Kids Mode. Uczymy się o potrzebach, zachciankach, słoikach i małych celach."
+    },
+    docs: {
+      eyebrow: "Jedno źródło prawdy", title: "Architektura ma wspierać prosty produkt.", body: "HTML jest makietą Demo Day. Next.js pozostaje aplikacją produkcyjną. Dokumentacja opisuje, co jest realne, a co fallback.",
+      cards: [["Realne", "Next.js, quiz, tryby, shopping, crisis, głos przez /api/tts i lokalny stan."], ["Fallback", "ElevenLabs przechodzi na speechSynthesis, AI API na gotowe odpowiedzi, Solana na mock."], ["Najbliższy krok", "Ujednolicić design w aplikacji Next.js pod ten prostszy daily path."]]
+    },
+    side: { title: "Mila mówi", body: "Najpierw prostota. Potem API. Demo ma być zrozumiałe w 10 sekund.", feedback: "Opinie użytkowników", feedbackItems: ["Chcę jedno zadanie dziennie, nie dashboard pełen zakładek.", "Kids Mode musi być osobno i za zgodą rodzica.", "Plan kryzysowy daje ulgę, bo pokazuje pierwszy telefon i tekst do skopiowania."], sources: "Źródła pomocy" }
+  }
+};
+
+const BASE = C.pl;
+const ALIASES = {
+  en: {
+    name: "English", brandSub: "daily financial coach", score: "Score", coins: "Coins", level: "Level", progress: "Progress to next stage", text: "Text", listen: "Read aloud", done: "Done", copy: "Copy", copied: "Copied", city: "City", amount: "Amount",
+    nav: ["Start", "Daily", "Plan", "Crisis", "Kids", "Architecture"], tabsSmall: ["Start", "Daily", "Plan", "Crisis", "Kids"],
+    start: { eyebrow: "Simpler, like Duolingo for money", title: "One money lesson a day. Reward immediately.", body: "Coach FI should guide users through a calm path: short mission, Mila voice, coins, levels and a next step tomorrow.", cta: "Start today's mission", plan: "Calculate jars", crisis: "Crisis plan", milaTitle: "Mila speaks clearly", milaBody: "This HTML demo uses browser speech. The app uses ElevenLabs with speechSynthesis fallback.", voice: "Hi. I am Mila. Today we take one small step: a task, a reward and a calm plan for tomorrow.", path: [["Mission", "One question or one financial decision."], ["Learn", "A short Mila answer without jargon."], ["Reward", "Coins, level and a reason to return tomorrow."], ["Safety", "Separate Kids Mode and an adult Crisis Plan."]], cards: [["Adult Mode", "Habits, jars, inflation, shopping, debt and coins."], ["Kids Mode", "Simple lessons, stars and parent consent."], ["Accessibility", "Large buttons, large text and voice."]] },
+    daily: { eyebrow: "Today's task", title: "What does inflation mean?", body: "Choose an answer. A correct answer earns coins.", questionVoice: "What does inflation mean? A: money buys more over time. B: money loses purchasing power over time. C: banks give free money. D: prices always go down.", answers: ["Money buys more over time", "Money loses purchasing power over time", "Banks give free money", "Prices always go down"], correct: "Correct. Inflation means money loses purchasing power over time. You earn twenty five Coach FI coins.", wrong: "Not quite. Inflation means money loses purchasing power over time.", reward: "today", streak: "streak", next: "next level" },
+    plan: { eyebrow: "Money plan", title: "Jars, shopping and deposits in one place.", body: "This is the practical part: split income, stop impulsive purchases and recover cash.", jarTitle: "Eker 6 jar model", mode: "Mode", adult: "Adult", kids: "Kids", readJars: "Read my jars", jarVoice: "Money split using the six jar model.", shoppingTitle: "Shopping hygiene", item: "What did you buy?", price: "Price", days: "Days since purchase", returnWindow: "Return window", used: "Times used", need: "Real need", regret: "Buyer's remorse", trigger: "Trigger", triggers: ["Ad or influencer", "Sale or discount", "Stress", "Boredom", "Social pressure", "Real need"], decisions: { return: ["Return it if the policy allows", "You regret it, the need is low and a return may still be possible."], sell: ["Sell it and turn clutter into cash", "You do not use it. List it and set a seven-day deadline."], pause: ["Pause before deciding", "This looks impulsive. Wait 24 hours and remove ad triggers."], keep: ["Keep it, but use it consciously", "Keep only if it solves a real problem or will be used regularly."] }, readDecision: "Read decision", impulse: "impulse", recover: "recoverable", returnStatus: "return", bottlesTitle: "Returned bottles", pet: "PET", glass: "Glass", deposit: "Deposit per item", bottles: "bottles", back: "back", unusedTitle: "Unused things", unusedBody: "Turn things you do not use into cash for your safety fund.", thing: "Item", value: "Value", add: "Add", total: "potential recovery",
+      jars: [["Necessary expenses", "Needs", 55, "Bills, food, rent, transport, loans and insurance."], ["Education", "Learning", 10, "Books, courses, training and skill growth."], ["Long-term savings", "Bigger goal", 10, "Planned purchases without debt."], ["Play", "Joy", 10, "Money for joy so the system stays healthy."], ["Investments", "Future", 10, "Capital for growth, educationally, with no promised returns."], ["Giving", "Sharing", 5, "Gifts, charities or helping people close to you."]] },
+    crisis: { eyebrow: "Adults only", title: "Financial crisis: human help first, plan second.", body: "If there is immediate danger, call 112. If debt is taking away your safety, take one safe step and ask for help.", phones: [["112", "immediate danger to life or health"], ["116 123", "adult emotional support line in Poland"], ["800 70 2222", "24/7 support center in Poland"]], stepsTitle: "24h plan", steps: ["Tell someone close you need to talk.", "Call a support line or local crisis center.", "Write down debts without judging yourself.", "Check social welfare, free legal aid, bank, ZUS or family support.", "List three unused things and recover cash."], resources: "Help in your city", resourcesBody: "Enter a city. Links open search or official pages.", resourceLabels: ["Crisis intervention center", "Social welfare financial support", "Free legal aid", "ZUS repayment relief", "Mental health centers"], templates: "Message templates", chooseTemplate: "Choose template", templateNames: ["To someone close", "Loan request", "Request to bank", "Request to social welfare"], templateText: ["Hi [NAME],\nI am in a difficult financial and emotional situation. I do not need judgment. I need a conversation and help with the first steps. Can you talk to me today?", "Hi [NAME],\nI am in a short-term crisis and need to borrow [AMOUNT] PLN until [DATE]. I propose a simple written agreement: amount, repayment date, transfer method and confirmation.", "Hello,\nI request a temporary payment holiday or loan restructuring because my financial situation has worsened. Please tell me what documents are required.", "Hello,\nI request information about possible financial and social assistance. I am in a difficult situation: [DESCRIPTION]. Please tell me what documents I need."] },
+    kids: { eyebrow: "Separate mode", title: "Kids Mode requires parent consent.", body: "No wallet, NFT, public leaderboard or free AI chat. Kids get stars, jars and safe predefined narration.", consent: "I am a parent or guardian and I consent to showing Kids Mode in this demo.", enter: "Enter Kids Mode", mission: "Child mission", missionBody: "Choose one need and one want.", stars: "stars", addStars: "Done +5 stars", safe: "Safe boundaries", safeBody: "The child does not see debt, crisis, wallet or public ranking.", voice: "Kids Mode. We learn about needs, wants, jars and small goals." },
+    docs: { eyebrow: "Single source of truth", title: "Architecture should support a simple product.", body: "HTML is the Demo Day mockup. Next.js remains the product app. Docs say what is real and what is fallback.", cards: [["Real", "Next.js, quiz, modes, shopping, crisis, voice via /api/tts and local state."], ["Fallback", "ElevenLabs falls back to speechSynthesis, AI API to predefined replies, Solana to mock."], ["Next step", "Unify the Next.js app design around this simpler daily path."]] },
+    side: { title: "Mila speaks", body: "Simplicity first. APIs second. The demo must be understood in 10 seconds.", feedback: "User feedback", feedbackItems: ["I want one daily task, not a dashboard full of tabs.", "Kids Mode must be separate and parent-approved.", "The crisis plan helps because it gives the first call and a text to copy."], sources: "Help sources" }
+  },
+  fr: {
+    name: "Français", brandSub: "coach financier quotidien", score: "Score", coins: "Pièces", level: "Niveau", progress: "Progression vers l'étape suivante", text: "Texte", listen: "Lire", done: "Fait", copy: "Copier", copied: "Copié", city: "Ville", amount: "Montant",
+    nav: ["Début", "Quotidien", "Plan", "Crise", "Enfants", "Architecture"], tabsSmall: ["Début", "Daily", "Plan", "Crise", "Kids"],
+    start: { eyebrow: "Plus simple, comme Duolingo pour l'argent", title: "Une leçon d'argent par jour. Récompense immédiate.", body: "Coach FI guide l'utilisateur avec une mission courte, la voix de Mila, des pièces, des niveaux et un prochain pas demain.", cta: "Commencer la mission", plan: "Calculer les bocaux", crisis: "Plan de crise", milaTitle: "Mila parle clairement", milaBody: "Cette démo HTML utilise la voix du navigateur. L'app utilise ElevenLabs avec fallback speechSynthesis.", voice: "Bonjour. Je suis Mila. Aujourd'hui, nous faisons un petit pas: une tâche, une récompense et un plan calme pour demain.", path: [["Mission", "Une question ou une décision financière."], ["Apprendre", "Une réponse courte sans jargon."], ["Récompense", "Pièces, niveau et raison de revenir demain."], ["Sécurité", "Kids Mode séparé et plan de crise adulte."]], cards: [["Mode adulte", "Habitudes, bocaux, inflation, achats, dette et pièces."], ["Kids Mode", "Leçons simples, étoiles et accord parental."], ["Accessibilité", "Grands boutons, grand texte et voix."]] },
+    daily: { eyebrow: "Tâche du jour", title: "Que signifie l'inflation?", body: "Choisis une réponse. Une bonne réponse donne des pièces.", questionVoice: "Que signifie l'inflation? A: l'argent achète plus avec le temps. B: l'argent perd du pouvoir d'achat. C: les banques donnent de l'argent gratuit. D: les prix baissent toujours.", answers: ["L'argent achète plus avec le temps", "L'argent perd du pouvoir d'achat", "Les banques donnent de l'argent gratuit", "Les prix baissent toujours"], correct: "Correct. L'inflation signifie que l'argent perd du pouvoir d'achat avec le temps. Tu gagnes vingt-cinq pièces Coach FI.", wrong: "Pas tout à fait. L'inflation signifie que l'argent perd du pouvoir d'achat.", reward: "aujourd'hui", streak: "série", next: "niveau suivant" }
+  },
+  es: {
+    name: "Español", brandSub: "coach financiero diario", score: "Puntuación", coins: "Monedas", level: "Nivel", progress: "Progreso al siguiente nivel", text: "Texto", listen: "Leer", done: "Hecho", copy: "Copiar", copied: "Copiado", city: "Ciudad", amount: "Cantidad",
+    nav: ["Inicio", "Diario", "Plan", "Crisis", "Kids", "Arquitectura"], tabsSmall: ["Inicio", "Daily", "Plan", "Crisis", "Kids"],
+    start: { eyebrow: "Más simple, como Duolingo para dinero", title: "Una lección financiera al día. Recompensa inmediata.", body: "Coach FI guía con una misión corta, la voz de Mila, monedas, niveles y un próximo paso mañana.", cta: "Empezar misión", plan: "Calcular frascos", crisis: "Plan de crisis", milaTitle: "Mila habla claro", milaBody: "Esta demo HTML usa la voz del navegador. La app usa ElevenLabs con fallback speechSynthesis.", voice: "Hola. Soy Mila. Hoy damos un pequeño paso: tarea, recompensa y plan tranquilo para mañana.", path: [["Misión", "Una pregunta o decisión financiera."], ["Aprender", "Respuesta corta sin jerga."], ["Recompensa", "Monedas, nivel y razón para volver mañana."], ["Seguridad", "Kids Mode separado y plan de crisis adulto."]], cards: [["Modo adulto", "Hábitos, frascos, inflación, compras, deuda y monedas."], ["Kids Mode", "Lecciones simples, estrellas y consentimiento parental."], ["Accesibilidad", "Botones grandes, texto grande y voz."]] },
+    daily: { eyebrow: "Tarea de hoy", title: "¿Qué significa inflación?", body: "Elige una respuesta. La correcta gana monedas.", questionVoice: "¿Qué significa inflación? A: el dinero compra más con el tiempo. B: el dinero pierde poder adquisitivo. C: los bancos dan dinero gratis. D: los precios siempre bajan.", answers: ["El dinero compra más con el tiempo", "El dinero pierde poder adquisitivo", "Los bancos dan dinero gratis", "Los precios siempre bajan"], correct: "Correcto. La inflación significa que el dinero pierde poder adquisitivo con el tiempo. Ganas veinticinco monedas Coach FI.", wrong: "No exactamente. La inflación significa que el dinero pierde poder adquisitivo.", reward: "hoy", streak: "racha", next: "siguiente nivel" }
+  },
+  zh: {
+    name: "中文", brandSub: "每日财务教练", score: "分数", coins: "金币", level: "等级", progress: "到下一阶段的进度", text: "文字", listen: "朗读", done: "完成", copy: "复制", copied: "已复制", city: "城市", amount: "金额",
+    nav: ["开始", "每日", "计划", "危机", "儿童", "架构"], tabsSmall: ["开始", "每日", "计划", "危机", "儿童"],
+    start: { eyebrow: "更简单，像财务版 Duolingo", title: "每天一节财务课。立即获得奖励。", body: "Coach FI 用短任务、Mila 的声音、金币、等级和明天的下一步来引导用户。", cta: "开始今天的任务", plan: "计算六个罐子", crisis: "危机计划", milaTitle: "Mila 清楚地说话", milaBody: "这个 HTML 演示使用浏览器语音。应用使用 ElevenLabs，并有 speechSynthesis 备用。", voice: "你好，我是 Mila。今天我们只做一小步：一个任务，一个奖励，一个明天的平静计划。", path: [["任务", "一个问题或一个财务决定。"], ["学习", "没有术语的简短解释。"], ["奖励", "金币、等级和明天回来的一点动力。"], ["安全", "独立儿童模式和成人危机计划。"]], cards: [["成人模式", "习惯、罐子、通胀、购物、债务和金币。"], ["儿童模式", "简单课程、星星和家长同意。"], ["无障碍", "大按钮、大文字和语音。"]] },
+    daily: { eyebrow: "今日任务", title: "通货膨胀是什么意思？", body: "选择答案。答对可获得金币。", questionVoice: "通货膨胀是什么意思？A：钱随着时间能买更多东西。B：钱随着时间失去购买力。C：银行免费送钱。D：价格总是下降。", answers: ["钱随着时间能买更多", "钱随着时间失去购买力", "银行免费送钱", "价格总是下降"], correct: "正确。通胀意味着钱随着时间失去购买力。你获得二十五个 Coach FI 金币。", wrong: "不完全正确。通胀意味着钱随着时间失去购买力。", reward: "今天", streak: "连续", next: "下一等级" }
+  },
+  ja: {
+    name: "日本語", brandSub: "毎日の金融コーチ", score: "スコア", coins: "コイン", level: "レベル", progress: "次の段階までの進捗", text: "文字", listen: "読み上げ", done: "完了", copy: "コピー", copied: "コピー済み", city: "都市", amount: "金額",
+    nav: ["開始", "毎日", "計画", "危機", "子ども", "設計"], tabsSmall: ["開始", "毎日", "計画", "危機", "Kids"],
+    start: { eyebrow: "お金の Duolingo のようにシンプル", title: "1日1つのお金のレッスン。すぐに報酬。", body: "Coach FI は短いミッション、Mila の声、コイン、レベル、明日の一歩で案内します。", cta: "今日のミッション", plan: "ジャーを計算", crisis: "危機プラン", milaTitle: "Mila がわかりやすく話す", milaBody: "この HTML デモはブラウザ音声を使います。アプリは ElevenLabs と speechSynthesis フォールバックを使います。", voice: "こんにちは、Milaです。今日は小さな一歩だけ。課題、報酬、そして明日の落ち着いた計画です。", path: [["ミッション", "1つの質問または金融判断。"], ["学ぶ", "専門用語なしの短い説明。"], ["報酬", "コイン、レベル、明日戻る理由。"], ["安全", "別の Kids Mode と大人向け危機プラン。"]], cards: [["大人モード", "習慣、ジャー、インフレ、買い物、借金、コイン。"], ["Kids Mode", "簡単なレッスン、星、保護者の同意。"], ["アクセシビリティ", "大きなボタン、大きな文字、音声。"]] },
+    daily: { eyebrow: "今日の課題", title: "インフレとは何ですか？", body: "答えを選んでください。正解でコインを獲得します。", questionVoice: "インフレとは何ですか。A、お金でより多く買えるようになる。B、お金の購買力が下がる。C、銀行が無料でお金をくれる。D、価格はいつも下がる。", answers: ["お金でより多く買える", "お金の購買力が下がる", "銀行が無料でお金をくれる", "価格はいつも下がる"], correct: "正解です。インフレとは、お金の購買力が時間とともに下がることです。Coach FI コインを25枚獲得しました。", wrong: "惜しいです。インフレとは、お金の購買力が時間とともに下がることです。", reward: "今日", streak: "連続", next: "次のレベル" }
+  },
+  hi: {
+    name: "हिन्दी", brandSub: "दैनिक वित्तीय कोच", score: "स्कोर", coins: "कॉइन", level: "स्तर", progress: "अगले चरण की प्रगति", text: "टेक्स्ट", listen: "सुनें", done: "पूरा", copy: "कॉपी", copied: "कॉपी हुआ", city: "शहर", amount: "राशि",
+    nav: ["शुरू", "दैनिक", "योजना", "संकट", "Kids", "आर्किटेक्चर"], tabsSmall: ["शुरू", "दैनिक", "योजना", "संकट", "Kids"],
+    start: { eyebrow: "पैसों के लिए Duolingo जैसा सरल", title: "हर दिन एक वित्तीय पाठ। तुरंत इनाम।", body: "Coach FI छोटी मिशन, Mila की आवाज, कॉइन, स्तर और कल का अगला कदम देता है।", cta: "आज की मिशन शुरू करें", plan: "जार गिनें", crisis: "संकट योजना", milaTitle: "Mila साफ बोलती है", milaBody: "यह HTML डेमो ब्राउज़र आवाज का उपयोग करता है। ऐप ElevenLabs और speechSynthesis fallback उपयोग करता है।", voice: "नमस्ते। मैं Mila हूँ। आज हम एक छोटा कदम लेते हैं: एक कार्य, एक इनाम और कल की शांत योजना।", path: [["मिशन", "एक सवाल या एक वित्तीय निर्णय।"], ["सीखना", "बिना कठिन शब्दों के छोटा जवाब।"], ["इनाम", "कॉइन, स्तर और कल लौटने का कारण।"], ["सुरक्षा", "अलग Kids Mode और वयस्क संकट योजना।"]], cards: [["Adult Mode", "आदतें, जार, महंगाई, खरीदारी, कर्ज और कॉइन।"], ["Kids Mode", "सरल पाठ, सितारे और अभिभावक की सहमति।"], ["Accessibility", "बड़े बटन, बड़ा टेक्स्ट और आवाज।"]] },
+    daily: { eyebrow: "आज का कार्य", title: "मुद्रास्फीति का क्या अर्थ है?", body: "उत्तर चुनें। सही उत्तर पर कॉइन मिलते हैं।", questionVoice: "मुद्रास्फीति का क्या अर्थ है? A: समय के साथ पैसा अधिक खरीदता है। B: समय के साथ पैसे की खरीद शक्ति घटती है। C: बैंक मुफ्त पैसा देते हैं। D: कीमतें हमेशा घटती हैं।", answers: ["पैसा समय के साथ अधिक खरीदता है", "पैसे की खरीद शक्ति घटती है", "बैंक मुफ्त पैसा देते हैं", "कीमतें हमेशा घटती हैं"], correct: "सही। मुद्रास्फीति का अर्थ है कि समय के साथ पैसे की खरीद शक्ति घटती है। आपको पच्चीस Coach FI कॉइन मिलते हैं।", wrong: "सही नहीं। मुद्रास्फीति का अर्थ है कि पैसे की खरीद शक्ति समय के साथ घटती है।", reward: "आज", streak: "श्रृंखला", next: "अगला स्तर" }
+  },
+  pt: {
+    name: "Português BR", brandSub: "coach financeiro diário", score: "Pontuação", coins: "Moedas", level: "Nível", progress: "Progresso para a próxima etapa", text: "Texto", listen: "Ler", done: "Feito", copy: "Copiar", copied: "Copiado", city: "Cidade", amount: "Valor",
+    nav: ["Início", "Diário", "Plano", "Crise", "Kids", "Arquitetura"], tabsSmall: ["Início", "Daily", "Plano", "Crise", "Kids"],
+    start: { eyebrow: "Mais simples, como Duolingo para dinheiro", title: "Uma lição financeira por dia. Recompensa imediata.", body: "Coach FI guia com uma missão curta, voz da Mila, moedas, níveis e próximo passo amanhã.", cta: "Começar missão", plan: "Calcular potes", crisis: "Plano de crise", milaTitle: "Mila fala com clareza", milaBody: "Esta demo HTML usa a voz do navegador. O app usa ElevenLabs com fallback speechSynthesis.", voice: "Oi. Eu sou a Mila. Hoje vamos dar um pequeno passo: tarefa, recompensa e plano calmo para amanhã.", path: [["Missão", "Uma pergunta ou uma decisão financeira."], ["Aprender", "Resposta curta sem jargão."], ["Recompensa", "Moedas, nível e motivo para voltar amanhã."], ["Segurança", "Kids Mode separado e plano de crise adulto."]], cards: [["Modo adulto", "Hábitos, potes, inflação, compras, dívidas e moedas."], ["Kids Mode", "Aulas simples, estrelas e consentimento dos pais."], ["Acessibilidade", "Botões grandes, texto grande e voz."]] },
+    daily: { eyebrow: "Tarefa de hoje", title: "O que significa inflação?", body: "Escolha uma resposta. A correta ganha moedas.", questionVoice: "O que significa inflação? A: o dinheiro compra mais com o tempo. B: o dinheiro perde poder de compra. C: bancos dão dinheiro grátis. D: preços sempre caem.", answers: ["O dinheiro compra mais com o tempo", "O dinheiro perde poder de compra", "Bancos dão dinheiro grátis", "Preços sempre caem"], correct: "Correto. Inflação significa que o dinheiro perde poder de compra com o tempo. Você ganha vinte e cinco moedas Coach FI.", wrong: "Não exatamente. Inflação significa que o dinheiro perde poder de compra.", reward: "hoje", streak: "sequência", next: "próximo nível" }
+  },
+  tr: {
+    name: "Türkçe", brandSub: "günlük finans koçu", score: "Skor", coins: "Coin", level: "Seviye", progress: "Sonraki aşamaya ilerleme", text: "Metin", listen: "Seslendir", done: "Tamam", copy: "Kopyala", copied: "Kopyalandı", city: "Şehir", amount: "Tutar",
+    nav: ["Başla", "Günlük", "Plan", "Kriz", "Kids", "Mimari"], tabsSmall: ["Başla", "Günlük", "Plan", "Kriz", "Kids"],
+    start: { eyebrow: "Para için Duolingo gibi basit", title: "Günde bir finans dersi. Hemen ödül.", body: "Coach FI kısa görev, Mila'nın sesi, coinler, seviyeler ve yarınki adımla kullanıcıyı yönlendirir.", cta: "Bugünkü göreve başla", plan: "Kavanozları hesapla", crisis: "Kriz planı", milaTitle: "Mila net konuşur", milaBody: "Bu HTML demo tarayıcı sesini kullanır. Uygulama ElevenLabs ve speechSynthesis fallback kullanır.", voice: "Merhaba. Ben Mila. Bugün küçük bir adım atıyoruz: görev, ödül ve yarın için sakin bir plan.", path: [["Görev", "Bir soru veya finansal karar."], ["Öğren", "Jargonsuz kısa cevap."], ["Ödül", "Coin, seviye ve yarın dönme nedeni."], ["Güvenlik", "Ayrı Kids Mode ve yetişkin kriz planı."]], cards: [["Adult Mode", "Alışkanlıklar, kavanozlar, enflasyon, alışveriş, borç ve coin."], ["Kids Mode", "Basit dersler, yıldızlar ve ebeveyn onayı."], ["Erişilebilirlik", "Büyük butonlar, büyük metin ve ses."]] },
+    daily: { eyebrow: "Bugünün görevi", title: "Enflasyon ne demektir?", body: "Bir cevap seç. Doğru cevap coin kazandırır.", questionVoice: "Enflasyon ne demektir? A: para zamanla daha çok şey alır. B: para zamanla satın alma gücünü kaybeder. C: bankalar bedava para verir. D: fiyatlar hep düşer.", answers: ["Para zamanla daha çok şey alır", "Para satın alma gücünü kaybeder", "Bankalar bedava para verir", "Fiyatlar hep düşer"], correct: "Doğru. Enflasyon, paranın zamanla satın alma gücünü kaybetmesidir. Yirmi beş Coach FI coin kazandın.", wrong: "Tam değil. Enflasyon, paranın zamanla satın alma gücünü kaybetmesidir.", reward: "bugün", streak: "seri", next: "sonraki seviye" }
+  }
+};
+
+function mergeDeep(base, extra) {
+  if (!extra) return structuredClone(base);
+  const out = Array.isArray(base) ? [...base] : { ...base };
+  for (const [key, value] of Object.entries(extra)) {
+    if (value && typeof value === "object" && !Array.isArray(value) && base[key]) out[key] = mergeDeep(base[key], value);
+    else out[key] = value;
+  }
+  return out;
+}
+
+for (const key of Object.keys(ALIASES)) C[key] = mergeDeep(BASE, ALIASES[key]);
+
+const SECTION_LOCALIZATION = {
+  fr: {
+    plan: {
+      eyebrow: "Plan d'argent", title: "Bocaux, achats et consignes au même endroit.", body: "La partie pratique: répartir le revenu, stopper l'achat impulsif et récupérer de l'argent.", jarTitle: "Modèle des 6 bocaux d'Eker", mode: "Mode", adult: "Adulte", kids: "Enfants", readJars: "Lire mes bocaux",
+      jars: [["Dépenses nécessaires", "Besoins", 55, "Factures, nourriture, loyer, transport, crédits et assurances."], ["Éducation", "Apprendre", 10, "Livres, cours, formations et développement."], ["Épargne long terme", "Grand objectif", 10, "Achats planifiés sans dette."], ["Plaisirs", "Joie", 10, "Argent pour le plaisir afin que le système reste sain."], ["Investissements", "Avenir", 10, "Capital pour se développer, sans promesse de rendement."], ["Aider les autres", "Partager", 5, "Cadeaux, associations ou aide aux proches."]],
+      jarVoice: "Répartition de l'argent selon le modèle des six bocaux.", shoppingTitle: "Hygiène d'achat", item: "Qu'as-tu acheté?", price: "Prix", days: "Jours depuis l'achat", returnWindow: "Délai de retour", used: "Utilisations", need: "Besoin réel", regret: "Regret d'achat", trigger: "Déclencheur", triggers: ["Publicité ou influenceur", "Promotion", "Stress", "Ennui", "Pression sociale", "Besoin réel"],
+      decisions: { return: ["Retourne-le si la politique le permet", "Tu regrettes l'achat, le besoin est faible et le retour peut être possible."], sell: ["Vends-le et transforme le désordre en argent", "Tu ne l'utilises pas. Mets-le en vente avec une limite de sept jours."], pause: ["Fais une pause avant de décider", "Cela semble impulsif. Attends 24 heures et coupe les signaux publicitaires."], keep: ["Garde-le, mais utilise-le consciemment", "Garde-le seulement s'il résout un vrai problème ou sera utilisé régulièrement."] },
+      readDecision: "Lire la décision", impulse: "impulsion", recover: "à récupérer", returnStatus: "retour", bottlesTitle: "Bouteilles retournées", pet: "PET", glass: "Verre", deposit: "Consigne par pièce", bottles: "bouteilles", back: "revient", unusedTitle: "Objets inutilisés", unusedBody: "Transforme les objets inutilisés en argent pour ton fonds de sécurité.", thing: "Objet", value: "Valeur", add: "Ajouter", total: "récupération possible"
+    },
+    crisis: {
+      eyebrow: "Adultes seulement", title: "Crise financière: aide humaine d'abord, plan ensuite.", body: "En danger immédiat, appelle le 112. Si les dettes t'enlèvent la sécurité, fais un premier pas sûr et demande de l'aide.", phones: [["112", "danger immédiat pour la vie ou la santé"], ["116 123", "ligne de soutien adulte en Pologne"], ["800 70 2222", "centre de soutien 24/7 en Pologne"]],
+      stepsTitle: "Plan 24h", steps: ["Dis à une personne proche que tu dois parler.", "Appelle une ligne de soutien ou un centre de crise local.", "Écris tes dettes sans te juger.", "Vérifie l'aide sociale, l'aide juridique gratuite, la banque, ZUS ou la famille.", "Mets en vente trois objets inutilisés."],
+      resources: "Aide dans ta ville", resourcesBody: "Entre une ville. Les liens ouvrent une recherche ou une page officielle.", resourceLabels: ["Centre d'intervention de crise", "Aide sociale financière", "Aide juridique gratuite", "ZUS: facilités de paiement", "Centres de santé mentale"],
+      templates: "Modèles de message", chooseTemplate: "Choisir un modèle", templateNames: ["À une personne proche", "Demande de prêt", "Demande à la banque", "Demande d'aide sociale"], templateText: ["Salut [NOM],\nJe traverse une situation financière et émotionnelle difficile. Je n'ai pas besoin de jugement, mais d'une conversation et d'aide pour les premiers pas. Peux-tu me parler aujourd'hui?", "Salut [NOM],\nJe suis dans une crise courte et j'ai besoin d'emprunter [MONTANT] PLN jusqu'au [DATE]. Je propose un accord écrit simple: montant, date de remboursement, virement et confirmation.", "Bonjour,\nJe demande une suspension temporaire ou une restructuration de mon crédit à cause d'une situation financière dégradée. Merci de m'indiquer les documents nécessaires.", "Bonjour,\nJe demande des informations sur une aide financière et sociale possible. Ma situation est difficile: [DESCRIPTION]. Merci de m'indiquer les documents nécessaires."]
+    },
+    kids: { eyebrow: "Mode séparé", title: "Kids Mode demande l'accord d'un parent.", body: "Pas de wallet, NFT, classement public ni chat IA libre. Les enfants ont des étoiles, des bocaux et des narrations sûres.", consent: "Je suis parent ou tuteur et j'accepte d'afficher Kids Mode dans cette démo.", enter: "Entrer en Kids Mode", mission: "Mission enfant", missionBody: "Choisis un besoin et une envie.", stars: "étoiles", addStars: "Fait +5 étoiles", safe: "Limites sûres", safeBody: "L'enfant ne voit pas les dettes, la crise, le wallet ou le classement public.", voice: "Kids Mode. Nous apprenons les besoins, les envies, les bocaux et les petits objectifs." },
+    docs: { eyebrow: "Source unique", title: "L'architecture doit servir un produit simple.", body: "Le HTML est une maquette Demo Day. Next.js reste l'application produit. La documentation distingue réel et fallback.", cards: [["Réel", "Next.js, quiz, modes, shopping, crise, voix via /api/tts et état local."], ["Fallback", "ElevenLabs vers speechSynthesis, API IA vers réponses prédéfinies, Solana vers mock."], ["Prochaine étape", "Unifier le design Next.js autour de ce parcours quotidien."]] },
+    side: { title: "Mila parle", body: "Simplicité d'abord. APIs ensuite. La démo doit être comprise en 10 secondes.", feedback: "Avis utilisateurs", feedbackItems: ["Je veux une tâche par jour, pas un tableau plein d'onglets.", "Kids Mode doit être séparé et approuvé par un parent.", "Le plan de crise aide car il donne le premier appel et un texte à copier."], sources: "Sources d'aide" }
+  },
+  es: {
+    plan: {
+      eyebrow: "Plan de dinero", title: "Frascos, compras y depósitos en un lugar.", body: "Parte práctica: dividir ingresos, frenar compras impulsivas y recuperar dinero.", jarTitle: "Modelo de 6 frascos de Eker", mode: "Modo", adult: "Adulto", kids: "Kids", readJars: "Leer mis frascos",
+      jars: [["Gastos necesarios", "Necesidades", 55, "Facturas, comida, alquiler, transporte, créditos y seguros."], ["Educación", "Aprendizaje", 10, "Libros, cursos, formación y habilidades."], ["Ahorro a largo plazo", "Meta grande", 10, "Compras planificadas sin deuda."], ["Diversión", "Alegría", 10, "Dinero para disfrutar y sostener el sistema."], ["Inversiones", "Futuro", 10, "Capital para crecer, educativo y sin promesas."], ["Ayuda", "Compartir", 5, "Regalos, fundaciones o ayuda a personas cercanas."]],
+      jarVoice: "División del dinero con el modelo de seis frascos.", shoppingTitle: "Higiene de compras", item: "¿Qué compraste?", price: "Precio", days: "Días desde la compra", returnWindow: "Plazo de devolución", used: "Usos", need: "Necesidad real", regret: "Arrepentimiento", trigger: "Disparador", triggers: ["Anuncio o influencer", "Oferta o descuento", "Estrés", "Aburrimiento", "Presión social", "Necesidad real"],
+      decisions: { return: ["Devuélvelo si la política lo permite", "Te arrepientes, la necesidad es baja y quizá aún puedas devolverlo."], sell: ["Véndelo y convierte desorden en dinero", "No lo usas. Publícalo y pon un límite de siete días."], pause: ["Pausa antes de decidir", "Parece impulsivo. Espera 24 horas y elimina estímulos publicitarios."], keep: ["Consérvalo, pero úsalo conscientemente", "Consérvalo solo si resuelve un problema real o lo usarás seguido."] },
+      readDecision: "Leer decisión", impulse: "impulso", recover: "recuperable", returnStatus: "devolución", bottlesTitle: "Botellas devueltas", pet: "PET", glass: "Vidrio", deposit: "Depósito por unidad", bottles: "botellas", back: "vuelve", unusedTitle: "Cosas sin usar", unusedBody: "Convierte cosas que no usas en dinero para tu fondo de seguridad.", thing: "Cosa", value: "Valor", add: "Añadir", total: "recuperación potencial"
+    },
+    crisis: { eyebrow: "Solo adultos", title: "Crisis financiera: ayuda humana primero, plan después.", body: "Si hay peligro inmediato, llama al 112. Si la deuda te quita seguridad, da un paso seguro y pide ayuda.", phones: [["112", "peligro inmediato para vida o salud"], ["116 123", "línea de apoyo para adultos en Polonia"], ["800 70 2222", "centro de apoyo 24/7 en Polonia"]], stepsTitle: "Plan 24h", steps: ["Dile a alguien cercano que necesitas hablar.", "Llama a una línea de apoyo o centro de crisis local.", "Escribe tus deudas sin juzgarte.", "Revisa ayuda social, legal gratuita, banco, ZUS o familia.", "Publica tres cosas sin usar y recupera dinero."], resources: "Ayuda en tu ciudad", resourcesBody: "Escribe una ciudad. Los enlaces abren búsqueda o páginas oficiales.", resourceLabels: ["Centro de intervención de crisis", "Ayuda financiera social", "Ayuda legal gratuita", "ZUS alivio de pagos", "Centros de salud mental"], templates: "Plantillas", chooseTemplate: "Elige plantilla", templateNames: ["A alguien cercano", "Solicitud de préstamo", "Solicitud al banco", "Solicitud a servicios sociales"], templateText: ["Hola [NOMBRE],\nEstoy en una situación financiera y emocional difícil. No necesito juicio, sino hablar y ordenar los primeros pasos. ¿Puedes hablar conmigo hoy?", "Hola [NOMBRE],\nEstoy en una crisis temporal y necesito pedir prestado [CANTIDAD] PLN hasta [FECHA]. Propongo un acuerdo simple por escrito: cantidad, fecha de devolución, transferencia y confirmación.", "Buenos días,\nSolicito una pausa temporal o reestructuración del préstamo por empeoramiento de mi situación financiera. Indíquenme los documentos necesarios.", "Buenos días,\nSolicito información sobre posible ayuda financiera y social. Mi situación es: [DESCRIPCIÓN]. Indíquenme los documentos necesarios."] },
+    kids: { eyebrow: "Modo separado", title: "Kids Mode requiere permiso del padre o madre.", body: "Sin wallet, NFT, ranking público ni chat IA libre. Hay estrellas, frascos y narración segura.", consent: "Soy padre, madre o tutor y acepto mostrar Kids Mode en esta demo.", enter: "Entrar en Kids Mode", mission: "Misión infantil", missionBody: "Elige una necesidad y un deseo.", stars: "estrellas", addStars: "Hecho +5 estrellas", safe: "Límites seguros", safeBody: "El niño no ve deuda, crisis, wallet ni ranking público.", voice: "Kids Mode. Aprendemos necesidades, deseos, frascos y metas pequeñas." },
+    docs: { eyebrow: "Fuente única", title: "La arquitectura debe apoyar un producto simple.", body: "HTML es la maqueta Demo Day. Next.js sigue siendo la app de producto. La documentación separa real y fallback.", cards: [["Real", "Next.js, quiz, modos, compras, crisis, voz por /api/tts y estado local."], ["Fallback", "ElevenLabs a speechSynthesis, IA a respuestas predefinidas, Solana a mock."], ["Siguiente paso", "Unificar el diseño Next.js alrededor de este camino diario."]] },
+    side: { title: "Mila habla", body: "Primero simplicidad. Luego APIs. La demo debe entenderse en 10 segundos.", feedback: "Opiniones", feedbackItems: ["Quiero una tarea diaria, no un panel lleno de pestañas.", "Kids Mode debe estar separado y aprobado por padres.", "El plan de crisis ayuda porque da el primer teléfono y un texto para copiar."], sources: "Fuentes de ayuda" }
+  },
+  zh: {
+    plan: { eyebrow: "金钱计划", title: "罐子、购物和押金在一个地方。", body: "实用部分：分配收入、停止冲动消费、找回现金。", jarTitle: "Eker 六罐模型", mode: "模式", adult: "成人", kids: "儿童", readJars: "朗读我的罐子", jars: [["必要支出", "需要", 55, "账单、食物、房租、交通、贷款和保险。"], ["教育", "学习", 10, "书籍、课程、培训和技能成长。"], ["长期储蓄", "大目标", 10, "无债务的计划性大额购买。"], ["享受", "快乐", 10, "用于快乐的钱，让系统更健康。"], ["投资", "未来", 10, "用于成长的资本，教育用途，不承诺收益。"], ["帮助他人", "分享", 5, "礼物、慈善或帮助身边的人。"]], jarVoice: "按照六罐模型分配金钱。", shoppingTitle: "购物卫生", item: "你买了什么？", price: "价格", days: "购买后天数", returnWindow: "退货期", used: "使用次数", need: "真实需要", regret: "购物后悔", trigger: "触发因素", triggers: ["广告或网红", "促销或折扣", "压力", "无聊", "社交压力", "真实需要"], decisions: { return: ["如果政策允许就退货", "你后悔了，需要很低，而且可能还能退货。"], sell: ["卖掉，把杂物变成现金", "你没有使用它。发布出售并设定七天期限。"], pause: ["决定前暂停", "这看起来像冲动消费。等24小时并移除广告刺激。"], keep: ["保留，但要有意识使用", "只有解决真实问题或会经常使用时才保留。"] }, readDecision: "朗读决定", impulse: "冲动", recover: "可追回", returnStatus: "退货", bottlesTitle: "退回瓶子", pet: "塑料瓶", glass: "玻璃", deposit: "每件押金", bottles: "瓶子", back: "返还", unusedTitle: "未使用物品", unusedBody: "把不用的东西变成安全基金现金。", thing: "物品", value: "价值", add: "添加", total: "可能追回" },
+    crisis: { eyebrow: "仅限成人", title: "财务危机：先找人帮助，再做计划。", body: "如果有立即危险，请拨打112。如果债务让你失去安全感，请先迈出一个安全步骤并寻求帮助。", phones: [["112", "生命或健康的紧急危险"], ["116 123", "波兰成人支持热线"], ["800 70 2222", "波兰24/7支持中心"]], stepsTitle: "24小时计划", steps: ["告诉亲近的人你需要谈谈。", "拨打支持热线或当地危机中心。", "写下债务，不评价自己。", "查看社会救助、免费法律援助、银行、ZUS或家庭支持。", "发布三个未使用物品来回收现金。"], resources: "你所在城市的帮助", resourcesBody: "输入城市。链接会打开搜索或官方网站。", resourceLabels: ["危机干预中心", "社会福利经济帮助", "免费法律援助", "ZUS还款减免", "心理健康中心"], templates: "消息模板", chooseTemplate: "选择模板", templateNames: ["给亲近的人", "借款请求", "给银行的请求", "给社会福利的请求"], templateText: ["你好[姓名]，\n我现在处于财务和情绪困难中。我不需要评判，只需要谈话和整理第一步。你今天能和我聊聊吗？", "你好[姓名]，\n我处于短期危机，需要借[金额] PLN，到[日期]归还。我建议写一个简单协议：金额、还款日期、转账方式和确认。", "您好，\n由于我的财务状况恶化，我请求临时暂停还款或重组贷款。请告诉我需要提交哪些文件。", "您好，\n我想了解可能的经济和社会帮助。我的情况是：[描述]。请告诉我需要哪些文件。"] },
+    kids: { eyebrow: "独立模式", title: "儿童模式需要家长同意。", body: "没有钱包、NFT、公开排行榜或自由AI聊天。孩子获得星星、罐子和安全预设语音。", consent: "我是家长或监护人，同意在此演示中显示儿童模式。", enter: "进入儿童模式", mission: "儿童任务", missionBody: "选择一个需要和一个想要。", stars: "星星", addStars: "完成 +5 星", safe: "安全边界", safeBody: "孩子不会看到债务、危机、钱包或公开排行榜。", voice: "儿童模式。我们学习需要、想要、罐子和小目标。" },
+    docs: { eyebrow: "唯一事实来源", title: "架构应支持简单产品。", body: "HTML 是 Demo Day 原型。Next.js 仍是产品应用。文档说明什么是真实功能，什么是备用方案。", cards: [["真实", "Next.js、测验、模式、购物、危机、/api/tts 语音和本地状态。"], ["备用", "ElevenLabs 退到 speechSynthesis，AI API 退到预设回答，Solana 退到 mock。"], ["下一步", "围绕这个每日路径统一 Next.js 设计。"]] },
+    side: { title: "Mila 会说话", body: "先简单，再接 API。演示必须在10秒内让人明白。", feedback: "用户反馈", feedbackItems: ["我想要每天一个任务，不是满屏标签。", "儿童模式必须独立并经家长批准。", "危机计划有帮助，因为给出第一个电话和可复制文本。"], sources: "帮助来源" }
+  },
+  ja: {
+    plan: { eyebrow: "お金の計画", title: "ジャー、買い物、返却を一か所に。", body: "実用部分: 収入を分け、衝動買いを止め、現金を回収します。", jarTitle: "Eker 6ジャーモデル", mode: "モード", adult: "大人", kids: "子ども", readJars: "ジャーを読み上げ", jars: [["必要支出", "必要", 55, "請求、食費、家賃、交通、ローン、保険。"], ["教育", "学び", 10, "本、講座、研修、スキル向上。"], ["長期貯蓄", "大きな目標", 10, "借金なしの計画的な大きな購入。"], ["楽しみ", "喜び", 10, "続けられる仕組みにするための楽しみのお金。"], ["投資", "未来", 10, "成長のための資本。教育目的で、利益保証なし。"], ["助ける", "分かち合い", 5, "贈り物、寄付、身近な人への支援。"]], jarVoice: "6ジャーモデルでお金を分けます。", shoppingTitle: "買い物衛生", item: "何を買いましたか？", price: "価格", days: "購入からの日数", returnWindow: "返品期間", used: "使用回数", need: "本当の必要性", regret: "購入後悔", trigger: "きっかけ", triggers: ["広告またはインフルエンサー", "セールまたは割引", "ストレス", "退屈", "周囲の圧力", "本当の必要性"], decisions: { return: ["規約が許すなら返品", "後悔があり、必要性が低く、まだ返品できる可能性があります。"], sell: ["売って現金に変える", "使っていません。出品し、7日以内の期限を決めましょう。"], pause: ["決める前に休止", "衝動的に見えます。24時間待ち、広告刺激を消しましょう。"], keep: ["残すなら意識して使う", "本当に問題を解決するか、定期的に使う場合だけ残しましょう。"] }, readDecision: "判断を読み上げ", impulse: "衝動", recover: "回収可能", returnStatus: "返品", bottlesTitle: "返却したボトル", pet: "PET", glass: "ガラス", deposit: "1本のデポジット", bottles: "本", back: "戻る", unusedTitle: "使っていない物", unusedBody: "使わない物を安全資金の現金に変えましょう。", thing: "物", value: "価値", add: "追加", total: "回収見込み" },
+    crisis: { eyebrow: "大人専用", title: "金融危機: まず人の助け、次に計画。", body: "すぐ危険がある場合は112へ。借金で安心感を失っているなら、安全な一歩を踏み出し助けを求めましょう。", phones: [["112", "生命や健康への緊急危険"], ["116 123", "ポーランドの大人向け相談電話"], ["800 70 2222", "ポーランドの24時間支援センター"]], stepsTitle: "24時間プラン", steps: ["身近な人に話したいと伝える。", "相談電話または地域の危機センターに電話する。", "自分を責めずに借金を書き出す。", "社会支援、無料法律相談、銀行、ZUS、家族支援を確認する。", "使っていない物を3つ出品して現金化する。"], resources: "あなたの街の支援", resourcesBody: "都市名を入力。検索または公式ページを開きます。", resourceLabels: ["危機介入センター", "社会福祉の金銭支援", "無料法律相談", "ZUS返済猶予", "メンタルヘルスセンター"], templates: "メッセージ例", chooseTemplate: "テンプレートを選択", templateNames: ["身近な人へ", "借入のお願い", "銀行への依頼", "社会福祉への依頼"], templateText: ["[名前]へ\n今、経済的にも感情的にもつらい状況です。責められるより、話を聞いて最初の一歩を整理する助けが必要です。今日話せますか？", "[名前]へ\n短期的な危機で、[金額] PLNを[日付]まで借りたいです。金額、返済日、振込方法、確認を含む簡単な書面にしたいです。", "こんにちは。\n財務状況悪化のため、返済猶予またはローン再編をお願いします。必要書類を教えてください。", "こんにちは。\n利用可能な金銭的・社会的支援について知りたいです。状況は[説明]です。必要書類を教えてください。"] },
+    kids: { eyebrow: "別モード", title: "Kids Mode には保護者の同意が必要です。", body: "ウォレット、NFT、公開ランキング、自由AIチャットはありません。星、ジャー、安全な音声だけです。", consent: "私は保護者で、このデモで Kids Mode を表示することに同意します。", enter: "Kids Modeへ", mission: "子どものミッション", missionBody: "必要なものと欲しいものを1つずつ選びます。", stars: "星", addStars: "完了 +5 星", safe: "安全な境界", safeBody: "子どもは借金、危機、ウォレット、公開ランキングを見ません。", voice: "Kids Mode。必要なもの、欲しいもの、ジャー、小さな目標を学びます。" },
+    docs: { eyebrow: "唯一の真実", title: "アーキテクチャは単純な製品を支えるべきです。", body: "HTML は Demo Day モックです。Next.js が製品アプリです。ドキュメントは実機能とフォールバックを区別します。", cards: [["実機能", "Next.js、クイズ、モード、買い物、危機、/api/tts音声、ローカル状態。"], ["フォールバック", "ElevenLabsからspeechSynthesis、AIから定義済み回答、Solanaからmock。"], ["次の一歩", "Next.jsをこの毎日のパスに合わせて統一する。"]] },
+    side: { title: "Milaが話す", body: "まずシンプルに。APIはその後。デモは10秒で理解できるべきです。", feedback: "ユーザーの声", feedbackItems: ["タブだらけの画面ではなく、1日1タスクがほしい。", "Kids Mode は別で、保護者承認が必要。", "危機プランは最初の電話とコピー文があるので助かる。"], sources: "支援情報" }
+  },
+  hi: {
+    plan: { eyebrow: "पैसे की योजना", title: "जार, खरीदारी और जमा एक जगह।", body: "व्यावहारिक भाग: आय बाँटें, आवेग वाली खरीद रोकें और नकद वापस पाएं।", jarTitle: "Eker 6 जार मॉडल", mode: "मोड", adult: "वयस्क", kids: "Kids", readJars: "मेरे जार सुनें", jars: [["जरूरी खर्च", "जरूरतें", 55, "बिल, खाना, किराया, परिवहन, ऋण और बीमा।"], ["शिक्षा", "सीखना", 10, "किताबें, कोर्स, प्रशिक्षण और कौशल।"], ["लंबी अवधि बचत", "बड़ा लक्ष्य", 10, "बिना कर्ज के योजनाबद्ध बड़ी खरीद।"], ["आनंद", "खुशी", 10, "खुशी के लिए पैसा ताकि सिस्टम टिके।"], ["निवेश", "भविष्य", 10, "विकास के लिए पूंजी, बिना लाभ वादे के।"], ["मदद", "साझा करना", 5, "उपहार, दान या अपने लोगों की सहायता।"]], jarVoice: "छह जार मॉडल से पैसे का विभाजन।", shoppingTitle: "खरीदारी स्वच्छता", item: "आपने क्या खरीदा?", price: "कीमत", days: "खरीद के बाद दिन", returnWindow: "रिटर्न अवधि", used: "उपयोग", need: "वास्तविक जरूरत", regret: "खरीद पछतावा", trigger: "ट्रिगर", triggers: ["विज्ञापन या इन्फ्लुएंसर", "सेल या छूट", "तनाव", "ऊब", "सामाजिक दबाव", "वास्तविक जरूरत"], decisions: { return: ["नीति अनुमति दे तो लौटाएं", "आपको पछतावा है, जरूरत कम है और रिटर्न संभव हो सकता है।"], sell: ["बेचें और सामान को नकद बनाएं", "आप इसका उपयोग नहीं करते। सात दिन की समय सीमा के साथ बेचें।"], pause: ["निर्णय से पहले रुकें", "यह आवेग जैसा लगता है। 24 घंटे रुकें और विज्ञापन संकेत हटाएं।"], keep: ["रखें, पर सचेत होकर उपयोग करें", "केवल तब रखें जब यह वास्तविक समस्या हल करे या नियमित उपयोग हो।"] }, readDecision: "निर्णय सुनें", impulse: "आवेग", recover: "वापस मिल सकता", returnStatus: "रिटर्न", bottlesTitle: "लौटाई बोतलें", pet: "PET", glass: "कांच", deposit: "प्रति वस्तु जमा", bottles: "बोतलें", back: "वापस", unusedTitle: "अनुपयोगी चीजें", unusedBody: "जो चीजें उपयोग नहीं होतीं उन्हें सुरक्षा निधि के नकद में बदलें।", thing: "चीज", value: "मूल्य", add: "जोड़ें", total: "संभावित वापसी" },
+    crisis: { eyebrow: "केवल वयस्क", title: "वित्तीय संकट: पहले इंसानी मदद, फिर योजना।", body: "तत्काल खतरा हो तो 112 पर कॉल करें। कर्ज से सुरक्षा छिन रही हो तो सुरक्षित पहला कदम लें और मदद मांगें।", phones: [["112", "जीवन या स्वास्थ्य का तत्काल खतरा"], ["116 123", "पोलैंड में वयस्क सहायता लाइन"], ["800 70 2222", "पोलैंड में 24/7 सहायता केंद्र"]], stepsTitle: "24 घंटे की योजना", steps: ["किसी करीबी को बताएं कि आपको बात करनी है।", "सपोर्ट लाइन या स्थानीय संकट केंद्र को कॉल करें।", "बिना खुद को दोष दिए कर्ज लिखें।", "सामाजिक मदद, मुफ्त कानूनी सहायता, बैंक, ZUS या परिवार सहायता देखें।", "तीन अनुपयोगी चीजें बेचने के लिए डालें।"], resources: "आपके शहर में मदद", resourcesBody: "शहर लिखें। लिंक खोज या आधिकारिक पेज खोलते हैं।", resourceLabels: ["संकट हस्तक्षेप केंद्र", "सामाजिक वित्तीय सहायता", "मुफ्त कानूनी मदद", "ZUS भुगतान राहत", "मानसिक स्वास्थ्य केंद्र"], templates: "संदेश नमूने", chooseTemplate: "नमूना चुनें", templateNames: ["करीबी व्यक्ति को", "ऋण अनुरोध", "बैंक को अनुरोध", "सामाजिक सहायता अनुरोध"], templateText: ["नमस्ते [नाम],\nमैं आर्थिक और भावनात्मक कठिनाई में हूँ। मुझे आलोचना नहीं, बातचीत और पहले कदमों में मदद चाहिए। क्या आप आज बात कर सकते हैं?", "नमस्ते [नाम],\nमैं अल्पकालिक संकट में हूँ और [तारीख] तक [राशि] PLN उधार चाहिए। मैं सरल लिखित समझौता प्रस्तावित करता हूँ: राशि, वापसी तारीख, ट्रांसफर और पुष्टि।", "नमस्ते,\nमेरी आर्थिक स्थिति बिगड़ने के कारण मैं भुगतान रोक या ऋण पुनर्गठन का अनुरोध करता हूँ। कृपया आवश्यक दस्तावेज बताएं।", "नमस्ते,\nमैं संभावित वित्तीय और सामाजिक सहायता की जानकारी चाहता हूँ। मेरी स्थिति है: [विवरण]। कृपया दस्तावेज बताएं।"] },
+    kids: { eyebrow: "अलग मोड", title: "Kids Mode के लिए अभिभावक सहमति चाहिए।", body: "कोई wallet, NFT, सार्वजनिक रैंकिंग या खुला AI चैट नहीं। बच्चों को सितारे, जार और सुरक्षित narration मिलती है।", consent: "मैं माता-पिता या अभिभावक हूँ और इस डेमो में Kids Mode दिखाने की अनुमति देता हूँ।", enter: "Kids Mode में जाएं", mission: "बच्चे की मिशन", missionBody: "एक जरूरत और एक चाहत चुनें।", stars: "सितारे", addStars: "पूरा +5 सितारे", safe: "सुरक्षित सीमाएँ", safeBody: "बच्चा कर्ज, संकट, wallet या सार्वजनिक रैंकिंग नहीं देखता।", voice: "Kids Mode. हम जरूरत, चाहत, जार और छोटे लक्ष्य सीखते हैं।" },
+    docs: { eyebrow: "एक सत्य स्रोत", title: "आर्किटेक्चर सरल उत्पाद को समर्थन दे।", body: "HTML Demo Day mockup है। Next.js उत्पाद ऐप है। दस्तावेज real और fallback अलग करते हैं।", cards: [["Real", "Next.js, quiz, modes, shopping, crisis, /api/tts voice और local state."], ["Fallback", "ElevenLabs से speechSynthesis, AI से predefined replies, Solana से mock."], ["अगला कदम", "Next.js design को इस daily path के आसपास एक करें।"]] },
+    side: { title: "Mila बोलती है", body: "पहले सरलता। फिर APIs। Demo 10 सेकंड में समझ आना चाहिए।", feedback: "यूज़र राय", feedbackItems: ["मुझे रोज़ एक काम चाहिए, tabs से भरा dashboard नहीं।", "Kids Mode अलग और parent-approved होना चाहिए।", "Crisis plan मदद करता है क्योंकि पहला call और copy text देता है।"], sources: "मदद स्रोत" }
+  },
+  pt: {
+    plan: { eyebrow: "Plano do dinheiro", title: "Potes, compras e depósitos em um lugar.", body: "Parte prática: dividir renda, frear compra impulsiva e recuperar dinheiro.", jarTitle: "Modelo dos 6 potes de Eker", mode: "Modo", adult: "Adulto", kids: "Kids", readJars: "Ler meus potes", jars: [["Gastos necessários", "Necessidades", 55, "Contas, comida, aluguel, transporte, créditos e seguros."], ["Educação", "Aprender", 10, "Livros, cursos, treinamentos e habilidades."], ["Poupança de longo prazo", "Meta maior", 10, "Compras planejadas sem dívida."], ["Diversão", "Alegria", 10, "Dinheiro para alegria e para manter o sistema saudável."], ["Investimentos", "Futuro", 10, "Capital para crescer, educacional e sem promessa de retorno."], ["Ajuda", "Compartilhar", 5, "Presentes, instituições ou ajuda a pessoas próximas."]], jarVoice: "Divisão do dinheiro pelo modelo de seis potes.", shoppingTitle: "Higiene de compras", item: "O que você comprou?", price: "Preço", days: "Dias desde a compra", returnWindow: "Prazo de devolução", used: "Usos", need: "Necessidade real", regret: "Arrependimento", trigger: "Gatilho", triggers: ["Anúncio ou influenciador", "Promoção ou desconto", "Estresse", "Tédio", "Pressão social", "Necessidade real"], decisions: { return: ["Devolva se a política permitir", "Você se arrependeu, a necessidade é baixa e a devolução talvez ainda seja possível."], sell: ["Venda e transforme bagunça em dinheiro", "Você não usa. Anuncie e coloque prazo de sete dias."], pause: ["Faça uma pausa antes de decidir", "Parece impulsivo. Espere 24 horas e corte estímulos de anúncio."], keep: ["Fique, mas use conscientemente", "Fique só se resolver um problema real ou for usado regularmente."] }, readDecision: "Ler decisão", impulse: "impulso", recover: "recuperável", returnStatus: "devolução", bottlesTitle: "Garrafas devolvidas", pet: "PET", glass: "Vidro", deposit: "Depósito por item", bottles: "garrafas", back: "volta", unusedTitle: "Coisas sem uso", unusedBody: "Transforme coisas sem uso em dinheiro para sua reserva.", thing: "Coisa", value: "Valor", add: "Adicionar", total: "recuperação potencial" },
+    crisis: { eyebrow: "Somente adultos", title: "Crise financeira: ajuda humana primeiro, plano depois.", body: "Se houver perigo imediato, ligue 112. Se a dívida tira sua segurança, dê um passo seguro e peça ajuda.", phones: [["112", "perigo imediato à vida ou saúde"], ["116 123", "linha de apoio adulto na Polônia"], ["800 70 2222", "centro de apoio 24/7 na Polônia"]], stepsTitle: "Plano 24h", steps: ["Diga a alguém próximo que precisa conversar.", "Ligue para uma linha de apoio ou centro de crise local.", "Escreva suas dívidas sem se julgar.", "Veja assistência social, ajuda jurídica grátis, banco, ZUS ou família.", "Anuncie três coisas sem uso e recupere dinheiro."], resources: "Ajuda na sua cidade", resourcesBody: "Digite uma cidade. Links abrem busca ou páginas oficiais.", resourceLabels: ["Centro de intervenção em crise", "Assistência social financeira", "Ajuda jurídica gratuita", "Alívio de pagamento ZUS", "Centros de saúde mental"], templates: "Modelos de mensagem", chooseTemplate: "Escolha o modelo", templateNames: ["Para alguém próximo", "Pedido de empréstimo", "Pedido ao banco", "Pedido à assistência social"], templateText: ["Oi [NOME],\nEstou em uma situação financeira e emocional difícil. Não preciso de julgamento, preciso conversar e organizar os primeiros passos. Você pode falar comigo hoje?", "Oi [NOME],\nEstou em uma crise de curto prazo e preciso emprestar [VALOR] PLN até [DATA]. Proponho um acordo escrito simples: valor, data de devolução, transferência e confirmação.", "Olá,\nPeço pausa temporária ou reestruturação do empréstimo por piora da minha situação financeira. Por favor, informem os documentos necessários.", "Olá,\nPeço informação sobre possível ajuda financeira e social. Minha situação é: [DESCRIÇÃO]. Por favor, informem os documentos necessários."] },
+    kids: { eyebrow: "Modo separado", title: "Kids Mode exige consentimento dos pais.", body: "Sem wallet, NFT, ranking público ou chat IA livre. Crianças recebem estrelas, potes e narração segura.", consent: "Sou pai, mãe ou responsável e aceito mostrar Kids Mode nesta demo.", enter: "Entrar no Kids Mode", mission: "Missão infantil", missionBody: "Escolha uma necessidade e um desejo.", stars: "estrelas", addStars: "Feito +5 estrelas", safe: "Limites seguros", safeBody: "A criança não vê dívida, crise, wallet ou ranking público.", voice: "Kids Mode. Aprendemos necessidades, desejos, potes e metas pequenas." },
+    docs: { eyebrow: "Fonte única", title: "A arquitetura deve apoiar um produto simples.", body: "HTML é a maquete Demo Day. Next.js continua sendo o app do produto. A documentação separa real e fallback.", cards: [["Real", "Next.js, quiz, modos, compras, crise, voz via /api/tts e estado local."], ["Fallback", "ElevenLabs para speechSynthesis, IA para respostas prontas, Solana para mock."], ["Próximo passo", "Unificar o design Next.js em torno deste caminho diário."]] },
+    side: { title: "Mila fala", body: "Simplicidade primeiro. APIs depois. A demo precisa ser entendida em 10 segundos.", feedback: "Opiniões", feedbackItems: ["Quero uma tarefa diária, não um painel cheio de abas.", "Kids Mode precisa ser separado e aprovado pelos pais.", "O plano de crise ajuda porque dá o primeiro telefone e um texto para copiar."], sources: "Fontes de ajuda" }
+  },
+  tr: {
+    plan: { eyebrow: "Para planı", title: "Kavanozlar, alışveriş ve depozito tek yerde.", body: "Pratik bölüm: geliri böl, dürtüsel alışverişi durdur ve nakit geri kazan.", jarTitle: "Eker 6 kavanoz modeli", mode: "Mod", adult: "Yetişkin", kids: "Kids", readJars: "Kavanozlarımı oku", jars: [["Zorunlu giderler", "İhtiyaçlar", 55, "Faturalar, yemek, kira, ulaşım, krediler ve sigorta."], ["Eğitim", "Öğrenme", 10, "Kitaplar, kurslar, eğitimler ve beceriler."], ["Uzun vadeli birikim", "Büyük hedef", 10, "Borçsuz planlı büyük alışverişler."], ["Keyif", "Mutluluk", 10, "Sistemi sürdürülebilir kılan keyif parası."], ["Yatırım", "Gelecek", 10, "Büyüme sermayesi, eğitim amaçlı ve getiri sözü yok."], ["Yardım", "Paylaşma", 5, "Hediyeler, bağışlar veya yakınlara destek."]], jarVoice: "Altı kavanoz modeliyle para bölüşümü.", shoppingTitle: "Alışveriş hijyeni", item: "Ne satın aldın?", price: "Fiyat", days: "Satın almadan sonra gün", returnWindow: "İade süresi", used: "Kullanım sayısı", need: "Gerçek ihtiyaç", regret: "Satın alma pişmanlığı", trigger: "Tetikleyici", triggers: ["Reklam veya influencer", "İndirim", "Stres", "Sıkılma", "Sosyal baskı", "Gerçek ihtiyaç"], decisions: { return: ["Politika izin veriyorsa iade et", "Pişmansın, ihtiyaç düşük ve iade hâlâ mümkün olabilir."], sell: ["Sat ve dağınıklığı nakde çevir", "Kullanmıyorsun. Satışa koy ve yedi günlük süre belirle."], pause: ["Karardan önce durakla", "Dürtüsel görünüyor. 24 saat bekle ve reklam tetiklerini kaldır."], keep: ["Tut, ama bilinçli kullan", "Gerçek bir sorunu çözerse veya düzenli kullanılacaksa tut."] }, readDecision: "Kararı seslendir", impulse: "dürtü", recover: "geri kazanılabilir", returnStatus: "iade", bottlesTitle: "İade edilen şişeler", pet: "PET", glass: "Cam", deposit: "Ürün başı depozito", bottles: "şişe", back: "geri", unusedTitle: "Kullanılmayan eşyalar", unusedBody: "Kullanmadığın eşyaları güvenlik fonu için nakde çevir.", thing: "Eşya", value: "Değer", add: "Ekle", total: "potansiyel geri kazanım" },
+    crisis: { eyebrow: "Sadece yetişkinler", title: "Finansal kriz: önce insan desteği, sonra plan.", body: "Acil tehlike varsa 112'yi ara. Borç güven duygunu alıyorsa güvenli bir adım at ve yardım iste.", phones: [["112", "yaşam veya sağlık için acil tehlike"], ["116 123", "Polonya'da yetişkin destek hattı"], ["800 70 2222", "Polonya'da 24/7 destek merkezi"]], stepsTitle: "24 saat planı", steps: ["Yakın birine konuşman gerektiğini söyle.", "Destek hattını veya yerel kriz merkezini ara.", "Borçlarını kendini yargılamadan yaz.", "Sosyal yardım, ücretsiz hukuk, banka, ZUS veya aile desteğini kontrol et.", "Kullanmadığın üç eşyayı satışa koy."], resources: "Şehrindeki yardım", resourcesBody: "Şehir gir. Linkler arama veya resmi sayfa açar.", resourceLabels: ["Kriz müdahale merkezi", "Sosyal finansal destek", "Ücretsiz hukuki yardım", "ZUS ödeme kolaylığı", "Ruh sağlığı merkezleri"], templates: "Mesaj şablonları", chooseTemplate: "Şablon seç", templateNames: ["Yakın kişiye", "Borç isteme", "Bankaya talep", "Sosyal yardıma talep"], templateText: ["Merhaba [İSİM],\nFinansal ve duygusal olarak zor durumdayım. Yargıya değil, konuşmaya ve ilk adımları düzenlemeye ihtiyacım var. Bugün konuşabilir miyiz?", "Merhaba [İSİM],\nKısa süreli kriz içindeyim ve [TARİH] tarihine kadar [TUTAR] PLN borç almam gerekiyor. Basit yazılı anlaşma öneriyorum: tutar, ödeme tarihi, transfer ve onay.", "Merhaba,\nFinansal durumum kötüleştiği için geçici ödeme ertelemesi veya kredi yapılandırması talep ediyorum. Gerekli belgeleri bildirmenizi rica ederim.", "Merhaba,\nOlası finansal ve sosyal yardım hakkında bilgi rica ediyorum. Durumum: [AÇIKLAMA]. Gerekli belgeleri bildirmenizi rica ederim."] },
+    kids: { eyebrow: "Ayrı mod", title: "Kids Mode ebeveyn onayı gerektirir.", body: "Wallet, NFT, herkese açık sıralama veya serbest AI sohbet yok. Çocuklar yıldız, kavanoz ve güvenli anlatım alır.", consent: "Ebeveyn veya vasiyim ve bu demoda Kids Mode gösterilmesini kabul ediyorum.", enter: "Kids Mode'a gir", mission: "Çocuk görevi", missionBody: "Bir ihtiyaç ve bir istek seç.", stars: "yıldız", addStars: "Tamam +5 yıldız", safe: "Güvenli sınırlar", safeBody: "Çocuk borç, kriz, wallet veya herkese açık sıralama görmez.", voice: "Kids Mode. İhtiyaçları, istekleri, kavanozları ve küçük hedefleri öğreniyoruz." },
+    docs: { eyebrow: "Tek doğru kaynak", title: "Mimari basit ürünü desteklemeli.", body: "HTML Demo Day maketidir. Next.js ürün uygulamasıdır. Dokümantasyon gerçek ve fallback olanı ayırır.", cards: [["Gerçek", "Next.js, quiz, modlar, alışveriş, kriz, /api/tts sesi ve local state."], ["Fallback", "ElevenLabs speechSynthesis'e, AI hazır yanıtlara, Solana mock'a düşer."], ["Sonraki adım", "Next.js tasarımını bu günlük path etrafında birleştir."]] },
+    side: { title: "Mila konuşur", body: "Önce basitlik. Sonra API. Demo 10 saniyede anlaşılmalı.", feedback: "Kullanıcı görüşleri", feedbackItems: ["Sekmelerle dolu dashboard değil, günlük tek görev istiyorum.", "Kids Mode ayrı ve ebeveyn onaylı olmalı.", "Kriz planı ilk telefon ve kopyalanacak metin verdiği için yardımcı."], sources: "Yardım kaynakları" }
+  }
+};
+
+for (const key of Object.keys(SECTION_LOCALIZATION)) C[key] = mergeDeep(C[key], SECTION_LOCALIZATION[key]);
+
+const WORK_LOCALIZATION = {
+  pl: {
+    checklist: { title: "Checklisty z tokenami", token: "CFI", complete: "Wykonane", nftTitle: "Certyfikaty NFT za etapy", unlocked: "Odblokowany", locked: "Zablokowany" },
+    checks: {
+      daily: ["Odczytaj pytanie", "Odpowiedz na quiz", "Zapisz jedną lekcję z odpowiedzi", "Udostępnij postęp bez danych prywatnych"],
+      plan: ["Wpisz dochód", "Odczytaj słoiki", "Ustaw pierwszy przelew do słoika", "Sprawdź zakup impulsywny", "Policz kaucje za butelki", "Dodaj jedną nieużywaną rzecz"],
+    },
+    work: {
+      eyebrow: "Utrata pracy lub biznesu", title: "Plan odzyskania dochodu", body: "Jeśli straciłeś pracę lub biznes, Coach FI pomaga przełożyć CV na mocne strony, wiadomość do sieci kontaktów i checklistę poszukiwania pracy.",
+      cvLabel: "Wklej CV lub opis doświadczenia", cvPlaceholder: "Stanowiska, branże, projekty, wyniki, technologie, języki, certyfikaty...",
+      strengthsLabel: "Mocne strony z CV", strengthsPlaceholder: "np. sprzedaż B2B, obsługa klienta, Excel, zarządzanie zespołem",
+      valueLabel: "Co możesz wnieść do firmy", valuePlaceholder: "np. dowożenie wyników, porządkowanie procesów, kontakt z klientem",
+      messageTitle: "Wiadomość do znajomych / LinkedIn", portalsTitle: "Portale pracy", portalsBody: "Linki otwierają największe i specjalistyczne miejsca do szukania pracy.",
+      messageTemplate: "Cześć, szukam teraz nowej pracy / zleceń. Moje mocne strony: {strengths}. Mogę wnieść do firmy: {value}. Jeśli słyszysz o roli, gdzie moje doświadczenie może pomóc, będę wdzięczny za kontakt lub polecenie. Mogę wysłać CV od razu.",
+      cvHintEmpty: "Wklej CV, a Coach FI łatwiej pomoże nazwać mocne strony i ułożyć plan.",
+      cvHintReady: "CV dodane. Teraz nazwij 3 mocne strony, przygotuj wiadomość i zacznij kontaktować się z ludźmi.",
+      stepsTitle: "Checklist odzyskania dochodu",
+      steps: ["Wklej CV lub opis doświadczenia", "Wypisz 3 mocne strony", "Napisz jasną wiadomość do znajomych i na LinkedIn", "Wyślij CV do 5 osób z sieci kontaktów", "Aplikuj na 3 oferty pracy", "Sprawdź urząd pracy, zasiłek lub wsparcie po zamknięciu biznesu"]
+    },
+    certs: { daily: "Daily Money Mission", plan: "6 Słoików i Higiena Zakupowa", crisis: "Plan Kryzysowy 24h", work: "Job Recovery Plan", kids: "Kids Money Basics" }
+  },
+  en: {
+    checklist: { title: "Token checklists", token: "CFI", complete: "Done", nftTitle: "NFT certificates by stage", unlocked: "Unlocked", locked: "Locked" },
+    checks: { daily: ["Read the question", "Answer the quiz", "Write one lesson learned", "Share progress without private data"], plan: ["Enter income", "Read jars", "Set first jar transfer", "Check an impulse purchase", "Count bottle deposits", "Add one unused item"] },
+    work: {
+      eyebrow: "Job or business loss", title: "Income recovery plan", body: "If you lost a job or business, Coach FI turns your CV into strengths, a clear network message and a job-search checklist.",
+      cvLabel: "Paste your CV or experience summary", cvPlaceholder: "Roles, industries, projects, results, tools, languages, certificates...",
+      strengthsLabel: "Strengths from CV", strengthsPlaceholder: "e.g. B2B sales, customer support, Excel, team leadership",
+      valueLabel: "What you can bring to a company", valuePlaceholder: "e.g. deliver results, improve processes, support customers",
+      messageTitle: "Message for friends / LinkedIn", portalsTitle: "Job portals", portalsBody: "Links open major and specialist job-search sites.",
+      messageTemplate: "Hi, I am looking for a new role / projects. My strengths are: {strengths}. I can bring to a company: {value}. If you hear about a role where my experience could help, I would be grateful for a contact or referral. I can send my CV right away.",
+      cvHintEmpty: "Paste your CV so Coach FI can help name strengths and build the plan.", cvHintReady: "CV added. Now name 3 strengths, prepare your message and start contacting people.",
+      stepsTitle: "Income recovery checklist", steps: ["Paste CV or experience summary", "List 3 strengths", "Write a clear LinkedIn/network message", "Send CV to 5 people in your network", "Apply to 3 jobs", "Check employment office, benefits or business closure support"]
+    },
+    certs: { daily: "Daily Money Mission", plan: "6 Jars and Shopping Hygiene", crisis: "24h Crisis Plan", work: "Job Recovery Plan", kids: "Kids Money Basics" }
+  },
+  fr: {
+    checklist: { title: "Checklists avec pièces", token: "CFI", complete: "Fait", nftTitle: "Certificats NFT par étape", unlocked: "Débloqué", locked: "Bloqué" },
+    checks: { daily: ["Lire la question", "Répondre au quiz", "Écrire une leçon", "Partager sans données privées"], plan: ["Saisir le revenu", "Lire les bocaux", "Prévoir un premier virement", "Analyser un achat impulsif", "Compter les consignes", "Ajouter un objet inutilisé"] },
+    work: { eyebrow: "Perte d'emploi ou d'entreprise", title: "Plan de récupération de revenu", body: "Coach FI transforme ton CV en forces, message clair au réseau et checklist de recherche.", cvLabel: "Colle ton CV ou résumé", cvPlaceholder: "Postes, secteurs, projets, résultats, outils, langues...", strengthsLabel: "Forces du CV", strengthsPlaceholder: "ex. vente B2B, service client, Excel", valueLabel: "Ce que tu apportes", valuePlaceholder: "ex. résultats, processus, clients", messageTitle: "Message amis / LinkedIn", portalsTitle: "Sites d'emploi", portalsBody: "Liens vers grands sites et sites spécialisés.", messageTemplate: "Bonjour, je cherche un nouveau poste / projet. Mes forces: {strengths}. Je peux apporter: {value}. Si tu connais une opportunité adaptée, merci pour un contact ou une recommandation. Je peux envoyer mon CV.", cvHintEmpty: "Colle ton CV pour nommer tes forces.", cvHintReady: "CV ajouté. Nomme 3 forces, prépare le message et contacte ton réseau.", stepsTitle: "Checklist revenu", steps: ["Coller le CV", "Lister 3 forces", "Écrire un message réseau", "Envoyer le CV à 5 personnes", "Postuler à 3 offres", "Vérifier aide emploi ou soutien entreprise"] },
+    certs: { daily: "Mission argent quotidienne", plan: "6 bocaux et achats", crisis: "Plan crise 24h", work: "Plan retour emploi", kids: "Bases argent enfants" }
+  },
+  es: {
+    checklist: { title: "Checklists con monedas", token: "CFI", complete: "Hecho", nftTitle: "Certificados NFT por etapa", unlocked: "Desbloqueado", locked: "Bloqueado" },
+    checks: { daily: ["Leer la pregunta", "Responder el quiz", "Escribir una lección", "Compartir sin datos privados"], plan: ["Ingresar ingresos", "Leer frascos", "Definir primer traspaso", "Revisar compra impulsiva", "Contar depósitos", "Agregar una cosa sin usar"] },
+    work: { eyebrow: "Pérdida de trabajo o negocio", title: "Plan para recuperar ingresos", body: "Coach FI convierte tu CV en fortalezas, mensaje para contactos y checklist de búsqueda.", cvLabel: "Pega tu CV o experiencia", cvPlaceholder: "Roles, sectores, proyectos, resultados, herramientas...", strengthsLabel: "Fortalezas del CV", strengthsPlaceholder: "ej. ventas B2B, atención al cliente, Excel", valueLabel: "Qué aportas a la empresa", valuePlaceholder: "ej. resultados, procesos, clientes", messageTitle: "Mensaje para contactos / LinkedIn", portalsTitle: "Portales de empleo", portalsBody: "Enlaces a portales grandes y especializados.", messageTemplate: "Hola, busco nuevo trabajo / proyectos. Mis fortalezas: {strengths}. Puedo aportar: {value}. Si conoces una oportunidad donde mi experiencia ayude, agradeceré contacto o recomendación. Puedo enviar CV.", cvHintEmpty: "Pega tu CV para nombrar fortalezas.", cvHintReady: "CV añadido. Define 3 fortalezas, prepara el mensaje y contacta tu red.", stepsTitle: "Checklist de ingresos", steps: ["Pegar CV", "Listar 3 fortalezas", "Escribir mensaje de red", "Enviar CV a 5 personas", "Aplicar a 3 ofertas", "Revisar oficina de empleo o ayuda"] },
+    certs: { daily: "Misión diaria de dinero", plan: "6 frascos y compras", crisis: "Plan crisis 24h", work: "Plan de empleo", kids: "Dinero para niños" }
+  },
+  zh: {
+    checklist: { title: "金币清单", token: "CFI", complete: "完成", nftTitle: "阶段 NFT 证书", unlocked: "已解锁", locked: "锁定" },
+    checks: { daily: ["朗读问题", "回答测验", "写下一条学习", "分享进度但不暴露隐私"], plan: ["输入收入", "朗读罐子", "设置第一次转账", "检查冲动购物", "计算瓶子押金", "添加一件不用物品"] },
+    work: { eyebrow: "失业或业务失败", title: "收入恢复计划", body: "Coach FI 帮你把简历变成优势、联系人消息和求职清单。", cvLabel: "粘贴简历或经历摘要", cvPlaceholder: "职位、行业、项目、成果、工具、语言...", strengthsLabel: "简历中的优势", strengthsPlaceholder: "例如销售、客服、Excel、团队管理", valueLabel: "你能为公司带来什么", valuePlaceholder: "例如结果、流程、客户支持", messageTitle: "发给朋友 / LinkedIn 的消息", portalsTitle: "求职网站", portalsBody: "链接打开大型和专业求职网站。", messageTemplate: "你好，我正在寻找新工作/项目。我的优势是：{strengths}。我能为公司带来：{value}。如果你知道适合我的机会，感谢介绍或推荐。我可以马上发送简历。", cvHintEmpty: "粘贴简历，Coach FI 会更容易帮你整理优势。", cvHintReady: "简历已添加。现在写出3个优势，准备消息并联系他人。", stepsTitle: "收入恢复清单", steps: ["粘贴简历", "列出3个优势", "写联系人消息", "给5个人发送简历", "申请3个职位", "查看就业办公室或补助"] },
+    certs: { daily: "每日金钱任务", plan: "六罐与购物卫生", crisis: "24小时危机计划", work: "求职恢复计划", kids: "儿童金钱基础" }
+  },
+  ja: {
+    checklist: { title: "コイン付きチェックリスト", token: "CFI", complete: "完了", nftTitle: "段階別NFT証明書", unlocked: "解除済み", locked: "ロック" },
+    checks: { daily: ["質問を読み上げる", "クイズに答える", "学びを1つ書く", "個人情報なしで進捗を共有"], plan: ["収入を入力", "ジャーを読み上げ", "最初の送金を決める", "衝動買いを確認", "ボトル返金を数える", "未使用品を追加"] },
+    work: { eyebrow: "失業または事業喪失", title: "収入回復プラン", body: "Coach FI は履歴書から強み、ネットワークメッセージ、求職チェックリストを作ります。", cvLabel: "履歴書または経験概要を貼る", cvPlaceholder: "職種、業界、プロジェクト、成果、ツール、言語...", strengthsLabel: "履歴書の強み", strengthsPlaceholder: "例: 営業、顧客対応、Excel、チーム管理", valueLabel: "会社に提供できる価値", valuePlaceholder: "例: 成果、業務改善、顧客支援", messageTitle: "友人 / LinkedIn へのメッセージ", portalsTitle: "求人サイト", portalsBody: "主要・専門求人サイトへのリンク。", messageTemplate: "こんにちは。新しい仕事/案件を探しています。私の強みは {strengths} です。会社には {value} を提供できます。合いそうな機会があれば紹介いただけると嬉しいです。履歴書はすぐ送れます。", cvHintEmpty: "履歴書を貼ると強みを整理しやすくなります。", cvHintReady: "履歴書を追加しました。3つの強みを書き、連絡を始めましょう。", stepsTitle: "収入回復チェックリスト", steps: ["履歴書を貼る", "強みを3つ書く", "連絡メッセージを書く", "5人に履歴書を送る", "3件応募する", "雇用支援や給付を確認する"] },
+    certs: { daily: "毎日のマネーミッション", plan: "6ジャーと買い物衛生", crisis: "24時間危機プラン", work: "仕事回復プラン", kids: "子どものお金基礎" }
+  },
+  hi: {
+    checklist: { title: "कॉइन चेकलिस्ट", token: "CFI", complete: "पूरा", nftTitle: "स्टेज NFT प्रमाणपत्र", unlocked: "खुला", locked: "लॉक" },
+    checks: { daily: ["प्रश्न सुनें", "क्विज़ का उत्तर दें", "एक सीख लिखें", "निजी डेटा बिना प्रगति साझा करें"], plan: ["आय लिखें", "जार सुनें", "पहला ट्रांसफर तय करें", "आवेग खरीद जांचें", "बोतल जमा गिनें", "एक अनुपयोगी चीज जोड़ें"] },
+    work: { eyebrow: "नौकरी या बिजनेस खोना", title: "आय वापसी योजना", body: "Coach FI आपके CV को strengths, network message और job search checklist में बदलता है।", cvLabel: "CV या अनुभव सारांश चिपकाएं", cvPlaceholder: "भूमिकाएँ, क्षेत्र, प्रोजेक्ट, परिणाम, टूल, भाषाएँ...", strengthsLabel: "CV की मजबूत बातें", strengthsPlaceholder: "जैसे sales, customer support, Excel", valueLabel: "आप कंपनी में क्या ला सकते हैं", valuePlaceholder: "जैसे results, process, customers", messageTitle: "दोस्तों / LinkedIn के लिए संदेश", portalsTitle: "Job portals", portalsBody: "बड़े और specialist job sites के links.", messageTemplate: "नमस्ते, मैं नई job / projects खोज रहा हूँ। मेरी strengths हैं: {strengths}. मैं कंपनी में यह ला सकता हूँ: {value}. अगर कोई role पता हो तो contact या referral के लिए आभारी रहूँगा। CV तुरंत भेज सकता हूँ.", cvHintEmpty: "CV चिपकाएं ताकि strengths और plan बन सके.", cvHintReady: "CV जोड़ा गया। अब 3 strengths लिखें और लोगों से संपर्क शुरू करें.", stepsTitle: "आय वापसी checklist", steps: ["CV चिपकाएं", "3 strengths लिखें", "network message लिखें", "5 लोगों को CV भेजें", "3 jobs पर apply करें", "employment office या support देखें"] },
+    certs: { daily: "Daily Money Mission", plan: "6 Jars and Shopping", crisis: "24h Crisis Plan", work: "Job Recovery Plan", kids: "Kids Money Basics" }
+  },
+  pt: {
+    checklist: { title: "Checklists com moedas", token: "CFI", complete: "Feito", nftTitle: "Certificados NFT por etapa", unlocked: "Desbloqueado", locked: "Bloqueado" },
+    checks: { daily: ["Ler a pergunta", "Responder o quiz", "Escrever uma lição", "Compartilhar sem dados privados"], plan: ["Inserir renda", "Ler potes", "Definir primeira transferência", "Checar compra impulsiva", "Contar depósitos", "Adicionar uma coisa sem uso"] },
+    work: { eyebrow: "Perda de emprego ou negócio", title: "Plano para recuperar renda", body: "Coach FI transforma seu CV em forças, mensagem para contatos e checklist de busca.", cvLabel: "Cole seu CV ou experiência", cvPlaceholder: "Cargos, setores, projetos, resultados, ferramentas...", strengthsLabel: "Forças do CV", strengthsPlaceholder: "ex. vendas B2B, atendimento, Excel", valueLabel: "O que você traz para a empresa", valuePlaceholder: "ex. resultados, processos, clientes", messageTitle: "Mensagem para amigos / LinkedIn", portalsTitle: "Portais de emprego", portalsBody: "Links para portais grandes e especializados.", messageTemplate: "Oi, estou buscando novo trabalho / projetos. Minhas forças: {strengths}. Posso trazer para a empresa: {value}. Se souber de uma oportunidade onde minha experiência ajude, agradeço contato ou indicação. Posso enviar CV.", cvHintEmpty: "Cole o CV para nomear forças.", cvHintReady: "CV adicionado. Escreva 3 forças, prepare a mensagem e contate sua rede.", stepsTitle: "Checklist de renda", steps: ["Colar CV", "Listar 3 forças", "Escrever mensagem de rede", "Enviar CV para 5 pessoas", "Aplicar a 3 vagas", "Verificar agência de emprego ou apoio"] },
+    certs: { daily: "Missão diária de dinheiro", plan: "6 potes e compras", crisis: "Plano crise 24h", work: "Plano de emprego", kids: "Dinheiro para crianças" }
+  },
+  tr: {
+    checklist: { title: "Coin checklistleri", token: "CFI", complete: "Tamam", nftTitle: "Aşama NFT sertifikaları", unlocked: "Açıldı", locked: "Kilitli" },
+    checks: { daily: ["Soruyu seslendir", "Quiz cevapla", "Bir öğrenim yaz", "Özel veri olmadan ilerlemeyi paylaş"], plan: ["Gelir gir", "Kavanozları oku", "İlk transferi planla", "Dürtüsel alışverişi kontrol et", "Şişe depozitosu say", "Bir kullanılmayan eşya ekle"] },
+    work: { eyebrow: "İş veya işyeri kaybı", title: "Gelir geri kazanım planı", body: "Coach FI CV'ni güçlü yönlere, network mesajına ve iş arama checklistine çevirir.", cvLabel: "CV veya deneyim özeti yapıştır", cvPlaceholder: "Roller, sektörler, projeler, sonuçlar, araçlar...", strengthsLabel: "CV'deki güçlü yönler", strengthsPlaceholder: "örn. satış, müşteri desteği, Excel", valueLabel: "Şirkete ne katarsın", valuePlaceholder: "örn. sonuç, süreç, müşteri desteği", messageTitle: "Arkadaşlar / LinkedIn mesajı", portalsTitle: "İş portalları", portalsBody: "Büyük ve uzman iş sitelerine linkler.", messageTemplate: "Merhaba, yeni iş / proje arıyorum. Güçlü yönlerim: {strengths}. Şirkete katabileceklerim: {value}. Deneyimime uygun bir rol duyarsan iletişim veya referans için minnettar olurum. CV gönderebilirim.", cvHintEmpty: "CV yapıştır; güçlü yönleri adlandırmak kolaylaşır.", cvHintReady: "CV eklendi. 3 güçlü yön yaz, mesajı hazırla ve insanlarla iletişime geç.", stepsTitle: "Gelir checklisti", steps: ["CV yapıştır", "3 güçlü yön yaz", "Network mesajı yaz", "5 kişiye CV gönder", "3 işe başvur", "İş kurumu veya destekleri kontrol et"] },
+    certs: { daily: "Daily Money Mission", plan: "6 Kavanoz ve Alışveriş", crisis: "24s Kriz Planı", work: "İş Geri Dönüş Planı", kids: "Kids Money Basics" }
+  }
+};
+
+for (const key of Object.keys(WORK_LOCALIZATION)) C[key] = mergeDeep(C[key], WORK_LOCALIZATION[key]);
+
+const COLORS = ["#58cc02", "#1cb0f6", "#ffd34d", "#ff6b6b", "#8c7bff", "#00c2a8"];
+const RESOURCE_LINKS = [
+  (city) => `https://www.google.com/search?q=${encodeURIComponent("Ośrodek Interwencji Kryzysowej " + city)}`,
+  (city) => `https://www.google.com/search?q=${encodeURIComponent("MOPS GOPS pomoc finansowa " + city)}`,
+  () => "https://zapisy-np.ms.gov.pl/",
+  () => "https://www.zus.pl/firmy/ulgi/ulgi-w-splacie-naleznosci",
+  () => "https://www.gov.pl/web/zdrowie/centra-zdrowia-psychicznego"
+];
+const JOB_PORTALS = [
+  ["LinkedIn Jobs", "https://www.linkedin.com/jobs/", "network"],
+  ["Pracuj.pl", "https://www.pracuj.pl/praca", "pl"],
+  ["OLX Praca", "https://www.olx.pl/praca/", "pl"],
+  ["Indeed", "https://pl.indeed.com/", "global"],
+  ["GoWork", "https://www.gowork.pl/praca", "pl"],
+  ["RocketJobs", "https://rocketjobs.pl/", "digital"],
+  ["Just Join IT", "https://justjoin.it/", "it"],
+  ["No Fluff Jobs", "https://nofluffjobs.com/pl", "it"],
+  ["Aplikuj.pl", "https://www.aplikuj.pl/", "pl"]
+];
+const BANK_PROVIDER_LINKS = [
+  ["PolishAPI", "https://polishapi.org/en/", "PSD2 / AIS / PIS"],
+  ["Kontomatik", "https://www.kontomatik.com/", "AISP"],
+  ["Tink", "https://tink.com/", "Open Banking"]
+];
+const BANK_COPY = {
+  pl: {
+    eyebrow: "Automatyzacja słoików",
+    title: "Najprościej: 6 subkont i automatyczne przelewy w dniu wypłaty.",
+    body: "Coach FI nie musi od razu przesuwać pieniędzy. MVP może uczyć systemu, pokazywać docelowe kwoty i przypominać o przelewach. Integracja bankowa powinna być tylko za jasną zgodą użytkownika.",
+    rules: [
+      ["Automatyzacja", "Załóż 6 subkont w banku i ustaw przelewy cykliczne po wpływie wynagrodzenia."],
+      ["Nawyk ponad kwotę", "System działa przy małych i dużych dochodach. Najważniejsza jest regularność."],
+      ["Przyjemności 100%", "Słoik przyjemności wydajesz w danym miesiącu, żeby uniknąć frustracji i wypalenia."],
+      ["Mentalność", "Eker opisuje ten model jako praktyczne ćwiczenie dyscypliny i sposobu myślenia o pieniądzach."]
+    ],
+    previewTitle: "Podgląd subkont w aplikacji",
+    previewBody: "Demo pokazuje docelowe salda. Realny podgląd można zbudować później przez Open Banking/AIS.",
+    roadmapTitle: "Bezpieczna ścieżka API",
+    roadmap: ["Ręczne wpisywanie sald i checklisty", "Read-only Open Banking po zgodzie użytkownika", "Płatności/automatyzacja tylko przez licencjonowanego partnera i dodatkową zgodę"],
+    statusManual: "manual / demo", statusApi: "API później"
+  },
+  en: {
+    eyebrow: "Jar automation", title: "Simplest setup: 6 subaccounts and automatic transfers on payday.", body: "Coach FI does not need to move money immediately. The MVP can teach the system, show target amounts and remind users. Bank integration should require explicit consent.",
+    rules: [["Automation", "Create 6 subaccounts and set recurring transfers after salary arrives."], ["Habit over amount", "The system works for small and large incomes. Consistency matters most."], ["Pleasure jar 100%", "Spend the pleasure jar during the month to avoid frustration and burnout."], ["Mindset", "Eker frames the method as discipline and money-mindset practice."]],
+    previewTitle: "Subaccount preview", previewBody: "Demo shows target balances. Real balances can later use Open Banking/AIS.", roadmapTitle: "Safe API path", roadmap: ["Manual balances and checklists", "Read-only Open Banking with user consent", "Payments/automation only through a licensed partner and extra consent"], statusManual: "manual / demo", statusApi: "API later"
+  },
+  fr: {
+    eyebrow: "Automatisation des bocaux", title: "Le plus simple: 6 sous-comptes et virements automatiques le jour de paie.", body: "Coach FI n'a pas besoin de déplacer l'argent au MVP. Il peut enseigner le système, afficher les montants cibles et rappeler les virements.",
+    rules: [["Automatisation", "Créez 6 sous-comptes et des virements récurrents après le salaire."], ["Habitude avant montant", "Le système fonctionne avec petits et grands revenus."], ["Plaisir 100%", "Le bocal plaisir doit être dépensé dans le mois."], ["Mentalité", "Eker présente cette méthode comme un exercice de discipline."]],
+    previewTitle: "Aperçu des sous-comptes", previewBody: "La démo montre les montants cibles. Les soldes réels peuvent venir plus tard via Open Banking/AIS.", roadmapTitle: "Chemin API sûr", roadmap: ["Soldes manuels et checklists", "Open Banking en lecture seule avec consentement", "Paiements seulement via partenaire licencié"], statusManual: "manuel / démo", statusApi: "API plus tard"
+  },
+  es: {
+    eyebrow: "Automatización de frascos", title: "Lo más simple: 6 subcuentas y transferencias automáticas el día de pago.", body: "Coach FI no necesita mover dinero al principio. Puede enseñar el sistema, mostrar objetivos y recordar transferencias.",
+    rules: [["Automatización", "Crea 6 subcuentas y transferencias recurrentes después del salario."], ["Hábito sobre cantidad", "Funciona con ingresos pequeños y grandes."], ["Placer 100%", "El frasco de placer se gasta durante el mes."], ["Mentalidad", "Eker lo presenta como práctica de disciplina financiera."]],
+    previewTitle: "Vista de subcuentas", previewBody: "La demo muestra saldos objetivo. Los saldos reales pueden usar Open Banking/AIS más adelante.", roadmapTitle: "Ruta API segura", roadmap: ["Saldos manuales y checklists", "Open Banking solo lectura con consentimiento", "Pagos solo con socio licenciado"], statusManual: "manual / demo", statusApi: "API luego"
+  },
+  zh: {
+    eyebrow: "罐子自动化", title: "最简单：6个子账户，并在发薪日自动转账。", body: "Coach FI 一开始不需要移动资金。MVP 可以教学、显示目标金额并提醒转账。银行整合必须获得明确同意。",
+    rules: [["自动化", "创建6个子账户，工资到账后设置周期转账。"], ["习惯重于金额", "大小收入都适用，关键是规律。"], ["快乐罐100%", "快乐罐应在当月花完，避免挫败和倦怠。"], ["心态", "Eker 将其视为金钱纪律训练。"]],
+    previewTitle: "子账户预览", previewBody: "演示显示目标余额。真实余额以后可通过 Open Banking/AIS。", roadmapTitle: "安全 API 路径", roadmap: ["手动余额和清单", "经用户同意的只读 Open Banking", "付款只通过持牌伙伴"], statusManual: "手动 / 演示", statusApi: "以后 API"
+  },
+  ja: {
+    eyebrow: "ジャー自動化", title: "最も簡単: 6つのサブ口座と給料日の自動振替。", body: "MVPでお金を動かす必要はありません。仕組みを教え、目標額を表示し、振替を思い出させます。",
+    rules: [["自動化", "6つのサブ口座を作り、給与後に定期振替を設定します。"], ["金額より習慣", "少額でも高収入でも、継続が重要です。"], ["楽しみ100%", "楽しみジャーは月内に使い切ります。"], ["マインドセット", "Ekerはこれをお金の規律の練習として説明します。"]],
+    previewTitle: "サブ口座プレビュー", previewBody: "デモは目標残高を表示します。実残高は後で Open Banking/AIS で可能です。", roadmapTitle: "安全なAPI手順", roadmap: ["手動残高とチェックリスト", "同意付き読み取り専用Open Banking", "支払いは認可パートナーのみ"], statusManual: "手動 / デモ", statusApi: "API 後で"
+  },
+  hi: {
+    eyebrow: "जार automation", title: "सबसे सरल: 6 subaccounts और salary day पर automatic transfers.", body: "MVP में Coach FI को पैसा move करने की जरूरत नहीं। यह target amounts दिखा सकता है और transfer reminders दे सकता है।",
+    rules: [["Automation", "6 subaccounts बनाएं और salary के बाद recurring transfers सेट करें."], ["Amount से ज्यादा habit", "छोटी और बड़ी income दोनों में काम करता है."], ["Pleasure 100%", "Pleasure jar को महीने में खर्च करें ताकि burnout न हो."], ["Mindset", "Eker इसे money discipline practice मानता है."]],
+    previewTitle: "Subaccount preview", previewBody: "Demo target balances दिखाता है। Real balances बाद में Open Banking/AIS से आ सकते हैं.", roadmapTitle: "Safe API path", roadmap: ["Manual balances और checklists", "User consent के साथ read-only Open Banking", "Payments केवल licensed partner से"], statusManual: "manual / demo", statusApi: "API बाद में"
+  },
+  pt: {
+    eyebrow: "Automação dos potes", title: "Mais simples: 6 subcontas e transferências automáticas no dia do salário.", body: "Coach FI não precisa mover dinheiro no MVP. Pode ensinar o sistema, mostrar metas e lembrar transferências.",
+    rules: [["Automação", "Crie 6 subcontas e transferências recorrentes após o salário."], ["Hábito acima do valor", "Funciona com renda pequena ou grande."], ["Prazer 100%", "O pote de prazer deve ser gasto no mês."], ["Mentalidade", "Eker trata como prática de disciplina financeira."]],
+    previewTitle: "Prévia das subcontas", previewBody: "A demo mostra saldos alvo. Saldos reais podem vir depois via Open Banking/AIS.", roadmapTitle: "Caminho API seguro", roadmap: ["Saldos manuais e checklists", "Open Banking somente leitura com consentimento", "Pagamentos só por parceiro licenciado"], statusManual: "manual / demo", statusApi: "API depois"
+  },
+  tr: {
+    eyebrow: "Kavanoz otomasyonu", title: "En basit yol: 6 alt hesap ve maaş gününde otomatik transfer.", body: "Coach FI MVP'de para taşımak zorunda değil. Sistemi öğretebilir, hedef tutarları gösterebilir ve hatırlatabilir.",
+    rules: [["Otomasyon", "6 alt hesap oluştur ve maaştan sonra düzenli transfer ayarla."], ["Tutar değil alışkanlık", "Küçük ve büyük gelirde çalışır."], ["Keyif %100", "Keyif kavanozu ay içinde harcanır."], ["Zihniyet", "Eker bunu finansal disiplin pratiği olarak anlatır."]],
+    previewTitle: "Alt hesap önizlemesi", previewBody: "Demo hedef bakiyeleri gösterir. Gerçek bakiyeler daha sonra Open Banking/AIS ile gelebilir.", roadmapTitle: "Güvenli API yolu", roadmap: ["Manuel bakiyeler ve checklistler", "Onaylı salt okunur Open Banking", "Ödemeler yalnız lisanslı partner ile"], statusManual: "manuel / demo", statusApi: "API sonra"
+  }
+};
+const DAILY_SHOPPING_COPY = {
+  pl: {
+    eyebrow: "Codzienne zakupy bez impulsu",
+    title: "Najpierw lista, potem koszyk.",
+    body: "Zapisz produkty spożywcze, higieniczne i domowe przed wejściem do sklepu. Coach FI nagradza trzymanie się listy, nie perfekcję.",
+    inputLabel: "Dodaj rzecz do listy",
+    inputPlaceholder: "np. mleko, ryż, pasta do zębów",
+    add: "Dodaj",
+    listTitle: "Lista na dziś",
+    impulseTitle: "Pauza impulsu",
+    impulseBody: "Jeśli widzisz promocję poza listą, odczekaj 60 sekund i zadaj sobie pytanie: czy to była potrzeba przed wejściem do sklepu?",
+    impulseItem: "Produkt spoza listy",
+    impulsePlaceholder: "np. słodycze z promocji",
+    skip: "Nie kupuję, zostaję przy liście",
+    progress: "pozycji z listy kupione świadomie",
+    voice: "Codzienna lista zakupów. Kup tylko to, co było na liście. Jeśli pojawia się promocja spoza listy, odczekaj sześćdziesiąt sekund i wróć do planu."
+  },
+  en: {
+    eyebrow: "Daily shopping without impulse",
+    title: "List first, basket second.",
+    body: "Write grocery, hygiene and home items before entering the store. Coach FI rewards sticking to the list, not perfection.",
+    inputLabel: "Add item to list",
+    inputPlaceholder: "e.g. milk, rice, toothpaste",
+    add: "Add",
+    listTitle: "Today's list",
+    impulseTitle: "Impulse pause",
+    impulseBody: "If you see a promotion outside the list, wait 60 seconds and ask: was this a need before I entered the store?",
+    impulseItem: "Off-list item",
+    impulsePlaceholder: "e.g. discounted candy",
+    skip: "I skip it and keep the list",
+    progress: "list items bought consciously",
+    voice: "Daily shopping list. Buy only what was on the list. If a promotion appears outside the list, wait sixty seconds and return to the plan."
+  },
+  fr: {
+    eyebrow: "Achats quotidiens sans impulsion", title: "La liste d'abord, le panier ensuite.", body: "Écris les courses, l'hygiène et la maison avant d'entrer en magasin.", inputLabel: "Ajouter un article", inputPlaceholder: "ex. lait, riz, dentifrice", add: "Ajouter", listTitle: "Liste du jour", impulseTitle: "Pause impulsion", impulseBody: "Si une promotion n'est pas sur la liste, attends 60 secondes et demande si c'était un besoin.", impulseItem: "Article hors liste", impulsePlaceholder: "ex. bonbons en promo", skip: "Je n'achète pas", progress: "articles achetés consciemment", voice: "Liste d'achat quotidienne. Achète seulement ce qui est sur la liste. Si une promotion apparaît, attends soixante secondes." },
+  es: {
+    eyebrow: "Compras diarias sin impulso", title: "Primero la lista, luego la cesta.", body: "Escribe comida, higiene y hogar antes de entrar a la tienda.", inputLabel: "Añadir a la lista", inputPlaceholder: "ej. leche, arroz, pasta dental", add: "Añadir", listTitle: "Lista de hoy", impulseTitle: "Pausa de impulso", impulseBody: "Si ves una promoción fuera de la lista, espera 60 segundos y pregunta si era una necesidad.", impulseItem: "Producto fuera de lista", impulsePlaceholder: "ej. dulces en oferta", skip: "No lo compro", progress: "productos comprados conscientemente", voice: "Lista diaria de compras. Compra solo lo que estaba en la lista. Si aparece una promoción, espera sesenta segundos." },
+  zh: {
+    eyebrow: "每日购物不冲动", title: "先有清单，再进购物篮。", body: "进店前写下食品、卫生和家庭用品。Coach FI 奖励坚持清单。", inputLabel: "添加物品", inputPlaceholder: "例如牛奶、米、牙膏", add: "添加", listTitle: "今日清单", impulseTitle: "冲动暂停", impulseBody: "如果看到清单外促销，等60秒并问：进店前我需要它吗？", impulseItem: "清单外物品", impulsePlaceholder: "例如打折糖果", skip: "不买，回到清单", progress: "有意识购买的清单项", voice: "每日购物清单。只买清单上的东西。遇到清单外促销，等待六十秒并回到计划。" },
+  ja: {
+    eyebrow: "毎日の衝動なし買い物", title: "先にリスト、次にカゴ。", body: "店に入る前に食品、衛生用品、日用品を書きます。", inputLabel: "リストに追加", inputPlaceholder: "例: 牛乳、米、歯磨き粉", add: "追加", listTitle: "今日のリスト", impulseTitle: "衝動停止", impulseBody: "リスト外のセールを見たら60秒待ち、本当に必要だったか確認します。", impulseItem: "リスト外の商品", impulsePlaceholder: "例: セールのお菓子", skip: "買わずにリストへ戻る", progress: "意識して買った項目", voice: "毎日の買い物リスト。リストにあるものだけ買います。リスト外のセールは六十秒待ちます。" },
+  hi: {
+    eyebrow: "Daily shopping बिना impulse", title: "पहले list, फिर basket.", body: "Store में जाने से पहले grocery, hygiene और home items लिखें.", inputLabel: "List में item जोड़ें", inputPlaceholder: "जैसे milk, rice, toothpaste", add: "जोड़ें", listTitle: "आज की list", impulseTitle: "Impulse pause", impulseBody: "List से बाहर promotion दिखे तो 60 seconds रुकें और पूछें: क्या यह जरूरत थी?", impulseItem: "List से बाहर item", impulsePlaceholder: "जैसे discount candy", skip: "नहीं खरीदूँगा", progress: "items consciously bought", voice: "Daily shopping list. केवल list वाली चीजें खरीदें. Promotion दिखे तो sixty seconds रुकें." },
+  pt: {
+    eyebrow: "Compras diárias sem impulso", title: "Primeiro a lista, depois o carrinho.", body: "Escreva mercado, higiene e casa antes de entrar na loja.", inputLabel: "Adicionar item", inputPlaceholder: "ex. leite, arroz, pasta de dente", add: "Adicionar", listTitle: "Lista de hoje", impulseTitle: "Pausa do impulso", impulseBody: "Se vir promoção fora da lista, espere 60 segundos e pergunte se era necessidade.", impulseItem: "Item fora da lista", impulsePlaceholder: "ex. doce em promoção", skip: "Não compro", progress: "itens comprados conscientemente", voice: "Lista diária de compras. Compre apenas o que estava na lista. Se aparecer promoção, espere sessenta segundos." },
+  tr: {
+    eyebrow: "Günlük alışverişte dürtü yok", title: "Önce liste, sonra sepet.", body: "Markete girmeden önce gıda, hijyen ve ev ürünlerini yaz.", inputLabel: "Listeye ekle", inputPlaceholder: "örn. süt, pirinç, diş macunu", add: "Ekle", listTitle: "Bugünün listesi", impulseTitle: "Dürtü molası", impulseBody: "Liste dışı indirim görürsen 60 saniye bekle ve gerçekten ihtiyaç mıydı diye sor.", impulseItem: "Liste dışı ürün", impulsePlaceholder: "örn. indirimli tatlı", skip: "Almıyorum", progress: "bilinçli alınan liste ürünü", voice: "Günlük alışveriş listesi. Sadece listedekileri al. Liste dışı indirimde altmış saniye bekle." }
+};
+
+const RECEIPT_COPY = {
+  pl: {
+    eyebrow: "Analiza paragonu i faktury",
+    title: "Wklej paragon, fakturę albo tekst z OCR.",
+    body: "Coach FI porówna pozycje z listą zakupów, oznaczy zakupy spoza listy i pokaże, gdzie uciekły pieniądze.",
+    textLabel: "Tekst paragonu / faktury",
+    textPlaceholder: "np.\nMleko 4.99\nRyż 7.50\nCzekolada promocja 8.99\nPasta do zębów 12.49",
+    fileLabel: "Zdjęcie, screen albo PDF",
+    fileNote: "W HTML plik jest tylko podglądem. W aplikacji produkcyjnej ten krok powinien używać OCR/vision po zgodzie użytkownika.",
+    analyze: "Analizuj paragon",
+    planned: "z listy",
+    unplanned: "spoza listy",
+    needed: "potrzebne",
+    notNeeded: "impuls",
+    total: "suma",
+    plannedTotal: "z listy",
+    impulseLeak: "impuls / do przemyślenia",
+    rows: "pozycji",
+    empty: "Wklej tekst paragonu albo faktury, aby zobaczyć analizę.",
+    categoryTitle: "Kategorie wydatków",
+    categories: { food: "spożywcze", hygiene: "higiena", home: "dom", pleasure: "przyjemności", other: "inne" },
+    voice: "Analiza paragonu. Sprawdź, które zakupy były na liście, które były potrzebne i gdzie pojawił się impuls."
+  },
+  en: {
+    eyebrow: "Receipt and invoice analyzer",
+    title: "Paste a receipt, invoice or OCR text.",
+    body: "Coach FI compares purchases with your shopping list, flags off-list items and shows where money leaked.",
+    textLabel: "Receipt / invoice text",
+    textPlaceholder: "e.g.\nMilk 4.99\nRice 7.50\nChocolate promo 8.99\nToothpaste 12.49",
+    fileLabel: "Photo, screenshot or PDF",
+    fileNote: "In HTML the file is preview only. In production this step should use OCR/vision after user consent.",
+    analyze: "Analyze receipt",
+    planned: "on list",
+    unplanned: "off list",
+    needed: "needed",
+    notNeeded: "impulse",
+    total: "total",
+    plannedTotal: "on list",
+    impulseLeak: "impulse / review",
+    rows: "items",
+    empty: "Paste receipt or invoice text to see the analysis.",
+    categoryTitle: "Expense categories",
+    categories: { food: "food", hygiene: "hygiene", home: "home", pleasure: "pleasure", other: "other" },
+    voice: "Receipt analysis. Check which purchases were on the list, which were needed, and where impulse appeared."
+  },
+  fr: {
+    eyebrow: "Analyse ticket et facture", title: "Colle un ticket, une facture ou du texte OCR.", body: "Coach FI compare les achats avec la liste et signale les achats hors liste.", textLabel: "Texte du ticket / facture", textPlaceholder: "ex.\nLait 4.99\nRiz 7.50\nChocolat 8.99", fileLabel: "Photo, capture ou PDF", fileNote: "Dans le HTML, le fichier est seulement un apercu. En production, OCR/vision doit demander le consentement.", analyze: "Analyser", planned: "sur liste", unplanned: "hors liste", needed: "utile", notNeeded: "impulsion", total: "total", plannedTotal: "sur liste", impulseLeak: "impulsion / a revoir", rows: "articles", empty: "Colle le texte pour voir l'analyse.", categoryTitle: "Categories", categories: { food: "alimentation", hygiene: "hygiene", home: "maison", pleasure: "plaisir", other: "autre" }, voice: "Analyse du ticket. Verifie les achats sur la liste, utiles et impulsifs."
+  },
+  es: {
+    eyebrow: "Analisis de recibo y factura", title: "Pega un recibo, factura o texto OCR.", body: "Coach FI compara compras con la lista y marca productos fuera de lista.", textLabel: "Texto del recibo / factura", textPlaceholder: "ej.\nLeche 4.99\nArroz 7.50\nChocolate 8.99", fileLabel: "Foto, captura o PDF", fileNote: "En HTML el archivo es solo vista previa. En produccion OCR/vision debe pedir consentimiento.", analyze: "Analizar recibo", planned: "en lista", unplanned: "fuera", needed: "necesario", notNeeded: "impulso", total: "total", plannedTotal: "en lista", impulseLeak: "impulso / revisar", rows: "items", empty: "Pega texto para ver el analisis.", categoryTitle: "Categorias", categories: { food: "comida", hygiene: "higiene", home: "hogar", pleasure: "placer", other: "otro" }, voice: "Analisis del recibo. Revisa compras de la lista, necesarias e impulsivas."
+  },
+  zh: {
+    eyebrow: "小票和发票分析", title: "粘贴小票、发票或 OCR 文本。", body: "Coach FI 会对比购物清单，标记清单外商品并分析支出。", textLabel: "小票 / 发票文本", textPlaceholder: "例如\n牛奶 4.99\n米 7.50\n巧克力 8.99", fileLabel: "照片、截图或 PDF", fileNote: "HTML 中文件只作预览。生产版应在用户同意后使用 OCR/vision。", analyze: "分析小票", planned: "清单内", unplanned: "清单外", needed: "需要", notNeeded: "冲动", total: "总额", plannedTotal: "清单内", impulseLeak: "冲动 / 复盘", rows: "项目", empty: "粘贴文本后查看分析。", categoryTitle: "支出类别", categories: { food: "食品", hygiene: "卫生", home: "家庭", pleasure: "享受", other: "其他" }, voice: "小票分析。检查哪些在清单内，哪些是真正需要，哪里出现冲动消费。"
+  },
+  ja: {
+    eyebrow: "レシート・請求書分析", title: "レシート、請求書、OCRテキストを貼り付け。", body: "Coach FI は買い物リストと比較し、リスト外と衝動買いを見つけます。", textLabel: "レシート / 請求書テキスト", textPlaceholder: "例\n牛乳 4.99\n米 7.50\nチョコ 8.99", fileLabel: "写真、スクショ、PDF", fileNote: "HTMLではファイルはプレビューのみです。本番では同意後にOCR/visionを使います。", analyze: "分析する", planned: "リスト内", unplanned: "リスト外", needed: "必要", notNeeded: "衝動", total: "合計", plannedTotal: "リスト内", impulseLeak: "衝動 / 見直し", rows: "項目", empty: "テキストを貼ると分析できます。", categoryTitle: "支出カテゴリ", categories: { food: "食品", hygiene: "衛生", home: "家", pleasure: "楽しみ", other: "その他" }, voice: "レシート分析。リスト内、必要な買い物、衝動買いを確認します。"
+  },
+  hi: {
+    eyebrow: "Receipt aur invoice analysis", title: "Receipt, invoice ya OCR text paste karein.", body: "Coach FI shopping list se compare karke off-list aur impulse items dikhata hai.", textLabel: "Receipt / invoice text", textPlaceholder: "jaise\nMilk 4.99\nRice 7.50\nChocolate 8.99", fileLabel: "Photo, screenshot ya PDF", fileNote: "HTML me file sirf preview hai. Production me OCR/vision user consent ke baad hona chahiye.", analyze: "Receipt analyze karein", planned: "list me", unplanned: "list se bahar", needed: "zaruri", notNeeded: "impulse", total: "total", plannedTotal: "list me", impulseLeak: "impulse / review", rows: "items", empty: "Analysis ke liye receipt text paste karein.", categoryTitle: "Expense categories", categories: { food: "food", hygiene: "hygiene", home: "home", pleasure: "pleasure", other: "other" }, voice: "Receipt analysis. Dekhein kaunse items list me the, kaunse zaruri the aur kaha impulse spending hui."
+  },
+  pt: {
+    eyebrow: "Analise de recibo e nota", title: "Cole recibo, nota ou texto OCR.", body: "Coach FI compara compras com a lista, marca itens fora da lista e mostra vazamentos.", textLabel: "Texto do recibo / nota", textPlaceholder: "ex.\nLeite 4.99\nArroz 7.50\nChocolate 8.99", fileLabel: "Foto, print ou PDF", fileNote: "No HTML o arquivo e apenas previa. Em producao, OCR/vision precisa de consentimento.", analyze: "Analisar recibo", planned: "na lista", unplanned: "fora", needed: "necessario", notNeeded: "impulso", total: "total", plannedTotal: "na lista", impulseLeak: "impulso / revisar", rows: "itens", empty: "Cole o texto para ver a analise.", categoryTitle: "Categorias", categories: { food: "mercado", hygiene: "higiene", home: "casa", pleasure: "prazer", other: "outro" }, voice: "Analise do recibo. Veja compras na lista, necessarias e impulsivas."
+  },
+  tr: {
+    eyebrow: "Fis ve fatura analizi", title: "Fis, fatura veya OCR metni yapistir.", body: "Coach FI alisverisi listeyle karsilastirir ve liste disi harcamalari gosterir.", textLabel: "Fis / fatura metni", textPlaceholder: "orn.\nSut 4.99\nPirinc 7.50\nCikolata 8.99", fileLabel: "Fotograf, ekran goruntusu veya PDF", fileNote: "HTML'de dosya sadece onizlemedir. Uretimde OCR/vision kullanici onayi ile yapilmalidir.", analyze: "Fisi analiz et", planned: "listede", unplanned: "liste disi", needed: "gerekli", notNeeded: "durtsel", total: "toplam", plannedTotal: "listede", impulseLeak: "durtu / incele", rows: "urun", empty: "Analiz icin fis metni yapistir.", categoryTitle: "Harcama kategorileri", categories: { food: "gida", hygiene: "hijyen", home: "ev", pleasure: "keyif", other: "diger" }, voice: "Fis analizi. Hangi alisveris listede, hangisi gerekli ve nerede durtu var kontrol et."
+  }
+};
+
+const FUNNEL_COPY = {
+  pl: {
+    tabs: { start: "Start", health: "Diagnoza", daily: "Daily", plan: "Plan", kids: "Kids", docs: "Architektura" },
+    brandSub: "rodzinny trener zdrowia finansowego",
+    start: {
+      eyebrow: "Darmowa diagnoza, potem rodzinny plan",
+      title: "Masz dochód. Coach FI pomoże zamienić go w spokojny system.",
+      body: "Dla rodzin i osób, które zarabiają, ale chcą mniej tracić na impulsach, więcej odkładać, inwestować świadomie i uczyć dzieci pieniędzy.",
+      healthCta: "Zrób darmową diagnozę",
+      planCta: "Zobacz plan rodzinny",
+      kidsCta: "Kids Mode",
+      milaTitle: "Mila prowadzi głosem",
+      milaBody: "Diagnoza jest darmowa. Wynik i plan pokazujemy po logowaniu oraz akceptacji regulaminu i zasad prywatności.",
+      voice: "Coach FI zaczyna od darmowej diagnozy zdrowia finansowego rodziny. Po akceptacji zasad Mila czyta wynik i proponuje spokojny plan działania.",
+      path: [["Diagnoza", "Wpisujesz dane bez konta i widzisz wstępny obraz."], ["Wynik", "Logowanie i akceptacja zasad odblokowują pełny wynik."], ["Plan", "Mila proponuje plan 30 dni dla rodziny."], ["Premium", "Trial głosowego coacha, potem Premium Family."]],
+      cards: [["Dla rodzin", "Budżet, dzieci, zakupy, cele i spokojne decyzje."], ["Dla osób z dochodem", "Mniej wycieków, więcej systemu i konsekwencji."], ["Kryzys ukryty", "Pomoc awaryjna pojawia się tylko przy niskim wyniku lub prośbie o pomoc."]]
+    },
+    health: {
+      eyebrow: "Financial Health Check",
+      title: "Darmowa analiza zdrowia finansowego rodziny",
+      body: "Najpierw diagnoza bez konta. Pełny wynik i plan odblokujesz po logowaniu oraz akceptacji warunków.",
+      income: "Miesięczny dochód rodziny",
+      spending: "Miesięczne wydatki",
+      savings: "Poduszka / oszczędności",
+      investing: "Miesięczne inwestowanie",
+      impulse: "Impulsy zakupowe",
+      familyPlan: "Plan rodzinny",
+      planOptions: ["Brak planu", "Podstawowy plan", "Regularny plan rodzinny"],
+      analyze: "Zrób darmową analizę",
+      previewTitle: "Wstępna diagnoza",
+      previewBody: "Pełny wynik jest zablokowany. Odblokowanie wymaga konta i akceptacji zasad, bo pracujemy na danych finansowych.",
+      email: "Email do logowania",
+      accept: "Akceptuję regulamin, politykę prywatności i rozumiem, że Coach FI ma charakter edukacyjny.",
+      marketing: "Chcę otrzymywać materiały edukacyjne i informacje o premierze.",
+      unlock: "Odblokuj wynik i plan",
+      resultTitle: "Twój rodzinny wynik",
+      planTitle: "Rekomendowany plan 30 dni",
+      planSteps: ["Ustaw 6 słoików i pierwszy przelew po wypłacie.", "Przez 7 dni rób listę zakupów i analizuj paragony.", "Uruchom Kids Mode i zrób jedną lekcję z dzieckiem."],
+      premiumTitle: "Mila Voice Coach Trial",
+      premiumBody: "7 dni testu: ograniczona liczba rozmów głosowych, analiza zakupów i rodzinne lekcje. Premium daje pełny rodzinny system z uczciwym fair-use.",
+      trial: "Włącz trial Mili",
+      trialOn: "Trial aktywny w demo",
+      emergency: "Wynik wskazuje napięcie finansowe. Pokażemy bezpłatną ścieżkę awaryjną, ale nie promujemy jej jako głównego produktu.",
+      emergencyCta: "Pokaż bezpłatną pomoc",
+      insights: { spending: "Wydatki są wysokie względem dochodu.", savings: "Poduszka finansowa wymaga wzmocnienia.", investing: "Brakuje regularnego inwestowania edukacyjnego.", impulse: "Impulsy zakupowe mogą zjadać plan.", family: "Rodzina potrzebuje jasnych zasad pieniędzy." }
+    }
+  },
+  en: {
+    tabs: { start: "Start", health: "Score", daily: "Daily", plan: "Plan", kids: "Kids", docs: "Architecture" },
+    brandSub: "family financial health coach",
+    start: { eyebrow: "Free diagnosis, then family plan", title: "You earn money. Coach FI helps turn it into a calm system.", body: "For families and earners who want fewer impulse leaks, more saving, smarter education and better money habits for children.", healthCta: "Start free diagnosis", planCta: "See family plan", kidsCta: "Kids Mode", milaTitle: "Mila guides by voice", milaBody: "Diagnosis is free. Score and plan unlock after login plus Terms and Privacy acceptance.", voice: "Coach FI starts with a free family financial health diagnosis. After accepting terms, Mila reads your score and proposes a calm action plan.", path: [["Diagnosis", "Enter data without account and see a preview."], ["Score", "Login and terms unlock the full score."], ["Plan", "Mila proposes a 30-day family plan."], ["Premium", "Voice coach trial, then Premium Family."]], cards: [["For families", "Budget, children, shopping, goals and calmer decisions."], ["For earners", "Less leakage, more system and consistency."], ["Crisis hidden", "Emergency help appears only after low score or explicit help request."]] },
+    health: { eyebrow: "Financial Health Check", title: "Free family financial health analysis", body: "Diagnosis first, no account. Full score and plan unlock after login and accepted terms.", income: "Monthly family income", spending: "Monthly spending", savings: "Safety cushion / savings", investing: "Monthly investing", impulse: "Shopping impulses", familyPlan: "Family plan", planOptions: ["No plan", "Basic plan", "Regular family plan"], analyze: "Run free analysis", previewTitle: "Preview diagnosis", previewBody: "The full score is locked. Unlocking requires account and terms because financial data is sensitive.", email: "Login email", accept: "I accept Terms, Privacy Policy and understand Coach FI is educational.", marketing: "I want educational launch emails.", unlock: "Unlock score and plan", resultTitle: "Your family score", planTitle: "Recommended 30-day plan", planSteps: ["Set 6 jars and first payday transfer.", "Use shopping list and receipt review for 7 days.", "Open Kids Mode and complete one lesson with a child."], premiumTitle: "Mila Voice Coach Trial", premiumBody: "7-day test: limited voice conversations, shopping analysis and family lessons. Premium gives the full family system with fair-use.", trial: "Start Mila trial", trialOn: "Trial active in demo", emergency: "The score suggests financial pressure. We can show the free emergency path, but it is not the main product.", emergencyCta: "Show free help", insights: { spending: "Spending is high compared with income.", savings: "The financial cushion needs strengthening.", investing: "Regular educational investing is missing.", impulse: "Shopping impulses may be eating the plan.", family: "The family needs clear money rules." } }
+  },
+  fr: {
+    tabs: { start: "Début", health: "Score", daily: "Daily", plan: "Plan", kids: "Kids", docs: "Architecture" },
+    brandSub: "coach financier familial",
+    start: { eyebrow: "Diagnostic gratuit, puis plan familial", title: "Tu gagnes de l'argent. Coach FI aide à créer un système calme.", body: "Pour les familles qui veulent moins d'achats impulsifs, plus d'épargne et une éducation simple pour les enfants.", healthCta: "Diagnostic gratuit", planCta: "Plan familial", kidsCta: "Kids Mode", milaTitle: "Mila guide par la voix", milaBody: "Le diagnostic est gratuit. Le score se débloque après connexion et acceptation.", voice: "Coach FI commence par un diagnostic financier familial gratuit.", path: [["Diagnostic", "Saisie sans compte."], ["Score", "Connexion et règles."], ["Plan", "Plan 30 jours."], ["Premium", "Trial vocal puis Premium."]], cards: [["Familles", "Budget, enfants, achats, objectifs."], ["Revenus", "Moins de fuites, plus de système."], ["Crise cachée", "Aide seulement si nécessaire."]] },
+    health: { eyebrow: "Financial Health Check", title: "Analyse gratuite de santé financière familiale", body: "Le score complet demande connexion et acceptation.", income: "Revenu mensuel", spending: "Dépenses mensuelles", savings: "Épargne", investing: "Investissement mensuel", impulse: "Impulsions d'achat", familyPlan: "Plan familial", planOptions: ["Aucun", "Basique", "Régulier"], analyze: "Analyser", previewTitle: "Aperçu", previewBody: "Score complet verrouillé.", email: "Email", accept: "J'accepte les conditions et la confidentialité.", marketing: "Je veux des emails éducatifs.", unlock: "Débloquer le score", resultTitle: "Score familial", planTitle: "Plan 30 jours", planSteps: ["Créer 6 bocaux.", "Liste d'achats et tickets 7 jours.", "Faire une leçon Kids Mode."], premiumTitle: "Trial Mila Voice Coach", premiumBody: "7 jours avec limites claires.", trial: "Activer le trial", trialOn: "Trial actif", emergency: "Score bas: aide gratuite disponible.", emergencyCta: "Voir l'aide", insights: { spending: "Dépenses élevées.", savings: "Épargne à renforcer.", investing: "Investissement régulier manquant.", impulse: "Impulsions d'achat.", family: "Règles familiales à clarifier." } }
+  },
+  es: {
+    tabs: { start: "Inicio", health: "Score", daily: "Daily", plan: "Plan", kids: "Kids", docs: "Arquitectura" },
+    brandSub: "coach financiero familiar",
+    start: { eyebrow: "Diagnóstico gratis, luego plan familiar", title: "Ganas dinero. Coach FI ayuda a crear un sistema tranquilo.", body: "Para familias que quieren menos compras impulsivas, más ahorro y educación para niños.", healthCta: "Diagnóstico gratis", planCta: "Plan familiar", kidsCta: "Kids Mode", milaTitle: "Mila guía por voz", milaBody: "El diagnóstico es gratis. El score requiere login y aceptación.", voice: "Coach FI empieza con diagnóstico financiero familiar gratis.", path: [["Diagnóstico", "Datos sin cuenta."], ["Score", "Login y términos."], ["Plan", "Plan de 30 días."], ["Premium", "Trial de voz y Premium."]], cards: [["Familias", "Presupuesto, niños, compras, metas."], ["Con ingresos", "Menos fugas, más sistema."], ["Crisis oculta", "Ayuda solo si hace falta."]] },
+    health: { eyebrow: "Financial Health Check", title: "Análisis gratuito de salud financiera familiar", body: "El score completo se desbloquea con cuenta y términos.", income: "Ingreso mensual", spending: "Gasto mensual", savings: "Ahorros", investing: "Inversión mensual", impulse: "Impulsos de compra", familyPlan: "Plan familiar", planOptions: ["Sin plan", "Básico", "Regular"], analyze: "Analizar", previewTitle: "Vista previa", previewBody: "Score completo bloqueado.", email: "Email", accept: "Acepto términos y privacidad.", marketing: "Quiero emails educativos.", unlock: "Desbloquear score", resultTitle: "Score familiar", planTitle: "Plan 30 días", planSteps: ["Crear 6 frascos.", "Lista y recibos por 7 días.", "Hacer una lección Kids Mode."], premiumTitle: "Trial Mila Voice Coach", premiumBody: "7 días con límites claros.", trial: "Activar trial", trialOn: "Trial activo", emergency: "Score bajo: ayuda gratuita disponible.", emergencyCta: "Ver ayuda", insights: { spending: "Gasto alto.", savings: "Ahorro débil.", investing: "Falta inversión regular.", impulse: "Impulsos de compra.", family: "Faltan reglas familiares." } }
+  },
+  zh: {
+    tabs: { start: "开始", health: "评分", daily: "每日", plan: "计划", kids: "儿童", docs: "架构" },
+    brandSub: "家庭财务健康教练",
+    start: { eyebrow: "免费诊断，然后家庭计划", title: "你有收入。Coach FI 帮你变成稳定系统。", body: "适合想减少冲动消费、增加储蓄、教育孩子的家庭。", healthCta: "免费诊断", planCta: "家庭计划", kidsCta: "儿童模式", milaTitle: "Mila 语音指导", milaBody: "诊断免费。完整评分需登录并接受条款。", voice: "Coach FI 从免费的家庭财务健康诊断开始。", path: [["诊断", "无需账户输入。"], ["评分", "登录和条款。"], ["计划", "30天家庭计划。"], ["Premium", "语音试用和会员。"]], cards: [["家庭", "预算、孩子、购物、目标。"], ["有收入", "减少泄漏，建立系统。"], ["危机隐藏", "只在需要时显示帮助。"]] },
+    health: { eyebrow: "Financial Health Check", title: "免费家庭财务健康分析", body: "完整评分需账户和条款。", income: "月收入", spending: "月支出", savings: "储蓄", investing: "月投资", impulse: "购物冲动", familyPlan: "家庭计划", planOptions: ["无", "基础", "定期"], analyze: "分析", previewTitle: "预览", previewBody: "完整评分已锁定。", email: "邮箱", accept: "我接受条款和隐私。", marketing: "接收教育邮件。", unlock: "解锁评分", resultTitle: "家庭评分", planTitle: "30天计划", planSteps: ["设置6个罐子。", "7天购物清单和小票。", "完成儿童模式一课。"], premiumTitle: "Mila 语音教练试用", premiumBody: "7天清晰限制。", trial: "开始试用", trialOn: "试用已开启", emergency: "分数低：可显示免费帮助。", emergencyCta: "显示帮助", insights: { spending: "支出较高。", savings: "储蓄需加强。", investing: "缺少定期投资。", impulse: "购物冲动。", family: "需要家庭规则。" } }
+  },
+  ja: {
+    tabs: { start: "開始", health: "診断", daily: "毎日", plan: "計画", kids: "Kids", docs: "設計" },
+    brandSub: "家族の金融健康コーチ",
+    start: { eyebrow: "無料診断、その後家族プラン", title: "収入を落ち着いた仕組みに変える。", body: "衝動買いを減らし、貯蓄と教育を増やしたい家族向け。", healthCta: "無料診断", planCta: "家族プラン", kidsCta: "Kids Mode", milaTitle: "Milaが音声で案内", milaBody: "診断は無料。完全スコアはログインと同意後。", voice: "Coach FI は無料の家族金融健康診断から始まります。", path: [["診断", "アカウントなしで入力。"], ["スコア", "ログインと規約。"], ["計画", "30日プラン。"], ["Premium", "音声トライアル。"]], cards: [["家族", "予算、子ども、買い物、目標。"], ["収入あり", "漏れを減らし仕組み化。"], ["危機は非表示", "必要時だけ支援。"]] },
+    health: { eyebrow: "Financial Health Check", title: "無料の家族金融健康分析", body: "完全スコアはアカウントと同意後。", income: "月収", spending: "月支出", savings: "貯蓄", investing: "月投資", impulse: "買い物衝動", familyPlan: "家族計画", planOptions: ["なし", "基本", "定期"], analyze: "分析", previewTitle: "プレビュー", previewBody: "完全スコアはロック中。", email: "メール", accept: "規約とプライバシーに同意します。", marketing: "教育メールを受け取る。", unlock: "スコアを解除", resultTitle: "家族スコア", planTitle: "30日プラン", planSteps: ["6ジャーを設定。", "7日間リストとレシート。", "Kids Modeを1課完了。"], premiumTitle: "Mila Voice Coach Trial", premiumBody: "7日間、明確な制限あり。", trial: "トライアル開始", trialOn: "トライアル有効", emergency: "低スコア: 無料支援あり。", emergencyCta: "支援を見る", insights: { spending: "支出が高い。", savings: "貯蓄強化が必要。", investing: "定期投資が不足。", impulse: "衝動買い。", family: "家族ルールが必要。" } }
+  },
+  hi: {
+    tabs: { start: "शुरू", health: "स्कोर", daily: "दैनिक", plan: "योजना", kids: "Kids", docs: "आर्किटेक्चर" },
+    brandSub: "family financial health coach",
+    start: { eyebrow: "Free diagnosis, then family plan", title: "Aap income ko calm system me badal sakte hain.", body: "Families ke liye: impulse spending kam, saving zyada, kids money habits.", healthCta: "Free diagnosis", planCta: "Family plan", kidsCta: "Kids Mode", milaTitle: "Mila voice guide", milaBody: "Diagnosis free hai. Full score login aur terms ke baad.", voice: "Coach FI free family financial health diagnosis se start hota hai.", path: [["Diagnosis", "Account ke bina data."], ["Score", "Login aur terms."], ["Plan", "30-day plan."], ["Premium", "Voice trial."]], cards: [["Family", "Budget, kids, shopping, goals."], ["Income", "Less leakage, more system."], ["Crisis hidden", "Help only when needed."]] },
+    health: { eyebrow: "Financial Health Check", title: "Free family financial health analysis", body: "Full score account aur terms ke baad unlock hota hai.", income: "Monthly income", spending: "Monthly spending", savings: "Savings", investing: "Monthly investing", impulse: "Shopping impulse", familyPlan: "Family plan", planOptions: ["No plan", "Basic", "Regular"], analyze: "Analyze", previewTitle: "Preview", previewBody: "Full score locked hai.", email: "Email", accept: "Terms aur privacy accept karta/karti hoon.", marketing: "Educational emails chahiye.", unlock: "Unlock score", resultTitle: "Family score", planTitle: "30-day plan", planSteps: ["6 jars setup.", "7 days shopping list and receipts.", "One Kids Mode lesson."], premiumTitle: "Mila Voice Coach Trial", premiumBody: "7 days with clear limits.", trial: "Start trial", trialOn: "Trial active", emergency: "Low score: free help available.", emergencyCta: "Show help", insights: { spending: "Spending high hai.", savings: "Savings strong karni hai.", investing: "Regular investing missing.", impulse: "Shopping impulse.", family: "Family money rules needed." } }
+  },
+  pt: {
+    tabs: { start: "Início", health: "Score", daily: "Diário", plan: "Plano", kids: "Kids", docs: "Arquitetura" },
+    brandSub: "coach de saúde financeira familiar",
+    start: { eyebrow: "Diagnóstico grátis, depois plano familiar", title: "Você ganha dinheiro. Coach FI ajuda a criar um sistema calmo.", body: "Para famílias que querem menos compras impulsivas, mais poupança e educação para crianças.", healthCta: "Diagnóstico grátis", planCta: "Plano familiar", kidsCta: "Kids Mode", milaTitle: "Mila guia por voz", milaBody: "Diagnóstico grátis. Score completo após login e aceite.", voice: "Coach FI começa com diagnóstico financeiro familiar grátis.", path: [["Diagnóstico", "Dados sem conta."], ["Score", "Login e termos."], ["Plano", "Plano de 30 dias."], ["Premium", "Trial de voz."]], cards: [["Famílias", "Orçamento, crianças, compras, metas."], ["Renda", "Menos vazamento, mais sistema."], ["Crise oculta", "Ajuda só se preciso."]] },
+    health: { eyebrow: "Financial Health Check", title: "Análise gratuita de saúde financeira familiar", body: "Score completo exige conta e aceite.", income: "Renda mensal", spending: "Gasto mensal", savings: "Poupança", investing: "Investimento mensal", impulse: "Impulso de compra", familyPlan: "Plano familiar", planOptions: ["Sem plano", "Básico", "Regular"], analyze: "Analisar", previewTitle: "Prévia", previewBody: "Score completo bloqueado.", email: "Email", accept: "Aceito termos e privacidade.", marketing: "Quero emails educativos.", unlock: "Desbloquear score", resultTitle: "Score familiar", planTitle: "Plano 30 dias", planSteps: ["Criar 6 potes.", "Lista e recibos por 7 dias.", "Uma aula Kids Mode."], premiumTitle: "Trial Mila Voice Coach", premiumBody: "7 dias com limites claros.", trial: "Ativar trial", trialOn: "Trial ativo", emergency: "Score baixo: ajuda grátis disponível.", emergencyCta: "Ver ajuda", insights: { spending: "Gasto alto.", savings: "Poupança fraca.", investing: "Falta investimento regular.", impulse: "Impulso de compra.", family: "Regras familiares necessárias." } }
+  },
+  tr: {
+    tabs: { start: "Başla", health: "Skor", daily: "Günlük", plan: "Plan", kids: "Kids", docs: "Mimari" },
+    brandSub: "aile finansal sağlık koçu",
+    start: { eyebrow: "Ücretsiz teşhis, sonra aile planı", title: "Geliri sakin bir sisteme çevir.", body: "Daha az dürtüsel alışveriş, daha çok tasarruf ve çocuklara para alışkanlığı isteyen aileler için.", healthCta: "Ücretsiz teşhis", planCta: "Aile planı", kidsCta: "Kids Mode", milaTitle: "Mila sesle yönlendirir", milaBody: "Teşhis ücretsiz. Skor giriş ve onaydan sonra.", voice: "Coach FI ücretsiz aile finansal sağlık teşhisiyle başlar.", path: [["Teşhis", "Hesapsız veri."], ["Skor", "Giriş ve şartlar."], ["Plan", "30 günlük plan."], ["Premium", "Ses denemesi."]], cards: [["Aileler", "Bütçe, çocuklar, alışveriş, hedefler."], ["Gelir", "Daha az kaçak, daha çok sistem."], ["Kriz gizli", "Yardım sadece gerekirse."]] },
+    health: { eyebrow: "Financial Health Check", title: "Ücretsiz aile finansal sağlık analizi", body: "Tam skor hesap ve onaydan sonra açılır.", income: "Aylık gelir", spending: "Aylık harcama", savings: "Birikim", investing: "Aylık yatırım", impulse: "Alışveriş dürtüsü", familyPlan: "Aile planı", planOptions: ["Yok", "Temel", "Düzenli"], analyze: "Analiz et", previewTitle: "Önizleme", previewBody: "Tam skor kilitli.", email: "Email", accept: "Şartları ve gizliliği kabul ediyorum.", marketing: "Eğitim e-postaları istiyorum.", unlock: "Skoru aç", resultTitle: "Aile skoru", planTitle: "30 günlük plan", planSteps: ["6 kavanoz kur.", "7 gün liste ve fiş analizi.", "Bir Kids Mode dersi."], premiumTitle: "Mila Voice Coach Trial", premiumBody: "7 gün net limitlerle.", trial: "Trial başlat", trialOn: "Trial aktif", emergency: "Düşük skor: ücretsiz yardım var.", emergencyCta: "Yardımı göster", insights: { spending: "Harcama yüksek.", savings: "Birikim güçlenmeli.", investing: "Düzenli yatırım yok.", impulse: "Alışveriş dürtüsü.", family: "Aile para kuralları gerekli." } }
+  }
+};
+
+const state = {
+  locale: "pl",
+  screen: "start",
+  textSize: "normal",
+  coins: 125,
+  score: 42,
+  answered: null,
+  healthIncome: 16000,
+  healthSpending: 11800,
+  healthSavings: 28000,
+  healthInvesting: 900,
+  healthImpulse: 4,
+  healthFamilyPlan: 0,
+  healthAnalyzed: false,
+  healthUnlocked: false,
+  healthEmail: "",
+  healthAccepted: false,
+  marketingConsent: false,
+  premiumTrial: false,
+  income: 5000,
+  jarMode: "adult",
+  itemName: "kurtka",
+  price: 399,
+  days: 2,
+  returnWindow: 14,
+  used: 0,
+  need: 2,
+  regret: 4,
+  trigger: 0,
+  pet: 8,
+  glass: 4,
+  deposit: 0.5,
+  unusedName: "stary smartwatch",
+  unusedValue: 180,
+  unusedTotal: 0,
+  groceryInput: "",
+  groceryItems: ["mleko", "warzywa", "ryż", "pasta do zębów"],
+  groceryDone: new Set(),
+  impulseItem: "słodycze z promocji",
+  avoidedImpulse: false,
+  receiptText: "Mleko 4.99\nRyż 7.50\nCzekolada promocja 8.99\nPasta do zębów 12.49\nBaton 3.49",
+  receiptFileName: "",
+  receiptImageData: "",
+  receiptNeedOverrides: {},
+  city: "Warszawa",
+  template: 0,
+  completedSteps: new Set(),
+  completedActions: new Set(),
+  cvText: "",
+  strengths: "",
+  valueOffer: "",
+  kidsConsent: false,
+  kidsEntered: false,
+  kidsStars: 0
+};
+
+const root = document.getElementById("root");
+
+function t() { return C[state.locale] || C.pl; }
+function langInfo() { return LANGS.find(([key]) => key === state.locale) || LANGS[0]; }
+function esc(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+}
+function money(value) {
+  return new Intl.NumberFormat(langInfo()[3], { style: "currency", currency: "PLN", maximumFractionDigits: 0 }).format(Math.max(0, Number(value) || 0));
+}
+function plainMoney(value) {
+  return new Intl.NumberFormat(langInfo()[3], { maximumFractionDigits: 0 }).format(Math.max(0, Number(value) || 0));
+}
+
+function funnelCopy() {
+  return FUNNEL_COPY[state.locale] || FUNNEL_COPY.en;
+}
+
+function tabCopy() {
+  return funnelCopy().tabs || FUNNEL_COPY.en.tabs;
+}
+
+function healthScore() {
+  const income = Math.max(1, Number(state.healthIncome) || 1);
+  const spending = Math.max(0, Number(state.healthSpending) || 0);
+  const savings = Math.max(0, Number(state.healthSavings) || 0);
+  const investing = Math.max(0, Number(state.healthInvesting) || 0);
+  const spendingRatio = spending / income;
+  const cushionMonths = savings / Math.max(1, spending);
+  const investRate = investing / income;
+  let score = 42;
+  score += spendingRatio <= 0.6 ? 20 : spendingRatio <= 0.75 ? 12 : spendingRatio <= 0.9 ? 4 : -10;
+  score += cushionMonths >= 6 ? 20 : cushionMonths >= 3 ? 14 : cushionMonths >= 1 ? 6 : -10;
+  score += investRate >= 0.15 ? 18 : investRate >= 0.1 ? 12 : investRate >= 0.05 ? 7 : -6;
+  score += state.healthImpulse <= 2 ? 12 : state.healthImpulse <= 4 ? 4 : -8;
+  score += Number(state.healthFamilyPlan) === 2 ? 8 : Number(state.healthFamilyPlan) === 1 ? 4 : -4;
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+function healthInsights() {
+  const copy = funnelCopy().health;
+  const income = Math.max(1, Number(state.healthIncome) || 1);
+  const spending = Math.max(0, Number(state.healthSpending) || 0);
+  const savings = Math.max(0, Number(state.healthSavings) || 0);
+  const investing = Math.max(0, Number(state.healthInvesting) || 0);
+  const insights = [];
+  if (spending / income > 0.75) insights.push(copy.insights.spending);
+  if (savings / Math.max(1, spending) < 3) insights.push(copy.insights.savings);
+  if (investing / income < 0.1) insights.push(copy.insights.investing);
+  if (state.healthImpulse >= 4) insights.push(copy.insights.impulse);
+  if (Number(state.healthFamilyPlan) < 2) insights.push(copy.insights.family);
+  return insights.slice(0, 3);
+}
+
+function decision() {
+  const impulse = Math.max(0, Math.min(100, Math.round(
+    state.regret * 17 +
+    (6 - state.need) * 13 +
+    (state.used === 0 ? 14 : state.used <= 1 ? 8 : 0) +
+    (state.trigger !== 5 ? 14 : -6) +
+    (state.price >= 500 ? 8 : state.price >= 150 ? 4 : 0)
+  )));
+  const returnOpen = state.days <= state.returnWindow;
+  let key = "keep";
+  if (returnOpen && state.regret >= 4 && state.need <= 2) key = "return";
+  else if (state.need <= 2 && (state.used <= 1 || state.regret >= 3)) key = "sell";
+  else if (impulse >= 55) key = "pause";
+  return { key, impulse, returnOpen, recoverable: key === "return" ? state.price : Math.round(state.price * 0.6) };
+}
+
+function bottleReturn() {
+  const count = Math.max(0, Math.round(state.pet + state.glass));
+  return { count, cash: count * Math.max(0, state.deposit) };
+}
+
+function completeAction(id, tokens = 10) {
+  if (state.completedActions.has(id)) return false;
+  state.completedActions.add(id);
+  state.coins += tokens;
+  return true;
+}
+
+function completedCount(prefix) {
+  return [...state.completedActions].filter((id) => id.startsWith(prefix)).length;
+}
+
+function actionButton(id, label, tokens = 10) {
+  const copy = t();
+  const done = state.completedActions.has(id);
+  return `<button class="answer ${done ? "correct" : ""}" type="button" data-complete="${esc(id)}" data-token="${tokens}">
+    <span>${done ? "✓" : "+"}</span>
+    <span>${esc(label)}</span>
+    <strong style="margin-left:auto;">${done ? esc(copy.checklist.complete) : `+${tokens} ${esc(copy.checklist.token)}`}</strong>
+  </button>`;
+}
+
+function renderChecklist(title, items) {
+  return `<article class="card stack">
+    <div class="eyebrow">${esc(t().checklist.title)}</div>
+    <h3>${esc(title)}</h3>
+    <div class="stack">${items.map((item) => actionButton(item[0], item[1], item[2] || 10)).join("")}</div>
+  </article>`;
+}
+
+function jobMessage() {
+  const copy = t().work;
+  return copy.messageTemplate
+    .replace("{strengths}", state.strengths.trim() || copy.strengthsPlaceholder)
+    .replace("{value}", state.valueOffer.trim() || copy.valuePlaceholder);
+}
+
+function certificateList() {
+  const copy = t();
+  return [
+    [copy.certs.health || "Family Financial Health Score", state.healthUnlocked],
+    [copy.certs.daily, state.answered !== null || completedCount("daily-") >= 3],
+    [copy.certs.plan, completedCount("plan-") >= 4],
+    [copy.certs.receipt || "Receipt Spending Audit", completedCount("receipt-") >= 1],
+    [copy.certs.crisis, completedCount("crisis-") >= 3],
+    [copy.certs.work, completedCount("work-") >= 4],
+    [copy.certs.kids, state.kidsStars >= 5],
+  ];
+}
+
+function bankCopy() {
+  return BANK_COPY[state.locale] || BANK_COPY.en;
+}
+
+function shoppingDayCopy() {
+  return DAILY_SHOPPING_COPY[state.locale] || DAILY_SHOPPING_COPY.en;
+}
+
+function receiptCopy() {
+  return RECEIPT_COPY[state.locale] || RECEIPT_COPY.en;
+}
+
+function normalizeReceiptValue(value) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseReceiptItems() {
+  const ignored = /^(suma|razem|total|subtotal|nip|vat|ptu|paragon|faktura|invoice|data|date|kasjer|podatek|payment|platnosc|płatność)/i;
+  return state.receiptText
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !ignored.test(line))
+    .map((line) => {
+      const match = line.match(/(.+?)\s+(-?\d+(?:[,.]\d{1,2})?)(?:\s*(?:zl|zł|pln|eur|€|usd|a|b|c|d))?$/i);
+      if (!match) return null;
+      const name = match[1].replace(/\s{2,}/g, " ").trim();
+      const price = Number(match[2].replace(",", "."));
+      if (!name || !Number.isFinite(price) || price <= 0) return null;
+      return { name, price };
+    })
+    .filter(Boolean);
+}
+
+function isReceiptPlanned(name) {
+  const normalizedName = normalizeReceiptValue(name);
+  return state.groceryItems.some((item) => {
+    const normalizedItem = normalizeReceiptValue(item);
+    return normalizedItem && (normalizedName.includes(normalizedItem) || normalizedItem.includes(normalizedName));
+  });
+}
+
+function receiptCategoryKey(name) {
+  const normalized = normalizeReceiptValue(name);
+  const buckets = {
+    food: ["mleko", "milk", "ryz", "rice", "chleb", "bread", "warzywa", "vegetable", "owoc", "fruit", "jogurt", "yogurt", "woda", "water", "ser", "cheese", "jajka", "eggs"],
+    hygiene: ["pasta", "tooth", "szampon", "shampoo", "mydlo", "soap", "hygiene", "papier", "paper", "zel", "gel"],
+    home: ["worki", "bags", "detergent", "plyn", "clean", "battery", "baterie", "dom"],
+    pleasure: ["czekolada", "chocolate", "baton", "candy", "slodycze", "sweet", "chips", "cola", "promo", "promocja", "dessert", "ciastka"]
+  };
+  return Object.keys(buckets).find((key) => buckets[key].some((word) => normalized.includes(word))) || "other";
+}
+
+function receiptAnalysis() {
+  const items = parseReceiptItems().map((item, index) => {
+    const planned = isReceiptPlanned(item.name);
+    const category = receiptCategoryKey(item.name);
+    const defaultNeeded = planned || ["food", "hygiene", "home"].includes(category);
+    const override = state.receiptNeedOverrides[index];
+    const needed = typeof override === "boolean" ? override : defaultNeeded;
+    return { ...item, planned, category, needed };
+  });
+  const categoryTotals = { food: 0, hygiene: 0, home: 0, pleasure: 0, other: 0 };
+  items.forEach((item) => { categoryTotals[item.category] += item.price; });
+  return {
+    items,
+    total: items.reduce((sum, item) => sum + item.price, 0),
+    plannedTotal: items.filter((item) => item.planned).reduce((sum, item) => sum + item.price, 0),
+    impulseLeak: items.filter((item) => !item.needed).reduce((sum, item) => sum + item.price, 0),
+    categoryTotals
+  };
+}
+
+function renderBankAutomation() {
+  const copy = t();
+  const bank = bankCopy();
+  return `<article class="card stack">
+    <div class="eyebrow">${esc(bank.eyebrow)}</div>
+    <h2>${esc(bank.title)}</h2>
+    <p class="muted">${esc(bank.body)}</p>
+    <div class="grid-2">
+      ${bank.rules.map((rule) => `<div class="metric"><b style="font-size:18px;">${esc(rule[0])}</b><span>${esc(rule[1])}</span></div>`).join("")}
+    </div>
+    <div class="grid-2">
+      <div class="stack">
+        <h3>${esc(bank.previewTitle)}</h3>
+        <p class="small">${esc(bank.previewBody)}</p>
+        <div class="stack">
+          ${copy.plan.jars.map((jar, index) => {
+            const title = state.jarMode === "kids" ? jar[1] : jar[0];
+            const amount = state.income * jar[2] / 100;
+            return `<div class="row-card">
+              <div class="jar-dot" style="background:${COLORS[index]}">${jar[2]}%</div>
+              <div class="row-body">
+                <strong>${esc(title)}</strong>
+                <p>${money(amount)} · ${esc(index < 3 ? bank.statusManual : bank.statusApi)}</p>
+                <div class="mini-bar"><span style="width:${jar[2]}%;background:${COLORS[index]}"></span></div>
+              </div>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>
+      <div class="stack">
+        <h3>${esc(bank.roadmapTitle)}</h3>
+        <div class="stack">${bank.roadmap.map((item, index) => actionButton(`bank-roadmap-${index}`, item, 10)).join("")}</div>
+        <div class="source-list">
+          ${BANK_PROVIDER_LINKS.map((provider) => `<a href="${provider[1]}" target="_blank" rel="noreferrer">${esc(provider[0])}<span>${esc(provider[2])}</span></a>`).join("")}
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderDailyShopping() {
+  const copy = shoppingDayCopy();
+  const doneCount = state.groceryDone.size;
+  const total = state.groceryItems.length || 1;
+  return `<article class="card stack">
+    <div class="eyebrow">${esc(copy.eyebrow)}</div>
+    <h2>${esc(copy.title)}</h2>
+    <p class="muted">${esc(copy.body)}</p>
+    <button class="btn blue" type="button" data-speak="daily-shopping">${esc(t().listen)}</button>
+    <div class="field-grid">
+      <label class="field">${esc(copy.inputLabel)}
+        <input value="${esc(state.groceryInput)}" data-field="groceryInput" placeholder="${esc(copy.inputPlaceholder)}">
+      </label>
+      <div class="field">
+        <span>&nbsp;</span>
+        <button class="btn primary" type="button" data-action="add-grocery">${esc(copy.add)}</button>
+      </div>
+    </div>
+    <div>
+      <h3>${esc(copy.listTitle)}</h3>
+      <div class="shopping-items">
+        ${state.groceryItems.map((item, index) => {
+          const done = state.groceryDone.has(index);
+          return `<button class="shopping-item ${done ? "done" : ""}" type="button" data-grocery="${index}">
+            <span>${done ? "✓" : "+"}</span>
+            <span>${esc(item)}</span>
+            <strong>${done ? `+5 ${esc(t().checklist.token)}` : esc(t().done)}</strong>
+          </button>`;
+        }).join("")}
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="metric"><b>${doneCount}/${total}</b><span>${esc(copy.progress)}</span></div>
+      <div class="metric"><b>${Math.round((doneCount / total) * 100)}%</b><span>${esc(t().progress)}</span></div>
+    </div>
+    <div class="alert stack" style="background:var(--yellow-soft);border-color:#f0ca49;">
+      <div class="eyebrow">${esc(copy.impulseTitle)}</div>
+      <p>${esc(copy.impulseBody)}</p>
+      <label class="field">${esc(copy.impulseItem)}
+        <input value="${esc(state.impulseItem)}" data-field="impulseItem" placeholder="${esc(copy.impulsePlaceholder)}">
+      </label>
+      <button class="btn yellow ${state.avoidedImpulse ? "active" : ""}" type="button" data-action="avoid-impulse">
+        ${state.avoidedImpulse ? `✓ +15 ${esc(t().checklist.token)}` : esc(copy.skip)}
+      </button>
+    </div>
+  </article>`;
+}
+
+function renderReceiptAnalyzer() {
+  const copy = receiptCopy();
+  const analysis = receiptAnalysis();
+  const categoryEntries = Object.entries(analysis.categoryTotals).filter(([, value]) => value > 0);
+  return `<article class="card stack">
+    <div class="eyebrow">${esc(copy.eyebrow)}</div>
+    <h2>${esc(copy.title)}</h2>
+    <p class="muted">${esc(copy.body)}</p>
+    <button class="btn blue" type="button" data-speak="receipt">${esc(t().listen)}</button>
+    <div class="field-grid">
+      <label class="field full">${esc(copy.textLabel)}
+        <textarea data-field="receiptText" placeholder="${esc(copy.textPlaceholder)}">${esc(state.receiptText)}</textarea>
+      </label>
+      <label class="field full">${esc(copy.fileLabel)}
+        <input type="file" accept="image/*,.pdf,.txt" data-file="receipt">
+      </label>
+    </div>
+    ${state.receiptFileName ? `<div class="metric"><b>${esc(state.receiptFileName)}</b><span>${esc(copy.fileNote)}</span></div>` : `<p class="small">${esc(copy.fileNote)}</p>`}
+    ${state.receiptImageData ? `<img class="receipt-preview" src="${state.receiptImageData}" alt="${esc(state.receiptFileName)}">` : ""}
+    <button class="btn primary" type="button" data-action="analyze-receipt">${esc(copy.analyze)} · +20 ${esc(t().checklist.token)}</button>
+    ${analysis.items.length ? `
+      <div class="grid-4">
+        <div class="metric"><b>${money(analysis.total)}</b><span>${esc(copy.total)}</span></div>
+        <div class="metric"><b>${money(analysis.plannedTotal)}</b><span>${esc(copy.plannedTotal)}</span></div>
+        <div class="metric"><b>${money(analysis.impulseLeak)}</b><span>${esc(copy.impulseLeak)}</span></div>
+        <div class="metric"><b>${analysis.items.length}</b><span>${esc(copy.rows)}</span></div>
+      </div>
+      <div class="grid-2">
+        <div class="stack">
+          <h3>${esc(copy.categoryTitle)}</h3>
+          ${categoryEntries.map(([key, value]) => `
+            <div class="row-card">
+              <div class="jar-dot" style="background:${key === "pleasure" ? "#ff6b6b" : key === "food" ? "#58cc02" : key === "hygiene" ? "#1cb0f6" : key === "home" ? "#ffd34d" : "#8c7bff"}">${Math.round((value / Math.max(1, analysis.total)) * 100)}%</div>
+              <div class="row-body">
+                <strong>${esc(copy.categories[key] || key)}</strong>
+                <p>${money(value)}</p>
+                <div class="mini-bar"><span style="width:${Math.round((value / Math.max(1, analysis.total)) * 100)}%;"></span></div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+        <div class="receipt-table">
+          ${analysis.items.map((item, index) => `
+            <div class="receipt-row ${item.planned ? "planned" : "unplanned"}">
+              <div>
+                <strong>${esc(item.name)}</strong>
+                <p class="small">${esc(copy.categories[item.category] || item.category)} · ${esc(item.planned ? copy.planned : copy.unplanned)}</p>
+              </div>
+              <b>${money(item.price)}</b>
+              <span class="badge">${esc(item.needed ? copy.needed : copy.notNeeded)}</span>
+              <button class="btn ${item.needed ? "blue" : "yellow"}" type="button" data-receipt-need="${index}">
+                ${esc(item.needed ? copy.notNeeded : copy.needed)}
+              </button>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    ` : `<div class="alert">${esc(copy.empty)}</div>`}
+  </article>`;
+}
+
+function voiceText(kind) {
+  const copy = t();
+  if (kind === "intro") return funnelCopy().start.voice;
+  if (kind === "health") {
+    const hc = funnelCopy().health;
+    const insights = healthInsights().join(" ");
+    return `${hc.resultTitle}: ${healthScore()} out of 100. ${insights} ${hc.planTitle}: ${hc.planSteps.join(" ")}`;
+  }
+  if (kind === "daily") return copy.daily.questionVoice;
+  if (kind === "jars") {
+    return `${copy.plan.jarVoice} ${copy.plan.jars.map((jar) => {
+      const title = state.jarMode === "kids" ? jar[1] : jar[0];
+      return `${title}: ${jar[2]} percent, ${money(state.income * jar[2] / 100)}.`;
+    }).join(" ")}`;
+  }
+  if (kind === "shopping") {
+    const d = decision();
+    const b = bottleReturn();
+    const dec = copy.plan.decisions[d.key];
+    return `${state.itemName}. ${dec[0]}. ${dec[1]} ${copy.plan.impulse}: ${d.impulse}. ${copy.plan.recover}: ${money(d.recoverable)}. ${copy.plan.bottlesTitle}: ${b.count}, ${money(b.cash)}.`;
+  }
+  if (kind === "daily-shopping") return `${shoppingDayCopy().voice} ${state.groceryItems.join(", ")}.`;
+  if (kind === "receipt") {
+    const copyReceipt = receiptCopy();
+    const analysis = receiptAnalysis();
+    if (!analysis.items.length) return copyReceipt.empty;
+    const items = analysis.items.slice(0, 8).map((item) => `${item.name}: ${money(item.price)}, ${item.planned ? copyReceipt.planned : copyReceipt.unplanned}, ${item.needed ? copyReceipt.needed : copyReceipt.notNeeded}`).join(". ");
+    return `${copyReceipt.voice} ${copyReceipt.total}: ${money(analysis.total)}. ${copyReceipt.impulseLeak}: ${money(analysis.impulseLeak)}. ${items}.`;
+  }
+  if (kind === "crisis") return `${copy.crisis.title}. ${copy.crisis.body} ${copy.crisis.steps.slice(0, 2).join(" ")}`;
+  if (kind === "work") return `${copy.work.title}. ${copy.work.body} ${copy.work.steps.slice(0, 4).join(" ")}`;
+  if (kind === "kids") return copy.kids.voice;
+  if (kind === "side") return copy.side.body;
+  return "";
+}
+
+function speak(kind) {
+  speakRaw(voiceText(kind));
+}
+
+function speakRaw(text) {
+  if (!("speechSynthesis" in window) || !text) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = langInfo()[3];
+  utterance.rate = 0.94;
+  window.speechSynthesis.speak(utterance);
+}
+
+function renderLangs() {
+  return LANGS.map(([key, flag, label]) => `
+    <button class="flag ${state.locale === key ? "active" : ""}" type="button" data-locale="${key}" aria-label="${esc(label)}">
+      ${flag} ${label}
+    </button>
+  `).join("");
+}
+
+function renderTabs(mobile = false) {
+  const labels = tabCopy();
+  const screens = mobile ? ["start", "health", "daily", "plan", "kids"] : ["start", "health", "daily", "plan", "kids", "docs"];
+  return screens.map((screen) => `
+    <button class="${mobile ? "nav-btn" : "tab"} ${state.screen === screen ? "active" : ""}" type="button" data-screen="${screen}">
+      ${esc(labels[screen] || screen)}
+    </button>
+  `).join("");
+}
+
+function renderTop() {
+  const copy = t();
+  return `
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">FI</div>
+        <div><strong>Coach FI</strong><span>${esc(funnelCopy().brandSub || copy.brandSub)}</span></div>
+      </div>
+      <div class="language-row">${renderLangs()}</div>
+      <div class="tool-row" aria-label="${esc(copy.text)}">
+        <button class="chip" type="button" data-text-size="normal">A</button>
+        <button class="chip" type="button" data-text-size="large">A+</button>
+        <button class="chip" type="button" data-text-size="xlarge">A++</button>
+      </div>
+    </header>
+    <nav class="tabs" aria-label="Coach FI">${renderTabs(false)}</nav>
+  `;
+}
+
+function renderStart() {
+  const copy = t();
+  const funnel = funnelCopy().start;
+  return `
+    <section class="stack">
+      <div class="hero duo">
+        <div class="stack">
+          <div class="eyebrow">${esc(funnel.eyebrow)}</div>
+          <h1>${esc(funnel.title)}</h1>
+          <p class="muted">${esc(funnel.body)}</p>
+          <div class="button-row">
+            <button class="btn primary" type="button" data-screen="health">${esc(funnel.healthCta)}</button>
+            <button class="btn yellow" type="button" data-screen="plan">${esc(funnel.planCta)}</button>
+            <button class="btn blue" type="button" data-screen="kids">${esc(funnel.kidsCta)}</button>
+          </div>
+        </div>
+        <aside class="mila">
+          <div class="mila-face">M</div>
+          <h3>${esc(funnel.milaTitle)}</h3>
+          <p class="small">${esc(funnel.milaBody)}</p>
+          <button class="btn blue" type="button" data-speak="intro">${esc(copy.listen)}</button>
+        </aside>
+      </div>
+      <div class="card stack">
+        <div class="path">
+          ${funnel.path.map((step, index) => `
+            <div class="path-step">
+              <div class="step-dot ${index > 1 ? "locked" : ""}">${index + 1}</div>
+              <div><h3>${esc(step[0])}</h3><p class="small">${esc(step[1])}</p></div>
+              <button class="btn ${index === 0 ? "primary" : "blue"}" type="button" data-screen="${index === 0 ? "health" : index === 1 ? "health" : index === 2 ? "plan" : "docs"}">${esc(copy.done)}</button>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+      <div class="grid-3">${funnel.cards.map((card) => `<article class="card"><div class="eyebrow">${esc(card[0])}</div><p class="muted">${esc(card[1])}</p></article>`).join("")}</div>
+    </section>
+  `;
+}
+
+function renderHealth() {
+  const copy = t();
+  const health = funnelCopy().health;
+  const score = healthScore();
+  const insights = healthInsights();
+  const canUnlock = state.healthEmail.includes("@") && state.healthAccepted;
+  return `
+    <section class="stack">
+      <article class="card stack">
+        <div class="eyebrow">${esc(health.eyebrow)}</div>
+        <h2>${esc(health.title)}</h2>
+        <p class="muted">${esc(health.body)}</p>
+        <div class="field-grid">
+          <label class="field">${esc(health.income)}<input type="number" min="0" value="${state.healthIncome}" data-field="healthIncome"></label>
+          <label class="field">${esc(health.spending)}<input type="number" min="0" value="${state.healthSpending}" data-field="healthSpending"></label>
+          <label class="field">${esc(health.savings)}<input type="number" min="0" value="${state.healthSavings}" data-field="healthSavings"></label>
+          <label class="field">${esc(health.investing)}<input type="number" min="0" value="${state.healthInvesting}" data-field="healthInvesting"></label>
+          <label class="field">${esc(health.impulse)}<input type="range" min="1" max="5" value="${state.healthImpulse}" data-field="healthImpulse"></label>
+          <label class="field">${esc(health.familyPlan)}
+            <select data-field="healthFamilyPlan">
+              ${health.planOptions.map((label, index) => `<option value="${index}" ${Number(state.healthFamilyPlan) === index ? "selected" : ""}>${esc(label)}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+        <button class="btn primary" type="button" data-action="analyze-health">${esc(health.analyze)} · +15 ${esc(copy.checklist.token)}</button>
+      </article>
+
+      ${state.healthAnalyzed && !state.healthUnlocked ? `
+        <article class="card gate-card stack">
+          <div class="eyebrow">${esc(health.previewTitle)}</div>
+          <h2>${esc(insights[0] || health.insights.family)}</h2>
+          <p class="muted">${esc(health.previewBody)}</p>
+          <div class="grid-3">
+            ${insights.map((item) => `<div class="metric"><b>!</b><span>${esc(item)}</span></div>`).join("")}
+          </div>
+          <div class="field-grid">
+            <label class="field">${esc(health.email)}<input type="email" value="${esc(state.healthEmail)}" data-field="healthEmail" placeholder="you@example.com"></label>
+            <label class="answer full">
+              <input type="checkbox" ${state.healthAccepted ? "checked" : ""} data-field="healthAccepted" style="width:auto;min-height:auto;">
+              <span>${esc(health.accept)}</span>
+            </label>
+            <label class="answer full">
+              <input type="checkbox" ${state.marketingConsent ? "checked" : ""} data-field="marketingConsent" style="width:auto;min-height:auto;">
+              <span>${esc(health.marketing)}</span>
+            </label>
+          </div>
+          <button class="btn primary" type="button" data-action="unlock-health" ${canUnlock ? "" : "disabled"}>${esc(health.unlock)}</button>
+        </article>
+      ` : ""}
+
+      ${state.healthUnlocked ? `
+        <article class="card stack">
+          <div class="score-hero">
+            <div class="score-ring" style="--score:${score};"><b>${score}</b></div>
+            <div class="stack">
+              <div class="eyebrow">${esc(health.resultTitle)}</div>
+              <h2>${score}/100</h2>
+              <p class="muted">${esc(insights.join(" ") || health.insights.family)}</p>
+              <button class="btn blue" type="button" data-speak="health">${esc(copy.listen)}</button>
+            </div>
+          </div>
+        </article>
+        <article class="card stack">
+          <div class="eyebrow">${esc(health.planTitle)}</div>
+          <div class="path">
+            ${health.planSteps.map((step, index) => `
+              <div class="path-step">
+                <div class="step-dot">${index + 1}</div>
+                <div><h3>${esc(step)}</h3><p class="small">+${index === 0 ? 15 : 10} ${esc(copy.checklist.token)}</p></div>
+                <button class="btn ${state.completedActions.has(`health-plan-${index}`) ? "active" : "blue"}" type="button" data-complete="health-plan-${index}" data-token="${index === 0 ? 15 : 10}">${esc(copy.done)}</button>
+              </div>
+            `).join("")}
+          </div>
+        </article>
+        <article class="card premium-card stack">
+          <div class="eyebrow">${esc(health.premiumTitle)}</div>
+          <h2>${esc(state.premiumTrial ? health.trialOn : health.trial)}</h2>
+          <p class="muted">${esc(health.premiumBody)}</p>
+          <button class="btn yellow ${state.premiumTrial ? "active" : ""}" type="button" data-action="start-trial">${esc(state.premiumTrial ? health.trialOn : health.trial)}</button>
+        </article>
+        ${score < 45 ? `<article class="alert stack"><p>${esc(health.emergency)}</p><button class="btn red" type="button" data-screen="crisis">${esc(health.emergencyCta)}</button></article>` : ""}
+      ` : ""}
+    </section>
+  `;
+}
+
+function renderDaily() {
+  const copy = t();
+  return `
+    <section class="stack">
+      <article class="card stack">
+        <div class="eyebrow">${esc(copy.daily.eyebrow)}</div>
+        <h2>${esc(copy.daily.title)}</h2>
+        <p class="muted">${esc(copy.daily.body)}</p>
+        <button class="btn blue" type="button" data-speak="daily">${esc(copy.listen)}</button>
+        <div class="stack">
+          ${copy.daily.answers.map((answer, index) => {
+            const answeredClass = state.answered === null ? "" : index === 1 ? "correct" : state.answered === index ? "wrong" : "";
+            return `<button class="answer ${answeredClass}" type="button" data-answer="${index}" ${state.answered !== null ? "disabled" : ""}>${String.fromCharCode(65 + index)}. ${esc(answer)}</button>`;
+          }).join("")}
+        </div>
+      </article>
+      ${renderChecklist(copy.daily.eyebrow, [
+        ["daily-read", copy.checks.daily[0], 5],
+        ["daily-answer", copy.checks.daily[1], 25],
+        ["daily-note", copy.checks.daily[2], 10],
+        ["daily-share", copy.checks.daily[3], 10],
+      ])}
+      <div class="grid-3">
+        <div class="metric"><b>${state.answered === 1 ? "+25" : "+0"}</b><span>${esc(copy.daily.reward)}</span></div>
+        <div class="metric"><b>1/7</b><span>${esc(copy.daily.streak)}</span></div>
+        <div class="metric"><b>2</b><span>${esc(copy.daily.next)}</span></div>
+      </div>
+    </section>
+  `;
+}
+
+function renderJars() {
+  const copy = t();
+  return copy.plan.jars.map((jar, index) => {
+    const title = state.jarMode === "kids" ? jar[1] : jar[0];
+    const amount = state.income * jar[2] / 100;
+    return `
+      <div class="row-card">
+        <div class="jar-dot" style="background:${COLORS[index]}">${jar[2]}%</div>
+        <div class="row-body">
+          <strong>${esc(title)} - ${money(amount)}</strong>
+          <p>${esc(jar[3])}</p>
+          <div class="mini-bar"><span style="width:${jar[2]}%;background:${COLORS[index]}"></span></div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderPlan() {
+  const copy = t();
+  const d = decision();
+  const dec = copy.plan.decisions[d.key];
+  const b = bottleReturn();
+  return `
+    <section class="stack">
+      <article class="card stack">
+        <div class="eyebrow">${esc(copy.plan.eyebrow)}</div>
+        <h2>${esc(copy.plan.title)}</h2>
+        <p class="muted">${esc(copy.plan.body)}</p>
+        <div class="field-grid">
+          <label class="field">${esc(copy.amount)}<input type="number" min="0" value="${state.income}" data-field="income"></label>
+          <label class="field">${esc(copy.plan.mode)}
+            <select data-field="jarMode">
+              <option value="adult" ${state.jarMode === "adult" ? "selected" : ""}>${esc(copy.plan.adult)}</option>
+              <option value="kids" ${state.jarMode === "kids" ? "selected" : ""}>${esc(copy.plan.kids)}</option>
+            </select>
+          </label>
+        </div>
+        <h3>${esc(copy.plan.jarTitle)}</h3>
+        <div class="stack">${renderJars()}</div>
+        <button class="btn blue" type="button" data-speak="jars">${esc(copy.plan.readJars)}</button>
+      </article>
+
+      ${renderBankAutomation()}
+
+      ${renderDailyShopping()}
+
+      ${renderReceiptAnalyzer()}
+
+      ${renderChecklist(copy.plan.jarTitle, [
+        ["plan-income", copy.checks.plan[0], 10],
+        ["plan-jars", copy.checks.plan[1], 10],
+        ["plan-transfer", copy.checks.plan[2], 15],
+        ["plan-daily-shopping", shoppingDayCopy().title, 15],
+        ["plan-receipt", receiptCopy().title, 20],
+        ["plan-shopping", copy.checks.plan[3], 15],
+        ["plan-bottles", copy.checks.plan[4], 10],
+        ["plan-unused", copy.checks.plan[5], 10],
+      ])}
+
+      <article class="card stack">
+        <div class="eyebrow">${esc(copy.plan.shoppingTitle)}</div>
+        <h2>${esc(dec[0])}</h2>
+        <p class="muted">${esc(dec[1])}</p>
+        <div class="field-grid">
+          <label class="field full">${esc(copy.plan.item)}<input value="${esc(state.itemName)}" data-field="itemName"></label>
+          <label class="field">${esc(copy.plan.price)}<input type="number" min="0" value="${state.price}" data-field="price"></label>
+          <label class="field">${esc(copy.plan.days)}<input type="number" min="0" value="${state.days}" data-field="days"></label>
+          <label class="field">${esc(copy.plan.returnWindow)}<input type="number" min="1" value="${state.returnWindow}" data-field="returnWindow"></label>
+          <label class="field">${esc(copy.plan.used)}<input type="number" min="0" value="${state.used}" data-field="used"></label>
+          <label class="field">${esc(copy.plan.need)}<input type="range" min="1" max="5" value="${state.need}" data-field="need"></label>
+          <label class="field">${esc(copy.plan.regret)}<input type="range" min="1" max="5" value="${state.regret}" data-field="regret"></label>
+          <label class="field full">${esc(copy.plan.trigger)}
+            <select data-field="trigger">${copy.plan.triggers.map((label, index) => `<option value="${index}" ${state.trigger === index ? "selected" : ""}>${esc(label)}</option>`).join("")}</select>
+          </label>
+        </div>
+        <div class="grid-3">
+          <div class="metric"><b>${d.impulse}</b><span>${esc(copy.plan.impulse)}</span></div>
+          <div class="metric"><b>${money(d.recoverable)}</b><span>${esc(copy.plan.recover)}</span></div>
+          <div class="metric"><b>${d.returnOpen ? "open" : "closed"}</b><span>${esc(copy.plan.returnStatus)}</span></div>
+        </div>
+        <button class="btn blue" type="button" data-speak="shopping">${esc(copy.plan.readDecision)}</button>
+      </article>
+
+      <div class="grid-2">
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.plan.bottlesTitle)}</div>
+          <div class="field-grid">
+            <label class="field">${esc(copy.plan.pet)}<input type="number" min="0" value="${state.pet}" data-field="pet"></label>
+            <label class="field">${esc(copy.plan.glass)}<input type="number" min="0" value="${state.glass}" data-field="glass"></label>
+            <label class="field full">${esc(copy.plan.deposit)}<input type="number" min="0" step="0.05" value="${state.deposit}" data-field="deposit"></label>
+          </div>
+          <div class="grid-2">
+            <div class="metric"><b>${b.count}</b><span>${esc(copy.plan.bottles)}</span></div>
+            <div class="metric"><b>${money(b.cash)}</b><span>${esc(copy.plan.back)}</span></div>
+          </div>
+        </article>
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.plan.unusedTitle)}</div>
+          <p class="muted">${esc(copy.plan.unusedBody)}</p>
+          <div class="field-grid">
+            <label class="field">${esc(copy.plan.thing)}<input value="${esc(state.unusedName)}" data-field="unusedName"></label>
+            <label class="field">${esc(copy.plan.value)}<input type="number" min="0" value="${state.unusedValue}" data-field="unusedValue"></label>
+          </div>
+          <button class="btn yellow" type="button" data-action="add-unused">${esc(copy.plan.add)}</button>
+          <div class="metric"><b>${money(state.unusedTotal)}</b><span>${esc(copy.plan.total)}</span></div>
+        </article>
+      </div>
+    </section>
+  `;
+}
+
+function renderCrisis() {
+  const copy = t();
+  return `
+    <section class="stack">
+      <article class="alert stack">
+        <div class="eyebrow">${esc(copy.crisis.eyebrow)}</div>
+        <h2>${esc(copy.crisis.title)}</h2>
+        <p>${esc(copy.crisis.body)}</p>
+        <div class="phone-grid">
+          ${copy.crisis.phones.map((phone, index) => `<a class="phone-card" href="tel:${phone[0].replaceAll(" ", "")}"><b>${esc(phone[0])}</b><span>${esc(phone[1])}</span></a>`).join("")}
+        </div>
+        <button class="btn blue" type="button" data-speak="crisis">${esc(copy.listen)}</button>
+      </article>
+      ${renderChecklist(copy.crisis.stepsTitle, copy.crisis.steps.map((step, index) => [`crisis-${index}`, step, 15]))}
+      <div class="grid-2">
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.crisis.resources)}</div>
+          <p class="muted">${esc(copy.crisis.resourcesBody)}</p>
+          <label class="field">${esc(copy.city)}<input value="${esc(state.city)}" data-field="city"></label>
+          <div class="source-list">
+            ${copy.crisis.resourceLabels.map((label, index) => `<a href="${RESOURCE_LINKS[index](state.city)}" target="_blank" rel="noreferrer">${esc(label)}</a>`).join("")}
+          </div>
+        </article>
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.crisis.templates)}</div>
+          <label class="field">${esc(copy.crisis.chooseTemplate)}
+            <select data-field="template">${copy.crisis.templateNames.map((label, index) => `<option value="${index}" ${state.template === index ? "selected" : ""}>${esc(label)}</option>`).join("")}</select>
+          </label>
+          <textarea readonly id="templateBox">${esc(copy.crisis.templateText[state.template])}</textarea>
+          <button class="btn yellow" type="button" data-action="copy-template">${esc(copy.copy)}</button>
+        </article>
+      </div>
+      <article class="card stack">
+        <div class="eyebrow">${esc(copy.work.eyebrow)}</div>
+        <h2>${esc(copy.work.title)}</h2>
+        <p class="muted">${esc(copy.work.body)}</p>
+        <button class="btn blue" type="button" data-speak="work">${esc(copy.listen)}</button>
+        <div class="field-grid">
+          <label class="field full">${esc(copy.work.cvLabel)}
+            <textarea data-field="cvText" placeholder="${esc(copy.work.cvPlaceholder)}">${esc(state.cvText)}</textarea>
+          </label>
+          <label class="field">${esc(copy.work.strengthsLabel)}
+            <input value="${esc(state.strengths)}" data-field="strengths" placeholder="${esc(copy.work.strengthsPlaceholder)}">
+          </label>
+          <label class="field">${esc(copy.work.valueLabel)}
+            <input value="${esc(state.valueOffer)}" data-field="valueOffer" placeholder="${esc(copy.work.valuePlaceholder)}">
+          </label>
+        </div>
+        <div class="metric"><b>${state.cvText.trim().length > 40 ? "CV OK" : "CV"}</b><span>${esc(state.cvText.trim().length > 40 ? copy.work.cvHintReady : copy.work.cvHintEmpty)}</span></div>
+        <div class="field full">
+          <div class="eyebrow">${esc(copy.work.messageTitle)}</div>
+          <textarea readonly>${esc(jobMessage())}</textarea>
+          <button class="btn yellow" type="button" data-action="copy-job-message">${esc(copy.copy)}</button>
+        </div>
+      </article>
+      <div class="grid-2">
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.work.portalsTitle)}</div>
+          <p class="muted">${esc(copy.work.portalsBody)}</p>
+          <div class="portal-grid">
+            ${JOB_PORTALS.map((portal) => `<a class="portal-link" href="${portal[1]}" target="_blank" rel="noreferrer">${esc(portal[0])}<span>${esc(portal[2])}</span></a>`).join("")}
+          </div>
+        </article>
+        ${renderChecklist(copy.work.stepsTitle, copy.work.steps.map((step, index) => [`work-${index}`, step, index < 3 ? 10 : 20]))}
+      </div>
+    </section>
+  `;
+}
+
+function renderKids() {
+  const copy = t();
+  if (!state.kidsEntered) {
+    return `
+      <section class="stack">
+        <article class="card stack">
+          <div class="eyebrow">${esc(copy.kids.eyebrow)}</div>
+          <h2>${esc(copy.kids.title)}</h2>
+          <p class="muted">${esc(copy.kids.body)}</p>
+          <label class="answer">
+            <input type="checkbox" ${state.kidsConsent ? "checked" : ""} data-field="kidsConsent" style="width:auto;min-height:auto;">
+            <span>${esc(copy.kids.consent)}</span>
+          </label>
+          <button class="btn primary" type="button" data-action="enter-kids" ${state.kidsConsent ? "" : "disabled"}>${esc(copy.kids.enter)}</button>
+        </article>
+      </section>
+    `;
+  }
+  return `
+    <section class="stack">
+      <div class="grid-3">
+        <article class="card stack"><div class="eyebrow">${esc(copy.kids.mission)}</div><h2>${esc(copy.kids.missionBody)}</h2><button class="btn primary" type="button" data-action="kids-stars">${esc(copy.kids.addStars)}</button></article>
+        <article class="card stack"><div class="eyebrow">${esc(copy.plan.jarTitle)}</div><p class="muted">${esc(copy.plan.jars.map((jar) => `${jar[1]} ${jar[2]}%`).join(", "))}</p><button class="btn blue" type="button" data-speak="kids">${esc(copy.listen)}</button></article>
+        <article class="card stack"><div class="eyebrow">${esc(copy.kids.safe)}</div><h2>${esc(copy.kids.safeBody)}</h2></article>
+      </div>
+      <div class="metric"><b>${state.kidsStars}</b><span>${esc(copy.kids.stars)}</span></div>
+    </section>
+  `;
+}
+
+function renderDocs() {
+  const copy = t();
+  return `
+    <section class="stack">
+      <article class="card stack">
+        <div class="eyebrow">${esc(copy.docs.eyebrow)}</div>
+        <h2>${esc(copy.docs.title)}</h2>
+        <p class="muted">${esc(copy.docs.body)}</p>
+      </article>
+      <div class="grid-3">${copy.docs.cards.map((card) => `<article class="card"><h3>${esc(card[0])}</h3><p class="muted">${esc(card[1])}</p></article>`).join("")}</div>
+    </section>
+  `;
+}
+
+function renderMain() {
+  if (state.screen === "health") return renderHealth();
+  if (state.screen === "daily") return renderDaily();
+  if (state.screen === "plan") return renderPlan();
+  if (state.screen === "crisis") return renderCrisis();
+  if (state.screen === "kids") return renderKids();
+  if (state.screen === "docs") return renderDocs();
+  return renderStart();
+}
+
+function renderSide() {
+  const copy = t();
+  const health = funnelCopy().health;
+  const goal = Math.min(100, 42 + Math.floor((state.coins - 125) / 5));
+  return `
+    <aside class="side">
+      <div class="side-card stack">
+        <div class="grid-2">
+          <div class="metric"><b>${state.healthUnlocked ? healthScore() : state.score}</b><span>${esc(copy.score)}</span></div>
+          <div class="metric"><b>${state.coins}</b><span>${esc(copy.coins)}</span></div>
+        </div>
+        <div>
+          <div class="small">${esc(copy.progress)}</div>
+          <div class="goal-bar" style="--goal:${goal}%"><div class="goal-fill"></div></div>
+        </div>
+      </div>
+      <div class="side-card stack">
+        <div class="eyebrow">${esc(copy.checklist.nftTitle)}</div>
+        <div class="certificate-grid">
+          ${certificateList().map(([label, unlocked]) => `
+            <div class="cert-card ${unlocked ? "unlocked" : "locked"}">
+              ${unlocked ? "NFT" : "LOCK"}
+              <span>${esc(label)} · ${esc(unlocked ? copy.checklist.unlocked : copy.checklist.locked)}</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+      <div class="side-card stack">
+        <div class="mila-face" style="width:78px;height:78px;border-radius:24px;font-size:32px;margin:0;">M</div>
+        <h3>${esc(copy.side.title)}</h3>
+        <p class="muted">${esc(copy.side.body)}</p>
+        <button class="btn blue" type="button" data-speak="side">${esc(copy.listen)}</button>
+      </div>
+      <div class="side-card premium-card stack">
+        <div class="eyebrow">${esc(health.premiumTitle)}</div>
+        <p class="small">${esc(health.premiumBody)}</p>
+        <button class="btn yellow ${state.premiumTrial ? "active" : ""}" type="button" data-action="start-trial">${esc(state.premiumTrial ? health.trialOn : health.trial)}</button>
+      </div>
+      <div class="side-card stack">
+        <div class="eyebrow">${esc(copy.side.feedback)}</div>
+        ${copy.side.feedbackItems.map((item) => `<p class="small">${esc(item)}</p>`).join("")}
+      </div>
+      <div class="side-card stack">
+        <div class="eyebrow">${esc(copy.side.sources)}</div>
+        <div class="source-list">
+          <a href="https://116sos.pl/otrzymaj-pomoc/telefon" target="_blank" rel="noreferrer">116sos.pl</a>
+          <a href="https://www.gov.pl/web/zdrowie/pomoc-psychologiczna" target="_blank" rel="noreferrer">gov.pl</a>
+          <a href="https://zapisy-np.ms.gov.pl/" target="_blank" rel="noreferrer">zapisy-np.ms.gov.pl</a>
+        </div>
+      </div>
+    </aside>
+  `;
+}
+
+function render() {
+  const copy = t();
+  document.documentElement.lang = langInfo()[3].split("-")[0];
+  document.title = `Coach FI - ${copy.name}`;
+  document.body.classList.toggle("large", state.textSize === "large");
+  document.body.classList.toggle("xlarge", state.textSize === "xlarge");
+  root.innerHTML = `
+    <div class="app">
+      ${renderTop()}
+      <div class="layout">
+        <main class="main">${renderMain()}</main>
+        ${renderSide()}
+      </div>
+    </div>
+    <nav class="mobile-nav" aria-label="Coach FI">${renderTabs(true)}</nav>
+  `;
+}
+
+root.addEventListener("click", async (event) => {
+  const target = event.target.closest("button, a");
+  if (!target) return;
+  if (target.dataset.locale) {
+    state.locale = target.dataset.locale;
+    state.answered = null;
+    render();
+    return;
+  }
+  if (target.dataset.textSize) {
+    state.textSize = target.dataset.textSize;
+    render();
+    return;
+  }
+  if (target.dataset.screen) {
+    state.screen = target.dataset.screen;
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+  if (target.dataset.speak) {
+    speak(target.dataset.speak);
+    return;
+  }
+  if (target.dataset.action === "analyze-health") {
+    state.healthAnalyzed = true;
+    completeAction("health-analyzed", 15);
+    render();
+    return;
+  }
+  if (target.dataset.action === "unlock-health") {
+    if (state.healthEmail.includes("@") && state.healthAccepted) {
+      state.healthUnlocked = true;
+      completeAction("health-unlocked", 25);
+      speak("health");
+    }
+    render();
+    return;
+  }
+  if (target.dataset.action === "start-trial") {
+    state.premiumTrial = true;
+    completeAction("premium-trial", 20);
+    render();
+    return;
+  }
+  if (target.dataset.answer) {
+    state.answered = Number(target.dataset.answer);
+    if (state.answered === 1) {
+      completeAction("daily-answer", 25);
+      speakRaw(t().daily.correct);
+    } else {
+      speakRaw(t().daily.wrong);
+    }
+    render();
+    return;
+  }
+  if (target.dataset.complete) {
+    completeAction(target.dataset.complete, Number(target.dataset.token) || 10);
+    render();
+    return;
+  }
+  if (target.dataset.crisisStep) {
+    const index = Number(target.dataset.crisisStep);
+    if (!state.completedSteps.has(index)) {
+      state.completedSteps.add(index);
+      state.coins += 15;
+    }
+    render();
+    return;
+  }
+  if (target.dataset.action === "add-unused") {
+    if (state.unusedValue > 0) state.unusedTotal += state.unusedValue;
+    completeAction("plan-unused", 10);
+    render();
+    return;
+  }
+  if (target.dataset.action === "add-grocery") {
+    const item = state.groceryInput.trim();
+    if (item) {
+      state.groceryItems.push(item);
+      state.groceryInput = "";
+      completeAction("plan-daily-shopping", 15);
+    }
+    render();
+    return;
+  }
+  if (target.dataset.grocery) {
+    const index = Number(target.dataset.grocery);
+    if (!state.groceryDone.has(index)) {
+      state.groceryDone.add(index);
+      completeAction(`grocery-${index}`, 5);
+    }
+    render();
+    return;
+  }
+  if (target.dataset.action === "avoid-impulse") {
+    state.avoidedImpulse = true;
+    completeAction("grocery-avoid-impulse", 15);
+    render();
+    return;
+  }
+  if (target.dataset.action === "analyze-receipt") {
+    completeAction("receipt-analyze", 20);
+    completeAction("plan-receipt", 20);
+    render();
+    return;
+  }
+  if (target.dataset.receiptNeed !== undefined) {
+    const index = Number(target.dataset.receiptNeed);
+    const item = receiptAnalysis().items[index];
+    if (item) {
+      state.receiptNeedOverrides[index] = !item.needed;
+      completeAction(`receipt-need-${index}`, 5);
+    }
+    render();
+    return;
+  }
+  if (target.dataset.action === "copy-template") {
+    const text = t().crisis.templateText[state.template];
+    try { await navigator.clipboard.writeText(text); target.textContent = t().copied; }
+    catch { document.getElementById("templateBox").select(); document.execCommand("copy"); }
+    return;
+  }
+  if (target.dataset.action === "copy-job-message") {
+    const text = jobMessage();
+    try { await navigator.clipboard.writeText(text); target.textContent = t().copied; }
+    catch { target.previousElementSibling.select(); document.execCommand("copy"); }
+    completeAction("work-2", 10);
+    render();
+    return;
+  }
+  if (target.dataset.action === "enter-kids") {
+    if (state.kidsConsent) state.kidsEntered = true;
+    render();
+    return;
+  }
+  if (target.dataset.action === "kids-stars") {
+    state.kidsStars += 5;
+    completeAction("kids-stars", 5);
+    render();
+    speak("kids");
+  }
+});
+
+root.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target.dataset.file === "receipt") {
+    const file = target.files && target.files[0];
+    state.receiptFileName = file ? file.name : "";
+    state.receiptImageData = "";
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.receiptImageData = String(reader.result || "");
+        render();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      render();
+    }
+    return;
+  }
+  const field = target.dataset.field;
+  if (!field) return;
+  if (field === "kidsConsent" || field === "healthAccepted" || field === "marketingConsent") state[field] = target.checked;
+  else if (["itemName", "unusedName", "city", "jarMode", "cvText", "strengths", "valueOffer", "groceryInput", "impulseItem", "receiptText", "healthEmail"].includes(field)) state[field] = target.value;
+  else if (field === "template" || field === "trigger" || field === "healthFamilyPlan") state[field] = Number(target.value);
+  else state[field] = Number(target.value);
+  render();
+});
+
+root.addEventListener("input", (event) => {
+  const target = event.target;
+  const field = target.dataset.field;
+  if (!field || target.tagName === "SELECT" || target.type === "checkbox") return;
+  if (["itemName", "unusedName", "city", "cvText", "strengths", "valueOffer", "groceryInput", "impulseItem", "receiptText", "healthEmail"].includes(field)) state[field] = target.value;
+  else state[field] = Number(target.value);
+});
+
+render();
+</script>
+</body>
+</html>

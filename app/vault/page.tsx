@@ -3,9 +3,9 @@
 import { SectionHeader } from "@/components/SectionHeader";
 import { YieldVault } from "@/components/YieldVault";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
-const vaultPageCopy: Record<Locale, { eyebrow: string; title: string; description: string; readText: string }> = {
+const vaultPageCopy: LocalizedMap<{ eyebrow: string; title: string; description: string; readText: string }> = {
   pl: {
     eyebrow: "Edukacja DeFi Yield",
     title: "Twoje punkty pracują dla Ciebie.",
@@ -31,7 +31,7 @@ const vaultPageCopy: Record<Locale, { eyebrow: string; title: string; descriptio
 
 export default function VaultPage() {
   const { locale } = useLanguage();
-  const copy = vaultPageCopy[locale];
+  const copy = pickLocalized(vaultPageCopy, locale);
 
   return (
     <section aria-labelledby="vault-title">

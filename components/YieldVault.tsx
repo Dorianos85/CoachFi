@@ -23,7 +23,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { addTokens, getTokenBalance, spendTokens } from "@/lib/tokens";
 import {
   daysInVault,
@@ -42,8 +42,7 @@ const RISK_BADGE: Record<VaultStrategy["risk"], string> = {
   high: "border-attention bg-warning text-text",
 };
 
-const VAULT_COPY: Record<
-  Locale,
+const VAULT_COPY: LocalizedMap<
   {
     risk: Record<VaultStrategy["risk"], string>;
     strategies: string;
@@ -241,7 +240,7 @@ function fmtTvl(tvl?: number) {
 
 export function YieldVault() {
   const { locale } = useLanguage();
-  const copy = VAULT_COPY[locale];
+  const copy = pickLocalized(VAULT_COPY, locale);
   const [strategies, setStrategies] = useState<VaultStrategy[]>([]);
   const [source, setSource] = useState("loading");
   const [selected, setSelected] = useState<VaultStrategy | null>(null);

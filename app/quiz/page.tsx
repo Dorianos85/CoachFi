@@ -11,21 +11,20 @@ import { SocialShare } from "@/components/SocialShare";
 import { TokenRewardCard } from "@/components/TokenRewardCard";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { addTokens, getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 
-const QUIZ_UI: Record<
-  Locale,
-  {
-    accepted: string;
-    scored: (name: string, score: string) => string;
-    toBeat: string;
-    result: (score: number) => string;
-    share: (score: number) => string;
-    shareTitle: string;
-  }
-> = {
+type QuizUiCopy = {
+  accepted: string;
+  scored: (name: string, score: string) => string;
+  toBeat: string;
+  result: (score: number) => string;
+  share: (score: number) => string;
+  shareTitle: string;
+};
+
+const QUIZ_UI: LocalizedMap<QuizUiCopy> = {
   en: {
     accepted: "Challenge accepted!",
     scored: (name: string, score: string) => `${name} scored ${score} pts - can you beat them?`,
@@ -59,7 +58,7 @@ function ChallengeBanner({
 }: {
   from: string;
   score: string;
-  copy: (typeof QUIZ_UI)[Locale];
+  copy: QuizUiCopy;
 }) {
   const decodedFrom = decodeURIComponent(from);
 
@@ -84,7 +83,7 @@ function ChallengeBanner({
 
 function QuizPageContent() {
   const { locale, t } = useLanguage();
-  const copy = QUIZ_UI[locale];
+  const copy = pickLocalized(QUIZ_UI, locale);
   const { markActive } = useStreak();
   const searchParams = useSearchParams();
   const challengeFrom = searchParams.get("from");

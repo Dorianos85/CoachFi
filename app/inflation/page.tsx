@@ -8,7 +8,7 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import {
   buildInflationScenario,
   calculatePurchasingPowerLoss,
@@ -18,7 +18,7 @@ import { getLocalizedContent } from "@/lib/localizedContent";
 import { formatCurrency } from "@/lib/utils";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
-const inflationVoiceCta: Record<Locale, string> = {
+const inflationVoiceCta: LocalizedMap<string> = {
   pl: "Posłuchaj, dlaczego inflacja ma znaczenie",
   en: "Hear why inflation matters",
   ja: "インフレが重要な理由を聞く",
@@ -27,6 +27,7 @@ const inflationVoiceCta: Record<Locale, string> = {
 export default function InflationPage() {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
+  const voiceCta = pickLocalized(inflationVoiceCta, locale);
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const inflationWakeUpText = voiceDemoScripts[voiceLocale].inflationWakeUp;
@@ -78,7 +79,7 @@ export default function InflationPage() {
           </div>
           <VoiceButton
             text={inflationWakeUpText}
-            label={inflationVoiceCta[locale]}
+              label={voiceCta}
             locale={voiceLocale}
             speechLang={voiceLanguage.speechLang}
             variant="large"

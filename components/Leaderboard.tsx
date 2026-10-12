@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 
@@ -27,8 +27,7 @@ const FALLBACK_PLAYERS: Player[] = [
 ];
 
 const MEDAL = ["1", "2", "3"];
-const COPY: Record<
-  Locale,
+const COPY: LocalizedMap<
   { global: string; local: string; setup: string; consent: string; change: string; pts: string }
 > = {
   en: {
@@ -54,7 +53,7 @@ type Tab = "global" | "local";
 
 export function Leaderboard({ userScore }: { userScore: number }) {
   const { locale, t } = useLanguage();
-  const copy = COPY[locale];
+  const copy = pickLocalized(COPY, locale);
   const { hasOptionalConsent, openSettings } = useConsent();
   const { streak } = useStreak();
   const [tab, setTab] = useState<Tab>("global");

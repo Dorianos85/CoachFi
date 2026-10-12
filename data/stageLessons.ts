@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { LocalizedMap } from "@/lib/i18n";
 
 export interface StageLessonStep {
   title: string;
@@ -13,12 +13,14 @@ export interface StageLessonCopy {
   steps: StageLessonStep[];
 }
 
+type WrittenLocale = "en" | "pl" | "ja";
+
 export interface StageLesson {
   quizHref: string;
-  copy: Record<Locale, StageLessonCopy>;
+  copy: LocalizedMap<StageLessonCopy>;
 }
 
-const chrome: Record<Locale, Pick<StageLessonCopy, "stepLabel" | "next" | "quiz">> = {
+const chrome: Record<WrittenLocale, Pick<StageLessonCopy, "stepLabel" | "next" | "quiz">> = {
   en: {
     stepLabel: (current, total) => `Step ${current} of ${total}`,
     next: "Next",
@@ -37,8 +39,8 @@ const chrome: Record<Locale, Pick<StageLessonCopy, "stepLabel" | "next" | "quiz"
 };
 
 function lesson(
-  titles: Record<Locale, string>,
-  steps: Record<Locale, StageLessonStep[]>,
+  titles: Record<WrittenLocale, string>,
+  steps: Record<WrittenLocale, StageLessonStep[]>,
   quizHref: string,
 ): StageLesson {
   return {

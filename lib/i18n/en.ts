@@ -7,6 +7,7 @@ export const en = {
     home: "Home",
     healthCheck: "Health Check",
     inflation: "Inflation",
+    shopping: "Shopping Hygiene",
     learn: "Learn",
     coach: "AI Coach",
     quiz: "Quiz",

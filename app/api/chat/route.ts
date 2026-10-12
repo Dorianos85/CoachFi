@@ -7,7 +7,7 @@ import {
   readJsonWithLimit,
   requireConsentHeader,
 } from "@/lib/api-security";
-import { localeClaudeLanguage, type Locale } from "@/lib/i18n";
+import { localeClaudeLanguage, pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 import { getNumberEnv, getOptionalEnv } from "@/lib/server-env";
 
 const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
@@ -45,7 +45,7 @@ Topics you cover: saving habits, emergency funds, inflation, budgeting (50/30/20
 - Never recommend specific stocks, funds by name, or promise returns.
 - If asked about crypto/Solana: explain concepts neutrally, warn about volatility, never hype.
 - If asked something outside finance: gently redirect to financial topics.
-- Speak in the requested UI language when provided. Supported languages: English, Polish, Japanese.
+- Speak in the requested UI language when provided. Supported languages: English, Polish, Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and Turkish.
 - When discussing Poland-specific topics, reference the OECD data naturally and empathetically.`;
 
 function getLanguageInstruction(locale: string | undefined) {
@@ -77,6 +77,42 @@ type OpenRouterResponse = {
     };
   }>;
   error?: { message?: string };
+};
+
+const GENERIC_FALLBACK: LocalizedMap<string> = {
+  en: "Start with one small action today: track your spending, save a fixed amount after payday, and learn how inflation changes purchasing power. Coach FI is educational and does not provide investment advice.",
+  pl: "Zacznij od jednego małego kroku dzisiaj: zapisz wydatki, odłóż stałą kwotę po wypłacie i zrozum, jak inflacja zmienia siłę nabywczą. Coach FI ma charakter edukacyjny i nie udziela porad inwestycyjnych.",
+  es: "Empieza hoy con una acción pequeña: registra tus gastos, ahorra una cantidad fija después de cobrar y aprende cómo la inflación cambia tu poder de compra. Coach FI es educativo y no da asesoramiento de inversión.",
+  fr: "Commence aujourd'hui par une petite action : suis tes dépenses, épargne un montant fixe après le salaire et comprends comment l'inflation change ton pouvoir d'achat. Coach FI est éducatif et ne donne pas de conseil en investissement.",
+  zh: "今天先做一个小动作：记录支出，发薪后固定储蓄，并理解通货膨胀如何改变购买力。Coach FI 只做教育，不提供投资建议。",
+  ja: "今日できる小さな一歩から始めましょう。支出を記録し、給料日の後に一定額を貯金し、インフレが購買力をどう変えるか学びます。Coach FI は教育目的であり、投資助言ではありません。",
+  hi: "आज एक छोटे कदम से शुरुआत करें: खर्च लिखें, आय आने के बाद तय रकम बचाएं, और समझें कि महंगाई खरीद शक्ति को कैसे बदलती है। Coach FI शैक्षिक है और निवेश सलाह नहीं देता।",
+  "pt-BR": "Comece hoje com uma pequena ação: registre seus gastos, poupe um valor fixo depois de receber e entenda como a inflação muda seu poder de compra. Coach FI é educacional e não dá recomendação de investimento.",
+  tr: "Bugün küçük bir adımla başla: harcamalarını takip et, maaştan sonra sabit bir tutar biriktir ve enflasyonun satın alma gücünü nasıl değiştirdiğini öğren. Coach FI eğiticidir ve yatırım tavsiyesi vermez.",
+};
+
+const INFLATION_FALLBACK: LocalizedMap<string> = {
+  en: "Inflation means money buys less over time. If prices rise and your cash does not grow, the number in your account may look the same, but your real purchasing power falls.",
+  pl: "Inflacja oznacza, że pieniądze z czasem kupują mniej. Jeśli ceny rosną, a gotówka nie pracuje, saldo może wyglądać tak samo, ale realna siła nabywcza spada.",
+  es: "La inflación significa que el dinero compra menos con el tiempo. Si los precios suben y tu efectivo no crece, el saldo puede verse igual, pero tu poder de compra real baja.",
+  fr: "L'inflation signifie que l'argent achète moins avec le temps. Si les prix montent et que ton argent ne progresse pas, le solde paraît identique, mais le pouvoir d'achat réel baisse.",
+  zh: "通货膨胀意味着钱随着时间能买到的东西变少。如果价格上涨而现金没有增长，账户数字看起来一样，但真实购买力会下降。",
+  ja: "インフレとは、時間とともにお金で買えるものが少なくなることです。物価が上がり現金が増えなければ、残高は同じに見えても実質的な購買力は下がります。",
+  hi: "महंगाई का मतलब है कि समय के साथ पैसा कम चीजें खरीद पाता है। कीमतें बढ़ें और नकद न बढ़े, तो खाता वैसा दिख सकता है, लेकिन असली खरीद शक्ति घटती है।",
+  "pt-BR": "Inflação significa que o dinheiro compra menos com o tempo. Se os preços sobem e seu dinheiro parado não cresce, o saldo parece igual, mas o poder de compra real cai.",
+  tr: "Enflasyon, paranın zamanla daha az şey satın alması demektir. Fiyatlar yükselir ve nakit büyümezse, hesap bakiyesi aynı görünür ama gerçek satın alma gücü düşer.",
+};
+
+const SAVING_FALLBACK: LocalizedMap<string> = {
+  en: "A strong saving habit is automatic and small enough to repeat. Move a fixed amount right after payday, even if it is tiny, and treat it like a bill to your future self.",
+  pl: "Dobry nawyk oszczędzania jest automatyczny i na tyle mały, żeby dało się go powtarzać. Przelej stałą kwotę zaraz po wypłacie, nawet niewielką, i traktuj ją jak rachunek dla przyszłego siebie.",
+  es: "Un buen hábito de ahorro es automático y lo bastante pequeño para repetirlo. Aparta una cantidad fija justo después de cobrar, aunque sea pequeña, y trátala como una factura para tu yo futuro.",
+  fr: "Une bonne habitude d'épargne est automatique et assez petite pour être répétée. Mets de côté un montant fixe juste après le salaire, même faible, comme une facture pour ton futur toi.",
+  zh: "好的储蓄习惯应该自动化，而且小到可以重复。发薪后立刻转出固定金额，哪怕很少，把它当作给未来自己的账单。",
+  ja: "強い貯金習慣は自動化され、繰り返せるほど小さいものです。給料日の後に少額でも一定額を移し、未来の自分への請求書として扱いましょう。",
+  hi: "मजबूत बचत आदत स्वचालित और दोहराने योग्य छोटी होनी चाहिए। आय आते ही तय रकम अलग रखें, चाहे छोटी हो, और उसे भविष्य के अपने लिए बिल समझें।",
+  "pt-BR": "Um bom hábito de poupança é automático e pequeno o bastante para repetir. Separe um valor fixo logo depois de receber, mesmo que seja baixo, como uma conta para seu futuro.",
+  tr: "Güçlü tasarruf alışkanlığı otomatik ve tekrar edilecek kadar küçük olmalıdır. Maaştan hemen sonra sabit bir tutarı ayır, küçük olsa bile, bunu gelecekteki kendine ödeme gibi gör.",
 };
 
 function normalizePayload(payload: ChatPayload): NormalizedChat | null {
@@ -117,12 +153,42 @@ function getSystemPrompt(locale: string | undefined) {
   return `${SYSTEM_PROMPT}\n\n${getLanguageInstruction(locale)}`;
 }
 
+function getSafeLocale(locale: string | undefined): Locale {
+  return locale && locale in localeClaudeLanguage ? (locale as Locale) : "en";
+}
+
+function createFallbackText(chat: NormalizedChat) {
+  const locale = getSafeLocale(chat.locale);
+  const message = chat.message.toLowerCase();
+
+  if (/inflac|inflation|inflación|inflation|enflasyon|通货|インフレ|महंगाई/.test(message)) {
+    return pickLocalized(INFLATION_FALLBACK, locale);
+  }
+
+  if (/oszcz|save|saving|ahorr|épargn|poup|tasarruf|储蓄|貯金|बचत/.test(message)) {
+    return pickLocalized(SAVING_FALLBACK, locale);
+  }
+
+  return pickLocalized(GENERIC_FALLBACK, locale);
+}
+
+function createFallbackResponse(chat: NormalizedChat) {
+  return new Response(createFallbackText(chat), {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-cache",
+      "X-CoachFI-Provider": "fallback",
+      "X-CoachFI-Model": "predefined",
+    },
+  });
+}
+
 async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
   const client = new Anthropic({ apiKey });
   const model = getOptionalEnv("ANTHROPIC_MODEL") ?? DEFAULT_ANTHROPIC_MODEL;
   const maxTokens = getNumberEnv("ANTHROPIC_MAX_TOKENS", 600, 64, 1024);
 
-  const stream = await client.messages.create({
+  const message = await client.messages.create({
     model,
     max_tokens: maxTokens,
     system: getSystemPrompt(chat.locale),
@@ -130,32 +196,19 @@ async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
       ...chat.safeHistory, // last 6 turns for context, keeps costs low
       { role: "user", content: chat.message },
     ],
-    stream: true,
+    stream: false,
   });
 
-  const encoder = new TextEncoder();
-  const readable = new ReadableStream({
-    async start(controller) {
-      try {
-        for await (const event of stream) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
-            controller.enqueue(encoder.encode(event.delta.text));
-          }
-        }
-        controller.close();
-      } catch (e) {
-        controller.error(e);
-      }
-    },
-  });
+  const reply = message.content
+    .map((block) => (block.type === "text" ? block.text : ""))
+    .join("")
+    .trim();
 
-  return new Response(readable, {
+  if (!reply) throw new Error("Anthropic empty response");
+
+  return new Response(reply, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Transfer-Encoding": "chunked",
       "Cache-Control": "no-cache",
       "X-CoachFI-Provider": "anthropic",
       "X-CoachFI-Model": model,
@@ -189,7 +242,7 @@ async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
   if (!res.ok) {
     const errorText = await res.text();
     console.error("[openrouter]", res.status, errorText);
-    return Response.json({ error: "OpenRouter error", fallback: true }, { status: 500 });
+    throw new Error("OpenRouter error");
   }
 
   const data = (await res.json()) as OpenRouterResponse;
@@ -199,7 +252,7 @@ async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
     : content;
 
   if (!reply?.trim()) {
-    return Response.json({ error: "OpenRouter empty response", fallback: true }, { status: 500 });
+    throw new Error("OpenRouter empty response");
   }
 
   return new Response(reply, {
@@ -234,28 +287,32 @@ export async function POST(req: Request) {
     const anthropicApiKey = getOptionalEnv("ANTHROPIC_API_KEY");
     const openRouterApiKey = getOptionalEnv("OPENROUTER_API_KEY");
 
-    if (preferredProvider === "openrouter" && openRouterApiKey) {
-      return createOpenRouterResponse(openRouterApiKey, chat);
+    const providers =
+      preferredProvider === "openrouter"
+        ? [
+            openRouterApiKey ? () => createOpenRouterResponse(openRouterApiKey, chat) : null,
+            anthropicApiKey ? () => createAnthropicResponse(anthropicApiKey, chat) : null,
+          ]
+        : [
+            anthropicApiKey ? () => createAnthropicResponse(anthropicApiKey, chat) : null,
+            openRouterApiKey ? () => createOpenRouterResponse(openRouterApiKey, chat) : null,
+          ];
+
+    for (const provider of providers) {
+      if (!provider) continue;
+      try {
+        return await provider();
+      } catch (error) {
+        console.error("[chat/provider]", error);
+      }
     }
 
-    if (preferredProvider === "anthropic" && anthropicApiKey) {
-      return createAnthropicResponse(anthropicApiKey, chat);
-    }
-
-    if (anthropicApiKey) {
-      return createAnthropicResponse(anthropicApiKey, chat);
-    }
-
-    if (openRouterApiKey) {
-      return createOpenRouterResponse(openRouterApiKey, chat);
-    }
-
-    return Response.json({ error: "AI provider API key not set", fallback: true }, { status: 503 });
+    return createFallbackResponse(chat);
   } catch (err) {
     if (err instanceof SyntaxError || (err instanceof Error && err.message === "Payload too large")) {
       return jsonError("Invalid payload", 400);
     }
     console.error("[chat/route]", err);
-    return Response.json({ error: "Model error", fallback: true }, { status: 500 });
+    return Response.json({ error: "Chat failed", fallback: true }, { status: 500 });
   }
 }

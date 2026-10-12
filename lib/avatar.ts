@@ -1,3 +1,5 @@
+import { notifyCloud } from "@/lib/sync/syncQueue";
+
 const AVATAR_KEY = "coachfi-avatar";
 
 export type AvatarGender = "male" | "female";
@@ -44,4 +46,5 @@ export function getAvatar(): AvatarData {
 export function saveAvatar(data: AvatarData): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(AVATAR_KEY, JSON.stringify(data));
+  notifyCloud("profile");
 }

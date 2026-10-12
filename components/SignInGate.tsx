@@ -5,9 +5,21 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { dismissSignInRequest, isSignInRequested, isSignInRequiredNow, subscribeSignInProgress } from "@/lib/signInGate";
 
-const copy = {
+const copy: LocalizedMap<{
+  title: string;
+  body: string;
+  or: string;
+  email: string;
+  code: string;
+  send: string;
+  action: string;
+  sending: string;
+  checking: string;
+  close: string;
+}> = {
   en: {
     title: "Sign in to continue",
     body: "This is as far as Coach FI goes without an account. Sign in to keep going.",
@@ -102,7 +114,7 @@ export function SignInGate() {
   const { signInWithOAuth } = useSignInWithOAuth();
   const { verifyEmailOTP } = useVerifyEmailOTP();
   const { locale } = useLanguage();
-  const text = copy[locale];
+  const text = pickLocalized(copy, locale);
   const [required, setRequired] = useState(false);
   const [opened, setOpened] = useState(false);
   const [email, setEmail] = useState("");
@@ -180,7 +192,7 @@ export function SignInGate() {
       aria-modal="true"
       aria-labelledby="sign-in-gate-title"
     >
-      <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-soft">
+      <div className="glass-panel w-full max-w-md rounded-2xl p-6 text-text">
         <h2 id="sign-in-gate-title" className="text-2xl font-black text-text">
           {text.title}
         </h2>
@@ -193,7 +205,7 @@ export function SignInGate() {
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full justify-start gap-3"
+                className="w-full justify-start gap-3 border-primary/25 bg-[#151522] text-text hover:bg-primary/15"
                 disabled={busy !== null}
                 onClick={() => void startSocial(provider.id)}
               >
@@ -213,7 +225,7 @@ export function SignInGate() {
               autoComplete="one-time-code"
               value={otp}
               onChange={(event) => setOtp(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-input border-2 border-border px-4 text-base font-semibold"
+              className="mt-2 min-h-11 w-full rounded-xl border border-primary/25 bg-[#12121d] px-4 text-base font-semibold text-text"
             />
           </label>
         ) : (
@@ -224,7 +236,7 @@ export function SignInGate() {
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-input border-2 border-border px-4 text-base font-semibold"
+              className="mt-2 min-h-11 w-full rounded-xl border border-primary/25 bg-[#12121d] px-4 text-base font-semibold text-text"
             />
           </label>
         )}

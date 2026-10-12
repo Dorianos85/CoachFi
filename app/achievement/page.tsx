@@ -9,7 +9,7 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { SocialShare } from "@/components/SocialShare";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getDisplayName, getUser } from "@/lib/user";
 import { resolveCssColor } from "@/lib/cssColor";
 import { getStreak } from "@/lib/streak";
@@ -25,19 +25,18 @@ function getBadge(score: number) {
   return BADGE_COLORS.find((b) => score >= b.score) ?? BADGE_COLORS[BADGE_COLORS.length - 1];
 }
 
-const achievementCopy: Record<
-  Locale,
-  {
-    achievement: string;
-    financialScore: string;
-    dayStreak: string;
-    title: string;
-    download: string;
-    shareTitle: string;
-    shareText: (score: number, badge: string) => string;
-    badgeLabels: string[];
-  }
-> = {
+type AchievementCopy = {
+  achievement: string;
+  financialScore: string;
+  dayStreak: string;
+  title: string;
+  download: string;
+  shareTitle: string;
+  shareText: (score: number, badge: string) => string;
+  badgeLabels: string[];
+};
+
+const achievementCopy: LocalizedMap<AchievementCopy> = {
   pl: {
     achievement: "Osiągnięcie Coach FI",
     financialScore: "Wynik finansowy",
@@ -88,7 +87,7 @@ function AchievementCard({
   streak: number;
   badge: (typeof BADGE_COLORS)[0];
   badgeLabel: string;
-  copy: (typeof achievementCopy)[Locale];
+  copy: AchievementCopy;
 }) {
   return (
     <div
@@ -137,7 +136,7 @@ function AchievementCard({
 
 function AchievementPageContent() {
   const { locale } = useLanguage();
-  const copy = achievementCopy[locale];
+  const copy = pickLocalized(achievementCopy, locale);
   const searchParams = useSearchParams();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

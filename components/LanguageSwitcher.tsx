@@ -6,11 +6,11 @@ import { useState, useRef, useEffect } from "react";
 
 import { FlagIcon } from "@/components/FlagIcon";
 import { useLanguage } from "@/context/LanguageContext";
-import { localeLabels, type Locale } from "@/lib/i18n";
+import { localeLabels, pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const locales = Object.keys(localeLabels) as Locale[];
-const switcherCopy: Record<Locale, { current: string; select: string }> = {
+const switcherCopy: LocalizedMap<{ current: string; select: string }> = {
   pl: { current: "Język", select: "Wybierz język" },
   en: { current: "Language", select: "Select language" },
   ja: { current: "言語", select: "言語を選択" },
@@ -18,7 +18,7 @@ const switcherCopy: Record<Locale, { current: string; select: string }> = {
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLanguage();
-  const copy = switcherCopy[locale];
+  const copy = pickLocalized(switcherCopy, locale);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

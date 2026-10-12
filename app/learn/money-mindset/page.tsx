@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { MONEY_MINDSET_QUIZ, moneyMindsetLesson } from "@/data/moneyMindsetLesson";
+import { pickLocalized } from "@/lib/i18n";
 import { recordLessonStep } from "@/lib/signInGate";
 
 export default function MoneyMindsetLessonPage() {
   const { locale } = useLanguage();
-  const copy = moneyMindsetLesson[locale];
+  const copy = pickLocalized(moneyMindsetLesson, locale);
   const [stepIndex, setStepIndex] = useState(0);
   const step = copy.steps[stepIndex];
 

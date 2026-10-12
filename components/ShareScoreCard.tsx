@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useStreak } from "@/context/StreakContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ShareScoreCardProps {
@@ -16,8 +16,7 @@ interface ShareScoreCardProps {
   onClose: () => void;
 }
 
-const shareScoreCopy: Record<
-  Locale,
+const shareScoreCopy: LocalizedMap<
   {
     shareText: (score: number, streak: number) => string[];
     shareTitle: string;
@@ -102,7 +101,7 @@ const shareScoreCopy: Record<
 export function ShareScoreCard({ score, open, onClose }: ShareScoreCardProps) {
   const { streak } = useStreak();
   const { locale } = useLanguage();
-  const copy = shareScoreCopy[locale];
+  const copy = pickLocalized(shareScoreCopy, locale);
   const [copied, setCopied] = useState(false);
 
   const shareText = copy

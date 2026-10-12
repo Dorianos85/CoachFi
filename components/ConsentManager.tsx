@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { DEFAULT_OPTIONAL_CONSENTS, type OptionalConsentKey } from "@/lib/consent";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 const OPTION_ICONS: Record<OptionalConsentKey, typeof Bot> = {
   aiCoach: Bot,
@@ -23,6 +23,8 @@ type ConsentCopy = {
   eyebrow: string;
   title: string;
   intro: string;
+  bannerBody: string;
+  reviewSettings: string;
   requiredTitle: string;
   requiredDesc: string;
   terms: string;
@@ -36,12 +38,15 @@ type ConsentCopy = {
   options: Record<OptionalConsentKey, { title: string; description: string }>;
 };
 
-const consentCopy: Record<Locale, ConsentCopy> = {
+const consentCopy: LocalizedMap<ConsentCopy> = {
   en: {
     close: "Close consent settings",
     eyebrow: "Data safety",
     title: "Coach FI terms of use",
     intro: "Minimum data stays on this device. External features are enabled with separate optional consent.",
+    bannerBody:
+      "You can browse the demo now. Accept the required terms when you want to unlock your full result, save progress or use external integrations.",
+    reviewSettings: "Review settings",
     requiredTitle: "I accept the Terms and Privacy Policy",
     requiredDesc: "This consent is required to use the app. Documents are available here:",
     terms: "Terms",
@@ -76,6 +81,9 @@ const consentCopy: Record<Locale, ConsentCopy> = {
     eyebrow: "Bezpieczeństwo danych",
     title: "Zasady korzystania z Coach FI",
     intro: "Minimum danych zostaje na tym urządzeniu. Funkcje zewnętrzne włączasz osobnymi zgodami.",
+    bannerBody:
+      "Możesz od razu obejrzeć demo. Wymagane zasady akceptujesz wtedy, gdy chcesz odblokować pełny wynik, zapisać postęp albo użyć integracji zewnętrznych.",
+    reviewSettings: "Sprawdź ustawienia",
     requiredTitle: "Akceptuję Regulamin i Politykę prywatności",
     requiredDesc: "To jest wymagana zgoda na korzystanie z aplikacji. Dokumenty są dostępne tutaj:",
     terms: "Regulamin",
@@ -110,6 +118,8 @@ const consentCopy: Record<Locale, ConsentCopy> = {
     eyebrow: "データ安全",
     title: "Coach FI 利用規約",
     intro: "最小限のデータはこの端末に残ります。外部機能には個別の同意が必要です。",
+    bannerBody: "デモはすぐに閲覧できます。結果の保存や外部連携を使う場合は必須同意を承認してください。",
+    reviewSettings: "設定を確認",
     requiredTitle: "利用規約とプライバシーポリシーに同意します",
     requiredDesc: "アプリ利用に必要な同意です。文書はこちら：",
     terms: "規約",
@@ -137,14 +147,15 @@ export function ConsentManager() {
     loaded,
     requiredAccepted,
     settingsOpen,
+    openSettings,
     closeSettings,
     acceptRequired,
     updateOptional,
   } = useConsent();
   const { locale } = useLanguage();
-  const copy = consentCopy[locale];
+  const copy = pickLocalized(consentCopy, locale);
   const mustShow = loaded && !requiredAccepted;
-  const open = mustShow || settingsOpen;
+  const open = settingsOpen;
   const [requiredChecked, setRequiredChecked] = useState(false);
   const [optional, setOptional] = useState(DEFAULT_OPTIONAL_CONSENTS);
 
@@ -183,6 +194,51 @@ export function ConsentManager() {
 
   return (
     <AnimatePresence>
+      {mustShow && !settingsOpen && (
+        <motion.div
+          className="fixed inset-x-3 bottom-20 z-[70] mx-auto max-w-4xl lg:bottom-5"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12 }}
+          transition={{ duration: 0.18 }}
+        >
+          <section
+            role="region"
+            aria-label={copy.title}
+            className="rounded-lg border border-primary/15 bg-white/96 p-4 text-text shadow-2xl backdrop-blur md:flex md:items-center md:justify-between md:gap-4"
+          >
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary text-white">
+                <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
+                <h2 className="mt-1 text-base font-black leading-tight text-text">{copy.title}</h2>
+                <p className="mt-1 text-sm font-semibold leading-6 text-muted">{copy.bannerBody}</p>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row md:mt-0 md:shrink-0">
+              <Button type="button" variant="outline" onClick={openSettings} className="w-full sm:w-auto">
+                {copy.reviewSettings}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => acceptRequired(DEFAULT_OPTIONAL_CONSENTS)}
+                className="w-full sm:w-auto"
+              >
+                <BadgeCheck className="h-4 w-4" aria-hidden="true" />
+                {copy.acceptRequired}
+              </Button>
+              <Button type="button" onClick={acceptAll} className="w-full sm:w-auto">
+                {copy.acceptAll}
+              </Button>
+            </div>
+          </section>
+        </motion.div>
+      )}
+
       {open && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4">
           <motion.div
@@ -201,7 +257,7 @@ export function ConsentManager() {
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
             transition={{ duration: 0.18 }}
           >
-            {requiredAccepted && (
+            {settingsOpen && (
               <button
                 type="button"
                 onClick={closeSettings}

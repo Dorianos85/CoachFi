@@ -17,7 +17,18 @@ import {
   type ChallengeQuestion,
 } from "@/data/challengeQuestions";
 import { getQuestionById } from "@/lib/allQuestions";
+import { notifyCloud } from "@/lib/sync/syncQueue";
+import { addTokens } from "@/lib/tokens";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+const challengeCopy: LocalizedMap<{ earnedThisSession: string }> = {
+  en: { earnedThisSession: "Tokens earned this session" },
+  pl: { earnedThisSession: "Zdobyte tokeny tej sesji" },
+  es: { earnedThisSession: "Tokens ganados en esta sesión" },
+  fr: { earnedThisSession: "Jetons gagnés dans cette session" },
+  ja: { earnedThisSession: "このセッションで獲得したトークン" },
+};
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
@@ -69,7 +80,16 @@ export default function ChallengePage() {
   function handleSubmit() {
     if (!selected || !question) return;
     setSubmitted(true);
-    if (selected === question.correctAnswer) {
+    const correct = selected === question.correctAnswer;
+    notifyCloud("challenge", {
+      questionId: question.id,
+      isCorrect: correct,
+      reward: correct ? question.reward : 0,
+    });
+    if (correct) {
+      // Persist to the real balance (localStorage + reward_ledger when signed in);
+      // tokenBalance below is only the "earned this session" display counter.
+      addTokens(question.reward, "Daily challenge", "daily_challenge");
       setTokenBalance((b) => b + question.reward);
       markChallengeCompleted();
       setAlreadyDone(true);
@@ -228,7 +248,7 @@ export default function ChallengePage() {
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 rounded-2xl bg-primary/5 px-5 py-4 text-center"
           >
-            <p className="text-sm font-bold text-muted">Zdobyte punkty tej sesji</p>
+            <p className="text-sm font-bold text-muted">{pickLocalized(challengeCopy, locale).earnedThisSession}</p>
             <p className="text-3xl font-black text-primary">+{tokenBalance}</p>
           </motion.div>
         )}

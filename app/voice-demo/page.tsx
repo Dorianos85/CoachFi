@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import {
   getVoiceDemoLocale,
   voiceDemoLanguages,
@@ -48,8 +48,7 @@ const demoCardMeta = [
   tone: string;
 }>;
 
-const voiceDemoCopy: Record<
-  Locale,
+const voiceDemoCopy: LocalizedMap<
   {
     eyebrow: string;
     title: string;
@@ -114,7 +113,7 @@ const voiceDemoCopy: Record<
 
 export default function VoiceDemoPage() {
   const { locale } = useLanguage();
-  const copy = voiceDemoCopy[locale];
+  const copy = pickLocalized(voiceDemoCopy, locale);
   const [selectedLocale, setSelectedLocale] = useState<VoiceDemoLocale>(() => getVoiceDemoLocale(locale));
   const selectedLanguage =
     voiceDemoLanguages.find((language) => language.code === selectedLocale) ?? voiceDemoLanguages[0];

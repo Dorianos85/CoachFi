@@ -4,10 +4,12 @@ import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { PiggyBank } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { IncomeJarPlanner } from "@/components/IncomeJarPlanner";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/LanguageContext";
+import { useMode } from "@/context/ModeContext";
 import { useVoice } from "@/context/VoiceContext";
 import { cn } from "@/lib/utils";
 
@@ -186,6 +188,7 @@ function CoinDrop({ active }: { active: boolean }) {
 
 export default function KidsPage() {
   const { t, locale } = useLanguage();
+  const { isKidsMode, modeRecord, openSettings: openModeSettings } = useMode();
   const { speak } = useVoice();
   const [stars, setStars] = useState(3);
   const [activeModule, setActiveModule] = useState<string | null>(null);
@@ -238,6 +241,34 @@ export default function KidsPage() {
     [stars, locale, speak]
   );
 
+  if (!isKidsMode) {
+    return (
+      <section aria-labelledby="kids-title" className="relative">
+        <SectionHeader
+          eyebrow={t.kids.eyebrow}
+          title={t.kids.title}
+          description={t.kids.description}
+          readText={t.kids.readText}
+        />
+
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-6 shadow-soft">
+          <div className="max-w-2xl">
+            <p className="text-sm font-black uppercase text-amber-700">Zgoda rodzica wymagana</p>
+            <h2 className="mt-2 text-3xl font-black leading-tight text-text">
+              Kids Mode jest oddzielny i wymaga zgody rodzica lub opiekuna.
+            </h2>
+            <p className="mt-3 text-sm font-semibold leading-6 text-muted">
+              W Kids Mode nie pokazujemy portfela, NFT, publicznego rankingu ani swobodnego coachingu AI. Dziecko korzysta z prostych modułów, gwiazdek i bezpiecznych narracji głosowych.
+            </p>
+            <Button type="button" variant="accent" size="lg" className="mt-5" onClick={openModeSettings}>
+              Włącz Kids Mode jako rodzic
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section aria-labelledby="kids-title" className="relative">
       <FloatingBg />
@@ -250,6 +281,13 @@ export default function KidsPage() {
         description={t.kids.description}
         readText={t.kids.readText}
       />
+
+      <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold leading-6 text-text">
+        Kids Mode aktywny za zgodą rodzica/opiekuna
+        {modeRecord?.parentName ? `: ${modeRecord.parentName}` : ""}. Portfel, NFT, ranking i swobodny AI Coach są poza tym trybem.
+      </div>
+
+      <IncomeJarPlanner mode="kids" className="mb-6" />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
 

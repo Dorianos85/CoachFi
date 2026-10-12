@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { stageLessons } from "@/data/stageLessons";
+import { pickLocalized } from "@/lib/i18n";
 import { recordLessonStep } from "@/lib/signInGate";
 
 export default function StageLessonPage() {
@@ -20,7 +21,7 @@ export default function StageLessonPage() {
 function StageLessonBody({ stage }: { stage: string }) {
   const { locale } = useLanguage();
   const lesson = stageLessons[stage];
-  const copy = lesson.copy[locale];
+  const copy = pickLocalized(lesson.copy, locale);
   const [stepIndex, setStepIndex] = useState(0);
   const step = copy.steps[stepIndex];
 

@@ -3,7 +3,7 @@
 import { VoiceButton } from "@/components/VoiceButton";
 import { DataSafetyPanel } from "@/components/DataSafetyPanel";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 type PrivacyCopy = {
   eyebrow: string;
@@ -15,7 +15,7 @@ type PrivacyCopy = {
   providersText: string;
 };
 
-const PRIVACY_COPY: Record<Locale, PrivacyCopy> = {
+const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
   en: {
     eyebrow: "Privacy and data",
     title: "Coach FI Privacy Policy",
@@ -134,7 +134,7 @@ const PRIVACY_COPY: Record<Locale, PrivacyCopy> = {
 
 export default function PrivacyPage() {
   const { locale } = useLanguage();
-  const copy = PRIVACY_COPY[locale];
+  const copy = pickLocalized(PRIVACY_COPY, locale);
   const readText = [copy.title, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`), copy.providersTitle + ". " + copy.providersText].join(". ");
 
   return (

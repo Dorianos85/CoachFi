@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { LocalizedMap } from "@/lib/i18n";
 
 export interface LessonStep {
   title: string;
@@ -13,7 +13,7 @@ export interface LessonCopy {
   steps: LessonStep[];
 }
 
-export const moneyMindsetLesson: Record<Locale, LessonCopy> = {
+export const moneyMindsetLesson: LocalizedMap<LessonCopy> = {
   en: {
     title: "Money Mindset",
     stepLabel: (current, total) => `Step ${current} of ${total}`,

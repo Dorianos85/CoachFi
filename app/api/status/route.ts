@@ -56,7 +56,13 @@ export async function GET() {
         localeVoiceIds: {
           pl: getOptionalEnv("ELEVENLABS_PL_VOICE_ID") ?? null,
           en: getOptionalEnv("ELEVENLABS_EN_VOICE_ID") ?? null,
+          es: getOptionalEnv("ELEVENLABS_ES_VOICE_ID") ?? null,
+          fr: getOptionalEnv("ELEVENLABS_FR_VOICE_ID") ?? null,
+          zh: getOptionalEnv("ELEVENLABS_ZH_VOICE_ID") ?? null,
           ja: getOptionalEnv("ELEVENLABS_JA_VOICE_ID") ?? null,
+          hi: getOptionalEnv("ELEVENLABS_HI_VOICE_ID") ?? null,
+          "pt-BR": getOptionalEnv("ELEVENLABS_PT_BR_VOICE_ID") ?? null,
+          tr: getOptionalEnv("ELEVENLABS_TR_VOICE_ID") ?? null,
         },
         fallback: "Browser speech synthesis",
       },

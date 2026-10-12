@@ -1,7 +1,8 @@
 import { en } from "./en";
 
 export type Translations = typeof en;
-export type Locale = "en" | "pl" | "ja";
+export type Locale = "en" | "pl" | "es" | "fr" | "zh" | "ja" | "hi" | "pt-BR" | "tr";
+export type LocalizedMap<T> = Partial<Record<Locale, T>> & { en: T };
 
 type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends Array<infer U>
@@ -31,6 +32,10 @@ function mergeTranslations(base: Translations, overrides: DeepPartial<Translatio
   }
 
   return output as Translations;
+}
+
+export function pickLocalized<T>(map: LocalizedMap<T>, locale: Locale): T {
+  return map[locale] ?? map.en;
 }
 
 const pl = mergeTranslations(en, {
@@ -698,29 +703,59 @@ const tr = mergeTranslations(en, {
 export const translations: Record<Locale, Translations> = {
   en,
   pl,
+  es,
+  fr,
+  zh,
   ja,
+  hi,
+  "pt-BR": ptBR,
+  tr,
 };
 
 export const localeLabels: Record<Locale, string> = {
   en: "English",
   pl: "Polski",
+  es: "Español",
+  fr: "Français",
+  zh: "中文",
   ja: "日本語",
+  hi: "Hindi",
+  "pt-BR": "Português BR",
+  tr: "Türkçe",
 };
 
 export const localeFlags: Record<Locale, string> = {
   en: "🇺🇸",
   pl: "🇵🇱",
+  es: "🇪🇸",
+  fr: "🇫🇷",
+  zh: "🇨🇳",
   ja: "🇯🇵",
+  hi: "🇮🇳",
+  "pt-BR": "🇧🇷",
+  tr: "🇹🇷",
 };
 
 export const localeSpeechLang: Record<Locale, string> = {
   en: "en-US",
   pl: "pl-PL",
+  es: "es-ES",
+  fr: "fr-FR",
+  zh: "zh-CN",
   ja: "ja-JP",
+  hi: "hi-IN",
+  "pt-BR": "pt-BR",
+  tr: "tr-TR",
 };
 
 export const localeClaudeLanguage: Record<Locale, string> = {
   en: "English",
   pl: "Polish",
+  es: "Spanish",
+  fr: "French",
+  zh: "Simplified Chinese",
   ja: "Japanese",
+  hi: "Hindi",
+  "pt-BR": "Brazilian Portuguese",
+  tr: "Turkish",
 };

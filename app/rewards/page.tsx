@@ -27,7 +27,7 @@ import {
   certificateCardLabel,
   type CertificateCardId,
 } from "@/lib/certificate-cards";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
 import { createMockTransactionHash, wait } from "@/lib/solanaMock";
 import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
@@ -44,8 +44,7 @@ const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
 const devMintRecipient = process.env.NEXT_PUBLIC_DEV_MINT_RECIPIENT?.trim() ?? "";
 const mintImmediately = process.env.NODE_ENV === "development";
 
-const rewardsCopy: Record<
-  Locale,
+const rewardsCopy: LocalizedMap<
   {
     readText: (tokens: number) => string;
     walletTitle: string;
@@ -211,7 +210,7 @@ const rewardsCopy: Record<
 
 export default function RewardsPage() {
   const { locale, t } = useLanguage();
-  const copy = rewardsCopy[locale];
+  const copy = pickLocalized(rewardsCopy, locale);
   const { hasOptionalConsent, openSettings } = useConsent();
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);

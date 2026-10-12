@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { requestPermission } from "@/lib/notifications";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import type { Locale } from "@/lib/i18n";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
-const COPY: Record<Locale, { aria: string; dismiss: string; title: string; body: string; enable: string; later: string }> = {
+const COPY: LocalizedMap<{ aria: string; dismiss: string; title: string; body: string; enable: string; later: string }> = {
   en: {
     aria: "Enable reminders",
     dismiss: "Dismiss",
@@ -38,7 +38,7 @@ const COPY: Record<Locale, { aria: string; dismiss: string; title: string; body:
 
 export function NotificationBanner() {
   const { locale } = useLanguage();
-  const copy = COPY[locale];
+  const copy = pickLocalized(COPY, locale);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

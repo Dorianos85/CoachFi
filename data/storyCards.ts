@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale, LocalizedMap } from "@/lib/i18n";
 
 export interface StoryCard {
   id: string;
@@ -210,8 +210,7 @@ export const storyCards: StoryCard[] = [
   },
 ];
 
-const localizedStoryCardText: Record<
-  Locale,
+const localizedStoryCardText: LocalizedMap<
   Array<Pick<StoryCard, "category" | "statLabel" | "headline" | "tip">>
 > = {
   en: storyCards.map(({ category, statLabel, headline, tip }) => ({ category, statLabel, headline, tip })),
