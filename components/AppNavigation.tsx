@@ -38,6 +38,7 @@ import { getAllQuestionIds } from "@/lib/allQuestions";
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
 import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Logo } from "@/components/Logo";
 import { NotificationBanner } from "@/components/NotificationBanner";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { StreakBadge } from "@/components/StreakBadge";
@@ -281,13 +282,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={shellCopy.homeAria}
           >
-            <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
-              FI
+            <span className="flex items-center rounded-lg bg-surface-brand px-3 py-1.5">
+              <Logo size="1.6rem" />
             </span>
-            <span>
-              <span className="block text-lg font-black leading-tight">Coach FI</span>
-              <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
-            </span>
+            <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
           </Link>
 
           <div className="flex min-w-0 items-center gap-1 overflow-x-auto sm:gap-2 lg:gap-3 [&>*]:shrink-0">
