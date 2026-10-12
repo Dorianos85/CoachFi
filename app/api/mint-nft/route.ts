@@ -21,6 +21,42 @@ import { getOptionalEnv } from "@/lib/server-env";
 const DEFAULT_SOLANA_RPC = "https://api.devnet.solana.com";
 const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
+async function readGenesisHash(rpcUrl: string) {
+  const url = new URL(rpcUrl);
+  if (url.protocol !== "https:") throw new Error("Solana RPC must use HTTPS");
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "coachfi-devnet-guard",
+      method: "getGenesisHash",
+    }),
+    cache: "no-store",
+    signal: AbortSignal.timeout(8_000),
+  });
+  if (!response.ok) throw new Error("Unable to verify Solana cluster");
+
+  const payload = (await response.json()) as { result?: unknown };
+  if (typeof payload.result !== "string" || !payload.result) {
+    throw new Error("Invalid Solana cluster response");
+  }
+  return payload.result;
+}
+
+async function assertDevnetRpc(rpcUrl: string) {
+  // Devnet can be reset, so compare against the canonical Devnet endpoint at
+  // request time instead of pinning a genesis hash that may later become stale.
+  const canonicalGenesisHash = await readGenesisHash(DEFAULT_SOLANA_RPC);
+  const configuredGenesisHash =
+    rpcUrl === DEFAULT_SOLANA_RPC ? canonicalGenesisHash : await readGenesisHash(rpcUrl);
+
+  if (configuredGenesisHash !== canonicalGenesisHash) {
+    throw new Error("Configured Solana RPC is not Devnet");
+  }
+}
+
 function encodeBase58(bytes: Uint8Array) {
   const digits = [0];
 
@@ -71,6 +107,7 @@ export interface MintRequest {
 
 export async function POST(req: Request) {
   try {
+    if (!req.headers.get("origin")) throw new Error("Missing origin");
     assertSameOrigin(req);
     requireConsentHeader(req, "blockchain");
     rateLimit(req, "mint", 5, 300_000);
@@ -79,9 +116,19 @@ export async function POST(req: Request) {
     return jsonError(message, message === "Too many requests" ? 429 : 403);
   }
 
+  if (getOptionalEnv("COACHFI_ENABLE_DEVNET_MINT_DEMO") !== "true") {
+    return Response.json(
+      { ok: false, error: "Devnet demo minting is disabled." },
+      { status: 503 },
+    );
+  }
+
   const keypairBytes = getMintKeypair();
   if (!keypairBytes) {
-    return Response.json({ ok: false, error: "SOLANA_MINT_KEYPAIR not configured", fallback: true }, { status: 503 });
+    return Response.json(
+      { ok: false, error: "Devnet demo minting is not configured." },
+      { status: 503 },
+    );
   }
 
   let payload: MintRequest;
@@ -109,6 +156,7 @@ export async function POST(req: Request) {
   const appUrl = (getOptionalEnv("NEXT_PUBLIC_APP_URL") ?? "https://coachfi.app").replace(/\/$/, "");
 
   try {
+    await assertDevnetRpc(solanaRpcUrl);
     const umi = createUmi(solanaRpcUrl).use(mplCore());
     const mintAuthority = umi.eddsa.createKeypairFromSecretKey(keypairBytes);
     umi.use(keypairIdentity(mintAuthority));
@@ -150,8 +198,13 @@ export async function POST(req: Request) {
       explorerUrl: `https://explorer.solana.com/address/${asset.publicKey}?cluster=devnet`,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    console.error("[mint-nft]", message);
-    return Response.json({ ok: false, error: message, fallback: true }, { status: 500 });
+    console.error(
+      "[mint-nft] Devnet mint failed",
+      err instanceof Error ? err.name : "UnknownError",
+    );
+    return Response.json(
+      { ok: false, error: "Devnet mint failed. Nothing was issued." },
+      { status: 500 },
+    );
   }
 }
