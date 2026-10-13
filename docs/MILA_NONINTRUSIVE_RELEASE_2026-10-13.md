@@ -20,7 +20,7 @@ W otwartej karcie Chrome `coachfiai.com` zaobserwowano stary przycisk „Chat wi
 
 ## Testy i bramka wydania
 
-STATUS: PREVIEW — typecheck, unit, E2E i build zakończone; publikacja w toku.
+STATUS: DONE / TESTED. Gate: PASS. Launcher: LIVE w zweryfikowanej produkcji; scenariusze awarii i mobilne formularze dodatkowo zweryfikowane E2E na lokalnym buildzie produkcyjnym.
 
 Typecheck: PASS. Unit: 49/49 PASS. Końcowe E2E: **21/21 PASS, zero pominięć, 1,4 min** — 13 testów widgetu i 8 istniejących podstawowych ścieżek. Pierwszy zestaw ujawnił rzeczywiste przechwytywanie kliknięcia przez zamknięty host; nie użyto `force`, naprawiono przyczynę. Kolejny zestaw ujawnił brak ponownego podpięcia zdarzeń i pusty snapshot etykiet; naprawiono przyczynę. Po tych poprawkach i dodatkowej ochronie wymiany instancji przeszły rzeczywisty klik, 4- i 20-sekundowy powrót, formularze, nawigacja i opóźniona konfiguracja przychodząca po rozpoczęciu rozmowy.
 
@@ -33,6 +33,14 @@ Ponowna kontrola `tests/e2e/mila-widget.spec.ts` na lokalnym `next start` z goto
 ## Wydanie i rollback
 
 Poprzednia produkcja: `8ed10bec2e91da27ba79a839322889b217b0cdf8`, deployment `dpl_CkB2wcyN867Vcv4A3gXWx17u1ZT1` z aliasem `coachfiai.com`. Rollback owner: founder / Release & QA. Wyzwalacz: znikający launcher, blokowanie dotyku albo pozostająca otwarta ramka. Preferowane odwrócenie tylko nowego commitu poprawki; alternatywnie przywrócenie wskazanego poprzedniego wdrożenia przez właściciela. Brak migracji danych. Nie używać force-push ani cofać dokumentów właściciela.
+
+Wydano commit `00d90e707ea3ae449e46e7e4e468e45b714ea6cc`. Vercel deployment `dpl_4uArLMcbNsbvKnG6rjFfiMizLoDk`, READY, production, alias `coachfiai.com`, gotowy 13.10.2026 około 06:05:25 UTC (08:05:25 Europe/Warsaw). Git push był zwykłym fast-forward; nie zmieniono wcześniejszych commitów właściciela.
+
+Sprawdzono publiczną stronę po publikacji w Chrome: widoczny „Start conversation” zgodny z językiem profilu, przycisk x=1660,75, y=831, w=220,25, h=56; avatar 40×40; dock z-index 45; zamknięty host `display: none`. Otwarcie rzeczywistych ustawień zgód ukryło launcher, a zamknięcie przywróciło go, bez zapisywania zgód. Krótki przegląd logów error/fatal nowego deploymentu z okna 5 minut nie zwrócił rekordów; nie oznacza to pełnego audytu wszystkich błędów klienta.
+
+Karta ze starym centralnym avatarem została wcześniej odświeżona i następnie zamknięta. Nie udało się automatycznie odświeżyć drugiej, wcześniej otwartej karty (timeout kontroli przeglądarki). Stare otwarte karty wymagają odświeżenia; nie czyszczono pamięci ani danych użytkownika. Kod produkcyjny i nowo otwarta karta zostały zweryfikowane niezależnie.
+
+NEXT: powtórzyć regresje po aktualizacji vendora; osobno rozszerzyć testy na rzeczywiste Safari/iOS i technologie asystujące. Nie jest to blokada tej poprawki.
 
 Skills: `05-mila-voice`, `03-release-qa`, Product Learning i Trust Review. Kontrola UX/trust wpłynęła na ukrywanie przy modalach, ochronę wpisywania i zachowanie danych; koordynacja Chief Operator ograniczyła zakres do zgłoszenia. Vercel Deployments i Full-Story Verification określają kontrolę kodu, builda i publicznej strony po wydaniu.
 
