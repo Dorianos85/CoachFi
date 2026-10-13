@@ -1,11 +1,12 @@
 "use client";
 
 import Script from "next/script";
-import { Mic, Phone } from "lucide-react";
+import { Mic } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { MilaAvatar } from "@/components/MilaAvatar";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
@@ -82,6 +83,7 @@ declare module "react" {
           "worklet-path-audio-concat-processor"?: string;
           "worklet-path-libsamplerate"?: string;
           "override-config"?: string;
+          "avatar-image-url"?: string;
           variant?: string;
         },
         HTMLElement
@@ -131,17 +133,34 @@ const WIDGET_FRAME_STYLE = `
   :host([data-open]) elevenlabs-convai {
     opacity: 1;
     pointer-events: auto;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    transform: none !important;
     z-index: 1300 !important;
   }
-  @media (max-width: 1023px) {
-    elevenlabs-convai {
-      transform: translateY(calc(-8.5rem - env(safe-area-inset-bottom, 0px)));
-    }
+`;
+
+const WIDGET_MODAL_STYLE = `
+  .overlay {
+    align-items: center !important;
+    justify-content: center !important;
   }
-  @media (min-width: 1024px) {
-    elevenlabs-convai {
-      transform: translateY(-2rem);
-    }
+  .sheet {
+    position: relative !important;
+    inset: auto !important;
+    flex-shrink: 0 !important;
+    margin: auto !important;
+    width: min(56rem, calc(100vw - 3rem)) !important;
+    max-width: min(56rem, calc(100vw - 3rem)) !important;
+    height: min(40rem, calc(100dvh - 5rem)) !important;
+    max-height: min(40rem, calc(100dvh - 5rem)) !important;
+  }
+  .sheet .scale-\\[0\\.1667\\] {
+    scale: 0.25 !important;
+    top: 8px !important;
+    left: 12px !important;
   }
 `;
 
@@ -207,7 +226,65 @@ function widgetIsShowing(widget: HTMLElement) {
   });
 }
 
+const NEUTRAL_FRAME = 'url("/brand/mila/mila-head-neutral.svg")';
+const TALK_FRAME = 'url("/brand/mila/mila-head-talk.svg")';
+const MOUTH_FRAME_MS = 1000 / 7;
+
+function startMouthAnimation(root: ShadowRoot) {
+  if (root.querySelector("[data-mila-mouth]")) return;
+  const marker = document.createElement("span");
+  marker.dataset.milaMouth = "";
+  marker.hidden = true;
+  root.appendChild(marker);
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let mouthOpen = true;
+  let lastFlip = 0;
+
+  const tick = (now: number) => {
+    if (!marker.isConnected) return;
+    window.requestAnimationFrame(tick);
+
+    const faces = [...root.querySelectorAll<HTMLElement>('div[style*="mila-head"]')];
+    const speaking = faces.some((face) => {
+      const ring = face.previousElementSibling;
+      if (!(ring instanceof HTMLElement)) return false;
+      const scale = /scale\(([\d.]+)\)/.exec(ring.style.transform);
+      return !!scale && Number(scale[1]) > 1.001;
+    });
+
+    if (!speaking) mouthOpen = true;
+    else if (!reduceMotion && now - lastFlip >= MOUTH_FRAME_MS) {
+      mouthOpen = !mouthOpen;
+      lastFlip = now;
+    }
+
+    const frame = speaking && (reduceMotion || mouthOpen) ? TALK_FRAME : NEUTRAL_FRAME;
+    const wantsTalk = frame === TALK_FRAME;
+    for (const face of faces) {
+      if (face.style.backgroundImage.includes("mila-head-talk") !== wantsTalk) {
+        face.style.backgroundImage = frame;
+      }
+    }
+  };
+
+  window.requestAnimationFrame(tick);
+}
+
+function applyConversationLayout(widget: HTMLElement) {
+  const root = widgetRoot(widget);
+  if (!root) return;
+  if (!root.querySelector("style[data-mila-modal]")) {
+    const style = document.createElement("style");
+    style.dataset.milaModal = "";
+    style.textContent = WIDGET_MODAL_STYLE;
+    root.appendChild(style);
+  }
+  startMouthAnimation(root);
+}
+
 function revealWidget(widget: HTMLElement) {
+  applyConversationLayout(widget);
   widget.style.setProperty("opacity", "1", "important");
   widget.style.setProperty("visibility", "visible", "important");
   widget.style.setProperty("pointer-events", "auto", "important");
@@ -477,50 +554,53 @@ export function MilaVoiceFab() {
         strategy="afterInteractive"
       />
       {!callOpen && (
-        <div className="fixed right-3 z-[1400] flex items-center gap-2 rounded-full border border-black/10 bg-white py-1.5 pl-3 pr-1.5 shadow-lg bottom-[calc(7.5rem+env(safe-area-inset-bottom))] lg:bottom-8">
-          <span className="text-sm font-semibold text-text">Need help?</span>
-          <button
-            type="button"
-            onClick={() => {
-              const widget = widgetRef.current;
-              if (!widget || !widgetRoot(widget)) {
-                setCallStatus("Mila is still loading. Try again in a moment.");
-                return;
-              }
-              revealWidget(widget);
-              let opened = clickStartCall(widget);
-              const startedAt = Date.now();
-              const timer = window.setInterval(() => {
-                const current = widgetRef.current;
-                if (!current) return;
-                revealWidget(current);
-                if (!opened) opened = clickStartCall(current);
-                if (widgetIsShowing(current)) {
-                  window.clearInterval(timer);
-                  setCallStatus("");
-                  setCallOpen(true);
+        <div className="pointer-events-none fixed inset-0 z-[1400] grid place-items-center px-6">
+          <div className="pointer-events-auto flex flex-col items-center gap-4">
+            <button
+              type="button"
+              onClick={() => {
+                const widget = widgetRef.current;
+                if (!widget || !widgetRoot(widget)) {
+                  setCallStatus("Mila is still loading. Try again in a moment.");
                   return;
                 }
-                if (Date.now() - startedAt > 4000) {
-                  window.clearInterval(timer);
-                  current.style.removeProperty("opacity");
-                  current.style.removeProperty("visibility");
-                  current.style.removeProperty("pointer-events");
-                  setCallStatus("Mila didn't open. Reload the page and try again.");
-                }
-              }, 200);
-            }}
-            className="inline-flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-bold text-white"
-          >
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            Start a call
-          </button>
+                revealWidget(widget);
+                let opened = clickStartCall(widget);
+                const startedAt = Date.now();
+                const timer = window.setInterval(() => {
+                  const current = widgetRef.current;
+                  if (!current) return;
+                  revealWidget(current);
+                  if (!opened) opened = clickStartCall(current);
+                  if (widgetIsShowing(current)) {
+                    window.clearInterval(timer);
+                    setCallStatus("");
+                    setCallOpen(true);
+                    return;
+                  }
+                  if (Date.now() - startedAt > 4000) {
+                    window.clearInterval(timer);
+                    current.style.removeProperty("opacity");
+                    current.style.removeProperty("visibility");
+                    current.style.removeProperty("pointer-events");
+                    setCallStatus("Mila didn't open. Reload the page and try again.");
+                  }
+                }, 200);
+              }}
+              className="flex flex-col items-center gap-5"
+            >
+              <MilaAvatar size="lg" className="shadow-lg ring-8 ring-white" />
+              <span className="rounded-full bg-black px-8 py-4 text-2xl font-black tracking-tight text-white shadow-lg sm:text-3xl">
+                Talk to your coach
+              </span>
+            </button>
+            {callStatus ? (
+              <p className="max-w-xs rounded-2xl bg-white px-4 py-3 text-center text-sm font-semibold text-text shadow-lg">
+                {callStatus}
+              </p>
+            ) : null}
+          </div>
         </div>
-      )}
-      {callStatus && !callOpen && (
-        <p className="fixed right-3 z-[1400] max-w-[16rem] rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-text shadow-lg bottom-[calc(11rem+env(safe-area-inset-bottom))] lg:bottom-24">
-          {callStatus}
-        </p>
       )}
       <MilaWidgetFrame onReady={markWidgetFrameReady} open={callOpen}>
       <elevenlabs-convai
@@ -529,6 +609,7 @@ export function MilaVoiceFab() {
         {...(widgetConfig ? { "override-config": widgetConfig } : {})}
         {...(signedUrl ? { "signed-url": signedUrl } : { "agent-id": agentId })}
         server-location="us"
+        avatar-image-url="/brand/mila/mila-head-neutral.svg"
         dynamic-variables={dynamicVariables}
         override-language={locale}
         text-input="true"
