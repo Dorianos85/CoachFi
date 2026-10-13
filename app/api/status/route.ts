@@ -1,14 +1,11 @@
 import { Keypair, Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 import { getOptionalEnv, hasConfiguredEnv } from "@/lib/server-env";
+import { getMilaAgentId } from "@/lib/mila-voice";
+import { resolveMilaVoice } from "@/lib/server/mila-voice";
 
 const DEFAULT_SOLANA_RPC = "https://api.devnet.solana.com";
 const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
-const DEFAULT_ELEVENLABS_MODEL = "eleven_multilingual_v2";
-
-function getDefaultElevenLabsVoiceId() {
-  return getOptionalEnv("ELEVENLABS_VOICE_ID") ?? null;
-}
 
 function getMintKeypair() {
   const raw = getOptionalEnv("SOLANA_MINT_KEYPAIR");
@@ -23,6 +20,7 @@ function getMintKeypair() {
 }
 
 export async function GET() {
+  const milaVoice = await resolveMilaVoice();
   const mintKeypair = getMintKeypair();
   const mintAuthority = mintKeypair?.publicKey.toBase58() ?? null;
   let mintAuthorityBalanceSol: number | null = null;
@@ -51,20 +49,12 @@ export async function GET() {
         configured: hasConfiguredEnv("ELEVENLABS_API_KEY"),
         provider: "ElevenLabs",
         endpoint: "/api/tts",
-        model: getOptionalEnv("ELEVENLABS_MODEL_ID") ?? DEFAULT_ELEVENLABS_MODEL,
-        defaultVoiceId: getDefaultElevenLabsVoiceId(),
-        localeVoiceIds: {
-          pl: getOptionalEnv("ELEVENLABS_PL_VOICE_ID") ?? null,
-          en: getOptionalEnv("ELEVENLABS_EN_VOICE_ID") ?? null,
-          es: getOptionalEnv("ELEVENLABS_ES_VOICE_ID") ?? null,
-          fr: getOptionalEnv("ELEVENLABS_FR_VOICE_ID") ?? null,
-          zh: getOptionalEnv("ELEVENLABS_ZH_VOICE_ID") ?? null,
-          ja: getOptionalEnv("ELEVENLABS_JA_VOICE_ID") ?? null,
-          hi: getOptionalEnv("ELEVENLABS_HI_VOICE_ID") ?? null,
-          "pt-BR": getOptionalEnv("ELEVENLABS_PT_BR_VOICE_ID") ?? null,
-          tr: getOptionalEnv("ELEVENLABS_TR_VOICE_ID") ?? null,
-        },
-        fallback: "Browser speech synthesis",
+        agentId: milaVoice?.agentId ?? getMilaAgentId(),
+        voiceConfigurationResolved: !!milaVoice,
+        model: milaVoice?.modelId ?? null,
+        defaultVoiceId: milaVoice?.voiceId ?? null,
+        voiceSource: "Mila agent configuration or verified agent-bound snapshot",
+        fallback: "Visible text; no alternate voice",
       },
       leaderboard: {
         configured:

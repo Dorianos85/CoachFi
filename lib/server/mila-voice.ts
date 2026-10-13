@@ -9,27 +9,51 @@ export interface MilaVoice {
 
 const CACHE_MS = 5 * 60 * 1000;
 const CONFIG_TIMEOUT_MS = 2000;
-let cached: { agentId: string; value: MilaVoice; expiresAt: number } | undefined;
-let pending: { agentId: string; promise: Promise<MilaVoice | null> } | undefined;
+let cached: { configKey: string; value: MilaVoice; expiresAt: number } | undefined;
+let pending: { configKey: string; promise: Promise<MilaVoice | null> } | undefined;
+
+/** Explicit fallback copied from this exact agent's dashboard; never an unrelated default voice. */
+export function parsePinnedMilaVoice(raw: string | undefined, agentId: string): MilaVoice | null {
+  if (!raw || raw.length > 2048) return null;
+  try {
+    const data = JSON.parse(raw) as Record<string, unknown>;
+    if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+    if (data.agentId !== agentId || !/^agent_[a-zA-Z0-9]+$/.test(agentId)) return null;
+    if (typeof data.voiceId !== "string" || !/^[a-zA-Z0-9]{10,80}$/.test(data.voiceId)) return null;
+    if (typeof data.modelId !== "string" || !/^eleven_[a-z0-9_]+$/.test(data.modelId)) return null;
+    if (typeof data.verifiedAt !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(data.verifiedAt)) return null;
+    const verifiedAt = Date.parse(data.verifiedAt);
+    if (!Number.isFinite(verifiedAt) || verifiedAt <= 0 || verifiedAt > Date.now() + 5 * 60 * 1000) return null;
+    if (new Date(verifiedAt).toISOString().slice(0, 19) !== data.verifiedAt.slice(0, 19)) return null;
+    const settings = data.settings as Record<string, unknown> | undefined;
+    if (!settings || typeof settings !== "object" || Array.isArray(settings)) return null;
+    const { stability, similarity_boost, speed } = settings;
+    if (typeof stability !== "number" || !Number.isFinite(stability) || stability < 0 || stability > 1) return null;
+    if (typeof similarity_boost !== "number" || !Number.isFinite(similarity_boost) || similarity_boost < 0 || similarity_boost > 1) return null;
+    if (typeof speed !== "number" || !Number.isFinite(speed) || speed < 0.7 || speed > 1.2) return null;
+    return { agentId, voiceId: data.voiceId, modelId: data.modelId, settings: { stability, similarity_boost, speed } };
+  } catch {
+    return null;
+  }
+}
 
 /** Read only voice fields; agent prompts, transcripts and credentials never leave the server. */
 export async function resolveMilaVoice(): Promise<MilaVoice | null> {
   const agentId = getMilaAgentId();
   const apiKey = process.env.ELEVENLABS_API_KEY?.trim();
   if (!agentId || !apiKey) return null;
-  if (cached?.agentId === agentId && cached.expiresAt > Date.now()) return cached.value;
-  if (pending?.agentId === agentId) return pending.promise;
+  const rawPinnedConfig = process.env.ELEVENLABS_MILA_VOICE_CONFIG;
+  const configKey = JSON.stringify([agentId, rawPinnedConfig ?? ""]);
+  const pinnedVoice = parsePinnedMilaVoice(rawPinnedConfig, agentId);
+  if (cached?.configKey === configKey && cached.expiresAt > Date.now()) return cached.value;
+  if (pending?.configKey === configKey) return pending.promise;
 
   const promise = (async () => {
-    // Both IDs already existed in Coach FI. Recover the older owned agent only
-    // when the current default cannot be resolved; never choose an arbitrary voice.
-    const agentIds = agentId === "agent_7601krc9gaf2eaxr811qgk01epzc"
-      ? [agentId, "agent_2301krbsttc8f21ra1h5vge02071"] : [agentId];
-    for (const candidateId of agentIds) {
+    // Stay on the explicitly configured agent across regions and failures.
     for (const host of ["api.us.elevenlabs.io", "api.elevenlabs.io"]) {
       try {
         const response = await fetch(
-          `https://${host}/v1/convai/agents/${encodeURIComponent(candidateId)}`,
+          `https://${host}/v1/convai/agents/${encodeURIComponent(agentId)}`,
           {
             headers: { "xi-api-key": apiKey, Accept: "application/json" },
             cache: "no-store",
@@ -40,7 +64,7 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
           const errorBody = await response.json().catch(() => null) as { detail?: { status?: unknown } } | null;
           const errorCode = typeof errorBody?.detail?.status === "string" && /^[a-z_]+$/i.test(errorBody.detail.status)
             ? errorBody.detail.status : "unknown";
-          console.warn("[mila-voice] Config unavailable", host, candidateId, response.status, errorCode);
+          console.warn("[mila-voice] Config unavailable", host, agentId, response.status, errorCode);
           continue;
         }
         const data = await response.json() as {
@@ -58,19 +82,22 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
           if (typeof tts?.[key] === "number" && Number.isFinite(tts[key])) settings[key] = tts[key];
         }
         const value: MilaVoice = {
-          agentId: candidateId, voiceId, settings,
+          agentId, voiceId, settings,
           ...(modelId ? { modelId } : {}),
         };
-        cached = { agentId, value, expiresAt: Date.now() + CACHE_MS };
+        cached = { configKey, value, expiresAt: Date.now() + CACHE_MS };
         return value;
       } catch (error) {
         console.warn("[mila-voice] Config request failed", host, error instanceof Error ? error.name : "Error");
       }
     }
+    if (pinnedVoice) {
+      cached = { configKey, value: pinnedVoice, expiresAt: Date.now() + CACHE_MS };
+      return pinnedVoice;
     }
     return null;
   })();
-  pending = { agentId, promise };
+  pending = { configKey, promise };
   try {
     return await promise;
   } finally {
