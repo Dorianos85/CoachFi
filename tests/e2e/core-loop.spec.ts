@@ -37,13 +37,8 @@ test.beforeEach(async ({ page }) => {
 test("home page renders the app shell", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("header").first()).toBeVisible();
-  if (process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim()) {
-    // The account progress summary is intentionally private until CDP sign-in.
-    await expect(page.locator("header").getByRole("button", { name: "Sign in", exact: true })).toHaveCount(1);
-  } else {
-    // Streak badge starts at 0 for a fresh local profile.
-    await expect(page.getByLabel(/0 day streak/i).first()).toBeVisible();
-  }
+  // Streak badge starts at 0 for a fresh profile.
+  await expect(page.getByLabel(/0 day streak/i).first()).toBeVisible();
 });
 
 test("daily challenge: answer → feedback banner appears", async ({ page }) => {
