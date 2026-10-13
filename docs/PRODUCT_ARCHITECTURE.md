@@ -59,7 +59,7 @@ User promise:
 - 9 UI locales are enabled: Polish, English, Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and Turkish.
 - Quiz questions and voice demo scripts follow the selected locale when localized data exists.
 - Solana wallet adapter and mint route exist.
-- Kids Mode exists as a separate mode with parent/guardian consent stored locally.
+- Kids Mode exists as a separate mode, entered directly from the mode selector.
 - Accessibility tools exist.
 - Health Check now follows the score-gate demo pattern in the Next.js app: free form first, preview insight, email + Terms/Privacy acceptance, then score, voice narration and trial CTA. Real auth/billing persistence is still next.
 - After score unlock, `FamilyActionPlan` shows a concrete 30-day family plan with checklist actions, token rewards, voice narration, links into Shopping Hygiene / Learning Path / Daily Challenge / Kids Mode and the Mila Voice Coach trial.
@@ -149,8 +149,8 @@ Mode selection is local-first:
 
 - `coachfi-mode-v1` stores Adult Mode or Kids Mode.
 - Adult Mode requires an adult/responsible guardian confirmation.
-- Kids Mode requires parent/guardian name and consent on this device.
-- Kids Mode hides adult primary navigation and blocks `/kids` until consent exists.
+- Kids Mode is entered directly, with no parent/guardian consent step.
+- Kids Mode hides adult primary navigation; `/kids` itself is not gated.
 
 ## 6. Kids Mode Safety Rules
 
