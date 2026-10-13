@@ -35,6 +35,42 @@ const chartCopy: LocalizedMap<
     habit: "貯蓄習慣",
     investing: "長期シナリオ",
   },
+  es: {
+    aria: "Gráfico de líneas que compara solo efectivo, hábito de ahorro y escenario de inversión a largo plazo.",
+    cash: "Solo efectivo",
+    habit: "Hábito de ahorro",
+    investing: "Escenario de inversión a largo plazo",
+  },
+  fr: {
+    aria: "Graphique en courbes comparant les espèces seules, l'habitude d'épargne et le scénario d'investissement à long terme.",
+    cash: "Espèces seules",
+    habit: "Habitude d'épargne",
+    investing: "Scénario d'investissement à long terme",
+  },
+  zh: {
+    aria: "折线图：比较仅持有现金、储蓄习惯和长期投资情景。",
+    cash: "仅现金",
+    habit: "储蓄习惯",
+    investing: "长期投资情景",
+  },
+  hi: {
+    aria: "सिर्फ़ नकदी, बचत की आदत और लंबी अवधि के निवेश की स्थिति की तुलना करने वाला लाइन चार्ट।",
+    cash: "सिर्फ़ नकदी",
+    habit: "बचत की आदत",
+    investing: "लंबी अवधि के निवेश की स्थिति",
+  },
+  "pt-BR": {
+    aria: "Gráfico de linhas comparando apenas dinheiro parado, hábito de poupar e cenário de investimento de longo prazo.",
+    cash: "Só dinheiro parado",
+    habit: "Hábito de poupar",
+    investing: "Cenário de investimento de longo prazo",
+  },
+  tr: {
+    aria: "Yalnızca nakit, birikim alışkanlığı ve uzun vadeli yatırım senaryosunu karşılaştıran çizgi grafik.",
+    cash: "Yalnızca nakit",
+    habit: "Birikim alışkanlığı",
+    investing: "Uzun vadeli yatırım senaryosu",
+  },
 };
 
 export function InflationChart({

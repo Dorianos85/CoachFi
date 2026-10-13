@@ -20,6 +20,12 @@ const VOICE_UNAVAILABLE = {
   en: "Mila's voice is temporarily unavailable. You can continue reading and try the audio again.",
   pl: "Głos Mili jest chwilowo niedostępny. Możesz czytać dalej i ponownie spróbować odsłuchu.",
   ja: "Mila の音声は一時的に利用できません。テキストを読み続けて、音声をもう一度お試しください。",
+  es: "La voz de Mila no está disponible temporalmente. Puedes seguir leyendo y volver a probar el audio.",
+  fr: "La voix de Mila est temporairement indisponible. Vous pouvez continuer à lire et réessayer l'audio.",
+  zh: "Mila 的语音暂时不可用。你可以继续阅读，稍后再试音频。",
+  hi: "Mila की आवाज़ फ़िलहाल उपलब्ध नहीं है। आप पढ़ना जारी रख सकते हैं और ऑडियो फिर से आज़मा सकते हैं।",
+  "pt-BR": "A voz da Mila está temporariamente indisponível. Você pode continuar lendo e tentar o áudio de novo.",
+  tr: "Mila'nın sesi geçici olarak kullanılamıyor. Okumaya devam edebilir ve sesi yeniden deneyebilirsin.",
 };
 
 interface VoiceContextValue {

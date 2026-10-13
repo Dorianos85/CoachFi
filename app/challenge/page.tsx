@@ -28,6 +28,10 @@ const challengeCopy: LocalizedMap<{ earnedThisSession: string }> = {
   es: { earnedThisSession: "Tokens ganados en esta sesión" },
   fr: { earnedThisSession: "Jetons gagnés dans cette session" },
   ja: { earnedThisSession: "このセッションで獲得したトークン" },
+  zh: { earnedThisSession: "本次获得的积分" },
+  hi: { earnedThisSession: "इस सत्र में कमाए गए पॉइंट" },
+  "pt-BR": { earnedThisSession: "Pontos ganhos nesta sessão" },
+  tr: { earnedThisSession: "Bu oturumda kazanılan puanlar" },
 };
 
 function pad(n: number) {

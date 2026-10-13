@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 import { CheckCircle2, LifeBuoy, LockKeyhole, Mail, Share2, Sparkles, Trophy } from "lucide-react";
 import Link from "next/link";
@@ -35,8 +36,156 @@ interface HealthForm {
 const inputClass =
   "min-h-12 rounded-input border-2 border-border bg-white px-3 text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
+const GATE_COPY: LocalizedMap<Record<"previewReady" | "previewBody" | "emailLabel" | "acceptTerms" | "marketing" | "unlock" | "trialActiveTitle" | "trialBody" | "trialActive" | "trialStart" | "pressure" | "freeHelp" | "locked" | "lockedBody", string>> = {
+  en: {
+    previewReady: "Your preview diagnosis is ready",
+    previewBody: "The full score and family plan unlock after login and Terms/Privacy acceptance.",
+    emailLabel: "Login email",
+    acceptTerms: "I accept Terms, Privacy Policy and understand Coach FI is educational.",
+    marketing: "I want educational launch emails. This consent is optional.",
+    unlock: "Unlock score and plan",
+    trialActiveTitle: "Mila trial active",
+    trialBody: "7-day test with limits for voice sessions, analyses and family lessons. Premium has full access with fair-use.",
+    trialActive: "Trial active",
+    trialStart: "Start trial",
+    pressure: "The score suggests financial pressure. Free help is available, but it is not the main Coach FI product.",
+    freeHelp: "Show free help",
+    locked: "Score is locked",
+    lockedBody: "Run the free analysis. Full score and solution unlock after login and terms acceptance.",
+  },
+  pl: {
+    previewReady: "Wstępna diagnoza jest gotowa",
+    previewBody: "Pełny wynik i plan rodzinny pokażemy po logowaniu oraz akceptacji regulaminu i polityki prywatności.",
+    emailLabel: "Email do logowania",
+    acceptTerms: "Akceptuję regulamin, politykę prywatności i rozumiem, że Coach FI ma charakter edukacyjny.",
+    marketing: "Chcę otrzymywać edukacyjne materiały i informacje o premierze. To zgoda dobrowolna.",
+    unlock: "Odblokuj wynik i plan",
+    trialActiveTitle: "Trial Mili aktywny",
+    trialBody: "7 dni testu z limitami rozmów głosowych, analiz i lekcji rodzinnych. Premium ma pełny dostęp z zasadami fair-use.",
+    trialActive: "Trial aktywny",
+    trialStart: "Włącz trial",
+    pressure: "Wynik wskazuje napięcie finansowe. Ścieżka bezpłatnej pomocy jest dostępna, ale nie jest głównym produktem Coach FI.",
+    freeHelp: "Pokaż bezpłatną pomoc",
+    locked: "Wynik jest zablokowany",
+    lockedBody: "Zrób darmową analizę. Pełny wynik i rozwiązanie pokażemy po logowaniu oraz akceptacji zasad.",
+  },
+  es: {
+    previewReady: "Tu diagnóstico preliminar está listo",
+    previewBody: "La puntuación completa y el plan familiar se desbloquean al iniciar sesión y aceptar los Términos y la Privacidad.",
+    emailLabel: "Correo para iniciar sesión",
+    acceptTerms: "Acepto los Términos y la Política de privacidad, y entiendo que Coach FI es educativo.",
+    marketing: "Quiero recibir correos educativos sobre el lanzamiento. Este consentimiento es opcional.",
+    unlock: "Desbloquear puntuación y plan",
+    trialActiveTitle: "Prueba de Mila activa",
+    trialBody: "Prueba de 7 días con límites en sesiones de voz, análisis y lecciones familiares. Premium ofrece acceso completo con uso razonable.",
+    trialActive: "Prueba activa",
+    trialStart: "Iniciar prueba",
+    pressure: "La puntuación indica presión financiera. Hay ayuda gratuita disponible, aunque no es el producto principal de Coach FI.",
+    freeHelp: "Ver ayuda gratuita",
+    locked: "La puntuación está bloqueada",
+    lockedBody: "Haz el análisis gratuito. La puntuación completa y la solución se desbloquean al iniciar sesión y aceptar las condiciones.",
+  },
+  fr: {
+    previewReady: "Votre diagnostic préliminaire est prêt",
+    previewBody: "Le score complet et le plan familial se débloquent après connexion et acceptation des Conditions et de la Confidentialité.",
+    emailLabel: "E-mail de connexion",
+    acceptTerms: "J'accepte les Conditions et la Politique de confidentialité, et je comprends que Coach FI est éducatif.",
+    marketing: "Je souhaite recevoir des e-mails éducatifs sur le lancement. Ce consentement est facultatif.",
+    unlock: "Débloquer le score et le plan",
+    trialActiveTitle: "Essai de Mila actif",
+    trialBody: "Essai de 7 jours avec des limites pour les sessions vocales, les analyses et les leçons en famille. Premium offre un accès complet avec usage raisonnable.",
+    trialActive: "Essai actif",
+    trialStart: "Démarrer l'essai",
+    pressure: "Le score suggère une pression financière. Une aide gratuite est disponible, mais ce n'est pas le produit principal de Coach FI.",
+    freeHelp: "Voir l'aide gratuite",
+    locked: "Le score est verrouillé",
+    lockedBody: "Lancez l'analyse gratuite. Le score complet et la solution se débloquent après connexion et acceptation des conditions.",
+  },
+  zh: {
+    previewReady: "你的初步诊断已准备好",
+    previewBody: "登录并接受条款和隐私政策后，即可解锁完整得分和家庭计划。",
+    emailLabel: "登录邮箱",
+    acceptTerms: "我接受条款和隐私政策，并理解 Coach FI 属于教育性质。",
+    marketing: "我希望收到有关上线的教育类邮件。此授权为可选。",
+    unlock: "解锁得分和计划",
+    trialActiveTitle: "Mila 试用中",
+    trialBody: "7 天试用，语音会话、分析和家庭课程有次数限制。高级版在合理使用规则下提供完整访问。",
+    trialActive: "试用中",
+    trialStart: "开始试用",
+    pressure: "得分显示存在财务压力。可以获得免费帮助，但这不是 Coach FI 的主要产品。",
+    freeHelp: "查看免费帮助",
+    locked: "得分已锁定",
+    lockedBody: "完成免费分析。登录并接受条款后，即可解锁完整得分和解决方案。",
+  },
+  ja: {
+    previewReady: "仮の診断ができました",
+    previewBody: "ログインして利用規約とプライバシーに同意すると、スコア全体と家族プランが表示されます。",
+    emailLabel: "ログイン用メールアドレス",
+    acceptTerms: "利用規約とプライバシーポリシーに同意し、Coach FIが教育目的であることを理解しました。",
+    marketing: "公開に関する学習用メールを受け取りたいです。この同意は任意です。",
+    unlock: "スコアとプランを表示",
+    trialActiveTitle: "Milaのトライアル実施中",
+    trialBody: "音声セッション、分析、家族レッスンに上限のある7日間のトライアルです。Premiumは適正利用の範囲で制限なく使えます。",
+    trialActive: "トライアル実施中",
+    trialStart: "トライアルを開始",
+    pressure: "スコアは家計への負担を示しています。無料のサポートもありますが、Coach FIの主な機能ではありません。",
+    freeHelp: "無料サポートを見る",
+    locked: "スコアはロックされています",
+    lockedBody: "無料の分析を行ってください。ログインして規約に同意すると、スコア全体と解決策が表示されます。",
+  },
+  hi: {
+    previewReady: "आपकी शुरुआती जांच तैयार है",
+    previewBody: "लॉगिन करने और शर्तें व गोपनीयता स्वीकार करने के बाद पूरा स्कोर और पारिवारिक योजना खुलते हैं।",
+    emailLabel: "लॉगिन ईमेल",
+    acceptTerms: "मैं शर्तें और गोपनीयता नीति स्वीकार करता/करती हूं और समझता/समझती हूं कि Coach FI शैक्षिक है।",
+    marketing: "मुझे लॉन्च से जुड़े शैक्षिक ईमेल चाहिए। यह सहमति वैकल्पिक है।",
+    unlock: "स्कोर और योजना अनलॉक करें",
+    trialActiveTitle: "Mila ट्रायल चालू है",
+    trialBody: "वॉइस सत्रों, विश्लेषणों और पारिवारिक पाठों की सीमाओं के साथ 7 दिन का ट्रायल। Premium में उचित उपयोग के साथ पूरी पहुंच मिलती है।",
+    trialActive: "ट्रायल चालू है",
+    trialStart: "ट्रायल शुरू करें",
+    pressure: "स्कोर वित्तीय दबाव का संकेत देता है। मुफ़्त मदद उपलब्ध है, लेकिन यह Coach FI का मुख्य उत्पाद नहीं है।",
+    freeHelp: "मुफ़्त मदद देखें",
+    locked: "स्कोर लॉक है",
+    lockedBody: "मुफ़्त विश्लेषण करें। लॉगिन करने और शर्तें स्वीकार करने के बाद पूरा स्कोर और समाधान खुलते हैं।",
+  },
+  "pt-BR": {
+    previewReady: "Seu diagnóstico preliminar está pronto",
+    previewBody: "A pontuação completa e o plano familiar são liberados após o login e a aceitação dos Termos e da Privacidade.",
+    emailLabel: "E-mail de login",
+    acceptTerms: "Aceito os Termos e a Política de Privacidade e entendo que o Coach FI é educacional.",
+    marketing: "Quero receber e-mails educacionais sobre o lançamento. Este consentimento é opcional.",
+    unlock: "Desbloquear pontuação e plano",
+    trialActiveTitle: "Teste da Mila ativo",
+    trialBody: "Teste de 7 dias com limites para sessões de voz, análises e aulas em família. O Premium tem acesso completo com uso justo.",
+    trialActive: "Teste ativo",
+    trialStart: "Começar teste",
+    pressure: "A pontuação indica pressão financeira. Há ajuda gratuita disponível, mas ela não é o produto principal do Coach FI.",
+    freeHelp: "Ver ajuda gratuita",
+    locked: "A pontuação está bloqueada",
+    lockedBody: "Faça a análise gratuita. A pontuação completa e a solução são liberadas após o login e a aceitação dos termos.",
+  },
+  tr: {
+    previewReady: "Ön teşhisin hazır",
+    previewBody: "Tam puan ve aile planı, giriş yapıp Koşulları ve Gizliliği kabul ettikten sonra açılır.",
+    emailLabel: "Giriş e-postası",
+    acceptTerms: "Koşulları ve Gizlilik Politikası'nı kabul ediyorum ve Coach FI'ın eğitim amaçlı olduğunu anlıyorum.",
+    marketing: "Lansmanla ilgili eğitici e-postalar almak istiyorum. Bu onay isteğe bağlıdır.",
+    unlock: "Puanı ve planı aç",
+    trialActiveTitle: "Mila denemesi etkin",
+    trialBody: "Sesli oturumlar, analizler ve aile dersleri için sınırları olan 7 günlük deneme. Premium, adil kullanım kurallarıyla tam erişim sunar.",
+    trialActive: "Deneme etkin",
+    trialStart: "Denemeyi başlat",
+    pressure: "Puan finansal baskıya işaret ediyor. Ücretsiz yardım mevcut, ancak bu Coach FI'ın ana ürünü değil.",
+    freeHelp: "Ücretsiz yardımı göster",
+    locked: "Puan kilitli",
+    lockedBody: "Ücretsiz analizi yap. Tam puan ve çözüm, giriş yapıp koşulları kabul ettikten sonra açılır.",
+  },
+};
+
 export default function HealthCheckPage() {
   const { locale, t } = useLanguage();
+  const gate = pickLocalized(GATE_COPY, locale);
   const copy = getLocalizedContent(locale);
   const { markActive } = useStreak();
   const [shareOpen, setShareOpen] = useState(false);
@@ -186,12 +335,10 @@ export default function HealthCheckPage() {
                 <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                 <div>
                   <p className="font-black text-text">
-                    {locale === "pl" ? "Wstępna diagnoza jest gotowa" : "Your preview diagnosis is ready"}
+                    {gate.previewReady}
                   </p>
                   <p className="mt-1 text-sm font-semibold leading-6 text-muted">
-                    {locale === "pl"
-                      ? "Pełny wynik i plan rodzinny pokażemy po logowaniu oraz akceptacji regulaminu i polityki prywatności."
-                      : "The full score and family plan unlock after login and Terms/Privacy acceptance."}
+                    {gate.previewBody}
                   </p>
                 </div>
               </div>
@@ -206,7 +353,7 @@ export default function HealthCheckPage() {
 
               <div className="mt-4 grid gap-3">
                 <label className="grid gap-1.5 text-sm font-bold text-text">
-                  {locale === "pl" ? "Email do logowania" : "Login email"}
+                  {gate.emailLabel}
                   <span className="relative">
                     <Mail
                       className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
@@ -230,9 +377,7 @@ export default function HealthCheckPage() {
                     className="mt-1 h-4 w-4 accent-primary"
                   />
                   <span>
-                    {locale === "pl"
-                      ? "Akceptuję regulamin, politykę prywatności i rozumiem, że Coach FI ma charakter edukacyjny."
-                      : "I accept Terms, Privacy Policy and understand Coach FI is educational."}
+                    {gate.acceptTerms}
                   </span>
                 </label>
 
@@ -244,9 +389,7 @@ export default function HealthCheckPage() {
                     className="mt-1 h-4 w-4 accent-primary"
                   />
                   <span>
-                    {locale === "pl"
-                      ? "Chcę otrzymywać edukacyjne materiały i informacje o premierze. To zgoda dobrowolna."
-                      : "I want educational launch emails. This consent is optional."}
+                    {gate.marketing}
                   </span>
                 </label>
 
@@ -256,7 +399,7 @@ export default function HealthCheckPage() {
                   disabled={!canUnlock}
                   onClick={() => setScoreUnlocked(true)}
                 >
-                  {locale === "pl" ? "Odblokuj wynik i plan" : "Unlock score and plan"}
+                  {gate.unlock}
                 </Button>
               </div>
             </div>
@@ -305,24 +448,16 @@ export default function HealthCheckPage() {
                   <div>
                     <p className="font-black text-text">
                       {trialActive
-                        ? locale === "pl"
-                          ? "Trial Mili aktywny"
-                          : "Mila trial active"
+                        ? gate.trialActiveTitle
                         : "Mila Voice Coach Trial"}
                     </p>
                     <p className="mt-1 text-sm font-semibold leading-6 text-muted">
-                      {locale === "pl"
-                        ? "7 dni testu z limitami rozmów głosowych, analiz i lekcji rodzinnych. Premium ma pełny dostęp z zasadami fair-use."
-                        : "7-day test with limits for voice sessions, analyses and family lessons. Premium has full access with fair-use."}
+                      {gate.trialBody}
                     </p>
                     <Button type="button" size="sm" className="mt-3" onClick={() => setTrialActive(true)}>
                       {trialActive
-                        ? locale === "pl"
-                          ? "Trial aktywny"
-                          : "Trial active"
-                        : locale === "pl"
-                          ? "Włącz trial"
-                          : "Start trial"}
+                        ? gate.trialActive
+                        : gate.trialStart}
                     </Button>
                   </div>
                 </div>
@@ -330,16 +465,14 @@ export default function HealthCheckPage() {
               {showEmergencyPath && (
                 <div className="rounded-lg border border-warning/30 bg-warning/15 p-4">
                   <p className="text-sm font-bold leading-6 text-text">
-                    {locale === "pl"
-                      ? "Wynik wskazuje napięcie finansowe. Ścieżka bezpłatnej pomocy jest dostępna, ale nie jest głównym produktem Coach FI."
-                      : "The score suggests financial pressure. Free help is available, but it is not the main Coach FI product."}
+                    {gate.pressure}
                   </p>
                   <Link
                     href="/crisis"
                     className="mt-3 inline-flex items-center gap-2 rounded-lg border-2 border-primary-border bg-surface px-4 py-2 text-sm font-black text-grape transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus"
                   >
                     <LifeBuoy className="h-4 w-4" aria-hidden="true" />
-                    {locale === "pl" ? "Pokaż bezpłatną pomoc" : "Show free help"}
+                    {gate.freeHelp}
                   </Link>
                 </div>
               )}
@@ -350,12 +483,10 @@ export default function HealthCheckPage() {
                 <LockKeyhole className="h-9 w-9" aria-hidden="true" />
               </div>
               <h2 className="mt-4 text-2xl font-black text-text">
-                {locale === "pl" ? "Wynik jest zablokowany" : "Score is locked"}
+                {gate.locked}
               </h2>
               <p className="mt-2 text-sm font-semibold leading-6 text-muted">
-                {locale === "pl"
-                  ? "Zrób darmową analizę. Pełny wynik i rozwiązanie pokażemy po logowaniu oraz akceptacji zasad."
-                  : "Run the free analysis. Full score and solution unlock after login and terms acceptance."}
+                {gate.lockedBody}
               </p>
             </div>
           )}

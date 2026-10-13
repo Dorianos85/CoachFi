@@ -14,6 +14,12 @@ const switcherCopy: LocalizedMap<{ current: string; select: string }> = {
   pl: { current: "Język", select: "Wybierz język" },
   en: { current: "Language", select: "Select language" },
   ja: { current: "言語", select: "言語を選択" },
+  es: { current: "Idioma", select: "Seleccionar idioma" },
+  fr: { current: "Langue", select: "Choisir la langue" },
+  zh: { current: "语言", select: "选择语言" },
+  hi: { current: "भाषा", select: "भाषा चुनें" },
+  "pt-BR": { current: "Idioma", select: "Selecionar idioma" },
+  tr: { current: "Dil", select: "Dil seç" },
 };
 
 export function LanguageSwitcher() {

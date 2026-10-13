@@ -23,6 +23,12 @@ const avatarCopy: LocalizedMap<{ speaking: string; idle: string }> = {
   pl: { speaking: "Mila mówi", idle: "Avatar Mili, coacha finansowego AI" },
   en: { speaking: "Mila is speaking", idle: "Mila AI financial coach avatar" },
   ja: { speaking: "Milaが話しています", idle: "Mila AI金融コーチのアバター" },
+  es: { speaking: "Mila está hablando", idle: "Avatar de Mila, coach financiera de IA" },
+  fr: { speaking: "Mila parle", idle: "Avatar de Mila, coach financière IA" },
+  zh: { speaking: "Mila 正在说话", idle: "Mila AI 财务教练头像" },
+  hi: { speaking: "Mila बोल रही है", idle: "Mila AI वित्तीय कोच का अवतार" },
+  "pt-BR": { speaking: "A Mila está falando", idle: "Avatar da Mila, coach financeira de IA" },
+  tr: { speaking: "Mila konuşuyor", idle: "Mila AI finans koçu avatarı" },
 };
 
 const NEUTRAL_FRAME = "/brand/mila/mila-head-neutral.svg";

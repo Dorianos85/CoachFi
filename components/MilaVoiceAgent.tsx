@@ -75,6 +75,7 @@ declare module "react" {
           "signed-url"?: string;
           "dynamic-variables"?: string;
           "override-language"?: string;
+          "override-first-message"?: string;
           "override-text-only"?: string;
           "server-location"?: string;
           "text-input"?: string;
@@ -700,6 +701,7 @@ export function MilaVoiceFab() {
         avatar-image-url="/brand/mila/mila-head-neutral.svg"
         dynamic-variables={dynamicVariables}
         override-language={localeAgentLanguage[locale]}
+        override-first-message={t.voiceAgent.firstMessage}
         text-input="true"
         text-contents={widgetTextContents}
         transcript="true"

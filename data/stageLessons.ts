@@ -1,4 +1,4 @@
-import type { LocalizedMap } from "@/lib/i18n";
+import type { Locale, LocalizedMap } from "@/lib/i18n";
 
 export interface StageLessonStep {
   title: string;
@@ -13,7 +13,7 @@ export interface StageLessonCopy {
   steps: StageLessonStep[];
 }
 
-type WrittenLocale = "en" | "pl" | "ja";
+type WrittenLocale = Locale;
 
 export interface StageLesson {
   quizHref: string;
@@ -36,6 +36,36 @@ const chrome: Record<WrittenLocale, Pick<StageLessonCopy, "stepLabel" | "next" |
     next: "次へ",
     quiz: "クイズへ進む",
   },
+  es: {
+    stepLabel: (current, total) => `Paso ${current} de ${total}`,
+    next: "Siguiente",
+    quiz: "Hacer el quiz",
+  },
+  fr: {
+    stepLabel: (current, total) => `Étape ${current} sur ${total}`,
+    next: "Suivant",
+    quiz: "Passer le quiz",
+  },
+  zh: {
+    stepLabel: (current, total) => `第 ${current} 步，共 ${total} 步`,
+    next: "下一步",
+    quiz: "参加测验",
+  },
+  hi: {
+    stepLabel: (current, total) => `चरण ${current} / ${total}`,
+    next: "अगला",
+    quiz: "क्विज़ दें",
+  },
+  "pt-BR": {
+    stepLabel: (current, total) => `Passo ${current} de ${total}`,
+    next: "Próximo",
+    quiz: "Fazer o quiz",
+  },
+  tr: {
+    stepLabel: (current, total) => `Adım ${current} / ${total}`,
+    next: "Sonraki",
+    quiz: "Quize geç",
+  },
 };
 
 function lesson(
@@ -45,17 +75,24 @@ function lesson(
 ): StageLesson {
   return {
     quizHref,
-    copy: {
-      en: { ...chrome.en, title: titles.en, steps: steps.en },
-      pl: { ...chrome.pl, title: titles.pl, steps: steps.pl },
-      ja: { ...chrome.ja, title: titles.ja, steps: steps.ja },
-    },
+    copy: Object.fromEntries(
+      (Object.keys(chrome) as WrittenLocale[]).map((locale) => [
+        locale,
+        { ...chrome[locale], title: titles[locale], steps: steps[locale] },
+      ]),
+    ) as Record<WrittenLocale, StageLessonCopy>,
   };
 }
 
 export const stageLessons: Record<string, StageLesson> = {
   "saving-habit": lesson(
-    { en: "Saving Habit", pl: "Nawyk oszczędzania", ja: "貯蓄の習慣" },
+    { en: "Saving Habit", pl: "Nawyk oszczędzania", ja: "貯蓄の習慣",
+    es: "Hábito de ahorro",
+    fr: "Habitude d'épargne",
+    zh: "储蓄习惯",
+    hi: "बचत की आदत",
+    "pt-BR": "Hábito de poupar",
+    tr: "Birikim Alışkanlığı" },
     {
       en: [
         {
@@ -111,11 +148,125 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "ドルコスト平均法は、値段に関係なく、決めた額を決めた間隔で投資することです。安いときは多く、高いときは少なく買います。完璧な日を待ちません。習慣が当てずっぽうを減らします。",
         },
       ],
+      es: [
+        {
+          title: "Ahorra el día de cobro",
+          body: "El hábito más sólido es una transferencia fija justo después de cobrar. Esperar a ahorrar lo que sobre suele dejar nada. La transferencia ocurre antes de que empiece el gasto. El resto del mes funciona con lo que queda.",
+        },
+        {
+          title: "La regla 50/30/20",
+          body: "La regla 50/30/20 divide el sueldo neto en necesidades, deseos y ahorro. Aproximadamente la mitad cubre necesidades como el alquiler y la comida. Alrededor del 30% cubre deseos. Alrededor del 20% va al ahorro y a reducir deudas.",
+        },
+        {
+          title: "Una cuenta de ahorro de alto rendimiento",
+          body: "Una cuenta de ahorro de alto rendimiento paga mucho más interés que una cuenta estándar. Sigue siendo una cuenta de ahorro, no una inversión en bolsa. El interés extra ayuda a que el efectivo aguante un poco mejor. Es un lugar para el dinero que quizá necesites pronto.",
+        },
+        {
+          title: "Inversión periódica constante",
+          body: "Invertir de forma periódica significa aportar una cantidad fija con una frecuencia regular, sea cual sea el precio. Compras más cuando los precios están bajos y menos cuando están altos. No esperas al día perfecto. El hábito elimina las conjeturas.",
+        },
+      ],
+      fr: [
+        {
+          title: "Épargner le jour de la paie",
+          body: "L'habitude la plus solide est un virement fixe juste après la paie. Attendre d'épargner ce qui reste ne laisse généralement rien. Le virement a lieu avant que les dépenses ne commencent. Le reste du mois fonctionne avec ce qui reste.",
+        },
+        {
+          title: "La règle 50/30/20",
+          body: "La règle 50/30/20 répartit le salaire net entre besoins, envies et épargne. Environ la moitié couvre les besoins comme le loyer et la nourriture. Environ 30 % couvrent les envies. Environ 20 % vont à l'épargne et au remboursement des dettes.",
+        },
+        {
+          title: "Un compte d'épargne à haut rendement",
+          body: "Un compte d'épargne à haut rendement rapporte bien plus d'intérêts qu'un compte classique. Cela reste un compte d'épargne, pas un placement en actions. Les intérêts supplémentaires aident vos liquidités à mieux tenir. C'est un endroit pour l'argent dont vous pourriez avoir besoin bientôt.",
+        },
+        {
+          title: "L'investissement programmé",
+          body: "L'investissement programmé consiste à investir un montant fixe à intervalles réguliers, quel que soit le prix. Vous achetez plus quand les prix sont bas et moins quand ils sont hauts. Vous n'attendez pas le jour parfait. L'habitude supprime les devinettes.",
+        },
+      ],
+      zh: [
+        {
+          title: "发薪日就存钱",
+          body: "最牢固的习惯是发薪后立即进行固定转账。等着存剩下的钱，通常什么都剩不下。转账发生在消费开始之前。这个月剩下的日子就用余下的钱过。",
+        },
+        {
+          title: "50/30/20 法则",
+          body: "50/30/20 法则把到手收入分成必需、想要和储蓄。大约一半用于房租和食物等必需开支。大约 30% 用于想要的东西。大约 20% 用于储蓄和偿还债务。",
+        },
+        {
+          title: "高收益储蓄账户",
+          body: "高收益储蓄账户的利息远高于普通账户。它仍然是储蓄账户，不是股票投资。多出来的利息能让现金更好地跟上物价。它适合存放你近期可能要用的钱。",
+        },
+        {
+          title: "定期定额投资",
+          body: "定期定额投资是指无论价格如何，都按固定周期投入固定金额。价格低时买得多，价格高时买得少。你不用等待完美的一天。这个习惯省去了猜测。",
+        },
+      ],
+      hi: [
+        {
+          title: "वेतन के दिन बचत करें",
+          body: "सबसे मज़बूत आदत है वेतन मिलते ही एक तय ट्रांसफ़र। जो बचेगा उसे बचाने का इंतज़ार करने पर अक्सर कुछ नहीं बचता। ट्रांसफ़र खर्च शुरू होने से पहले हो जाता है। महीने का बाकी हिस्सा बची हुई रकम से चलता है।",
+        },
+        {
+          title: "50/30/20 नियम",
+          body: "50/30/20 नियम हाथ में आने वाली आय को ज़रूरतों, चाहतों और बचत में बांटता है। लगभग आधा किराये और खाने जैसी ज़रूरतों पर जाता है। लगभग 30% चाहतों पर। लगभग 20% बचत और कर्ज़ चुकाने में जाता है।",
+        },
+        {
+          title: "ज़्यादा ब्याज वाला बचत खाता",
+          body: "ज़्यादा ब्याज वाला बचत खाता सामान्य खाते से काफ़ी अधिक ब्याज देता है। यह फिर भी बचत खाता है, शेयरों में निवेश नहीं। अतिरिक्त ब्याज नकदी को कीमतों के साथ थोड़ा बेहतर चलने में मदद करता है। यह उस पैसे की जगह है जिसकी आपको जल्द ज़रूरत पड़ सकती है।",
+        },
+        {
+          title: "नियमित निवेश (SIP)",
+          body: "नियमित निवेश का मतलब है कीमत चाहे जो हो, तय अंतराल पर तय रकम निवेश करना। कीमतें कम होने पर आप ज़्यादा और ऊंची होने पर कम खरीदते हैं। आप किसी सही दिन का इंतज़ार नहीं करते। यह आदत अंदाज़ा लगाने की ज़रूरत खत्म कर देती है।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Poupe no dia do pagamento",
+          body: "O hábito mais forte é uma transferência fixa logo depois de receber. Esperar para poupar o que sobrar costuma não deixar nada. A transferência acontece antes de os gastos começarem. O resto do mês funciona com o que fica.",
+        },
+        {
+          title: "A regra 50/30/20",
+          body: "A regra 50/30/20 divide a renda líquida em necessidades, desejos e poupança. Cerca de metade cobre necessidades como aluguel e comida. Cerca de 30% cobre desejos. Cerca de 20% vai para a poupança e para quitar dívidas.",
+        },
+        {
+          title: "Uma conta que rende mais",
+          body: "Uma conta de alta rentabilidade paga bem mais juros do que uma conta comum. Ainda é uma conta de reserva, não um investimento em ações. Os juros extras ajudam o dinheiro a acompanhar um pouco melhor os preços. É um lugar para o dinheiro de que você pode precisar em breve.",
+        },
+        {
+          title: "Aportes regulares",
+          body: "Fazer aportes regulares é investir um valor fixo em intervalos regulares, seja qual for o preço. Você compra mais quando os preços estão baixos e menos quando estão altos. Você não espera o dia perfeito. O hábito elimina a adivinhação.",
+        },
+      ],
+      tr: [
+        {
+          title: "Maaş gününde biriktir",
+          body: "En güçlü alışkanlık, maaşını aldıktan hemen sonra yapılan sabit bir transferdir. Kalanı biriktirmeyi beklemek genellikle geriye bir şey bırakmaz. Transfer, harcama başlamadan önce gerçekleşir. Ayın geri kalanı kalan parayla döner.",
+        },
+        {
+          title: "50/30/20 kuralı",
+          body: "50/30/20 kuralı net geliri ihtiyaçlar, istekler ve birikim olarak böler. Yaklaşık yarısı kira ve yemek gibi ihtiyaçları karşılar. Yaklaşık %30'u isteklere gider. Yaklaşık %20'si birikime ve borç ödemeye ayrılır.",
+        },
+        {
+          title: "Yüksek getirili birikim hesabı",
+          body: "Yüksek getirili birikim hesabı, standart hesaptan çok daha fazla faiz öder. Yine de bir birikim hesabıdır, hisse senedi yatırımı değildir. Ek faiz, nakdin fiyatlara biraz daha iyi yetişmesine yardım eder. Yakında ihtiyaç duyabileceğin para için bir yerdir.",
+        },
+        {
+          title: "Düzenli yatırım",
+          body: "Düzenli yatırım, fiyat ne olursa olsun belirli aralıklarla sabit bir tutar yatırmaktır. Fiyatlar düşükken daha çok, yüksekken daha az alırsın. Mükemmel günü beklemezsin. Alışkanlık, tahmin yürütmeyi ortadan kaldırır.",
+        },
+      ],
     },
     "/quiz?topic=saving",
   ),
   inflation: lesson(
-    { en: "Inflation and Purchasing Power", pl: "Inflacja i siła nabywcza", ja: "インフレと購買力" },
+    { en: "Inflation and Purchasing Power", pl: "Inflacja i siła nabywcza", ja: "インフレと購買力",
+    es: "Inflación y poder adquisitivo",
+    fr: "Inflation et pouvoir d'achat",
+    zh: "通胀与购买力",
+    hi: "महंगाई और क्रय शक्ति",
+    "pt-BR": "Inflação e poder de compra",
+    tr: "Enflasyon ve Alım Gücü" },
     {
       en: [
         {
@@ -171,11 +322,125 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "備えとは、値段より速く増えてきたものです。広い株の指数ファンドは、長い年数でそうでした。布団の下の現金や利率1%の貯金は違います。狙いは長い期間であり、短い賭けではありません。",
         },
       ],
+      es: [
+        {
+          title: "Qué significa la inflación",
+          body: "La inflación significa que el dinero compra menos con el tiempo. La misma cantidad alcanza para menos compra, o el mismo alquiler cuesta más. La subida de precios es la señal habitual. El efectivo parado pierde poder adquisitivo.",
+        },
+        {
+          title: "Rentabilidad real",
+          body: "La rentabilidad real es el interés que ganas menos la inflación. Si la inflación es del 5% y el banco paga el 2%, la rentabilidad real es de aproximadamente −3%. El saldo puede subir mientras su poder de compra baja. El tipo de la cuenta no lo cuenta todo.",
+        },
+        {
+          title: "La regla del 72",
+          body: "La regla del 72 estima cuánto tarda el dinero en duplicarse. Divide 72 entre la rentabilidad anual. Al 8% anual, el dinero se duplica en unos 9 años. Al 6%, tarda unos 12 años.",
+        },
+        {
+          title: "Una cobertura a largo plazo",
+          body: "Una cobertura es algo que ha tendido a crecer más rápido que los precios. Los fondos indexados amplios de renta variable lo han hecho durante muchos años. El efectivo bajo el colchón y una cuenta de ahorro al 1% no. La clave es un horizonte largo, no una apuesta rápida.",
+        },
+      ],
+      fr: [
+        {
+          title: "Ce que signifie l'inflation",
+          body: "L'inflation signifie que l'argent achète moins avec le temps. La même somme couvre moins de courses, ou le même loyer coûte plus cher. La hausse des prix en est le signe habituel. L'argent qui dort perd du pouvoir d'achat.",
+        },
+        {
+          title: "Rendement réel",
+          body: "Le rendement réel est l'intérêt gagné moins l'inflation. Si l'inflation est de 5 % et que la banque verse 2 %, le rendement réel est d'environ −3 %. Le solde peut augmenter alors que son pouvoir d'achat diminue. Le taux du compte ne dit pas tout.",
+        },
+        {
+          title: "La règle des 72",
+          body: "La règle des 72 estime le temps nécessaire pour doubler une somme. Divisez 72 par le rendement annuel. À 8 % par an, l'argent double en environ 9 ans. À 6 %, il faut environ 12 ans.",
+        },
+        {
+          title: "Une couverture à long terme",
+          body: "Une couverture est un actif qui a eu tendance à croître plus vite que les prix. Les fonds indiciels actions diversifiés l'ont fait sur de nombreuses années. L'argent sous le matelas et un livret à 1 % ne l'ont pas fait. L'idée est un horizon long, pas un pari rapide.",
+        },
+      ],
+      zh: [
+        {
+          title: "通胀意味着什么",
+          body: "通胀意味着钱随着时间能买到的东西变少。同样的金额买到的日用品更少，或者同样的房租变得更贵。物价上涨是常见的信号。放着不动的现金会失去购买力。",
+        },
+        {
+          title: "实际回报",
+          body: "实际回报是你赚到的利息减去通胀。如果通胀是 5%，银行付 2%，实际回报大约是 −3%。余额可以上涨，而购买力却在下降。账户利率并不是全部。",
+        },
+        {
+          title: "72 法则",
+          body: "72 法则用来估算钱翻倍需要多长时间。用 72 除以年回报率。年回报 8% 时，钱大约 9 年翻倍。6% 时大约需要 12 年。",
+        },
+        {
+          title: "长期对冲",
+          body: "对冲是指那些增长往往快于物价的东西。宽基股票指数基金在很多年里做到了这一点。床垫下的现金和 1% 的储蓄账户则没有。关键是长期持有，而不是快速下注。",
+        },
+      ],
+      hi: [
+        {
+          title: "महंगाई का मतलब",
+          body: "महंगाई का मतलब है कि समय के साथ पैसा कम चीज़ें खरीद पाता है। उतनी ही रकम में कम राशन आता है, या वही किराया महंगा हो जाता है। बढ़ती कीमतें इसका आम संकेत हैं। पड़ी हुई नकदी क्रय शक्ति खोती है।",
+        },
+        {
+          title: "असली रिटर्न",
+          body: "असली रिटर्न वह ब्याज है जो आप कमाते हैं, उसमें से महंगाई घटाकर। अगर महंगाई 5% है और बैंक 2% देता है, तो असली रिटर्न लगभग −3% है। बैलेंस बढ़ सकता है जबकि उसकी खरीदने की ताकत घटती है। खाते की ब्याज दर पूरी कहानी नहीं है।",
+        },
+        {
+          title: "72 का नियम",
+          body: "72 का नियम अंदाज़ा देता है कि पैसा दोगुना होने में कितना समय लगेगा। 72 को सालाना रिटर्न से भाग दें। सालाना 8% पर पैसा लगभग 9 साल में दोगुना होता है। 6% पर लगभग 12 साल लगते हैं।",
+        },
+        {
+          title: "लंबी अवधि का बचाव",
+          body: "बचाव वह चीज़ है जो कीमतों से तेज़ बढ़ती रही है। व्यापक शेयर इंडेक्स फंडों ने कई सालों में ऐसा किया है। गद्दे के नीचे रखी नकदी और 1% वाला बचत खाता ऐसा नहीं कर पाए। बात लंबी अवधि की है, जल्दी के दांव की नहीं।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "O que significa inflação",
+          body: "Inflação significa que o dinheiro compra menos com o tempo. O mesmo valor paga menos compras, ou o mesmo aluguel custa mais. A alta dos preços é o sinal mais comum. Dinheiro parado perde poder de compra.",
+        },
+        {
+          title: "Retorno real",
+          body: "Retorno real é o juro que você ganha menos a inflação. Se a inflação é de 5% e o banco paga 2%, o retorno real é de cerca de −3%. O saldo pode subir enquanto o poder de compra cai. A taxa da conta não conta a história toda.",
+        },
+        {
+          title: "A regra do 72",
+          body: "A regra do 72 estima quanto tempo o dinheiro leva para dobrar. Divida 72 pelo retorno anual. A 8% ao ano, o dinheiro dobra em cerca de 9 anos. A 6%, leva cerca de 12 anos.",
+        },
+        {
+          title: "Uma proteção de longo prazo",
+          body: "Uma proteção é algo que tende a crescer mais rápido do que os preços. Fundos de índice amplos de ações fizeram isso ao longo de muitos anos. Dinheiro debaixo do colchão e uma conta que rende 1% não fizeram. O ponto é um horizonte longo, não uma aposta rápida.",
+        },
+      ],
+      tr: [
+        {
+          title: "Enflasyon ne demek",
+          body: "Enflasyon, paranın zamanla daha az şey satın alması demektir. Aynı tutar daha az markete yeter ya da aynı kira daha pahalı olur. Yükselen fiyatlar bunun olağan işaretidir. Yerinde duran nakit alım gücü kaybeder.",
+        },
+        {
+          title: "Reel getiri",
+          body: "Reel getiri, kazandığın faizden enflasyonun çıkarılmasıdır. Enflasyon %5 ve banka %2 veriyorsa reel getiri yaklaşık −%3'tür. Bakiye artarken alım gücü düşebilir. Hesaptaki oran hikâyenin tamamı değildir.",
+        },
+        {
+          title: "72 kuralı",
+          body: "72 kuralı, paranın ikiye katlanmasının ne kadar süreceğini tahmin eder. 72'yi yıllık getiriye böl. Yılda %8 ile para yaklaşık 9 yılda ikiye katlanır. %6 ile yaklaşık 12 yıl sürer.",
+        },
+        {
+          title: "Uzun vadeli bir korunma",
+          body: "Korunma, fiyatlardan daha hızlı büyüme eğiliminde olmuş bir şeydir. Geniş hisse senedi endeks fonları uzun yıllar boyunca bunu yaptı. Yastık altındaki nakit ve %1 faizli birikim hesabı yapmadı. Önemli olan hızlı bir bahis değil, uzun bir vadedir.",
+        },
+      ],
     },
     "/quiz?topic=inflation",
   ),
   "credit-rates": lesson(
-    { en: "Credit, Interest and Rates", pl: "Kredyt, odsetki i stopy", ja: "信用、金利、利率" },
+    { en: "Credit, Interest and Rates", pl: "Kredyt, odsetki i stopy", ja: "信用、金利、利率",
+    es: "Crédito, intereses y tipos",
+    fr: "Crédit, intérêts et taux",
+    zh: "信贷、利息与利率",
+    hi: "क्रेडिट, ब्याज और दरें",
+    "pt-BR": "Crédito, juros e taxas",
+    tr: "Kredi, Faiz ve Oranlar" },
     {
       en: [
         {
@@ -231,11 +496,125 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "金利が上がると、債券の価格は下がります。古い債券は新しい債券より利息が少ないので、買い手は安くしか出しません。二つは逆に動きます。金利が上がっても、債券価格は元のままではありません。",
         },
       ],
+      es: [
+        {
+          title: "Tipos variables",
+          body: "Un préstamo a tipo variable sigue el tipo de mercado. Cuando el banco central sube los tipos, la cuota mensual suele subir. Un tipo fijo se mantiene. Con un préstamo variable, un tipo más alto significa una factura más alta.",
+        },
+        {
+          title: "La avalancha de deudas",
+          body: "El método avalancha paga primero la deuda con el interés más alto. Así se reducen los intereses pagados a lo largo de la vida de las deudas. Pagar primero el saldo más pequeño puede resultar más fácil, pero suele costar más. Un préstamo nuevo para pagar uno antiguo no elimina el coste.",
+        },
+        {
+          title: "Qué mueve el historial crediticio",
+          body: "El historial de pagos es lo que más influye en la puntuación crediticia. Pagar a tiempo importa más que cuántas tarjetas tengas. Los ingresos no son el factor principal. Un largo historial de pagos puntuales es la señal más fuerte.",
+        },
+        {
+          title: "Precios de los bonos y tipos",
+          body: "Los precios de los bonos bajan cuando suben los tipos de interés. Un bono antiguo paga menos que uno nuevo, así que los compradores ofrecen menos por él. Ambos se mueven en direcciones opuestas. Una subida de tipos no deja los precios de los bonos donde estaban.",
+        },
+      ],
+      fr: [
+        {
+          title: "Taux variables",
+          body: "Un prêt à taux variable suit le taux du marché. Quand la banque centrale relève ses taux, la mensualité augmente généralement. Un taux fixe ne bouge pas. Avec un prêt variable, un taux plus élevé signifie une facture plus élevée.",
+        },
+        {
+          title: "La méthode avalanche",
+          body: "La méthode avalanche rembourse d'abord la dette au taux le plus élevé. Cela réduit les intérêts payés sur la durée des dettes. Rembourser d'abord le plus petit solde peut sembler plus facile, mais coûte généralement plus cher. Un nouveau prêt pour rembourser l'ancien ne supprime pas le coût.",
+        },
+        {
+          title: "Ce qui fait bouger la note de crédit",
+          body: "L'historique de paiement a le plus d'effet sur une note de crédit. Payer à temps compte plus que le nombre de cartes détenues. Le revenu n'est pas le facteur principal. Un long historique de paiements ponctuels est le signal le plus fort.",
+        },
+        {
+          title: "Prix des obligations et taux",
+          body: "Les prix des obligations baissent quand les taux d'intérêt montent. Une obligation ancienne rapporte moins qu'une nouvelle, donc les acheteurs en offrent moins. Les deux évoluent en sens inverse. Une hausse des taux ne laisse pas les prix des obligations inchangés.",
+        },
+      ],
+      zh: [
+        {
+          title: "浮动利率",
+          body: "浮动利率贷款跟随市场利率。央行加息时，月供通常会上涨。固定利率则保持不变。对于浮动利率贷款，利率越高，账单越高。",
+        },
+        {
+          title: "债务雪崩法",
+          body: "债务雪崩法先偿还利率最高的债务。这能减少你在整个还款期内支付的利息。先还最小的欠款可能感觉更容易，但通常成本更高。借新贷还旧贷并不会消除成本。",
+        },
+        {
+          title: "什么影响信用评分",
+          body: "还款记录对信用评分的影响最大。按时还款比你持有多少张卡更重要。收入不是主要因素。长期的按时还款记录是最强的信号。",
+        },
+        {
+          title: "债券价格与利率",
+          body: "利率上升时，债券价格下跌。旧债券的收益低于新债券，所以买家出价更低。两者朝相反方向变动。加息不会让债券价格停在原地。",
+        },
+      ],
+      hi: [
+        {
+          title: "फ़्लोटिंग दरें",
+          body: "फ़्लोटिंग दर वाला लोन बाज़ार की दर के साथ चलता है। जब केंद्रीय बैंक दरें बढ़ाता है, तो मासिक किस्त आम तौर पर बढ़ जाती है। फ़िक्स्ड दर वहीं रहती है। फ़्लोटिंग लोन में ऊंची दर का मतलब है बड़ा बिल।",
+        },
+        {
+          title: "डेट एवलांच तरीका",
+          body: "डेट एवलांच तरीके में सबसे ज़्यादा ब्याज वाला कर्ज़ पहले चुकाया जाता है। इससे कर्ज़ों की पूरी अवधि में चुकाया जाने वाला ब्याज घटता है। सबसे छोटा बकाया पहले चुकाना आसान लग सकता है, पर आम तौर पर महंगा पड़ता है। पुराना लोन चुकाने के लिए नया लोन लेने से लागत खत्म नहीं होती।",
+        },
+        {
+          title: "क्रेडिट स्कोर किससे बदलता है",
+          body: "क्रेडिट स्कोर पर सबसे बड़ा असर भुगतान के इतिहास का होता है। समय पर भुगतान करना इस बात से ज़्यादा मायने रखता है कि आपके पास कितने कार्ड हैं। आय मुख्य कारक नहीं है। समय पर भुगतान का लंबा रिकॉर्ड सबसे मज़बूत संकेत है।",
+        },
+        {
+          title: "बॉन्ड की कीमतें और दरें",
+          body: "ब्याज दरें बढ़ने पर बॉन्ड की कीमतें गिरती हैं। पुराना बॉन्ड नए से कम देता है, इसलिए खरीदार उसके लिए कम कीमत लगाते हैं। दोनों उलटी दिशा में चलते हैं। दर बढ़ने पर बॉन्ड की कीमतें वहीं नहीं टिकतीं।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Taxas variáveis",
+          body: "Um empréstimo com taxa variável acompanha a taxa de mercado. Quando o banco central sobe os juros, a parcela mensal costuma subir. Uma taxa fixa não muda. Com um empréstimo variável, taxa maior significa conta maior.",
+        },
+        {
+          title: "A avalanche de dívidas",
+          body: "O método avalanche quita primeiro a dívida com os juros mais altos. Isso reduz os juros pagos ao longo da vida das dívidas. Quitar primeiro o menor saldo pode parecer mais fácil, mas costuma custar mais. Um empréstimo novo para pagar um antigo não elimina o custo.",
+        },
+        {
+          title: "O que mexe com o score de crédito",
+          body: "O histórico de pagamentos é o que mais pesa no score de crédito. Pagar em dia importa mais do que quantos cartões você tem. A renda não é o fator principal. Um longo histórico de pagamentos em dia é o sinal mais forte.",
+        },
+        {
+          title: "Preços dos títulos e juros",
+          body: "Os preços dos títulos caem quando os juros sobem. Um título antigo paga menos do que um novo, então os compradores oferecem menos por ele. Os dois se movem em direções opostas. Uma alta de juros não deixa os preços dos títulos onde estavam.",
+        },
+      ],
+      tr: [
+        {
+          title: "Değişken faizler",
+          body: "Değişken faizli kredi piyasa faizini izler. Merkez bankası faiz artırdığında aylık taksit genellikle yükselir. Sabit faiz yerinde kalır. Değişken kredide daha yüksek faiz, daha yüksek ödeme demektir.",
+        },
+        {
+          title: "Borç çığı yöntemi",
+          body: "Borç çığı yöntemi önce en yüksek faizli borcu öder. Bu, borçların ömrü boyunca ödediğin faizi azaltır. Önce en küçük bakiyeyi ödemek daha kolay gelebilir ama genellikle daha pahalıya gelir. Eski krediyi ödemek için alınan yeni kredi maliyeti ortadan kaldırmaz.",
+        },
+        {
+          title: "Kredi notunu ne etkiler",
+          body: "Kredi notu üzerinde en büyük etkiye ödeme geçmişi sahiptir. Zamanında ödemek, kaç kartın olduğundan daha önemlidir. Gelir ana etken değildir. Uzun süreli, zamanında ödeme geçmişi en güçlü sinyaldir.",
+        },
+        {
+          title: "Tahvil fiyatları ve faizler",
+          body: "Faizler yükseldiğinde tahvil fiyatları düşer. Eski bir tahvil yenisinden daha az getiri sağlar, bu yüzden alıcılar ona daha az teklif verir. İkisi ters yönde hareket eder. Faiz artışı tahvil fiyatlarını olduğu yerde bırakmaz.",
+        },
+      ],
     },
     "/quiz?topic=credit",
   ),
   "emergency-fund": lesson(
-    { en: "Emergency Fund", pl: "Fundusz awaryjny", ja: "緊急資金" },
+    { en: "Emergency Fund", pl: "Fundusz awaryjny", ja: "緊急資金",
+    es: "Fondo de emergencia",
+    fr: "Épargne de précaution",
+    zh: "应急基金",
+    hi: "आपातकालीन फंड",
+    "pt-BR": "Reserva de emergência",
+    tr: "Acil Durum Fonu" },
     {
       en: [
         {
@@ -279,11 +658,101 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "3か月から6か月が大きく感じるなら、まず必要な支出の1か月分から始めます。それで多くのよくあるショックを賄えます。そのあと次の月を足します。実際の請求を無視した丸い金額は、最初の目標として弱いです。",
         },
       ],
+      es: [
+        {
+          title: "Cuánto tener",
+          body: "Un fondo de emergencia cubre entre 3 y 6 meses de gastos. Es para la pérdida del empleo, una reparación o una factura médica. Una semana es solo el comienzo. El fondo no está pensado para guardar diez años de gastos.",
+        },
+        {
+          title: "Qué debe contener",
+          body: "Un buen fondo de emergencia es fácil de alcanzar y está separado del gasto diario. Debe cubrir unos meses de gastos. No debería estar en acciones de alto riesgo. Su función es estar ahí cuando lo necesites, no crecer lo más rápido posible.",
+        },
+        {
+          title: "El primer hito",
+          body: "Si 3 a 6 meses te parece demasiado, empieza por un mes de gastos esenciales. Eso cubre muchos imprevistos habituales. Después añade el mes siguiente. Una cifra redonda que ignore tus facturas reales es un primer objetivo más débil.",
+        },
+      ],
+      fr: [
+        {
+          title: "Combien garder",
+          body: "Une épargne de précaution couvre environ 3 à 6 mois de dépenses. Elle sert en cas de perte d'emploi, de réparation ou de facture médicale. Une semaine n'est qu'un début. Elle n'est pas faite pour contenir dix ans de dépenses.",
+        },
+        {
+          title: "Ce qu'elle doit contenir",
+          body: "Une bonne épargne de précaution est facile d'accès et séparée des dépenses courantes. Elle doit couvrir quelques mois de dépenses. Elle ne doit pas être placée en actions à haut risque. Son rôle est d'être là quand vous en avez besoin, pas de croître le plus vite possible.",
+        },
+        {
+          title: "Le premier palier",
+          body: "Si 3 à 6 mois vous paraît trop, commencez par un mois de dépenses essentielles. Cela couvre de nombreux imprévus courants. Ajoutez ensuite le mois suivant. Un chiffre rond qui ignore vos vraies factures est un premier objectif plus fragile.",
+        },
+      ],
+      zh: [
+        {
+          title: "该准备多少",
+          body: "应急基金大约覆盖 3 到 6 个月的开支。它用于应对失业、维修或医疗账单。一周的量只是起步。这笔基金并不需要存下十年的开支。",
+        },
+        {
+          title: "里面该放什么",
+          body: "好的应急基金容易取用，并与日常开销分开存放。它应能覆盖几个月的开支。它不应放在高风险股票里。它的任务是在你需要时就在那里，而不是尽可能快地增长。",
+        },
+        {
+          title: "第一个里程碑",
+          body: "如果 3 到 6 个月感觉太多，就从一个月的必要开支开始。这能应对许多常见的冲击。之后再加上下一个月。一个忽略你实际账单的整数，是较弱的第一个目标。",
+        },
+      ],
+      hi: [
+        {
+          title: "कितना रखें",
+          body: "आपातकालीन फंड लगभग 3 से 6 महीने के खर्च को कवर करता है। यह नौकरी जाने, मरम्मत या मेडिकल बिल के लिए है। एक हफ़्ता सिर्फ़ शुरुआत है। यह फंड दस साल के खर्च रखने के लिए नहीं है।",
+        },
+        {
+          title: "इसमें क्या होना चाहिए",
+          body: "अच्छा आपातकालीन फंड आसानी से मिल जाता है और रोज़मर्रा के खर्च से अलग रखा जाता है। इसे कुछ महीनों के खर्च कवर करने चाहिए। इसे ऊंचे जोखिम वाले शेयरों में नहीं रखना चाहिए। इसका काम ज़रूरत पर मौजूद रहना है, सबसे तेज़ बढ़ना नहीं।",
+        },
+        {
+          title: "पहला पड़ाव",
+          body: "अगर 3 से 6 महीने बहुत बड़ा लगता है, तो ज़रूरी खर्चों के एक महीने से शुरू करें। यह कई आम झटकों को संभाल लेता है। उसके बाद अगला महीना जोड़ें। आपके असली बिलों को नज़रअंदाज़ करने वाला गोल आंकड़ा कमज़ोर पहला लक्ष्य है।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Quanto manter",
+          body: "Uma reserva de emergência cobre de 3 a 6 meses de despesas. Ela serve para a perda do emprego, um conserto ou uma conta médica. Uma semana é só o começo. A reserva não foi feita para guardar dez anos de despesas.",
+        },
+        {
+          title: "O que deve estar nela",
+          body: "Uma boa reserva de emergência é fácil de acessar e fica separada dos gastos do dia a dia. Ela deve cobrir alguns meses de despesas. Não deve ficar em ações de alto risco. O papel dela é estar lá quando você precisar, não crescer o mais rápido possível.",
+        },
+        {
+          title: "O primeiro marco",
+          body: "Se 3 a 6 meses parece muito, comece com um mês de despesas essenciais. Isso cobre muitos imprevistos comuns. Depois acrescente o mês seguinte. Um número redondo que ignora suas contas reais é uma primeira meta mais fraca.",
+        },
+      ],
+      tr: [
+        {
+          title: "Ne kadar tutmalı",
+          body: "Acil durum fonu yaklaşık 3 ila 6 aylık gideri karşılar. İş kaybı, onarım veya sağlık faturası içindir. Bir hafta yalnızca başlangıçtır. Fon, on yıllık gideri tutmak için tasarlanmamıştır.",
+        },
+        {
+          title: "İçinde ne olmalı",
+          body: "İyi bir acil durum fonu kolay erişilir ve günlük harcamalardan ayrı tutulur. Birkaç aylık gideri karşılamalıdır. Yüksek riskli hisselerde durmamalıdır. Görevi olabildiğince hızlı büyümek değil, ihtiyaç duyduğunda orada olmaktır.",
+        },
+        {
+          title: "İlk hedef",
+          body: "3 ila 6 ay fazla geliyorsa bir aylık temel giderle başla. Bu, sık rastlanan birçok sarsıntıyı karşılar. Ardından bir sonraki ayı ekle. Gerçek faturalarını göz ardı eden yuvarlak bir rakam daha zayıf bir ilk hedeftir.",
+        },
+      ],
     },
     "/quiz?topic=emergency",
   ),
   "long-term-investing": lesson(
-    { en: "Long-Term Investing Basics", pl: "Podstawy długoterminowego inwestowania", ja: "長期投資の基本" },
+    { en: "Long-Term Investing Basics", pl: "Podstawy długoterminowego inwestowania", ja: "長期投資の基本",
+    es: "Fundamentos de la inversión a largo plazo",
+    fr: "Les bases de l'investissement à long terme",
+    zh: "长期投资基础",
+    hi: "लंबी अवधि के निवेश की बुनियाद",
+    "pt-BR": "Fundamentos do investimento de longo prazo",
+    tr: "Uzun Vadeli Yatırımın Temelleri" },
     {
       en: [
         {
@@ -351,11 +820,149 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "長期の投資家では、投資したままにする方が、正確な底で買って天井で売るより良かったことが多いです。下落のあと売ると、戻りを逃しがちです。金だけが、これらの研究の示す戦略ではありません。市場にいる時間とは、普通の上げ下げのあいだも投資したままでいることです。",
         },
       ],
+      es: [
+        {
+          title: "Interés compuesto",
+          body: "El interés compuesto es el interés ganado sobre la cantidad inicial y sobre los intereses ya añadidos. El saldo crece, y la siguiente ronda de intereses se calcula sobre ese saldo mayor. No es una comisión bancaria ni se limita a las tarjetas de crédito. Con los años, los intereses añadidos se convierten en gran parte del total.",
+        },
+        {
+          title: "Diversificación",
+          body: "Diversificar significa repartir el dinero entre distintos activos para que una pérdida no hunda el plan. Una sola acción, aunque sea sólida, es una única apuesta. Solo bonos no es una mezcla completa. El objetivo es menos riesgo, no una cartera nueva cada semana.",
+        },
+        {
+          title: "Fondos indexados",
+          body: "Un fondo indexado sigue automáticamente una lista del mercado y cobra una comisión baja. Un ETF puede hacer lo mismo. Un hedge fund y un fondo de capital riesgo son productos distintos con costes más altos. La comisión baja se queda invertida en lugar de irse en gastos.",
+        },
+        {
+          title: "Qué es un ETF",
+          body: "Un ETF es un fondo cotizado: una cesta de activos que puedes comprar y vender como una acción. No es una cuenta de ahorro ni una comisión por transferencia. Una sola compra puede contener muchas empresas o bonos. Obtienes una mezcla sin elegir cada pieza.",
+        },
+        {
+          title: "Tiempo en el mercado",
+          body: "Para los inversores a largo plazo, mantenerse invertido ha tendido a superar el intento de comprar en el mínimo exacto y vender en el máximo exacto. Vender tras una caída suele hacer que te pierdas la recuperación. Tener solo oro no es la estrategia que señalan estos estudios. Tiempo en el mercado significa seguir invertido durante las subidas y bajadas normales.",
+        },
+      ],
+      fr: [
+        {
+          title: "Intérêts composés",
+          body: "Les intérêts composés sont des intérêts gagnés sur le montant initial et sur les intérêts déjà ajoutés. Le solde grossit, et le prochain calcul d'intérêts porte sur ce solde plus élevé. Ce ne sont pas des frais bancaires, et cela ne se limite pas aux cartes de crédit. Sur de nombreuses années, les intérêts ajoutés deviennent une grande part du total.",
+        },
+        {
+          title: "Diversification",
+          body: "Diversifier, c'est répartir son argent entre différents actifs pour qu'une perte ne fasse pas couler le plan. Une seule action, même solide, reste un pari unique. Des obligations seules ne forment pas un ensemble complet. Le but est de réduire le risque, pas de changer de portefeuille chaque semaine.",
+        },
+        {
+          title: "Fonds indiciels",
+          body: "Un fonds indiciel suit automatiquement une liste de marché et facture des frais faibles. Un ETF peut faire de même. Un hedge fund et un fonds de capital-risque sont des produits différents, aux coûts plus élevés. Les frais économisés restent investis au lieu d'être versés.",
+        },
+        {
+          title: "Ce qu'est un ETF",
+          body: "Un ETF est un fonds coté en bourse : un panier d'actifs que vous pouvez acheter et vendre comme une action. Ce n'est ni un compte d'épargne ni des frais de virement. Un seul achat peut contenir de nombreuses entreprises ou obligations. Vous obtenez un ensemble sans choisir chaque élément vous-même.",
+        },
+        {
+          title: "Le temps passé sur le marché",
+          body: "Pour les investisseurs à long terme, rester investi a eu tendance à faire mieux que d'acheter au plus bas exact et de vendre au plus haut exact. Vendre après une baisse fait souvent manquer la reprise. L'or seul n'est pas la stratégie que désignent ces études. Le temps passé sur le marché, c'est rester investi à travers les hausses et les baisses ordinaires.",
+        },
+      ],
+      zh: [
+        {
+          title: "复利",
+          body: "复利是在本金和已加入的利息上共同赚取的利息。余额增长，下一轮利息按这个更大的余额计算。它不是银行手续费，也不只存在于信用卡。多年之后，累积的利息会成为总额中的一大部分。",
+        },
+        {
+          title: "分散投资",
+          body: "分散投资是把钱分散到不同资产上，这样一次亏损不会毁掉整个计划。一只股票再强，也只是一次下注。只有债券也不算完整的组合。目标是降低风险，而不是每周换一个新组合。",
+        },
+        {
+          title: "指数基金",
+          body: "指数基金自动跟踪一份市场名单，收费很低。ETF 也可以做到。对冲基金和风险投资基金是成本更高的不同产品。省下的费用会继续留在投资里，而不是被付出去。",
+        },
+        {
+          title: "什么是 ETF",
+          body: "ETF 是交易所交易基金：一篮子资产，可以像股票一样买卖。它不是储蓄账户，也不是转账手续费。一次买入就可以持有许多公司或债券。你不用自己逐个挑选，就能得到一个组合。",
+        },
+        {
+          title: "在市场中的时间",
+          body: "对长期投资者来说，保持投资往往胜过精确地买在最低点、卖在最高点。下跌后卖出常常会错过反弹。只持有黄金并不是这些研究指向的策略。在市场中的时间，意味着在正常的涨跌中保持投资。",
+        },
+      ],
+      hi: [
+        {
+          title: "चक्रवृद्धि ब्याज",
+          body: "चक्रवृद्धि ब्याज वह ब्याज है जो मूल रकम और पहले से जुड़े ब्याज दोनों पर मिलता है। बैलेंस बढ़ता है और ब्याज का अगला दौर उसी बड़े बैलेंस पर लगता है। यह बैंक का शुल्क नहीं है और सिर्फ़ क्रेडिट कार्ड तक सीमित नहीं है। कई सालों में जुड़ा हुआ ब्याज कुल रकम का बड़ा हिस्सा बन जाता है।",
+        },
+        {
+          title: "विविधीकरण",
+          body: "विविधीकरण का मतलब है पैसे को अलग-अलग एसेट में फैलाना ताकि एक नुकसान पूरी योजना न डुबो दे। एक शेयर, चाहे मज़बूत हो, एक ही दांव है। सिर्फ़ बॉन्ड भी पूरा मिश्रण नहीं हैं। लक्ष्य कम जोखिम है, हर हफ़्ते नया पोर्टफ़ोलियो नहीं।",
+        },
+        {
+          title: "इंडेक्स फंड",
+          body: "इंडेक्स फंड बाज़ार की एक सूची को अपने आप ट्रैक करता है और कम शुल्क लेता है। ETF भी यही कर सकता है। हेज फंड और वेंचर फंड ज़्यादा लागत वाले अलग उत्पाद हैं। कम शुल्क का पैसा चुकाए जाने के बजाय निवेश में बना रहता है।",
+        },
+        {
+          title: "ETF क्या है",
+          body: "ETF एक्सचेंज-ट्रेडेड फंड है: एसेट की एक टोकरी जिसे आप शेयर की तरह खरीद और बेच सकते हैं। यह बचत खाता नहीं है और न ही ट्रांसफ़र शुल्क। एक खरीद में कई कंपनियां या बॉन्ड हो सकते हैं। आपको हर हिस्सा खुद चुने बिना मिश्रण मिल जाता है।",
+        },
+        {
+          title: "बाज़ार में बिताया समय",
+          body: "लंबी अवधि के निवेशकों के लिए, निवेश में बने रहना अक्सर ठीक सबसे निचले स्तर पर खरीदने और ठीक सबसे ऊंचे स्तर पर बेचने से बेहतर रहा है। गिरावट के बाद बेचने से अक्सर रिकवरी छूट जाती है। सिर्फ़ सोना रखना वह रणनीति नहीं है जिसकी ओर ये अध्ययन इशारा करते हैं। बाज़ार में बिताया समय यानी सामान्य उतार-चढ़ाव में निवेश बनाए रखना।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Juros compostos",
+          body: "Juros compostos são juros ganhos sobre o valor inicial e sobre os juros já acumulados. O saldo cresce, e a próxima rodada de juros usa esse saldo maior. Não é uma tarifa bancária nem algo restrito a cartões de crédito. Ao longo de muitos anos, os juros acumulados viram grande parte do total.",
+        },
+        {
+          title: "Diversificação",
+          body: "Diversificar é distribuir o dinheiro entre ativos diferentes para que uma perda não afunde o plano. Uma única ação, mesmo que forte, é uma aposta só. Apenas títulos não formam uma carteira completa. O objetivo é reduzir o risco, não montar uma carteira nova toda semana.",
+        },
+        {
+          title: "Fundos de índice",
+          body: "Um fundo de índice acompanha automaticamente uma lista do mercado e cobra uma taxa baixa. Um ETF pode fazer o mesmo. Um hedge fund e um fundo de venture capital são produtos diferentes, com custos maiores. A taxa economizada continua investida em vez de ser paga.",
+        },
+        {
+          title: "O que é um ETF",
+          body: "Um ETF é um fundo negociado em bolsa: uma cesta de ativos que você pode comprar e vender como uma ação. Não é uma conta de poupança nem uma tarifa de transferência. Uma única compra pode conter muitas empresas ou títulos. Você obtém um conjunto sem escolher cada peça.",
+        },
+        {
+          title: "Tempo no mercado",
+          body: "Para investidores de longo prazo, permanecer investido tendeu a superar a tentativa de comprar na mínima exata e vender na máxima exata. Vender depois de uma queda muitas vezes faz perder a recuperação. Apenas ouro não é a estratégia que esses estudos apontam. Tempo no mercado significa continuar investido nas altas e baixas normais.",
+        },
+      ],
+      tr: [
+        {
+          title: "Bileşik getiri",
+          body: "Bileşik getiri, hem ana para hem de önceden eklenmiş getiri üzerinden kazanılan getiridir. Bakiye büyür ve bir sonraki getiri bu daha büyük bakiye üzerinden hesaplanır. Banka masrafı değildir ve kredi kartlarıyla sınırlı değildir. Uzun yıllar içinde eklenen getiri toplamın büyük bir kısmını oluşturur.",
+        },
+        {
+          title: "Çeşitlendirme",
+          body: "Çeşitlendirme, tek bir kaybın planı batırmaması için parayı farklı varlıklara yaymaktır. Güçlü olsa bile tek bir hisse tek bir bahistir. Yalnızca tahvil de tam bir karışım değildir. Amaç her hafta yeni bir portföy değil, daha düşük risktir.",
+        },
+        {
+          title: "Endeks fonları",
+          body: "Endeks fonu bir piyasa listesini otomatik olarak izler ve düşük ücret alır. Bir ETF de aynısını yapabilir. Hedge fon ve girişim sermayesi fonu, maliyeti daha yüksek farklı ürünlerdir. Düşük ücret sayesinde para ödenmek yerine yatırımda kalır.",
+        },
+        {
+          title: "ETF nedir",
+          body: "ETF borsada işlem gören bir fondur: hisse gibi alıp satabileceğin bir varlık sepetidir. Birikim hesabı ya da transfer ücreti değildir. Tek bir alım birçok şirketi veya tahvili içerebilir. Her parçayı tek tek seçmeden bir karışım elde edersin.",
+        },
+        {
+          title: "Piyasada geçen süre",
+          body: "Uzun vadeli yatırımcılar için yatırımda kalmak, tam dipten alıp tam tepeden satmaya çalışmaktan genellikle daha iyi sonuç vermiştir. Düşüşten sonra satmak çoğu zaman toparlanmayı kaçırmak demektir. Bu çalışmaların işaret ettiği strateji yalnızca altın tutmak değildir. Piyasada geçen süre, olağan iniş çıkışlar boyunca yatırımda kalmak demektir.",
+        },
+      ],
     },
     "/quiz?topic=investing",
   ),
   retirement: lesson(
-    { en: "Retirement and Future Security", pl: "Emerytura i bezpieczeństwo przyszłości", ja: "退職と将来の安心" },
+    { en: "Retirement and Future Security", pl: "Emerytura i bezpieczeństwo przyszłości", ja: "退職と将来の安心",
+    es: "Jubilación y seguridad futura",
+    fr: "Retraite et sécurité future",
+    zh: "退休与未来保障",
+    hi: "रिटायरमेंट और भविष्य की सुरक्षा",
+    "pt-BR": "Aposentadoria e segurança futura",
+    tr: "Emeklilik ve Gelecek Güvencesi" },
     {
       en: [
         {
@@ -387,11 +994,77 @@ export const stageLessons: Record<string, StageLesson> = {
           body: "若いうちに始めれば、少ない毎月の額にも複利の時間が長くあります。年7%で毎月およそ200ドルを25歳から65歳まで続けると、およそ525,000ドルになります。同じ習慣をずっと後から始めると、追いつくにはずっと大きい支払いが要ります。早い年が仕事の大きな部分をします。",
         },
       ],
+      es: [
+        {
+          title: "Para qué sirve la cuenta",
+          body: "Una cuenta de jubilación está pensada para sustituir los ingresos cuando dejas de trabajar. El dinero aportado puede capitalizarse durante décadas antes de que lo gastes. No es un fondo para vacaciones ni un lugar para el dinero de emergencia. La larga espera es lo que hace útil el interés compuesto.",
+        },
+        {
+          title: "Empezar pronto",
+          body: "Una pequeña cantidad mensual tiene mucho tiempo para capitalizarse si empiezas joven. Unos 200 dólares al mes con una rentabilidad anual del 7%, de los 25 a los 65 años, crecen hasta unos 525.000 dólares. El mismo hábito iniciado mucho más tarde necesita una aportación mucho mayor para alcanzarlo. Los primeros años hacen gran parte del trabajo.",
+        },
+      ],
+      fr: [
+        {
+          title: "Pourquoi ce compte existe",
+          body: "Un compte retraite est destiné à remplacer vos revenus quand vous cessez de travailler. L'argent versé peut fructifier pendant des décennies avant d'être dépensé. Ce n'est ni un fonds pour les vacances ni un endroit pour l'argent d'urgence. C'est la longue attente qui rend la capitalisation utile.",
+        },
+        {
+          title: "Commencer tôt",
+          body: "Un petit montant mensuel a beaucoup de temps pour fructifier si vous commencez jeune. Environ 200 dollars par mois à un rendement annuel de 7 %, de 25 à 65 ans, deviennent environ 525 000 dollars. La même habitude commencée bien plus tard exige un versement bien plus élevé pour rattraper. Les premières années font une grande partie du travail.",
+        },
+      ],
+      zh: [
+        {
+          title: "这个账户为何存在",
+          body: "退休账户是为了在你停止工作后替代收入。投入的钱在你花掉之前可以复利增长几十年。它不是度假基金，也不是放应急现金的地方。漫长的等待正是让复利发挥作用的原因。",
+        },
+        {
+          title: "尽早开始",
+          body: "如果你从年轻时开始，每月一小笔钱就有很长的时间复利增长。从 25 岁到 65 岁，每月约 200 美元、年回报 7%，会增长到约 52.5 万美元。同样的习惯如果晚很多才开始，就需要大得多的投入才能赶上。最初的那些年承担了很大一部分工作。",
+        },
+      ],
+      hi: [
+        {
+          title: "यह खाता क्यों है",
+          body: "रिटायरमेंट खाता काम छोड़ने के बाद आय की जगह लेने के लिए होता है। जमा किया गया पैसा खर्च होने से पहले दशकों तक चक्रवृद्धि से बढ़ सकता है। यह छुट्टियों का फंड या आपातकालीन नकदी की जगह नहीं है। लंबा इंतज़ार ही चक्रवृद्धि को उपयोगी बनाता है।",
+        },
+        {
+          title: "जल्दी शुरू करना",
+          body: "अगर आप कम उम्र में शुरू करें, तो छोटी मासिक रकम के पास बढ़ने के लिए लंबा समय होता है। 25 से 65 की उम्र तक, 7% सालाना रिटर्न पर हर महीने लगभग 200 डॉलर बढ़कर करीब 5,25,000 डॉलर हो जाते हैं। यही आदत बहुत देर से शुरू करने पर बराबरी के लिए कहीं बड़ी रकम चाहिए। शुरुआती साल काम का बड़ा हिस्सा करते हैं।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Por que a conta existe",
+          body: "Uma conta de aposentadoria serve para substituir a renda depois que você para de trabalhar. O dinheiro aplicado pode render juros compostos por décadas antes de ser gasto. Não é um fundo para férias nem um lugar para o dinheiro de emergência. A longa espera é o que torna os juros compostos úteis.",
+        },
+        {
+          title: "Começar cedo",
+          body: "Um pequeno valor mensal tem muito tempo para render se você começa jovem. Cerca de US$ 200 por mês a um retorno anual de 7%, dos 25 aos 65 anos, viram cerca de US$ 525.000. O mesmo hábito iniciado bem mais tarde exige um aporte muito maior para alcançar. Os primeiros anos fazem boa parte do trabalho.",
+        },
+      ],
+      tr: [
+        {
+          title: "Hesap neden var",
+          body: "Emeklilik hesabı, çalışmayı bıraktıktan sonra gelirin yerini tutmak içindir. Yatırılan para, harcanmadan önce onlarca yıl bileşik getiriyle büyüyebilir. Tatil fonu ya da acil durum parası için bir yer değildir. Bileşik getiriyi işe yarar kılan şey uzun bekleyiştir.",
+        },
+        {
+          title: "Erken başlamak",
+          body: "Genç başlarsan küçük bir aylık tutarın büyümek için uzun zamanı olur. 25 yaşından 65'e kadar, yıllık %7 getiriyle ayda yaklaşık 200 dolar, yaklaşık 525.000 dolara ulaşır. Aynı alışkanlığa çok daha geç başlamak, arayı kapatmak için çok daha yüksek ödeme gerektirir. İşin büyük kısmını ilk yıllar yapar.",
+        },
+      ],
     },
     "/quiz?topic=retirement",
   ),
   "family-plan": lesson(
-    { en: "Family Financial Plan", pl: "Rodzinny plan finansowy", ja: "家族の資金計画" },
+    { en: "Family Financial Plan", pl: "Rodzinny plan finansowy", ja: "家族の資金計画",
+    es: "Plan financiero familiar",
+    fr: "Plan financier familial",
+    zh: "家庭财务计划",
+    hi: "पारिवारिक वित्तीय योजना",
+    "pt-BR": "Plano financeiro familiar",
+    tr: "Aile Finans Planı" },
     {
       en: [
         {
@@ -433,6 +1106,90 @@ export const stageLessons: Record<string, StageLesson> = {
         {
           title: "子どもに教える",
           body: "役に立つ始まりは、一部を貯め、一部を使い、一部を渡す、という簡単な分け方の小遣いです。ルールのないお金はあまり教えません。18歳まで待つと、最初の本物の決定を練習できません。守れる小さいルールの方が、講義より良いです。",
+        },
+      ],
+      es: [
+        {
+          title: "Seguro de vida",
+          body: "El seguro de vida sustituye los ingresos para las personas que dependen de ti si falleces. No es una forma de hacerse rico ni un atajo a la bolsa. El pago existe para que el alquiler, la comida y los cuidados puedan continuar. El importe debe ajustarse a esa necesidad.",
+        },
+        {
+          title: "El dinero en pareja",
+          body: "Ambos miembros de la pareja deben conocer el panorama completo y planificar juntos. Si una sola persona toma todas las decisiones, la otra queda bloqueada si ocurre algo. Mantener todas las cuentas en secreto no es un plan compartido. Quien más gana no tiene por qué ser el único que entiende las facturas.",
+        },
+        {
+          title: "Enseñar a los hijos",
+          body: "Un buen comienzo es una paga con un reparto sencillo: ahorrar una parte, gastar otra y dar otra. El dinero sin reglas enseña poco. Esperar a los 18 deja sin practicar las primeras decisiones reales. Una regla pequeña que puedan seguir vale más que un sermón.",
+        },
+      ],
+      fr: [
+        {
+          title: "Assurance vie",
+          body: "L'assurance décès remplace les revenus pour les personnes qui dépendent de vous si vous décédez. Ce n'est pas un moyen de s'enrichir ni un raccourci vers la bourse. Le capital versé permet que le loyer, la nourriture et les soins continuent. Le montant doit correspondre à ce besoin.",
+        },
+        {
+          title: "L'argent en couple",
+          body: "Les deux partenaires doivent connaître la situation complète et planifier ensemble. Si une seule personne prend toutes les décisions, l'autre se retrouve démunie en cas de problème. Garder tous les comptes secrets n'est pas un plan commun. Celui qui gagne le plus n'a pas à être le seul à comprendre les factures.",
+        },
+        {
+          title: "Apprendre aux enfants",
+          body: "Un bon début est de l'argent de poche avec une répartition simple : épargner un peu, dépenser un peu, donner un peu. L'argent sans règles n'apprend pas grand-chose. Attendre 18 ans laisse les premières vraies décisions sans entraînement. Une petite règle qu'ils peuvent suivre vaut mieux qu'un sermon.",
+        },
+      ],
+      zh: [
+        {
+          title: "人寿保险",
+          body: "人寿保险在你身故时，为依靠你生活的人替代收入。它不是致富手段，也不是进入股市的捷径。赔付是为了让房租、食物和照护得以继续。保额应与这一需要相匹配。",
+        },
+        {
+          title: "夫妻理财",
+          body: "伴侣双方都应了解全貌并共同规划。如果所有决定都由一个人做，一旦出事，另一个人就会不知所措。每个账户都保密，不算共同计划。收入更高的那个人不必是唯一看得懂账单的人。",
+        },
+        {
+          title: "教孩子理财",
+          body: "一个有用的开始是带有简单分配规则的零花钱，比如存一些、花一些、给一些。没有规则的钱教不了什么。等到 18 岁，会让最初的真实决策缺乏练习。一条他们能遵守的小规则，胜过一番说教。",
+        },
+      ],
+      hi: [
+        {
+          title: "जीवन बीमा",
+          body: "जीवन बीमा आपकी मृत्यु होने पर आप पर निर्भर लोगों के लिए आय की जगह लेता है। यह अमीर बनने का तरीका नहीं है और न ही शेयर बाज़ार का शॉर्टकट। भुगतान इसलिए है ताकि किराया, खाना और देखभाल जारी रह सके। रकम उस ज़रूरत के अनुसार होनी चाहिए।",
+        },
+        {
+          title: "जोड़े के रूप में पैसा",
+          body: "दोनों साथियों को पूरी तस्वीर पता होनी चाहिए और मिलकर योजना बनानी चाहिए। अगर हर फ़ैसला एक ही व्यक्ति के पास हो, तो कुछ होने पर दूसरा अटक जाता है। हर खाते को छिपाकर रखना साझा योजना नहीं है। ज़्यादा कमाने वाले का ही बिलों को समझने वाला अकेला व्यक्ति होना ज़रूरी नहीं।",
+        },
+        {
+          title: "बच्चों को सिखाना",
+          body: "एक अच्छी शुरुआत है सरल बंटवारे वाला जेबखर्च, जैसे कुछ बचाओ, कुछ खर्च करो और कुछ दो। बिना नियम का पैसा कम सिखाता है। 18 साल तक इंतज़ार करने से पहले असली फ़ैसलों का अभ्यास नहीं हो पाता। एक छोटा नियम जिसे वे निभा सकें, भाषण से बेहतर है।",
+        },
+      ],
+      "pt-BR": [
+        {
+          title: "Seguro de vida",
+          body: "O seguro de vida substitui a renda para as pessoas que dependem de você caso você morra. Não é um jeito de enriquecer nem um atalho para a bolsa. A indenização existe para que aluguel, comida e cuidados possam continuar. O valor deve corresponder a essa necessidade.",
+        },
+        {
+          title: "Dinheiro a dois",
+          body: "Os dois parceiros devem conhecer o quadro completo e planejar juntos. Uma pessoa concentrando todas as decisões deixa a outra sem saída se algo acontecer. Manter todas as contas em segredo não é um plano compartilhado. Quem ganha mais não precisa ser o único a entender as contas.",
+        },
+        {
+          title: "Ensinar as crianças",
+          body: "Um bom começo é a mesada com uma divisão simples: poupar um pouco, gastar um pouco e doar um pouco. Dinheiro sem regras ensina pouco. Esperar até os 18 deixa as primeiras decisões reais sem prática. Uma regra pequena que elas conseguem seguir vale mais do que um sermão.",
+        },
+      ],
+      tr: [
+        {
+          title: "Hayat sigortası",
+          body: "Hayat sigortası, ölümün hâlinde sana bağımlı olan kişiler için gelirin yerini tutar. Zengin olmanın yolu ya da borsaya kısa yol değildir. Ödeme; kiranın, yemeğin ve bakımın sürebilmesi içindir. Tutar bu ihtiyaca uygun olmalıdır.",
+        },
+        {
+          title: "Çift olarak para",
+          body: "Her iki partner de tablonun tamamını bilmeli ve birlikte plan yapmalıdır. Tüm kararları tek kişinin vermesi, bir şey olursa diğerini çaresiz bırakır. Her hesabı gizli tutmak ortak bir plan değildir. Faturaları anlayan tek kişi daha çok kazanan olmak zorunda değildir.",
+        },
+        {
+          title: "Çocuklara öğretmek",
+          body: "İyi bir başlangıç, basit bir paylaşımı olan harçlıktır: biraz biriktir, biraz harca, biraz paylaş. Kuralsız para pek bir şey öğretmez. 18 yaşını beklemek ilk gerçek kararları pratiksiz bırakır. Uygulayabilecekleri küçük bir kural, uzun bir nutuktan iyidir.",
         },
       ],
     },

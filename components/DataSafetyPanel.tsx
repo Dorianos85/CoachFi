@@ -26,6 +26,42 @@ const COPY: LocalizedMap<{ title: string; body: string; export: string; delete: 
     export: "データをエクスポート",
     delete: "ローカルデータを削除",
   },
+  es: {
+    title: "Control de datos en este dispositivo",
+    body: "Coach FI guarda la mayor parte del estado de la app localmente en el navegador. Puedes exportar o eliminar los datos locales de la app en este dispositivo.",
+    export: "Exportar datos",
+    delete: "Eliminar datos locales",
+  },
+  fr: {
+    title: "Contrôle des données sur cet appareil",
+    body: "Coach FI stocke l'essentiel de l'état de l'application localement dans le navigateur. Vous pouvez exporter ou supprimer les données locales de l'application sur cet appareil.",
+    export: "Exporter les données",
+    delete: "Supprimer les données locales",
+  },
+  zh: {
+    title: "本设备上的数据控制",
+    body: "Coach FI 将大部分应用状态保存在本地浏览器中。你可以从本设备导出或删除本地应用数据。",
+    export: "导出数据",
+    delete: "删除本地数据",
+  },
+  hi: {
+    title: "इस डिवाइस पर डेटा नियंत्रण",
+    body: "Coach FI ऐप की ज़्यादातर स्थिति ब्राउज़र में स्थानीय रूप से सहेजता है। आप इस डिवाइस से स्थानीय ऐप डेटा एक्सपोर्ट कर सकते हैं या हटा सकते हैं।",
+    export: "डेटा एक्सपोर्ट करें",
+    delete: "स्थानीय डेटा हटाएं",
+  },
+  "pt-BR": {
+    title: "Controle de dados neste dispositivo",
+    body: "O Coach FI guarda a maior parte do estado do app localmente no navegador. Você pode exportar ou apagar os dados locais do app neste dispositivo.",
+    export: "Exportar dados",
+    delete: "Apagar dados locais",
+  },
+  tr: {
+    title: "Bu cihazda veri kontrolü",
+    body: "Coach FI uygulama durumunun çoğunu tarayıcıda yerel olarak saklar. Yerel uygulama verilerini bu cihazdan dışa aktarabilir veya silebilirsin.",
+    export: "Verileri dışa aktar",
+    delete: "Yerel verileri sil",
+  },
 };
 
 function collectStorage(storage: Storage) {

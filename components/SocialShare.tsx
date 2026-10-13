@@ -44,6 +44,12 @@ const COPY: LocalizedMap<{ title: string; more: string; copy: string; copied: st
   en: { title: "Share and challenge friends", more: "More options", copy: "Copy link", copied: "Copied!", shareOn: "Share on" },
   pl: { title: "Udostępnij i rzuć wyzwanie", more: "Więcej opcji", copy: "Kopiuj link", copied: "Skopiowano!", shareOn: "Udostępnij na" },
   ja: { title: "共有して挑戦", more: "その他", copy: "リンクをコピー", copied: "コピーしました", shareOn: "共有先" },
+  es: { title: "Comparte y reta a tus amigos", more: "Más opciones", copy: "Copiar enlace", copied: "¡Copiado!", shareOn: "Compartir en" },
+  fr: { title: "Partagez et défiez vos amis", more: "Plus d'options", copy: "Copier le lien", copied: "Copié !", shareOn: "Partager sur" },
+  zh: { title: "分享并挑战朋友", more: "更多选项", copy: "复制链接", copied: "已复制！", shareOn: "分享到" },
+  hi: { title: "शेयर करें और दोस्तों को चुनौती दें", more: "और विकल्प", copy: "लिंक कॉपी करें", copied: "कॉपी हो गया!", shareOn: "यहां शेयर करें:" },
+  "pt-BR": { title: "Compartilhe e desafie os amigos", more: "Mais opções", copy: "Copiar link", copied: "Copiado!", shareOn: "Compartilhar no" },
+  tr: { title: "Paylaş ve arkadaşlarına meydan oku", more: "Diğer seçenekler", copy: "Bağlantıyı kopyala", copied: "Kopyalandı!", shareOn: "Şurada paylaş:" },
 };
 
 export function SocialShare({ text, url, title, compact = false }: SocialShareProps) {

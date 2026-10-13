@@ -2,7 +2,20 @@
 
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+const CERTIFICATE_HEADING: LocalizedMap<string> = {
+  en: "Certificate of Achievement",
+  pl: "Certyfikat osiągnięcia",
+  es: "Certificado de logro",
+  fr: "Certificat de réussite",
+  zh: "成就证书",
+  ja: "達成証明書",
+  hi: "उपलब्धि प्रमाणपत्र",
+  "pt-BR": "Certificado de conquista",
+  tr: "Başarı Sertifikası",
+};
 
 export function NFTCertificateCard({
   title,
@@ -27,7 +40,7 @@ export function NFTCertificateCard({
   txHash?: string;
   assetAddress?: string;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const isMinted = statusVariant === "success" || status.toLowerCase() === "minted";
   const isReady = statusVariant === "accent" || status.toLowerCase() === "ready";
   const explorerUrl = txHash
@@ -61,7 +74,7 @@ export function NFTCertificateCard({
             </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-muted">
-                Certificate of Achievement
+                {pickLocalized(CERTIFICATE_HEADING, locale)}
               </p>
               <p className="mt-0.5 font-black text-text">{title}</p>
             </div>

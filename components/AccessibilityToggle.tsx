@@ -13,6 +13,12 @@ const COPY: LocalizedMap<{ contrast: string; textSize: string; normal: string; l
   en: { contrast: "Contrast", textSize: "Text size", normal: "A", large: "A+", xlarge: "A++" },
   pl: { contrast: "Kontrast", textSize: "Rozmiar tekstu", normal: "A", large: "A+", xlarge: "A++" },
   ja: { contrast: "コントラスト", textSize: "文字サイズ", normal: "A", large: "A+", xlarge: "A++" },
+  es: { contrast: "Contraste", textSize: "Tamaño del texto", normal: "A", large: "A+", xlarge: "A++" },
+  fr: { contrast: "Contraste", textSize: "Taille du texte", normal: "A", large: "A+", xlarge: "A++" },
+  zh: { contrast: "对比度", textSize: "文字大小", normal: "A", large: "A+", xlarge: "A++" },
+  hi: { contrast: "कंट्रास्ट", textSize: "टेक्स्ट का आकार", normal: "A", large: "A+", xlarge: "A++" },
+  "pt-BR": { contrast: "Contraste", textSize: "Tamanho do texto", normal: "A", large: "A+", xlarge: "A++" },
+  tr: { contrast: "Kontrast", textSize: "Yazı boyutu", normal: "A", large: "A+", xlarge: "A++" },
 };
 
 const scaleOptions: Array<{ value: TextScale; key: "normal" | "large" | "xlarge" }> = [

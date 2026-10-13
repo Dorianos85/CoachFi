@@ -67,7 +67,7 @@ test("mode selector enters Kids Mode directly and survives a reload", async ({ p
   await page.reload();
   await expectKidsDashboard(page);
   await expect(modeSelector(page)).toHaveCount(0);
-  await expect(page.getByText("Kids Mode aktywny.")).toBeVisible();
+  await expect(page.getByText(/Kids Mode is active/)).toBeVisible();
 });
 
 test("Kids Mode entry is reachable above the mobile navigation at 390px", async ({ page }) => {

@@ -137,6 +137,228 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
       blockchain: { title: "証明書", description: "ウォレットと証明書メタデータを Solana Devnet に保存します。" },
     },
   },
+  es: {
+    close: "Cerrar la configuración de consentimientos",
+    eyebrow: "Seguridad de los datos",
+    title: "Condiciones de uso de Coach FI",
+    intro: "Los datos mínimos se quedan en este dispositivo. Las funciones externas se activan con un consentimiento opcional aparte.",
+    bannerBody:
+      "Ya puedes explorar la demo. Acepta las condiciones obligatorias cuando quieras desbloquear tu resultado completo, guardar tu progreso o usar integraciones externas.",
+    reviewSettings: "Revisar ajustes",
+    requiredTitle: "Acepto los Términos y la Política de privacidad",
+    requiredDesc: "Este consentimiento es necesario para usar la app. Los documentos están disponibles aquí:",
+    terms: "Términos",
+    privacy: "Privacidad",
+    optionalTitle: "Consentimientos opcionales",
+    footer: "Puedes cambiar los consentimientos en el pie de la app. Retirar el consentimiento no elimina automáticamente los datos ya almacenados por proveedores externos o en una blockchain pública.",
+    requiredHint: "Marca el consentimiento obligatorio o elige Aceptar todo.",
+    save: "Guardar ajustes",
+    acceptRequired: "Aceptar lo obligatorio",
+    acceptAll: "Aceptar todo",
+    options: {
+      aiCoach: {
+        title: "Coach IA Mila",
+        description: "Enviar el texto del chat con la coach y el contexto del agente de IA conversacional mediante integraciones seguras de servidor o widget.",
+      },
+      voice: {
+        title: "Voz de ElevenLabs",
+        description: "Usar ElevenLabs para la lectura en voz alta al hacer clic y para el agente de voz opcional cuando lo inicies. Se usa la voz del navegador cuando el TTS no está disponible.",
+      },
+      leaderboard: {
+        title: "Clasificación global",
+        description: "Publicar el nombre visible, la puntuación y la racha en la clasificación de Supabase.",
+      },
+      blockchain: {
+        title: "Certificados",
+        description: "Guardar la dirección del monedero y los metadatos del certificado en la red pública Solana Devnet.",
+      },
+    },
+  },
+  fr: {
+    close: "Fermer les paramètres de consentement",
+    eyebrow: "Sécurité des données",
+    title: "Conditions d'utilisation de Coach FI",
+    intro: "Le minimum de données reste sur cet appareil. Les fonctions externes sont activées par un consentement facultatif distinct.",
+    bannerBody:
+      "Vous pouvez parcourir la démo dès maintenant. Acceptez les conditions requises lorsque vous souhaitez débloquer votre résultat complet, enregistrer vos progrès ou utiliser des intégrations externes.",
+    reviewSettings: "Revoir les paramètres",
+    requiredTitle: "J'accepte les Conditions et la Politique de confidentialité",
+    requiredDesc: "Ce consentement est nécessaire pour utiliser l'application. Les documents sont disponibles ici :",
+    terms: "Conditions",
+    privacy: "Confidentialité",
+    optionalTitle: "Consentements facultatifs",
+    footer: "Vous pouvez modifier vos consentements dans le pied de page de l'application. Le retrait du consentement ne supprime pas automatiquement les données déjà stockées par des fournisseurs externes ou sur une blockchain publique.",
+    requiredHint: "Cochez le consentement requis ou choisissez Tout accepter.",
+    save: "Enregistrer les paramètres",
+    acceptRequired: "Accepter le nécessaire",
+    acceptAll: "Tout accepter",
+    options: {
+      aiCoach: {
+        title: "Coach IA Mila",
+        description: "Envoyer le texte du chat avec la coach et le contexte de l'agent d'IA conversationnelle via des intégrations sécurisées (serveur ou widget).",
+      },
+      voice: {
+        title: "Voix ElevenLabs",
+        description: "Utiliser ElevenLabs pour la lecture à voix haute au clic et pour l'agent vocal facultatif une fois que vous le lancez. La voix du navigateur est utilisée lorsque la synthèse vocale n'est pas disponible.",
+      },
+      leaderboard: {
+        title: "Classement mondial",
+        description: "Publier le nom affiché, le score et la série dans le classement Supabase.",
+      },
+      blockchain: {
+        title: "Certificats",
+        description: "Enregistrer l'adresse du portefeuille et les métadonnées du certificat sur le réseau public Solana Devnet.",
+      },
+    },
+  },
+  zh: {
+    close: "关闭授权设置",
+    eyebrow: "数据安全",
+    title: "Coach FI 使用条款",
+    intro: "最少量的数据保留在本设备上。外部功能需单独的可选授权才会启用。",
+    bannerBody:
+      "你现在就可以浏览演示。当你想解锁完整结果、保存进度或使用外部集成时，再接受必需条款。",
+    reviewSettings: "查看设置",
+    requiredTitle: "我接受条款和隐私政策",
+    requiredDesc: "使用本应用需要此授权。相关文件见此处：",
+    terms: "条款",
+    privacy: "隐私",
+    optionalTitle: "可选授权",
+    footer: "你可以在应用页脚更改授权。撤回授权不会自动删除已由外部服务商或公共区块链存储的数据。",
+    requiredHint: "请勾选必需授权，或选择“全部接受”。",
+    save: "保存设置",
+    acceptRequired: "仅接受必需项",
+    acceptAll: "全部接受",
+    options: {
+      aiCoach: {
+        title: "AI 教练 Mila",
+        description: "通过安全的服务器或小组件集成，发送教练聊天文本和对话式 AI 智能体的上下文。",
+      },
+      voice: {
+        title: "ElevenLabs 语音",
+        description: "使用 ElevenLabs 实现点击朗读，并在你启动后使用可选的语音智能体。TTS 不可用时会使用浏览器语音。",
+      },
+      leaderboard: {
+        title: "全球排行榜",
+        description: "在 Supabase 排行榜中公开显示名称、得分和连胜。",
+      },
+      blockchain: {
+        title: "证书",
+        description: "在公开的 Solana Devnet 上存储钱包地址和证书元数据。",
+      },
+    },
+  },
+  hi: {
+    close: "सहमति सेटिंग बंद करें",
+    eyebrow: "डेटा सुरक्षा",
+    title: "Coach FI उपयोग की शर्तें",
+    intro: "कम से कम डेटा इसी डिवाइस पर रहता है। बाहरी सुविधाएं अलग वैकल्पिक सहमति से चालू होती हैं।",
+    bannerBody:
+      "आप अभी डेमो देख सकते हैं। जब आप अपना पूरा नतीजा अनलॉक करना, प्रगति सहेजना या बाहरी इंटीग्रेशन इस्तेमाल करना चाहें, तब ज़रूरी शर्तें स्वीकार करें।",
+    reviewSettings: "सेटिंग देखें",
+    requiredTitle: "मैं शर्तें और गोपनीयता नीति स्वीकार करता/करती हूं",
+    requiredDesc: "ऐप इस्तेमाल करने के लिए यह सहमति ज़रूरी है। दस्तावेज़ यहां उपलब्ध हैं:",
+    terms: "शर्तें",
+    privacy: "गोपनीयता",
+    optionalTitle: "वैकल्पिक सहमतियां",
+    footer: "आप ऐप के फ़ुटर में सहमतियां बदल सकते हैं। सहमति वापस लेने से बाहरी प्रदाताओं या सार्वजनिक ब्लॉकचेन पर पहले से सहेजा गया डेटा अपने आप नहीं हटता।",
+    requiredHint: "ज़रूरी सहमति चुनें या सभी स्वीकार करें चुनें।",
+    save: "सेटिंग सहेजें",
+    acceptRequired: "ज़रूरी स्वीकार करें",
+    acceptAll: "सभी स्वीकार करें",
+    options: {
+      aiCoach: {
+        title: "AI कोच Mila",
+        description: "कोच चैट का टेक्स्ट और कन्वर्सेशनल AI एजेंट का संदर्भ सुरक्षित सर्वर या विजेट इंटीग्रेशन के ज़रिए भेजें।",
+      },
+      voice: {
+        title: "ElevenLabs आवाज़",
+        description: "क्लिक करने पर बोलकर सुनाने के लिए और आपके शुरू करने पर वैकल्पिक वॉइस एजेंट के लिए ElevenLabs का उपयोग करें। TTS उपलब्ध न होने पर ब्राउज़र की आवाज़ इस्तेमाल होती है।",
+      },
+      leaderboard: {
+        title: "ग्लोबल लीडरबोर्ड",
+        description: "Supabase लीडरबोर्ड में डिस्प्ले नाम, स्कोर और स्ट्रीक प्रकाशित करें।",
+      },
+      blockchain: {
+        title: "सर्टिफ़िकेट",
+        description: "वॉलेट का पता और सर्टिफ़िकेट का मेटाडेटा सार्वजनिक Solana Devnet पर सहेजें।",
+      },
+    },
+  },
+  "pt-BR": {
+    close: "Fechar as configurações de consentimento",
+    eyebrow: "Segurança dos dados",
+    title: "Termos de uso do Coach FI",
+    intro: "O mínimo de dados fica neste dispositivo. Os recursos externos são ativados com um consentimento opcional separado.",
+    bannerBody:
+      "Você já pode explorar a demo. Aceite os termos obrigatórios quando quiser desbloquear seu resultado completo, salvar o progresso ou usar integrações externas.",
+    reviewSettings: "Revisar configurações",
+    requiredTitle: "Aceito os Termos e a Política de Privacidade",
+    requiredDesc: "Este consentimento é necessário para usar o app. Os documentos estão disponíveis aqui:",
+    terms: "Termos",
+    privacy: "Privacidade",
+    optionalTitle: "Consentimentos opcionais",
+    footer: "Você pode alterar os consentimentos no rodapé do app. Retirar o consentimento não apaga automaticamente os dados já armazenados por provedores externos ou em blockchain pública.",
+    requiredHint: "Marque o consentimento obrigatório ou escolha Aceitar tudo.",
+    save: "Salvar configurações",
+    acceptRequired: "Aceitar o obrigatório",
+    acceptAll: "Aceitar tudo",
+    options: {
+      aiCoach: {
+        title: "Coach IA Mila",
+        description: "Enviar o texto do chat com a coach e o contexto do agente de IA conversacional por integrações seguras de servidor ou widget.",
+      },
+      voice: {
+        title: "Voz ElevenLabs",
+        description: "Usar a ElevenLabs para leitura em voz alta ao clicar e para o agente de voz opcional depois que você o iniciar. A voz do navegador é usada quando o TTS não está disponível.",
+      },
+      leaderboard: {
+        title: "Ranking global",
+        description: "Publicar nome de exibição, pontuação e sequência no ranking da Supabase.",
+      },
+      blockchain: {
+        title: "Certificados",
+        description: "Armazenar o endereço da carteira e os metadados do certificado na rede pública Solana Devnet.",
+      },
+    },
+  },
+  tr: {
+    close: "Onay ayarlarını kapat",
+    eyebrow: "Veri güvenliği",
+    title: "Coach FI kullanım koşulları",
+    intro: "Asgari veri bu cihazda kalır. Harici özellikler ayrı, isteğe bağlı onayla etkinleşir.",
+    bannerBody:
+      "Demoya şimdi göz atabilirsin. Tam sonucunu açmak, ilerlemeni kaydetmek veya harici entegrasyonları kullanmak istediğinde zorunlu koşulları kabul et.",
+    reviewSettings: "Ayarları gözden geçir",
+    requiredTitle: "Koşulları ve Gizlilik Politikası'nı kabul ediyorum",
+    requiredDesc: "Uygulamayı kullanmak için bu onay gereklidir. Belgeler burada:",
+    terms: "Koşullar",
+    privacy: "Gizlilik",
+    optionalTitle: "İsteğe bağlı onaylar",
+    footer: "Onayları uygulamanın alt bilgisinden değiştirebilirsin. Onayı geri çekmek, harici sağlayıcılarda veya herkese açık blokzincirde zaten saklanan verileri otomatik olarak silmez.",
+    requiredHint: "Zorunlu onayı işaretle veya Tümünü kabul et'i seç.",
+    save: "Ayarları kaydet",
+    acceptRequired: "Zorunluları kabul et",
+    acceptAll: "Tümünü kabul et",
+    options: {
+      aiCoach: {
+        title: "AI Koç Mila",
+        description: "Koç sohbet metnini ve Konuşma Yapay Zekâsı ajanının bağlamını güvenli sunucu veya widget entegrasyonlarıyla gönder.",
+      },
+      voice: {
+        title: "ElevenLabs sesi",
+        description: "Tıkla-dinle seslendirme ve sen başlattıktan sonra isteğe bağlı sesli ajan için ElevenLabs'i kullan. TTS kullanılamadığında tarayıcı sesi kullanılır.",
+      },
+      leaderboard: {
+        title: "Küresel sıralama",
+        description: "Görünen adı, puanı ve seriyi Supabase sıralamasında yayımla.",
+      },
+      blockchain: {
+        title: "Sertifikalar",
+        description: "Cüzdan adresini ve sertifika meta verilerini herkese açık Solana Devnet'te sakla.",
+      },
+    },
+  },
 };
 
 const optionKeys: OptionalConsentKey[] = ["aiCoach", "voice", "leaderboard", "blockchain"];

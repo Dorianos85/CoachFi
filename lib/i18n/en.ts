@@ -333,7 +333,9 @@ export const en = {
     live: "Live",
     fab: "Start conversation",
     startChat: "Start text chat",
-    hint: "You can speak naturally — Mila understands Polish, English and Spanish.",
+    hint: "You can speak naturally — Mila talks with you in the language you chose for the app.",
+    firstMessage:
+      "Hi! I'm Mila, your AI assistant for financial education. I'll help you understand money better and build calm habits. Where would you like to start?",
     poweredBy: "Powered by ElevenLabs Conversational AI",
     openAriaLabel: "Start conversation with Mila",
     closeAriaLabel: "Close conversation with Mila",

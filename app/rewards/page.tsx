@@ -206,6 +206,282 @@ const rewardsCopy: LocalizedMap<
       },
     ],
   },
+  es: {
+    readText: (tokens) => `Recompensas. Tienes ${tokens} Puntos Coach FI. Los certificados son una prueba de tu progreso en educación financiera.`,
+    walletTitle: "Monedero de Solana Devnet",
+    walletHelp: "Conecta un monedero para asociar tu certificado a tu dirección en Devnet.",
+    embeddedHelp: "Esta dirección es la propietaria de tu certificado en Devnet.",
+    embeddedLogin: "Iniciar sesión",
+    embeddedLogout: "Cerrar sesión",
+    mintDescription: "Emite tu certificado «Hábito de ahorro» en Solana Devnet como prueba de tu progreso.",
+    consentRequired:
+      "Se requiere el consentimiento de blockchain porque la dirección del monedero y los metadatos del certificado pueden hacerse públicos.",
+    certificateVoiceLabel: "Reproducir el mensaje del certificado",
+    proofNote:
+      "Los certificados son una prueba de formación, no productos de inversión. No pueden revenderse con beneficio y solo representan tu hito personal de aprendizaje.",
+    dialogTitle: "Certificado emitido en Solana Devnet",
+    dialogDescription: "Tu certificado «Hábito de ahorro» ha quedado registrado en la cadena.",
+    transactionHash: "Hash de la transacción",
+    explorer: "Ver en Solana Explorer (Devnet)",
+    dialogFootnote: "Este certificado representa tu progreso en educación financiera, no un producto de inversión.",
+    mintSteps: {
+      idle: "",
+      preparing: "Preparando metadatos...",
+      signing: "Esperando la firma del monedero...",
+      confirming: "Confirmando en Devnet...",
+      done: "¡Certificado emitido!",
+    },
+    statusLabels: {
+      minted: "Emitido",
+      ready: "Listo",
+      locked: "Bloqueado",
+      transferred: "Transferido",
+    },
+    certificates: [
+      {
+        title: "Certificado Mentalidad financiera",
+        description: "Prueba de que completaste la primera lección de mentalidad.",
+      },
+      {
+        title: "Certificado Hábito de ahorro",
+        description: "Se desbloquea tras el quiz del hábito de ahorro y una racha de 3 días.",
+      },
+      {
+        title: "Certificado Luchador contra la inflación",
+        description: "Se consigue tras completar la calculadora de inflación y el quiz.",
+      },
+    ],
+  },
+  fr: {
+    readText: (tokens) => `Récompenses. Vous avez ${tokens} Points Coach FI. Les certificats sont une preuve de vos progrès en éducation financière.`,
+    walletTitle: "Portefeuille Solana Devnet",
+    walletHelp: "Connectez un portefeuille pour associer votre certificat à votre adresse sur Devnet.",
+    embeddedHelp: "Cette adresse détient votre certificat sur Devnet.",
+    embeddedLogin: "Se connecter",
+    embeddedLogout: "Se déconnecter",
+    mintDescription: "Émettez votre certificat « Habitude d'épargne » sur Solana Devnet comme preuve de vos progrès.",
+    consentRequired:
+      "Le consentement blockchain est requis, car l'adresse du portefeuille et les métadonnées du certificat peuvent devenir publiques.",
+    certificateVoiceLabel: "Écouter le message du certificat",
+    proofNote:
+      "Les certificats sont une preuve de formation, pas des produits d'investissement. Ils ne peuvent pas être revendus avec profit et représentent uniquement votre étape personnelle d'apprentissage.",
+    dialogTitle: "Certificat émis sur Solana Devnet",
+    dialogDescription: "Votre certificat « Habitude d'épargne » a été enregistré sur la blockchain.",
+    transactionHash: "Hash de la transaction",
+    explorer: "Voir sur Solana Explorer (Devnet)",
+    dialogFootnote: "Ce certificat représente vos progrès en éducation financière, pas un produit d'investissement.",
+    mintSteps: {
+      idle: "",
+      preparing: "Préparation des métadonnées...",
+      signing: "En attente de la signature du portefeuille...",
+      confirming: "Confirmation sur Devnet...",
+      done: "Certificat émis !",
+    },
+    statusLabels: {
+      minted: "Émis",
+      ready: "Prêt",
+      locked: "Verrouillé",
+      transferred: "Transféré",
+    },
+    certificates: [
+      {
+        title: "Certificat État d'esprit financier",
+        description: "Preuve que vous avez terminé la première leçon sur l'état d'esprit.",
+      },
+      {
+        title: "Certificat Habitude d'épargne",
+        description: "Se débloque après le quiz sur l'habitude d'épargne et une série de 3 jours.",
+      },
+      {
+        title: "Certificat Combattant de l'inflation",
+        description: "Obtenu après avoir terminé le calculateur d'inflation et le quiz.",
+      },
+    ],
+  },
+  zh: {
+    readText: (tokens) => `奖励。你有 ${tokens} Coach FI 积分。证书是你财商教育进度的证明。`,
+    walletTitle: "Solana Devnet 钱包",
+    walletHelp: "连接钱包，将证书与你在 Devnet 上的地址关联。",
+    embeddedHelp: "该地址拥有你在 Devnet 上的证书。",
+    embeddedLogin: "登录",
+    embeddedLogout: "退出登录",
+    mintDescription: "在 Solana Devnet 上铸造你的“储蓄习惯”证书，作为进步的证明。",
+    consentRequired:
+      "由于钱包地址和证书元数据可能会公开，因此需要区块链授权。",
+    certificateVoiceLabel: "播放证书寄语",
+    proofNote:
+      "证书是学习的证明，不是投资产品。它不能转售获利，只代表你个人的学习里程碑。",
+    dialogTitle: "证书已在 Solana Devnet 上铸造",
+    dialogDescription: "你的“储蓄习惯”证书已记录在链上。",
+    transactionHash: "交易哈希",
+    explorer: "在 Solana Explorer 上查看（Devnet）",
+    dialogFootnote: "此证书代表你的财商教育进度，而非投资产品。",
+    mintSteps: {
+      idle: "",
+      preparing: "正在准备元数据...",
+      signing: "等待钱包签名...",
+      confirming: "正在 Devnet 上确认...",
+      done: "证书已铸造！",
+    },
+    statusLabels: {
+      minted: "已铸造",
+      ready: "可领取",
+      locked: "未解锁",
+      transferred: "已转移",
+    },
+    certificates: [
+      {
+        title: "金钱心态证书",
+        description: "证明你完成了第一节心态课程。",
+      },
+      {
+        title: "储蓄习惯证书",
+        description: "完成储蓄习惯测验并连续学习 3 天后解锁。",
+      },
+      {
+        title: "通胀斗士证书",
+        description: "完成通胀计算器和测验后获得。",
+      },
+    ],
+  },
+  hi: {
+    readText: (tokens) => `इनाम। आपके पास ${tokens} Coach FI पॉइंट हैं। सर्टिफ़िकेट वित्तीय शिक्षा में आपकी प्रगति का प्रमाण हैं।`,
+    walletTitle: "Solana Devnet वॉलेट",
+    walletHelp: "अपने सर्टिफ़िकेट को Devnet पर अपने पते से जोड़ने के लिए वॉलेट कनेक्ट करें।",
+    embeddedHelp: "यह पता Devnet पर आपके सर्टिफ़िकेट का मालिक है।",
+    embeddedLogin: "साइन इन करें",
+    embeddedLogout: "लॉग आउट करें",
+    mintDescription: "अपनी प्रगति के प्रमाण के रूप में Solana Devnet पर अपना \"बचत की आदत\" सर्टिफ़िकेट जारी करें।",
+    consentRequired:
+      "ब्लॉकचेन सहमति ज़रूरी है क्योंकि वॉलेट का पता और सर्टिफ़िकेट का मेटाडेटा सार्वजनिक हो सकता है।",
+    certificateVoiceLabel: "सर्टिफ़िकेट संदेश चलाएं",
+    proofNote:
+      "सर्टिफ़िकेट शिक्षा का प्रमाण हैं, निवेश उत्पाद नहीं। इन्हें मुनाफ़े के लिए दोबारा बेचा नहीं जा सकता और ये सिर्फ़ आपकी निजी सीखने की उपलब्धि दर्शाते हैं।",
+    dialogTitle: "सर्टिफ़िकेट Solana Devnet पर जारी हुआ",
+    dialogDescription: "आपका \"बचत की आदत\" सर्टिफ़िकेट ऑन-चेन दर्ज हो गया है।",
+    transactionHash: "ट्रांज़ैक्शन हैश",
+    explorer: "Solana Explorer पर देखें (Devnet)",
+    dialogFootnote: "यह सर्टिफ़िकेट वित्तीय शिक्षा में आपकी प्रगति दर्शाता है, कोई निवेश उत्पाद नहीं।",
+    mintSteps: {
+      idle: "",
+      preparing: "मेटाडेटा तैयार हो रहा है...",
+      signing: "वॉलेट के हस्ताक्षर का इंतज़ार है...",
+      confirming: "Devnet पर पुष्टि हो रही है...",
+      done: "सर्टिफ़िकेट जारी हो गया!",
+    },
+    statusLabels: {
+      minted: "जारी",
+      ready: "तैयार",
+      locked: "लॉक है",
+      transferred: "ट्रांसफ़र हुआ",
+    },
+    certificates: [
+      {
+        title: "पैसे की सोच सर्टिफ़िकेट",
+        description: "इस बात का प्रमाण कि आपने सोच वाला पहला पाठ पूरा किया।",
+      },
+      {
+        title: "बचत की आदत सर्टिफ़िकेट",
+        description: "बचत की आदत वाले क्विज़ और 3 दिन की स्ट्रीक के बाद अनलॉक होता है।",
+      },
+      {
+        title: "महंगाई योद्धा सर्टिफ़िकेट",
+        description: "महंगाई कैलकुलेटर और क्विज़ पूरा करने पर मिलता है।",
+      },
+    ],
+  },
+  "pt-BR": {
+    readText: (tokens) => `Recompensas. Você tem ${tokens} Pontos Coach FI. Os certificados são uma prova do seu progresso em educação financeira.`,
+    walletTitle: "Carteira Solana Devnet",
+    walletHelp: "Conecte uma carteira para associar seu certificado ao seu endereço na Devnet.",
+    embeddedHelp: "Este endereço é o dono do seu certificado na Devnet.",
+    embeddedLogin: "Entrar",
+    embeddedLogout: "Sair",
+    mintDescription: "Emita seu certificado \"Hábito de poupar\" na Solana Devnet como prova do seu progresso.",
+    consentRequired:
+      "O consentimento de blockchain é necessário porque o endereço da carteira e os metadados do certificado podem se tornar públicos.",
+    certificateVoiceLabel: "Tocar a mensagem do certificado",
+    proofNote:
+      "Os certificados são prova de aprendizado, não produtos de investimento. Não podem ser revendidos com lucro e representam apenas o seu marco pessoal de aprendizado.",
+    dialogTitle: "Certificado emitido na Solana Devnet",
+    dialogDescription: "Seu certificado \"Hábito de poupar\" foi registrado na blockchain.",
+    transactionHash: "Hash da transação",
+    explorer: "Ver no Solana Explorer (Devnet)",
+    dialogFootnote: "Este certificado representa o seu progresso em educação financeira, não um produto de investimento.",
+    mintSteps: {
+      idle: "",
+      preparing: "Preparando metadados...",
+      signing: "Aguardando a assinatura da carteira...",
+      confirming: "Confirmando na Devnet...",
+      done: "Certificado emitido!",
+    },
+    statusLabels: {
+      minted: "Emitido",
+      ready: "Pronto",
+      locked: "Bloqueado",
+      transferred: "Transferido",
+    },
+    certificates: [
+      {
+        title: "Certificado Mentalidade financeira",
+        description: "Prova de que você concluiu a primeira aula de mentalidade.",
+      },
+      {
+        title: "Certificado Hábito de poupar",
+        description: "Desbloqueia após o quiz do hábito de poupar e uma sequência de 3 dias.",
+      },
+      {
+        title: "Certificado Combatente da inflação",
+        description: "Conquistado após concluir a calculadora de inflação e o quiz.",
+      },
+    ],
+  },
+  tr: {
+    readText: (tokens) => `Ödüller. ${tokens} Coach FI Puanın var. Sertifikalar, finansal eğitimdeki ilerlemenin kanıtıdır.`,
+    walletTitle: "Solana Devnet cüzdanı",
+    walletHelp: "Sertifikanı Devnet'teki adresinle ilişkilendirmek için bir cüzdan bağla.",
+    embeddedHelp: "Bu adres, Devnet'teki sertifikanın sahibidir.",
+    embeddedLogin: "Giriş yap",
+    embeddedLogout: "Çıkış yap",
+    mintDescription: "İlerlemenin kanıtı olarak \"Birikim Alışkanlığı\" sertifikanı Solana Devnet'te oluştur.",
+    consentRequired:
+      "Cüzdan adresi ve sertifika meta verileri herkese açık hale gelebileceği için blokzincir onayı gerekir.",
+    certificateVoiceLabel: "Sertifika mesajını oynat",
+    proofNote:
+      "Sertifikalar eğitimin kanıtıdır, yatırım ürünü değildir. Kârla yeniden satılamaz ve yalnızca kişisel öğrenme aşamanı temsil eder.",
+    dialogTitle: "Sertifika Solana Devnet'te oluşturuldu",
+    dialogDescription: "\"Birikim Alışkanlığı\" sertifikan zincire kaydedildi.",
+    transactionHash: "İşlem özeti (hash)",
+    explorer: "Solana Explorer'da görüntüle (Devnet)",
+    dialogFootnote: "Bu sertifika bir yatırım ürününü değil, finansal eğitimdeki ilerlemeni temsil eder.",
+    mintSteps: {
+      idle: "",
+      preparing: "Meta veriler hazırlanıyor...",
+      signing: "Cüzdan imzası bekleniyor...",
+      confirming: "Devnet'te onaylanıyor...",
+      done: "Sertifika oluşturuldu!",
+    },
+    statusLabels: {
+      minted: "Oluşturuldu",
+      ready: "Hazır",
+      locked: "Kilitli",
+      transferred: "Aktarıldı",
+    },
+    certificates: [
+      {
+        title: "Para Zihniyeti sertifikası",
+        description: "İlk zihniyet dersini tamamladığının kanıtı.",
+      },
+      {
+        title: "Birikim Alışkanlığı sertifikası",
+        description: "Birikim alışkanlığı quizi ve 3 günlük seriden sonra açılır.",
+      },
+      {
+        title: "Enflasyon Savaşçısı sertifikası",
+        description: "Enflasyon hesaplayıcısını ve quizi tamamlayınca kazanılır.",
+      },
+    ],
+  },
 };
 
 export default function RewardsPage() {

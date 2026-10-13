@@ -341,7 +341,9 @@ export const pl: Translations = {
     live: "Live",
     fab: "Rozpocznij rozmowę",
     startChat: "Rozpocznij czat",
-    hint: "Możesz mówić naturalnie — Mila rozumie po polsku, angielsku i hiszpańsku.",
+    hint: "Możesz mówić naturalnie — Mila rozmawia z Tobą w języku wybranym w aplikacji.",
+    firstMessage:
+      "Cześć! Jestem Mila, Twoja asystentka AI do edukacji finansowej. Pomogę Ci lepiej rozumieć pieniądze i budować spokojne nawyki. Od czego chcesz zacząć?",
     poweredBy: "Mila AI · głos ElevenLabs Conversational AI",
     openAriaLabel: "Rozpocznij rozmowę z Milą",
     closeAriaLabel: "Zamknij rozmowę z Milą",

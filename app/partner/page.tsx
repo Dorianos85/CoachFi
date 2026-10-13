@@ -285,6 +285,318 @@ const partnerCopy: LocalizedMap<
     hackathon: "Solana Frontier Hackathon",
     submission: "MVP提出",
   },
+  es: {
+    header: {
+      eyebrow: "Portal de socios",
+      title: "Lleva la educación financiera a toda tu base de usuarios.",
+      description:
+        "Vista previa de un panel B2B para bancos, brókeres, escuelas e instituciones. Todas las cifras son datos simulados para la demo del hackathon.",
+      readText:
+        "Vista previa del Portal de socios. Elige un segmento para ver datos de participación simulados de bancos, brókeres, escuelas y universidades.",
+    },
+    segmentAria: "Segmentos de socios",
+    segments: {
+      bank: "Bancos",
+      broker: "Brókeres",
+      investment: "Casas de inversión",
+      exchange: "Exchanges de criptomonedas",
+      school: "Escuelas",
+      university: "Universidades",
+    },
+    kpis: ["Institución", "Usuarios inscritos", "Progreso medio", "Mentalidad completada", "Certificados emitidos", "Usuarios de accesibilidad"],
+    moduleTitle: "Finalización de módulos",
+    mockData: (institution) => `Datos de participación simulados - ${institution}`,
+    modules: ["Mentalidad financiera", "Inflación y poder adquisitivo", "Certificados en Solana", "Usuarios del Modo accesibilidad"],
+    healthTitle: "Salud de la plataforma",
+    healthDescription: "Progreso medio de aprendizaje y señales de participación",
+    avgProgress: "progreso medio",
+    stats: ["Conversión al quiz", "Tasa de aprobados del quiz", "Tasa de emisión de certificados", "Tasa de retorno (7 días)"],
+    valueTitle: "¿Por qué integrar Coach FI?",
+    valueCards: [
+      {
+        title: "Capa de educación financiera",
+        body: "Integra Coach FI en tu onboarding, tu app o tu experiencia en oficinas. Los usuarios aprenden mientras tú generas confianza.",
+      },
+      {
+        title: "Prueba en Solana",
+        body: "Los certificados dan a los usuarios la propiedad de su progreso de aprendizaje. Una prueba no especulativa y no negociable.",
+      },
+      {
+        title: "Accesible por diseño",
+        body: "Pensado con WCAG, con Modo niños y Modo accesibilidad incluidos. Llega a usuarios excluidos y desatendidos.",
+      },
+      {
+        title: "Listo para marca blanca",
+        body: "Tu marca, tus colores. El motor de Coach FI integrado en tu producto digital o portal de clientes.",
+      },
+    ],
+    demoBadge: "Demo de hackathon",
+    ctaTitle: "¿Te interesa colaborar?",
+    ctaBody:
+      "Coach FI busca alianzas con instituciones financieras, escuelas y fundaciones que quieran llevar a sus usuarios una educación financiera basada en la evidencia.",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "Entrega del MVP",
+  },
+  fr: {
+    header: {
+      eyebrow: "Portail partenaires",
+      title: "Déployez l'éducation financière auprès de tous vos utilisateurs.",
+      description:
+        "Aperçu d'un tableau de bord B2B pour les banques, courtiers, écoles et institutions. Tous les chiffres sont des données fictives pour la démo du hackathon.",
+      readText:
+        "Aperçu du Portail partenaires. Sélectionnez un segment pour voir des données d'engagement fictives pour les banques, courtiers, écoles et universités.",
+    },
+    segmentAria: "Segments partenaires",
+    segments: {
+      bank: "Banques",
+      broker: "Courtiers",
+      investment: "Sociétés d'investissement",
+      exchange: "Plateformes crypto",
+      school: "Écoles",
+      university: "Universités",
+    },
+    kpis: ["Institution", "Utilisateurs inscrits", "Progression moyenne", "État d'esprit terminé", "Certificats émis", "Utilisateurs de l'accessibilité"],
+    moduleTitle: "Achèvement des modules",
+    mockData: (institution) => `Données d'engagement fictives - ${institution}`,
+    modules: ["État d'esprit financier", "Inflation et pouvoir d'achat", "Certificats sur Solana", "Utilisateurs du Mode accessibilité"],
+    healthTitle: "Santé de la plateforme",
+    healthDescription: "Progression moyenne d'apprentissage et signaux d'engagement",
+    avgProgress: "progression moyenne",
+    stats: ["Conversion vers le quiz", "Taux de réussite au quiz", "Taux d'émission de certificats", "Taux de retour (7 jours)"],
+    valueTitle: "Pourquoi intégrer Coach FI ?",
+    valueCards: [
+      {
+        title: "Une couche d'éducation financière",
+        body: "Intégrez Coach FI à votre parcours d'accueil, votre application ou votre expérience en agence. Les utilisateurs apprennent pendant que vous bâtissez la confiance.",
+      },
+      {
+        title: "Une preuve sur Solana",
+        body: "Les certificats donnent aux utilisateurs la propriété de leurs progrès. Une preuve non spéculative et non échangeable.",
+      },
+      {
+        title: "Accessible dès la conception",
+        body: "Pensé selon les WCAG, avec le Mode enfants et le Mode accessibilité inclus. Touchez les publics exclus et mal desservis.",
+      },
+      {
+        title: "Prêt pour la marque blanche",
+        body: "Votre marque, vos couleurs. Le moteur Coach FI intégré à votre produit numérique ou à votre portail client.",
+      },
+    ],
+    demoBadge: "Démo de hackathon",
+    ctaTitle: "Intéressé par un partenariat ?",
+    ctaBody:
+      "Coach FI recherche des partenariats avec des institutions financières, des écoles et des fondations qui souhaitent offrir à leurs utilisateurs une éducation financière fondée sur des données probantes.",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "Soumission du MVP",
+  },
+  zh: {
+    header: {
+      eyebrow: "合作伙伴门户",
+      title: "把财商教育推广到你的全部用户。",
+      description:
+        "面向银行、券商、学校和机构的 B2B 看板预览。所有数字均为黑客松演示用的模拟数据。",
+      readText:
+        "合作伙伴门户预览。选择一个细分领域，查看银行、券商、学校和大学的模拟参与数据。",
+    },
+    segmentAria: "合作伙伴细分",
+    segments: {
+      bank: "银行",
+      broker: "券商",
+      investment: "投资机构",
+      exchange: "加密货币交易所",
+      school: "学校",
+      university: "大学",
+    },
+    kpis: ["机构", "注册用户", "平均进度", "已完成心态课", "已铸造证书", "无障碍用户"],
+    moduleTitle: "模块完成情况",
+    mockData: (institution) => `模拟参与数据 - ${institution}`,
+    modules: ["金钱心态", "通胀与购买力", "Solana 上的证书", "无障碍模式用户"],
+    healthTitle: "平台健康度",
+    healthDescription: "平均学习进度与参与信号",
+    avgProgress: "平均进度",
+    stats: ["测验转化率", "测验通过率", "证书铸造率", "回访率（7 天）"],
+    valueTitle: "为什么要嵌入 Coach FI？",
+    valueCards: [
+      {
+        title: "财商教育层",
+        body: "把 Coach FI 嵌入你的开户流程、应用或网点体验。用户在学习，你在建立信任。",
+      },
+      {
+        title: "Solana 上的证明",
+        body: "证书让用户真正拥有自己的学习进度。非投机、不可交易的证明。",
+      },
+      {
+        title: "为无障碍而设计",
+        body: "遵循 WCAG 理念，内置儿童模式和无障碍模式。触达被忽视和服务不足的用户。",
+      },
+      {
+        title: "支持白标",
+        body: "你的品牌，你的配色。Coach FI 引擎嵌入你的数字产品或客户门户。",
+      },
+    ],
+    demoBadge: "黑客松演示",
+    ctaTitle: "有兴趣合作吗？",
+    ctaBody:
+      "Coach FI 正在寻求与金融机构、学校和基金会合作，为其用户带来循证的财商教育。",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "MVP 提交",
+  },
+  hi: {
+    header: {
+      eyebrow: "पार्टनर पोर्टल",
+      title: "वित्तीय शिक्षा को अपने सभी उपयोगकर्ताओं तक पहुंचाएं।",
+      description:
+        "बैंकों, ब्रोकरों, स्कूलों और संस्थानों के लिए B2B डैशबोर्ड का प्रीव्यू। सभी आंकड़े हैकथॉन डेमो के लिए नमूना डेटा हैं।",
+      readText:
+        "पार्टनर पोर्टल का प्रीव्यू। बैंकों, ब्रोकरों, स्कूलों और विश्वविद्यालयों का नमूना एंगेजमेंट डेटा देखने के लिए एक सेगमेंट चुनें।",
+    },
+    segmentAria: "पार्टनर सेगमेंट",
+    segments: {
+      bank: "बैंक",
+      broker: "ब्रोकर",
+      investment: "निवेश संस्थान",
+      exchange: "क्रिप्टो एक्सचेंज",
+      school: "स्कूल",
+      university: "विश्वविद्यालय",
+    },
+    kpis: ["संस्थान", "नामांकित उपयोगकर्ता", "औसत प्रगति", "सोच वाला पाठ पूरा", "जारी किए गए सर्टिफ़िकेट", "सुलभता उपयोगकर्ता"],
+    moduleTitle: "मॉड्यूल पूर्णता",
+    mockData: (institution) => `नमूना एंगेजमेंट डेटा - ${institution}`,
+    modules: ["पैसे की सोच", "महंगाई और क्रय शक्ति", "Solana पर सर्टिफ़िकेट", "सुलभता मोड के उपयोगकर्ता"],
+    healthTitle: "प्लेटफ़ॉर्म की सेहत",
+    healthDescription: "औसत सीखने की प्रगति और एंगेजमेंट के संकेत",
+    avgProgress: "औसत प्रगति",
+    stats: ["क्विज़ में रूपांतरण", "क्विज़ पास दर", "सर्टिफ़िकेट जारी होने की दर", "वापसी दर (7 दिन)"],
+    valueTitle: "Coach FI को क्यों जोड़ें?",
+    valueCards: [
+      {
+        title: "वित्तीय शिक्षा की परत",
+        body: "Coach FI को अपने ऑनबोर्डिंग, ऐप या शाखा के अनुभव में जोड़ें। उपयोगकर्ता सीखते हैं और आप भरोसा बनाते हैं।",
+      },
+      {
+        title: "Solana पर प्रमाण",
+        body: "सर्टिफ़िकेट उपयोगकर्ताओं को उनकी सीखने की प्रगति का स्वामित्व देते हैं। गैर-सट्टा, गैर-व्यापार योग्य प्रमाण।",
+      },
+      {
+        title: "डिज़ाइन से ही सुलभ",
+        body: "WCAG को ध्यान में रखकर बना, किड्स मोड और सुलभता मोड शामिल। वंचित और कम सेवा पाने वाले उपयोगकर्ताओं तक पहुंचें।",
+      },
+      {
+        title: "व्हाइट-लेबल के लिए तैयार",
+        body: "आपका ब्रांड, आपके रंग। Coach FI इंजन आपके डिजिटल उत्पाद या ग्राहक पोर्टल में जुड़ा हुआ।",
+      },
+    ],
+    demoBadge: "हैकथॉन डेमो",
+    ctaTitle: "साझेदारी में रुचि है?",
+    ctaBody:
+      "Coach FI ऐसे वित्तीय संस्थानों, स्कूलों और फ़ाउंडेशनों के साथ साझेदारी चाहता है जो अपने उपयोगकर्ताओं तक प्रमाण-आधारित वित्तीय शिक्षा पहुंचाना चाहते हैं।",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "MVP सबमिशन",
+  },
+  "pt-BR": {
+    header: {
+      eyebrow: "Portal de parceiros",
+      title: "Leve educação financeira a toda a sua base de usuários.",
+      description:
+        "Prévia de um painel B2B para bancos, corretoras, escolas e instituições. Todos os números são dados fictícios para a demo do hackathon.",
+      readText:
+        "Prévia do Portal de parceiros. Selecione um segmento para ver dados fictícios de engajamento de bancos, corretoras, escolas e universidades.",
+    },
+    segmentAria: "Segmentos de parceiros",
+    segments: {
+      bank: "Bancos",
+      broker: "Corretoras",
+      investment: "Gestoras de investimento",
+      exchange: "Corretoras de cripto",
+      school: "Escolas",
+      university: "Universidades",
+    },
+    kpis: ["Instituição", "Usuários inscritos", "Progresso médio", "Mentalidade concluída", "Certificados emitidos", "Usuários de acessibilidade"],
+    moduleTitle: "Conclusão de módulos",
+    mockData: (institution) => `Dados fictícios de engajamento - ${institution}`,
+    modules: ["Mentalidade financeira", "Inflação e poder de compra", "Certificados na Solana", "Usuários do Modo acessibilidade"],
+    healthTitle: "Saúde da plataforma",
+    healthDescription: "Progresso médio de aprendizado e sinais de engajamento",
+    avgProgress: "progresso médio",
+    stats: ["Conversão para o quiz", "Taxa de aprovação no quiz", "Taxa de emissão de certificados", "Taxa de retorno (7 dias)"],
+    valueTitle: "Por que integrar o Coach FI?",
+    valueCards: [
+      {
+        title: "Camada de educação financeira",
+        body: "Integre o Coach FI ao seu onboarding, app ou atendimento na agência. Os usuários aprendem enquanto você constrói confiança.",
+      },
+      {
+        title: "Prova na Solana",
+        body: "Os certificados dão aos usuários a posse do próprio progresso de aprendizado. Uma prova não especulativa e não negociável.",
+      },
+      {
+        title: "Acessível desde o projeto",
+        body: "Pensado com base nas WCAG, com Modo infantil e Modo acessibilidade incluídos. Alcance usuários excluídos e pouco atendidos.",
+      },
+      {
+        title: "Pronto para white label",
+        body: "Sua marca, suas cores. O motor do Coach FI integrado ao seu produto digital ou portal do cliente.",
+      },
+    ],
+    demoBadge: "Demo de hackathon",
+    ctaTitle: "Interesse em parceria?",
+    ctaBody:
+      "O Coach FI busca parcerias com instituições financeiras, escolas e fundações que queiram levar educação financeira baseada em evidências aos seus usuários.",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "Entrega do MVP",
+  },
+  tr: {
+    header: {
+      eyebrow: "İş ortağı portalı",
+      title: "Finansal eğitimi tüm kullanıcı tabanına yay.",
+      description:
+        "Bankalar, aracı kurumlar, okullar ve kurumlar için B2B panel önizlemesi. Tüm rakamlar hackathon demosu için örnek veridir.",
+      readText:
+        "İş ortağı portalı önizlemesi. Bankalar, aracı kurumlar, okullar ve üniversiteler için örnek etkileşim verilerini görmek üzere bir segment seç.",
+    },
+    segmentAria: "İş ortağı segmentleri",
+    segments: {
+      bank: "Bankalar",
+      broker: "Aracı kurumlar",
+      investment: "Yatırım kuruluşları",
+      exchange: "Kripto borsaları",
+      school: "Okullar",
+      university: "Üniversiteler",
+    },
+    kpis: ["Kurum", "Kayıtlı kullanıcılar", "Ort. ilerleme", "Zihniyeti tamamlayanlar", "Oluşturulan sertifikalar", "Erişilebilirlik kullanıcıları"],
+    moduleTitle: "Modül tamamlama",
+    mockData: (institution) => `Örnek etkileşim verileri - ${institution}`,
+    modules: ["Para Zihniyeti", "Enflasyon ve Alım Gücü", "Solana'da sertifikalar", "Erişilebilirlik Modu kullanıcıları"],
+    healthTitle: "Platform sağlığı",
+    healthDescription: "Ortalama öğrenme ilerlemesi ve etkileşim sinyalleri",
+    avgProgress: "ort. ilerleme",
+    stats: ["Quize dönüşüm", "Quiz başarı oranı", "Sertifika oluşturma oranı", "Geri dönüş oranı (7 gün)"],
+    valueTitle: "Neden Coach FI'ı entegre etmelisin?",
+    valueCards: [
+      {
+        title: "Finansal eğitim katmanı",
+        body: "Coach FI'ı karşılama sürecine, uygulamana veya şube deneyimine yerleştir. Sen güven inşa ederken kullanıcılar öğrenir.",
+      },
+      {
+        title: "Solana'da kanıt",
+        body: "Sertifikalar kullanıcılara öğrenme ilerlemelerinin sahipliğini verir. Spekülatif olmayan, alınıp satılamayan bir kanıt.",
+      },
+      {
+        title: "Tasarımı gereği erişilebilir",
+        body: "WCAG gözetilerek hazırlandı; Çocuk Modu ve Erişilebilirlik Modu dahil. Dışlanan ve yeterince hizmet almayan kullanıcılara ulaş.",
+      },
+      {
+        title: "Kendi markana hazır",
+        body: "Senin markan, senin renklerin. Coach FI motoru dijital ürününe veya müşteri portalına gömülü.",
+      },
+    ],
+    demoBadge: "Hackathon demosu",
+    ctaTitle: "İş ortaklığıyla ilgileniyor musun?",
+    ctaBody:
+      "Coach FI, kullanıcılarına kanıta dayalı finansal eğitim sunmak isteyen finans kurumları, okullar ve vakıflarla iş ortaklığı arıyor.",
+    hackathon: "Solana Frontier Hackathon",
+    submission: "MVP başvurusu",
+  },
 };
 
 const valueIcons = [GraduationCap, BadgeCheck, Users, Building2];

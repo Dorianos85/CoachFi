@@ -64,6 +64,26 @@ const demoCopy: LocalizedMap<{ badge: string; note: string; yourScore: string }>
     note: "サンプルデータです。無料診断を実行すると実際の数値が表示されます。",
     yourScore: "あなたのスコア",
   },
+  zh: {
+    badge: "示例",
+    note: "示例数据：完成免费的财务诊断即可查看你自己的数据。",
+    yourScore: "你的得分",
+  },
+  hi: {
+    badge: "उदाहरण",
+    note: "नमूना डेटा: अपने आंकड़े देखने के लिए मुफ़्त वित्तीय जांच करें।",
+    yourScore: "आपका स्कोर",
+  },
+  "pt-BR": {
+    badge: "Exemplo",
+    note: "Dados de exemplo: faça o Check-up gratuito para ver os seus números.",
+    yourScore: "Sua pontuação",
+  },
+  tr: {
+    badge: "Örnek",
+    note: "Örnek veriler: kendi rakamlarını görmek için ücretsiz Finans Kontrolü'nü yap.",
+    yourScore: "Puanın",
+  },
 };
 
 const DEMO_STABILITY_SCORE = 62;

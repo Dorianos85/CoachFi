@@ -37,6 +37,54 @@ const streakCopy: LocalizedMap<{
     next: (target) => `次の目標: ${target}日`,
     milestone: (count) => `マイルストーン: ${count}日! 🏆`,
   },
+  es: {
+    title: (count, hot) => `Racha de ${count} días${hot ? " 🔥 ¡En llamas!" : ""}`,
+    aria: (count) => `Racha de ${count} días`,
+    day: (count) => (count === 1 ? "día" : "días"),
+    next: (target) => `Próximo hito: ${target} días`,
+    milestone: (count) =>
+      count === 66 ? "66 días: ¡tu hábito ya es automático! 🏆" : `Hito: ¡${count} días! 🏆`,
+  },
+  fr: {
+    title: (count, hot) => `Série de ${count} jours${hot ? " 🔥 En feu !" : ""}`,
+    aria: (count) => `Série de ${count} jours`,
+    day: (count) => (count === 1 ? "jour" : "jours"),
+    next: (target) => `Prochain palier : ${target} jours`,
+    milestone: (count) =>
+      count === 66 ? "66 jours : votre habitude est devenue automatique ! 🏆" : `Palier : ${count} jours ! 🏆`,
+  },
+  zh: {
+    title: (count, hot) => `连续 ${count} 天${hot ? " 🔥 势头正旺！" : ""}`,
+    aria: (count) => `连续 ${count} 天`,
+    day: (count) => (count === 1 ? "天" : "天"),
+    next: (target) => `下一个里程碑：${target} 天`,
+    milestone: (count) =>
+      count === 66 ? "66 天：你的习惯已经自动化！🏆" : `里程碑：${count} 天！🏆`,
+  },
+  hi: {
+    title: (count, hot) => `${count} दिन की स्ट्रीक${hot ? " 🔥 ज़बरदस्त!" : ""}`,
+    aria: (count) => `${count} दिन की स्ट्रीक`,
+    day: (count) => (count === 1 ? "दिन" : "दिन"),
+    next: (target) => `अगला पड़ाव: ${target} दिन`,
+    milestone: (count) =>
+      count === 66 ? "66 दिन: आपकी आदत अब अपने आप चलती है! 🏆" : `पड़ाव: ${count} दिन! 🏆`,
+  },
+  "pt-BR": {
+    title: (count, hot) => `Sequência de ${count} dias${hot ? " 🔥 Pegando fogo!" : ""}`,
+    aria: (count) => `Sequência de ${count} dias`,
+    day: (count) => (count === 1 ? "dia" : "dias"),
+    next: (target) => `Próximo marco: ${target} dias`,
+    milestone: (count) =>
+      count === 66 ? "66 dias: seu hábito já é automático! 🏆" : `Marco: ${count} dias! 🏆`,
+  },
+  tr: {
+    title: (count, hot) => `${count} günlük seri${hot ? " 🔥 Alev alev!" : ""}`,
+    aria: (count) => `${count} günlük seri`,
+    day: (count) => (count === 1 ? "gün" : "gün"),
+    next: (target) => `Sonraki hedef: ${target} gün`,
+    milestone: (count) =>
+      count === 66 ? "66 gün: alışkanlığın artık otomatik! 🏆" : `Hedef: ${count} gün! 🏆`,
+  },
 };
 
 export function StreakBadge({ compact = false }: { compact?: boolean }) {

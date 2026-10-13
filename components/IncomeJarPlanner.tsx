@@ -161,6 +161,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   es: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "Necesidades", description: "Facturas, alquiler, comida, transporte, préstamos y seguros." },
+        education: { title: "Educación", description: "Libros, cursos, formación, conferencias y la educación de los hijos." },
+        longTerm: { title: "Gastos a largo plazo", description: "Compras grandes planificadas, vacaciones o reparaciones del coche sin deuda." },
+        fun: { title: "Diversión", description: "Dinero que gastas a propósito en alegría, aficiones y recompensas sanas." },
+        investing: { title: "Inversión", description: "Capital para bolsa, inmuebles, fondos, negocio u otros activos." },
+        giving: { title: "Generosidad", description: "Regalos, ONG, fundaciones, refugios y apoyo a quien lo necesita." },
+      },
       eyebrow: "Division de ingresos",
       title: "Modelo de 6 frascos",
       description: "Divide tus ingresos en necesidades, educacion, gastos planificados, placer, inversion y ayuda.",
@@ -172,6 +180,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "Necesidades", description: "Comida del cole, billetes, cuadernos o algo que de verdad hace falta." },
+        education: { title: "Aprender", description: "Libros, cursos, idiomas, clases o juegos educativos." },
+        longTerm: { title: "Gran meta", description: "Una bici, una consola, unas vacaciones o un sueño más grande que requiere tiempo." },
+        fun: { title: "Diversión", description: "Pequeñas alegrías: cine, helado, juguetes o aficiones." },
+        investing: { title: "Crecer", description: "Dinero que no tocas, para aprender a construir el futuro." },
+        giving: { title: "Ayudar", description: "Un regalo, ayudar a alguien cercano o apoyar una buena causa." },
+      },
       eyebrow: "Frascos de dinero",
       title: "Divide el dinero en 6 misiones",
       description: "Introduce tu mesada o regalo y mira cuanto va a cada frasco.",
@@ -185,6 +201,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   fr: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "Besoins", description: "Factures, loyer, alimentation, transport, prêts et assurances." },
+        education: { title: "Éducation", description: "Livres, cours, formations, conférences et éducation des enfants." },
+        longTerm: { title: "Dépenses à long terme", description: "Gros achats prévus, vacances ou réparations de voiture sans dette." },
+        fun: { title: "Plaisir", description: "L'argent que vous dépensez volontairement pour la joie, les loisirs et de saines récompenses." },
+        investing: { title: "Investissement", description: "Capital pour la bourse, l'immobilier, les fonds, une entreprise ou d'autres actifs." },
+        giving: { title: "Générosité", description: "Cadeaux, associations, fondations, refuges et soutien aux personnes dans le besoin." },
+      },
       eyebrow: "Repartition du revenu",
       title: "Modele des 6 bocaux",
       description: "Repartissez le revenu entre besoins, education, depenses planifiees, plaisir, investissement et generosite.",
@@ -196,6 +220,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "Besoins", description: "Repas à l'école, tickets, cahiers ou une chose vraiment nécessaire." },
+        education: { title: "Apprendre", description: "Livres, cours, langues, activités ou jeux éducatifs." },
+        longTerm: { title: "Grand objectif", description: "Un vélo, une console, des vacances ou un plus grand rêve qui demande du temps." },
+        fun: { title: "Plaisir", description: "Petits bonheurs : cinéma, glace, jouets ou loisirs." },
+        investing: { title: "Faire grandir", description: "L'argent auquel on ne touche pas, pour apprendre à construire l'avenir." },
+        giving: { title: "Aider", description: "Un cadeau, aider un proche ou soutenir une bonne cause." },
+      },
       eyebrow: "Bocaux d'argent",
       title: "6 missions pour ton argent",
       description: "Entre ton argent de poche ou un cadeau et vois la repartition.",
@@ -209,6 +241,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   zh: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "必需开支", description: "账单、房租、食物、交通、贷款和保险。" },
+        education: { title: "教育", description: "书籍、课程、培训、会议以及孩子的教育。" },
+        longTerm: { title: "长期支出", description: "有计划的大额消费、假期或修车，而不必借债。" },
+        fun: { title: "娱乐", description: "你有意花在快乐、爱好和健康奖励上的钱。" },
+        investing: { title: "投资", description: "用于股票、房产、基金、生意或其他资产的本金。" },
+        giving: { title: "奉献", description: "礼物、慈善机构、基金会、收容所以及对有需要的人的支持。" },
+      },
       eyebrow: "收入分配",
       title: "6 个罐子模型",
       description: "把收入分配到必要支出、教育、长期支出、快乐、投资和帮助他人。",
@@ -220,6 +260,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "需要", description: "学校午餐、车票、本子，或者真正需要的东西。" },
+        education: { title: "学习", description: "书、课程、语言、兴趣班或益智游戏。" },
+        longTerm: { title: "大目标", description: "自行车、游戏机、假期，或需要时间的更大梦想。" },
+        fun: { title: "娱乐", description: "小小的快乐：电影、冰淇淋、玩具或爱好。" },
+        investing: { title: "成长", description: "不去动用的钱，用来学习如何打造未来。" },
+        giving: { title: "帮助", description: "一份礼物、帮助身边的人，或支持一件好事。" },
+      },
       eyebrow: "零花钱罐子",
       title: "把钱分成 6 个任务",
       description: "输入零花钱或礼物金额，看看每个罐子有多少。",
@@ -233,6 +281,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   ja: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "必要な支出", description: "公共料金、家賃、食費、交通費、ローン、保険。" },
+        education: { title: "教育", description: "本、講座、研修、カンファレンス、子どもの教育。" },
+        longTerm: { title: "長期の支出", description: "計画的な大きな買い物、旅行、車の修理を借金なしで。" },
+        fun: { title: "楽しみ", description: "喜び、趣味、健やかなご褒美のために意識して使うお金。" },
+        investing: { title: "投資", description: "株式、不動産、ファンド、事業、その他の資産のための元手。" },
+        giving: { title: "分かち合い", description: "贈り物、慈善団体、財団、保護施設、困っている人への支援。" },
+      },
       eyebrow: "収入の分配",
       title: "6つのジャーモデル",
       description: "収入を生活費、教育、長期支出、楽しみ、投資、寄付に分けます。",
@@ -244,6 +300,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "必要なもの", description: "学校の食事、切符、ノートなど、本当に必要なもの。" },
+        education: { title: "学び", description: "本、講座、語学、習い事、学べるゲーム。" },
+        longTerm: { title: "大きな目標", description: "自転車、ゲーム機、旅行など、時間のかかる大きな夢。" },
+        fun: { title: "楽しみ", description: "映画、アイス、おもちゃ、趣味などの小さな喜び。" },
+        investing: { title: "育てる", description: "手をつけないお金。未来を作ることを学ぶために。" },
+        giving: { title: "助け合い", description: "プレゼント、身近な人の手助け、良い活動への応援。" },
+      },
       eyebrow: "おこづかいジャー",
       title: "お金を6つのミッションに分けよう",
       description: "おこづかいやプレゼントを入力して、配分を見ます。",
@@ -257,6 +321,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   hi: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "ज़रूरतें", description: "बिल, किराया, खाना, यातायात, लोन और बीमा।" },
+        education: { title: "शिक्षा", description: "किताबें, कोर्स, प्रशिक्षण, सम्मेलन और बच्चों की शिक्षा।" },
+        longTerm: { title: "लंबी अवधि के खर्च", description: "बिना कर्ज़ के बड़ी नियोजित खरीदारी, छुट्टियां या गाड़ी की मरम्मत।" },
+        fun: { title: "मनोरंजन", description: "वह पैसा जो आप सोच-समझकर खुशी, शौक और अच्छे इनामों पर खर्च करते हैं।" },
+        investing: { title: "निवेश", description: "शेयर, संपत्ति, फंड, कारोबार या दूसरी संपत्तियों के लिए पूंजी।" },
+        giving: { title: "दान", description: "उपहार, चैरिटी, फ़ाउंडेशन, आश्रय और ज़रूरतमंदों की मदद।" },
+      },
       eyebrow: "आय विभाजन",
       title: "6 जार मॉडल",
       description: "आय को जरूरत, शिक्षा, बड़े खर्च, आनंद, निवेश और मदद में बांटें।",
@@ -268,6 +340,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "ज़रूरतें", description: "स्कूल का खाना, टिकट, कॉपियां या कोई सचमुच ज़रूरी चीज़।" },
+        education: { title: "सीखना", description: "किताबें, कोर्स, भाषाएं, कक्षाएं या शैक्षिक खेल।" },
+        longTerm: { title: "बड़ा लक्ष्य", description: "साइकिल, गेम कंसोल, छुट्टियां या कोई बड़ा सपना जिसमें समय लगता है।" },
+        fun: { title: "मज़ा", description: "छोटी खुशियां: सिनेमा, आइसक्रीम, खिलौने या शौक।" },
+        investing: { title: "बढ़ाना", description: "वह पैसा जिसे हम नहीं छूते, ताकि भविष्य बनाना सीखें।" },
+        giving: { title: "मदद", description: "कोई उपहार, किसी अपने की मदद या किसी अच्छे काम में सहयोग।" },
+      },
       eyebrow: "पॉकेट मनी जार",
       title: "पैसे को 6 मिशन में बांटें",
       description: "पॉकेट मनी या उपहार लिखें और हर जार की राशि देखें।",
@@ -281,6 +361,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   "pt-BR": {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "Necessidades", description: "Contas, aluguel, comida, transporte, empréstimos e seguros." },
+        education: { title: "Educação", description: "Livros, cursos, treinamentos, conferências e a educação dos filhos." },
+        longTerm: { title: "Gastos de longo prazo", description: "Compras maiores planejadas, férias ou conserto do carro sem dívida." },
+        fun: { title: "Diversão", description: "Dinheiro que você gasta de propósito com alegria, hobbies e recompensas saudáveis." },
+        investing: { title: "Investimentos", description: "Capital para ações, imóveis, fundos, negócio ou outros ativos." },
+        giving: { title: "Doação", description: "Presentes, instituições de caridade, fundações, abrigos e apoio a quem precisa." },
+      },
       eyebrow: "Divisao da renda",
       title: "Modelo dos 6 potes",
       description: "Divida a renda em necessidades, educacao, gastos planejados, prazer, investimento e generosidade.",
@@ -292,6 +380,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "Necessidades", description: "Lanche da escola, passagem, cadernos ou algo realmente necessário." },
+        education: { title: "Aprender", description: "Livros, cursos, idiomas, aulas ou jogos educativos." },
+        longTerm: { title: "Grande meta", description: "Uma bicicleta, um videogame, férias ou um sonho maior que leva tempo." },
+        fun: { title: "Diversão", description: "Pequenas alegrias: cinema, sorvete, brinquedos ou hobbies." },
+        investing: { title: "Crescer", description: "Dinheiro em que não mexemos, para aprender a construir o futuro." },
+        giving: { title: "Ajudar", description: "Um presente, ajudar alguém próximo ou apoiar uma boa causa." },
+      },
       eyebrow: "Potes da mesada",
       title: "Divida o dinheiro em 6 missoes",
       description: "Digite a mesada ou presente e veja quanto vai para cada pote.",
@@ -305,6 +401,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
   tr: {
     adult: {
       ...ADULT_PL,
+      jars: {
+        necessities: { title: "İhtiyaçlar", description: "Faturalar, kira, yemek, ulaşım, krediler ve sigorta." },
+        education: { title: "Eğitim", description: "Kitaplar, kurslar, eğitimler, konferanslar ve çocukların eğitimi." },
+        longTerm: { title: "Uzun vadeli harcamalar", description: "Borçsuz, planlı büyük alışverişler, tatil veya araba tamiri." },
+        fun: { title: "Eğlence", description: "Keyfe, hobilere ve sağlıklı ödüllere bilinçli olarak harcadığın para." },
+        investing: { title: "Yatırım", description: "Hisse, gayrimenkul, fon, iş veya diğer varlıklar için sermaye." },
+        giving: { title: "Paylaşma", description: "Hediyeler, hayır kurumları, vakıflar, barınaklar ve ihtiyaç sahiplerine destek." },
+      },
       eyebrow: "Gelir bolumu",
       title: "6 kavanoz modeli",
       description: "Geliri zorunlu gider, egitim, uzun vadeli harcama, keyif, yatirim ve yardim olarak bol.",
@@ -316,6 +420,14 @@ const COPY: LocalizedMap<Record<PlannerMode, PlannerCopy>> = {
     },
     kids: {
       ...KIDS_PL,
+      jars: {
+        necessities: { title: "İhtiyaçlar", description: "Okul yemeği, bilet, defter ya da gerçekten gerekli bir şey." },
+        education: { title: "Öğrenme", description: "Kitaplar, kurslar, diller, dersler veya eğitici oyunlar." },
+        longTerm: { title: "Büyük hedef", description: "Bisiklet, oyun konsolu, tatil ya da zaman isteyen daha büyük bir hayal." },
+        fun: { title: "Eğlence", description: "Küçük mutluluklar: sinema, dondurma, oyuncak veya hobi." },
+        investing: { title: "Büyüt", description: "Dokunmadığımız para; geleceği kurmayı öğrenmek için." },
+        giving: { title: "Yardım", description: "Bir hediye, yakınına yardım etmek ya da iyi bir amaca destek olmak." },
+      },
       eyebrow: "Harclik kavanozlari",
       title: "Parayi 6 goreve bol",
       description: "Harclik veya hediye miktarini yaz ve her kavanozu gor.",

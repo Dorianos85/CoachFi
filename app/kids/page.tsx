@@ -11,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
 import { useVoice } from "@/context/VoiceContext";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 // ─── constants ────────────────────────────────────────────────────────────────
@@ -24,11 +25,66 @@ const MODULE_THEMES = [
   { bg: "from-area-goals to-area-goals",      icon: "🤝", card: "border-border-subtle bg-white" },
 ];
 
-const STAR_MILESTONES: Record<number, string> = {
-  3:  "⚡ Super! Zdobyłeś 3 gwiazdki!",
-  5:  "🏅 Odznaka Młodego Finansisty odblokowana!",
-  7:  "🔥 Niesamowite! Jesteś na dobrej drodze!",
-  10: "🎉 MISTRZ! Zebrałeś wszystkie gwiazdki!",
+const KIDS_PAGE_COPY: LocalizedMap<{
+  modeActive: string;
+  toGoal: string;
+  tip: string;
+  milestones: Record<number, string>;
+}> = {
+  en: {
+    modeActive: "Kids Mode is active. Wallet, NFTs, leaderboard and free-form AI Coach are outside this mode.",
+    toGoal: "{pct}% of the goal",
+    tip: "Every coin you save is a small superpower. The earlier you start, the more it grows!",
+    milestones: { 3: "⚡ Great! You earned 3 stars!", 5: "🏅 Young Financier badge unlocked!", 7: "🔥 Amazing! You're on the right track!", 10: "🎉 CHAMPION! You collected all the stars!" },
+  },
+  pl: {
+    modeActive: "Kids Mode aktywny. Portfel, NFT, ranking i swobodny AI Coach są poza tym trybem.",
+    toGoal: "{pct}% do celu",
+    tip: "Każda zaoszczędzona złotówka to mała supermoc. Im wcześniej zaczniesz — tym więcej urośnie!",
+    milestones: { 3: "⚡ Super! Zdobyłeś 3 gwiazdki!", 5: "🏅 Odznaka Młodego Finansisty odblokowana!", 7: "🔥 Niesamowite! Jesteś na dobrej drodze!", 10: "🎉 MISTRZ! Zebrałeś wszystkie gwiazdki!" },
+  },
+  es: {
+    modeActive: "Modo niños activo. El monedero, los NFT, la clasificación y el Coach IA libre quedan fuera de este modo.",
+    toGoal: "{pct}% de la meta",
+    tip: "Cada moneda que ahorras es un pequeño superpoder. Cuanto antes empieces, ¡más crecerá!",
+    milestones: { 3: "⚡ ¡Genial! ¡Has ganado 3 estrellas!", 5: "🏅 ¡Insignia de Joven Financiero desbloqueada!", 7: "🔥 ¡Increíble! ¡Vas por buen camino!", 10: "🎉 ¡CAMPEÓN! ¡Has reunido todas las estrellas!" },
+  },
+  fr: {
+    modeActive: "Mode enfants actif. Le portefeuille, les NFT, le classement et le Coach IA libre sont hors de ce mode.",
+    toGoal: "{pct}% de l'objectif",
+    tip: "Chaque pièce économisée est un petit super-pouvoir. Plus tu commences tôt, plus elle grandit !",
+    milestones: { 3: "⚡ Super ! Tu as gagné 3 étoiles !", 5: "🏅 Badge Jeune Financier débloqué !", 7: "🔥 Incroyable ! Tu es sur la bonne voie !", 10: "🎉 CHAMPION ! Tu as réuni toutes les étoiles !" },
+  },
+  zh: {
+    modeActive: "儿童模式已开启。钱包、NFT、排行榜和自由形式的 AI 教练不在此模式中。",
+    toGoal: "已完成目标的 {pct}%",
+    tip: "你存下的每一枚硬币都是一个小小的超能力。开始得越早，它长得越多！",
+    milestones: { 3: "⚡ 太棒了！你获得了 3 颗星！", 5: "🏅 已解锁“小小理财家”徽章！", 7: "🔥 了不起！你走在正确的路上！", 10: "🎉 冠军！你集齐了所有星星！" },
+  },
+  ja: {
+    modeActive: "キッズモードが有効です。ウォレット、NFT、ランキング、自由なAIコーチはこのモードでは使えません。",
+    toGoal: "目標の{pct}%",
+    tip: "貯めたお金は小さなスーパーパワー。早く始めるほど、大きく育つよ！",
+    milestones: { 3: "⚡ すごい！星を3つ獲得したよ！", 5: "🏅 ヤングファイナンサーのバッジを解放！", 7: "🔥 すばらしい！いい調子だよ！", 10: "🎉 チャンピオン！星を全部集めたよ！" },
+  },
+  hi: {
+    modeActive: "किड्स मोड चालू है। वॉलेट, NFT, लीडरबोर्ड और खुला AI कोच इस मोड में नहीं हैं।",
+    toGoal: "लक्ष्य का {pct}%",
+    tip: "बचाया हुआ हर सिक्का एक छोटी सुपरपावर है। जितनी जल्दी शुरू करोगे, उतना ज़्यादा बढ़ेगा!",
+    milestones: { 3: "⚡ बहुत बढ़िया! तुमने 3 स्टार कमाए!", 5: "🏅 यंग फ़ाइनेंसर बैज अनलॉक हुआ!", 7: "🔥 कमाल! तुम सही रास्ते पर हो!", 10: "🎉 चैंपियन! तुमने सारे स्टार जमा कर लिए!" },
+  },
+  "pt-BR": {
+    modeActive: "Modo infantil ativo. Carteira, NFTs, ranking e Coach IA livre ficam fora deste modo.",
+    toGoal: "{pct}% da meta",
+    tip: "Cada moeda que você guarda é um pequeno superpoder. Quanto antes você começar, mais ela cresce!",
+    milestones: { 3: "⚡ Demais! Você ganhou 3 estrelas!", 5: "🏅 Selo Jovem Financista desbloqueado!", 7: "🔥 Incrível! Você está no caminho certo!", 10: "🎉 CAMPEÃO! Você juntou todas as estrelas!" },
+  },
+  tr: {
+    modeActive: "Çocuk modu etkin. Cüzdan, NFT'ler, sıralama ve serbest AI Koç bu modun dışında.",
+    toGoal: "Hedefin %{pct}'i",
+    tip: "Biriktirdiğin her kuruş küçük bir süper güçtür. Ne kadar erken başlarsan o kadar çok büyür!",
+    milestones: { 3: "⚡ Süper! 3 yıldız kazandın!", 5: "🏅 Genç Finansçı rozeti açıldı!", 7: "🔥 Harika! Doğru yoldasın!", 10: "🎉 ŞAMPİYON! Tüm yıldızları topladın!" },
+  },
 };
 
 const STAR_MILESTONE_SPEECH: Record<string, Record<number, string>> = {
@@ -49,6 +105,42 @@ const STAR_MILESTONE_SPEECH: Record<string, Record<number, string>> = {
     5:  "やった！若き金融エキスパートのバッジ解放！続けよう！",
     7:  "信じられない！7つの星！貯蓄チャンピオンまであと少し！",
     10: "やり遂げた！星10個全部！本当のお金の達人だ！",
+  },
+  es: {
+    3:  "¡Increíble! ¡Has ganado 3 estrellas! ¡Eres un auténtico héroe del dinero!",
+    5:  "¡Guau! ¡Insignia de Joven Experto Financiero desbloqueada! ¡Sigue así!",
+    7:  "¡Impresionante! ¡7 estrellas! ¡Ya casi eres un campeón del ahorro!",
+    10: "¡Lo lograste! ¡Las 10 estrellas! ¡Eres un verdadero maestro del dinero!",
+  },
+  fr: {
+    3:  "Génial ! Tu as gagné 3 étoiles ! Tu es un vrai héros de l'argent !",
+    5:  "Waouh ! Badge Jeune Expert Financier débloqué ! Continue comme ça !",
+    7:  "Incroyable ! 7 étoiles ! Tu es presque un champion de l'épargne !",
+    10: "Tu l'as fait ! Les 10 étoiles ! Tu es un vrai maître de l'argent !",
+  },
+  zh: {
+    3:  "太棒了！你获得了 3 颗星！你是真正的理财小英雄！",
+    5:  "哇！已解锁“小小理财专家”徽章！继续加油！",
+    7:  "了不起！7 颗星！你快成为储蓄冠军了！",
+    10: "你做到了！集齐全部 10 颗星！你是真正的金钱大师！",
+  },
+  hi: {
+    3:  "कमाल! तुमने 3 स्टार कमाए! तुम सच्चे मनी हीरो हो!",
+    5:  "वाह! यंग फ़ाइनेंशियल एक्सपर्ट बैज अनलॉक हुआ! ऐसे ही आगे बढ़ो!",
+    7:  "अद्भुत! 7 स्टार! तुम लगभग बचत चैंपियन बन गए हो!",
+    10: "तुमने कर दिखाया! पूरे 10 स्टार! तुम सच्चे मनी मास्टर हो!",
+  },
+  "pt-BR": {
+    3:  "Incrível! Você ganhou 3 estrelas! Você é um verdadeiro herói do dinheiro!",
+    5:  "Uau! Selo Jovem Especialista Financeiro desbloqueado! Continue assim!",
+    7:  "Demais! 7 estrelas! Você é quase um campeão da poupança!",
+    10: "Você conseguiu! Todas as 10 estrelas! Você é um verdadeiro mestre do dinheiro!",
+  },
+  tr: {
+    3:  "Harika! 3 yıldız kazandın! Sen gerçek bir para kahramanısın!",
+    5:  "Vay! Genç Finans Uzmanı rozeti açıldı! Devam et!",
+    7:  "İnanılmaz! 7 yıldız! Neredeyse bir birikim şampiyonusun!",
+    10: "Başardın! 10 yıldızın tamamı! Sen gerçek bir para ustasısın!",
   },
 };
 
@@ -73,6 +165,48 @@ const STAR_EARN_SPEECH: Record<string, string[]> = {
     "星を獲得！貯め続けよう！",
     "すごい！星を集めるほどご褒美に近づくよ！",
     "よくやった！君はすごい！",
+  ],
+  es: [
+    "¡Buen trabajo! ¡Una estrella más para ti!",
+    "¡Excelente! ¡Aprendes rapidísimo!",
+    "¡Has ganado una estrella! ¡Sigue ahorrando!",
+    "¡Maravilloso! ¡Cada estrella te acerca al premio!",
+    "¡Bien hecho! ¡Eres increíble!",
+  ],
+  fr: [
+    "Bravo ! Une étoile de plus pour toi !",
+    "Excellent ! Tu apprends tellement vite !",
+    "Tu as gagné une étoile ! Continue d'économiser !",
+    "Magnifique ! Chaque étoile te rapproche de la récompense !",
+    "Bien joué ! Tu es formidable !",
+  ],
+  zh: [
+    "做得好！又多了一颗星！",
+    "太棒了！你学得真快！",
+    "你赢得了一颗星！继续存钱吧！",
+    "真厉害！每颗星都让你离奖励更近！",
+    "干得漂亮！你真棒！",
+  ],
+  hi: [
+    "शाबाश! तुम्हारे लिए एक और स्टार!",
+    "बहुत बढ़िया! तुम बहुत तेज़ी से सीख रहे हो!",
+    "तुमने एक स्टार कमाया! बचत करते रहो!",
+    "शानदार! हर स्टार तुम्हें इनाम के करीब ले जाता है!",
+    "बहुत अच्छे! तुम कमाल हो!",
+  ],
+  "pt-BR": [
+    "Muito bem! Mais uma estrela para você!",
+    "Excelente! Você aprende muito rápido!",
+    "Você ganhou uma estrela! Continue poupando!",
+    "Que maravilha! Cada estrela deixa você mais perto do prêmio!",
+    "Mandou bem! Você é incrível!",
+  ],
+  tr: [
+    "Aferin! Sana bir yıldız daha!",
+    "Mükemmel! Çok hızlı öğreniyorsun!",
+    "Bir yıldız kazandın! Biriktirmeye devam et!",
+    "Harika! Her yıldız seni ödüle yaklaştırıyor!",
+    "Tebrikler! Harikasın!",
   ],
 };
 
@@ -189,6 +323,7 @@ function CoinDrop({ active }: { active: boolean }) {
 export default function KidsPage() {
   const { t, locale } = useLanguage();
   const { isKidsMode } = useMode();
+  const pageCopy = pickLocalized(KIDS_PAGE_COPY, locale);
   const { speak } = useVoice();
   const [stars, setStars] = useState(3);
   const [activeModule, setActiveModule] = useState<string | null>(null);
@@ -229,7 +364,7 @@ export default function KidsPage() {
 
       const milestoneSpeech = STAR_MILESTONE_SPEECH[locale]?.[next];
       if (milestoneSpeech) {
-        setMilestone(STAR_MILESTONES[next] ?? "");
+        setMilestone(pickLocalized(KIDS_PAGE_COPY, locale).milestones[next] ?? "");
         setTimeout(() => setMilestone(null), 3200);
         void speak(milestoneSpeech, { locale }).catch(() => {});
       } else {
@@ -256,7 +391,7 @@ export default function KidsPage() {
 
       {isKidsMode && (
         <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold leading-6 text-text">
-          Kids Mode aktywny. Portfel, NFT, ranking i swobodny AI Coach są poza tym trybem.
+          {pageCopy.modeActive}
         </div>
       )}
 
@@ -436,7 +571,7 @@ export default function KidsPage() {
                   />
                 </div>
                 <p className="mt-2 text-xs font-bold text-muted text-right">
-                  {Math.round((JAR_SAVED / JAR_GOAL) * 100)}% do celu
+                  {pageCopy.toGoal.replace("{pct}", String(Math.round((JAR_SAVED / JAR_GOAL) * 100)))}
                 </p>
               </div>
             </div>
@@ -454,7 +589,7 @@ export default function KidsPage() {
           >
             <p className="text-2xl">🌱</p>
             <p className="mt-2 text-sm font-black leading-6">
-              Każda zaoszczędzona złotówka to mała supermoc. Im wcześniej zaczniesz — tym więcej urośnie!
+              {pageCopy.tip}
             </p>
           </motion.div>
         </div>

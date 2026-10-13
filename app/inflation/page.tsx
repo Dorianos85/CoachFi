@@ -22,6 +22,12 @@ const inflationVoiceCta: LocalizedMap<string> = {
   pl: "Posłuchaj, dlaczego inflacja ma znaczenie",
   en: "Hear why inflation matters",
   ja: "インフレが重要な理由を聞く",
+  es: "Escucha por qué importa la inflación",
+  fr: "Écoutez pourquoi l'inflation compte",
+  zh: "听听通胀为什么重要",
+  hi: "सुनें कि महंगाई क्यों मायने रखती है",
+  "pt-BR": "Ouça por que a inflação importa",
+  tr: "Enflasyonun neden önemli olduğunu dinle",
 };
 
 export default function InflationPage() {
