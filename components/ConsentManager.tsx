@@ -208,7 +208,7 @@ export function ConsentManager() {
             className="rounded-lg border border-primary/15 bg-white/96 p-4 text-text shadow-2xl backdrop-blur md:flex md:items-center md:justify-between md:gap-4"
           >
             <div className="flex min-w-0 items-start gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary text-white">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary text-on-primary">
                 <ShieldCheck className="h-5 w-5" aria-hidden="true" />
               </span>
               <div className="min-w-0">

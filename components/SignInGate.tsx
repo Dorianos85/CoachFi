@@ -205,7 +205,7 @@ export function SignInGate() {
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full justify-start gap-3 border-primary/25 bg-[#151522] text-text hover:bg-primary/15"
+                className="w-full justify-start gap-3 border-border bg-surface text-text hover:bg-primary/15"
                 disabled={busy !== null}
                 onClick={() => void startSocial(provider.id)}
               >
@@ -225,7 +225,7 @@ export function SignInGate() {
               autoComplete="one-time-code"
               value={otp}
               onChange={(event) => setOtp(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-xl border border-primary/25 bg-[#12121d] px-4 text-base font-semibold text-text"
+              className="mt-2 min-h-[var(--cf-target-default)] w-full rounded-input border-2 border-border bg-surface px-4 text-base font-semibold text-text"
             />
           </label>
         ) : (
@@ -236,7 +236,7 @@ export function SignInGate() {
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 min-h-11 w-full rounded-xl border border-primary/25 bg-[#12121d] px-4 text-base font-semibold text-text"
+              className="mt-2 min-h-[var(--cf-target-default)] w-full rounded-input border-2 border-border bg-surface px-4 text-base font-semibold text-text"
             />
           </label>
         )}

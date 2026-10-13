@@ -302,10 +302,10 @@ export default function CrisisPage() {
             <CardDescription>Każdy wykonany krok SOS daje +{ACTION_REWARD} Coach FI Tokens.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="rounded-lg bg-primary p-5 text-center text-white">
+            <div className="rounded-lg bg-primary p-5 text-center text-on-primary">
               <Coins className="mx-auto h-8 w-8 text-accent" aria-hidden="true" />
               <p className="mt-2 text-4xl font-black">{tokenBalance}</p>
-              <p className="text-sm font-bold text-white/80">Coach FI Tokens</p>
+              <p className="text-sm font-bold text-on-primary/80">Coach FI Tokens</p>
             </div>
             <VoiceButton text={voiceText} label="Odczytaj plan SOS" locale={locale} variant="pill" className="mt-4 w-full justify-center" />
           </CardContent>

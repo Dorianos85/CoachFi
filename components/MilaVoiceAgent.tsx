@@ -438,7 +438,7 @@ export function MilaVoiceFab() {
       disabled={phase === "loading"}
       title={t.voiceAgent.title}
       aria-label="Rozpocznij rozmowę z Milą"
-      className="fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-black text-white shadow-glow transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-60"
+      className="cf-press fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-black text-on-primary transition hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus disabled:opacity-60"
     >
       <Mic className="h-4 w-4" aria-hidden="true" />
       {phase === "loading" ? "Łączenie…" : "Rozpocznij rozmowę z Milą"}

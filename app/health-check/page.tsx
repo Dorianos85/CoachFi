@@ -336,7 +336,7 @@ export default function HealthCheckPage() {
                   </p>
                   <Link
                     href="/crisis"
-                    className="mt-3 inline-flex items-center gap-2 rounded-lg border border-primary/15 bg-white px-4 py-2 text-sm font-black text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="mt-3 inline-flex items-center gap-2 rounded-lg border-2 border-primary-border bg-surface px-4 py-2 text-sm font-black text-grape transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus"
                   >
                     <LifeBuoy className="h-4 w-4" aria-hidden="true" />
                     {locale === "pl" ? "Pokaż bezpłatną pomoc" : "Show free help"}
