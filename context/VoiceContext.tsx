@@ -4,35 +4,25 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { localeSpeechLang, type Locale } from "@/lib/i18n";
-import { notifyCloud } from "@/lib/sync/syncQueue";
+import { pickLocalized, type Locale } from "@/lib/i18n";
 
 export interface VoiceSpeakOptions {
   locale?: Locale;
+  /** Legacy options are accepted for callers; Mila's voice is resolved on the server. */
   voiceId?: string;
   modelId?: string;
   speechLang?: string;
 }
 
-export const ELEVENLABS_VOICES = [
-  { id: "21m00Tcm4TlvDq8ikWAM", name: "Rachel", gender: "female" as const, accent: "Calm" },
-  { id: "EXAVITQu4vr4xnSDxMaL", name: "Bella",  gender: "female" as const, accent: "Soft" },
-  { id: "AZnzlk1XvdvUeBnXmlld", name: "Domi",   gender: "female" as const, accent: "Strong" },
-  { id: "pNInz6obpgDQGcFmaJgB", name: "Adam",   gender: "male"   as const, accent: "Deep" },
-  { id: "ErXwobaYiN019PkySvjV", name: "Antoni", gender: "male"   as const, accent: "Warm" },
-  { id: "TxGEqnHWrfWFTfGW9XjX", name: "Josh",   gender: "male"   as const, accent: "Young" },
-];
-
-const VOICE_KEY = "coachfi-voice";
-const DEFAULT_VOICE = ELEVENLABS_VOICES[0].id;
-const TTS_TIMEOUT_MS = 6500;
+const TTS_TIMEOUT_MS = 17000;
 const MAX_TTS_TEXT_LENGTH = 500;
-
-const SPEECH_LANG_BY_LOCALE = localeSpeechLang;
+const VOICE_UNAVAILABLE = {
+  en: "Mila's voice is temporarily unavailable. You can continue reading and try the audio again.",
+  pl: "Głos Mili jest chwilowo niedostępny. Możesz czytać dalej i ponownie spróbować odsłuchu.",
+  ja: "Mila の音声は一時的に利用できません。テキストを読み続けて、音声をもう一度お試しください。",
+};
 
 interface VoiceContextValue {
-  voiceId: string;
-  setVoiceId: (id: string) => void;
   isPlaying: boolean;
   isLoading: boolean;
   currentText: string;
@@ -41,8 +31,6 @@ interface VoiceContextValue {
 }
 
 const VoiceContext = createContext<VoiceContextValue>({
-  voiceId: DEFAULT_VOICE,
-  setVoiceId: () => {},
   isPlaying: false,
   isLoading: false,
   currentText: "",
@@ -52,64 +40,39 @@ const VoiceContext = createContext<VoiceContextValue>({
 
 export function VoiceProvider({ children }: { children: ReactNode }) {
   const { locale } = useLanguage();
-  const [voiceId, setVoiceIdState] = useState(DEFAULT_VOICE);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentText, setCurrentText] = useState("");
+  const [voiceError, setVoiceError] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const requestRef = useRef<AbortController | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
   const playbackIdRef = useRef(0);
 
   useEffect(() => {
-    const stored = localStorage.getItem(VOICE_KEY);
-    if (stored) setVoiceIdState(stored);
-  }, []);
-
-  useEffect(() => {
     return () => {
       playbackIdRef.current += 1;
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-      if (typeof window !== "undefined") {
-        try {
-          window.speechSynthesis?.cancel();
-        } catch {
-          // Browser speech engines can throw during teardown.
-        }
-      }
-      for (const url of audioCacheRef.current.values()) {
-        URL.revokeObjectURL(url);
-      }
+      requestRef.current?.abort();
+      audioRef.current?.pause();
+      for (const url of audioCacheRef.current.values()) URL.revokeObjectURL(url);
       audioCacheRef.current.clear();
     };
   }, []);
 
-  function setVoiceId(id: string) {
-    setVoiceIdState(id);
-    localStorage.setItem(VOICE_KEY, id);
-    notifyCloud("profile");
-  }
-
   function stop() {
     playbackIdRef.current += 1;
+    requestRef.current?.abort();
+    requestRef.current = null;
     if (audioRef.current) {
       audioRef.current.onended = null;
       audioRef.current.onerror = null;
       audioRef.current.pause();
       audioRef.current = null;
     }
-    if (typeof window !== "undefined") {
-      try {
-        window.speechSynthesis?.cancel();
-      } catch {
-        // Browser speech engines can throw during teardown; stopping must stay silent.
-      }
-    }
     setIsLoading(false);
     setIsPlaying(false);
     setCurrentText("");
+    setVoiceError(false);
   }
 
   function finishPlayback(playbackId: number) {
@@ -119,68 +82,10 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     setCurrentText("");
   }
 
-  function pickBrowserVoice(lang: string) {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
-    const langPrefix = lang.slice(0, 2).toLowerCase();
-    const voices = window.speechSynthesis.getVoices();
-    return (
-      voices.find((voice) => voice.lang.toLowerCase() === lang.toLowerCase()) ??
-      voices.find((voice) => voice.lang.toLowerCase().startsWith(langPrefix)) ??
-      voices.find((voice) => voice.default) ??
-      voices[0] ??
-      null
-    );
-  }
-
-  function speakWithBrowser(text: string, lang: string, playbackId: number) {
-    return new Promise<void>((resolve) => {
-      if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-        resolve();
-        return;
-      }
-
-      const synth = window.speechSynthesis;
-      const utter = new SpeechSynthesisUtterance(text);
-      const voice = pickBrowserVoice(lang);
-
-      utter.lang = lang;
-      utter.rate = 0.96;
-      utter.pitch = 1;
-      utter.volume = 1;
-      if (voice) utter.voice = voice;
-
-      utter.onend = () => resolve();
-      utter.onerror = () => resolve();
-
-      try {
-        synth.cancel();
-        if (playbackIdRef.current === playbackId) {
-          setIsLoading(false);
-          setIsPlaying(true);
-        }
-        synth.speak(utter);
-        synth.resume();
-      } catch {
-        resolve();
-        return;
-      }
-
-      // Chromium can remain paused after cancel/resume on some Windows setups.
-      window.setTimeout(() => {
-        try {
-          synth.resume();
-        } catch {
-          resolve();
-        }
-      }, 250);
-    });
-  }
-
   async function playAudioUrl(url: string, playbackId: number) {
     const audio = new Audio(url);
     audioRef.current = audio;
     audio.volume = 1;
-
     audio.onended = () => {
       if (playbackIdRef.current !== playbackId) return;
       audioRef.current = null;
@@ -189,15 +94,14 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     audio.onerror = () => {
       if (playbackIdRef.current !== playbackId) return;
       audioRef.current = null;
+      setVoiceError(true);
       finishPlayback(playbackId);
     };
-
     await audio.play();
     if (playbackIdRef.current !== playbackId) {
       audio.pause();
       return;
     }
-
     setIsLoading(false);
     setIsPlaying(true);
   }
@@ -205,23 +109,11 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   async function speak(text: string, options: VoiceSpeakOptions = {}) {
     const cleanText = text.trim().slice(0, MAX_TTS_TEXT_LENGTH);
     if (!cleanText) return;
-
     stop();
-    const playbackId = playbackIdRef.current + 1;
-    playbackIdRef.current = playbackId;
+    const playbackId = ++playbackIdRef.current;
     const selectedLocale = options.locale ?? locale;
-    const selectedVoiceId = options.voiceId?.trim() || undefined;
-    const selectedModelId = options.modelId?.trim() || undefined;
-    const speechLang = options.speechLang ?? SPEECH_LANG_BY_LOCALE[selectedLocale];
-    const cacheKey = [
-      selectedLocale,
-      selectedVoiceId ?? "default",
-      selectedModelId ?? "default",
-      cleanText,
-    ].join("::");
-
+    const cacheKey = [selectedLocale, cleanText].join("::");
     setIsLoading(true);
-    setIsPlaying(false);
     setCurrentText(cleanText);
 
     try {
@@ -231,49 +123,51 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
           await playAudioUrl(cachedUrl, playbackId);
           return;
         } catch {
+          URL.revokeObjectURL(cachedUrl);
           audioCacheRef.current.delete(cacheKey);
         }
       }
-
       const controller = new AbortController();
+      requestRef.current = controller;
       const timeout = window.setTimeout(() => controller.abort(), TTS_TIMEOUT_MS);
       let res: Response;
       try {
         res = await fetch("/api/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            text: cleanText,
-            locale: selectedLocale,
-            ...(selectedVoiceId ? { voiceId: selectedVoiceId } : {}),
-            ...(selectedModelId ? { modelId: selectedModelId } : {}),
-          }),
+          body: JSON.stringify({ text: cleanText, locale: selectedLocale }),
           signal: controller.signal,
         });
       } finally {
         window.clearTimeout(timeout);
+        if (requestRef.current === controller) requestRef.current = null;
       }
-
-      const contentType = res.headers.get("Content-Type") ?? "";
-      if (!res.ok || contentType.includes("application/json")) throw new Error("fallback");
+      if (!res.ok || !(res.headers.get("Content-Type") ?? "").startsWith("audio/")) {
+        throw new Error("Mila voice unavailable");
+      }
       if (playbackIdRef.current !== playbackId) return;
-
       const blob = await res.blob();
-      if (blob.size === 0) throw new Error("empty audio");
+      if (blob.size === 0) throw new Error("Empty audio");
       if (playbackIdRef.current !== playbackId) return;
-
       const url = URL.createObjectURL(blob);
       audioCacheRef.current.set(cacheKey, url);
       await playAudioUrl(url, playbackId);
     } catch {
-      await speakWithBrowser(cleanText, speechLang, playbackId);
+      if (playbackIdRef.current !== playbackId) return;
+      // Keep Mila's identity consistent: recovery is visible text, never a different browser voice.
+      setVoiceError(true);
       finishPlayback(playbackId);
     }
   }
 
   return (
-    <VoiceContext.Provider value={{ voiceId, setVoiceId, isPlaying, isLoading, currentText, speak, stop }}>
+    <VoiceContext.Provider value={{ isPlaying, isLoading, currentText, speak, stop }}>
       {children}
+      {voiceError ? (
+        <p role="status" aria-live="polite" className="fixed bottom-24 left-1/2 z-[1500] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-2xl border border-primary/20 bg-white p-4 text-sm font-semibold text-text shadow-soft">
+          {pickLocalized(VOICE_UNAVAILABLE, locale)}
+        </p>
+      ) : null}
     </VoiceContext.Provider>
   );
 }

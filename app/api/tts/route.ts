@@ -4,9 +4,9 @@ import {
   rateLimit,
   readJsonWithLimit,
 } from "@/lib/api-security";
+import { resolveMilaVoice } from "@/lib/server/mila-voice";
 
 const DEFAULT_MODEL = "eleven_flash_v2_5";
-const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel — fallback when no voice ID configured
 const MAX_TTS_TEXT_LENGTH = 500;
 
 type VoiceLocale = "pl" | "en" | "es" | "fr" | "zh" | "ja" | "hi" | "pt-BR" | "tr";
@@ -30,25 +30,9 @@ const LOCALE_TO_LANG: Record<VoiceLocale, string> = {
   tr: "tr",
 };
 
-const LOCALE_VOICE_ENV: Record<VoiceLocale, string> = {
-  pl: "ELEVENLABS_PL_VOICE_ID",
-  en: "ELEVENLABS_EN_VOICE_ID",
-  es: "ELEVENLABS_ES_VOICE_ID",
-  fr: "ELEVENLABS_FR_VOICE_ID",
-  zh: "ELEVENLABS_ZH_VOICE_ID",
-  ja: "ELEVENLABS_JA_VOICE_ID",
-  hi: "ELEVENLABS_HI_VOICE_ID",
-  "pt-BR": "ELEVENLABS_PT_BR_VOICE_ID",
-  tr: "ELEVENLABS_TR_VOICE_ID",
-};
-
 function getEnv(name: string) {
   const value = process.env[name]?.trim();
   return value || undefined;
-}
-
-function optionalString(value: unknown) {
-  return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
 }
 
 function isVoiceLocale(value: unknown): value is VoiceLocale {
@@ -63,11 +47,6 @@ function isVoiceLocale(value: unknown): value is VoiceLocale {
     value === "pt-BR" ||
     value === "tr"
   );
-}
-
-function getLocaleVoiceId(locale?: VoiceLocale) {
-  if (!locale) return undefined;
-  return getEnv(LOCALE_VOICE_ENV[locale]);
 }
 
 export async function POST(req: Request) {
@@ -100,21 +79,20 @@ export async function POST(req: Request) {
   }
 
   const locale = isVoiceLocale(payload.locale) ? payload.locale : undefined;
-  const selectedVoiceId =
-    optionalString(payload.voiceId) ??
-    getLocaleVoiceId(locale) ??
-    getEnv("ELEVENLABS_VOICE_ID") ??
-    FALLBACK_VOICE_ID;
-  const model = optionalString(payload.modelId) ?? getEnv("ELEVENLABS_MODEL_ID") ?? DEFAULT_MODEL;
   const apiKey = getEnv("ELEVENLABS_API_KEY");
 
   if (!apiKey) {
-    return Response.json({ error: "ELEVENLABS_API_KEY not set", fallback: true }, { status: 503 });
+    return Response.json({ error: "Mila voice unavailable" }, { status: 503 });
   }
 
-  if (!selectedVoiceId) {
-    return Response.json({ error: "ElevenLabs voice ID not configured", fallback: true }, { status: 503 });
+  // Use the conversation agent's voice for the introduction, read-aloud and replies.
+  // A client preference or locale must never silently select another Mila voice.
+  const voice = await resolveMilaVoice();
+  if (!voice) {
+    return Response.json({ error: "Mila voice unavailable" }, { status: 503 });
   }
+  // Let the provider validate its configured model; never switch models after a rejection.
+  const model = voice.modelId ?? getEnv("ELEVENLABS_MODEL_ID") ?? DEFAULT_MODEL;
 
   try {
     const query = new URLSearchParams({
@@ -123,7 +101,7 @@ export async function POST(req: Request) {
     });
 
     const res = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}/stream?${query}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voice.voiceId)}/stream?${query}`,
       {
         method: "POST",
         headers: {
@@ -134,21 +112,21 @@ export async function POST(req: Request) {
         body: JSON.stringify({
           text,
           model_id: model,
-          voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+          voice_settings: voice.settings,
           ...(locale ? { language_code: LOCALE_TO_LANG[locale] } : {}),
         }),
+        signal: AbortSignal.timeout(12000),
       }
     );
 
     if (!res.ok) {
-      const msg = await res.text().catch(() => "");
-      console.error("[tts]", res.status, msg.slice(0, 280));
-      return Response.json({ error: "ElevenLabs API error", fallback: true }, { status: 502 });
+      console.error("[tts] Provider error", res.status);
+      return Response.json({ error: "Mila voice unavailable" }, { status: 502 });
     }
 
     const audio = await res.arrayBuffer();
     if (audio.byteLength === 0) {
-      return Response.json({ error: "Empty audio response", fallback: true }, { status: 502 });
+      return Response.json({ error: "Mila voice unavailable" }, { status: 502 });
     }
 
     return new Response(audio, {
@@ -157,10 +135,11 @@ export async function POST(req: Request) {
         "Cache-Control": "no-store",
         "X-CoachFI-Provider": "elevenlabs",
         "X-CoachFI-Model": model,
+        "X-CoachFI-Voice-Id": voice.voiceId,
       },
     });
-  } catch (err) {
-    console.error("[tts]", err);
-    return Response.json({ error: "TTS failed", fallback: true }, { status: 500 });
+  } catch {
+    console.error("[tts] Provider unavailable");
+    return Response.json({ error: "Mila voice unavailable" }, { status: 502 });
   }
 }

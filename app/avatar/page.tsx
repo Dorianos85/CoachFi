@@ -7,7 +7,7 @@ import { Check, Shield, User, Volume2 } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import { ELEVENLABS_VOICES, useVoice } from "@/context/VoiceContext";
+import { useVoice } from "@/context/VoiceContext";
 import { AVATAR_STYLES, type AvatarGender, type AvatarStyle, getAvatar, saveAvatar } from "@/lib/avatar";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -36,8 +36,8 @@ const AVATAR_COPY: LocalizedMap<
   en: {
     eyebrow: "Personalization",
     title: "Your Financial Avatar",
-    description: "Choose your character, build your financial shield and pick the voice of your AI coach Mila.",
-    readText: "Create your personalized financial avatar and choose Mila's voice.",
+    description: "Choose your character, build your financial shield and meet your AI coach Mila.",
+    readText: "Create your personalized financial avatar and hear Mila's voice.",
     livePreview: "Live preview",
     save: "Save avatar",
     saved: "Saved!",
@@ -47,7 +47,7 @@ const AVATAR_COPY: LocalizedMap<
     archetype: "Financial archetype",
     milaVoice: "Mila's Voice",
     voiceDescription:
-      "Choose the voice your AI coach Mila will use. ElevenLabs is used when configured; otherwise Coach FI falls back to your browser voice.",
+      "Mila uses the same voice for her introduction, lessons and conversations. If audio is unavailable, you can continue with text.",
     poweredBy: "Powered by ElevenLabs",
     preview: "Preview voice",
     stopPreview: "Stop preview",
@@ -56,8 +56,8 @@ const AVATAR_COPY: LocalizedMap<
   pl: {
     eyebrow: "Personalizacja",
     title: "Twój finansowy avatar",
-    description: "Wybierz postać, zbuduj tarczę finansową i wybierz głos coachki AI Mili.",
-    readText: "Stwórz swój finansowy avatar i wybierz głos Mili.",
+    description: "Wybierz postać, zbuduj tarczę finansową i poznaj coachkę AI Milę.",
+    readText: "Stwórz swój finansowy avatar i posłuchaj głosu Mili.",
     livePreview: "Podgląd na żywo",
     save: "Zapisz avatar",
     saved: "Zapisano!",
@@ -67,7 +67,7 @@ const AVATAR_COPY: LocalizedMap<
     archetype: "Archetyp finansowy",
     milaVoice: "Głos Mili",
     voiceDescription:
-      "Wybierz głos, którego użyje Mila. ElevenLabs działa po konfiguracji, a bez niego Coach FI użyje głosu przeglądarki.",
+      "Mila używa tego samego głosu w powitaniu, lekcjach i rozmowach. Gdy dźwięk jest niedostępny, możesz kontynuować tekstowo.",
     poweredBy: "Powered by ElevenLabs",
     preview: "Odsłuchaj głos",
     stopPreview: "Zatrzymaj podgląd",
@@ -76,8 +76,8 @@ const AVATAR_COPY: LocalizedMap<
   ja: {
     eyebrow: "パーソナライズ",
     title: "あなたの金融アバター",
-    description: "キャラクター、金融シールド、Mila の声を選びます。",
-    readText: "金融アバターを作成し、Mila の声を選びます。",
+    description: "キャラクターと金融シールドを選んで、AI コーチの Mila と出会いましょう。",
+    readText: "金融アバターを作成し、Mila の声を聞きます。",
     livePreview: "ライブプレビュー",
     save: "保存",
     saved: "保存しました",
@@ -86,7 +86,7 @@ const AVATAR_COPY: LocalizedMap<
     male: "男性",
     archetype: "金融タイプ",
     milaVoice: "Mila の声",
-    voiceDescription: "Mila が使う声を選びます。設定済みなら ElevenLabs、なければブラウザ音声を使います。",
+    voiceDescription: "Mila は挨拶、レッスン、会話で同じ声を使います。音声が利用できない場合はテキストで続けられます。",
     poweredBy: "ElevenLabs 提供",
     preview: "声を試す",
     stopPreview: "停止",
@@ -119,7 +119,7 @@ export default function AvatarPage() {
   const [gender, setGender] = useState<AvatarGender>("female");
   const [style, setStyle] = useState<AvatarStyle>("warrior");
   const [saved, setSaved] = useState(false);
-  const { voiceId, setVoiceId, isPlaying, speak, stop } = useVoice();
+  const { isPlaying, speak, stop } = useVoice();
 
   useEffect(() => {
     const storedAvatar = getAvatar();
@@ -295,35 +295,13 @@ export default function AvatarPage() {
             </div>
             <p className="mb-4 text-xs font-semibold text-muted">{copy.voiceDescription}</p>
 
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {ELEVENLABS_VOICES.map((voice) => (
-                <button
-                  key={voice.id}
-                  type="button"
-                  onClick={() => setVoiceId(voice.id)}
-                  className={cn(
-                    "flex flex-col gap-1 rounded-xl border-2 p-3 text-left transition",
-                    voiceId === voice.id ? "border-primary bg-primary/5" : "border-primary/10 hover:border-primary/30"
-                  )}
-                >
-                  <span className="text-sm font-black text-text">{voice.name}</span>
-                  <span className="text-[10px] font-semibold text-muted">{voice.accent}</span>
-                  {voiceId === voice.id && (
-                    <span className="mt-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-on-primary">
-                      <Check className="h-2.5 w-2.5" />
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
             <Button
               type="button"
               variant="outline"
               size="sm"
               className="mt-4 w-full gap-2"
               onClick={() => (
-                isPlaying ? stop() : void speak(copy.testVoiceText, { locale, voiceId }).catch(() => {})
+                isPlaying ? stop() : void speak(copy.testVoiceText, { locale }).catch(() => {})
               )}
             >
               <Volume2 className="h-4 w-4" aria-hidden="true" />

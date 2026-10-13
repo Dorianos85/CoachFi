@@ -414,7 +414,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 <StreakBadge compact />
               </>
             )}
-            {cdpEnabled ? <HeaderAccount locale={locale} /> : null}
+            {cdpEnabled ? <HeaderAccount locale={locale} /> : <AccountButton />}
             <LanguageSwitcher />
             <AccessibilityToggle
               highContrast={highContrast}
@@ -423,7 +423,6 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               onTextScaleChange={setTextScale}
               compact
             />
-            <AccountButton />
           </div>
         </div>
       </header>

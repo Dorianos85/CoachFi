@@ -13,9 +13,9 @@ import { mockUser } from "@/data/mockUser";
 import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
+import { getMilaAgentId } from "@/lib/mila-voice";
 
-const DEFAULT_AGENT_ID = "agent_2301krbsttc8f21ra1h5vge02071";
-const AGENT_ID = (process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? DEFAULT_AGENT_ID).trim();
+const AGENT_ID = getMilaAgentId();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
 
 const agentRoutes = {
