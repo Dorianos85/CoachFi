@@ -14,7 +14,7 @@ export interface VoiceSpeakOptions {
   speechLang?: string;
 }
 
-const TTS_TIMEOUT_MS = 17000;
+const TTS_TIMEOUT_MS = 22000;
 const MAX_TTS_TEXT_LENGTH = 500;
 const VOICE_UNAVAILABLE = {
   en: "Mila's voice is temporarily unavailable. You can continue reading and try the audio again.",

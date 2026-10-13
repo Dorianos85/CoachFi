@@ -20,36 +20,48 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
   if (pending?.agentId === agentId) return pending.promise;
 
   const promise = (async () => {
-    try {
-      const response = await fetch(
-        `https://api.us.elevenlabs.io/v1/convai/agents/${encodeURIComponent(agentId)}`,
-        {
-          headers: { "xi-api-key": apiKey, Accept: "application/json" },
-          cache: "no-store",
-          signal: AbortSignal.timeout(CONFIG_TIMEOUT_MS),
+    for (const host of ["api.us.elevenlabs.io", "api.elevenlabs.io"]) {
+      try {
+        const response = await fetch(
+          `https://${host}/v1/convai/agents/${encodeURIComponent(agentId)}`,
+          {
+            headers: { "xi-api-key": apiKey, Accept: "application/json" },
+            cache: "no-store",
+            signal: AbortSignal.timeout(CONFIG_TIMEOUT_MS),
+          }
+        );
+        if (!response.ok) {
+          const errorBody = await response.json().catch(() => null) as { detail?: { status?: unknown } } | null;
+          const errorCode = typeof errorBody?.detail?.status === "string" && /^[a-z_]+$/i.test(errorBody.detail.status)
+            ? errorBody.detail.status : "unknown";
+          console.warn("[mila-voice] Config unavailable", host, response.status, errorCode);
+          continue;
         }
-      );
-      if (!response.ok) return null;
-      const data = await response.json() as {
-        conversation_config?: { tts?: { voice_id?: unknown; model_id?: unknown; stability?: unknown; similarity_boost?: unknown; speed?: unknown } };
-      };
-      const tts = data.conversation_config?.tts;
-      const voiceId = typeof tts?.voice_id === "string" ? tts.voice_id.trim() : "";
-      if (!voiceId) return null;
-      const modelId = typeof tts?.model_id === "string" ? tts.model_id.trim() : "";
-      const settings: MilaVoice["settings"] = {};
-      for (const key of ["stability", "similarity_boost", "speed"] as const) {
-        if (typeof tts?.[key] === "number" && Number.isFinite(tts[key])) settings[key] = tts[key];
+        const data = await response.json() as {
+          conversation_config?: { tts?: { voice_id?: unknown; model_id?: unknown; stability?: unknown; similarity_boost?: unknown; speed?: unknown } };
+        };
+        const tts = data.conversation_config?.tts;
+        const voiceId = typeof tts?.voice_id === "string" ? tts.voice_id.trim() : "";
+        if (!voiceId) {
+          console.warn("[mila-voice] Config missing voice", host, response.status);
+          continue;
+        }
+        const modelId = typeof tts?.model_id === "string" ? tts.model_id.trim() : "";
+        const settings: MilaVoice["settings"] = {};
+        for (const key of ["stability", "similarity_boost", "speed"] as const) {
+          if (typeof tts?.[key] === "number" && Number.isFinite(tts[key])) settings[key] = tts[key];
+        }
+        const value: MilaVoice = {
+          voiceId, settings,
+          ...(modelId ? { modelId } : {}),
+        };
+        cached = { agentId, value, expiresAt: Date.now() + CACHE_MS };
+        return value;
+      } catch (error) {
+        console.warn("[mila-voice] Config request failed", host, error instanceof Error ? error.name : "Error");
       }
-      const value: MilaVoice = {
-        voiceId, settings,
-        ...(modelId ? { modelId } : {}),
-      };
-      cached = { agentId, value, expiresAt: Date.now() + CACHE_MS };
-      return value;
-    } catch {
-      return null;
     }
+    return null;
   })();
   pending = { agentId, promise };
   try {
