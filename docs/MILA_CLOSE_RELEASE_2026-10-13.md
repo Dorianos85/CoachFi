@@ -25,7 +25,7 @@ Zmiany vendora dotyczą pięciu dokładnie zweryfikowanych fragmentów; wersji b
 
 ## Dowody testów
 
-STATUS: PREVIEW / TESTED — wszystkie bramki lokalne PASS; publikacja w toku.
+STATUS: DONE / TESTED — wszystkie bramki lokalne PASS; poprawka opublikowana i publiczny widok zweryfikowany.
 
 - `node --check public/elevenlabs/convai-widget.js`: PASS.
 - `npm run typecheck`: PASS.
@@ -41,6 +41,8 @@ Testy korzystają z realnego skryptu widgetu i bazowej implementacji `endSession
 Mila Voice / Trust Review: kod PASS, finalne wydanie wymagało zakończenia QA. Release & QA: final29 PASS. Brak nowych danych, rekomendacji i integracji finansowych.
 
 ## Wydanie / rollback
+
+Produkcja: commit `fe960facf05f358892aad1966ea0956a416dedf5`, deployment `dpl_AsWmmYDwyn8T4vJczao1Ma7VELqC`, gałąź `main`. Vercel potwierdził READY i alias `coachfiai.com` bez aliasError. Weryfikacja 13.10.2026 około 08:40 Europe/Warsaw: publiczna strona wyświetla sam avatar 56×56 px w prawym dolnym rogu; centralna ramka ma `display: none`, brak aktywnego przycisku End. Skrypt `/elevenlabs/convai-widget.js?v=coachfi-close-20261013` zwraca HTTP 200 i zawiera oba zdarzenia adaptera, znacznik zatrzymania oraz cleanup oczekującej sesji. Krótkie sprawdzenie zagregowanych logów error/fatal nowego deploymentu (ostatnie 5 minut) nie wykazało wpisów; nie stanowi pełnego audytu. Nie uruchamiano rozmowy na prywatnym profilu użytkownika ani mikrofonu produkcyjnego. Pełny scenariusz End/reopen ma dowody z opisanych wyżej testów SDK z symulowanym transportem. Własny lokalny serwer QA został zatrzymany po sprawdzeniu PID i ścieżki procesu.
 
 Poprzednia produkcja: `00d90e707ea3ae449e46e7e4e468e45b714ea6cc`, deployment `dpl_4uArLMcbNsbvKnG6rjFfiMizLoDk`, alias `coachfiai.com`. Rollback owner: founder / Release & QA. Trigger: brak dostępnego End, centralna ramka po końcu, brak ponownego otwarcia albo błędy inicjalizacji widgetu. Przywrócić tylko nowy commit poprawki lub poprzednie wskazane wdrożenie; nie cofać dokumentów właściciela, nie używać force-push. Poprzednia wersja ma zgłoszony błąd zamykania, dlatego preferowane jest poprawione roll-forward. Brak migracji danych.
 
