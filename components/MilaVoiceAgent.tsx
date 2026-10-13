@@ -17,6 +17,7 @@ import { getMilaAgentId } from "@/lib/mila-voice";
 
 const AGENT_ID = getMilaAgentId();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
+const LAUNCHER_DOCK_CLASS = "mila-launcher-dock pointer-events-none fixed bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))] z-[45] max-w-[calc(100vw-2rem)] md:right-[calc(1.5rem+env(safe-area-inset-right,0px))] lg:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]";
 
 const agentRoutes = {
   home: "/",
@@ -119,6 +120,7 @@ function resolveAgentPath(args?: Record<string, unknown>) {
 
 const WIDGET_FRAME_STYLE = `
   :host {
+    display: none;
     position: fixed;
     inset: 0;
     z-index: 1300;
@@ -129,6 +131,7 @@ const WIDGET_FRAME_STYLE = `
     pointer-events: none;
   }
   :host([data-open]) {
+    display: block;
     pointer-events: auto;
   }
   :host([data-open]) elevenlabs-convai {
@@ -295,6 +298,16 @@ function revealWidget(widget: HTMLElement) {
   }
 }
 
+function hideWidget(widget: HTMLElement) {
+  widget.style.removeProperty("opacity");
+  widget.style.removeProperty("visibility");
+  widget.style.removeProperty("pointer-events");
+  const root = widget.getRootNode();
+  if (root instanceof ShadowRoot && root.host instanceof HTMLElement) {
+    delete root.host.dataset.open;
+  }
+}
+
 function clickStartCall(widget: HTMLElement, startLabel: string) {
   const root = widgetRoot(widget);
   if (!root) return false;
@@ -406,10 +419,12 @@ export function MilaVoiceFab() {
     () => JSON.stringify({ start_call: t.voiceAgent.fab, start_chat: t.voiceAgent.startChat }),
     [t.voiceAgent.fab, t.voiceAgent.startChat]
   );
+  const widgetKey = `${signedUrl || agentId}-${locale}-${textOnly ? "text" : "voice"}-${widgetConfig ? "cfg" : "nocfg"}`;
 
   useEffect(() => {
     const widget = widgetRef.current;
     if (!widget || !enabled) return;
+    const frameRoot = widget.getRootNode();
 
     const navigate = (path: string) => {
       router.push(path);
@@ -434,7 +449,8 @@ export function MilaVoiceFab() {
       if (!config) return;
 
       if (voiceWatchRef.current == null) {
-        const idleAtStart = idleLabels ?? buttonLabels() ?? "";
+        // The provider may render its idle controls after this effect attaches.
+        const idleAtStart = buttonLabels() ?? idleLabels ?? "";
         let leftIdle = false;
         let idleTicks = 0;
         beginAgentConversation("voice");
@@ -446,6 +462,9 @@ export function MilaVoiceFab() {
             if (current !== idleAtStart) leftIdle = true;
             else if (idleTicks >= 40) {
               endAgentConversation("voice");
+              hideWidget(widget);
+              setCallOpen(false);
+              setCallStatus(t.common.error);
               if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
               voiceWatchRef.current = null;
             }
@@ -453,9 +472,7 @@ export function MilaVoiceFab() {
           }
             if (current === idleAtStart) {
               endAgentConversation("voice");
-              widget.style.removeProperty("opacity");
-              widget.style.removeProperty("visibility");
-              widget.style.removeProperty("pointer-events");
+              hideWidget(widget);
               setCallOpen(false);
               if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
               voiceWatchRef.current = null;
@@ -534,26 +551,35 @@ export function MilaVoiceFab() {
       if (quotaTimer) clearTimeout(quotaTimer);
       window.clearInterval(pollForShadow);
       queueMicrotask(() => {
-        if (widget.isConnected || voiceWatchRef.current == null) return;
+        if (widget.isConnected) return;
+        // A new keyed widget must not inherit an open, idle full-screen frame.
+        if (frameRoot instanceof ShadowRoot && frameRoot.host instanceof HTMLElement) {
+          delete frameRoot.host.dataset.open;
+        }
+        setCallOpen(false);
+        setCallStatus("");
+        if (voiceWatchRef.current == null) return;
         window.clearInterval(voiceWatchRef.current);
         voiceWatchRef.current = null;
         endAgentConversation("voice");
       });
     };
-  }, [agentContext, enabled, router, widgetFrameReady]);
+  }, [agentContext, enabled, router, widgetFrameReady, widgetKey, t.common.error]);
 
   if (!AGENT_ID || !enabled) return null;
 
   if (quotaExceeded) {
     return (
-      <div className="fixed bottom-6 right-6 z-50 max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
-        <p className="text-sm font-black text-text">{t.voiceAgent.title} — {t.common.error}</p>
-        <p className="mt-1 text-xs font-semibold leading-5 text-muted">
-          {t.voiceAgent.statusDisconnected}{" "}
-          <a href="/coach" className="font-black text-primary underline">
-            {t.nav.coach} →
-          </a>
-        </p>
+      <div className={LAUNCHER_DOCK_CLASS}>
+        <div className="pointer-events-auto max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
+          <p className="text-sm font-black text-text">{t.voiceAgent.title} — {t.common.error}</p>
+          <p className="mt-1 text-xs font-semibold leading-5 text-muted">
+            {t.voiceAgent.statusDisconnected}{" "}
+            <a href="/coach" className="font-black text-primary underline">
+              {t.nav.coach} →
+            </a>
+          </p>
+        </div>
       </div>
     );
   }
@@ -566,7 +592,7 @@ export function MilaVoiceFab() {
         strategy="afterInteractive"
       />
       {!callOpen && (
-        <div className="pointer-events-none fixed bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))] z-[1400] max-w-[calc(100vw-2rem)] md:right-[calc(1.5rem+env(safe-area-inset-right,0px))] lg:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
+        <div className={LAUNCHER_DOCK_CLASS}>
           <div className="pointer-events-auto flex flex-col items-end gap-2">
             <button
               type="button"
@@ -584,7 +610,10 @@ export function MilaVoiceFab() {
                 const startedAt = Date.now();
                 const timer = window.setInterval(() => {
                   const current = widgetRef.current;
-                  if (!current) return;
+                  if (current !== widget) {
+                    window.clearInterval(timer);
+                    return;
+                  }
                   revealWidget(current);
                   if (!opened) opened = clickStartCall(current, startLabel);
                   if (opened && widgetIsShowing(current)) {
@@ -595,9 +624,7 @@ export function MilaVoiceFab() {
                   }
                   if (Date.now() - startedAt > 4000) {
                     window.clearInterval(timer);
-                    current.style.removeProperty("opacity");
-                    current.style.removeProperty("visibility");
-                    current.style.removeProperty("pointer-events");
+                    hideWidget(current);
                     setCallStatus(t.common.error);
                   }
                 }, 200);
@@ -620,7 +647,7 @@ export function MilaVoiceFab() {
       <MilaWidgetFrame onReady={markWidgetFrameReady} open={callOpen}>
       <elevenlabs-convai
         ref={widgetRef}
-        key={`${signedUrl || agentId}-${locale}-${textOnly ? "text" : "voice"}-${widgetConfig ? "cfg" : "nocfg"}`}
+        key={widgetKey}
         {...(widgetConfig ? { "override-config": widgetConfig } : {})}
         {...(signedUrl ? { "signed-url": signedUrl } : { "agent-id": agentId })}
         server-location="us"

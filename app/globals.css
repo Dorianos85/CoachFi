@@ -406,6 +406,24 @@ html.text-scale-xlarge label,
   width: 100%;
 }
 
+/* Leave enough scroll room to move the last controls above Mila and mobile nav. */
+.app-shell {
+  padding-bottom: calc(12rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* A launcher must never compete with consent/login dialogs or a typing user.
+   Visibility also removes its button from keyboard and screen-reader navigation. */
+body:has([role="dialog"][aria-modal="true"]) .mila-launcher-dock,
+body:has(input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea:focus, [contenteditable="true"]:focus) .mila-launcher-dock {
+  visibility: hidden;
+}
+
+@media (min-width: 1024px) {
+  .app-shell {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (max-width: 1023px) {
   elevenlabs-convai {
     z-index: 1300 !important;
