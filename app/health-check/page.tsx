@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 
 import { CheckCircle2, LifeBuoy, LockKeyhole, Mail, Share2, Sparkles, Trophy } from "lucide-react";
 import Link from "next/link";
@@ -602,38 +602,83 @@ function calculateHealthScore(form: HealthForm) {
   );
 }
 
-function getPreviewInsights(form: HealthForm, locale: string) {
-  const isPolish = locale === "pl";
+const INSIGHT_COPY: LocalizedMap<Record<"highSpending" | "roomToPlan" | "weakCushion" | "goodCushion" | "noFuturePlan", string>> = {
+  en: {
+    highSpending: "Spending is high compared with income. This is the first area to check.",
+    roomToPlan: "You have room to build a system and a regular plan.",
+    weakCushion: "Your safety cushion needs strengthening before taking more risk.",
+    goodCushion: "Your financial cushion gives you a good base for the next habits.",
+    noFuturePlan: "A regular future plan is missing: education, investing or retirement.",
+  },
+  pl: {
+    highSpending: "Wydatki są wysokie względem dochodu. To pierwszy obszar do sprawdzenia.",
+    roomToPlan: "Masz przestrzeń do zbudowania systemu i regularnego planu.",
+    weakCushion: "Poduszka finansowa wymaga wzmocnienia, zanim zwiększysz ryzyko.",
+    goodCushion: "Poduszka finansowa daje dobry start do kolejnych nawyków.",
+    noFuturePlan: "Brakuje regularnego planu przyszłości: edukacja, inwestowanie lub emerytura.",
+  },
+  es: {
+    highSpending: "El gasto es alto en relación con los ingresos. Es lo primero que conviene revisar.",
+    roomToPlan: "Tienes margen para construir un sistema y un plan regular.",
+    weakCushion: "Tu colchón de seguridad necesita reforzarse antes de asumir más riesgo.",
+    goodCushion: "Tu colchón financiero te da una buena base para los siguientes hábitos.",
+    noFuturePlan: "Falta un plan regular para el futuro: educación, inversión o jubilación.",
+  },
+  fr: {
+    highSpending: "Les dépenses sont élevées par rapport aux revenus. C'est le premier point à vérifier.",
+    roomToPlan: "Vous avez de la marge pour mettre en place un système et un plan régulier.",
+    weakCushion: "Votre matelas de sécurité doit être renforcé avant de prendre plus de risques.",
+    goodCushion: "Votre matelas financier vous donne une bonne base pour les prochaines habitudes.",
+    noFuturePlan: "Il manque un plan régulier pour l'avenir : éducation, investissement ou retraite.",
+  },
+  zh: {
+    highSpending: "支出相对于收入偏高。这是首先要检查的地方。",
+    roomToPlan: "你有空间建立一套系统和定期计划。",
+    weakCushion: "在承担更多风险之前，你的安全缓冲需要加强。",
+    goodCushion: "你的财务缓冲为接下来的习惯打下了良好基础。",
+    noFuturePlan: "缺少面向未来的定期计划：教育、投资或退休。",
+  },
+  ja: {
+    highSpending: "収入に対して支出が多めです。最初に確認すべきポイントです。",
+    roomToPlan: "仕組みと定期的なプランをつくる余裕があります。",
+    weakCushion: "リスクを増やす前に、お金のクッションを厚くする必要があります。",
+    goodCushion: "お金のクッションが、次の習慣づくりの良い土台になっています。",
+    noFuturePlan: "将来に向けた定期的なプランが足りていません：教育、投資、老後の備え。",
+  },
+  hi: {
+    highSpending: "आय की तुलना में खर्च ज़्यादा है। सबसे पहले इसी पर ध्यान दें।",
+    roomToPlan: "आपके पास एक व्यवस्था और नियमित योजना बनाने की गुंजाइश है।",
+    weakCushion: "ज़्यादा जोखिम लेने से पहले आपकी सुरक्षा गद्दी को मज़बूत करना ज़रूरी है।",
+    goodCushion: "आपकी वित्तीय गद्दी अगली आदतों के लिए अच्छा आधार देती है।",
+    noFuturePlan: "भविष्य की नियमित योजना की कमी है: शिक्षा, निवेश या सेवानिवृत्ति।",
+  },
+  "pt-BR": {
+    highSpending: "Os gastos estão altos em relação à renda. Essa é a primeira área a verificar.",
+    roomToPlan: "Você tem espaço para montar um sistema e um plano regular.",
+    weakCushion: "Sua reserva de segurança precisa ser reforçada antes de assumir mais risco.",
+    goodCushion: "Sua reserva financeira dá uma boa base para os próximos hábitos.",
+    noFuturePlan: "Falta um plano regular para o futuro: educação, investimentos ou aposentadoria.",
+  },
+  tr: {
+    highSpending: "Harcamalar gelire göre yüksek. İlk bakılması gereken alan bu.",
+    roomToPlan: "Bir sistem ve düzenli bir plan kurmak için alanın var.",
+    weakCushion: "Daha fazla risk almadan önce güvenlik yastığını güçlendirmen gerekiyor.",
+    goodCushion: "Finansal yastığın sonraki alışkanlıklar için iyi bir temel sağlıyor.",
+    noFuturePlan: "Geleceğe yönelik düzenli bir plan eksik: eğitim, yatırım veya emeklilik.",
+  },
+};
+
+function getPreviewInsights(form: HealthForm, locale: Locale) {
+  const copy = pickLocalized(INSIGHT_COPY, locale);
   const spendingRatio = form.monthlyIncome > 0 ? form.monthlyExpenses / form.monthlyIncome : 1;
   const cushionMonths = form.monthlyExpenses > 0 ? form.savings / form.monthlyExpenses : 0;
   const insights: string[] = [];
 
-  insights.push(
-    spendingRatio > 0.75
-      ? isPolish
-        ? "Wydatki są wysokie względem dochodu. To pierwszy obszar do sprawdzenia."
-        : "Spending is high compared with income. This is the first area to check."
-      : isPolish
-        ? "Masz przestrzeń do zbudowania systemu i regularnego planu."
-        : "You have room to build a system and a regular plan."
-  );
-
-  insights.push(
-    cushionMonths < 3
-      ? isPolish
-        ? "Poduszka finansowa wymaga wzmocnienia, zanim zwiększysz ryzyko."
-        : "Your safety cushion needs strengthening before taking more risk."
-      : isPolish
-        ? "Poduszka finansowa daje dobry start do kolejnych nawyków."
-        : "Your financial cushion gives you a good base for the next habits."
-  );
+  insights.push(spendingRatio > 0.75 ? copy.highSpending : copy.roomToPlan);
+  insights.push(cushionMonths < 3 ? copy.weakCushion : copy.goodCushion);
 
   if (!form.investsAlready || !form.hasRetirementPlan) {
-    insights.push(
-      isPolish
-        ? "Brakuje regularnego planu przyszłości: edukacja, inwestowanie lub emerytura."
-        : "A regular future plan is missing: education, investing or retirement."
-    );
+    insights.push(copy.noFuturePlan);
   }
 
   return insights.slice(0, 3);
