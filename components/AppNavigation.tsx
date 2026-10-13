@@ -378,22 +378,18 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         {shellCopy.skip}
       </a>
 
-      <header className="sticky top-0 z-40 border-b border-white/70 bg-background/72 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-border-subtle bg-surface/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-2 px-4 py-3 lg:gap-3 lg:px-6">
 
           <Link
             href="/"
-            className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex shrink-0 items-center gap-3 rounded-lg p-1 text-left focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus focus-visible:ring-offset-2"
             aria-label={shellCopy.homeAria}
           >
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary text-base font-black text-white shadow-glow">
-              FI
+            <span className="cf-logo-tile inline-flex items-center rounded-lg px-2 py-1.5">
+              <Logo size={26} />
             </span>
-            <span className="min-w-0 overflow-hidden">
-              <span className="block whitespace-nowrap text-lg font-black leading-tight">Coach FI</span>
-              <span className="hidden truncate text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
-            </span>
-            <span className="hidden text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
+            <span className="hidden max-w-[14rem] truncate text-xs font-bold text-muted sm:block">{copy.appSubtitle}</span>
           </Link>
 
           <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2 lg:gap-3">
@@ -434,7 +430,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
 
       <div className="relative mx-auto flex max-w-[1480px] gap-6 px-4 pb-28 pt-6 lg:px-6">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label={shellCopy.primaryNav}>
-          <div className="glass-panel sticky top-24 rounded-lg p-3">
+          <div className="glass-panel sticky top-24 rounded-card p-3">
             {cdpEnabled ? (
               <SignedInPlanScore
                 copy={copy}
@@ -474,7 +470,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                   <details
                     key={group.id}
                     open={groupActive || group.defaultOpen}
-                    className="group rounded-lg border border-primary/10 bg-white/55"
+                    className="group rounded-card border border-border-subtle bg-surface/80"
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                       {pickLocalized(group.label, locale)}
@@ -502,7 +498,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav
-        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-lg border border-primary/15 bg-white/95 p-2 shadow-soft backdrop-blur lg:hidden"
+        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-card border border-border-subtle bg-surface p-2 shadow-soft lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
         <div
@@ -514,13 +510,13 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg px-1.5 py-2 text-center text-[11px] font-bold leading-tight text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                getIsActive(pathname, item.href) && "bg-primary text-on-primary"
+                "flex min-h-16 flex-col items-center justify-center gap-1 rounded-card px-1.5 py-2 text-center text-[11px] font-bold leading-tight text-muted focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus",
+                getIsActive(pathname, item.href) && "bg-area-learn text-text"
               )}
               aria-current={getIsActive(pathname, item.href) ? "page" : undefined}
               aria-label={item.label}
             >
-              <item.icon className="h-5 w-5" aria-hidden="true" />
+              <item.icon className={cn("h-5 w-5", getIsActive(pathname, item.href) && "text-grape")} aria-hidden="true" />
               {item.label}
             </Link>
           ))}
@@ -535,7 +531,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       {modeRecord?.mode === "adult" && <NotificationBanner />}
       <ConsentManager />
 
-      <footer className="relative border-t border-primary/10 bg-white/70 px-4 py-6 text-sm leading-6 text-muted backdrop-blur lg:px-6">
+      <footer className="relative border-t border-border-subtle bg-surface px-4 py-6 text-sm leading-6 text-muted lg:px-6">
         <div className="mx-auto max-w-[1480px] space-y-4">
           <p className="text-xs">{footer.disclaimer}</p>
 
@@ -581,7 +577,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={openModeSettings}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/15 bg-white px-3 py-1.5 font-bold text-primary transition hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface px-3 py-1.5 font-bold text-grape transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus"
             >
               <Baby className="h-3.5 w-3.5" aria-hidden="true" />
               {shellCopy.changeMode}
@@ -622,7 +618,7 @@ function PlanScoreCard({
           </span>
         )}
       </div>
-      <p className="mt-1 text-sm font-bold text-white/82">{copy.scoreLabel}</p>
+      <p className="mt-1 text-sm font-bold text-on-primary/80">{copy.scoreLabel}</p>
 
       <div className="mt-4">
         <div
@@ -732,7 +728,7 @@ function HeaderAccount({ locale }: { locale: Locale }) {
       type="button"
       disabled={!isInitialized}
       onClick={() => requestSignIn()}
-      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg cf-press bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-button cf-press bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-60"
     >
       {!isInitialized ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
       {copy.signIn}
@@ -754,11 +750,11 @@ function NavLink({
       href={item.href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-bold text-muted transition hover:bg-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-        active && "bg-white text-primary shadow-soft"
+        "flex min-h-12 w-full items-center gap-3 rounded-card px-3 py-3 text-left text-sm font-bold text-muted transition hover:bg-surface focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus",
+        active && "bg-area-learn text-text shadow-soft"
       )}
     >
-      <item.icon className="h-5 w-5 shrink-0" aria-hidden="true" />
+      <item.icon className={cn("h-5 w-5 shrink-0", active && "text-grape")} aria-hidden="true" />
       {item.label}
       {badge !== undefined && (
         <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-[10px] font-black text-on-primary">

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 whitespace-normal break-normal rounded-button text-center text-sm font-extrabold leading-snug [overflow-wrap:normal] [word-break:normal] transition duration-micro focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex min-h-[var(--cf-target-min)] max-w-full items-center justify-center gap-2 whitespace-normal break-normal rounded-button text-center text-sm font-extrabold leading-snug [overflow-wrap:normal] [word-break:normal] transition duration-micro focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         ghost: "text-text hover:bg-primary/10"
       },
       size: {
-        default: "px-5 py-3",
+        default: "min-h-[var(--cf-target-default)] px-5 py-3",
         sm: "min-h-9 px-3 py-2 text-xs",
         lg: "min-h-14 px-6 py-4 text-base",
         icon: "h-11 w-11 p-0"

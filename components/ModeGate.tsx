@@ -155,7 +155,7 @@ export function ModeGate() {
 
             <div className="grid min-h-0 gap-4 overflow-y-auto p-5 md:grid-cols-2">
               <div className="rounded-lg border border-primary/10 bg-primary/5 p-5">
-                <span className="grid h-12 w-12 place-items-center rounded-lg bg-primary text-white">
+                <span className="grid h-12 w-12 place-items-center rounded-lg bg-primary text-on-primary">
                   <UserRoundCheck className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 text-xl font-black text-text">{copy.adultTitle}</h3>

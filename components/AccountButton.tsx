@@ -190,14 +190,14 @@ export function AccountButton() {
         type="button"
         onClick={() => setOpen(true)}
         disabled={loading}
-        className="flex min-h-10 items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-black text-white shadow-glow transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+        className="cf-press flex min-h-10 items-center gap-2 rounded-button bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus disabled:opacity-60"
       >
         <UserIcon className="h-4 w-4" aria-hidden="true" />
         {copy.signIn}
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="border-primary/20 bg-[#151522] text-text">
+        <DialogContent className="border-border-subtle bg-surface text-text">
           <DialogHeader>
             <DialogTitle>{tab === "signin" ? copy.signIn : copy.signUp}</DialogTitle>
             <DialogDescription>{copy.description}</DialogDescription>
@@ -208,7 +208,7 @@ export function AccountButton() {
               type="button"
               onClick={() => setTab("signin")}
               className={`flex-1 rounded-md px-3 py-2 transition ${
-                tab === "signin" ? "bg-primary text-white shadow-sm" : "text-muted"
+                tab === "signin" ? "bg-primary text-on-primary shadow-sm" : "text-muted"
               }`}
             >
               {copy.tabSignIn}
@@ -217,7 +217,7 @@ export function AccountButton() {
               type="button"
               onClick={() => setTab("signup")}
               className={`flex-1 rounded-md px-3 py-2 transition ${
-                tab === "signup" ? "bg-primary text-white shadow-sm" : "text-muted"
+                tab === "signup" ? "bg-primary text-on-primary shadow-sm" : "text-muted"
               }`}
             >
               {copy.tabSignUp}
@@ -233,7 +233,7 @@ export function AccountButton() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                className="mt-1 w-full rounded-lg border border-primary/25 bg-[#12121d] px-3 py-2 text-sm font-medium text-text outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 w-full rounded-input border-2 border-border bg-surface px-3 py-2 text-sm font-medium text-text outline-none focus:ring-[length:var(--cfx-ring-width)] focus:ring-focus"
               />
             </label>
             <label className="block text-sm font-bold text-text">
@@ -245,7 +245,7 @@ export function AccountButton() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete={tab === "signin" ? "current-password" : "new-password"}
-                className="mt-1 w-full rounded-lg border border-primary/25 bg-[#12121d] px-3 py-2 text-sm font-medium text-text outline-none focus:ring-2 focus:ring-primary"
+                className="mt-1 w-full rounded-input border-2 border-border bg-surface px-3 py-2 text-sm font-medium text-text outline-none focus:ring-[length:var(--cfx-ring-width)] focus:ring-focus"
               />
             </label>
 
@@ -255,7 +255,7 @@ export function AccountButton() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-black text-white shadow-glow transition hover:opacity-90 disabled:opacity-60"
+              className="cf-press w-full rounded-button bg-primary px-4 py-2.5 text-sm font-black text-on-primary transition hover:bg-primary-strong disabled:opacity-60"
             >
               {busy ? "..." : tab === "signin" ? copy.signIn : copy.signUp}
             </button>
