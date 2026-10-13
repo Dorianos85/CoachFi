@@ -249,6 +249,29 @@ const reviewCopy = {
     next: "Sonraki",
     resultSuffix: "...",
   },
+  ja: {
+    eyebrow: "間隔をあけた復習",
+    title: "復習",
+    readText: "復習セッション。問題に答えて記憶を定着させましょう。",
+    allCaughtTitle: "すべて完了！",
+    allCaughtDescription: "今日復習する問題はありません。また明日どうぞ。連続記録は守られています。",
+    deckTotal: "デッキ内の問題数",
+    sessionCompleteTitle: "セッション完了！",
+    sessionCompleteReadText: "復習セッションが完了しました。",
+    answeredCorrectly: "問正解",
+    accuracy: "正答率",
+    reviewAgain: "もう一度復習",
+    description: (current: number, total: number) =>
+      `${current} / ${total} - SM-2アルゴリズムが次の復習を自動で予定します`,
+    nextPrefix: "次回：",
+    correct: "正解！",
+    notQuite: "おしい",
+    nextReview: "次の復習：",
+    checkAnswer: "答えを確認",
+    finishSession: "セッションを終了",
+    next: "次へ",
+    resultSuffix: "...",
+  },
 };
 
 function getReviewCopy(locale: string) {

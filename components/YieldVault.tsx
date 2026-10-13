@@ -46,6 +46,7 @@ const VAULT_COPY: LocalizedMap<
   {
     risk: Record<VaultStrategy["risk"], string>;
     strategies: string;
+    strategyDescriptions: string[];
     sourceKamino: string;
     sourceFallback: string;
     sourceLoading: string;
@@ -82,6 +83,7 @@ const VAULT_COPY: LocalizedMap<
   pl: {
     risk: { low: "Niskie ryzyko", medium: "Średnie ryzyko", high: "Wysokie ryzyko" },
     strategies: "Strategie Kamino",
+    strategyDescriptions: ["Zysk ze stablecoinów — najniższe ryzyko, przewidywalny zwrot.","Skoncentrowana płynność (LP) — wyższy zysk, ryzyko nietrwałej straty.","LST + dźwignia — najwyższe APY z ryzykiem likwidacji."],
     sourceKamino: "Dane live z Kamino Finance (mainnet)",
     sourceFallback: "Realistyczne przykłady APY (tryb offline)",
     sourceLoading: "Ładowanie danych...",
@@ -131,6 +133,7 @@ const VAULT_COPY: LocalizedMap<
   en: {
     risk: { low: "Low risk", medium: "Medium risk", high: "High risk" },
     strategies: "Kamino strategies",
+    strategyDescriptions: ["Stablecoin yield — lowest risk, predictable return.","Concentrated LP — higher yield, risk of impermanent loss.","LST + leverage — highest APY, with liquidation risk."],
     sourceKamino: "Live data from Kamino Finance (mainnet)",
     sourceFallback: "Realistic APY examples (offline mode)",
     sourceLoading: "Loading data...",
@@ -180,6 +183,7 @@ const VAULT_COPY: LocalizedMap<
   ja: {
     risk: { low: "低リスク", medium: "中リスク", high: "高リスク" },
     strategies: "Kamino戦略",
+    strategyDescriptions: ["ステーブルコインの利回り：最も低いリスクで、見通しやすいリターン。","集中流動性LP：利回りは高めですが、インパーマネントロスのリスクがあります。","LST＋レバレッジ：APYは最も高いものの、清算リスクがあります。"],
     sourceKamino: "Kamino Financeのライブデータ (mainnet)",
     sourceFallback: "現実的なAPY例 (オフライン)",
     sourceLoading: "データを読み込み中...",
@@ -229,6 +233,7 @@ const VAULT_COPY: LocalizedMap<
   es: {
     risk: { low: "Riesgo bajo", medium: "Riesgo medio", high: "Riesgo alto" },
     strategies: "Estrategias de Kamino",
+    strategyDescriptions: ["Rendimiento con stablecoins: el riesgo más bajo y un retorno predecible.","LP concentrado: mayor rendimiento, con riesgo de pérdida impermanente.","LST + apalancamiento: el APY más alto, con riesgo de liquidación."],
     sourceKamino: "Datos en vivo de Kamino Finance (mainnet)",
     sourceFallback: "Ejemplos realistas de APY (modo sin conexión)",
     sourceLoading: "Cargando datos...",
@@ -278,6 +283,7 @@ const VAULT_COPY: LocalizedMap<
   fr: {
     risk: { low: "Risque faible", medium: "Risque moyen", high: "Risque élevé" },
     strategies: "Stratégies Kamino",
+    strategyDescriptions: ["Rendement en stablecoins : le risque le plus faible, un rendement prévisible.","LP concentré : rendement plus élevé, risque de perte impermanente.","LST + effet de levier : l'APY le plus élevé, avec un risque de liquidation."],
     sourceKamino: "Données en direct de Kamino Finance (mainnet)",
     sourceFallback: "Exemples d'APY réalistes (mode hors ligne)",
     sourceLoading: "Chargement des données...",
@@ -327,6 +333,7 @@ const VAULT_COPY: LocalizedMap<
   zh: {
     risk: { low: "低风险", medium: "中等风险", high: "高风险" },
     strategies: "Kamino 策略",
+    strategyDescriptions: ["稳定币收益：风险最低，回报可预期。","集中流动性 LP：收益更高，但有无常损失风险。","LST + 杠杆：APY 最高，但有清算风险。"],
     sourceKamino: "来自 Kamino Finance 的实时数据（主网）",
     sourceFallback: "贴近实际的 APY 示例（离线模式）",
     sourceLoading: "正在加载数据...",
@@ -376,6 +383,7 @@ const VAULT_COPY: LocalizedMap<
   hi: {
     risk: { low: "कम जोखिम", medium: "मध्यम जोखिम", high: "ज़्यादा जोखिम" },
     strategies: "Kamino रणनीतियां",
+    strategyDescriptions: ["स्टेबलकॉइन यील्ड: सबसे कम जोखिम, अनुमानित रिटर्न।","कंसन्ट्रेटेड LP: ज़्यादा यील्ड, इम्पर्मानेंट लॉस का जोखिम।","LST + लीवरेज: सबसे ज़्यादा APY, लिक्विडेशन के जोखिम के साथ।"],
     sourceKamino: "Kamino Finance से लाइव डेटा (मेननेट)",
     sourceFallback: "वास्तविक जैसे APY उदाहरण (ऑफ़लाइन मोड)",
     sourceLoading: "डेटा लोड हो रहा है...",
@@ -425,6 +433,7 @@ const VAULT_COPY: LocalizedMap<
   "pt-BR": {
     risk: { low: "Risco baixo", medium: "Risco médio", high: "Risco alto" },
     strategies: "Estratégias da Kamino",
+    strategyDescriptions: ["Rendimento em stablecoins: o menor risco, retorno previsível.","LP concentrado: rendimento maior, com risco de perda impermanente.","LST + alavancagem: o maior APY, com risco de liquidação."],
     sourceKamino: "Dados ao vivo da Kamino Finance (mainnet)",
     sourceFallback: "Exemplos realistas de APY (modo offline)",
     sourceLoading: "Carregando dados...",
@@ -474,6 +483,7 @@ const VAULT_COPY: LocalizedMap<
   tr: {
     risk: { low: "Düşük risk", medium: "Orta risk", high: "Yüksek risk" },
     strategies: "Kamino stratejileri",
+    strategyDescriptions: ["Stablecoin getirisi: en düşük risk, öngörülebilir getiri.","Yoğunlaştırılmış LP: daha yüksek getiri, kalıcı olmayan kayıp riski.","LST + kaldıraç: en yüksek APY, likidasyon riskiyle."],
     sourceKamino: "Kamino Finance'ten canlı veri (mainnet)",
     sourceFallback: "Gerçekçi APY örnekleri (çevrimdışı mod)",
     sourceLoading: "Veriler yükleniyor...",
@@ -639,7 +649,7 @@ export function YieldVault() {
               ? Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="h-20 animate-pulse rounded-xl bg-primary/5" />
                 ))
-              : strategies.map((s) => (
+              : strategies.map((s, index) => (
                   <button
                     key={s.id}
                     type="button"
@@ -671,7 +681,7 @@ export function YieldVault() {
                         <span className="text-[10px] font-semibold text-muted">{fmtTvl(s.tvl)}</span>
                       )}
                     </div>
-                    <p className="mt-1.5 text-xs font-semibold leading-5 text-muted">{s.description}</p>
+                    <p className="mt-1.5 text-xs font-semibold leading-5 text-muted">{copy.strategyDescriptions[index] ?? s.description}</p>
                   </button>
                 ))}
           </div>

@@ -8,7 +8,7 @@ const FALLBACK: VaultStrategy[] = [
     apy: 0.0415,
     risk: "low",
     protocol: "Kamino",
-    description: "Stablecoin yield — najniższe ryzyko, przewidywalny zwrot.",
+    description: "Stablecoin yield — lowest risk, predictable return.",
     tvl: 48_200_000,
   },
   {
@@ -17,7 +17,7 @@ const FALLBACK: VaultStrategy[] = [
     apy: 0.0782,
     risk: "medium",
     protocol: "Kamino",
-    description: "Skoncentrowany LP — wyższy yield, ryzyko nietrwałej straty.",
+    description: "Concentrated LP — higher yield, risk of impermanent loss.",
     tvl: 21_500_000,
   },
   {
@@ -26,7 +26,7 @@ const FALLBACK: VaultStrategy[] = [
     apy: 0.143,
     risk: "high",
     protocol: "Kamino",
-    description: "LST + dźwignia — najwyższy APY z ryzykiem likwidacji.",
+    description: "LST + leverage — highest APY, with liquidation risk.",
     tvl: 8_900_000,
   },
 ];

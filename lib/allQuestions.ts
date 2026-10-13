@@ -1,6 +1,7 @@
 import { quizQuestions } from "@/data/quizQuestions";
 import { challengeQuestions } from "@/data/challengeQuestions";
 import type { Locale } from "@/lib/i18n";
+import { challengeOverrides } from "@/lib/localizedChallenge";
 import { getQuizQuestions } from "@/lib/localizedQuiz";
 
 export interface UnifiedQuestion {
@@ -822,6 +823,9 @@ function localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQu
     // added questions are still shown (and counted by SRS) for every locale.
     return override ? { ...question, ...override } : question;
   }
+
+  const challengeOverride = challengeOverrides[locale]?.[question.id];
+  if (challengeOverride) return { ...question, ...challengeOverride };
 
   const quizOverride = getQuizQuestions(locale).find((item) => item.id === question.id);
   if (!quizOverride) return question;

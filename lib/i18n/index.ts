@@ -1,4 +1,5 @@
 import { en } from "./en";
+import { pl as plBase } from "./pl";
 
 export type Translations = typeof en;
 export type Locale = "en" | "pl" | "es" | "fr" | "zh" | "ja" | "hi" | "pt-BR" | "tr";
@@ -38,7 +39,8 @@ export function pickLocalized<T>(map: LocalizedMap<T>, locale: Locale): T {
   return map[locale] ?? map.en;
 }
 
-const pl = mergeTranslations(en, {
+// lib/i18n/pl.ts is the complete Polish dictionary; the entries below are newer wording on top of it.
+const pl = mergeTranslations(plBase, {
   lang: "pl",
   currency: "PLN",
   currencySymbol: "zł",
@@ -1305,10 +1307,12 @@ const ja = mergeTranslations(en, {
   lang: "ja",
   currency: "JPY",
   currencySymbol: "¥",
+
   nav: {
     home: "ホーム",
     healthCheck: "診断",
     inflation: "インフレ",
+    shopping: "買い物の衛生習慣",
     learn: "学習",
     coach: "AIコーチ",
     quiz: "クイズ",
@@ -1320,48 +1324,307 @@ const ja = mergeTranslations(en, {
     accessibility: "アクセシビリティ",
     partner: "パートナー",
     avatar: "アバター",
+    vault: "利回りボールト",
   },
+
   home: {
+    eyebrow: "金融教育プラットフォーム",
     title: "あなたのお金。\nあなたの未来。\nあなたのルール。",
-    description: "Coach FI は、Mila と一緒に金融の不安を続けられる習慣へ変えていきます。",
+    description:
+      "Coach FI は、Mila と一緒に金融の不安を続けられる習慣へ変えていきます。",
     ctaPrimary: "診断を始める",
+    ctaSecondary: "学習パスを見る",
+    modeAdult: "大人モード",
+    modeAdultDesc: "家計、投資、老後の計画。",
+    modeKids: "キッズモード",
+    modeKidsDesc: "必要なもの、ほしいもの、貯金箱、おこづかい。",
+    modeAccessibility: "アクセシビリティモード",
+    modeAccessibilityDesc: "大きな文字、高コントラスト、音声コマンド。",
+    statsUsers: "学習中のユーザー",
+    statsCertificates: "件の証明書を発行",
+    statsScore: "平均スコア",
     featuredTitle: "学べること",
-    featuredItems: ["インフレと現金価値", "貯蓄習慣", "緊急資金", "信用と利息", "長期投資の基本", "退職計画"],
+    featuredItems: [
+      "インフレと現金価値",
+      "貯蓄習慣",
+      "緊急資金",
+      "信用と利息",
+      "長期投資の基本",
+      "退職計画",
+    ],
   },
-  healthCheck: { title: "あなたの家計は健康ですか？", submit: "スコアを計算", yes: "はい", no: "いいえ", scoreLabel: "100 点中" },
-  inflation: { title: "インフレはお金に何をしますか？", labelAmount: "金額", labelYears: "年数", labelRate: "年間インフレ率" },
+
+  healthCheck: {
+    eyebrow: "お金の診断",
+    title: "あなたの家計は健康ですか？",
+    description:
+      "10の質問に答えると、あなたのスコアと、あなたに合った学習パスがわかります。",
+    readText: "家計の健康チェック。フォームに入力するとスコアがわかります。",
+    labelIncome: "毎月の収入",
+    labelExpenses: "毎月の支出",
+    labelSavings: "現在の貯蓄",
+    labelDebt: "借入の合計",
+    labelCash: "手元の現金",
+    labelCushion: "緊急時のクッション（月数）",
+    labelInflationRate: "想定インフレ率（%）",
+    labelRetirementAge: "目標の退職年齢",
+    labelInvestments: "投資の評価額",
+    labelGoal: "目標金額",
+    labelHasEmergencyFund: "緊急資金はありますか？",
+    labelUnderstandsInflation: "インフレがあなたに与える影響を理解していますか？",
+    labelHasRetirementPlan: "老後の計画はありますか？",
+    yes: "はい",
+    no: "いいえ",
+    submit: "スコアを計算",
+    scoreTitle: "あなたの家計の健康スコア",
+    scoreLabel: "100 点中",
+    interpretation: {
+      excellent: "すばらしい！しっかりとした家計の土台があります。",
+      good: "良い状態です。あといくつか習慣を強くしましょう。",
+      fair: "まずまずです。改善の余地があります。学習パスが役に立ちます。",
+      poor: "注意が必要です。基本から始めましょう。Coach FIが案内します。",
+    },
+    nextStep: "学習パスを見る",
+    shareScore: "スコアを共有",
+  },
+
+  inflation: {
+    eyebrow: "インフレの現実",
+    title: "インフレはお金に何をしますか？",
+    description:
+      "金額を入力して、インフレ、貯蓄の習慣、学びが実質的な購買力をどう変えるかを見てみましょう。",
+    readText: "インフレ計算機。金額を入力して3つのシナリオを確認します。",
+    labelAmount: "金額",
+    labelYears: "年数",
+    labelRate: "年間インフレ率",
+    calculate: "計算する",
+    scenarioCash: "現金（何もしない）",
+    scenarioHabit: "貯蓄の習慣",
+    scenarioEducated: "学んだ投資家",
+    chartTitle: "実質購買力の推移",
+    insightCash: "現金のまま置いておくと、毎年実質的な価値が減ります。",
+    insightHabit: "基本的な貯蓄習慣でも、何もしないより多くを守れます。",
+    insightEducated: "金融の学びは複利で効いてきます。お金も同じです。",
+  },
+
   learn: {
+    eyebrow: "学習パス",
     title: "金融自信への 8 ステージ。",
-    description: "マインドセットから家族の計画まで。ステージを完了し、ポイントを獲得し、知識の証明を証明書として発行します。",
+    description:
+      "マインドセットから家族の計画まで。ステージを完了し、ポイントを獲得し、知識の証明を証明書として発行します。",
+    readText: "学習パス。お金のマインドセットから家族のマネープランまでの8ステージ。",
+    stageLabel: "ステージ",
+    statusCompleted: "完了",
+    statusInProgress: "進行中",
+    statusCurrent: "現在のステージ",
+    statusLocked: "ロック中",
+    reward: "報酬",
     nftStatus: "証明書",
     startLesson: "開始",
     continueLesson: "続ける",
   },
-  coach: { title: "金融コーチ Mila です。", placeholder: "Mila に質問...", send: "送信", quickActions: "クイック操作" },
+
+  coach: {
+    eyebrow: "AIコーチ",
+    title: "金融コーチ Mila です。",
+    description:
+      "家計やお金のことなら何でも聞いてください。Milaは温かく、率直で、いつもあなたの味方です。",
+    readText: "AIコーチ Mila。質問を入力するか、クイック操作を選んでください。",
+    placeholder: "Mila に質問...",
+    send: "送信",
+    quickActions: "クイック操作",
+    typing: "Milaが入力中...",
+  },
+
   quiz: {
+    eyebrow: "知識をためそう",
     title: "クイズとポイント。",
-    description: "4問に正解してCoach FIポイントを獲得します。正解するたびに証明書に近づきます。",
+    description:
+      "4問に正解してCoach FIポイントを獲得します。正解するたびに証明書に近づきます。",
     readText: "金融クイズ。4問に答えてポイントを獲得します。",
+    progress: "質問 {current} / {total}",
+    progressPct: "{pct}% 完了",
     submit: "回答する",
     next: "次へ",
     retry: "もう一度",
+    restart: "最初から",
+    checkKnowledge: "知識を確認",
   },
+
   rewards: {
     eyebrow: "ポイントと証明書",
-    description: "レッスンとクイズを終えるたびにCoach FIポイントを獲得します。Solana Devnetで証明書を発行します。",
+    title: "あなたの知識の証明。",
+    description:
+      "レッスンとクイズを終えるたびにCoach FIポイントを獲得します。Solana Devnetで証明書を発行します。",
     readText: "報酬。獲得したポイントと証明書。",
     tokens: "Coach FIポイント",
     mint: "証明書を発行",
+    minting: "発行中...",
+    minted: "発行しました！",
+    viewSolana: "Solanaで見る",
     certificatesTitle: "あなたの証明書",
+    locked: "ロック中",
   },
+
+  kids: {
+    eyebrow: "キッズモード",
+    title: "どのコインにも役目がある。",
+    description:
+      "お金について学ぼう：必要なもの、ほしいもの、貯金箱、おこづかい、はじめての目標。",
+    readText:
+      "キッズモード。必要なもの、貯金、はじめてのお金の目標について学ぼう。",
+    modulesTitle: "学習モジュール",
+    earnStar: "星をゲット ⭐",
+    starsTitle: "わたしの星",
+    starsCount: "{count} / 10 個の星",
+    badgeUnlocked: "🏅 ヤングファイナンサーのバッジを解放！",
+    jarTitle: "わたしの貯金箱",
+    jarGoalText: "目標：はじめての夢のために貯めよう。",
+    jarSaved: "貯まった額",
+    jarQuote: "「まず貯めて、あとで使う。」🐷",
+    modules: [
+      {
+        id: "needs-wants",
+        title: "必要なものとほしいもの",
+        copy: "必要なものは生活を支えるもの。ほしいものは楽しいごほうび。でも、待つことができるよ。",
+        example: "食べ物＝必要なもの。新しいスニーカー＝ほしいもの。",
+        badge: "きほん",
+      },
+      {
+        id: "saving-jar",
+        title: "貯金箱",
+        copy: "どのコインにも役目がある。使う前に少し貯めよう。未来の自分がありがとうと言ってくれるよ。",
+        example: "おこづかい¥50のうち¥10を貯める → 目標まで¥10近づく。",
+        badge: "習慣",
+      },
+      {
+        id: "first-goal",
+        title: "はじめての目標",
+        copy: "貯めたいものを1つ選ぼう。目標があると貯金に意味が生まれるよ。",
+        example: "目標：新しいゲーム ¥20。毎月¥5貯める → 4か月で買える！",
+        badge: "目標",
+      },
+      {
+        id: "pocket-money",
+        title: "おこづかい",
+        copy: "おこづかいを3つに分けよう：使う、貯める、分ける。これがはじめての予算だよ。",
+        example: "おこづかい¥10 → ¥5使う、¥4貯める、¥1はだれかのために。",
+        badge: "予算",
+      },
+      {
+        id: "stars-badges",
+        title: "星とバッジ",
+        copy: "レッスンとクイズのたびに星をゲット。星を5つ集めると、はじめての証明書がもらえるよ！",
+        example: "星5つ＝ヤングファイナンサーのバッジ 🏅",
+        badge: "ごほうび",
+      },
+      {
+        id: "giving",
+        title: "分かち合い",
+        copy: "お金はだれかの助けにもなる。大切な人のために少し取っておくのも、お金の知恵だよ。",
+        example: "だれかのために週に¥0.50でも、1年で¥26になる。小さな金額も育つよ！",
+        badge: "大切なこと",
+      },
+    ],
+  },
+
+  accessibility: {
+    eyebrow: "アクセシビリティモード",
+    title: "音声優先の金融教育",
+    description:
+      "視覚障害、弱視、高齢のユーザー向けに設計。",
+    readText: "アクセシビリティモード。表示設定を自分に合わせて調整できます。",
+    largeText: "大きな文字",
+    highContrast: "高コントラスト",
+    voiceCommands: "音声コマンド",
+    voiceCommandsActive: "聞いています...",
+    wcagTitle: "WCAG 2.2 への対応",
+    numerologyTitle: "数秘術ボーナス",
+    numerologyDesc: "ライフパスナンバーから、お金の考え方のヒントを。",
+    enterBirthdate: "生年月日を入力",
+    calculate: "計算する",
+  },
+
+  partner: {
+    eyebrow: "パートナーポータル",
+    title: "金融教育でお客さまを支えましょう。",
+    description:
+      "銀行、証券会社、学校、大学向け：Coach FIをホワイトラベルで導入し、金融リテラシーを大きく広げましょう。",
+    readText: "パートナーポータル。機関向けのB2Bダッシュボード。",
+    tabs: {
+      bank: "銀行",
+      broker: "証券会社",
+      investmentHouse: "投資会社",
+      crypto: "暗号資産取引所",
+      school: "学校",
+      university: "大学",
+    },
+    kpi: {
+      enrolled: "登録者",
+      avgProgress: "平均進捗",
+      certificates: "発行された証明書",
+      accessibility: "アクセシビリティ利用者",
+    },
+    ctaTitle: "パートナーになりませんか？",
+    ctaDesc: "Coach FIをあなたのプラットフォームに組み込むには、お問い合わせください。",
+    ctaButton: "お問い合わせ",
+  },
+
   challenge: {
+    eyebrow: "今日の課題",
+    title: "今日の質問",
     description: "1日1問。ポイント2倍。連続記録を守りましょう。",
     readText: "今日の課題。今日の質問に答えて、2倍のポイントを獲得します。",
+    timerLabel: "次の課題まで",
+    completedTitle: "課題クリア！",
+    completedDesc: "明日また新しい質問に挑戦しましょう。連続記録は守られています。",
+    reward: "2倍の報酬",
     rewardValue: "+50ポイント",
     correctBanner: "正解！50ポイントを獲得しました 🎉",
+    wrongBanner: "今回は残念。解説を読んで、また明日挑戦しましょう。",
+    explanation: "解説",
+    answerButton: "回答する",
+    hours: "h",
+    minutes: "m",
+    seconds: "s",
   },
-  accessibility: { title: "音声優先の金融教育", description: "視覚障害、弱視、高齢のユーザー向けに設計。" },
-  common: { loading: "読み込み中...", error: "問題が発生しました。", close: "閉じる", tokenUnit: "ポイント" },
+
+  onboarding: {
+    step1Title: "Coach FIへようこそ 👋",
+    step1Desc: "あなたに合わせて設定しましょう。お名前は？",
+    step1Placeholder: "お名前",
+    step2Title: "いちばんの目標は何ですか？",
+    goals: [
+      "毎月もっと貯める",
+      "借金を早く返す",
+      "投資を始める",
+      "緊急資金を作る",
+      "家計の基本を理解する",
+      "老後に備える",
+    ],
+    next: "続ける",
+    finish: "始めましょう！",
+    skip: "今はスキップ",
+  },
+
+  leaderboard: {
+    title: "週間ランキング",
+    you: "あなた",
+    score: "スコア",
+    streak: "連続記録",
+    rank: "順位",
+  },
+
+  common: {
+    loading: "読み込み中...",
+    error: "問題が発生しました。",
+    back: "戻る",
+    close: "閉じる",
+    learnMore: "詳しく見る",
+    seeAll: "すべて見る",
+    tokenUnit: "ポイント",
+  },
+
   voiceAgent: {
     title: "Milaと話す",
     statusConnected: "Milaが聞いています…",
@@ -1372,6 +1635,7 @@ const ja = mergeTranslations(en, {
     start: "Milaに話しかける",
     end: "会話を終了",
     connecting: "接続中…",
+    live: "ライブ",
     fab: "会話を始める",
     startChat: "チャットを始める",
     hint: "自然に話せます — Milaはアプリで選んだ言語であなたと話します。",
