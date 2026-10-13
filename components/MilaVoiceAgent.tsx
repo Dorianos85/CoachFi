@@ -76,6 +76,7 @@ declare module "react" {
           "override-text-only"?: string;
           "server-location"?: string;
           "text-input"?: string;
+          "text-contents"?: string;
           transcript?: string;
           "mic-muting"?: string;
           dismissible?: string;
@@ -294,12 +295,19 @@ function revealWidget(widget: HTMLElement) {
   }
 }
 
-function clickStartCall(widget: HTMLElement) {
+function clickStartCall(widget: HTMLElement, startLabel: string) {
   const root = widgetRoot(widget);
   if (!root) return false;
+  const normalizeLabel = (value: string) => value.trim().replace(/\s+/g, " ");
+  const label = normalizeLabel(startLabel);
+  if (!label) return false;
   const start = [...root.querySelectorAll("button")].find((button) =>
-    /call|rozmow|połącz|通話/i.test(`${button.getAttribute("aria-label") ?? ""} ${button.textContent ?? ""}`)
+    !button.disabled && (
+      normalizeLabel(button.getAttribute("aria-label") ?? "") === label ||
+      normalizeLabel(button.textContent ?? "") === label
+    )
   );
+  // Match only the requested idle voice or text start control, never an end-call button.
   if (!start) return false;
   start.click();
   return true;
@@ -394,6 +402,10 @@ export function MilaVoiceFab() {
   );
 
   const dynamicVariables = useMemo(() => JSON.stringify(agentContext), [agentContext]);
+  const widgetTextContents = useMemo(
+    () => JSON.stringify({ start_call: t.voiceAgent.fab, start_chat: t.voiceAgent.startChat }),
+    [t.voiceAgent.fab, t.voiceAgent.startChat]
+  );
 
   useEffect(() => {
     const widget = widgetRef.current;
@@ -554,10 +566,11 @@ export function MilaVoiceFab() {
         strategy="afterInteractive"
       />
       {!callOpen && (
-        <div className="pointer-events-none fixed inset-0 z-[1400] grid place-items-center px-6">
-          <div className="pointer-events-auto flex flex-col items-center gap-4">
+        <div className="pointer-events-none fixed bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))] z-[1400] max-w-[calc(100vw-2rem)] md:right-[calc(1.5rem+env(safe-area-inset-right,0px))] lg:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
+          <div className="pointer-events-auto flex flex-col items-end gap-2">
             <button
               type="button"
+              data-testid="mila-launcher"
               aria-label={t.voiceAgent.openAriaLabel}
               onClick={() => {
                 const widget = widgetRef.current;
@@ -566,14 +579,15 @@ export function MilaVoiceFab() {
                   return;
                 }
                 revealWidget(widget);
-                let opened = clickStartCall(widget);
+                const startLabel = textOnly ? t.voiceAgent.startChat : t.voiceAgent.fab;
+                let opened = clickStartCall(widget, startLabel);
                 const startedAt = Date.now();
                 const timer = window.setInterval(() => {
                   const current = widgetRef.current;
                   if (!current) return;
                   revealWidget(current);
-                  if (!opened) opened = clickStartCall(current);
-                  if (widgetIsShowing(current)) {
+                  if (!opened) opened = clickStartCall(current, startLabel);
+                  if (opened && widgetIsShowing(current)) {
                     window.clearInterval(timer);
                     setCallStatus("");
                     setCallOpen(true);
@@ -588,15 +602,15 @@ export function MilaVoiceFab() {
                   }
                 }, 200);
               }}
-              className="flex flex-col items-center gap-5"
+              className="flex min-h-14 max-w-[280px] items-center gap-3 rounded-full bg-black py-2 pl-2 pr-5 text-white shadow-lg transition hover:bg-black/85 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2"
             >
-              <MilaAvatar size="lg" className="shadow-lg ring-8 ring-white" />
-              <span className="rounded-full bg-black px-8 py-4 text-2xl font-black tracking-tight text-white shadow-lg sm:text-3xl">
+              <MilaAvatar size="sm" className="shadow-sm ring-2 ring-white" />
+              <span className="min-w-0 text-left text-sm font-black leading-snug sm:text-base">
                 {t.voiceAgent.fab}
               </span>
             </button>
             {callStatus ? (
-              <p className="max-w-xs rounded-2xl bg-white px-4 py-3 text-center text-sm font-semibold text-text shadow-lg">
+              <p role="status" aria-live="polite" className="max-w-[280px] rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-text shadow-lg">
                 {callStatus}
               </p>
             ) : null}
@@ -614,6 +628,7 @@ export function MilaVoiceFab() {
         dynamic-variables={dynamicVariables}
         override-language={locale}
         text-input="true"
+        text-contents={widgetTextContents}
         transcript="true"
         mic-muting="true"
         dismissible="true"
