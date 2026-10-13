@@ -356,7 +356,7 @@ export default function CoachPage() {
                   type="button"
                   onClick={() => { setSpeechError(null); isListening ? stopListening() : startListening(); }}
                   disabled={isTyping}
-                  aria-label={isListening ? "Zatrzymaj" : "Mów do Miły"}
+                  aria-label={isListening ? "Zatrzymaj" : "Mów do Mili"}
                   className={cn(
                     "grid h-11 w-11 shrink-0 place-items-center rounded-xl border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40",
                     isListening

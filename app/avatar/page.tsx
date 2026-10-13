@@ -56,8 +56,8 @@ const AVATAR_COPY: LocalizedMap<
   pl: {
     eyebrow: "Personalizacja",
     title: "Twój finansowy avatar",
-    description: "Wybierz postać, zbuduj tarczę finansową i wybierz głos coachki AI Miły.",
-    readText: "Stwórz swój finansowy avatar i wybierz głos Miły.",
+    description: "Wybierz postać, zbuduj tarczę finansową i wybierz głos coachki AI Mili.",
+    readText: "Stwórz swój finansowy avatar i wybierz głos Mili.",
     livePreview: "Podgląd na żywo",
     save: "Zapisz avatar",
     saved: "Zapisano!",
@@ -65,13 +65,13 @@ const AVATAR_COPY: LocalizedMap<
     female: "Kobieta",
     male: "Mężczyzna",
     archetype: "Archetyp finansowy",
-    milaVoice: "Głos Miły",
+    milaVoice: "Głos Mili",
     voiceDescription:
-      "Wybierz głos, którego użyje Miła. ElevenLabs działa po konfiguracji, a bez niego Coach FI użyje głosu przeglądarki.",
+      "Wybierz głos, którego użyje Mila. ElevenLabs działa po konfiguracji, a bez niego Coach FI użyje głosu przeglądarki.",
     poweredBy: "Powered by ElevenLabs",
     preview: "Odsłuchaj głos",
     stopPreview: "Zatrzymaj podgląd",
-    testVoiceText: "Cześć! Jestem Miła, Twoja coachka finansowa. Razem zbudujemy trwałe nawyki finansowe.",
+    testVoiceText: "Cześć! Jestem Mila, Twoja coachka finansowa. Razem zbudujemy trwałe nawyki finansowe.",
   },
   ja: {
     eyebrow: "パーソナライズ",

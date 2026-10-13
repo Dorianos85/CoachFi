@@ -87,7 +87,7 @@ const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
         title: "Po co przetwarzamy dane",
         items: [
           "Aby zapisać postępy i ustawienia aplikacji na tym urządzeniu.",
-          "Aby personalizować edukacyjne odpowiedzi Miły.",
+          "Aby personalizować edukacyjne odpowiedzi Mili.",
           "Aby odczytywać odpowiedzi głosowo, jeśli włączysz funkcję głosu.",
           "Aby pokazać ranking globalny i certyfikaty edukacyjne.",
           "Aby zapewnić bezpieczeństwo endpointów, limit zapytań i diagnostykę konfiguracji.",

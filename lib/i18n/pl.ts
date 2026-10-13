@@ -28,7 +28,7 @@ export const pl: Translations = {
     eyebrow: "Platforma edukacji finansowej",
     title: "Twoje pieniądze.\nTwoja przyszłość.\nTwoje zasady.",
     description:
-      "Coach FI prowadzi Cię od finansowego chaosu do trwałych nawyków — krok po kroku, z AI coachem Miłą u boku.",
+      "Coach FI prowadzi Cię od finansowego chaosu do trwałych nawyków — krok po kroku, z AI coachką Milą u boku.",
     ctaPrimary: "Rozpocznij diagnozę",
     ctaSecondary: "Poznaj ścieżkę nauki",
     modeAdult: "Tryb dla dorosłych",
@@ -126,15 +126,15 @@ export const pl: Translations = {
 
   coach: {
     eyebrow: "AI Coach",
-    title: "Poznaj Miłę, swojego coacha finansowego.",
+    title: "Poznaj Milę, swoją coachkę finansową.",
     description:
-      "Zapytaj o cokolwiek dotyczącego finansów osobistych. Miła jest ciepła, bezpośrednia i zawsze po Twojej stronie.",
+      "Zapytaj o cokolwiek dotyczącego finansów osobistych. Mila jest ciepła, bezpośrednia i zawsze po Twojej stronie.",
     readText:
-      "AI Coach Miła. Napisz pytanie lub wybierz szybką akcję.",
-    placeholder: "Zapytaj Miłę o cokolwiek związanego z pieniędzmi...",
+      "AI Coach Mila. Napisz pytanie lub wybierz szybką akcję.",
+    placeholder: "Zapytaj Milę o cokolwiek związanego z pieniędzmi...",
     send: "Wyślij",
     quickActions: "Szybkie akcje",
-    typing: "Miła pisze...",
+    typing: "Mila pisze...",
   },
 
   quiz: {
@@ -329,22 +329,22 @@ export const pl: Translations = {
   },
 
   voiceAgent: {
-    title: "Rozmawiaj z Miłą",
-    statusConnected: "Miła słucha…",
+    title: "Rozmawiaj z Milą",
+    statusConnected: "Mila słucha…",
     statusConnecting: "Łączenie…",
     statusDisconnecting: "Rozłączanie…",
     statusDisconnected: "Kliknij aby rozmawiać",
-    statusSpeaking: "Miła mówi…",
-    start: "Zacznij mówić do Miły",
+    statusSpeaking: "Mila mówi…",
+    start: "Zacznij mówić do Mili",
     end: "Zakończ rozmowę",
     connecting: "Łączenie…",
     live: "Live",
-    fab: "Pogadaj z Miłą 🎙️",
-    hint: "Możesz mówić naturalnie — Miła rozumie po polsku, angielsku i hiszpańsku.",
-    poweredBy: "Powered by ElevenLabs Conversational AI · Miła AI głosowa",
-    openAriaLabel: "Otwórz rozmowę z Miłą",
-    closeAriaLabel: "Zamknij rozmowę z Miłą",
-    startAriaLabel: "Zacznij rozmawiać z Miłą",
-    endAriaLabel: "Zakończ rozmowę z Miłą",
+    fab: "Pogadaj z Milą 🎙️",
+    hint: "Możesz mówić naturalnie — Mila rozumie po polsku, angielsku i hiszpańsku.",
+    poweredBy: "Mila AI · głos ElevenLabs Conversational AI",
+    openAriaLabel: "Otwórz rozmowę z Milą",
+    closeAriaLabel: "Zamknij rozmowę z Milą",
+    startAriaLabel: "Zacznij rozmawiać z Milą",
+    endAriaLabel: "Zakończ rozmowę z Milą",
   },
 };

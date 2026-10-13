@@ -22,13 +22,13 @@ export const voiceDemoLanguages = [
 export const voiceDemoScripts: Record<VoiceDemoLocale, Record<VoiceDemoScriptKey, string>> = {
   pl: {
     milaIntro:
-      "Cześć, jestem Miła. Nie musisz być bogaty, żeby poprawić swoją przyszłość finansową. Potrzebujesz świadomości, prostego planu i pierwszego małego kroku.",
+      "Cześć, jestem Mila. Nie musisz być bogaty, żeby poprawić swoją przyszłość finansową. Potrzebujesz świadomości, prostego planu i pierwszego małego kroku.",
     financialScore:
       "Twój Financial Health Score wynosi 42 na 100. To nie jest ocena. To punkt startowy. Najpierw zbudujemy świadomość i pierwszy nawyk oszczędzania.",
     inflationWakeUp:
       "Inflacja po cichu zmniejsza wartość pieniędzy. Jeśli trzymasz wszystko w gotówce, możesz czuć się bezpiecznie, ale Twoja siła nabywcza może spadać każdego roku.",
     kidsCoach:
-      "Cześć, jestem Miła. Każda złotówka ma swoją misję. Najpierw uczymy się różnicy między potrzebą a zachcianką, a potem odkładamy na pierwszy cel.",
+      "Cześć, jestem Mila. Każda złotówka ma swoją misję. Najpierw uczymy się różnicy między potrzebą a zachcianką, a potem odkładamy na pierwszy cel.",
     certificateUnlock:
       "Gratulacje. Ukończyłeś etap Money Mindset, zdobyłeś punkty Coach FI i odblokowałeś pierwszy certyfikat edukacyjny na Solanie.",
   },

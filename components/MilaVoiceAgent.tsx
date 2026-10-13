@@ -310,7 +310,7 @@ export function MilaVoiceFab() {
   const pathname = usePathname();
   const widgetRef = useRef<HTMLElement | null>(null);
   const voiceWatchRef = useRef<number | null>(null);
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
   const { loaded, requiredAccepted, hasOptionalConsent } = useConsent();
   const [signedUrl, setSignedUrl] = useState("");
   const [agentId, setAgentId] = useState(AGENT_ID);
@@ -535,11 +535,11 @@ export function MilaVoiceFab() {
   if (quotaExceeded) {
     return (
       <div className="fixed bottom-6 right-6 z-50 max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
-        <p className="text-sm font-black text-text">Mila — voice unavailable</p>
+        <p className="text-sm font-black text-text">{t.voiceAgent.title} — {t.common.error}</p>
         <p className="mt-1 text-xs font-semibold leading-5 text-muted">
-          Voice agent quota reached. Chat with Mila in{" "}
+          {t.voiceAgent.statusDisconnected}{" "}
           <a href="/coach" className="font-black text-primary underline">
-            text mode →
+            {t.nav.coach} →
           </a>
         </p>
       </div>
@@ -558,10 +558,11 @@ export function MilaVoiceFab() {
           <div className="pointer-events-auto flex flex-col items-center gap-4">
             <button
               type="button"
+              aria-label={t.voiceAgent.openAriaLabel}
               onClick={() => {
                 const widget = widgetRef.current;
                 if (!widget || !widgetRoot(widget)) {
-                  setCallStatus("Mila is still loading. Try again in a moment.");
+                  setCallStatus(t.common.loading);
                   return;
                 }
                 revealWidget(widget);
@@ -583,7 +584,7 @@ export function MilaVoiceFab() {
                     current.style.removeProperty("opacity");
                     current.style.removeProperty("visibility");
                     current.style.removeProperty("pointer-events");
-                    setCallStatus("Mila didn't open. Reload the page and try again.");
+                    setCallStatus(t.common.error);
                   }
                 }, 200);
               }}
@@ -591,7 +592,7 @@ export function MilaVoiceFab() {
             >
               <MilaAvatar size="lg" className="shadow-lg ring-8 ring-white" />
               <span className="rounded-full bg-black px-8 py-4 text-2xl font-black tracking-tight text-white shadow-lg sm:text-3xl">
-                Talk to your coach
+                {t.voiceAgent.fab}
               </span>
             </button>
             {callStatus ? (
