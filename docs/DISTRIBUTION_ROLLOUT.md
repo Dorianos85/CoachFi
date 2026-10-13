@@ -95,7 +95,7 @@ Implemented baseline:
 - Mode selection appears after required terms/privacy consent.
 - `coachfi-mode-v1` stores Adult Mode or Kids Mode.
 - Adult Mode requires adult/responsible guardian confirmation.
-- Kids Mode requires parent/guardian name and consent.
+- Kids Mode is entered directly from the mode selector, with no parent/guardian consent step.
 - If mode is `kids`, the primary navigation is reduced to Kids Mode and adult onboarding/notifications are hidden.
 
 ## Phase 4 - ElevenLabs promotion engine

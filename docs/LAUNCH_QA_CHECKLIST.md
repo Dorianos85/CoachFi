@@ -40,7 +40,7 @@ Use this checklist before every public demo, user test and paid launch.
 ## 4. Kids Mode
 
 - Kids Mode is separated from Adult Mode.
-- Parent/guardian consent is required for Kids Mode on the device.
+- Kids Mode opens directly from the mode selector, with no parent/guardian consent step.
 - Kids Mode does not show wallet, NFT minting, leaderboard or free-form AI chat.
 - Kids rewards are stars, not investment/trading tokens.
 - Voice in Kids Mode uses safe predefined scripts.

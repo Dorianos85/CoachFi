@@ -21,11 +21,8 @@ const COPY: LocalizedMap<{
   adultButton: string;
   kidsTitle: string;
   kidsBody: string;
-  parentName: string;
-  parentConfirm: string;
   kidsButton: string;
   close: string;
-  required: string;
 }> = {
   en: {
     eyebrow: "Choose mode",
@@ -35,13 +32,10 @@ const COPY: LocalizedMap<{
     adultBody: "Full financial education, Mila AI Coach, daily challenges, coins, rewards and optional certificates.",
     adultConfirm: "I am an adult or I am using the app as a responsible guardian.",
     adultButton: "Enter Adult Mode",
-    kidsTitle: "Kids Mode with parent consent",
+    kidsTitle: "Kids Mode",
     kidsBody: "Safe lessons, stars, saving jar and predefined voice narration. No wallet, no public leaderboard and no free-form AI advice.",
-    parentName: "Parent or guardian name",
-    parentConfirm: "I am the parent or legal guardian and I consent to this child using Kids Mode on this device.",
     kidsButton: "Enter Kids Mode",
     close: "Close mode selector",
-    required: "Required",
   },
   pl: {
     eyebrow: "Wybór trybu",
@@ -51,13 +45,10 @@ const COPY: LocalizedMap<{
     adultBody: "Pełna edukacja finansowa, Mila AI Coach, wyzwania dnia, coiny, nagrody i opcjonalne certyfikaty.",
     adultConfirm: "Mam 18 lat lub korzystam z aplikacji jako odpowiedzialny opiekun.",
     adultButton: "Wejdź w tryb dorosły",
-    kidsTitle: "Kids Mode za zgodą rodzica",
+    kidsTitle: "Kids Mode",
     kidsBody: "Bezpieczne lekcje, gwiazdki, słoik oszczędzania i gotowe narracje głosowe. Bez portfela, publicznego rankingu i swobodnych porad AI.",
-    parentName: "Imię rodzica lub opiekuna",
-    parentConfirm: "Jestem rodzicem lub opiekunem prawnym i wyrażam zgodę na korzystanie z Kids Mode na tym urządzeniu.",
     kidsButton: "Wejdź w Kids Mode",
     close: "Zamknij wybór trybu",
-    required: "Wymagane",
   },
   ja: {
     eyebrow: "Mode",
@@ -67,13 +58,10 @@ const COPY: LocalizedMap<{
     adultBody: "Full financial education, Mila AI Coach, daily challenges, coins, rewards and optional certificates.",
     adultConfirm: "I am an adult or responsible guardian.",
     adultButton: "Enter Adult Mode",
-    kidsTitle: "Kids Mode with parent consent",
+    kidsTitle: "Kids Mode",
     kidsBody: "Safe lessons with stars and predefined voice narration. No wallet, leaderboard or free-form AI advice.",
-    parentName: "Parent or guardian name",
-    parentConfirm: "I am the parent or legal guardian and I consent to Kids Mode on this device.",
     kidsButton: "Enter Kids Mode",
     close: "Close mode selector",
-    required: "Required",
   },
 };
 
@@ -91,8 +79,6 @@ export function ModeGate() {
     closeSettings,
   } = useMode();
   const [adultChecked, setAdultChecked] = useState(false);
-  const [parentName, setParentName] = useState("");
-  const [parentChecked, setParentChecked] = useState(false);
 
   const forcedOpen = consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
   const open = forcedOpen || settingsOpen;
@@ -104,8 +90,7 @@ export function ModeGate() {
   }
 
   function enterKids() {
-    if (!parentChecked || parentName.trim().length < 2) return;
-    selectKidsMode(parentName);
+    selectKidsMode();
     router.push("/kids");
   }
 
@@ -153,7 +138,8 @@ export function ModeGate() {
               <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-muted">{copy.intro}</p>
             </div>
 
-            <div className="grid min-h-0 gap-4 overflow-y-auto p-5 md:grid-cols-2">
+            {/* Extra bottom space below lg keeps the last button clear of the fixed mobile nav. */}
+            <div className="grid min-h-0 gap-4 overflow-y-auto p-5 pb-28 md:grid-cols-2 lg:pb-5">
               <div className="rounded-lg border border-primary/10 bg-primary/5 p-5">
                 <span className="grid h-12 w-12 place-items-center rounded-lg bg-primary text-on-primary">
                   <UserRoundCheck className="h-6 w-6" aria-hidden="true" />
@@ -181,32 +167,7 @@ export function ModeGate() {
                 </span>
                 <h3 className="mt-4 text-xl font-black text-text">{copy.kidsTitle}</h3>
                 <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.kidsBody}</p>
-                <label className="mt-5 block text-sm font-black text-text">
-                  {copy.parentName} <span className="text-red-600">({copy.required})</span>
-                  <input
-                    type="text"
-                    value={parentName}
-                    onChange={(event) => setParentName(event.target.value)}
-                    maxLength={48}
-                    className="mt-2 min-h-12 w-full rounded-lg border border-amber-300 bg-white px-3 py-2 text-base font-bold text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </label>
-                <label className="mt-3 flex items-start gap-3 rounded-lg border border-amber-300 bg-white p-3 text-sm font-bold leading-6">
-                  <input
-                    type="checkbox"
-                    checked={parentChecked}
-                    onChange={(event) => setParentChecked(event.target.checked)}
-                    className="mt-1 h-4 w-4 rounded border-amber-400 text-primary focus:ring-primary"
-                  />
-                  <span>{copy.parentConfirm}</span>
-                </label>
-                <Button
-                  type="button"
-                  variant="accent"
-                  className="mt-4 w-full"
-                  disabled={!parentChecked || parentName.trim().length < 2}
-                  onClick={enterKids}
-                >
+                <Button type="button" variant="accent" className="mt-5 w-full" onClick={enterKids}>
                   <Baby className="h-4 w-4" aria-hidden="true" />
                   {copy.kidsButton}
                 </Button>

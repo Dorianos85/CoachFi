@@ -11,8 +11,6 @@ export interface ModeRecord {
   mode: CoachFiMode;
   selectedAt: string;
   adultConfirmedAt?: string;
-  parentConsentAt?: string;
-  parentName?: string;
 }
 
 interface ModeContextValue {
@@ -22,7 +20,7 @@ interface ModeContextValue {
   isKidsMode: boolean;
   settingsOpen: boolean;
   selectAdultMode: () => void;
-  selectKidsMode: (parentName: string) => void;
+  selectKidsMode: () => void;
   resetMode: () => void;
   openSettings: () => void;
   closeSettings: () => void;
@@ -75,7 +73,7 @@ export function ModeProvider({ children }: { children: ReactNode }) {
       loaded,
       modeRecord,
       mode: modeRecord?.mode ?? null,
-      isKidsMode: modeRecord?.mode === "kids" && !!modeRecord.parentConsentAt,
+      isKidsMode: modeRecord?.mode === "kids",
       settingsOpen,
       selectAdultMode: () => {
         const now = new Date().toISOString();
@@ -89,13 +87,10 @@ export function ModeProvider({ children }: { children: ReactNode }) {
         setSettingsOpen(false);
         notifyCloud("profile");
       },
-      selectKidsMode: (parentName) => {
-        const now = new Date().toISOString();
+      selectKidsMode: () => {
         const record: ModeRecord = {
           mode: "kids",
-          selectedAt: now,
-          parentConsentAt: now,
-          parentName: parentName.trim().slice(0, 48),
+          selectedAt: new Date().toISOString(),
         };
         writeModeRecord(record);
         setModeRecord(record);
