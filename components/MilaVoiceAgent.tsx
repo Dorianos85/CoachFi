@@ -1,9 +1,10 @@
 "use client";
 
 import Script from "next/script";
-import { Mic } from "lucide-react";
+import { Mic, Phone } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -12,8 +13,9 @@ import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 
+const DEFAULT_AGENT_ID = "agent_2301krbsttc8f21ra1h5vge02071";
+const AGENT_ID = (process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? DEFAULT_AGENT_ID).trim();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
-const INVITE_CODE_KEY = "coachfi-invite-code";
 
 const agentRoutes = {
   home: "/",
@@ -79,6 +81,7 @@ declare module "react" {
           "worklet-path-raw-audio-processor"?: string;
           "worklet-path-audio-concat-processor"?: string;
           "worklet-path-libsamplerate"?: string;
+          "override-config"?: string;
           variant?: string;
         },
         HTMLElement
@@ -111,27 +114,139 @@ function resolveAgentPath(args?: Record<string, unknown>) {
   return null;
 }
 
-type VoicePhase = "idle" | "loading" | "ready" | "denied";
+const WIDGET_FRAME_STYLE = `
+  :host {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    pointer-events: none;
+  }
+  elevenlabs-convai {
+    opacity: 0;
+    pointer-events: none;
+  }
+  :host([data-open]) {
+    pointer-events: auto;
+  }
+  :host([data-open]) elevenlabs-convai {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1300 !important;
+  }
+  @media (max-width: 1023px) {
+    elevenlabs-convai {
+      transform: translateY(calc(-8.5rem - env(safe-area-inset-bottom, 0px)));
+    }
+  }
+  @media (min-width: 1024px) {
+    elevenlabs-convai {
+      transform: translateY(-2rem);
+    }
+  }
+`;
+
+function MilaWidgetFrame({
+  children,
+  onReady,
+  open,
+}: {
+  children: React.ReactNode;
+  onReady: () => void;
+  open: boolean;
+}) {
+  const hostRef = useRef<HTMLDivElement>(null);
+  const shadowRef = useRef<ShadowRoot | null>(null);
+  const [shadowRoot, setShadowRoot] = useState<ShadowRoot | null>(null);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+    if (!shadowRef.current) {
+      shadowRef.current = host.attachShadow({ mode: "closed" });
+    }
+    setShadowRoot(shadowRef.current);
+    onReady();
+  }, [onReady]);
+
+  return (
+    <div ref={hostRef} data-mila-voice="" data-open={open ? "" : undefined}>
+      {shadowRoot
+        ? createPortal(
+            <>
+              <style>{WIDGET_FRAME_STYLE}</style>
+              {children}
+            </>,
+            shadowRoot
+          )
+        : null}
+    </div>
+  );
+}
+
+function widgetRoot(widget: HTMLElement) {
+  return widget.shadowRoot;
+}
+
+function widgetIsShowing(widget: HTMLElement) {
+  const root = widgetRoot(widget);
+  if (!root) return false;
+  return [...root.querySelectorAll("button, h1, p")].some((node) => {
+    if (!(node instanceof HTMLElement)) return false;
+    const rect = node.getBoundingClientRect();
+    const style = getComputedStyle(node);
+    return (
+      rect.width > 8 &&
+      rect.height > 8 &&
+      rect.bottom > 0 &&
+      rect.top < window.innerHeight &&
+      rect.right > 0 &&
+      rect.left < window.innerWidth &&
+      style.display !== "none" &&
+      style.visibility !== "hidden"
+    );
+  });
+}
+
+function revealWidget(widget: HTMLElement) {
+  widget.style.setProperty("opacity", "1", "important");
+  widget.style.setProperty("visibility", "visible", "important");
+  widget.style.setProperty("pointer-events", "auto", "important");
+  const root = widget.getRootNode();
+  if (root instanceof ShadowRoot && root.host instanceof HTMLElement) {
+    root.host.dataset.open = "";
+  }
+}
+
+function clickStartCall(widget: HTMLElement) {
+  const root = widgetRoot(widget);
+  if (!root) return false;
+  const start = [...root.querySelectorAll("button")].find((button) =>
+    /call|rozmow|połącz|通話/i.test(`${button.getAttribute("aria-label") ?? ""} ${button.textContent ?? ""}`)
+  );
+  if (!start) return false;
+  start.click();
+  return true;
+}
 
 export function MilaVoiceFab() {
   const router = useRouter();
   const pathname = usePathname();
   const widgetRef = useRef<HTMLElement | null>(null);
   const voiceWatchRef = useRef<number | null>(null);
-  const { locale, t } = useLanguage();
+  const { locale } = useLanguage();
   const { loaded, requiredAccepted, hasOptionalConsent } = useConsent();
   const [signedUrl, setSignedUrl] = useState("");
+  const [agentId, setAgentId] = useState(AGENT_ID);
+  const [widgetConfig, setWidgetConfig] = useState("");
   const [tokenBalance, setTokenBalance] = useState(mockUser.tokenBalance);
   const [userName, setUserName] = useState(mockUser.name);
   const [userGoal, setUserGoal] = useState(mockUser.mainFinancialGoal);
   const [textOnly, setTextOnly] = useState(false);
   const [quotaExceeded, setQuotaExceeded] = useState(false);
-  // Voice session is gated behind an invite code with a hard one-conversation
-  // limit, enforced server-side. The signed URL (and thus code consumption)
-  // is only ever fetched after an explicit user click — never on mount.
-  const [phase, setPhase] = useState<VoicePhase>("idle");
-  const [deniedMessage, setDeniedMessage] = useState("");
-  const [inviteCode, setInviteCode] = useState<string | null>(null);
+  const [widgetFrameReady, setWidgetFrameReady] = useState(false);
+  const [callOpen, setCallOpen] = useState(false);
+  const [callStatus, setCallStatus] = useState("");
+  const markWidgetFrameReady = useCallback(() => setWidgetFrameReady(true), []);
   const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
@@ -156,46 +271,29 @@ export function MilaVoiceFab() {
   }, []);
 
   useEffect(() => {
-    const fromQuery = new URLSearchParams(window.location.search).get("code")?.trim().toUpperCase();
-    if (fromQuery) {
-      localStorage.setItem(INVITE_CODE_KEY, fromQuery);
-      setInviteCode(fromQuery);
-      return;
-    }
-    const stored = localStorage.getItem(INVITE_CODE_KEY)?.trim().toUpperCase();
-    setInviteCode(stored || null);
-  }, []);
+    if (!enabled) return;
+    let cancelled = false;
 
-  const startVoice = async () => {
-    if (!inviteCode || phase === "loading") return;
-    setPhase("loading");
-    try {
-      const res = await fetch(`/api/mila-token?code=${encodeURIComponent(inviteCode)}`, { cache: "no-store" });
-      if (res.ok) {
-        const data = (await res.json()) as { signedUrl?: string };
-        const url = data.signedUrl?.trim();
-        if (url) {
-          setSignedUrl(url);
-          setPhase("ready");
-          return;
+    fetch("/api/mila-token", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data: { signedUrl?: string; agentId?: string; widgetConfig?: unknown }) => {
+        if (cancelled) return;
+        setSignedUrl(data.signedUrl?.trim() ?? "");
+        setAgentId(data.agentId?.trim() || AGENT_ID);
+        setWidgetConfig(data.widgetConfig ? JSON.stringify(data.widgetConfig) : "");
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setSignedUrl("");
+          setAgentId(AGENT_ID);
+          setWidgetConfig("");
         }
-        setDeniedMessage("Głos chwilowo niedostępny");
-        setPhase("denied");
-        return;
-      }
-      if (res.status === 429) {
-        setDeniedMessage("Wykorzystałeś już swoją rozmowę głosową");
-      } else if (res.status === 403) {
-        setDeniedMessage("Nieprawidłowy kod");
-      } else {
-        setDeniedMessage("Głos chwilowo niedostępny");
-      }
-      setPhase("denied");
-    } catch {
-      setDeniedMessage("Głos chwilowo niedostępny");
-      setPhase("denied");
-    }
-  };
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled]);
 
   const agentContext = useMemo(
     () => ({
@@ -220,16 +318,9 @@ export function MilaVoiceFab() {
 
   const dynamicVariables = useMemo(() => JSON.stringify(agentContext), [agentContext]);
 
-  // Client tools read the context through a ref so the widget effect below does
-  // not re-run (re-attaching listeners/observers) on every token/path change.
-  const agentContextRef = useRef(agentContext);
-  useEffect(() => {
-    agentContextRef.current = agentContext;
-  }, [agentContext]);
-
   useEffect(() => {
     const widget = widgetRef.current;
-    if (!widget || !enabled || phase !== "ready") return;
+    if (!widget || !enabled) return;
 
     const navigate = (path: string) => {
       router.push(path);
@@ -271,12 +362,16 @@ export function MilaVoiceFab() {
             }
             return;
           }
-          if (current === idleAtStart) {
-            endAgentConversation("voice");
-            if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
-            voiceWatchRef.current = null;
-            idleLabels = current;
-          }
+            if (current === idleAtStart) {
+              endAgentConversation("voice");
+              widget.style.removeProperty("opacity");
+              widget.style.removeProperty("visibility");
+              widget.style.removeProperty("pointer-events");
+              setCallOpen(false);
+              if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
+              voiceWatchRef.current = null;
+              idleLabels = current;
+            }
         }, 500);
       }
 
@@ -300,16 +395,13 @@ export function MilaVoiceFab() {
         openRewards: () => navigate("/rewards"),
         openAccessibilityMode: () => navigate("/accessibility"),
         openVoiceDemo: () => navigate("/voice-demo"),
-        getCoachFIContext: () => {
-          const context = agentContextRef.current;
-          return {
-            ok: true,
-            context,
-            readable_summary:
-              `User is on ${context.current_page}. Financial Health Score is ${context.financial_health_score}. ` +
-              `Current stage is ${context.current_stage}. Savings goal is ${context.savings_goal}.`,
-          };
-        },
+        getCoachFIContext: () => ({
+          ok: true,
+          context: agentContext,
+          readable_summary:
+            `User is on ${agentContext.current_page}. Financial Health Score is ${agentContext.financial_health_score}. ` +
+            `Current stage is ${agentContext.current_stage}. Savings goal is ${agentContext.savings_goal}.`,
+        }),
         setCoachFIAgentTextMode: (args) => {
           const enabledTextOnly = args?.enabled !== false;
           setTextOnly(enabledTextOnly);
@@ -321,24 +413,21 @@ export function MilaVoiceFab() {
 
     widget.addEventListener("elevenlabs-convai:call", handleCall);
 
-    // Watch shadow DOM for the specific ElevenLabs quota error message.
-    // The widget animates constantly, so mutations arrive in high-frequency
-    // bursts — reading root.textContent on every mutation froze the renderer.
-    // Coalesce bursts into one debounced check per second and disconnect for
-    // good once the quota message is found.
+    // Watch shadow DOM for the specific ElevenLabs quota error message
     let observer: MutationObserver | null = null;
     let quotaTimer: ReturnType<typeof setTimeout> | null = null;
     const attachObserver = (root: ShadowRoot) => {
       observer = new MutationObserver(() => {
-        if (quotaTimer) return;
-        quotaTimer = setTimeout(() => {
-          quotaTimer = null;
-          if ((root.textContent ?? "").includes("exceeds your quota limit")) {
-            observer?.disconnect();
-            observer = null;
-            setQuotaExceeded(true);
-          }
-        }, 1000);
+        const text = root.textContent ?? "";
+        if (text.includes("exceeds your quota limit")) {
+          if (quotaTimer) return;
+          quotaTimer = setTimeout(() => {
+            if ((root.textContent ?? "").includes("exceeds your quota limit")) {
+              setQuotaExceeded(true);
+            }
+            quotaTimer = null;
+          }, 1500);
+        }
       });
       observer.observe(root, { subtree: true, childList: true, characterData: true });
     };
@@ -362,9 +451,9 @@ export function MilaVoiceFab() {
         endAgentConversation("voice");
       });
     };
-  }, [enabled, phase, router]);
+  }, [agentContext, enabled, router, widgetFrameReady]);
 
-  if (!enabled) return null;
+  if (!AGENT_ID || !enabled) return null;
 
   if (quotaExceeded) {
     return (
@@ -380,69 +469,78 @@ export function MilaVoiceFab() {
     );
   }
 
-  if (phase === "denied") {
-    return (
-      <div className="fixed bottom-6 right-6 z-50 max-w-[280px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
-        <p className="text-sm font-black text-text">Mila — głos niedostępny</p>
-        <p className="mt-1 text-xs font-semibold leading-5 text-muted">{deniedMessage}</p>
-        <button
-          type="button"
-          onClick={() => setPhase("idle")}
-          className="mt-3 text-xs font-black text-primary underline"
-        >
-          Spróbuj ponownie
-        </button>
-      </div>
-    );
-  }
-
-  if (phase === "ready" && signedUrl) {
-    return (
-      <>
-        <Script
-          id="elevenlabs-convai-widget"
-          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
-          strategy="afterInteractive"
-        />
-        <elevenlabs-convai
-          ref={widgetRef}
-          key={`${signedUrl}-${locale}-${textOnly ? "text" : "voice"}`}
-          signed-url={signedUrl}
-          server-location="us"
-          dynamic-variables={dynamicVariables}
-          override-language={locale}
-          text-input="true"
-          transcript="true"
-          mic-muting="true"
-          dismissible="true"
-          {...(textOnly ? { "override-text-only": "true" } : {})}
-          worklet-path-raw-audio-processor="/elevenlabs-worklets/rawAudioProcessor.js"
-          worklet-path-audio-concat-processor="/elevenlabs-worklets/audioConcatProcessor.js"
-        />
-      </>
-    );
-  }
-
-  if (!inviteCode) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50 max-w-[240px] rounded-2xl border border-primary/15 bg-white px-5 py-4 shadow-soft">
-        <p className="text-xs font-semibold leading-5 text-muted">Potrzebujesz kodu zaproszeniowego</p>
-      </div>
-    );
-  }
-
   return (
-    <button
-      type="button"
-      onClick={startVoice}
-      disabled={phase === "loading"}
-      title={t.voiceAgent.title}
-      aria-label="Rozpocznij rozmowę z Milą"
-      className="cf-press fixed bottom-6 right-6 z-50 flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-black text-on-primary transition hover:bg-primary-strong focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus disabled:opacity-60"
-    >
-      <Mic className="h-4 w-4" aria-hidden="true" />
-      {phase === "loading" ? "Łączenie…" : "Rozpocznij rozmowę z Milą"}
-    </button>
+    <>
+      <Script
+        id="elevenlabs-convai-widget"
+        src="/elevenlabs/convai-widget.js"
+        strategy="afterInteractive"
+      />
+      {!callOpen && (
+        <div className="fixed right-3 z-[1400] flex items-center gap-2 rounded-full border border-black/10 bg-white py-1.5 pl-3 pr-1.5 shadow-lg bottom-[calc(7.5rem+env(safe-area-inset-bottom))] lg:bottom-8">
+          <span className="text-sm font-semibold text-text">Need help?</span>
+          <button
+            type="button"
+            onClick={() => {
+              const widget = widgetRef.current;
+              if (!widget || !widgetRoot(widget)) {
+                setCallStatus("Mila is still loading. Try again in a moment.");
+                return;
+              }
+              revealWidget(widget);
+              let opened = clickStartCall(widget);
+              const startedAt = Date.now();
+              const timer = window.setInterval(() => {
+                const current = widgetRef.current;
+                if (!current) return;
+                revealWidget(current);
+                if (!opened) opened = clickStartCall(current);
+                if (widgetIsShowing(current)) {
+                  window.clearInterval(timer);
+                  setCallStatus("");
+                  setCallOpen(true);
+                  return;
+                }
+                if (Date.now() - startedAt > 4000) {
+                  window.clearInterval(timer);
+                  current.style.removeProperty("opacity");
+                  current.style.removeProperty("visibility");
+                  current.style.removeProperty("pointer-events");
+                  setCallStatus("Mila didn't open. Reload the page and try again.");
+                }
+              }, 200);
+            }}
+            className="inline-flex items-center gap-2 rounded-full bg-black px-4 py-2 text-sm font-bold text-white"
+          >
+            <Phone className="h-4 w-4" aria-hidden="true" />
+            Start a call
+          </button>
+        </div>
+      )}
+      {callStatus && !callOpen && (
+        <p className="fixed right-3 z-[1400] max-w-[16rem] rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-text shadow-lg bottom-[calc(11rem+env(safe-area-inset-bottom))] lg:bottom-24">
+          {callStatus}
+        </p>
+      )}
+      <MilaWidgetFrame onReady={markWidgetFrameReady} open={callOpen}>
+      <elevenlabs-convai
+        ref={widgetRef}
+        key={`${signedUrl || agentId}-${locale}-${textOnly ? "text" : "voice"}-${widgetConfig ? "cfg" : "nocfg"}`}
+        {...(widgetConfig ? { "override-config": widgetConfig } : {})}
+        {...(signedUrl ? { "signed-url": signedUrl } : { "agent-id": agentId })}
+        server-location="us"
+        dynamic-variables={dynamicVariables}
+        override-language={locale}
+        text-input="true"
+        transcript="true"
+        mic-muting="true"
+        dismissible="true"
+        {...(textOnly ? { "override-text-only": "true" } : {})}
+        worklet-path-raw-audio-processor="/elevenlabs-worklets/rawAudioProcessor.js"
+        worklet-path-audio-concat-processor="/elevenlabs-worklets/audioConcatProcessor.js"
+      />
+      </MilaWidgetFrame>
+    </>
   );
 }
 
@@ -460,7 +558,7 @@ export function MilaVoiceAgent({ compact: _compact = false }: { compact?: boolea
         {va.hint}
       </p>
       <div className="mt-4 flex items-center gap-3 rounded-xl bg-primary/5 p-3">
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary">
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-white">
           <Mic className="h-5 w-5" />
         </div>
         <p className="text-xs font-bold text-text">
