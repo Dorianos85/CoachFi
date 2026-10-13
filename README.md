@@ -14,6 +14,8 @@ Coach FI is being simplified into a daily financial learning product:
 The demo navigation now prioritizes the daily loop first, with learning, tools and modes grouped behind it. The current architecture source of truth is:
 
 - [Product Architecture](docs/PRODUCT_ARCHITECTURE.md)
+- [CoachFI AI White Paper (PDF)](docs/white-paper/CoachFI_AI_White_Paper_EN_v1.0.pdf)
+- [CoachFI AI White Paper (editable DOCX)](docs/white-paper/CoachFI_AI_White_Paper_EN_v1.0.docx)
 - [Distribution Rollout](docs/DISTRIBUTION_ROLLOUT.md)
 - [ElevenLabs Marketing Plan](docs/MARKETING_PLAN_ELEVENLABS.md)
 - [Launch QA Checklist](docs/LAUNCH_QA_CHECKLIST.md)
