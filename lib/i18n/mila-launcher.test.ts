@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { translations, type Locale } from "./index";
+import { localeAgentLanguage, translations, type Locale } from "./index";
 
 const captions: Record<Locale, string> = {
   en: "Start conversation",
@@ -25,4 +25,12 @@ describe("Mila conversation launcher localization", () => {
       expect(copy.fab.toLowerCase()).not.toBe("start a call");
     });
   }
+
+  it("sends the agent widget lowercase language codes for every locale", () => {
+    expect(Object.keys(localeAgentLanguage).sort()).toEqual(Object.keys(translations).sort());
+    for (const code of Object.values(localeAgentLanguage)) {
+      expect(code).toMatch(/^[a-z]{2}(-[a-z]{2})?$/);
+    }
+    expect(localeAgentLanguage["pt-BR"]).toBe("pt-br");
+  });
 });

@@ -756,6 +756,19 @@ export const localeSpeechLang: Record<Locale, string> = {
   tr: "tr-TR",
 };
 
+/** Language codes as the ElevenLabs agent widget spells them (lowercase, e.g. "pt-br"). */
+export const localeAgentLanguage: Record<Locale, string> = {
+  en: "en",
+  pl: "pl",
+  es: "es",
+  fr: "fr",
+  zh: "zh",
+  ja: "ja",
+  hi: "hi",
+  "pt-BR": "pt-br",
+  tr: "tr",
+};
+
 export const localeClaudeLanguage: Record<Locale, string> = {
   en: "English",
   pl: "Polish",

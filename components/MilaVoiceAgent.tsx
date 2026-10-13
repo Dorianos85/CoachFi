@@ -10,6 +10,7 @@ import { MilaAvatar } from "@/components/MilaAvatar";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
+import { localeAgentLanguage } from "@/lib/i18n";
 import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
@@ -698,7 +699,7 @@ export function MilaVoiceFab() {
         server-location="us"
         avatar-image-url="/brand/mila/mila-head-neutral.svg"
         dynamic-variables={dynamicVariables}
-        override-language={locale}
+        override-language={localeAgentLanguage[locale]}
         text-input="true"
         text-contents={widgetTextContents}
         transcript="true"
