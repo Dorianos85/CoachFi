@@ -1,13 +1,14 @@
 import { getMilaAgentId } from "@/lib/mila-voice";
 
 export interface MilaVoice {
+  agentId: string;
   voiceId: string;
   modelId?: string;
   settings: { stability?: number; similarity_boost?: number; speed?: number };
 }
 
 const CACHE_MS = 5 * 60 * 1000;
-const CONFIG_TIMEOUT_MS = 4000;
+const CONFIG_TIMEOUT_MS = 2000;
 let cached: { agentId: string; value: MilaVoice; expiresAt: number } | undefined;
 let pending: { agentId: string; promise: Promise<MilaVoice | null> } | undefined;
 
@@ -20,10 +21,15 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
   if (pending?.agentId === agentId) return pending.promise;
 
   const promise = (async () => {
+    // Both IDs already existed in Coach FI. Recover the older owned agent only
+    // when the current default cannot be resolved; never choose an arbitrary voice.
+    const agentIds = agentId === "agent_7601krc9gaf2eaxr811qgk01epzc"
+      ? [agentId, "agent_2301krbsttc8f21ra1h5vge02071"] : [agentId];
+    for (const candidateId of agentIds) {
     for (const host of ["api.us.elevenlabs.io", "api.elevenlabs.io"]) {
       try {
         const response = await fetch(
-          `https://${host}/v1/convai/agents/${encodeURIComponent(agentId)}`,
+          `https://${host}/v1/convai/agents/${encodeURIComponent(candidateId)}`,
           {
             headers: { "xi-api-key": apiKey, Accept: "application/json" },
             cache: "no-store",
@@ -34,7 +40,7 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
           const errorBody = await response.json().catch(() => null) as { detail?: { status?: unknown } } | null;
           const errorCode = typeof errorBody?.detail?.status === "string" && /^[a-z_]+$/i.test(errorBody.detail.status)
             ? errorBody.detail.status : "unknown";
-          console.warn("[mila-voice] Config unavailable", host, response.status, errorCode);
+          console.warn("[mila-voice] Config unavailable", host, candidateId, response.status, errorCode);
           continue;
         }
         const data = await response.json() as {
@@ -52,7 +58,7 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
           if (typeof tts?.[key] === "number" && Number.isFinite(tts[key])) settings[key] = tts[key];
         }
         const value: MilaVoice = {
-          voiceId, settings,
+          agentId: candidateId, voiceId, settings,
           ...(modelId ? { modelId } : {}),
         };
         cached = { agentId, value, expiresAt: Date.now() + CACHE_MS };
@@ -60,6 +66,7 @@ export async function resolveMilaVoice(): Promise<MilaVoice | null> {
       } catch (error) {
         console.warn("[mila-voice] Config request failed", host, error instanceof Error ? error.name : "Error");
       }
+    }
     }
     return null;
   })();

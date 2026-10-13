@@ -17,13 +17,39 @@ afterEach(() => {
 });
 
 describe("Mila canonical voice", () => {
+  it("recovers the earlier existing Coach FI agent and keeps its verified identity", async () => {
+    vi.stubEnv("NEXT_PUBLIC_ELEVENLABS_AGENT_ID", "agent_7601krc9gaf2eaxr811qgk01epzc");
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(Response.json({ detail: { status: "document_not_found" } }, { status: 404 }))
+      .mockResolvedValueOnce(Response.json({ detail: { status: "document_not_found" } }, { status: 404 }))
+      .mockResolvedValueOnce(Response.json(voiceConfig));
+    vi.stubGlobal("fetch", fetchMock);
+    const { resolveMilaVoice } = await import("./mila-voice");
+    const voice = await resolveMilaVoice();
+    expect(voice?.agentId).toBe("agent_2301krbsttc8f21ra1h5vge02071");
+    expect(voice?.voiceId).toBe("mila-canonical");
+    expect(fetchMock.mock.calls[2][0]).toContain("agent_2301krbsttc8f21ra1h5vge02071");
+    expect(await resolveMilaVoice()).toEqual(voice);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("tries the global region when the US region cannot find the configured agent", async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(Response.json({ detail: { status: "document_not_found" } }, { status: 404 }))
+      .mockResolvedValueOnce(Response.json(voiceConfig));
+    vi.stubGlobal("fetch", fetchMock);
+    const { resolveMilaVoice } = await import("./mila-voice");
+    expect((await resolveMilaVoice())?.agentId).toBe("qa-mila-agent");
+    expect(fetchMock.mock.calls[1][0]).toBe("https://api.elevenlabs.io/v1/convai/agents/qa-mila-agent");
+  });
+
   it("reads the agent voice and reuses its identity and settings for subsequent speech", async () => {
     const fetchMock = vi.fn().mockResolvedValue(Response.json(voiceConfig));
     vi.stubGlobal("fetch", fetchMock);
     const { resolveMilaVoice } = await import("./mila-voice");
     const first = await resolveMilaVoice();
     const next = await resolveMilaVoice();
-    expect(first).toEqual({ voiceId: "mila-canonical", modelId: "eleven_turbo_v2_5", settings: { stability: 0.65, similarity_boost: 0.8, speed: 0.95 } });
+    expect(first).toEqual({ agentId: "qa-mila-agent", voiceId: "mila-canonical", modelId: "eleven_turbo_v2_5", settings: { stability: 0.65, similarity_boost: 0.8, speed: 0.95 } });
     expect(next).toEqual(first);
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe("https://api.us.elevenlabs.io/v1/convai/agents/qa-mila-agent");

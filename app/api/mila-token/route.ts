@@ -1,5 +1,6 @@
 import { assertSameOrigin, jsonError } from "@/lib/api-security";
 import { getMilaAgentId } from "@/lib/mila-voice";
+import { resolveMilaVoice } from "@/lib/server/mila-voice";
 
 async function loadWidgetConfig(agentId: string) {
   try {
@@ -22,7 +23,8 @@ export async function GET(req: Request) {
     return jsonError("Forbidden", 403);
   }
 
-  const agentId = getMilaAgentId();
+  // Widget and read-aloud must use the same verified existing agent.
+  const agentId = (await resolveMilaVoice())?.agentId ?? getMilaAgentId();
   if (!agentId) return jsonError("Agent not configured", 503);
 
   const widgetConfig = await loadWidgetConfig(agentId);
