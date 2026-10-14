@@ -2,6 +2,7 @@ import { quizQuestions } from "@/data/quizQuestions";
 import { challengeQuestions } from "@/data/challengeQuestions";
 import type { Locale } from "@/lib/i18n";
 import { challengeOverrides } from "@/lib/localizedChallenge";
+import { deckOverrides } from "@/lib/localizedDeck";
 import { getQuizQuestions } from "@/lib/localizedQuiz";
 
 export interface UnifiedQuestion {
@@ -316,6 +317,83 @@ const plQuestionOverrides: Record<string, QuestionOverride> = {
     explanation: "Długi czas i procent składany mogą bardzo mocno zwiększyć końcową kwotę.",
     category: "Emerytura",
   },
+  "poland-compound-gap": {
+    question: "Według danych OECD jaki odsetek Polaków poprawnie rozumie działanie procentu składanego?",
+    answers: [
+      { id: "A", text: "Około 75%" },
+      { id: "B", text: "Około 50%" },
+      { id: "C", text: "Około 33%" },
+      { id: "D", text: "Około 10%" },
+    ],
+    explanation: "Tylko około 33% Polaków poprawnie rozumie procent składany; dane OECD potwierdzają tę krytyczną lukę w wiedzy.",
+    category: "Edukacja finansowa",
+  },
+  "poland-trust-institutions": {
+    question: "Jaki odsetek Polaków ufał w 2022 roku instytucjom finansowym w sprawach oszczędności i inwestycji?",
+    answers: [
+      { id: "A", text: "65%" },
+      { id: "B", text: "40%" },
+      { id: "C", text: "28%" },
+      { id: "D", text: "15%" },
+    ],
+    explanation: "W 2022 roku instytucjom finansowym ufało tylko 15% Polaków. Dołek z 2021 roku wyniósł zaledwie 6%: to głęboki deficyt zaufania.",
+    category: "Edukacja finansowa",
+  },
+  "poland-oecd-score": {
+    question: "Jaki wynik uzyskała Polska we wskaźniku kompetencji finansowych OECD?",
+    answers: [
+      { id: "A", text: "19 na 21" },
+      { id: "B", text: "13 na 21" },
+      { id: "C", text: "7 na 21" },
+      { id: "D", text: "21 na 21" },
+    ],
+    explanation: "Polska uzyskała 13/21 we wskaźniku kompetencji finansowych OECD. Dystans do maksimum oznacza realnie utracone oszczędności.",
+    category: "Edukacja finansowa",
+  },
+  "poland-ppk-participation": {
+    question: "Jaki odsetek pracowników dużych polskich firm uczestniczy w dobrowolnych programach emerytalnych PPK/PPE?",
+    answers: [
+      { id: "A", text: "85%" },
+      { id: "B", text: "68%" },
+      { id: "C", text: "47%" },
+      { id: "D", text: "12%" },
+    ],
+    explanation: "Tylko 47% pracowników dużych polskich firm korzysta z dobrowolnych programów PPK/PPE. To bezpośredni skutek nieznajomości procentu składanego.",
+    category: "Edukacja finansowa",
+  },
+  "financial-wellbeing-components": {
+    question: "Dobrostan finansowy mierzy się trzema składnikami. Który zestaw jest poprawny?",
+    answers: [
+      { id: "A", text: "Dochód, wydatki, pożyczki" },
+      { id: "B", text: "Kontrola, siatka bezpieczeństwa, cele na przyszłość" },
+      { id: "C", text: "Stopa oszczędności, ocena kredytowa, wartość netto" },
+      { id: "D", text: "Ubezpieczenie, emerytura, nieruchomość" },
+    ],
+    explanation: "Dobrostan finansowy = kontrola nad codziennymi wydatkami + siatka bezpieczeństwa (poduszka finansowa) + cele na przyszłość, takie jak emerytura.",
+    category: "Edukacja finansowa",
+  },
+  "financial-resilience": {
+    question: "Jak Krajowa Strategia Edukacji Finansowej definiuje „odporność finansową”?",
+    answers: [
+      { id: "A", text: "Posiadanie ponad miliona dolarów oszczędności" },
+      { id: "B", text: "Niepożyczanie pieniędzy nigdy i od nikogo" },
+      { id: "C", text: "Zdolność do absorbowania wstrząsów finansowych i wychodzenia z trudnej sytuacji materialnej" },
+      { id: "D", text: "Posiadanie nieruchomości i brak długów" },
+    ],
+    explanation: "Odporność = zdolność radzenia sobie z niekorzystnymi wstrząsami finansowymi i powrotu do równowagi. Chodzi o przygotowanie, a nie o poziom zamożności.",
+    category: "Edukacja finansowa",
+  },
+  "debt-spiral-cause": {
+    question: "Jaka luka w wiedzy finansowej najczęściej prowadzi do „spirali długów”?",
+    answers: [
+      { id: "A", text: "Nieumiejętność korzystania z karty kredytowej" },
+      { id: "B", text: "Niezrozumienie procentu składanego: dług rośnie szybciej, niż się spodziewasz" },
+      { id: "C", text: "Brak konta bankowego" },
+      { id: "D", text: "Zbyt duże wydatki na jedzenie" },
+    ],
+    explanation: "Spirale długów biorą się z niezrozumienia procentu składanego: ludzie nie doceniają, jak szybko narastają niespłacone odsetki.",
+    category: "Edukacja finansowa",
+  },
   "insurance-purpose": {
     question: "Jaki jest główny cel ubezpieczenia na życie?",
     answers: [
@@ -501,6 +579,72 @@ const plQuestionOverrides: Record<string, QuestionOverride> = {
       { id: "D", text: "Ocena kredytowa" },
     ],
     explanation: "Wartość netto pokazuje pełniejszy obraz finansów niż sam dochód.",
+    category: "Wyzwanie",
+  },
+  c15: {
+    question: "Według danych OECD jaki odsetek Polaków poprawnie rozumie procent składany?",
+    answers: [
+      { id: "A", text: "Około 75%" },
+      { id: "B", text: "Około 50%" },
+      { id: "C", text: "Około 33%" },
+      { id: "D", text: "Około 10%" },
+    ],
+    explanation: "Tylko mniej więcej 1 na 3 Polaków rozumie procent składany w praktyce. To luka w wiedzy numer jeden: prowadzi do spirali długów i tłumaczy, dlaczego tylko 47% pracowników przystępuje do dobrowolnych programów emerytalnych PPK/PPE.",
+    category: "Wyzwanie",
+  },
+  c16: {
+    question: "Jaki odsetek Polaków ufał instytucjom finansowym w sprawie oszczędności w 2022 roku?",
+    answers: [
+      { id: "A", text: "65%" },
+      { id: "B", text: "40%" },
+      { id: "C", text: "28%" },
+      { id: "D", text: "15%" },
+    ],
+    explanation: "W 2022 roku instytucjom finansowym ufało tylko 15% Polaków, a w 2021 roku było to zaledwie 6%. Ten deficyt zaufania to poważna bariera dla korzystania z usług finansowych i długoterminowego budowania majątku.",
+    category: "Wyzwanie",
+  },
+  c17: {
+    question: "Polska uzyskała 13/21 we wskaźniku kompetencji finansowych OECD. Co oznaczają brakujące punkty?",
+    answers: [
+      { id: "A", text: "Nic istotnego: 13/21 to świetny wynik" },
+      { id: "B", text: "Utracone szanse na budowanie majątku i brak przygotowania finansowego" },
+      { id: "C", text: "Barierę językową w teście OECD" },
+      { id: "D", text: "Niski odsetek osób z kontem bankowym" },
+    ],
+    explanation: "Wynik 13/21 plasuje Polskę w środku stawki. Brakujące 8 punktów to konkretne utracone szanse: mniej skuteczne korzystanie z rynków kapitałowych, rzadsze posiadanie funduszu awaryjnego i większa podatność na wstrząsy gospodarcze.",
+    category: "Wyzwanie",
+  },
+  c18: {
+    question: "Niemal połowa Polaków deklaruje, że finanse rządzą ich życiem. Jaka zmiana nastawienia jest zalecana?",
+    answers: [
+      { id: "A", text: "Zarabiać więcej za wszelką cenę" },
+      { id: "B", text: "Unikać myślenia o pieniądzach, żeby zmniejszyć stres" },
+      { id: "C", text: "Odzyskać poczucie sprawczości: traktować pieniądze jako narzędzie, a nie źródło stresu" },
+      { id: "D", text: "Oddać wszystko w ręce doradcy finansowego" },
+    ],
+    explanation: "Myślenie krótkoterminowe to psychologiczna obrona, gdy ludzie nie czują sprawczości. Edukacja finansowa musi przywracać to poczucie kontroli i zmieniać pieniądze ze źródła stresu w narzędzie, które daje siłę.",
+    category: "Wyzwanie",
+  },
+  c19: {
+    question: "Które polskie pojęcie opisuje awaryjną rezerwę finansową?",
+    answers: [
+      { id: "A", text: "Kapitał własny" },
+      { id: "B", text: "Poduszka finansowa" },
+      { id: "C", text: "Rezerwa walutowa" },
+      { id: "D", text: "Dywidenda bezpieczeństwa" },
+    ],
+    explanation: "„Poduszka finansowa” to polskie określenie funduszu awaryjnego. To kluczowy składnik dobrostanu finansowego: siatka bezpieczeństwa, która pozwala przetrwać nieoczekiwane wstrząsy bez sięgania po wysoko oprocentowane pożyczki.",
+    category: "Wyzwanie",
+  },
+  c20: {
+    question: "OECD ustaliło, że tylko 26,9% Polaków osiąga minimalny docelowy wynik w zakresie postaw finansowych. Co mierzy „postawa finansowa”?",
+    answers: [
+      { id: "A", text: "Ile produktów finansowych ktoś posiada" },
+      { id: "B", text: "Poziom dochodów i stopę oszczędności" },
+      { id: "C", text: "Czy ktoś planuje przyszłość, czy żyje tylko chwilą obecną" },
+      { id: "D", text: "Poziom zaufania do banków" },
+    ],
+    explanation: "Postawa finansowa mierzy nastawienie na planowanie przyszłości zamiast myślenia wyłącznie o teraźniejszości. 26,9% Polaków osiągających minimum to mniej więcej połowa średniej OECD, co odzwierciedla systemową kulturę krótkoterminowego myślenia o finansach.",
     category: "Wyzwanie",
   },
 
@@ -828,7 +972,10 @@ function localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQu
   if (challengeOverride) return { ...question, ...challengeOverride };
 
   const quizOverride = getQuizQuestions(locale).find((item) => item.id === question.id);
-  if (!quizOverride) return question;
+  if (!quizOverride) {
+    const deckOverride = deckOverrides[locale]?.[question.id];
+    return deckOverride ? { ...question, ...deckOverride } : question;
+  }
 
   return {
     ...question,
