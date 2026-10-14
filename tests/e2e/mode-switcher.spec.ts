@@ -72,7 +72,7 @@ test.describe("on a phone", () => {
     await expect(page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link")).toHaveCount(1);
 
     await bar.getByRole("button", { name: "Adult mode", exact: true }).click();
-    await expect(page).toHaveURL(/:\d+\/$/);
+    await expect(page).toHaveURL((url) => url.pathname === "/");
     await expectActive(bar, "Adult mode");
     await expect(bar).not.toHaveAttribute("data-theme", /.+/);
     expect(await storedMode(page)).toBe("adult");
@@ -93,7 +93,7 @@ test.describe("on a phone", () => {
 
     const bar = modeBar(page);
     await bar.getByRole("button", { name: "Teen mode", exact: true }).click();
-    await expect(page).toHaveURL(/:\d+\/$/);
+    await expect(page).toHaveURL((url) => url.pathname === "/");
     await expectActive(bar, "Teen mode");
     await expect(bar).toHaveAttribute("data-theme", "teen");
     expect(await storedMode(page)).toBe("teen");
