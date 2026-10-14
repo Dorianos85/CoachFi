@@ -5,7 +5,10 @@ import type { ReactNode } from "react";
 
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
-export type CoachFiMode = "adult" | "kids";
+// Teen uses the adult screens and navigation; only the mode switcher is styled differently.
+export type CoachFiMode = "adult" | "teen" | "kids";
+
+const MODES: CoachFiMode[] = ["adult", "teen", "kids"];
 
 export interface ModeRecord {
   mode: CoachFiMode;
@@ -20,6 +23,7 @@ interface ModeContextValue {
   isKidsMode: boolean;
   settingsOpen: boolean;
   selectAdultMode: () => void;
+  selectTeenMode: () => void;
   selectKidsMode: () => void;
   resetMode: () => void;
   openSettings: () => void;
@@ -35,6 +39,7 @@ const ModeContext = createContext<ModeContextValue>({
   isKidsMode: false,
   settingsOpen: false,
   selectAdultMode: () => {},
+  selectTeenMode: () => {},
   selectKidsMode: () => {},
   resetMode: () => {},
   openSettings: () => {},
@@ -47,7 +52,7 @@ function readModeRecord(): ModeRecord | null {
     const raw = window.localStorage.getItem(MODE_STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as ModeRecord;
-    if (parsed.mode !== "adult" && parsed.mode !== "kids") return null;
+    if (!MODES.includes(parsed.mode)) return null;
     return parsed;
   } catch {
     return null;
@@ -81,6 +86,16 @@ export function ModeProvider({ children }: { children: ReactNode }) {
           mode: "adult",
           selectedAt: now,
           adultConfirmedAt: now,
+        };
+        writeModeRecord(record);
+        setModeRecord(record);
+        setSettingsOpen(false);
+        notifyCloud("profile");
+      },
+      selectTeenMode: () => {
+        const record: ModeRecord = {
+          mode: "teen",
+          selectedAt: new Date().toISOString(),
         };
         writeModeRecord(record);
         setModeRecord(record);

@@ -406,22 +406,108 @@ html.text-scale-xlarge label,
   width: 100%;
 }
 
-/* Leave enough scroll room to move the last controls above Mila and mobile nav. */
+/* Leave enough scroll room to move the last controls above Mila, the mobile nav and the mode
+   switcher (--cf-mode-bar-space is the height the switcher takes, set by ModeSwitcherBar). */
 .app-shell {
-  padding-bottom: calc(12rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: max(calc(12rem + env(safe-area-inset-bottom, 0px)), calc(var(--cf-mode-bar-space, 0px) + 1rem));
 }
 
 /* A launcher must never compete with consent/login dialogs or a typing user.
    Visibility also removes its button from keyboard and screen-reader navigation. */
 body:has([role="dialog"][aria-modal="true"]) .mila-launcher-dock,
-body:has(input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea:focus, [contenteditable="true"]:focus) .mila-launcher-dock {
+body:has(input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea:focus, [contenteditable="true"]:focus) .mila-launcher-dock,
+body:has(input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea:focus, [contenteditable="true"]:focus) .mode-switcher-dock {
   visibility: hidden;
 }
 
 @media (min-width: 1024px) {
   .app-shell {
-    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: max(calc(6rem + env(safe-area-inset-bottom, 0px)), calc(var(--cf-mode-bar-space, 0px) + 1rem));
   }
+}
+
+/* Mode switcher (components/ModeSwitcherBar.tsx). It slides off the bottom of the screen while the
+   page scrolls down; transform only, so the layout never changes height. The bar carries the
+   active mode's data-theme, so the tokens below resolve to that mode's palette. */
+.mode-switcher-dock {
+  transition: transform 250ms ease;
+  will-change: transform;
+}
+
+.mode-switcher-dock[data-hidden="true"] {
+  transform: translateY(100%);
+}
+
+/* Adult: pastel, same active state as the mobile navigation. */
+.mode-switcher {
+  background: var(--cf-surface);
+  color: var(--cf-text);
+  border: 1px solid var(--cf-border-subtle);
+  border-radius: var(--cf-radius-card);
+  box-shadow: var(--cfx-shadow-soft);
+  font-family: var(--font-ui);
+}
+
+.mode-switcher__option {
+  min-height: 48px;
+  border-radius: calc(var(--cf-radius-card) - 4px);
+  color: var(--cf-text-muted);
+  font-weight: 800;
+  transition: background-color var(--cf-motion-micro), color var(--cf-motion-micro);
+}
+
+.mode-switcher__option:hover:not([aria-pressed="true"]) {
+  background: var(--cf-primary-soft);
+  color: var(--cf-text);
+}
+
+.mode-switcher__option[aria-pressed="true"] {
+  background: var(--cf-area-learn);
+  color: var(--cf-text);
+}
+
+.mode-switcher__option[aria-pressed="true"] svg {
+  color: var(--cf-grape);
+}
+
+/* Kids: block forest — ink outline, hard block shadow, squirrel-orange active block. */
+.mode-switcher[data-theme="kids"] {
+  border: 3px solid var(--cf-border);
+  border-radius: var(--cf-radius-kids);
+  box-shadow: var(--cf-block-shadow);
+}
+
+.mode-switcher[data-theme="kids"] .mode-switcher__option {
+  min-height: 52px;
+  border-radius: 4px;
+  color: var(--cf-text);
+}
+
+.mode-switcher[data-theme="kids"] .mode-switcher__option[aria-pressed="true"],
+.mode-switcher[data-theme="teen"] .mode-switcher__option[aria-pressed="true"] {
+  background: var(--cf-primary);
+  color: var(--cf-on-primary);
+}
+
+.mode-switcher[data-theme="kids"] .mode-switcher__option[aria-pressed="true"] svg,
+.mode-switcher[data-theme="teen"] .mode-switcher__option[aria-pressed="true"] svg {
+  color: currentColor;
+}
+
+/* Teen: vaporwave — night purple pill, pink active option with neon glow, uppercase labels. */
+.mode-switcher[data-theme="teen"] {
+  border-radius: var(--cf-radius-pill);
+  box-shadow: var(--cf-shadow-teen-glow);
+}
+
+.mode-switcher[data-theme="teen"] .mode-switcher__option {
+  border-radius: var(--cf-radius-pill);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mode-switcher[data-theme="teen"] .mode-switcher__option[aria-pressed="true"] {
+  box-shadow: var(--cf-shadow-teen-glow);
 }
 
 @media (max-width: 1023px) {

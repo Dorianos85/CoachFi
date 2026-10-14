@@ -43,6 +43,7 @@ import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AccountButton } from "@/components/AccountButton";
 import { ModeGate } from "@/components/ModeGate";
+import { ModeSwitcherBar } from "@/components/ModeSwitcherBar";
 
 import { Logo } from "@/components/Logo";
 
@@ -649,6 +650,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       </nav>
 
       <ModeGate />
+      <ModeSwitcherBar highContrast={highContrast} />
       <OnboardingModal
         enabled={requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
         onDone={() => setUserName(getDisplayName(getUser()))}

@@ -81,7 +81,8 @@ async function pushProfile(db: DB, userId: string): Promise<void> {
     avatar_gender: avatar.gender,
     avatar_style: avatar.style,
     voice_id: voiceId,
-    mode: readMode() ?? "adult",
+    // profiles.mode only accepts 'adult' | 'kids' | 'accessibility'; Teen uses the adult screens.
+    mode: readMode() === "kids" ? "kids" : "adult",
   });
 }
 
