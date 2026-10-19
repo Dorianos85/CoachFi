@@ -47,6 +47,7 @@ export function VoiceButton({
       setPendingText(text);
       try {
         await speak(text, {
+          userInitiated: true,
           locale: voiceLocale ?? locale,
           voiceId,
           modelId,

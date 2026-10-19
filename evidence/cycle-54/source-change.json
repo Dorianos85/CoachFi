@@ -1,0 +1,87 @@
+{
+  "cycle": 54,
+  "at": "2026-10-18T20:55:54.742Z",
+  "status": "FIVE_TEXT_PRECISION_FIELDS_CHANGED_BASELINE_PRESERVED",
+  "proposal": {
+    "path": "evidence/cycle-54/source-proposal.json",
+    "sha256": "34caa54c1a6da0f61188fb3d07ff0190162a3c8433a276a4cd8a5483114d2c26"
+  },
+  "sources": [
+    {
+      "path": "data/quizQuestions.ts",
+      "beforeSHA256": "44d2bad55f835b610cee342de9b2d5f8a1beed41d5b2285f59cb9caad7e977ce",
+      "afterSHA256": "0598c4015bdb1f06de531e4b1b998aec990190dd12bc2707ea0d81309092e41c",
+      "newlineBefore": {
+        "crlf": 1306,
+        "loneLF": 208
+      },
+      "newlineAfter": {
+        "crlf": 1306,
+        "loneLF": 208
+      },
+      "changedFields": [
+        "B",
+        "successMessage",
+        "retryMessage"
+      ]
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "beforeSHA256": "ed84b6d63e1c7ff5ea18b7d85395f9138abd9a1adf0594c6db986552e7573ad9",
+      "afterSHA256": "bb6d2ad892963a768e36aad1934836af6fec1b70029ff6c9c8a52c4ed92de817",
+      "newlineBefore": {
+        "crlf": 1603,
+        "loneLF": 176
+      },
+      "newlineAfter": {
+        "crlf": 1603,
+        "loneLF": 176
+      },
+      "changedFields": [
+        "B",
+        "explanation"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "B",
+      "oldSpan": "{ id: \"B\", text: \"They are tax-advantaged accounts that shelter investment growth\"",
+      "newSpan": "{ id: \"B\", text: \"Tax advantages under each country’s rules, without guaranteed investment returns\""
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "successMessage",
+      "oldSpan": "successMessage: \"ISA, NISA and IKE are all tax-advantaged wrappers — they let qualifying investments grow without the usual tax drag. +30 tokens!\"",
+      "newSpan": "successMessage: \"ISA (UK), NISA (Japan) and IKE (Poland) offer tax advantages under different national rules and limits. Tax treatment does not guarantee investment gains or protection from losses. For Polish IKE, exemption depends on statutory withdrawal conditions; an earlier return can make investment income taxable. Eligibility, permitted assets and withdrawal rules differ. This comparison does not imply that every account is available to a Polish resident.\""
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "retryMessage",
+      "oldSpan": "retryMessage: \"ISA (UK), NISA (Japan) and IKE (Poland) are tax-advantaged accounts that shelter investment gains.\"",
+      "newSpan": "retryMessage: \"ISA (UK), NISA (Japan) and IKE (Poland) offer tax advantages under different national rules and limits. Tax treatment does not guarantee investment gains or protection from losses. For Polish IKE, exemption depends on statutory withdrawal conditions; an earlier return can make investment income taxable. Eligibility, permitted assets and withdrawal rules differ. This comparison does not imply that every account is available to a Polish resident.\""
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "locale": "PL",
+      "field": "B",
+      "oldSpan": "{ id: \"B\", text: \"To konta z ulgą podatkową, które chronią zyski z inwestycji\"",
+      "newSpan": "{ id: \"B\", text: \"Korzyści podatkowe na zasadach danego kraju, bez gwarancji zysku\""
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "locale": "PL",
+      "field": "explanation",
+      "oldSpan": "explanation: \"ISA, NISA i IKE to opakowania podatkowe — pozwalają inwestycjom rosnąć bez zwykłego obciążenia podatkiem.\"",
+      "newSpan": "explanation: \"ISA w Wielkiej Brytanii, NISA w Japonii i IKE w Polsce dają korzyści podatkowe na różnych krajowych zasadach i limitach. Ulga nie gwarantuje zysku ani ochrony przed stratą z inwestycji. W IKE zwolnienie dochodu zależy od ustawowych warunków wypłaty; wcześniejszy zwrot może oznaczać podatek od dochodu. Warunki dostępu, dozwolone aktywa i wypłaty różnią się. To porównanie nie oznacza, że każde konto jest dostępne dla mieszkańca Polski.\""
+    }
+  ],
+  "otherSourceBytesLiteral": true,
+  "questionACDKeyRewardCategoryPoolsUnchanged": true,
+  "fdicRbiSourceOnlyAndUnchanged": true,
+  "qualification": "Original shared tax-advantage core/key was correct; this delta clarifies conditional relief versus investment safety/access and removes unearned success-copy points. It does not repair a wrong statutory amount or add a tax rate."
+}

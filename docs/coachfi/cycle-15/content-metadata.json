@@ -1,0 +1,660 @@
+{
+  "schema_version": 1,
+  "module": "inflation",
+  "version": "inflation-pl-en-v1",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "jurisdiction": "Poland; EN is a language, not another market",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "draft_pending_independent_review",
+  "distinct_existing_questions": 4,
+  "language_versions": 8,
+  "new_question_ids": 0,
+  "reward_total": 110,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "ecb-basket",
+      "publisher": "European Central Bank",
+      "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Broad weighted basket; different household spending; no current rate or euro-area market claim used."
+    },
+    {
+      "id": "sec-compound",
+      "publisher": "SEC Investor.gov",
+      "url": "https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/what-compound-interest",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Compound interest and Rule of 72 as approximation; universal mathematical concept only, no USA products/market scope."
+    },
+    {
+      "id": "nebraska-72",
+      "publisher": "Nebraska Department of Banking and Finance",
+      "url": "https://ndbf.nebraska.gov/doubling-your-money-rule-72",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Annual-rate shortcut and uncertainty/past performance warning; no quoted market returns/products."
+    },
+    {
+      "id": "knf-risk",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/Inwestuj_swiadomie",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Polish risk/cost/access assessment, money needed for everyday life, and no future-profit guarantee from history."
+    },
+    {
+      "id": "sec-risk",
+      "publisher": "SEC Investor.gov",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/what-risk",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Purchasing power and loss/liquidity risks as universal concepts; no USA law or products presented."
+    }
+  ],
+  "unavailable_source_attempts": [
+    {
+      "url": "https://stat.gov.pl/obszary-tematyczne/ceny-handel/wskazniki-cen/wskazniki-cen-towarow-i-uslug-konsumpcyjnych-pot-inflacja-/",
+      "date": "2026-10-15",
+      "result": "web open500; search snippet separate limited observation; not used as sole lesson authority"
+    },
+    {
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/glossary/rule-72",
+      "date": "2026-10-15",
+      "result": "page heading with no substantive definition; actual compound-interest primary page used instead"
+    }
+  ],
+  "steps": [
+    {
+      "question_id": "inflation-basics",
+      "country": "PL",
+      "source_ids": [
+        "ecb-basket",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Odróżnij wzrost cen koszyka od jednej ceny i własnych kosztów.",
+        "en": "Distinguish a basket price increase from one price and household costs."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "basket_before": 1000,
+        "basket_after": 1050,
+        "basket_change_percent": 5,
+        "same_quantities_and_quality": true,
+        "rates_are_hypothetical": true
+      },
+      "copy": {
+        "pl": {
+          "title": "Ceny koszyka, nie jedna cena",
+          "body": "Inflacja to ogólny wzrost cen ważonego koszyka towarów i usług, nie każda pojedyncza podwyżka. Niektóre ceny mogą spadać, a koszyk każdego gospodarstwa jest inny. Przykład: ten sam hipotetyczny koszyk kosztuje 1 000 zł, potem 1 050 zł — wzrost o 5%; ta sama gotówka kupuje mniej tego koszyka. Ćwiczenie: czy jedna droższa rzecz dowodzi ogólnej inflacji? Nie. Działanie: opcjonalnie porównaj dwie ceny tych samych produktów. Po przerwie wróć do jednego porównania; nie trzeba nadrabiać."
+        },
+        "en": {
+          "title": "Basket prices, not one price",
+          "body": "Inflation is a broad increase in prices of a weighted basket of goods and services, not every individual price rise. Some prices can fall, and each household's basket differs. Example: the same hypothetical basket costs PLN 1,000, then PLN 1,050 — a 5% rise; the same cash buys less of that basket. Try: does one dearer item prove general inflation? No. Action: optionally compare two prices for the same products. After a break, return to one comparison; no catching up is needed."
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "question_id": "real-return",
+      "country": "PL",
+      "source_ids": [
+        "ecb-basket",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Oblicz realną zmianę siły nabywczej zamiast odejmować stopy jako dokładny wzór.",
+        "en": "Calculate real purchasing-power change instead of treating rate subtraction as exact."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "nominal_return_percent": 2,
+        "inflation_percent": 5,
+        "years": 1,
+        "final_nominal_amount": 1020,
+        "final_real_amount_rounded": 971.43,
+        "real_return_percent_rounded": -2.86,
+        "approximate_subtraction_percent": -3,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "additional_contributions": 0,
+        "withdrawals": 0,
+        "rates_are_hypothetical": true
+      },
+      "copy": {
+        "pl": {
+          "title": "Nominalnie więcej, realnie mniej",
+          "body": "Nominalna zmiana dotyczy salda w złotych; realna uwzględnia ceny. Przykład na jeden rok, bez dopłat, wypłat, opłat i podatków: hipotetyczne 2% zmienia 1 000 zł w 1 020 zł. Przy inflacji 5% wartość w cenach początku przykładu to 1 020 ÷ 1,05 ≈ 971,43 zł. Realna stopa: (1,02 ÷ 1,05 − 1) × 100% ≈ −2,86%. Odejmowanie 2% − 5% daje tylko przybliżenie −3%. Ćwiczenie: co wzrosło — saldo czy siła nabywcza? Saldo. Działanie: odróżnij obie wartości w przykładzie. Po przerwie powtórz jedno dzielenie, bez presji."
+        },
+        "en": {
+          "title": "More nominal cash, less real value",
+          "body": "Nominal change concerns the PLN balance; real change accounts for prices. One-year example with no deposits, withdrawals, fees or taxes: a hypothetical 2% turns PLN 1,000 into PLN 1,020. At 5% inflation, value in the example's starting prices is 1,020 ÷ 1.05 ≈ PLN 971.43. Real return: (1.02 ÷ 1.05 − 1) × 100% ≈ −2.86%. Subtracting 2% − 5% gives only the approximation −3%. Try: which grew — the balance or purchasing power? The balance. Action: distinguish both values in the example. After a break, repeat one division, without pressure."
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "question_id": "rule-of-72",
+      "country": "PL",
+      "source_ids": [
+        "sec-compound",
+        "nebraska-72"
+      ],
+      "objective": {
+        "pl": "Użyj reguły 72 jako przybliżenia przy jawnych założeniach, bez gwarancji wyniku.",
+        "en": "Use Rule of 72 as an estimate under explicit assumptions, without promising a result."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "annual_nominal_return_percent": 6,
+        "rule_numerator": 72,
+        "estimated_years": 12,
+        "annual_compounding": true,
+        "reinvestment": true,
+        "constant_positive_rate": true,
+        "additional_contributions": 0,
+        "withdrawals": 0,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "inflation_ignored_for_nominal_example": true,
+        "rates_are_hypothetical": true
+      },
+      "copy": {
+        "pl": {
+          "title": "Reguła 72 jest przybliżeniem",
+          "body": "Reguła 72 szacuje czas nominalnego podwojenia kapitału: 72 ÷ dodatnia roczna stopa w procentach. Przykład: przy hipotetycznych stałych 6%, rocznej kapitalizacji i reinwestowaniu, bez dopłat i wypłat, 72 ÷ 6 ≈ 12 lat. Pomijamy opłaty, podatki i inflację w tym nominalnym przykładzie. To przybliżenie, nie oferta ani gwarancja; zmienne stopy lub straty zmieniają wynik. Ćwiczenie: oszacuj czas przy założonych 8% — około 9 lat. Działanie: dopisz założenia do obliczenia. Po przerwie wróć do samego 72 ÷ 6; nie musisz inwestować."
+        },
+        "en": {
+          "title": "Rule of 72 is an estimate",
+          "body": "Rule of 72 estimates time to double nominal capital: 72 ÷ a positive annual rate in percent. Example: at a hypothetical fixed 6%, annual compounding and reinvestment, with no deposits or withdrawals, 72 ÷ 6 ≈ 12 years. We omit fees, taxes and inflation in this nominal example. This is an estimate, not an offer or guarantee; changing rates or losses alter the result. Try: estimate time at an assumed 8% — about 9 years. Action: add the assumptions to your calculation. After a break, return to 72 ÷ 6 alone; you do not have to invest."
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "question_id": "inflation-hedge",
+      "country": "PL",
+      "source_ids": [
+        "knf-risk",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Krytycznie oceń obietnicę pokonania inflacji i ochronę potrzeb przed ryzykiem.",
+        "en": "Critically assess a promise to beat inflation and protect necessary spending from risk."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "final_nominal_amount": 900,
+        "nominal_loss": 100,
+        "nominal_loss_percent": 10,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "example_is_hypothetical_not_product": true
+      },
+      "copy": {
+        "pl": {
+          "title": "Oceń ryzyko, nie obietnicę",
+          "body": "Nie ma jednej inwestycji gwarantującej pokonanie inflacji. Sprawdź możliwość straty, koszty i dostęp do pieniędzy; dywersyfikacja nie usuwa całego ryzyka. Przykład bez opłat i podatków: hipotetyczna wartość 1 000 zł spada do 900 zł — strata 100 zł, czyli 10%. Ćwiczenie: czy długi czas lub dobry wynik z przeszłości gwarantują zysk? Nie. Działanie: chroń niezbędne wydatki i wymagane minimalne spłaty; przy nieregularnym dochodzie możesz odłożyć inwestowanie. Po przerwie wróć do jednego pytania o ryzyko. Ten krok nie wymaga zakupu."
+        },
+        "en": {
+          "title": "Assess risk, not a promise",
+          "body": "No single investment guarantees beating inflation. Check possible loss, costs and access to money; diversification does not remove all risk. Example without fees or taxes: a hypothetical PLN 1,000 value falls to PLN 900 — a PLN 100 loss, or 10%. Try: does a long period or a good past result guarantee profit? No. Action: protect essential spending and required minimum repayments; with irregular income, you can postpone investing. After a break, return to one risk question. This step does not require a purchase."
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    }
+  ],
+  "questions": [
+    {
+      "id": "inflation-basics",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "level": "understand",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "source_ids": [
+        "ecb-basket",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Rozpoznaj ogólny wzrost cen koszyka bez utożsamiania go z każdą ceną.",
+        "en": "Recognize broad basket price inflation without equating it with every price."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "basket_before": 1000,
+        "basket_after": 1050,
+        "basket_change_percent": 5,
+        "same_quantities_and_quality": true,
+        "rates_are_hypothetical": true
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Średni ważony wzrost koszyka nie wymaga identycznej podwyżki każdego produktu.",
+          "en": "A weighted basket rise does not require every product to rise by the same amount."
+        },
+        "C": {
+          "pl": "Różne koszyki wydatków gospodarstw nie muszą odczuwać dokładnie tej samej zmiany.",
+          "en": "Different household spending baskets need not experience exactly the same change."
+        },
+        "D": {
+          "pl": "Jedna wyższa cena nie potwierdza ogólnego wzrostu cen koszyka towarów i usług.",
+          "en": "One higher price does not establish a broad rise in a goods-and-services basket."
+        }
+      },
+      "copy": {
+        "en": {
+          "id": "inflation-basics",
+          "question": "The same weighted basket costs PLN 1,000, then PLN 1,050. What does this illustration show?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Every price must rise by 5%"
+            },
+            {
+              "id": "B",
+              "text": "Basket prices rise 5%; the same cash buys less"
+            },
+            {
+              "id": "C",
+              "text": "All household costs rise by exactly 5%"
+            },
+            {
+              "id": "D",
+              "text": "One higher price alone proves general inflation"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "The basket rises 5%; each price and household can differ. +25 local points.",
+          "retryMessage": "Inflation concerns a broad weighted basket, not one price. Here (1,050 ÷ 1,000 − 1) × 100% = 5%; the same cash buys less of that basket. Different households have different spending baskets.",
+          "category": "Inflation"
+        },
+        "pl": {
+          "id": "inflation-basics",
+          "question": "Ten sam ważony koszyk kosztuje 1 000 zł, potem 1 050 zł. Co pokazuje ten przykład?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Każda cena musi wzrosnąć o 5%"
+            },
+            {
+              "id": "B",
+              "text": "Koszyk drożeje o 5%; ta sama gotówka kupuje mniej"
+            },
+            {
+              "id": "C",
+              "text": "Koszty każdego gospodarstwa rosną dokładnie o 5%"
+            },
+            {
+              "id": "D",
+              "text": "Jedna wyższa cena dowodzi ogólnej inflacji"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Koszyk drożeje o 5%; pojedyncze ceny i koszyki gospodarstw mogą się różnić. +25 lokalnych punktów.",
+          "retryMessage": "Inflacja dotyczy ogólnego wzrostu cen ważonego koszyka, nie jednej ceny. Tutaj (1 050 ÷ 1 000 − 1) × 100% = 5%; ta sama gotówka kupuje mniej tego koszyka. Gospodarstwa mają różne koszyki wydatków.",
+          "category": "Inflacja"
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "real-return",
+      "correct_answer": "D",
+      "reward": 30,
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "level": "calculate",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "source_ids": [
+        "ecb-basket",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Oblicz realną roczną stopę z nominalnej wartości i zmiany cen.",
+        "en": "Calculate one-year real return from nominal value and price change."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "nominal_return_percent": 2,
+        "inflation_percent": 5,
+        "years": 1,
+        "final_nominal_amount": 1020,
+        "final_real_amount_rounded": 971.43,
+        "real_return_percent_rounded": -2.86,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "additional_contributions": 0,
+        "withdrawals": 0,
+        "rates_are_hypothetical": true
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Dodanie 2% i 5% nie uwzględnia utraty siły nabywczej przez zmianę cen.",
+          "en": "Adding 2% and 5% does not account for purchasing-power loss from rising prices."
+        },
+        "B": {
+          "pl": "2% jest założoną zmianą nominalną; nie jest zmianą po uwzględnieniu inflacji.",
+          "en": "2% is the assumed nominal change, not the change after accounting for inflation."
+        },
+        "C": {
+          "pl": "Nominalne 2% nie równoważy wzrostu cen o 5%, więc realna zmiana nie jest zerowa.",
+          "en": "A 2% nominal change does not offset a 5% price rise, so real change is not zero."
+        }
+      },
+      "copy": {
+        "en": {
+          "id": "real-return",
+          "question": "For one year, assumed nominal return is 2% and inflation 5%, with no fees, tax or cash flows. What is real return?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "+7%"
+            },
+            {
+              "id": "B",
+              "text": "+2%"
+            },
+            {
+              "id": "C",
+              "text": "0%"
+            },
+            {
+              "id": "D",
+              "text": "Approximately −2.86%"
+            }
+          ],
+          "correctAnswer": "D",
+          "reward": 30,
+          "successMessage": "(1.02 ÷ 1.05 − 1) × 100% ≈ −2.86%. +30 local points.",
+          "retryMessage": "PLN 1,000 becomes PLN 1,020 nominally, but 1,020 ÷ 1.05 ≈ PLN 971.43 in starting prices. Real return is approximately −2.86%; 2% − 5% = −3% is only a subtraction estimate, with fees/tax and cash flows excluded.",
+          "category": "Inflation"
+        },
+        "pl": {
+          "id": "real-return",
+          "question": "Przez rok założony nominalny zwrot to 2%, a inflacja 5%, bez opłat, podatku i przepływów. Jaki jest realny zwrot?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "+7%"
+            },
+            {
+              "id": "B",
+              "text": "+2%"
+            },
+            {
+              "id": "C",
+              "text": "0%"
+            },
+            {
+              "id": "D",
+              "text": "Około −2,86%"
+            }
+          ],
+          "correctAnswer": "D",
+          "reward": 30,
+          "successMessage": "(1,02 ÷ 1,05 − 1) × 100% ≈ −2,86%. +30 lokalnych punktów.",
+          "retryMessage": "1 000 zł zmienia się nominalnie w 1 020 zł, lecz 1 020 ÷ 1,05 ≈ 971,43 zł w cenach początku przykładu. Realny zwrot to około −2,86%; 2% − 5% = −3% jest tylko przybliżeniem przez odejmowanie, bez opłat, podatku i przepływów.",
+          "category": "Inflacja"
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "rule-of-72",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "level": "estimate",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "source_ids": [
+        "sec-compound",
+        "nebraska-72"
+      ],
+      "objective": {
+        "pl": "Powiąż przybliżony czas podwojenia ze stałą dodatnią stopą i kapitalizacją.",
+        "en": "Relate approximate doubling time to a fixed positive rate and compounding."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "annual_nominal_return_percent": 6,
+        "rule_numerator": 72,
+        "estimated_years": 12,
+        "annual_compounding": true,
+        "reinvestment": true,
+        "constant_positive_rate": true,
+        "additional_contributions": 0,
+        "withdrawals": 0,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "inflation_ignored_for_nominal_example": true,
+        "rates_are_hypothetical": true
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Reguła dzieli 72 przez dodatnią roczną stopę; mnożenie daje zły czas i nie daje gwarancji.",
+          "en": "The rule divides 72 by the positive annual rate; multiplication gives the wrong time and no guarantee."
+        },
+        "C": {
+          "pl": "Odwrócenie dzielenia 6 ÷ 72 nie jest regułą 72; wynik nie jest gwarantowanym czasem.",
+          "en": "Reversing the division to 6 ÷ 72 is not Rule of 72, and the result is not a guaranteed time."
+        },
+        "D": {
+          "pl": "Około 12 lat jest przybliżeniem przy stałej dodatniej stopie i kapitalizacji, nie obietnicą przy zmiennych stopach.",
+          "en": "About 12 years is an estimate under a fixed positive rate and compounding, not a promise with changing rates."
+        }
+      },
+      "copy": {
+        "en": {
+          "id": "rule-of-72",
+          "question": "Assume a fixed 6% nominal rate, annual compounding and no fees, tax or cash flows. What does Rule of 72 estimate?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "432 years, a guaranteed result"
+            },
+            {
+              "id": "B",
+              "text": "About 12 years to double, without a guarantee"
+            },
+            {
+              "id": "C",
+              "text": "0.08 years, a guaranteed result"
+            },
+            {
+              "id": "D",
+              "text": "Exactly 12 years even if rates change"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "72 ÷ 6 ≈ 12 years is an estimate under the stated assumptions. +30 local points.",
+          "retryMessage": "Rule of 72 estimates nominal doubling: 72 ÷ a positive annual percentage rate. At an assumed fixed 6% with annual compounding/reinvestment and no cash flows, fees or tax, this is about 12 years. It is not an exact result, forecast or guarantee; inflation is excluded here.",
+          "category": "Inflation"
+        },
+        "pl": {
+          "id": "rule-of-72",
+          "question": "Załóż stałe nominalne 6%, roczną kapitalizację, brak opłat, podatku i przepływów. Co szacuje reguła 72?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "432 lata, gwarantowany wynik"
+            },
+            {
+              "id": "B",
+              "text": "Około 12 lat do podwojenia, bez gwarancji"
+            },
+            {
+              "id": "C",
+              "text": "0,08 roku, gwarantowany wynik"
+            },
+            {
+              "id": "D",
+              "text": "Dokładnie 12 lat nawet przy zmianach stopy"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "72 ÷ 6 ≈ 12 lat to przybliżenie przy podanych założeniach. +30 lokalnych punktów.",
+          "retryMessage": "Reguła 72 szacuje nominalne podwojenie: 72 ÷ dodatnia roczna stopa w procentach. Przy założonych stałych 6%, rocznej kapitalizacji/reinwestowaniu i bez przepływów, opłat lub podatku wychodzi około 12 lat. To nie wynik dokładny, prognoza ani gwarancja; tutaj pomijamy inflację.",
+          "category": "Inflacja"
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "inflation-hedge",
+      "correct_answer": "C",
+      "reward": 25,
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "level": "evaluate",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "source_ids": [
+        "knf-risk",
+        "sec-risk"
+      ],
+      "objective": {
+        "pl": "Zakwestionuj gwarancję pokonania inflacji i oceń ryzyko oraz potrzeby.",
+        "en": "Question a promise to beat inflation and assess risks and necessary spending."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "final_nominal_amount": 900,
+        "nominal_loss": 100,
+        "nominal_loss_percent": 10,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "example_is_hypothetical_not_product": true
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Dobry wynik z przeszłości nie dowodzi przyszłego zysku lub gwarantowanego pokonania inflacji.",
+          "en": "A good past result does not establish future profit or a guarantee of beating inflation."
+        },
+        "B": {
+          "pl": "Pieniądze potrzebne na niezbędne rachunki nie stają się bezpieczne przez obietnicę inwestycji.",
+          "en": "Money needed for essential bills does not become safe because of an investment promise."
+        },
+        "D": {
+          "pl": "Długi okres sam nie usuwa ryzyka straty; koszty, dostęp i wynik pozostają niepewne.",
+          "en": "A long period alone does not remove loss risk; costs, access and outcomes remain uncertain."
+        }
+      },
+      "copy": {
+        "en": {
+          "id": "inflation-hedge",
+          "question": "Someone says an investment will always beat inflation. Which response is justified?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Treat good past returns as a guarantee"
+            },
+            {
+              "id": "B",
+              "text": "Invest essential bill money to avoid inflation"
+            },
+            {
+              "id": "C",
+              "text": "Check loss risk, costs and access; gains are not guaranteed"
+            },
+            {
+              "id": "D",
+              "text": "A long holding period removes all loss risk"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Assess risk, costs and access before trusting a promise. +25 local points.",
+          "retryMessage": "No investment automatically guarantees beating inflation. Check possible loss, costs and access to money. Past results and a long holding period are not guarantees. Protect essentials and required minimum repayments; postponing investment is an option when income varies.",
+          "category": "Inflation"
+        },
+        "pl": {
+          "id": "inflation-hedge",
+          "question": "Ktoś zapewnia, że inwestycja zawsze pokona inflację. Która odpowiedź jest uzasadniona?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Uznaj dobre dawne wyniki za gwarancję"
+            },
+            {
+              "id": "B",
+              "text": "Zainwestuj środki na niezbędne rachunki"
+            },
+            {
+              "id": "C",
+              "text": "Sprawdź ryzyko straty, koszty i dostęp; zysk nie jest pewny"
+            },
+            {
+              "id": "D",
+              "text": "Długi okres usuwa całe ryzyko straty"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Oceń ryzyko, koszty i dostęp przed przyjęciem obietnicy. +25 lokalnych punktów.",
+          "retryMessage": "Żadna inwestycja automatycznie nie gwarantuje pokonania inflacji. Sprawdź możliwość straty, koszty i dostęp do pieniędzy. Dawne wyniki i długi czas nie są gwarancją. Chroń niezbędne wydatki i wymagane minimalne spłaty; przy zmiennych dochodach możesz odłożyć inwestowanie.",
+          "category": "Inflacja"
+        }
+      },
+      "version": "inflation-pl-en-v1",
+      "created_date": "2026-10-15"
+    }
+  ]
+}

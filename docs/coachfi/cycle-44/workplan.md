@@ -1,0 +1,11 @@
+# C44 — nazwa z niepełnym UTF16 nie blokuje budowania linku quizu
+
+Początkowy status SOURCE_ONLY_PENDING_ACTUAL_BASELINE. C43 typeofguard nie zmienia stringów. Aktywny QuizPageContent buduje jeszcze ukryty shareURL przez encodeURIComponent(myName); samotny surrogate w syntetycznym JSON profilu może wywołać URIError już w renderze. Wymagany nowy actualparent baseline, bez przenoszenia C43wrongtype wyniku.
+
+Root jedyny autor app/quiz/page.tsx i narzędzi. daily_data_review:16normatywnych actualparent cases PL/EN i niezależny design/source/retest. daily_ui_review:6Chrome/config, niezależny source/tools/ledgerQA. Root+2, rozłączne pliki; autor nie zatwierdza własnej zmiany. Zależności: C40jednokrotne dekodowanie i C43name-type guard pozostają chronione.
+
+Rezultat po reprodukcji: natywne URLSearchParams serializuje from i String(myScore); obie istniejące gałęzie serwer-relative/client-absolute używają tej samej query. NativeUSVString zastępuje tylko niesparowane surrogate w wartości URL, bez mutacji nazwy/rawprofilu. Zdrowe zdekodowane from/score zgodne; bytesformencoding mogą używać+zamiast%20. Bez nowej punktacji, walidacji/autentyczności linku, copy, przechowywanych pól lub aktywacji odroczonegoAchievement/Web3.
+
+Gates: fixtures/designpeer → actualbaseline16 → minimalny shareURLblock → niezależne sourcepeery → te same16 →24dotknięte historyczneSSR(18C40+6C43) → standaloneTS → jeden hash-verified build →6Chrome na tej samej builtTEMPkopii. Jeśli fixture wywołuje actual onComplete na zwróconym elemencie, to jawny syntheticcallback contract do ujawnienia SocialShareprops, nie wynik prawdziwych odpowiedzi/award PASS. Brak ręcznego podstawiania quizDone/helper/URL. Chrome prawdziwy shell/QuizCard4radio/Spacebezsubmit/reload,rawprofile+5progress/125tokens/API0/pageErrors0; bez widocznego localname oracla.
+
+534oldinputs533literalne+qualifiedappquiz.3nowe źródła test/config dają537/536snapshot.88historycznych unique source/tools zachować w before; current87literalnych+1jawniekwalifikowanyappquiz. Oryginalne tuple/receipts nie są przepisywane. Bez commit/push/deploy, zapisów/migracji produkcyjnych, realnych sesji/profili/sekretów, paidcalls/kontaktu. AI/cloudwrites hardOFF. Bez readback/CAS/rollback/realAuth/RLS/staging/CI/freshcheckout/produkcjaPASS.

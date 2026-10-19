@@ -1,0 +1,41 @@
+{
+  "cycle": 66,
+  "at": "2026-10-19T03:38:51.684Z",
+  "status": "SOURCE_ONLY_DAYS_BASELINE_PENDING",
+  "problem": "With valid price249, changing purchase days30 to blank currently coerces it to0 and reopens return. Preserve default3, distinguish unknown and explicit0.",
+  "owner": "/root/c49_advisories",
+  "fixtureOwner": "/root/c49_validation",
+  "independentReviewer": "/root/c49_dependency_review",
+  "rootOwner": "execution tools, report and metadata",
+  "productFiles": [
+    "app/shopping/page.tsx"
+  ],
+  "fixtureFiles": [
+    "tests/cycle66-shopping-days.test.ts",
+    "tests/e2e/cycle66-shopping-days.spec.ts",
+    "playwright.cycle66.config.ts"
+  ],
+  "sourceProposalOnlyUntil": "Actual Node/native baseline plus independent source/fixture/tool review",
+  "preserve": "C64audit/C65price helper/COPY9/default3/valid calculation/count otherfields/Math.round60/PLN formatting/rawownership/Git boundaries",
+  "baselineNative": "Reuse C65 verified built TEMP; no green rerun. New native2 PLEN counterexample.",
+  "acceptance": "Same fresh fixtures after patch; targeted C65 price/unused 6 historic groups selected, 6 numericdays-prop legacy expectations intentionally unselected. Exactly one TS and fresh TEMP build unless a new failure justifies repair.",
+  "legacyTool01": "C65original guard retained byte-literal with separate strict admission. C66 must check actual assertion status=skipped AND exact count/literal titles/order, avoiding prior pending filter/vacuous every.",
+  "correctionBeforeProposal": "Initial coordinator default30 was an orientation mistake; actual default3 is preserved,30 is closed-return sequence control. Authors/reviewer notified before any proposal/product/baseline.",
+  "dependency": "C50known deferral/B10 remain open; no duplicate polling/unsupported closure.",
+  "boundaries": {
+    "production": "NO_GO",
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF",
+    "push": false,
+    "deploy": false,
+    "realdata": false,
+    "paidCalls": false
+  },
+  "skills": [
+    "coachfi-orchestration",
+    "coachfi-data-integrity",
+    "coachfi-frontend-quality",
+    "coachfi-localization",
+    "coachfi-financial-review"
+  ]
+}

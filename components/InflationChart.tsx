@@ -4,31 +4,24 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis
 } from "recharts";
 
+import { useMemo } from "react";
+
 import { pickLocalized, type LocalizedMap, type Locale } from "@/lib/i18n";
 import type { InflationScenario } from "@/lib/inflation";
-import { formatCurrency } from "@/lib/utils";
+import { formatInflationMoney, getInflationCopy } from "@/lib/inflation-copy";
 
 const chartCopy: LocalizedMap<
   { aria: string; cash: string; habit: string; investing: string }
 > = {
-  pl: {
-    aria: "Wykres liniowy porównujący samą gotówkę, nawyk oszczędzania i scenariusz długoterminowego inwestowania.",
-    cash: "Sama gotówka",
-    habit: "Nawyk oszczędzania",
-    investing: "Scenariusz długoterminowy",
-  },
-  en: {
-    aria: "Line chart comparing cash only, saving habit and long-term investing scenario.",
-    cash: "Cash only",
-    habit: "Saving habit",
-    investing: "Long-term investing scenario",
-  },
+  pl: getInflationCopy("pl").chartLabels,
+  en: getInflationCopy("en").chartLabels,
   ja: {
     aria: "現金のみ、貯蓄習慣、長期投資シナリオを比較する折れ線グラフ。",
     cash: "現金のみ",
@@ -78,36 +71,38 @@ export function InflationChart({
   currency = "PLN",
   locale = "pl"
 }: {
-  data: InflationScenario[];
+  data: readonly InflationScenario[];
   currency?: string;
   locale?: Locale;
 }) {
   const copy = pickLocalized(chartCopy, locale);
+  const chartData = useMemo(() => data.map((row) => ({ ...row })), [data]);
 
   return (
     <div
-      className="h-80 w-full"
+      className="h-96 w-full min-w-0"
       role="img"
       aria-label={copy.aria}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ left: 0, right: 16, top: 10, bottom: 0 }}>
+        <LineChart data={chartData} margin={{ left: 0, right: 16, top: 10, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--cf-border-subtle)" />
-          <XAxis dataKey="year" tick={{ fill: "var(--cf-text-muted)", fontSize: 12 }} />
+          <XAxis dataKey="year" tick={{ fill: "var(--cf-text-muted)", fontSize: 12 }} tickFormatter={(year) => locale === "pl" ? "Rok " + String(year).slice(1) : locale === "en" ? "Year " + String(year).slice(1) : String(year)} />
           <YAxis
             tick={{ fill: "var(--cf-text-muted)", fontSize: 12 }}
-            tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`}
+            tickFormatter={(value) => new Intl.NumberFormat(locale, { notation: "compact", maximumSignificantDigits: 3 }).format(Number(value))}
           />
-          <Tooltip formatter={(value) => formatCurrency(Number(value), currency, locale)} />
-          <Line type="monotone" dataKey="Cash only" name={copy.cash} stroke="var(--cf-chart-3)" strokeWidth={3} dot={false} />
-          <Line type="monotone" dataKey="Saving habit" name={copy.habit} stroke="var(--cf-chart-highlight)" strokeWidth={3} dot={false} />
+          <Tooltip formatter={(value) => formatInflationMoney(Number(value), currency, locale)} />
+          <Legend />
+          <Line type="monotone" dataKey="Cash only" name={copy.cash} stroke="var(--cf-chart-3)" strokeWidth={3} dot={data.length === 1} />
+          <Line type="monotone" dataKey="Saving habit" name={copy.habit} stroke="var(--cf-chart-highlight)" strokeWidth={3} dot={data.length === 1} />
           <Line
             type="monotone"
             dataKey="Long-term investing scenario"
             name={copy.investing}
             stroke="var(--cf-chart-1)"
             strokeWidth={3}
-            dot={false}
+            dot={data.length === 1}
           />
         </LineChart>
       </ResponsiveContainer>

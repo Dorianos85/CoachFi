@@ -1,0 +1,15 @@
+# C25 independent final ledger QA
+
+**ACCEPTED_LIMITED_LOCAL_FINAL_LEDGER_QA_ROUTINE_COMPLETION_AUTHORIZED** — daily_ui_review, zero open findings. This accepts the bounded root integration/ledger; the reviewer's UI/E2E fixtures have separate root peers.
+
+Raw baseline12=5PASS/7FAIL is retained. The first post-source12/12 comprises5finance+7UI; the same12identities and all7failed names were checked. Six soft UI messages are not six cases. Five baselinePASS were legitimately covered again after actual source changes; greenRepeats0 means no unjustified repeats.
+
+Separately,31distinct historical cases passed in six runs2/1/4/8/8/8 with14pins/zero drift;142cases were unselected. Independent peers preserve515expect expressions and six whole describe regions. No43new/global-regression claim. TS0/13pins. Chrome4/4single/retry-skip-flaky0 has four actual JSON attachments exactly matching the summary, API0/pageErrors0, mobile375keyboard/reflow,60question points125→185/SRS2Jan2 and invalidstep3/2preservation. Final Storage instrumentation resets on reload; no-write scope is threeprogresskeys. Port43191before/after0.
+
+Fresh TEMP build generated34/34static pages with35route entries,421preflight/420postflight inputs and zero drift. Independent read-only checks confirm420current+420copied hashes. Frozen15code+8tools match; prior413inputs comprise403literal and10explicit qualified paths. Five previous helpers, package/lock and C24receipt remain literal. Oneguard2112tracked/1688text/1skip/0findings; working/cached scoped checks0,22scopes, path digest cba03f47….
+
+C25-TOOLS-01 was closed statically before execution in independent review ea050868…. C25-LEDGER-01, identified by root, is closed after reading the corrected current-cycle a4c3c0e9… and its exact reanchored plan. Current sevenmetadata/tworoles/sources/pointer are consistent. Both backlogs prepare retirement while preserving six accepted modules; the exact routine adds retirement as seventh and clears prepared. The next existing adult-bank question poland-compound-gap remains a source candidate; family-plan stays deferred.
+
+Pre-QA **e89bb6068a4ce4c3cf92041988ff572bbb2990057a52eda1c7bdfa3dd24f6415** pins the authorized seven-record/22scope plan. All before and derived after hashes were checked. Frozen make31689ed6/finalizefd89aa68 retain the accepted failclosed scope: verify pins/branch/head/pathset, promote exactly seven existing records, stage22existing scopes, Git-clean index checks preserving raw runtime SHA, metadata scoped checks0/selected unstaged0, then write the existing receipt and separate pointer. Receipt pins literal QA/MD and sevenpre/finalmetadata SHAs. This QA/MD stays literal; no new paths, source edits or runtime/gate repeats are authorized.
+
+Production **NO-GO**. No new Auth/provider/RLS/staging/CI/fresh-checkout/real-audio/production acceptance, paidAIcalls or deployment; no durable exactly-once/recovery promise. Historical SRS does not establish understanding of the new text. Full hashes, limits and the exact plan are in final-ledger-qa.json.

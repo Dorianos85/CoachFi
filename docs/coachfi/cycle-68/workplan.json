@@ -1,0 +1,51 @@
+{
+  "cycle": 68,
+  "status": "AUTHORIZED_LOCAL_TEST_COMPATIBILITY_AND_ONE_FRESH_INVENTORY",
+  "problem": "Six historical assertion groups assume numeric inputprops after accepted rawstring product contracts. Retire temporary representation skips without weakening oracles; then identify actual fullsuite state once.",
+  "owner": "/root",
+  "fixtureAuthor": "/root/c49_advisories",
+  "primaryReviewer": "/root/c49_dependency_review",
+  "safetyAndBoundedOutcomeReviewer": "/root/c49_validation",
+  "dependencies": [
+    {
+      "path": "evidence/cycle-67/closure.json",
+      "sha256": "63aeb3ecec8117b7685f5a4b41ff8e81f449b7156bb1cf66d0c249fe3317e16f"
+    },
+    {
+      "path": "evidence/cycle-67/queue-triage.json",
+      "sha256": "40866c3fc87c084a18ab5afa87c3aae8c6a63da32010be0ed0248cb12db76b40"
+    }
+  ],
+  "files": {
+    "author": [
+      "tests/cycle64-shopping-audit.test.ts",
+      "tests/cycle65-shopping-price.test.ts",
+      "tests/cycle66-shopping-days.test.ts"
+    ],
+    "root": [
+      "evidence/cycle-68/before.json",
+      "future reviewed execution tools",
+      "future actual raw receipts and metadata"
+    ],
+    "reviewers": [
+      "evidence/cycle-68/review.json",
+      "docs/coachfi/cycle-68/review.md",
+      "evidence/cycle-68/suite-safety-review.json",
+      "future separate bounded outcome/ledger evidence"
+    ]
+  },
+  "criteria": [
+    "Exact fullBefore/After/inverse at six assertion-time String adapters; retain raw observation representations and all other financial/refusal/storage/voice/title/emulator bytes.",
+    "Execute baseline only twelve selected candidate cases, archive real failures; other listedcases explicitly unselected.",
+    "Independent code/oracle/tool peer before execution and author apply; restoredthreefixtures38cases no skips after apply.",
+    "One fresh broad vitest inventory under reviewed synthetic/noenv/noactualnetwork boundary; retain all failures separately, no forcedgreen reruns.",
+    "No unnecessary build/native; unchanged application prior TS/build remain historical, no new production claim.",
+    "Final independent source/raw/report/plan review then actual postwrite review; author not ownapprover."
+  ],
+  "boundaries": {
+    "production": "NO_GO",
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF",
+    "realSDKInitialized": false
+  }
+}

@@ -1,3 +1,4 @@
+import { assertCurrentPersonalStorage, captureCurrentPersonalStorage, type PersonalStorageHandle } from "@/lib/product-storage";
 export interface ChallengeQuestion {
   id: string;
   question: string;
@@ -9,266 +10,506 @@ export interface ChallengeQuestion {
 
 export const challengeQuestions: ChallengeQuestion[] = [
   {
-    id: "c1",
-    question: "What is the 50/30/20 budget rule?",
-    answers: [
-      { id: "A", text: "50% savings, 30% needs, 20% wants" },
-      { id: "B", text: "50% needs, 30% wants, 20% savings" },
-      { id: "C", text: "50% debt repayment, 30% food, 20% fun" },
-      { id: "D", text: "50% income tax, 30% rent, 20% food" },
+    "id": "c1",
+    "question": "How should 50/30/20 be understood as a flexible guide for take-home income?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "50% savings, 30% needs, 20% wants"
+      },
+      {
+        "id": "B",
+        "text": "50% needs, 30% wants, 20% savings and debt payments"
+      },
+      {
+        "id": "C",
+        "text": "Always save 20%, even at the expense of essential bills"
+      },
+      {
+        "id": "D",
+        "text": "Borrow in order to save exactly 20%"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "50% for needs (rent, food), 30% for wants (entertainment), 20% for savings and debt repayment. Simple and effective.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "50/30/20 is an illustrative split of take-home income that can be adapted. First protect essential needs and required minimum repayments; do not count the same payment twice. Adjust amounts when income varies. Without a surplus, do not force 20% saving.",
+    "reward": 50
   },
   {
-    id: "c2",
-    question: "What is compound interest?",
-    answers: [
-      { id: "A", text: "Interest paid only on the original amount" },
-      { id: "B", text: "A bank fee for early withdrawal" },
-      { id: "C", text: "Interest earned on both principal and previously earned interest" },
-      { id: "D", text: "Interest you pay on credit cards only" },
+    "id": "c2",
+    "question": "Model: PLN 1,000, a constant hypothetical 5% a year, annual compounding, interest retained. No contributions, withdrawals, fees or tax; inflation ignored. Nominal balance after 2 years?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "PLN 1,000"
+      },
+      {
+        "id": "B",
+        "text": "PLN 1,100"
+      },
+      {
+        "id": "C",
+        "text": "PLN 1,102.50"
+      },
+      {
+        "id": "D",
+        "text": "PLN 2,000"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Compound interest means you earn interest on your interest — over time this creates exponential growth. Einstein reportedly called it the 8th wonder of the world.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "Compounding adds interest on retained earlier interest. In the model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. The positive result depends on the assumed 5%, not time alone. This is a hypothetical calculation, with no guarantee of actual gains; investments can lose value.",
+    "reward": 50
   },
   {
-    id: "c3",
-    question: "What does 'diversification' mean in investing?",
-    answers: [
-      { id: "A", text: "Putting all your money in one strong stock" },
-      { id: "B", text: "Spreading investments across different assets to reduce risk" },
-      { id: "C", text: "Investing only in government bonds" },
-      { id: "D", text: "Changing your portfolio every week" },
+    "id": "c3",
+    "question": "Which statement describes diversification and its limit?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Everything in one strong company"
+      },
+      {
+        "id": "B",
+        "text": "Different assets can reduce concentration; losses remain possible"
+      },
+      {
+        "id": "C",
+        "text": "One bond removes every risk"
+      },
+      {
+        "id": "D",
+        "text": "Frequent trades guarantee protection from a decline"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Don't put all your eggs in one basket. Diversification reduces the risk that one bad investment destroys your entire portfolio.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "Diversification spreads exposure across different assets and can reduce concentration risk. It does not remove market risk or guarantee avoiding losses. Different fund names may hide similar holdings; check holdings, risk and costs. No purchase is required.",
+    "reward": 50
   },
   {
-    id: "c4",
-    question: "What is a 'debt avalanche' strategy?",
-    answers: [
-      { id: "A", text: "Taking new loans to pay old loans" },
-      { id: "B", text: "Paying off smallest debts first regardless of interest rate" },
-      { id: "C", text: "Paying off highest-interest debts first to minimize total interest" },
-      { id: "D", text: "Ignoring debt until it grows" },
+    "id": "c4",
+    "question": "How does a debt avalanche work once essentials and all required minimum repayments are covered?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Finances every extra payment with a new loan"
+      },
+      {
+        "id": "B",
+        "text": "Always starts with the smallest balance"
+      },
+      {
+        "id": "C",
+        "text": "Puts an available extra payment toward the highest-rate debt"
+      },
+      {
+        "id": "D",
+        "text": "Skips required payments on other debts"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Debt avalanche = attack the highest interest rate first. It saves the most money mathematically. Contrast with 'debt snowball' which targets smallest balances for motivation.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "An avalanche puts available extra money toward the highest rate after essentials and every debt minimum. With fixed rates and no extra fees, it can reduce interest. Check fees and consequences of arrears; without a surplus, do not force an extra payment. It does not guarantee the lowest total cost under all conditions.",
+    "reward": 50
   },
   {
-    id: "c5",
-    question: "What is the real return on your savings if inflation is 5% and your bank gives 2%?",
-    answers: [
-      { id: "A", text: "+7%" },
-      { id: "B", text: "+2%" },
-      { id: "C", text: "0%" },
-      { id: "D", text: "-3%" },
+    "id": "c5",
+    "question": "Hypothetical: nominal return +2% and inflation 5% over the same year, no fees or tax. What is the rounded real return?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "+7%"
+      },
+      {
+        "id": "B",
+        "text": "+2%"
+      },
+      {
+        "id": "C",
+        "text": "0%"
+      },
+      {
+        "id": "D",
+        "text": "About −2.86%"
+      }
     ],
-    correctAnswer: "D",
-    explanation: "Real return = nominal rate − inflation = 2% − 5% = −3%. Your money is losing purchasing power even with a 2% savings account.",
-    reward: 50,
+    "correctAnswer": "D",
+    "explanation": "The exact relation is (1.02 ÷1.05 −1) × 100% ≈ −2.86%. Subtracting 2% −5% =−3% is an approximation. Initial PLN 1,000 becomes nominal PLN 1,020, or about PLN 971.43 in initial prices. The model uses the same year and no fees or tax; it is not a current offer.",
+    "reward": 50
   },
   {
-    id: "c6",
-    question: "Which type of fund tracks a market index automatically with low fees?",
-    answers: [
-      { id: "A", text: "Hedge fund" },
-      { id: "B", text: "Index fund / ETF" },
-      { id: "C", text: "Venture capital fund" },
-      { id: "D", text: "Pension fund" },
+    "id": "c6",
+    "question": "Which statement about funds is correct?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Every ETF always tracks an index"
+      },
+      {
+        "id": "B",
+        "text": "An index fund tracks an index; an ETF can be indexed or active"
+      },
+      {
+        "id": "C",
+        "text": "Every index fund is the cheapest"
+      },
+      {
+        "id": "D",
+        "text": "Every ETF guarantees beating the market"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Index funds and ETFs passively track a market index (like S&P 500). They have very low fees and historically outperform most actively managed funds.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "An index fund aims to track an index. An ETF is an exchange-traded fund structure; it can be indexed or active. Neither label guarantees low costs, beating the market or avoiding losses. Check the objective, holdings, risk and all costs. You do not have to invest.",
+    "reward": 50
   },
   {
-    id: "c7",
-    question: "What is dollar-cost averaging (DCA)?",
-    answers: [
-      { id: "A", text: "Buying all at the market low" },
-      { id: "B", text: "Selling everything when prices drop" },
-      { id: "C", text: "Investing a fixed amount at regular intervals regardless of price" },
-      { id: "D", text: "Converting all savings to USD" },
+    "id": "c7",
+    "question": "Which statement describes DCA?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Investing the whole amount only at the lowest price"
+      },
+      {
+        "id": "B",
+        "text": "Selling everything after every decline"
+      },
+      {
+        "id": "C",
+        "text": "An equal amount at regular intervals, regardless of price"
+      },
+      {
+        "id": "D",
+        "text": "Converting savings into dollars"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "DCA means investing the same fixed amount every month, regardless of price. You buy more when prices are low and less when high — removing emotion from investing.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "DCA uses an equal amount at regular intervals; a lower price buys more units. It guarantees neither profit nor protection from loss and does not automatically remove emotions. With no fees or tax: PLN 100 at 10 and PLN 100 at 20 buys 15 units. At 8 they are worth PLN 120 versus PLN 200 contributed. Contributions are optional, after essentials and required minimum repayments.",
+    "reward": 50
   },
   {
-    id: "c8",
-    question: "What is the 'rule of 72'?",
-    answers: [
-      { id: "A", text: "You need 72 months to pay off any debt" },
-      { id: "B", text: "Divide 72 by annual return rate to estimate how many years to double your money" },
-      { id: "C", text: "Save 72% of your income" },
-      { id: "D", text: "Retire at 72 to maximize pension" },
+    "id": "c8",
+    "question": "Rule 72: a hypothetical constant positive 8% nominal annual rate, annual compounding, no contributions, withdrawals, fees or tax; inflation ignored. What doubling-time estimate does the rule give?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "About 6 years"
+      },
+      {
+        "id": "B",
+        "text": "About 9 years"
+      },
+      {
+        "id": "C",
+        "text": "About 72 years"
+      },
+      {
+        "id": "D",
+        "text": "Exactly 9 years for every investment"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "72 ÷ annual return % = years to double your money. At 8% return, your money doubles in ~9 years. At 6%, ~12 years. A quick mental math trick.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "72 ÷8 ≈ 9 years is an approximation, not an exact date. In the model, 1,000 × 1.08⁹ ≈ PLN 1,999.00; after 10 annual credits it exceeds PLN 2,000. A constant positive 8% is an assumption, not a forecast. Actual rates may change and investments can lose value. This nominal model excludes cash flows, fees, tax and inflation.",
+    "reward": 50
   },
   {
-    id: "c9",
-    question: "What is an ETF?",
-    answers: [
-      { id: "A", text: "A savings account with higher interest" },
-      { id: "B", text: "An electronic transfer fee" },
-      { id: "C", text: "Exchange-Traded Fund — a basket of assets traded like a stock" },
-      { id: "D", text: "A government emergency fund" },
+    "id": "c9",
+    "question": "What is an ETF?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "A deposit guaranteeing a stated interest payment"
+      },
+      {
+        "id": "B",
+        "text": "An electronic transfer fee"
+      },
+      {
+        "id": "C",
+        "text": "An exchange-traded fund, indexed or actively managed"
+      },
+      {
+        "id": "D",
+        "text": "A government emergency reserve"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "ETFs bundle many assets (stocks, bonds, commodities) into one tradeable instrument. They combine diversification of a mutual fund with the flexibility of a stock.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "An ETF is an exchange-traded fund. It may track an index or be actively managed. Diversification depends on actual holdings; a narrow-sector fund can be concentrated. The label guarantees neither low costs nor freedom from loss. Check objectives, holdings, risks and costs; no purchase is required.",
+    "reward": 50
   },
   {
-    id: "c10",
-    question: "Which is NOT a characteristic of a good emergency fund?",
-    answers: [
-      { id: "A", text: "Easily accessible (liquid)" },
-      { id: "B", text: "Covers 3–6 months of expenses" },
-      { id: "C", text: "Invested in high-risk stocks for maximum growth" },
-      { id: "D", text: "Kept separate from everyday spending account" },
+    "id": "c10",
+    "question": "Which choice does NOT fit the purpose of an emergency reserve?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Ready access for an unexpected expense"
+      },
+      {
+        "id": "B",
+        "text": "A situation-based goal and small achievable start"
+      },
+      {
+        "id": "C",
+        "text": "High-risk stocks solely for maximum growth"
+      },
+      {
+        "id": "D",
+        "text": "Keeping the reserve separate from everyday spending"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "An emergency fund should be liquid and safe — NOT invested in volatile assets. Its purpose is accessibility when emergencies strike, not growth.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "A reserve aims to make funds accessible for unexpected needs with limited risk, rather than maximize returns. Keep it separate from everyday spending. Size depends on circumstances;3–6 months is an optional guide, not a duty or guarantee. Start voluntarily after essentials and required minimum repayments; without a surplus, pause contributions.",
+    "reward": 50
   },
   {
-    id: "c11",
-    question: "What happens to bond prices when interest rates rise?",
-    answers: [
-      { id: "A", text: "Bond prices rise" },
-      { id: "B", text: "Bond prices fall" },
-      { id: "C", text: "No change" },
-      { id: "D", text: "Bond prices double" },
+    "id": "c11",
+    "question": "What generally happens to an existing fixed-coupon bond’s secondary-market price when comparable market yields rise and all other conditions stay equal?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "The price rises"
+      },
+      {
+        "id": "B",
+        "text": "The price falls"
+      },
+      {
+        "id": "C",
+        "text": "The price always equals face value"
+      },
+      {
+        "id": "D",
+        "text": "The price must double"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Bonds and interest rates move inversely. When rates rise, existing bonds with lower rates become less attractive, so their market price falls.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "With fixed cash flows and all else equal, a higher market yield means a lower secondary-market price. The agreed coupon does not rise automatically. A sale price before maturity differs from contractual payments. Repayment also depends on the issuer’s ability to pay; default and liquidity risk remain.",
+    "reward": 50
   },
   {
-    id: "c12",
-    question: "What is 'lifestyle inflation'?",
-    answers: [
-      { id: "A", text: "Government increasing minimum wage" },
-      { id: "B", text: "Prices rising faster than salaries" },
-      { id: "C", text: "Spending more as you earn more, leaving savings unchanged" },
-      { id: "D", text: "Inflating your lifestyle on your resume" },
+    "id": "c12",
+    "question": "Hypothetically, monthly income rises by PLN 200 and discretionary spending by PLN 180; essentials and required minimum repayments are unchanged. How much does the surplus rise?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "PLN 200"
+      },
+      {
+        "id": "B",
+        "text": "PLN 180"
+      },
+      {
+        "id": "C",
+        "text": "PLN 20"
+      },
+      {
+        "id": "D",
+        "text": "It can never change"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Lifestyle inflation (also called lifestyle creep) means every salary raise gets consumed by new expenses. The antidote: save the raise before you get used to the extra income.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "200 − 180 = PLN 20 of extra monthly surplus. Discretionary spending rising with income illustrates lifestyle inflation, distinct from rising prices and necessary costs. Not every pay rise must be saved. Adapt the plan to essentials, required minimum repayments, goals and variable income; this is not a judgment of the person.",
+    "reward": 50
   },
   {
-    id: "c13",
-    question: "What is the primary purpose of a pension/retirement account?",
-    answers: [
-      { id: "A", text: "To pay for vacations" },
-      { id: "B", text: "To replace income when you stop working, using decades of compounding" },
-      { id: "C", text: "To speculate on high-risk assets" },
-      { id: "D", text: "To store emergency cash" },
+    "id": "c13",
+    "question": "What is the main purpose of long-term retirement planning?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Guaranteed doubling of every balance"
+      },
+      {
+        "id": "B",
+        "text": "Preparing resources for future needs when work changes or ends"
+      },
+      {
+        "id": "C",
+        "text": "Replacing an emergency reserve with a risky investment"
+      },
+      {
+        "id": "D",
+        "text": "A certain tax benefit for every payment and every account"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Retirement accounts are long-term vehicles. Contributions grow tax-advantaged over decades. Time is your biggest asset — starting at 25 vs 35 can mean 2× the final balance.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "Planning helps prepare resources for future needs but guarantees neither full income replacement nor profit. A retirement goal alone does not give every account a tax benefit. Essentials, required minimum repayments and reserves come before optional investment. Adjust or pause contributions when income varies.",
+    "reward": 50
   },
   {
-    id: "c14",
-    question: "What does 'net worth' mean?",
-    answers: [
-      { id: "A", text: "Your monthly salary after tax" },
-      { id: "B", text: "Total assets minus total liabilities" },
-      { id: "C", text: "How much cash you have in your wallet" },
-      { id: "D", text: "Your credit score" },
+    "id": "c14",
+    "question": "Hypothetically on a given date: assets PLN 50,000 and liabilities PLN 20,000. What is net worth?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "PLN 70,000"
+      },
+      {
+        "id": "B",
+        "text": "PLN 30,000"
+      },
+      {
+        "id": "C",
+        "text": "PLN 50,000"
+      },
+      {
+        "id": "D",
+        "text": "Monthly salary"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Net worth = all you own (assets) minus all you owe (liabilities). A positive and growing net worth is the real measure of financial health — more meaningful than income alone.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "Net worth =assets −liabilities:50,000 − 20,000 = PLN 30,000 on that date. It is a wealth snapshot, not monthly income and expense flows or available cash. It does not define overall financial well-being or a person’s worth. Valuations and liabilities may change.",
+    "reward": 50
   },
 
   // ── Poland Financial Literacy (OECD/INFE source) ─────────────────────────
   {
-    id: "c15",
-    question: "According to OECD data, what percentage of Poles correctly understand compound interest?",
-    answers: [
-      { id: "A", text: "About 75%" },
-      { id: "B", text: "About 50%" },
-      { id: "C", text: "About 33%" },
-      { id: "D", text: "About 10%" },
+    "id": "c15",
+    "question": "Hypothetical month: PLN 100 remains after essentials and required repayments; no other funds are available. A new payment is PLN 150. What does the budget show?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Knowing compound interest covers the missing PLN 50"
+      },
+      {
+        "id": "B",
+        "text": "An unconfirmed pay rise guarantees repayment"
+      },
+      {
+        "id": "C",
+        "text": "PLN 50 is missing; check costs and affordability before deciding"
+      },
+      {
+        "id": "D",
+        "text": "Borrow PLN 50 and assume the budget is unchanged"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Only ~1 in 3 Poles understands compound interest in practice. This is the #1 knowledge gap — it leads to debt spirals and explains why only 47% of employees join voluntary PPK/PPE pension schemes.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "100 − 150 = −PLN 50. Essentials and existing required repayments have already been deducted once in this example. Knowing compound interest alone does not provide income or ensure repayment. Before a new commitment, check full costs, dates and a realistic budget; allow for fluctuations with variable income. Another loan does not prove that this payment is covered by the stated budget.",
+    "reward": 50
   },
   {
-    id: "c16",
-    question: "What percentage of Poles trusted financial institutions for savings in 2022?",
-    answers: [
-      { id: "A", text: "65%" },
-      { id: "B", text: "40%" },
-      { id: "C", text: "28%" },
-      { id: "D", text: "15%" },
+    "id": "c16",
+    "question": "Which checklist is most complete when comparing surveys of trust in financial institutions?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Only the publication headline"
+      },
+      {
+        "id": "B",
+        "text": "Only the year, without sample information"
+      },
+      {
+        "id": "C",
+        "text": "The number of likes on the publication"
+      },
+      {
+        "id": "D",
+        "text": "Year, sample, question wording and measurement method"
+      }
     ],
-    correctAnswer: "D",
-    explanation: "Only 15% of Poles trusted financial institutions in 2022 — and it dropped to just 6% in 2021. This trust deficit is a major barrier to financial participation and long-term wealth building.",
-    reward: 50,
+    "correctAnswer": "D",
+    "explanation": "Check who was surveyed, when, what was asked and how the result was calculated. Different questions or samples limit comparability. Declared trust is not a certificate that a particular institution is safe or proof of an effect on wealth.",
+    "reward": 50
   },
   {
-    id: "c17",
-    question: "Poland scored 13/21 on OECD Financial Competency. What does the missing score represent?",
-    answers: [
-      { id: "A", text: "Nothing significant — 13/21 is excellent" },
-      { id: "B", text: "Lost opportunities for wealth accumulation and lack of financial preparedness" },
-      { id: "C", text: "A language barrier in the OECD test" },
-      { id: "D", text: "Low bank account ownership" },
+    "id": "c17",
+    "question": "Exercise: a made-up 0–21-point scale gives a score of 13. What does the gap to the maximum mean?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "8 lost opportunities for profit"
+      },
+      {
+        "id": "B",
+        "text": "8 points under the chosen scoring key, not a wealth diagnosis"
+      },
+      {
+        "id": "C",
+        "text": "8 months without money"
+      },
+      {
+        "id": "D",
+        "text": "8 people without an account"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "Poland's 13/21 score places it middle-of-the-pack. The missing 8 points represent concrete lost opportunities: less effective use of capital markets, lower emergency fund rates, and greater vulnerability to economic shocks.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "21 − 13 = 8 points in this exercise. This made-up scale is not the current OECD scale; points are not a count of questions. Points alone prove neither behaviour, debt, resilience nor the causes of difficulties. Survey results need a year, sample, questions and scoring key; measurement versions can differ.",
+    "reward": 50
   },
   {
-    id: "c18",
-    question: "Nearly half of Poles report that their finances control their life. What is the recommended mindset shift?",
-    answers: [
-      { id: "A", text: "Earn more money at all costs" },
-      { id: "B", text: "Avoid thinking about money to reduce stress" },
-      { id: "C", text: "Restore a sense of personal agency — treat money as a tool, not a source of stress" },
-      { id: "D", text: "Let a financial advisor handle everything" },
+    "id": "c18",
+    "question": "Exercise: this month, PLN 50 remains after essential needs and required minimum repayments. Which step is voluntary and fits within that amount?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Borrow PLN 100 to make a compulsory saving of 100"
+      },
+      {
+        "id": "B",
+        "text": "Skip a required repayment"
+      },
+      {
+        "id": "C",
+        "text": "Choose PLN 10 for a reserve and leave PLN 40"
+      },
+      {
+        "id": "D",
+        "text": "Assume a small transfer will remove all stress"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Short-term thinking is a psychological defense when people feel no agency. Financial education must restore this sense of control — transforming money from a source of stress into a tool for empowerment.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "50 − 10 = PLN 40 in the same month; essentials and required repayments were already counted once. A small step is an option, not a duty or a guarantee of no stress. Without a surplus, pause contributions; do not borrow to save. When income varies, return to the plan and adjust the amount.",
+    "reward": 50
   },
   {
-    id: "c19",
-    question: "Which Polish concept describes an emergency financial cushion?",
-    answers: [
-      { id: "A", text: "Kapitał własny" },
-      { id: "B", text: "Poduszka finansowa" },
-      { id: "C", text: "Rezerwa walutowa" },
-      { id: "D", text: "Dywidenda bezpieczeństwa" },
+    "id": "c19",
+    "question": "Which Polish term means money set aside for unexpected, unplanned expenses?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Pay for current work"
+      },
+      {
+        "id": "B",
+        "text": "Poduszka finansowa (emergency reserve)"
+      },
+      {
+        "id": "C",
+        "text": "A required loan to fund savings"
+      },
+      {
+        "id": "D",
+        "text": "A certain investment profit"
+      }
     ],
-    correctAnswer: "B",
-    explanation: "'Poduszka finansowa' (financial cushion/pillow) is the Polish term for an emergency fund. It's a core component of financial well-being — providing a safety net to absorb unexpected shocks without resorting to high-interest borrowing.",
-    reward: 50,
+    "correctAnswer": "B",
+    "explanation": "An emergency reserve is kept separately for unexpected expenses. Adapt the goal to your circumstances; a small start is voluntary, with no single mandatory threshold. First protect essential needs and required minimum repayments; without a surplus, pause contributions. Check access and risk; a reserve cannot automatically cover every event.",
+    "reward": 50
   },
   {
-    id: "c20",
-    question: "The OECD found that only 26.9% of Poles reach the minimum target financial attitude score. What does 'financial attitude' measure?",
-    answers: [
-      { id: "A", text: "How many financial products someone owns" },
-      { id: "B", text: "Income level and savings rate" },
-      { id: "C", text: "Whether someone plans for the future vs. lives only for the present" },
-      { id: "D", text: "Level of trust in banks" },
+    "id": "c20",
+    "question": "What do attitudes towards money describe in a survey?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "The number of products owned"
+      },
+      {
+        "id": "B",
+        "text": "Income level and wealth"
+      },
+      {
+        "id": "C",
+        "text": "Stated views on spending, saving and the future"
+      },
+      {
+        "id": "D",
+        "text": "Guaranteed repayment capacity"
+      }
     ],
-    correctAnswer: "C",
-    explanation: "Financial attitude measures orientation toward future planning vs. present-only thinking. Poland's 26.9% reaching the minimum is roughly half the OECD average — reflecting a systemic culture of short-term financial thinking.",
-    reward: 50,
+    "correctAnswer": "C",
+    "explanation": "These are stated views, such as spending today versus saving for the future. They are not a knowledge test or a full measure of behaviour or financial circumstances. Stated views alone prove neither the cause of difficulties nor a future outcome. Income and essential costs also shape possibilities; avoid judging the person.",
+    "reward": 50
   },
 ];
 
@@ -288,10 +529,10 @@ export function getSecondsUntilMidnight(): number {
 
 const CHALLENGE_KEY = "coachfi-challenge";
 
-export function isChallengeCompletedToday(): boolean {
+export function isChallengeCompletedToday(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): boolean {
   if (typeof window === "undefined") return false;
   try {
-    const raw = localStorage.getItem(CHALLENGE_KEY);
+    const raw = storage.getItem(CHALLENGE_KEY);
     if (!raw) return false;
     const { date } = JSON.parse(raw) as { date: string };
     return date === new Date().toISOString().split("T")[0];
@@ -300,8 +541,8 @@ export function isChallengeCompletedToday(): boolean {
   }
 }
 
-export function markChallengeCompleted(): void {
-  if (typeof window === "undefined") return;
+export function markChallengeCompleted(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): void {
+  assertCurrentPersonalStorage(storage);
   const today = new Date().toISOString().split("T")[0];
-  localStorage.setItem(CHALLENGE_KEY, JSON.stringify({ date: today }));
+  if (!storage.setItem(CHALLENGE_KEY, JSON.stringify({ date: today }))) throw new Error("Storage session changed");
 }

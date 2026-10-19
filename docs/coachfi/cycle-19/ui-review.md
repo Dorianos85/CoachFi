@@ -1,0 +1,21 @@
+# C19 — niezależna recenzja QuizCard i rzeczywistego rodzica
+
+15.10.2026. **Ograniczona actual UI akceptacja25odrębnych przypadków:24PASS + wcześniejszy targeted1PASS.** Nie było pojedynczego own25run. Parent1 miał1PASS/20unselected na fixture21; później24PASS/1unselected na fixture25, dokładnie ten jużzielony parent1 pominięty. Oba przebiegi mają16before/afterSHA bez różnic na tych samych QuizCard8d1088c4, parent1f40652b i helper635db2ba. Root pełne gates oraz Chrome pozostają osobnym zadaniem.
+
+Baseline przed źródłami zachowano: actual QuizCard3PASS/7FAIL/10 oraz później parent0PASS/1FAIL/10unselected. Wszystkie structured snapshots zebrano w pierwszych verbose+JSON runach; bez baseline rerunów. Dziesięć pierwotnych bodies/orakli pozostało literalnie; dopisano parent1,10acceptance i4availability. Root niezależnie przeczytał pełne dodatki i forward/inverse chain6b32→fb2f→49bf→23eb; brak złagodzenia orakli.
+
+- C19-UI-01 zamknięty: malformed initial i latecorruption nie nadpisują historii ani nie przyznają reward/feedback. Stary komponent tworzył jedną nową kartę i token150.
+- C19-UI-02 zamknięty: non-array JSON daje controlled unavailable state zamiast uncaught filter crash.
+- C19-UI-03 zamknięty: native ignore/readback mismatch nie publikuje success ani nagrody.
+- C19-UI-04 zamknięty: partial token150 pozostaje niepewnym zapisem; locale i remount tego samego owner revision nie dają replay175.
+- C19-UI-05 zamknięty: unavailable parentrefresh zachowuje lastknown125 zamiast fake0; nieprawidłowy initialread nie pokazuje numericcard, brak klucza daje zgodny z istniejącym kontraktem125. Potwierdzony późniejszy zapis usuwa unavailable label.
+
+Actual parent i child wykonano wspólnie na persistent hook sequence. PL/EN ścieżka potwierdza preferred bundle, bez uruchomienia fallback onReward, oraz kolejność award→receipt150→activity→confirmed165. Streakcontext jest mockowanym callbackiem wykonującym rzeczywiste getStreak/markActiveToday/reachedMilestone/addTokens; to dowód realnych helperów i actual parent balance165, a nie test prawdziwego StreakProvider. Fallback onReward(amount) jest nadal kalibrowany pierwotnymi healthy przypadkami z rzeczywistym25reward. Wrong/retry, stale callbacks, owner/unmount, duplicateNext i completion/restart mają osobne actual próby. Nie zastąpiono ProductScopeBoundary kontrfaktycznym testem izolowanego parenta.
+
+Niezależnie odtworzono sześć finalnych parentdelt i exactinverse966→1f406. Odczyt jest walidowany na jednym snapshot; status rozdziela unreadable balance i znany ostatni odczyt. Parent czyści solved/completion przy failure bez naprawy danych. Raw pierwszego displayed0 i oba modes pozostają w dowodach. Wpierw failing assertion i późniejsza telemetry mają jawne granice; nie twierdzimy, że nieosiągnięte asercje wykonano.
+
+E2E8 gotowe:PL/EN × realprovider165/mobile, malformed readonlyretry/locale/reload, deniedbalance125→confirmed150 bez bonusu, partial150/locale/clientside NextLink remount. Częściowy case wymaga niezmienionego document marker; nie używa fullreload do orzeczenia no-replay. Fullreload służy wyłącznie zachowaniu nieprawidłowych danych odczytu. Cztery jawne klucze postępu i checkpoint po inicjalizacji, APIabort i finalne0API/pageErrors. E2E czeka na niezależny rootreview i Chrome; niczego nie uruchamiałem sam.
+
+To ograniczone lokalne synthetic testy rzeczywistych funkcji. Hooki/konteksty i cloudcallbacks są mockowane; realny guest storage/SRS/tokens, fetchtrap i puste env providerów. Nie zmieniono treści, banku, nagród, etapów lub voicepolicy; brak finansowej akceptacji nowego modułu. Brak gwarancji durable recovery/rollback/exactly-once across documents/tabs, staging/Auth/RLS/CI/freshcheckout lub produkcyjnegoPASS. C18 source/review pozostaje zachowany.
+
+[Finalne dowody i fingerprinty](../../../evidence/cycle-19/ui-review-final.json), [pełny baseline](../../../evidence/cycle-19/ui-review-baseline.json), [raw24](../../../evidence/cycle-19/ui-review-acceptance-tests.json), [raw targetedparent1](../../../evidence/cycle-19/ui-review-parent-retest-tests.json), [peer fixture review](../../../evidence/cycle-19/ui-fixture-peer-review.json), [pełny E2E source](../../../evidence/cycle-19/ui-review-e2e-source.json).

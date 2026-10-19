@@ -1,5 +1,5 @@
 import { persistLearningState } from "@/lib/account-sync";
-import { isProgressVisible } from "@/lib/progress-visibility";
+import { assertCurrentPersonalStorage, captureCurrentPersonalStorage, type PersonalStorageHandle } from "@/lib/product-storage";
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
 const STREAK_KEY = "coachfi-streak";
@@ -28,17 +28,27 @@ function dayGap(fromStr: string, toStr: string): number {
   return Math.round((to - from) / 86_400_000);
 }
 
-export function getStreak(): StreakData {
-  if (typeof window === "undefined" || !isProgressVisible()) {
-    return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
-  }
+export type StreakReadState =
+  | { status: "available"; data: StreakData }
+  | { status: "unavailable"; data: null };
+
+/** A failed read remains unknown; it is never evidence of an empty streak. */
+export function readStreakState(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): StreakReadState {
   try {
-    const stored = localStorage.getItem(STREAK_KEY);
-    if (!stored) return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
-    return JSON.parse(stored) as StreakData;
+    if (typeof window === "undefined" || storage.isCurrent() !== true) {
+      return { status: "unavailable", data: null };
+    }
+    const data = readStreakForWrite(storage, today());
+    if (storage.isCurrent() !== true) return { status: "unavailable", data: null };
+    return { status: "available", data };
   } catch {
-    return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+    return { status: "unavailable", data: null };
   }
+}
+
+/** Legacy fallback shape; callers needing availability must use readStreakState. */
+export function getStreak(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): StreakData {
+  return readStreakState(storage).data ?? { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
 }
 
 /**
@@ -60,14 +70,68 @@ export function computeStreak(data: StreakData, todayStr: string): StreakData {
   };
 }
 
-export function markActiveToday(): StreakData {
-  const data = getStreak();
-  const next = computeStreak(data, today());
-  if (next === data) return data; // already counted today
-  localStorage.setItem(STREAK_KEY, JSON.stringify(next));
+/** Shared read admission; callers choose fallback display or strict mutation errors. */
+function readStreakForWrite(storage: PersonalStorageHandle, todayStr: string): StreakData {
+  const raw = storage.getItem(STREAK_KEY);
+  assertCurrentPersonalStorage(storage);
+  if (raw === null) return { lastActiveDate: "", currentStreak: 0, longestStreak: 0 };
+  if (typeof raw !== "string") throw new Error("Stored streak is malformed");
+  const value: unknown = JSON.parse(raw);
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("Stored streak is malformed");
+  }
+  const data = value as Record<string, unknown>;
+  if (!["lastActiveDate", "currentStreak", "longestStreak"].every((key) => Object.prototype.hasOwnProperty.call(data, key))) {
+    throw new Error("Stored streak is malformed");
+  }
+  const { lastActiveDate, currentStreak, longestStreak } = data;
+  if (typeof lastActiveDate !== "string" ||
+      typeof currentStreak !== "number" || !Number.isSafeInteger(currentStreak) || currentStreak < 0 ||
+      typeof longestStreak !== "number" || !Number.isSafeInteger(longestStreak) || longestStreak < currentStreak) {
+    throw new Error("Stored streak is malformed");
+  }
+  if (lastActiveDate === "") {
+    // This is the existing initial StreakData convention, not a repaired cache.
+    if (currentStreak !== 0 || longestStreak !== 0) throw new Error("Stored streak is malformed");
+  } else {
+    const timestamp = Date.parse(lastActiveDate + "T00:00:00Z");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(lastActiveDate) || !Number.isFinite(timestamp) ||
+        new Date(timestamp).toISOString().slice(0, 10) !== lastActiveDate || lastActiveDate > todayStr) {
+      throw new Error("Stored streak is malformed");
+    }
+  }
+  // Spread retains unknown own JSON members, including an own __proto__ key.
+  return { ...data, lastActiveDate, currentStreak, longestStreak };
+}
+
+/** Local synchronous outcome of the existing writer, not a durable storage acknowledgement. */
+export interface StreakActivityReceipt {
+  readonly data: StreakData;
+  readonly advanced: boolean;
+}
+
+export function markActiveTodayWithReceipt(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): StreakActivityReceipt {
+  assertCurrentPersonalStorage(storage);
+  const todayStr = today();
+  const data = readStreakForWrite(storage, todayStr);
+  const computed = computeStreak(data, todayStr);
+  if (computed === data) return { data, advanced: false }; // already counted today, retain exact stored bytes
+  if (!Number.isSafeInteger(computed.currentStreak) || computed.currentStreak < 0 ||
+      !Number.isSafeInteger(computed.longestStreak) || computed.longestStreak < computed.currentStreak) {
+    throw new Error("Streak would exceed the safe integer range");
+  }
+  const next = { ...data, ...computed };
+  assertCurrentPersonalStorage(storage);
+  if (!storage.setItem(STREAK_KEY, JSON.stringify(next))) throw new Error("Storage session changed");
+  assertCurrentPersonalStorage(storage);
   notifyCloud("streak");
-  persistLearningState("streak");
-  return next;
+  assertCurrentPersonalStorage(storage);
+  persistLearningState("streak", storage);
+  return { data: next, advanced: true };
+}
+
+export function markActiveToday(storage: PersonalStorageHandle = captureCurrentPersonalStorage()): StreakData {
+  return markActiveTodayWithReceipt(storage).data;
 }
 
 export function isStreakAtRisk(): boolean {

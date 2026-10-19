@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "module": "emergency-first-milestone",
+  "version": "emergency-first-milestone-pl-en-v1-c23-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "jurisdiction": "Poland; EN is a language, not a new market",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "C23_DRAFT_READY_PENDING_FRESH_BASELINE_AND_INDEPENDENT_FINANCIAL_REVIEW",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 1,
+  "language_versions": 2,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_added": 0,
+  "canonical_union_count_unchanged": 82,
+  "reward_total": 25,
+  "stage_membership": [],
+  "unchanged_C17": {
+    "stage": "emergency-fund",
+    "question_ids": [
+      "emergency-fund",
+      "emergency-fund-characteristics",
+      "emergency-fund-start"
+    ],
+    "keys": [
+      "C",
+      "C",
+      "B"
+    ],
+    "rewards": [
+      25,
+      25,
+      20
+    ],
+    "reward_total": 70,
+    "steps_per_language": 3
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending fresh independent draft review"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending fresh actualcomponent baseline/acceptance"
+    }
+  },
+  "sources": [
+    {
+      "id": "cfpb-emergency",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary full-page web read by author in C23, not only C17/C18 reuse.",
+      "page_last_modified": "2025-10-29",
+      "country_application": "General educational principle applied to a hypothetical Polish/PLN exercise; no USA law, product, tax or account recommendation.",
+      "supports": "An emergency reserve goal depends on circumstances; a small achievable start and adapting to variable cash flow can be appropriate.",
+      "limits": "Does not establish a mandatory first month or quantify a promised reduction in arrears. Needs/minimum-first, no borrowing to save and all PLN numbers are explicit Coachfi exercise assumptions."
+    }
+  ],
+  "steps": [],
+  "questions": [
+    {
+      "id": "emergency-first-milestone",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "level": "apply",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "C23_draft_pending_independent_financial_review",
+      "version": "emergency-first-milestone-pl-en-v1-c23-draft",
+      "created_date": "2026-10-15",
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "objective": {
+        "pl": "Odróżnij osiągalny dobrowolny mały start od obowiązkowego miesiąca i oszczędzania kosztem potrzeb.",
+        "en": "Distinguish an achievable optional small start from a required month or saving at the expense of essentials."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "hypothetical_income": 1200,
+        "essential_costs_excluding_debt_minimums": 1080,
+        "required_minimum_repayments": 100,
+        "other_required_costs": 0,
+        "available_surplus": 20,
+        "optional_chosen_transfer": 5,
+        "uncommitted_surplus_left": 15,
+        "fees_assumed": 0,
+        "interest_assumed": 0,
+        "needs_and_all_required_minimums_reserved_first": true,
+        "minimums_counted_once": true,
+        "goal_is_achievable_optional_and_situation_dependent": true,
+        "one_month_not_required_first_threshold": true,
+        "transfer_required": false,
+        "no_surplus_transfer": 0,
+        "borrow_to_save": 0,
+        "no_guaranteed_time_or_bill_delinquency_effect": true,
+        "no_actual_household_data": true,
+        "time_period": "One hypothetical budget period; every inflow/cost/transfer refers to that same period, not a claim about typical monthly Polish costs."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Miesiąc kosztów może być wybranym celem, ale nie jest wymaganym pierwszym progiem; nie trzeba zebrać go naraz.",
+          "en": "One month of costs may be a chosen goal, but is not a required first threshold and need not be saved all at once."
+        },
+        "C": {
+          "pl": "Nowa pożyczka dodaje zobowiązanie. Ten krok korzysta wyłącznie z dostępnej nadwyżki po potrzebach i minimum, bez zadłużania się na oszczędzanie.",
+          "en": "A new loan adds a liability. This step uses only available surplus after essentials and minimums, without borrowing to save."
+        },
+        "D": {
+          "pl": "Przelanie całego dochodu przed rachunkami narusza warunek ochrony potrzeb i wymaganych minimalnych spłat.",
+          "en": "Transferring all income before bills violates the condition of protecting essentials and required minimum repayments."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "emergency-first-milestone",
+          "question": "Po zabezpieczeniu podstawowych potrzeb i wymaganych minimalnych spłat zostaje 20 zł nadwyżki. Który mały pierwszy krok jest dobrowolną opcją w tym przykładzie?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Obowiązkowo odłożyć miesiąc kosztów naraz"
+            },
+            {
+              "id": "B",
+              "text": "Wybrać np. 5 zł; przy braku nadwyżki zrobić pauzę"
+            },
+            {
+              "id": "C",
+              "text": "Pożyczyć 100 zł na założenie rezerwy"
+            },
+            {
+              "id": "D",
+              "text": "Przelać cały dochód przed opłaceniem rachunków"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Mały osiągalny cel jest dobrowolny i korzysta z dostępnej nadwyżki. +25 lokalnych punktów.",
+          "retryMessage": "Przykładowy budżet: 1 200 zł wpływu − 1 080 zł potrzeb − 100 zł wymaganych minimalnych spłat = 20 zł nadwyżki, bez innych kosztów lub opłat. Dobrowolne 5 zł zostawia 15 zł; przelew nie jest wymagany. Cel dopasuj do sytuacji, bez obowiązkowego miesiąca na start. Przy braku nadwyżki zrób pauzę; nie pożyczaj na oszczędzanie.",
+          "category": "Fundusz awaryjny"
+        },
+        "en": {
+          "id": "emergency-first-milestone",
+          "question": "After covering essentials and all required minimum repayments, PLN 20 remains. Which small first step is an optional choice in this example?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Save a full month of costs at once as a requirement"
+            },
+            {
+              "id": "B",
+              "text": "Choose e.g. PLN 5; pause if there is no surplus"
+            },
+            {
+              "id": "C",
+              "text": "Borrow PLN 100 to start a reserve"
+            },
+            {
+              "id": "D",
+              "text": "Transfer all income before paying bills"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "A small achievable goal is optional and uses available surplus. +25 local points.",
+          "retryMessage": "Example budget: PLN 1,200 income − PLN 1,080 essentials − PLN 100 required minimums = PLN 20 surplus, with no other costs or fees. An optional PLN 5 leaves PLN 15; no transfer is required. Adapt the goal to circumstances without requiring a full month at the start. Without surplus, pause; do not borrow to save.",
+          "category": "Emergency Fund"
+        }
+      }
+    }
+  ],
+  "review_scenarios_not_additional_quiz_items": [
+    {
+      "income": 1200,
+      "essentials": 1080,
+      "minimums": 100,
+      "other_required_costs": 0,
+      "raw_surplus": 20,
+      "chosen_transfer": 5
+    },
+    {
+      "income": 1180,
+      "essentials": 1080,
+      "minimums": 100,
+      "other_required_costs": 0,
+      "raw_surplus": 0,
+      "chosen_transfer": 0
+    },
+    {
+      "income": 1170,
+      "essentials": 1080,
+      "minimums": 100,
+      "other_required_costs": 0,
+      "raw_surplus": -10,
+      "chosen_transfer": 0
+    }
+  ],
+  "voice_checks": {
+    "status": "Static whole draft question plus four labelled answers; not actual UI/audio verification",
+    "maximum": 347,
+    "cases": [
+      {
+        "id": "emergency-first-milestone",
+        "locale": "pl",
+        "text": "Po zabezpieczeniu podstawowych potrzeb i wymaganych minimalnych spłat zostaje 20 zł nadwyżki. Który mały pierwszy krok jest dobrowolną opcją w tym przykładzie? A. Obowiązkowo odłożyć miesiąc kosztów naraz B. Wybrać np. 5 zł; przy braku nadwyżki zrobić pauzę C. Pożyczyć 100 zł na założenie rezerwy D. Przelać cały dochód przed opłaceniem rachunków",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 347,
+        "unicode_code_points": 347,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-first-milestone",
+        "locale": "en",
+        "text": "After covering essentials and all required minimum repayments, PLN 20 remains. Which small first step is an optional choice in this example? A. Save a full month of costs at once as a requirement B. Choose e.g. PLN 5; pause if there is no surplus C. Borrow PLN 100 to start a reserve D. Transfer all income before paying bills",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 326,
+        "unicode_code_points": 326,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "dataflow_limits": {
+    "canonical_PL_EN_available": true,
+    "default_plain_PL_EN_contains_target": false,
+    "stage_membership": [],
+    "new_quiz_route_added": false,
+    "review_question_reward_not_directly_awarded": true,
+    "review_uses_explanation_without_success_point_message": true,
+    "history_not_reset_or_relabelled_as_new_understanding": true,
+    "other_locale_EN_fallback": "Five canonical locales without explicit target translation can inherit EN fallback text; that is not independent localization acceptance or a new market. ES/FR explicit records remain literal."
+  },
+  "source_state_at_draft": {
+    "sourceHashes": {
+      "data/quizQuestions.ts": "3362f9efdf55a6dc5008643d0daa03f7af5efb6079745b666c63d9078cd19f50",
+      "lib/allQuestions.ts": "cf0d75a04f050da9464a1452f71653cf669c2a8c7bf432949caed30bb2f99e7f",
+      "lib/localizedQuiz.ts": "a85a1173d681bae61dc4836298c32b4254ea547e2e945b152d44cd7e0c5e9588"
+    },
+    "productEdits": 0
+  },
+  "out_of_scope": {
+    "written_locales": [
+      "es",
+      "fr",
+      "zh",
+      "ja",
+      "hi",
+      "pt-BR",
+      "tr"
+    ],
+    "existing_plain_ES_FR_records": "literal old records retained and unaccepted in C18; not translated or fixed",
+    "other_canonical_locale_EN_fallback": "may inherit EN wording later; not independent localization acceptance",
+    "product_files_retained": [
+      "data/stageLessons.ts",
+      "lib/localizedQuiz.ts",
+      "lib/quiz-topic.ts",
+      "app/review/page.tsx",
+      "lib/srs.ts"
+    ],
+    "old_helpers": [
+      "tests/cycle15-legacy-preservation.ts",
+      "tests/cycle16-legacy-preservation.ts",
+      "tests/cycle17-legacy-preservation.ts"
+    ],
+    "history_schema_points": "unchanged; no reinterpretation of old correct answer as proof of new comprehension"
+  },
+  "boundaries": [
+    "Only draft/inventory now; no source/test/helper or old proof changes.",
+    "No new questions, lessons, IDs, profile data, markets, products, paid calls, externalAI/cloud writes or deployment.",
+    "Possible independent Review integrity probes have their own priority and are not repaired or accepted by this content draft.",
+    "No scientific outcome claim, mandatory first month, borrowing to save, or transfer when no surplus."
+  ],
+  "cycle": 23,
+  "prior_deferred_proposal": {
+    "path": "docs/coachfi/cycle-18/content-metadata.json",
+    "sha256": "c3c7db4f21bcdeefb063095cf34fb92b9094ff98808fe3281f582fd42cfe2867",
+    "status": "DRAFT_DEFERRED_NOT_ACCEPTED_NO_IMPLEMENTATION",
+    "copy_reused_literal": true,
+    "critique": "The C18 wording is reused as a proposal only. Current source inventory, fresh actual UI/finance baseline and financial approval are still mandatory. The new source read independently supports only general principles, not the old quantitative delinquency claim."
+  },
+  "proposed_product_scope": {
+    "paths": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "source_nodes": 2,
+    "localizedQuiz": "No PL/EN target record exists here; explicit ES/FR and all7otherlocale source blocks must remain literal.",
+    "same_id": "emergency-first-milestone",
+    "same_key": "B",
+    "same_reward": 25,
+    "union_count": 82,
+    "no_new_default_pool_or_stage_membership": true
+  }
+}

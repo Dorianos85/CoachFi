@@ -1,0 +1,38 @@
+{
+  "cycle": "C73",
+  "at": "2026-10-19T09:03:14.114Z",
+  "before": {
+    "path": "evidence/cycle-73/before.json",
+    "sha256": "2080be5bfd633b7afdd8b98e3aafb0e3decb62b807a2170c9d96ab1ad01e3ec2"
+  },
+  "problem": "Current installed6.1.4 remains in upstream affected range; C72 finite consumer/security evidence supports controlled7.1.6 update with explicit consumer-scoped major override.",
+  "ownership": {
+    "A": [
+      "package.json",
+      "package-lock.json",
+      "node_modules/.package-lock.json",
+      "evidence/cycle-73/dependency-change.json"
+    ],
+    "root": [
+      "runtime37 backup/replacement and proofs",
+      "boundedtest/TS/build execution and raw",
+      "report/verification/metadata/closure"
+    ],
+    "primary": "Independent exactdependency/runtime/tools/source+actual/final review; ownreview files only",
+    "validation": "Independent test/build scope/read-only runtime receipt and finalrootdoc+ledger review; no application edits"
+  },
+  "acceptance": [
+    "Exact2 scopedoverrides preserve7existing; root/hidden lock only3parserfields change,607placements/noaddedremovednodes.",
+    "Verified candidate37 runtime bytes actually selected by both consumers; rollback37 and3fullbefore metadata retained.",
+    "Original C38 eightcontrols unchanged PASS on installed7.1.6; one TS and build actual output with isolated output/env and no externalAPI.",
+    "Independent review/retest of any findings; source/input/runtime drift mapped explicitly; index/HEAD/branch and40tasks preserved."
+  ],
+  "limits": [
+    "C72 quarantine matrix carried, not rerun; actualinstalledruntimeC38 is a changed-runtime retest.",
+    "No fullnormalunit green rerun unless concretefailure or concern.",
+    "No npm install/audit/lifecycle/provider calls; no cleaninstall/advisoryglobal/productionPASS."
+  ],
+  "production": "NO_GO",
+  "AI": "HARD_OFF",
+  "cloudWrites": "HARD_OFF"
+}

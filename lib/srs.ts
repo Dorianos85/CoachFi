@@ -1,4 +1,5 @@
 import { persistLearningState } from "@/lib/account-sync";
+import { assertCurrentPersonalStorage, captureCurrentPersonalStorage, type PersonalStorageHandle } from "@/lib/product-storage";
 
 // SM-2 spaced repetition algorithm (simplified, same core as Duolingo/Anki)
 
@@ -50,24 +51,27 @@ export function calculateNext(card: SRSCard, correct: boolean): SRSCard {
   return { ...card, interval, repetitions, easeFactor, nextReview: next.toISOString().split("T")[0] };
 }
 
-export function getAllCards(): SRSCard[] {
+export function getAllCards(storage?: PersonalStorageHandle): SRSCard[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(SRS_KEY);
+    const raw = (storage ?? captureCurrentPersonalStorage()).getItem(SRS_KEY);
     return raw ? (JSON.parse(raw) as SRSCard[]) : [];
   } catch { return []; }
 }
 
-export function saveCards(cards: SRSCard[]): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(SRS_KEY, JSON.stringify(cards));
+export function saveCards(cards: SRSCard[], storage = captureCurrentPersonalStorage()): void {
+  assertCurrentPersonalStorage(storage);
+  if (!storage.setItem(SRS_KEY, JSON.stringify(cards))) throw new Error("Storage session changed");
+  assertCurrentPersonalStorage(storage);
   notifyCloud("srs");
+  assertCurrentPersonalStorage(storage);
   window.dispatchEvent(new Event("coachfi-learning"));
-  persistLearningState("srs");
+  assertCurrentPersonalStorage(storage);
+  persistLearningState("srs", storage);
 }
 
-export function getCardById(id: string): SRSCard | undefined {
-  return getAllCards().find((c) => c.id === id);
+export function getCardById(id: string, storage?: PersonalStorageHandle): SRSCard | undefined {
+  return getAllCards(storage).find((c) => c.id === id);
 }
 
 function newCard(id: string): SRSCard {
@@ -75,9 +79,9 @@ function newCard(id: string): SRSCard {
 }
 
 // Returns IDs of questions that need review today (due or never seen)
-export function getDueIds(allIds: string[]): string[] {
+export function getDueIds(allIds: string[], storage?: PersonalStorageHandle): string[] {
   const t = today();
-  const cards = getAllCards();
+  const cards = getAllCards(storage);
   const allowedIds = new Set(allIds);
   const cardMap = new Map(cards.map((c) => [c.id, c]));
 
@@ -90,16 +94,17 @@ export function getDueIds(allIds: string[]): string[] {
   return combined;
 }
 
-export function getDueCount(allIds: string[]): number {
-  return getDueIds(allIds).length;
+export function getDueCount(allIds: string[], storage?: PersonalStorageHandle): number {
+  return getDueIds(allIds, storage).length;
 }
 
 // Record an answer; creates or updates SRS card
-export function recordAnswer(id: string, correct: boolean): SRSCard {
-  const cards = getAllCards();
+export function recordAnswer(id: string, correct: boolean, storage = captureCurrentPersonalStorage()): SRSCard {
+  assertCurrentPersonalStorage(storage);
+  const cards = getAllCards(storage);
   const existing = cards.find((c) => c.id === id) ?? newCard(id);
   const updated = calculateNext(existing, correct);
-  saveCards([...cards.filter((c) => c.id !== id), updated]);
+  saveCards([...cards.filter((c) => c.id !== id), updated], storage);
   return updated;
 }
 

@@ -1,0 +1,40 @@
+{
+  "cycle": 67,
+  "at": "2026-10-19T04:08:16.572Z",
+  "status": "SOURCE_ONLY_TWO_REMAINING_COUNT_BASELINE_PENDING",
+  "scope": "One boundedpacket for usedTimes and returnWindow only. Stop this shopping input sequence after these two knownfields.",
+  "basis": "C66followup535810 source-only: window14clear clamps1 ->return249becomessell149; controlledused2/need4/regret1/triggerneed41keep->clear0/55pause.",
+  "owner": "/root/c49_advisories",
+  "fixtureOwner": "/root/c49_validation",
+  "independentReviewer": "/root/c49_dependency_review",
+  "rootOwner": "5executiontools/report/metadata",
+  "productFiles": [
+    "app/shopping/page.tsx"
+  ],
+  "fixtures": [
+    "tests/cycle67-shopping-counts.test.ts",
+    "tests/e2e/cycle67-shopping-counts.spec.ts",
+    "playwright.cycle67.config.ts"
+  ],
+  "preserve": "Rawdefaultused0/window14, existingmin0/1, nointeger/max/legalrule. C64audit/C65price/helper/C66days/COPY9/validmath literal. All40task statuses/Git boundary preserved.",
+  "gate": "No productapply until actual Node/native baseline+independent source/fixture/tools peer; no acceptance until appliedsource/freezepeer.",
+  "checks": {
+    "newNodePlanned": 16,
+    "newNativePlanned": 2,
+    "legacyC66Selected": 8,
+    "legacyC66IntentionalSkip": 4,
+    "legacyReason": "Numericused/windowprops in default and unsupporteddays group perlocale replaced by new rawcontract. Exactstatus/count/fourliteralnames/full12order, oldfixture unchanged."
+  },
+  "nativeBaseline": "Reuse verified C66 TEMPpC2ylY585/584 plus only2newfixturecopies.",
+  "nativeCoverage": "fill/click/range Home End ArrowLeft/select/reload/mobile; not blanketkeyboard/AT/audio.",
+  "dependency": "C50deferral/B10 open withoutduplicatepoll/unsupportedclosure.",
+  "boundaries": {
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF",
+    "production": "NO_GO",
+    "push": false,
+    "deploy": false,
+    "realdata": false,
+    "paidCalls": false
+  }
+}

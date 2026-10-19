@@ -1,22 +1,24 @@
 "use client";
 
 import { Download, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { buildOwnedLocalDataExport, deleteLocalProductData } from "@/lib/data-export";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
-const COACHFI_PREFIX = "coachfi-";
 const COPY: LocalizedMap<{ title: string; body: string; export: string; delete: string }> = {
   en: {
     title: "Data control on this device",
-    body: "Coach FI stores most app state locally in the browser. You can export or delete local app data from this device.",
+    body: "Export selected data for the current guest or account, including the device language. Sign-in credentials and free-text names/goals are excluded. Delete removes this owner's local data only, preserving data outside this scope and device preferences. It does not delete your account or provider data. Signing in again may download earlier account data into an empty local view; new changes stay on this device.",
     export: "Export data",
     delete: "Delete local data",
   },
   pl: {
     title: "Kontrola danych na tym urządzeniu",
-    body: "Coach FI zapisuje większość stanu lokalnie w przeglądarce. Możesz wyeksportować lub usunąć lokalne dane aplikacji z tego urządzenia.",
+    body: "Eksportuj wybrane dane bieżącego gościa lub konta, w tym język urządzenia. Eksport pomija poświadczenia i tekstowe nazwy/cele. Usunięcie obejmuje tylko lokalne dane tego właściciela, zachowując dane poza tym zakresem i ustawienia urządzenia. Nie usuwa konta ani danych u dostawców. Ponowne logowanie może pobrać wcześniejsze dane konta do pustego lokalnego widoku; nowe zmiany pozostają na tym urządzeniu.",
     export: "Eksportuj dane",
     delete: "Usuń dane lokalne",
   },
@@ -64,58 +66,51 @@ const COPY: LocalizedMap<{ title: string; body: string; export: string; delete: 
   },
 };
 
-function collectStorage(storage: Storage) {
-  const data: Record<string, string> = {};
-  for (let index = 0; index < storage.length; index++) {
-    const key = storage.key(index);
-    if (key?.startsWith(COACHFI_PREFIX)) {
-      data[key] = storage.getItem(key) ?? "";
-    }
-  }
-  return data;
-}
-
 export function DataSafetyPanel() {
+  const { storage, sessionStorage } = useProductStorage();
   const { locale } = useLanguage();
   const copy = pickLocalized(COPY, locale);
+  const [error, setError] = useState(false);
 
   function exportData() {
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      localStorage: collectStorage(window.localStorage),
-      sessionStorage: collectStorage(window.sessionStorage),
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "coachfi-data-export.json";
-    link.click();
-    URL.revokeObjectURL(url);
+    setError(false);
+    try {
+      const payload = buildOwnedLocalDataExport(storage, sessionStorage);
+      if (!storage.isCurrent() || !sessionStorage.isCurrent()) throw new Error("Storage owner changed");
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      try {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "coachfi-data-export.json";
+        if (!storage.isCurrent() || !sessionStorage.isCurrent()) throw new Error("Storage owner changed");
+        link.click();
+      } finally { URL.revokeObjectURL(url); }
+    } catch { setError(true); }
   }
 
   function deleteLocalData() {
-    for (const storage of [window.localStorage, window.sessionStorage]) {
-      const keys = Array.from({ length: storage.length }, (_, index) => storage.key(index)).filter(
-        (key): key is string => !!key && key.startsWith(COACHFI_PREFIX)
-      );
-      keys.forEach((key) => storage.removeItem(key));
-    }
-    window.location.reload();
+    setError(false);
+    try {
+      if (!deleteLocalProductData(storage)) throw new Error("Storage owner changed");
+      window.location.reload();
+    } catch { setError(true); }
   }
 
   return (
     <div className="rounded-lg border border-primary/10 bg-white p-5 shadow-soft">
       <h2 className="text-xl font-black text-text">{copy.title}</h2>
       <p className="mt-2 text-sm leading-6 text-muted">{copy.body}</p>
+      <p className="mt-2 text-sm font-bold">{locale === "pl"
+        ? (storage.owner?.kind === "account" ? "Bieżący zakres: konto" : "Bieżący zakres: gość")
+        : (storage.owner?.kind === "account" ? "Current scope: account" : "Current scope: guest")}</p>
+      {error ? <p role="alert" className="mt-2 text-sm text-attention">{locale === "pl" ? "Nie udało się przetworzyć danych lokalnych. Spróbuj ponownie." : "Local data could not be processed. Please try again."}</p> : null}
       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-        <Button type="button" variant="outline" onClick={exportData}>
+        <Button type="button" variant="outline" onClick={exportData} disabled={!storage.isCurrent()}>
           <Download className="h-4 w-4" aria-hidden="true" />
           {copy.export}
         </Button>
-        <Button type="button" variant="outline" onClick={deleteLocalData}>
+        <Button type="button" variant="outline" onClick={deleteLocalData} disabled={!storage.isCurrent()}>
           <Trash2 className="h-4 w-4" aria-hidden="true" />
           {copy.delete}
         </Button>

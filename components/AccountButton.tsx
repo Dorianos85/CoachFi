@@ -40,7 +40,7 @@ const accountCopy: LocalizedMap<AccountCopy> = {
     signUp: "Create account",
     account: "Account",
     description:
-      "Signing in saves your progress in the cloud and syncs it across devices. Without an account the app keeps working locally.",
+      "Account data is currently read-only. New progress stays on this device; automatic sync is disabled. Earlier device-only progress is not imported automatically.",
     tabSignIn: "Sign in",
     tabSignUp: "Sign up",
     email: "Email",
@@ -57,7 +57,7 @@ const accountCopy: LocalizedMap<AccountCopy> = {
     signUp: "Załóż konto",
     account: "Konto",
     description:
-      "Logowanie zapisuje Twój postęp w chmurze i synchronizuje go między urządzeniami. Bez logowania aplikacja działa lokalnie jak dotychczas.",
+      "Dane konta są obecnie dostępne tylko do odczytu. Nowe postępy pozostają na tym urządzeniu; automatyczna synchronizacja jest wyłączona. Wcześniejszy lokalny postęp nie jest importowany automatycznie.",
     tabSignIn: "Logowanie",
     tabSignUp: "Rejestracja",
     email: "E-mail",
@@ -190,10 +190,19 @@ const accountCopy: LocalizedMap<AccountCopy> = {
 };
 
 export function AccountButton() {
-  const { configured, loading, user, signInWithPassword, signUp, signInWithMagicLink, signOut } =
+  const { configured, loading, user, signOutStatus, signInWithPassword, signUp, signInWithMagicLink, signOut } =
     useAuth();
   const { locale } = useLanguage();
   const copy = pickLocalized(accountCopy, locale);
+  const logoutCopy = locale === "pl" ? {
+    pending: "Trwa wylogowywanie...",
+    error: "Nie udało się potwierdzić wylogowania z usługi. Spróbuj ponownie.",
+    retry: "Spróbuj wylogować ponownie",
+  } : {
+    pending: "Signing out...",
+    error: "Sign-out from the service could not be confirmed. Try again.",
+    retry: "Retry sign-out",
+  };
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("signin");
   const [email, setEmail] = useState("");
@@ -236,6 +245,26 @@ export function AccountButton() {
     setBusy(false);
     if (err) setError(err);
     else setMessage(copy.magicSent);
+  }
+
+  if (signOutStatus === "pending" || signOutStatus === "error") {
+    return (
+      <div className="flex max-w-xs flex-col items-start gap-2">
+        {signOutStatus === "error" ? (
+          <p role="alert" className="text-sm font-bold text-attention">{logoutCopy.error}</p>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => void signOut()}
+          disabled={signOutStatus === "pending"}
+          aria-busy={signOutStatus === "pending" || undefined}
+          className="flex min-h-10 items-center gap-2 rounded-lg border border-primary/15 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+        >
+          <LogOut className="h-4 w-4 text-primary" aria-hidden="true" />
+          {signOutStatus === "pending" ? <span role="status">{logoutCopy.pending}</span> : logoutCopy.retry}
+        </button>
+      </div>
+    );
   }
 
   if (user) {

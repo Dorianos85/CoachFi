@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "cycle": 25,
+  "module": "retirement",
+  "version": "retirement-pl-en-v1-c25-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 2,
+  "language_versions": 4,
+  "lesson_steps_per_language": 2,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 60,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/stageLessons.ts",
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "lessonArrays": [
+      "retirement.copy.en.steps",
+      "retirement.copy.pl.steps"
+    ],
+    "existing_question_ids": [
+      "retirement-purpose",
+      "retirement-early-start"
+    ],
+    "localizedQuiz": "Both target IDs absent in all nine plain pools; source remains literal.",
+    "rootOwnedResolver": "lib/quiz-topic.ts canonical retirement branch after separate baseline/GO",
+    "protected": "All other records/locales/routes/chrome/keys/rewards and SRS history.",
+    "PLSuccess": "PL canonical has explanation only; copy.pl.successMessage equals retryMessage and creates no new field."
+  },
+  "sources": [
+    {
+      "id": "sec-goals",
+      "publisher": "SEC / Investor.gov",
+      "title": "Invest For Your Goals",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/invest-your-goals",
+      "checked_date": "2026-10-15",
+      "access": "Fresh full primary page read via public web tool, without session/account/calculator submission",
+      "limits": "General future-goal planning/affordability/risk only; no US account, product, contribution rule or tax imported."
+    },
+    {
+      "id": "sec-compound",
+      "publisher": "SEC / Investor.gov",
+      "title": "What is compound interest?",
+      "url": "https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/what-compound-interest",
+      "checked_date": "2026-10-15",
+      "access": "Fresh full primary page read via public web tool, without session/account/calculator submission",
+      "limits": "Universal compounding concept; Coachfi own hypothetical PLN illustration, not current rate or actual pension projection."
+    },
+    {
+      "id": "sec-allocation",
+      "publisher": "SEC / Investor.gov",
+      "title": "Asset Allocation and Diversification",
+      "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation",
+      "checked_date": "2026-10-15",
+      "access": "Fresh full primary page read via public web tool, without session/account/calculator submission",
+      "limits": "Goals, time horizon and capacity/willingness to bear loss; no individual portfolio recommendation."
+    },
+    {
+      "id": "knf-conscious",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "title": "Inwestuj świadomie!",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/inwestuj_swiadomie?articleId=70530&p_id=18",
+      "checked_date": "2026-10-15",
+      "access": "Fresh full primary page read via public web tool, without session/account/calculator submission",
+      "limits": "PL risk/cost/needed-money warnings; minimum-repayments/reserve/pause boundaries are Coachfi exercise design, not a legal obligation."
+    },
+    {
+      "id": "zus-forecast-limits",
+      "publisher": "Zakład Ubezpieczeń Społecznych",
+      "title": "Kalkulator emerytalny — prognozowana emerytura",
+      "url": "https://www.zus.pl/swiadczenia/emerytury/kalkulatory-emerytalne/emerytura-na-nowych-zasadach/kalkulator-emerytalny-prognozowana-emerytura",
+      "checked_date": "2026-10-15",
+      "access": "Fresh full primary page read via public web tool, without session/account/calculator submission",
+      "limits": "Only the distinction between a projection and an actual pension; no ZUS formula, pension age, entitlements, current amounts or tax rules imported; calculator not used and no personal inputs submitted."
+    }
+  ],
+  "steps": [
+    {
+      "question_id": "retirement-purpose",
+      "country": "PL",
+      "version": "retirement-pl-en-v1-c25-draft",
+      "created_date": "2026-10-15",
+      "source_ids": [
+        "sec-goals",
+        "sec-allocation",
+        "knf-conscious",
+        "zus-forecast-limits"
+      ],
+      "copy": {
+        "pl": {
+          "title": "Przyszłe potrzeby, nie obietnica konta",
+          "body": "Cel: zaplanuj środki na przyszłe potrzeby po zmianie lub zakończeniu pracy. Przykład: fikcyjna osoba spisuje przyszłe wydatki i możliwe źródła dochodu; plan nie obiecuje pełnego zastąpienia dzisiejszej pensji. Ćwiczenie: odróżnij pilny rachunek od wydatku w dalszej przyszłości. Opcjonalnie zapisz jedno pytanie na kartce, bez zakupu, otwierania konta lub podawania własnych danych. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze. Przy nieregularnym dochodzie bez nadwyżki możesz zrobić pauzę i wrócić spokojnie później."
+        },
+        "en": {
+          "title": "Future needs, not an account promise",
+          "body": "Goal: plan resources for future needs after work changes or ends. Example: a fictional person lists future expenses and possible income sources; the plan does not promise to replace today’s salary fully. Exercise: distinguish an urgent bill from an expense further in the future. Optionally write one question on paper, without buying anything, opening an account or giving personal details. Essentials, required minimum repayments and reserves come first. With irregular income and no surplus, you can pause and return calmly later."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "income_replacement_guaranteed": false,
+        "required_purchase": false,
+        "required_account": false,
+        "personal_data_collected": false
+      },
+      "optional_action_requires_purchase": false
+    },
+    {
+      "question_id": "retirement-early-start",
+      "country": "PL",
+      "version": "retirement-pl-en-v1-c25-draft",
+      "created_date": "2026-10-15",
+      "source_ids": [
+        "sec-compound",
+        "knf-conscious",
+        "zus-forecast-limits"
+      ],
+      "copy": {
+        "pl": {
+          "title": "Więcej czasu tylko w jawnym modelu",
+          "body": "Cel: odróżnij kapitalizację od pewnej prognozy. Przykład: jednorazowe 1 000 zł przy hipotetycznych stałych 5% rocznie i kapitalizacji rocznej daje 1 050 zł po roku i 1 102,50 zł po dwóch. Odsetki zostają; bez dopłat, wypłat, opłat i podatku, inflacja pominięta. Ćwiczenie: policz drugie odsetki, 52,50 zł. Więcej czasu pomaga tu dzięki założonej dodatniej stopie; rzeczywisty wynik nie jest gwarantowany i można stracić. To nie prognoza emerytury. Opcjonalnie przelicz model bez inwestowania. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki zrób pauzę i wróć później."
+        },
+        "en": {
+          "title": "More time only under stated assumptions",
+          "body": "Goal: distinguish compounding from a certain forecast. Example: PLN 1,000 once at a hypothetical constant 5% a year with annual compounding becomes PLN 1,050 after one year and PLN 1,102.50 after two. Interest stays; no later contributions, withdrawals, fees or tax, and inflation is ignored. Exercise: calculate the second interest payment, PLN 52.50. More time helps here because of the assumed positive rate; actual outcomes are not guaranteed and losses are possible. This is not a pension forecast. Optionally calculate without investing. Essentials, required minimum repayments and reserves come first; with irregular income and no surplus, pause and return later."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "annual_nominal_rate_percent": 5,
+        "rate_hypothetical_constant": true,
+        "compounding": "annual",
+        "interest_retained": true,
+        "years": 2,
+        "contributions_after_initial": 0,
+        "withdrawals": 0,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "inflation_ignored": true,
+        "year1_balance": 1050,
+        "year2_balance": 1102.5,
+        "year1_interest": 50,
+        "year2_interest": 52.5,
+        "amount_is_nominal": true,
+        "pension_forecast": false,
+        "product_offer": false,
+        "guaranteed_real_world_return": false
+      },
+      "optional_action_requires_purchase": false
+    }
+  ],
+  "questions": [
+    {
+      "id": "retirement-purpose",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "version": "retirement-pl-en-v1-c25-draft",
+      "created_date": "2026-10-15",
+      "author": "daily_author",
+      "reviewer": "daily_data_review (independent, pending)",
+      "objective": {
+        "pl": "Odróżnij plan przyszłych potrzeb od obietnicy pełnego zastąpienia dochodu lub konkretnego konta.",
+        "en": "Distinguish planning for future needs from a promise of complete income replacement or a particular account."
+      },
+      "source_ids": [
+        "sec-goals",
+        "sec-allocation",
+        "knf-conscious",
+        "zus-forecast-limits"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "income_replacement_guaranteed": false,
+        "required_purchase": false,
+        "required_account": false,
+        "personal_data_collected": false
+      },
+      "copy": {
+        "pl": {
+          "id": "retirement-purpose",
+          "question": "Jaki jest cel planowania finansów na emeryturę?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Pewność utrzymania każdego dzisiejszego dochodu"
+            },
+            {
+              "id": "B",
+              "text": "Przygotowanie środków na przyszłe potrzeby po zmianie lub zakończeniu pracy"
+            },
+            {
+              "id": "C",
+              "text": "Zastąpienie rezerwy awaryjnej ryzykowną inwestycją"
+            },
+            {
+              "id": "D",
+              "text": "Podwojenie środków przez samo otwarcie konta"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Plan porównuje przyszłe potrzeby i możliwe źródła środków; nie gwarantuje utrzymania dzisiejszego dochodu. Rezerwa awaryjna ma odrębną rolę. Wynik zależy m.in. od wpłat, warunków, kosztów i ryzyka. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze; bez nadwyżki można zacząć od bezkosztowego planu, bez zakupu lub otwierania konta.",
+          "retryMessage": "Plan porównuje przyszłe potrzeby i możliwe źródła środków; nie gwarantuje utrzymania dzisiejszego dochodu. Rezerwa awaryjna ma odrębną rolę. Wynik zależy m.in. od wpłat, warunków, kosztów i ryzyka. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze; bez nadwyżki można zacząć od bezkosztowego planu, bez zakupu lub otwierania konta.",
+          "category": "Emerytura"
+        },
+        "en": {
+          "id": "retirement-purpose",
+          "question": "What is the purpose of planning finances for retirement?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Certainty of maintaining every current income"
+            },
+            {
+              "id": "B",
+              "text": "Preparing resources for future needs after work changes or ends"
+            },
+            {
+              "id": "C",
+              "text": "Replacing emergency reserves with a risky investment"
+            },
+            {
+              "id": "D",
+              "text": "Doubling money simply by opening an account"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "A plan compares future needs and possible sources of funds; it does not guarantee maintaining current income. Emergency reserves have a separate role. Outcomes depend on contributions, conditions, costs and risk, among other factors. Essentials, required minimum repayments and reserves come first; without surplus, start with a free planning exercise, without buying anything or opening an account. +25 local points.",
+          "retryMessage": "A plan compares future needs and possible sources of funds; it does not guarantee maintaining current income. Emergency reserves have a separate role. Outcomes depend on contributions, conditions, costs and risk, among other factors. Essentials, required minimum repayments and reserves come first; without surplus, start with a free planning exercise, without buying anything or opening an account.",
+          "category": "Retirement"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Plan jest oceną potrzeb i możliwości, nie gwarancją zachowania każdego dochodu.",
+          "en": "A plan evaluates needs and possibilities; it does not guarantee preserving every income."
+        },
+        "C": {
+          "pl": "Rezerwa chroni odrębne pilne potrzeby; plan emerytalny nie wymaga przeznaczenia jej na ryzykowną inwestycję.",
+          "en": "Reserves serve separate urgent needs; retirement planning does not require putting them into a risky investment."
+        },
+        "D": {
+          "pl": "Samo otwarcie konta nie podwaja kapitału ani nie zapewnia wyniku.",
+          "en": "Opening an account alone does not double capital or ensure an outcome."
+        }
+      }
+    },
+    {
+      "id": "retirement-early-start",
+      "correct_answer": "C",
+      "reward": 35,
+      "country": "PL",
+      "version": "retirement-pl-en-v1-c25-draft",
+      "created_date": "2026-10-15",
+      "author": "daily_author",
+      "reviewer": "daily_data_review (independent, pending)",
+      "objective": {
+        "pl": "Policz warunkowy efekt kapitalizacji i odróżnij go od prognozy emerytury lub nakazu wpłaty.",
+        "en": "Calculate conditional compounding and distinguish it from a pension forecast or an instruction to contribute."
+      },
+      "source_ids": [
+        "sec-compound",
+        "knf-conscious",
+        "zus-forecast-limits"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial_amount": 1000,
+        "annual_nominal_rate_percent": 5,
+        "rate_hypothetical_constant": true,
+        "compounding": "annual",
+        "interest_retained": true,
+        "years": 2,
+        "contributions_after_initial": 0,
+        "withdrawals": 0,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "inflation_ignored": true,
+        "year1_balance": 1050,
+        "year2_balance": 1102.5,
+        "year1_interest": 50,
+        "year2_interest": 52.5,
+        "amount_is_nominal": true,
+        "pension_forecast": false,
+        "product_offer": false,
+        "guaranteed_real_world_return": false
+      },
+      "copy": {
+        "pl": {
+          "id": "retirement-early-start",
+          "question": "Model: 1 000 zł jednorazowo, stałe 5% rocznie, kapitalizacja roczna, odsetki zostają. Bez dopłat, wypłat, opłat i podatku; inflacja pominięta. Ile nominalnie po 2 latach?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "1 000 zł"
+            },
+            {
+              "id": "B",
+              "text": "1 100 zł"
+            },
+            {
+              "id": "C",
+              "text": "1 102,50 zł"
+            },
+            {
+              "id": "D",
+              "text": "2 000 zł"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 35,
+          "successMessage": "W tym hipotetycznym modelu 1 000 × 1,05 × 1,05 = 1 102,50 zł. Po pierwszym roku jest 1 050 zł; drugie odsetki to 52,50 zł. Dodatni wynik wynika z założonej stałej stopy, nie z samego upływu czasu. Więcej okresów daje tu więcej kapitalizacji, ale rzeczywiste wyniki mogą być inne i straty są możliwe. To nie prognoza emerytury ani zalecenie wpłaty.",
+          "retryMessage": "W tym hipotetycznym modelu 1 000 × 1,05 × 1,05 = 1 102,50 zł. Po pierwszym roku jest 1 050 zł; drugie odsetki to 52,50 zł. Dodatni wynik wynika z założonej stałej stopy, nie z samego upływu czasu. Więcej okresów daje tu więcej kapitalizacji, ale rzeczywiste wyniki mogą być inne i straty są możliwe. To nie prognoza emerytury ani zalecenie wpłaty.",
+          "category": "Emerytura"
+        },
+        "en": {
+          "id": "retirement-early-start",
+          "question": "Model: PLN 1,000 once, a constant 5% a year, annual compounding, interest retained. No later contributions, withdrawals, fees or tax; inflation ignored. What is the nominal balance after 2 years?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 1,000"
+            },
+            {
+              "id": "B",
+              "text": "PLN 1,100"
+            },
+            {
+              "id": "C",
+              "text": "PLN 1,102.50"
+            },
+            {
+              "id": "D",
+              "text": "PLN 2,000"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 35,
+          "successMessage": "In this hypothetical model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. After year one the balance is PLN 1,050; the second interest payment is PLN 52.50. The positive result comes from the assumed constant rate, not time alone. More periods allow more compounding here, but actual outcomes can differ and losses are possible. This is not a pension forecast or a recommendation to contribute. +35 local points.",
+          "retryMessage": "In this hypothetical model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. After year one the balance is PLN 1,050; the second interest payment is PLN 52.50. The positive result comes from the assumed constant rate, not time alone. More periods allow more compounding here, but actual outcomes can differ and losses are possible. This is not a pension forecast or a recommendation to contribute.",
+          "category": "Retirement"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Przy podanych dodatnich 5% i zatrzymanych odsetkach model nie pozostawia kapitału bez zmian. Nie jest to twierdzenie, że rzeczywiste inwestycje nie mogą tracić.",
+          "en": "With the stated positive 5% and retained interest, this model does not leave principal unchanged. This does not claim real investments cannot lose value."
+        },
+        "B": {
+          "pl": "1 100 zł odpowiada dwóm naliczeniom po 50 zł tylko od początkowego kapitału; pomija odsetki od pierwszych odsetek.",
+          "en": "PLN 1,100 counts PLN 50 twice on initial principal only and omits interest on the first interest payment."
+        },
+        "D": {
+          "pl": "Dwa lata przy założonych 5% nie podwajają kwoty; podwojenie nie wynika z tych danych.",
+          "en": "Two years at the assumed 5% do not double the amount; doubling does not follow from these inputs."
+        }
+      }
+    }
+  ],
+  "voice_checks": {
+    "format": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\" \")",
+    "maximum": 279,
+    "cases": [
+      {
+        "id": "retirement-purpose",
+        "locale": "pl",
+        "text": "Jaki jest cel planowania finansów na emeryturę? A. Pewność utrzymania każdego dzisiejszego dochodu B. Przygotowanie środków na przyszłe potrzeby po zmianie lub zakończeniu pracy C. Zastąpienie rezerwy awaryjnej ryzykowną inwestycją D. Podwojenie środków przez samo otwarcie konta",
+        "utf16_length": 279,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "retirement-purpose",
+        "locale": "en",
+        "text": "What is the purpose of planning finances for retirement? A. Certainty of maintaining every current income B. Preparing resources for future needs after work changes or ends C. Replacing emergency reserves with a risky investment D. Doubling money simply by opening an account",
+        "utf16_length": 275,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "retirement-early-start",
+        "locale": "pl",
+        "text": "Model: 1 000 zł jednorazowo, stałe 5% rocznie, kapitalizacja roczna, odsetki zostają. Bez dopłat, wypłat, opłat i podatku; inflacja pominięta. Ile nominalnie po 2 latach? A. 1 000 zł B. 1 100 zł C. 1 102,50 zł D. 2 000 zł",
+        "utf16_length": 221,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "retirement-early-start",
+        "locale": "en",
+        "text": "Model: PLN 1,000 once, a constant 5% a year, annual compounding, interest retained. No later contributions, withdrawals, fees or tax; inflation ignored. What is the nominal balance after 2 years? A. PLN 1,000 B. PLN 1,100 C. PLN 1,102.50 D. PLN 2,000",
+        "utf16_length": 250,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Author draft, not financial/product acceptance.",
+    "No mandatory early investment, new account, product or legal/tax/current-age claim.",
+    "General retirement planning is not a guarantee of replacing all income or of a specified pension.",
+    "Historical SRS retained; old answers do not demonstrate understanding of changed words."
+  ]
+}

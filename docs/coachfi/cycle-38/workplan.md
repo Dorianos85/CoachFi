@@ -1,0 +1,16 @@
+# C38 — minimalna aktualizacja parsera CSS
+
+Zakres: istniejący zależny parser postcss-selector-parser 6.1.2 → 6.1.4, bez zmiany package.json, Tailwind, PostCSS, kodu produktu, treści, rynku lub architektury. B10 pozostaje częściowo otwarte. Zmiana dotyczy jednego wpisu lockfile (version/resolved/integrity).
+
+Świeże źródła potwierdzają naprawę GHSA-w9m9-85wc-3x92 w6.1.3. Wersja6.1.3 ma jednak udokumentowaną regresję replaceWith(array) związaną z Tailwind group/peer; nie zostanie zainstalowana. Oficjalne6.1.4 zachowuje poprawkę i naprawia regresję, mieści się w obu istniejących zakresach ^6.1.2 i ^6.1.1. GHSA-rj75-hqrm-r3gf (<7.1.6) oraz pozostałe residualhigh/tooling pozostają otwarte; bez nowego ogólnego securityPASS lub statystyk audytu.
+
+Właściciel zmiany lock/runtime i narzędzi: root. daily_data_review: niezależne normatywne oracles bezpieczeństwa/peer locka i runtime. daily_author: testy zgodności rzeczywistego PostCSS/Tailwind oraz peer securityfixture. daily_ui_review: niezależna recenzja narzędzi i końcowego ledgeru; root recenzuje obie fixtures. Rozłączne pliki, autor nie zatwierdza swojego wyniku.
+
+Przed aktualizacją: jednorazowy baseline dwóch zamrożonych fixtures na rzeczywistym6.1.2. Po peer oraz GO: lock-only npm update z wyłączonymi skryptami/audytowaniem/fund, publicznym registry i pustą konfiguracją użytkownika/globalną. Niezależna recenzja dokładnego wpisu przed instalacją runtime. Po poprawce: ten sam zestaw testów, typecheck i izolowany pełny build ze sprawdzeniem fingerprintów wszystkich plików parsera oraz rozwiązywania go przez Tailwind i postcss-nested zarówno w repo, jak i TEMP. Bez nowego Chrome lub powtarzania niezmienionych testów treści C37; rzeczywista kompilacja CSS sprawdza group/peer.
+
+Zachować C37 receipt942af33c i13source/8tools dosłownie.517oryginalnychinputs: plan516literalnych i1jawna zmiana lockfile. Nowe2fixtures dają oczekiwane519inputów do buildu/518po wygenerowanym next-env; faktyczne liczniki sprawdzimy. Guard jeden po powstaniu wszystkich artefaktów, później niezależny ledgerQA i rutynowy staging. Bez commit/push/deploy/AI/cloudwrites/sekretów/profili/produkcjiPASS.
+
+Następni konkretni kandydaci pozostają oddzielni: walidacja zapisu serii (getStreak fallback może zastąpić nieczytelne dane), malformed from w quizowym dekodowaniu oraz6rekordów treści wymagających dalszej oceny zakresu. Żaden nie jest przyjętym findingiem runtime z samego odczytu źródła.
+
+
+C38-RUNTIME-01 (przed testami po zmianie): npm install zgłosił changed1package/exit0 i hiddenlock6.1.4, ale fizyczny parser nadal miał6.1.2 oraz36plików identycznych z baseline. Fingerprintguard przerwał pracę; nie uznano instalacji ani buildu zaPASS. Przyczyna tego zachowania npm pozostaje nieustalona. Oficjalny tarball6.1.4 pobrano do taskTEMP, zweryfikowano SRI i37bezpiecznych zwykłych plików, w tym package.version6.1.4. Plan odzyskania: niezależnie recenzowane rozpakowanie bez skryptów do jawnego taskTEMP i wymiana wyłącznie dokładnego folderu parsera, ze sprawdzonymi granicami, zachowaną kopią36starych plików i rollbackiem. Sukces dopiero po fingerprint6.1.4/37plików/2konsumentów i zachowaniu lock/packagebytes. Oryginalne logi pozostają zachowane; nie powtarzamy zielonych testów.

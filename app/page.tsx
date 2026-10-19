@@ -1,4 +1,5 @@
 "use client";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import {
   ArrowRight,
@@ -21,7 +22,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
@@ -29,9 +30,12 @@ import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
 import { getAllQuestionIds } from "@/lib/allQuestions";
 import { getHealthCheck } from "@/lib/healthCheck";
-import { getAllCards } from "@/lib/srs";
+import { FINANCIAL_SCORE_MAX } from "@/lib/financial-score";
+import { CONSENT_CHANGED_EVENT } from "@/lib/consent";
+import { readReviewCards } from "@/lib/review-save";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { dashboardCopy } from "@/lib/dashboardCopy";
+import { isRouteEnabled } from "@/lib/product-scope";
 import { formatCurrency, formatNumber, LOCALE_INTL } from "@/lib/utils";
 
 type DashboardCopy = (typeof dashboardCopy)["en"];
@@ -116,6 +120,7 @@ type ChartDatum = {
 };
 
 export default function Page() {
+  const { storage } = useProductStorage();
   const { t, locale } = useLanguage();
   const copy = pickLocalized(dashboardCopy, locale);
   const intlLocale = LOCALE_INTL[locale] ?? "en-US";
@@ -129,35 +134,50 @@ export default function Page() {
     monthlyExpenses: number;
     savings: number;
   } | null>(null);
-  const [lessonsDone, setLessonsDone] = useState(0);
-  const [lessonsTotal, setLessonsTotal] = useState(0);
-  useEffect(() => {
+  const [lessonProgress, setLessonProgress] = useState<{ done: number; total: number } | null>(null);
+  const [progressUnavailable, setProgressUnavailable] = useState(false);
+  const [readVersion, setReadVersion] = useState(0);
+  const [readScope, setReadScope] = useState<{ active: boolean; issue: boolean } | null>(null);
+  useLayoutEffect(() => {
+    const view = { active: true, issue: false };
+    const current = () => view.active && storage.isCurrent();
+    setReadScope(view);
     const read = () => {
-      const stored = getHealthCheck();
+      if (!current()) return;
+      const stored = getHealthCheck(storage);
+      const a = stored?.currency === "PLN" ? stored.answers : undefined;
+      let nextProgress: { done: number; total: number } | null = null;
+      let unavailable = false;
+      try {
+        const ids = getAllQuestionIds(locale);
+        const cards = readReviewCards(storage);
+        const seen = new Set(cards.filter((card) => card.repetitions > 0).map((card) => card.id));
+        nextProgress = { done: ids.filter((id) => seen.has(id)).length, total: ids.length };
+      } catch { unavailable = true; }
+      if (!current()) return;
+      view.issue = unavailable;
       setRealScore(stored?.score ?? null);
-      const a = stored?.answers as Record<string, number> | undefined;
-      setAnswers(
-        a && typeof a.monthlyExpenses === "number"
-          ? {
-              monthlyIncome: Number(a.monthlyIncome) || 0,
-              monthlyExpenses: Number(a.monthlyExpenses) || 0,
-              savings: Number(a.savings) || 0,
-            }
-          : null
-      );
-      const ids = getAllQuestionIds(locale);
-      setLessonsTotal(ids.length);
-      const seen = new Set(getAllCards().filter((c) => c.repetitions > 0).map((c) => c.id));
-      setLessonsDone(ids.filter((id) => seen.has(id)).length);
+      setAnswers(a && typeof a.monthlyExpenses === "number"
+        ? { monthlyIncome: a.monthlyIncome, monthlyExpenses: a.monthlyExpenses, savings: a.savings }
+        : null);
+      setLessonProgress(nextProgress);
+      setProgressUnavailable(unavailable);
     };
     read();
+    window.addEventListener("coachfi-learning", read);
     window.addEventListener("coachfi-health-check", read);
     window.addEventListener("coachfi-cloud-synced", read);
+    window.addEventListener(CONSENT_CHANGED_EVENT, read);
+    window.addEventListener("storage", read);
     return () => {
+      view.active = false;
+      window.removeEventListener("coachfi-learning", read);
       window.removeEventListener("coachfi-health-check", read);
       window.removeEventListener("coachfi-cloud-synced", read);
+      window.removeEventListener(CONSENT_CHANGED_EVENT, read);
+      window.removeEventListener("storage", read);
     };
-  }, [locale]);
+  }, [locale, storage, readVersion]);
   const isDemo = realScore === null;
 
   // Derive the headline metrics from the user's own Health Check answers once
@@ -174,9 +194,9 @@ export default function Page() {
     }
     if (index === 1) {
       // Monthly surplus: income minus expenses.
-      return { ...metric, value: fmt(answers.monthlyIncome - answers.monthlyExpenses) };
+      return { ...metric, value: formatCurrency(answers.monthlyIncome - answers.monthlyExpenses, "PLN", intlLocale) };
     }
-    return { ...metric, value: `${lessonsDone}/${lessonsTotal}` };
+    return { ...metric, value: lessonProgress ? `${lessonProgress.done}/${lessonProgress.total}` : "—" };
   });
 
   const spendingSignals = spendingSignalsData.map((signal, index) => ({
@@ -221,7 +241,7 @@ export default function Page() {
               </p>
 
               <div className="mt-7">
-                {isDemo && (
+                {!answers && (
                   <p className="mb-2 flex items-center gap-2 text-xs font-bold text-muted">
                     <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
                       {demo.badge}
@@ -229,9 +249,21 @@ export default function Page() {
                     {demo.note}
                   </p>
                 )}
+                {progressUnavailable && (
+                  <div role="alert" data-testid="home-progress-alert" className="mb-3 rounded-lg bg-warning/20 p-4 text-sm font-bold">
+                    <p>{locale === "pl" ? "Nie udało się odczytać postępu nauki. Spróbuj odczytać dane ponownie." : "Learning progress could not be read. Try reading your data again."}</p>
+                    <Button type="button" data-testid="home-progress-retry" variant="outline" className="mt-3" onClick={() => {
+                      if (!readScope?.active || !readScope.issue || !storage.isCurrent()) return;
+                      readScope.active = false;
+                      setReadVersion(value => value + 1);
+                    }}>{locale === "pl" ? "Spróbuj ponownie" : "Try again"}</Button>
+                  </div>
+                )}
                 <div className="grid gap-3 sm:grid-cols-3">
-                  {metrics.map((metric) => (
-                    <Metric key={metric.label} {...metric} />
+                  {metrics.map((metric, index) => (
+                    <div key={metric.label} data-testid={index === 2 ? "home-lessons-metric" : undefined}>
+                      <Metric {...metric} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -282,7 +314,7 @@ export default function Page() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="text-sm font-black uppercase text-muted">
-                      {isDemo ? copy.score.title : demo.yourScore}
+                      {isDemo ? copy.score.title : locale === "pl" ? "Lokalny indeks edukacyjny" : "Local educational index"}
                     </p>
                     {isDemo && (
                       <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
@@ -293,18 +325,18 @@ export default function Page() {
                   <p className="mt-2 text-6xl font-black leading-none text-text">
                     {realScore ?? DEMO_STABILITY_SCORE}
                   </p>
-                  <p className="mt-1 text-sm font-bold text-muted">{copy.score.outOf}</p>
+                  <p className="mt-1 text-sm font-bold text-muted">{isDemo ? copy.score.outOf : `/${FINANCIAL_SCORE_MAX}`}</p>
+                  {!isDemo ? <p className="mt-2 max-w-xs text-xs leading-5 text-muted">{locale === "pl" ? "Dotychczasowy wzór na podstawie zapisanych odpowiedzi. Nie jest naukowo zwalidowany." : "Existing formula using your saved answers. Not scientifically validated."}</p> : null}
                 </div>
                 <div
                   className="grid h-24 w-24 shrink-0 place-items-center rounded-full"
                   style={{
-                    background:
-                      "conic-gradient(var(--cf-grape) 0deg 223deg, var(--cf-surface) 223deg 360deg)",
+                    background: `conic-gradient(var(--cf-grape) 0deg ${isDemo ? 223 : (realScore! / FINANCIAL_SCORE_MAX) * 360}deg, var(--cf-surface) 0deg 360deg)`,
                   }}
                   aria-hidden="true"
                 >
                   <div className="grid h-16 w-16 place-items-center rounded-full bg-white text-lg font-black text-primary">
-                    {copy.score.delta}
+                    {isDemo ? copy.score.delta : `/${FINANCIAL_SCORE_MAX}`}
                   </div>
                 </div>
               </div>
@@ -317,7 +349,7 @@ export default function Page() {
 
               <div className="mt-7 rounded-lg bg-white/72 p-4">
                 <p className="text-sm font-black text-text">{copy.score.nextTitle}</p>
-                <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.score.nextText(fmt(500))}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-muted">{isDemo ? copy.score.nextText(fmt(500)) : locale === "pl" ? "Sprawdź rozbicie wyniku i wybierz kolejną lekcję." : "Review the score breakdown and choose your next lesson."}</p>
                 <Link
                   href="/coach"
                   className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-lg cf-press bg-primary px-4 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -402,7 +434,7 @@ function CoachPocket({ copy }: { copy: DashboardCopy["coachPocket"] }) {
   const coachActions = copy.actions.map((action, index) => ({
     ...action,
     icon: [BrainCircuit, Banknote, BookOpenCheck][index] ?? BrainCircuit,
-  }));
+  })).filter((action) => isRouteEnabled(action.href));
 
   return (
     <aside

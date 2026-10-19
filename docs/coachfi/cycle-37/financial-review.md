@@ -1,0 +1,13 @@
+# Niezależny przegląd finansowy C37
+
+**ACCEPTED_LIMITED_LOCAL_REVIEWED_C37.** Sprawdzono rzeczywiste PL/EN trzech istniejących pytań: insurance-purpose, risk-return i speculative-allocation — sześć wersji i dziewięć par uzasadnień błędnych odpowiedzi. Zachowano B/A/B, po25punktów w metadanych i bank82. Nie dodano modelu liczbowego.
+
+Ochronne świadczenie po śmierci opisano jako pomoc uprawnionym na warunkach umowy, OWU, sumy i wyłączeń. Nie oznacza automatycznie pełnego zastąpienia dochodu ani nakazu kupna polisy. Poprawna dotychczasowa zależność ryzyka i oczekiwanego zwrotu pozostała; objaśnienie odróżnia oczekiwanie od wyniku oraz możliwość straty kapitału od samych wahań ceny. Spekulacja może wynosić zero; nie narusza podstawowych potrzeb, wymaganych minimalnych spłat ani rezerwy i nie jest finansowana pożyczką. Brak uniwersalnego bezpiecznego procentu i gwarancji zysku.
+
+Pierwszy baseline dał13zdrowych UI PASS i6FIN FAIL. Pierwszy postsource: **19/19PASS (6FIN+13UI)**, te same19nazw, wszystkie6pierwotnych finansowych FAIL zamknięte,34warunki w6obserwacjach prawdziwe i4piny bez rozbieżności. Przed baseline root niezależnie przyjął trzy korekty leksykalno-kontekstowe oracli; pełny initial/inverse zachowano. Final0e78 pozostał identyczny w obu przebiegach. Poprawne wcześniejsze definicje nie zostały uznane zbiorczo za błędne.
+
+Osobno24wybrane przypadki historyczne PASS w6przebiegach2/1/3/6/6/6;149niewybranych bez PASS. Zachowano515expect,6pełnych describe,17starszych helperów i48aliasów. W ES/FR helper przywraca tylko insurance-purpose jako ENfallback; jawne risk-return i speculative-allocation pozostają niezamaskowane. Istniejąca kategoria i przynależność family-plan nie aktywują nowych funkcji rodzinnych/Kids; nie przyjęto tu pełnej lokalizacji rodzinnego quizu lub lekcji.
+
+Odczytane rzeczywiste bramki roota: TS0/13pinów bez zmian, build34strony/35tras i517→516wejść bez rozbieżności, pierwszy Chrome6/6, każdy bez retry,516wejść zgodnych przed/po. Port43191 bez listenerów przed i po. To odrębne dowody lokalne; recenzent nie uruchamiał testów ani nie zmieniał produktu.
+
+Źródła pierwotne odczytano16października2026: [Kodeks cywilny, istotne art.805/829/831](https://eli.gov.pl/api/acts/DU/1964/93/text/U/D19640093Lj.pdf), [UKNF o ryzyku](https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/inwestuj_swiadomie) i [ESMA przed inwestycją](https://www.esma.europa.eu/investor-corner/get-ready-invest). Szczegóły i ograniczenie dostępu do dużego PDF ubezpieczeniowego zapisano w financial-primary-sources.json. Przegląd jest ogólną edukacją dorosłych w Polsce, nie indywidualną poradą, pełną opinią prawną ani PASS Auth/RLS, stagingu, produkcji lub nowych rynków.

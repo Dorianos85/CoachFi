@@ -20,7 +20,7 @@ const streakCopy: LocalizedMap<{
     day: (count) => (count === 1 ? "dzień" : "dni"),
     next: (target) => `Następny cel: ${target} dni`,
     milestone: (count) =>
-      count === 66 ? "66 dni — nawyk stał się automatyczny! 🏆" : `Kamień milowy: ${count} dni! 🏆`,
+      count === 66 ? "Kamień milowy: 66 dni! Doceniaj swoją regularność. 🏆" : `Kamień milowy: ${count} dni! 🏆`,
   },
   en: {
     title: (count, hot) => `${count}-day streak${hot ? " 🔥 On fire!" : ""}`,
@@ -28,7 +28,7 @@ const streakCopy: LocalizedMap<{
     day: (count) => (count === 1 ? "day" : "days"),
     next: (target) => `Next milestone: ${target} days`,
     milestone: (count) =>
-      count === 66 ? "66 days — your habit is automatic! 🏆" : `Milestone: ${count} days! 🏆`,
+      count === 66 ? "Milestone: 66 days! Celebrate your consistency. 🏆" : `Milestone: ${count} days! 🏆`,
   },
   ja: {
     title: (count, hot) => `${count}日連続${hot ? " 🔥 好調!" : ""}`,
@@ -87,10 +87,29 @@ const streakCopy: LocalizedMap<{
   },
 };
 
+const streakReadCopy: LocalizedMap<{ loading: string; unavailable: string }> = {
+  pl: { loading: "Sprawdzanie serii nauki…", unavailable: "Seria nauki jest niedostępna" },
+  en: { loading: "Checking learning streak…", unavailable: "Learning streak unavailable" },
+};
+
 export function StreakBadge({ compact = false }: { compact?: boolean }) {
-  const { streak } = useStreak();
+  const { streak, streakStatus } = useStreak();
   const { locale } = useLanguage();
   const copy = pickLocalized(streakCopy, locale);
+  const readCopy = pickLocalized(streakReadCopy, locale);
+  if (streakStatus === "loading" || streakStatus === "unavailable") {
+    const label = readCopy[streakStatus];
+    return (
+      <span
+        role="status"
+        aria-label={label}
+        title={label}
+        className="flex items-center rounded-lg border border-primary/10 bg-white px-3 py-1.5 text-sm font-black text-muted"
+      >
+        {compact ? "—" : label}
+      </span>
+    );
+  }
   const count = streak.currentStreak;
   const active = count > 0;
   const milestone = reachedMilestone(count);

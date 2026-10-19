@@ -1,0 +1,500 @@
+{
+  "schema_version": 1,
+  "module": "saving-habit",
+  "version": "saving-habit-pl-en-v1",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "jurisdiction": "Poland; EN is a language, not another market",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "draft_pending_independent_review",
+  "distinct_existing_questions": 4,
+  "language_versions": 8,
+  "new_question_ids": 0,
+  "reward_total": 100,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "cfpb-emergency",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "updated": "2025-10-29",
+      "supports": "Adjustable automation, cash-flow timing and limited/irregular income; no claim of strongest habit."
+    },
+    {
+      "id": "cfpb-budget",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://files.consumerfinance.gov/f/201603_cfpb_rules-to-live-by_my-spending-rule-to-live-by.pdf",
+      "checked_date": "2026-10-15",
+      "access": "verified primary PDF",
+      "supports": "50/20/30 as adaptable guideline, not universal requirement; our example minimum/extra debt convention is explicitly an editorial adaptation."
+    },
+    {
+      "id": "bfg-coverage",
+      "publisher": "Bankowy Fundusz Gwarancyjny",
+      "url": "https://bfg.pl/gwarantowanie-depozytow/zasady-gwarantowania-depozytow/wysokosc-gwarancji-bfg/",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "updated": "2025-10-02",
+      "supports": "Eligible depositor/institution aggregation and limits; no numerical limit or exchange rate is quoted in lesson."
+    },
+    {
+      "id": "knf-conscious",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/Inwestuj_swiadomie",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "updated": "2026-08-18",
+      "supports": "Product identity, terms/costs, risk of deposit-plus-fund bundles, no guaranteed investment results and protecting everyday funds."
+    },
+    {
+      "id": "sec-dca",
+      "publisher": "U.S. Securities and Exchange Commission / Investor.gov",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging",
+      "checked_date": "2026-10-15",
+      "access": "verified primary page",
+      "supports": "Equal recurring cash amounts buy varying units; principle localized to PLN, no U.S. market/account recommendation."
+    },
+    {
+      "id": "sec-inflation-risk",
+      "publisher": "U.S. Securities and Exchange Commission / Investor.gov",
+      "url": "https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/risk-and-return",
+      "checked_date": "2026-10-15",
+      "access": "verified primary search excerpt",
+      "supports": "Interest may fail to keep pace with inflation; U.S. insurance rules not imported."
+    }
+  ],
+  "steps": [
+    {
+      "index": 1,
+      "id": "saving-habit-step-1",
+      "question_id": "saving-habit",
+      "objective": {
+        "en": "Choose an optional saving amount without crowding out required costs under irregular income.",
+        "pl": "Wybierz opcjonalną kwotę oszczędności bez wypierania wymaganych kosztów przy nieregularnym dochodzie."
+      },
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "until_next_income",
+        "income_available": 2500,
+        "essentials_reserved": 2100,
+        "minimum_payments_reserved": 300,
+        "available_surplus": 100,
+        "chosen_transfer": 50,
+        "remaining_unallocated": 50,
+        "essential_and_minimum_values_are_estimates": true,
+        "transfer_optional": true,
+        "negative_or_zero_surplus_transfer": 0
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "status": "draft_pending_independent_review",
+      "practice_action": {
+        "pl": "sprawdź przyszłe rachunki przed wyborem kwoty.",
+        "en": "check upcoming bills before choosing an amount."
+      }
+    },
+    {
+      "index": 2,
+      "id": "saving-habit-step-2",
+      "question_id": "budget-50-30-20",
+      "objective": {
+        "en": "Calculate a flexible budget illustration and count each required repayment once.",
+        "pl": "Policz elastyczny przykład budżetu i uwzględnij każdą wymaganą spłatę raz."
+      },
+      "source_ids": [
+        "cfpb-budget"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "month",
+        "take_home_income": 4000,
+        "needs": 2000,
+        "wants": 1200,
+        "savings_and_extra_repayments": 800,
+        "percentage_needs": 50,
+        "percentage_wants": 30,
+        "percentage_saving_extra": 20,
+        "required_minimum_debt_counted_once_in": "needs",
+        "extra_debt_counted_in": "savings_and_extra_repayments",
+        "classification_is_our_illustration_not_literal_CFPB_definition": true,
+        "percentages_are_not_requirements": true
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "status": "draft_pending_independent_review",
+      "practice_action": {
+        "pl": "najpierw policz podstawowe koszty i wybierz realny podział.",
+        "en": "calculate your essential costs first and choose a realistic split."
+      }
+    },
+    {
+      "index": 3,
+      "id": "saving-habit-step-3",
+      "question_id": "high-yield-savings",
+      "objective": {
+        "en": "Compare deposit conditions and distinguish deposit coverage from inflation or investment performance.",
+        "pl": "Porównaj warunki depozytu i odróżnij ochronę depozytów od inflacji lub wyniku inwestycji."
+      },
+      "source_ids": [
+        "bfg-coverage",
+        "knf-conscious",
+        "sec-inflation-risk"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "rates_assumed": null,
+        "current_product_or_provider_recommendation": false,
+        "deposit_not_stock_investment": true,
+        "inflation_can_reduce_purchasing_power": true,
+        "guarantee_coverage_must_be_verified_for_institution": true
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "status": "draft_pending_independent_review",
+      "practice_action": {
+        "pl": "przed wyborem konta przeczytaj aktualne warunki. Lekcja nie poleca dostawcy ani bieżącej stawki.",
+        "en": "read the current terms before choosing an account. This lesson recommends no provider or current rate."
+      }
+    },
+    {
+      "index": 4,
+      "id": "saving-habit-step-4",
+      "question_id": "dca",
+      "objective": {
+        "en": "Calculate changing unit counts for equal investments and identify possible loss.",
+        "pl": "Policz zmienne liczby jednostek dla równych wpłat i rozpoznaj możliwość straty."
+      },
+      "source_ids": [
+        "sec-dca",
+        "knf-conscious"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "cash_per_purchase": 100,
+        "unit_price_first": 10,
+        "unit_price_second": 20,
+        "units_first": 10,
+        "units_second": 5,
+        "total_units": 15,
+        "total_contributions": 200,
+        "final_unit_price": 8,
+        "final_value": 120,
+        "loss": 80,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "fees_and_taxes_ignored_for_arithmetic": true,
+        "regular_interval": "same_interval_unspecified_length",
+        "loss_is_illustrative_not_forecast": true
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "status": "draft_pending_independent_review",
+      "practice_action": {
+        "pl": "wyjaśnij, dlaczego równe kwoty kupują różne liczby jednostek.",
+        "en": "explain why equal amounts buy different unit counts."
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "saving-habit",
+      "correct_answer": "C",
+      "reward": 25,
+      "level": "foundational_application",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "status": "draft_pending_independent_review",
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "objective": {
+        "en": "Choose an optional saving amount without crowding out required costs under irregular income.",
+        "pl": "Wybierz opcjonalną kwotę oszczędności bez wypierania wymaganych kosztów przy nieregularnym dochodzie."
+      },
+      "correct_option_explanation": {
+        "pl": "Najpierw zabezpiecz potrzeby i wymagane minimalne spłaty. Następnie wybierz opcjonalny przelew z dostępnej nadwyżki. Przy zmiennym dochodzie sprawdzaj kwotę i termin; bez nadwyżki wstrzymaj przelew.",
+        "en": "Reserve essentials and required minimum payments first. Then choose an optional transfer from available surplus. Recheck its amount and timing when income varies; pause when there is no surplus."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "en": "An unchanged transfer despite unpaid essential bills may leave required costs uncovered.",
+          "pl": "Niezmienny przelew mimo nieopłaconych podstawowych rachunków może pozostawić wymagane koszty bez pokrycia."
+        },
+        "B": {
+          "en": "Borrowing only to keep a saving schedule creates debt instead of using available surplus.",
+          "pl": "Pożyczanie tylko dla utrzymania harmonogramu oszczędzania tworzy dług zamiast korzystać z dostępnej nadwyżki."
+        },
+        "D": {
+          "en": "Moving all income before checking bills ignores the amount needed before the next income.",
+          "pl": "Przelewanie całego dochodu przed sprawdzeniem rachunków pomija kwotę potrzebną do następnego wpływu."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "until_next_income",
+        "income_available": 2500,
+        "essentials_reserved": 2100,
+        "minimum_payments_reserved": 300,
+        "available_surplus": 100,
+        "chosen_transfer": 50,
+        "remaining_unallocated": 50,
+        "essential_and_minimum_values_are_estimates": true,
+        "transfer_optional": true,
+        "negative_or_zero_surplus_transfer": 0
+      }
+    },
+    {
+      "id": "budget-50-30-20",
+      "correct_answer": "B",
+      "reward": 25,
+      "level": "foundational_application",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "status": "draft_pending_independent_review",
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "source_ids": [
+        "cfpb-budget"
+      ],
+      "objective": {
+        "en": "Calculate a flexible budget illustration and count each required repayment once.",
+        "pl": "Policz elastyczny przykład budżetu i uwzględnij każdą wymaganą spłatę raz."
+      },
+      "correct_option_explanation": {
+        "pl": "4 000 × 20% = 800 zł. W tym przykładzie wymagane minimalne spłaty długu liczymy raz w potrzebach; część 20% obejmuje oszczędności i dodatkowe spłaty. To konwencja naszego przykładu, nie obowiązkowy podział.",
+        "en": "4,000 × 20% = PLN 800. In this example, required minimum debt payments are included once in needs; the 20% bucket is savings and extra debt repayment. This is our illustration convention, not a compulsory split."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "en": "PLN 1,200 is 30% of PLN 4,000, the illustrative wants bucket, not 20%.",
+          "pl": "1 200 zł to 30% z 4 000 zł, przykładowa część na zachcianki, nie 20%."
+        },
+        "C": {
+          "en": "PLN 2,000 is 50% of PLN 4,000, the illustrative needs bucket.",
+          "pl": "2 000 zł to 50% z 4 000 zł, przykładowa część na potrzeby."
+        },
+        "D": {
+          "en": "PLN 4,000 is all take-home income, or 100%, not the 20% bucket.",
+          "pl": "4 000 zł to cały dochód na rękę, czyli 100%, nie część 20%."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "month",
+        "take_home_income": 4000,
+        "needs": 2000,
+        "wants": 1200,
+        "savings_and_extra_repayments": 800,
+        "percentage_needs": 50,
+        "percentage_wants": 30,
+        "percentage_saving_extra": 20,
+        "required_minimum_debt_counted_once_in": "needs",
+        "extra_debt_counted_in": "savings_and_extra_repayments",
+        "classification_is_our_illustration_not_literal_CFPB_definition": true,
+        "percentages_are_not_requirements": true
+      }
+    },
+    {
+      "id": "high-yield-savings",
+      "correct_answer": "B",
+      "reward": 20,
+      "level": "foundational_application",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "status": "draft_pending_independent_review",
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "source_ids": [
+        "bfg-coverage",
+        "knf-conscious",
+        "sec-inflation-risk"
+      ],
+      "objective": {
+        "en": "Compare deposit conditions and distinguish deposit coverage from inflation or investment performance.",
+        "pl": "Porównaj warunki depozytu i odróżnij ochronę depozytów od inflacji lub wyniku inwestycji."
+      },
+      "correct_option_explanation": {
+        "pl": "Sprawdź oprocentowanie i czas jego obowiązywania, warunki, opłaty, dostęp do wypłat oraz właściwy system gwarantowania depozytów. Konto depozytowe to nie inwestycja w akcje; inflacja nadal może obniżać siłę nabywczą.",
+        "en": "Check the rate and its duration, qualifying conditions, fees, withdrawal access, and the applicable deposit guarantee scheme. A deposit account is not a stock investment; inflation can still reduce purchasing power."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "en": "A headline rate omits duration, qualification, costs and access constraints.",
+          "pl": "Reklamowana stawka pomija czas, warunki, koszty i ograniczenia dostępu."
+        },
+        "C": {
+          "en": "Checking a claim about beating inflation can be useful, but that claim is not a guarantee or a complete checklist of conditions, costs, access and protection.",
+          "pl": "Sprawdzenie deklaracji o wyniku ponad inflację może być przydatne, ale deklaracja nie jest gwarancją ani pełną listą warunków, kosztów, dostępu i ochrony."
+        },
+        "D": {
+          "en": "Checking whether a product includes stock investments is useful, especially for bundles. It alone does not cover rates, conditions, fees, access and deposit protection.",
+          "pl": "Sprawdzenie, czy produkt obejmuje inwestycje w akcje, jest przydatne, zwłaszcza przy ofertach łączonych. Samo to nie obejmuje oprocentowania, warunków, opłat, dostępu i ochrony depozytów."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "rates_assumed": null,
+        "current_product_or_provider_recommendation": false,
+        "deposit_not_stock_investment": true,
+        "inflation_can_reduce_purchasing_power": true,
+        "guarantee_coverage_must_be_verified_for_institution": true
+      }
+    },
+    {
+      "id": "dca",
+      "correct_answer": "C",
+      "reward": 30,
+      "level": "foundational_application",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "status": "draft_pending_independent_review",
+      "version": "saving-habit-pl-en-v1",
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "source_ids": [
+        "sec-dca",
+        "knf-conscious"
+      ],
+      "objective": {
+        "en": "Calculate changing unit counts for equal investments and identify possible loss.",
+        "pl": "Policz zmienne liczby jednostek dla równych wpłat i rozpoznaj możliwość straty."
+      },
+      "correct_option_explanation": {
+        "pl": "100 ÷ 10 = 10 jednostek; 100 ÷ 20 = 5 jednostek. DCA oznacza równe kwoty w regularnych odstępach, nie równą liczbę jednostek. Przy cenie 8 zł wszystkie 15 jednostek są warte 120 zł wobec wpłat 200 zł: strata 80 zł, bez opłat i podatków.",
+        "en": "100 ÷ 10 = 10 units; 100 ÷ 20 = 5 units. DCA uses equal amounts at regular intervals, not equal unit counts. At PLN 8 per unit, all 15 units are worth PLN 120 against PLN 200 invested: a PLN 80 loss, ignoring fees and taxes."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "en": "At PLN 20 per unit, PLN 100 buys 5 units, not 10; DCA fixes the amount rather than the unit count.",
+          "pl": "Przy cenie 20 zł kwota 100 zł kupuje 5 jednostek, nie 10; DCA ustala kwotę, nie liczbę jednostek."
+        },
+        "B": {
+          "en": "The prices were reversed: the lower first price buys 10 units and the higher second price buys 5.",
+          "pl": "Ceny zostały odwrócone: niższa pierwsza cena kupuje 10 jednostek, a wyższa druga 5."
+        },
+        "D": {
+          "en": "A regular purchase schedule does not guarantee profit; the stated PLN 8 terminal price demonstrates a loss.",
+          "pl": "Regularny harmonogram zakupów nie gwarantuje zysku; podana końcowa cena 8 zł pokazuje stratę."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "cash_per_purchase": 100,
+        "unit_price_first": 10,
+        "unit_price_second": 20,
+        "units_first": 10,
+        "units_second": 5,
+        "total_units": 15,
+        "total_contributions": 200,
+        "final_unit_price": 8,
+        "final_value": 120,
+        "loss": 80,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "fees_and_taxes_ignored_for_arithmetic": true,
+        "regular_interval": "same_interval_unspecified_length",
+        "loss_is_illustrative_not_forecast": true
+      }
+    }
+  ],
+  "adaptation_note": "Our example counts required minimum debt payments once in needs, extra repayments with savings. CFPB offers a flexible rule of thumb with debt in its savings/debt bucket; this example convention is explicitly ours, not a literal universal CFPB classification.",
+  "glossary": {
+    "pl_en": {
+      "potrzeby": "needs",
+      "zachcianki": "wants",
+      "wymagane minimalne spłaty": "required minimum payments",
+      "dodatkowe spłaty": "extra debt repayment",
+      "siła nabywcza": "purchasing power",
+      "jednostki": "units"
+    }
+  },
+  "review_scenarios_not_additional_quiz_items": [
+    {
+      "currency": "PLN",
+      "income_available": 2500,
+      "essentials_reserved": 2100,
+      "minimum_payments_reserved": 300,
+      "available_surplus": 100,
+      "chosen_transfer": 50
+    },
+    {
+      "currency": "PLN",
+      "income_available": 2400,
+      "essentials_reserved": 2100,
+      "minimum_payments_reserved": 300,
+      "available_surplus": 0,
+      "chosen_transfer": 0
+    },
+    {
+      "currency": "PLN",
+      "income_available": 2200,
+      "essentials_reserved": 2100,
+      "minimum_payments_reserved": 300,
+      "available_surplus": -200,
+      "chosen_transfer": 0
+    }
+  ],
+  "limits": [
+    "No individual advice, product or rate recommendation, guaranteed outcome, pilot effectiveness, deployment or release acceptance.",
+    "Other raw locale entries unchanged; untranslated target IDs retain canonical English fallback without other-language/market acceptance."
+  ]
+}

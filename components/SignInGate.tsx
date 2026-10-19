@@ -130,6 +130,11 @@ const copy: LocalizedMap<{
   },
 } as const;
 
+const manualCopy = {
+  pl: { title: "Zaloguj się do Coach FI", body: "Wypełnij formularz logowania." },
+  en: { title: "Sign in to Coach FI", body: "Complete the sign-in form." },
+} as const;
+
 function SocialIcon({ id }: { id: "google" | "apple" | "x" | "telegram" }) {
   const common = { width: 20, height: 20, viewBox: "0 0 24 24", "aria-hidden": true as const, className: "shrink-0" };
   if (id === "google") {
@@ -194,6 +199,7 @@ export function SignInGate() {
   const [otp, setOtp] = useState("");
   const [busy, setBusy] = useState<"send" | "verify" | (typeof socialProviders)[number]["id"] | null>(null);
   const [error, setError] = useState("");
+  const dialogText = !required && (locale === "pl" || locale === "en") ? manualCopy[locale] : text;
 
   useEffect(
     () =>
@@ -221,6 +227,7 @@ export function SignInGate() {
     setError("");
     try {
       await signInWithOAuth(provider);
+      if (provider === "telegram") setBusy(null);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not sign in.");
       setBusy(null);
@@ -266,9 +273,9 @@ export function SignInGate() {
     >
       <div className="glass-panel w-full max-w-md rounded-2xl p-6 text-text">
         <h2 id="sign-in-gate-title" className="text-2xl font-black text-text">
-          {text.title}
+          {dialogText.title}
         </h2>
-        <p className="mt-3 text-base font-semibold leading-7 text-muted">{text.body}</p>
+        <p className="mt-3 text-base font-semibold leading-7 text-muted">{dialogText.body}</p>
         {flowId ? null : (
           <div className="mt-6 grid gap-2">
             {socialProviders.map((provider) => (

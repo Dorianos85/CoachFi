@@ -3,6 +3,9 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,8 +14,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:p0": "playwright test --config playwright.p0.config.ts",
+    "e2e:cycle2": "playwright test --config playwright.cycle2.config.ts",
     "backtest": "node scripts/backtest.mjs",
-    "check": "npm run typecheck && npm run test && npm run build",
+    "check": "npm run repo:check && npm run typecheck && npm run test && npm run build",
+    "repo:check": "node scripts/check-repo-hygiene.mjs",
     "api:check": "node scripts/check-api-config.mjs",
     "seed-codes": "node scripts/seed-codes.mjs",
     "db:init": "node lib/dev-db.ts",
@@ -21,34 +27,39 @@
     "admin": "node admin/server.mjs"
   },
   "dependencies": {
-    "@11labs/react": "^0.2.0",
-    "@anthropic-ai/sdk": "^0.95.1",
     "@coinbase/cdp-core": "^0.0.127",
     "@coinbase/cdp-hooks": "^0.0.127",
     "@coinbase/cdp-react": "^0.0.127",
     "@coinbase/cdp-sdk": "^1.58.0",
-    "@elevenlabs/client": "^1.7.0",
-    "@metaplex-foundation/mpl-core": "^1.10.0",
-    "@metaplex-foundation/umi": "^1.5.1",
-    "@metaplex-foundation/umi-bundle-defaults": "^1.5.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
-    "@solana/wallet-adapter-base": "^0.9.27",
-    "@solana/wallet-adapter-phantom": "^0.9.29",
-    "@solana/wallet-adapter-react": "^0.15.39",
-    "@solana/wallet-adapter-react-ui": "^0.9.39",
     "@solana/web3.js": "^1.98.4",
     "@supabase/supabase-js": "^2.105.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.0.0",
     "lucide-react": "^0.468.0",
-    "next": "^15.0.0",
+    "next": "15.5.27",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0"
+  },
+  "overrides": {
+    "shell-quote": "1.12.0",
+    "postcss": "8.5.30",
+    "sharp": "0.35.5",
+    "ws@7": "7.5.11",
+    "ws@8": "8.22.0",
+    "browserslist": "4.28.7",
+    "baseline-browser-mapping": "2.11.0",
+    "tailwindcss": {
+      "postcss-selector-parser": "7.1.6"
+    },
+    "postcss-nested": {
+      "postcss-selector-parser": "7.1.6"
+    }
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
@@ -56,9 +67,9 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
+    "postcss": "8.5.30",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "vitest": "^4.1.8"
+    "vitest": "4.1.11"
   }
 }

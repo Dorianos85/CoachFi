@@ -1,0 +1,13 @@
+# C48 — integralność liczb w wybranym eksporcie serii
+
+17.10.2026, Polska, dorośli, PL/EN. Kandydat B05: gałąź coachfi-streak w istniejącym selected export przyjmuje niecałkowite currentStreak/longestStreak i rekordy longestStreak < currentStreak. Rzeczywisty reader serii traktuje te rekordy jako niedostępne. DataSafetyPanel pobiera buildOwnedLocalDataExport i serializuje ten wynik do pliku. Wymagany lokalny baseline przed przyjęciem obserwacji jako odtworzonej usterki; brak twierdzenia o błędzie produkcji lub rzeczywistych danych.
+
+Root jest autorem wyłącznie minimalnej korekty lib/data-export.ts oraz czterech narzędzi, dowodów wykonania i rejestrów. c47_curriculum jest autorem niezależnych fixtures i recenzentem produktu/kontraktu, c47_dependencies sprawdza źródła, narzędzia i końcowy ledger; każdy zapisuje wyłącznie własne przydzielone pliki. Root niezależnie ocenia fixtures przed wykonaniem. Root+2, bez duplikowania testów.
+
+Kryteria: niecałkowite lub odwrócone liczniki nie trafiają do wybranego eksportu; poprawne liczniki i format pozostają takie same. Bez zaokrąglania, naprawy raw cache lub nadpisywania danych. Zachować istniejące ograniczenie 100000, zakres dat i pozostałe sanitizery, dokładną listę kluczy, owner/revision fences, granicę local/session, pomijanie auth/identyfikatorów/free text oraz wersję pliku. To korekta dwóch warunków liczników, nie deklaracja pełnej równoważności sanitizera ze schematem writera serii.
+
+Walidacja: nowe fixtures przed i po tej samej korekcie, raz dotknięte historyczne testy modułu export i scoped ownership, TypeScript bez emisji, jeden kontrolowany TEMP build. Bez nowego browser testu lub oceny prawnej; nowy fixture sprawdza rzeczywisty builder wywoływany przez panel na danych syntetycznych. Wyniki mocków/uchwytów i wcześniejsze sprawdzenie rzeczywistego ownership należy opisać osobno. Nie powtarzać testów API/głosu C47 ani pozostałych zielonych przypadków bez powodu.
+
+Zależności mają pierwszeństwo w triage, lecz obecna paczka ich nie zmienia. C45 wymagania kompatybilności parsera/vendored i residual braces pozostają otwarte. Specjalista osobno ocenia źródłowo retained SDK, bez instalacji, audit, upgrade lub akceptacji hipotetycznego usunięcia. Ślepy override major nie ma dowodu zgodności.
+
+Przyjęcie wymaga niezależnych recenzji źródła, fixtures, narzędzi, wyników i ledgeru oraz retestu uwag. Bez push, deploy, commit/staging nowych plików, migracji, zapisów produkcji, rzeczywistych profili/sesji, providerów i płatnych wywołań. AI i cloud writes hardOFF; pełne prawa danych i gotowość produkcji pozostają niepotwierdzone.

@@ -1,0 +1,461 @@
+{
+  "schema_version": 1,
+  "cycle": 37,
+  "module": null,
+  "version": "protection-risk-pl-en-v1-c37-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 3,
+  "language_versions": 6,
+  "wrong_rationale_count": 9,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_per_language": 0,
+  "reward_total": 75,
+  "canonical_union_count_unchanged": 82,
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "insurance-purpose",
+      "risk-return",
+      "speculative-allocation"
+    ],
+    "keys": [
+      "B",
+      "A",
+      "B"
+    ],
+    "rewards": [
+      25,
+      25,
+      25
+    ],
+    "rawEN": "ThreeexistingENobjects; original categories retained.",
+    "PL": "ThreeexistingPLvalueinitializers; original categories/82properties retained.",
+    "otherLocales": "ES/FR have explicit risk-return/speculative-allocation unchanged; insurance-purpose is ENfallback in ES/FR and the otherfive. Fiveothercanonicalviews inherit allthree ENrecords. Allsevenotherlocales outside newacceptance.",
+    "stageMembership": {
+      "insurance-purpose": [
+        "family-plan"
+      ],
+      "risk-return": [],
+      "speculative-allocation": []
+    },
+    "protected": "Other59rawquiz,all20challenges,all explicitlocalization/stage/topic/pools/app/writers/SRS and acceptedcopy/proofs literal. Existing adultfamily-plan record is not a new familyfeature/Kids/Web3/trading activation."
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "pl-civil-code",
+      "publisher": "Sejm RP / ELI",
+      "title": "Kodeks cywilny — current U dated25June2026,243pages",
+      "url": "https://eli.gov.pl/api/acts/DU/1964/93/text/U/D19640093Lj.pdf",
+      "checked_date": "2026-10-16",
+      "access": "OfficialfullPDF accessed; relevant Art805/807/808/812/829/831–834 read, not entire243pagesaudited.",
+      "bounded_use": "Agreed insurancebenefit on specifiedevent; death/endowment distinction; beneficiaries/OWU/contract qualifications.",
+      "limits": "No legaladvice, individualcoverdecision, compulsorypolicyclaim, namedinsurerrecommendation or exhaustiveclaims/beneficiaryrules."
+    },
+    {
+      "id": "rf-life-cover",
+      "publisher": "Rzecznik Finansowy",
+      "title": "RF lifeinsurance intervention —7July2020; fresh relevantpage read",
+      "url": "https://rf.gov.pl/rzecznik-finansowy-wystapil-do-sadu-w-imieniu-klientow-millennium-banku-i-towarzystwa-ubezpieczen-na-zycie-europa/",
+      "checked_date": "2026-10-16",
+      "access": "Full officialpage read; conditionalcover/exclusions and beneficiaries mattered in reportedintervention.",
+      "bounded_use": "Supports checking actualscope/beneficiary/contract rather than assuming fullfamilyincome replacement.",
+      "limits": "Historical RFintervention not adjudicatedcurrentoutcome, universalindustryfinding or usercase. Names/cases not copied into product."
+    },
+    {
+      "id": "knf-invest-conscious",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "title": "Inwestuj świadomie — updated18August2026",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/inwestuj_swiadomie?articleId=70530&p_id=18",
+      "checked_date": "2026-10-16",
+      "access": "Full currentofficialpage read: possibleloss/significantorallcapital, potentialreturn-risk, issuerdefault/exit/horizon/documentchecks and dailyneeds.",
+      "bounded_use": "Preserve expectedreturnprinciple, distinguish actualresult/capitalrisk and no guaranteedprofit; fundsneededfordailyneeds not speculativefunding.",
+      "limits": "No productchoice/currentrates or universalreturnclaim. Older ABCPDF indexeddiversificationguarantee wording NOT adopted."
+    },
+    {
+      "id": "esma-ready",
+      "publisher": "ESMA",
+      "title": "Get ready to invest — current officialInvestorCorner",
+      "url": "https://www.esma.europa.eu/investor-corner/get-ready-invest",
+      "checked_date": "2026-10-16",
+      "access": "Full officialpage read: potentialgreaterreturn/greater risk, pastperformance notguarantee, documents/costs, earlyaccess/pressure/fraudrisk.",
+      "bounded_use": "Riskcapacity/horizon and freedom frompressure; avoid highreturn/no-riskclaims.",
+      "limits": "Doesnot establish particularallocationpercentage or requiredpurchase. No currentcryptoregulation/legalstatusclaim;2018blanketunregulatedtext not reused."
+    }
+  ],
+  "questions": [
+    {
+      "id": "insurance-purpose",
+      "objective": {
+        "pl": "Rozpoznać warunkową pomoc uprawnionym z ochrony na wypadek śmierci, zamiast automatycznej pełnej pensji lub nakazu polisy.",
+        "en": "Recognise conditional beneficiary support from death cover rather than automatic full income replacement or a universal need to buy."
+      },
+      "source_ids": [
+        "pl-civil-code",
+        "rf-life-cover"
+      ],
+      "copy": {
+        "pl": {
+          "id": "insurance-purpose",
+          "question": "Jaki jest ochronny cel ubezpieczenia na życie na wypadek śmierci?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wzbogacenie się po czyjejś śmierci"
+            },
+            {
+              "id": "B",
+              "text": "Pomoc finansowa uprawnionym po śmierci ubezpieczonego, zgodnie z warunkami umowy"
+            },
+            {
+              "id": "C",
+              "text": "Oszczędność podatkowa"
+            },
+            {
+              "id": "D",
+              "text": "Bezpieczne inwestowanie na giełdzie"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Świadczenie może pomóc uprawnionym, także osobom zależnym finansowo. Zakres zależy od umowy i ogólnych warunków ubezpieczenia (OWU), sumy ubezpieczenia, wyłączeń i wskazania uposażonych. Nie oznacza to automatycznie pełnego zastąpienia dochodu ani wypłaty w każdej sytuacji. Potrzeba ochrony zależy od zobowiązań i sytuacji; quiz nie ustala, że każdy musi kupić polisę.",
+          "retryMessage": "Świadczenie może pomóc uprawnionym, także osobom zależnym finansowo. Zakres zależy od umowy i ogólnych warunków ubezpieczenia (OWU), sumy ubezpieczenia, wyłączeń i wskazania uposażonych. Nie oznacza to automatycznie pełnego zastąpienia dochodu ani wypłaty w każdej sytuacji. Potrzeba ochrony zależy od zobowiązań i sytuacji; quiz nie ustala, że każdy musi kupić polisę.",
+          "category": "Plan finansowy rodziny"
+        },
+        "en": {
+          "id": "insurance-purpose",
+          "question": "What is the protection purpose of life insurance covering death?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "To get rich when someone dies"
+            },
+            {
+              "id": "B",
+              "text": "Financial support for beneficiaries after the insured person's death, subject to the contract"
+            },
+            {
+              "id": "C",
+              "text": "To save on taxes"
+            },
+            {
+              "id": "D",
+              "text": "To invest in the stock market safely"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "A benefit can support beneficiaries, including financial dependants. Cover depends on the contract and its terms (OWU), sum insured, exclusions and beneficiary designation. It does not automatically replace all income or pay in every situation. Insurance needs depend on obligations and circumstances; this quiz does not decide that everyone must buy a policy.",
+          "retryMessage": "A benefit can support beneficiaries, including financial dependants. Cover depends on the contract and its terms (OWU), sum insured, exclusions and beneficiary designation. It does not automatically replace all income or pay in every situation. Insurance needs depend on obligations and circumstances; this quiz does not decide that everyone must buy a policy.",
+          "category": "Family Financial Plan"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Opisany cel ochronny to pomoc uprawnionym zgodnie z umową, nie obietnica wzbogacenia po śmierci.",
+          "en": "The protection purpose described is contractual support for beneficiaries, not a promise of getting rich after a death."
+        },
+        "C": {
+          "pl": "Ewentualne skutki podatkowe nie są opisanym celem ochrony na wypadek śmierci; pytanie nie obiecuje konkretnej ulgi.",
+          "en": "Possible tax consequences are not the death-cover purpose described; the question promises no particular tax relief."
+        },
+        "D": {
+          "pl": "Ochrona na wypadek śmierci nie oznacza bezpiecznego inwestowania na giełdzie ani gwarancji wyniku inwestycji.",
+          "en": "Death cover does not mean safe stock-market investing or a guaranteed investment result."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Qualitative adulteducation in Poland only; no numericallocation, forecast, legaleligibilitydecision or individualproductrecommendation.",
+          "No new family/Kids features, profiling or data; existing family-plan membership/category unchanged.",
+          "Voluntary abstention and protection of essentials/requiredminimumrepayments/emergencyreserves are Coachfi educational safetyframing, not a newly enacted law or promise of investmentperformance."
+        ]
+      },
+      "preserved": "Original A/C/D and B25/category retained; conditional B and a narrower death-cover stem avoid defining all life/endowment products as universal income replacement.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "No numeric model or prescribed allocation percentage",
+      "author": "daily_author",
+      "version": "protection-risk-pl-en-v1-c37-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaki jest ochronny cel ubezpieczenia na życie na wypadek śmierci? A. Wzbogacenie się po czyjejś śmierci B. Pomoc finansowa uprawnionym po śmierci ubezpieczonego, zgodnie z warunkami umowy C. Oszczędność podatkowa D. Bezpieczne inwestowanie na giełdzie",
+          "wholeQuestionABCDLength": 251,
+          "conservativeWholeQuestionABCDLength": 255,
+          "successLength": 369,
+          "retryLength": 369
+        },
+        "en": {
+          "wholeQuestionABCD": "What is the protection purpose of life insurance covering death? A. To get rich when someone dies B. Financial support for beneficiaries after the insured person's death, subject to the contract C. To save on taxes D. To invest in the stock market safely",
+          "wholeQuestionABCDLength": 254,
+          "conservativeWholeQuestionABCDLength": 258,
+          "successLength": 360,
+          "retryLength": 360
+        }
+      }
+    },
+    {
+      "id": "risk-return",
+      "objective": {
+        "pl": "Zachować poprawną ogólną zależność oczekiwanego zwrotu i ryzyka, rozróżniając faktyczny wynik i możliwość utraty kapitału.",
+        "en": "Retain the correct general expected-return/risk relation while distinguishing realised results and capital loss."
+      },
+      "source_ids": [
+        "knf-invest-conscious",
+        "esma-ready"
+      ],
+      "copy": {
+        "pl": {
+          "id": "risk-return",
+          "question": "Jaka jest ogólna zależność między ryzykiem a oczekiwanym zwrotem?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem"
+            },
+            {
+              "id": "B",
+              "text": "Wysokie zyski są gwarantowane bez ryzyka"
+            },
+            {
+              "id": "C",
+              "text": "Ryzyko i zwrot nie mają związku"
+            },
+            {
+              "id": "D",
+              "text": "Niższe ryzyko zawsze oznacza wyższy zwrot"
+            }
+          ],
+          "correctAnswer": "A",
+          "reward": 25,
+          "successMessage": "Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem, lecz oczekiwanie nie jest wynikiem ani obietnicą. Można stracić część lub całość kapitału. Ryzyko to nie tylko wahania ceny: obejmuje też np. niewypłacalność i trudność sprzedaży. Oceniaj ryzyko w odniesieniu do celu i możliwości poniesienia straty; wysoki zysk bez ryzyka nie jest wiarygodną obietnicą.",
+          "retryMessage": "Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem, lecz oczekiwanie nie jest wynikiem ani obietnicą. Można stracić część lub całość kapitału. Ryzyko to nie tylko wahania ceny: obejmuje też np. niewypłacalność i trudność sprzedaży. Oceniaj ryzyko w odniesieniu do celu i możliwości poniesienia straty; wysoki zysk bez ryzyka nie jest wiarygodną obietnicą.",
+          "category": "Długoterminowe inwestowanie"
+        },
+        "en": {
+          "id": "risk-return",
+          "question": "What is the general relationship between risk and expected return?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Higher expected returns generally come with higher risk"
+            },
+            {
+              "id": "B",
+              "text": "High returns are guaranteed with zero risk"
+            },
+            {
+              "id": "C",
+              "text": "Risk and return are unrelated"
+            },
+            {
+              "id": "D",
+              "text": "Lower risk always means higher return"
+            }
+          ],
+          "correctAnswer": "A",
+          "reward": 25,
+          "successMessage": "Higher expected return generally comes with higher risk, but an expectation is not a realised result or a promise. Part or all of the capital may be lost. Risk is more than price swings: it also includes, for example, default and difficulty selling. Consider risk against the goal and capacity for loss; high profit without risk is not a credible promise.",
+          "retryMessage": "Higher expected return generally comes with higher risk, but an expectation is not a realised result or a promise. Part or all of the capital may be lost. Risk is more than price swings: it also includes, for example, default and difficulty selling. Consider risk against the goal and capacity for loss; high profit without risk is not a credible promise.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "B": {
+          "pl": "Wysoki zysk przy zerowym ryzyku nie jest wiarygodną gwarancją; nawet oczekiwany wynik może się nie spełnić.",
+          "en": "High profit at zero risk is not a credible guarantee; even an expected result may not materialise."
+        },
+        "C": {
+          "pl": "Ogólna zależność oczekiwanego zwrotu i ryzyka istnieje; nie przesądza jednak wyniku konkretnej inwestycji.",
+          "en": "A general relationship exists between expected return and risk, without determining a particular investment outcome."
+        },
+        "D": {
+          "pl": "Mniejsze ryzyko nie oznacza zawsze wyższego zwrotu; odpowiedź odwraca ogólną zależność i dodaje nieuprawnione zawsze.",
+          "en": "Lower risk does not always mean a higher return; the answer reverses the general relation and adds an unwarranted always."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Qualitative adulteducation in Poland only; no numericallocation, forecast, legaleligibilitydecision or individualproductrecommendation.",
+          "No new family/Kids features, profiling or data; existing family-plan membership/category unchanged.",
+          "Voluntary abstention and protection of essentials/requiredminimumrepayments/emergencyreserves are Coachfi educational safetyframing, not a newly enacted law or promise of investmentperformance."
+        ]
+      },
+      "preserved": "The correct existing PL/EN stems and all four answer options remain literal, including A25. Only feedback is qualified; the old core definition is not labelled false.",
+      "correct_answer": "A",
+      "reward": 25,
+      "country": "PL",
+      "units": "No numeric model or prescribed allocation percentage",
+      "author": "daily_author",
+      "version": "protection-risk-pl-en-v1-c37-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaka jest ogólna zależność między ryzykiem a oczekiwanym zwrotem? A. Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem B. Wysokie zyski są gwarantowane bez ryzyka C. Ryzyko i zwrot nie mają związku D. Niższe ryzyko zawsze oznacza wyższy zwrot",
+          "wholeQuestionABCDLength": 252,
+          "conservativeWholeQuestionABCDLength": 256,
+          "successLength": 364,
+          "retryLength": 364
+        },
+        "en": {
+          "wholeQuestionABCD": "What is the general relationship between risk and expected return? A. Higher expected returns generally come with higher risk B. High returns are guaranteed with zero risk C. Risk and return are unrelated D. Lower risk always means higher return",
+          "wholeQuestionABCDLength": 245,
+          "conservativeWholeQuestionABCDLength": 249,
+          "successLength": 355,
+          "retryLength": 355
+        }
+      }
+    },
+    {
+      "id": "speculative-allocation",
+      "objective": {
+        "pl": "Rozpoznać możliwość zerowego udziału spekulacji i ochronę podstaw oraz rezerwy bez uniwersalnego procentu lub rekomendacji.",
+        "en": "Recognise zero speculative allocation as an option and protect essentials and reserves without a universal percentage or recommendation."
+      },
+      "source_ids": [
+        "knf-invest-conscious",
+        "esma-ready"
+      ],
+      "copy": {
+        "pl": {
+          "id": "speculative-allocation",
+          "question": "Które podejście do bardzo spekulacyjnych aktywów jest ostrożne?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Włożyć wszystkie oszczędności dla maksymalnych zysków"
+            },
+            {
+              "id": "B",
+              "text": "Można nie inwestować; ewentualnie tylko kwotę, której pełna utrata nie naruszy podstaw ani rezerwy"
+            },
+            {
+              "id": "C",
+              "text": "Pożyczyć pieniądze, by kupić więcej"
+            },
+            {
+              "id": "D",
+              "text": "Traktować jako bezpieczny fundusz awaryjny"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Udział może wynosić zero; spekulacja nie jest obowiązkowa. Jeśli w ogóle ją rozważasz, nie przeznaczaj na nią pieniędzy na podstawowe potrzeby, wymagane minimalne spłaty ani rezerwę awaryjną i nie pożyczaj na ten cel. Możliwa jest utrata całości przeznaczonej kwoty. Brak uniwersalnego bezpiecznego procentu; mały udział nie gwarantuje zysku ani bezpieczeństwa. To nie rekomendacja zakupu.",
+          "retryMessage": "Udział może wynosić zero; spekulacja nie jest obowiązkowa. Jeśli w ogóle ją rozważasz, nie przeznaczaj na nią pieniędzy na podstawowe potrzeby, wymagane minimalne spłaty ani rezerwę awaryjną i nie pożyczaj na ten cel. Możliwa jest utrata całości przeznaczonej kwoty. Brak uniwersalnego bezpiecznego procentu; mały udział nie gwarantuje zysku ani bezpieczeństwa. To nie rekomendacja zakupu.",
+          "category": "Długoterminowe inwestowanie"
+        },
+        "en": {
+          "id": "speculative-allocation",
+          "question": "Which approach to highly speculative assets is cautious?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Put all savings in for maximum gains"
+            },
+            {
+              "id": "B",
+              "text": "Choosing none is valid; otherwise only an amount whose total loss would not affect essentials or reserves"
+            },
+            {
+              "id": "C",
+              "text": "Borrow money to buy more"
+            },
+            {
+              "id": "D",
+              "text": "Treat it as a safe emergency fund"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "The allocation can be zero; speculation is optional. If considered at all, keep essential spending, required minimum repayments and emergency reserves out of it, and do not borrow for it. The entire allocated amount can be lost. There is no universal safe percentage; a small allocation guarantees neither profit nor safety. This is not a recommendation to buy.",
+          "retryMessage": "The allocation can be zero; speculation is optional. If considered at all, keep essential spending, required minimum repayments and emergency reserves out of it, and do not borrow for it. The entire allocated amount can be lost. There is no universal safe percentage; a small allocation guarantees neither profit nor safety. This is not a recommendation to buy.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Narażenie wszystkich oszczędności na spekulację może zagrozić podstawom i rezerwie; wyższy zysk nie jest gwarantowany.",
+          "en": "Exposing all savings to speculation can endanger essentials and reserves; higher profit is not guaranteed."
+        },
+        "C": {
+          "pl": "Pożyczanie na spekulację dodaje zobowiązanie, które pozostaje także po stracie inwestycji; nie jest opisanym ostrożnym podejściem.",
+          "en": "Borrowing to speculate adds a repayment obligation that remains after an investment loss; it is not the cautious approach described."
+        },
+        "D": {
+          "pl": "Spekulacyjna inwestycja może stracić całą wartość i nie jest bezpieczną rezerwą na nagłe potrzeby.",
+          "en": "A speculative investment can lose its entire value and is not a safe reserve for urgent needs."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Qualitative adulteducation in Poland only; no numericallocation, forecast, legaleligibilitydecision or individualproductrecommendation.",
+          "No new family/Kids features, profiling or data; existing family-plan membership/category unchanged.",
+          "Voluntary abstention and protection of essentials/requiredminimumrepayments/emergencyreserves are Coachfi educational safetyframing, not a newly enacted law or promise of investmentperformance."
+        ]
+      },
+      "preserved": "Original A/C/D/B25/category retained; stem and B make abstention explicit and remove a necessary small-share prescription without recommending crypto/Web3/trading.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "No numeric model or prescribed allocation percentage",
+      "author": "daily_author",
+      "version": "protection-risk-pl-en-v1-c37-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Które podejście do bardzo spekulacyjnych aktywów jest ostrożne? A. Włożyć wszystkie oszczędności dla maksymalnych zysków B. Można nie inwestować; ewentualnie tylko kwotę, której pełna utrata nie naruszy podstaw ani rezerwy C. Pożyczyć pieniądze, by kupić więcej D. Traktować jako bezpieczny fundusz awaryjny",
+          "wholeQuestionABCDLength": 307,
+          "conservativeWholeQuestionABCDLength": 311,
+          "successLength": 389,
+          "retryLength": 389
+        },
+        "en": {
+          "wholeQuestionABCD": "Which approach to highly speculative assets is cautious? A. Put all savings in for maximum gains B. Choosing none is valid; otherwise only an amount whose total loss would not affect essentials or reserves C. Borrow money to buy more D. Treat it as a safe emergency fund",
+          "wholeQuestionABCDLength": 270,
+          "conservativeWholeQuestionABCDLength": 274,
+          "successLength": 361,
+          "retryLength": 361
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-37/content-author-inventory.json",
+    "sha256": "452b1ee58cad2611a3b889483355e6c3606772f94789a73e711daf029fc0a922"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "helper_writes": 0,
+    "test_runs": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

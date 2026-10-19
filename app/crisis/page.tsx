@@ -19,7 +19,7 @@ import {
   ShieldAlert,
   ShoppingBag,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
@@ -28,11 +28,31 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/context/LanguageContext";
 import { CRISIS_COPY, type CrisisCopy } from "@/lib/crisisCopy";
 import { pickLocalized } from "@/lib/i18n";
-import { addTokens, getTokenBalance } from "@/lib/tokens";
+import { getTokenBalance } from "@/lib/tokens";
+import {
+  CRISIS_ACTION_IDS as actionStepIds,
+  CRISIS_ACTION_REWARD as ACTION_REWARD,
+  createCrisisActionSaveController,
+  readCrisisActions,
+  type CrisisActionId,
+} from "@/lib/crisis-action-save";
+import { useProductStorage } from "@/lib/use-product-storage";
 import { cn } from "@/lib/utils";
 
-const REWARD_KEY = "coachfi-crisis-actions";
-const ACTION_REWARD = 15;
+const actionSaveCopy = {
+  pl: {
+    unavailable: "Nie można odczytać zapisanych działań. Nowe oznaczenia i punkty są zablokowane. Sprawdź odczyt ponownie.",
+    check: "Sprawdź odczyt ponownie",
+    retryable: "Nie udało się zapisać działania. Nie przyznano nowych punktów. Możesz spróbować ponownie.",
+    uncertain: "Nie udało się potwierdzić pełnego zapisu. Oznaczenie działania lub punkty mogły zostać zapisane częściowo. Nie ponawiaj tego działania. Pozostałe oznaczenia są zablokowane w tym widoku.",
+  },
+  en: {
+    unavailable: "Saved actions could not be read. New action marks and points are blocked. Check the data again.",
+    check: "Check the data again",
+    retryable: "The action could not be saved. No new points were awarded. You can try again.",
+    uncertain: "The full save could not be confirmed. The action mark or points may have been partially saved. Do not retry this action. Other action marks are blocked in this view.",
+  },
+};
 
 type Resource = {
   id: string;
@@ -60,8 +80,6 @@ const emotionalSupportContacts: { title?: string; href: string; urgent?: boolean
   { title: "116sos.pl", href: "https://116sos.pl/otrzymaj-pomoc/telefon" },
   { href: "https://www.gov.pl/web/zdrowie/centra-zdrowia-psychicznego" },
 ];
-
-const actionStepIds = ["write-close-person", "call-creditor", "book-free-legal", "contact-mops", "sell-unused"];
 
 // Formal documents for Polish institutions stay in Polish in every locale.
 const loanAgreementTemplate = `UMOWA POŻYCZKI
@@ -116,22 +134,37 @@ Opis sytuacji:
 Data i podpis: ____________________`;
 
 export default function CrisisPage() {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
   const copy = pickLocalized(CRISIS_COPY, locale);
   const [city, setCity] = useState("Warszawa");
   const [copied, setCopied] = useState<string | null>(null);
   const [done, setDone] = useState<Set<string>>(new Set());
-  const [tokenBalance, setTokenBalance] = useState(125);
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [saveController] = useState(createCrisisActionSaveController);
+  const [saveTicket, setSaveTicket] = useState(() => saveController.version());
+  const [saveIssue, setSaveIssue] = useState<"unavailable" | "retryable" | "uncertain" | null>("unavailable");
+  const saveCopy = locale === "pl" ? actionSaveCopy.pl : actionSaveCopy.en;
 
-  useEffect(() => {
-    setTokenBalance(getTokenBalance());
-    try {
-      const raw = localStorage.getItem(REWARD_KEY);
-      if (raw) setDone(new Set(JSON.parse(raw) as string[]));
-    } catch {
-      setDone(new Set());
-    }
-  }, []);
+  function isCurrentAttempt() {
+    try { return storage.isCurrent() && saveTicket === saveController.version(); }
+    catch { return false; }
+  }
+
+  useLayoutEffect(() => {
+    const ticket = saveController.reset();
+    const state = readCrisisActions(storage);
+    const balance = getTokenBalance(storage);
+    let current = false;
+    try { current = storage.isCurrent() && ticket === saveController.version(); } catch { /* Leave unavailable. */ }
+    if (!current) return () => { saveController.reset(); };
+    setSaveTicket(ticket);
+    setTokenBalance(balance);
+    setDone(new Set(state.status === "ready" ? state.completed : []));
+    setSaveIssue(state.status === "unavailable" ? "unavailable" : null);
+    setCopied(null);
+    return () => { saveController.reset(); };
+  }, [storage, saveController]);
 
   const resources = useMemo(() => buildResources(city, copy), [city, copy]);
   const voiceText = copy.voiceText.join(" ");
@@ -144,19 +177,41 @@ export default function CrisisPage() {
     { id: "mops", title: copy.templates.titles.mops, text: mopsTemplate, polishDocument: true },
   ];
 
-  function markDone(id: string) {
-    if (done.has(id)) return;
-    const nextDone = new Set(done).add(id);
-    setDone(nextDone);
-    localStorage.setItem(REWARD_KEY, JSON.stringify(Array.from(nextDone)));
-    setTokenBalance(addTokens(ACTION_REWARD));
+  function markDone(id: CrisisActionId) {
+    if (done.has(id) || saveIssue === "unavailable" || saveIssue === "uncertain" ||
+      !isCurrentAttempt() || !saveController.isOpen(saveTicket, id)) return;
+    const result = saveController.run(saveTicket, storage, id);
+    if (!isCurrentAttempt() || result.status === "ignored" || result.status === "stopped") return;
+    if (result.status === "retryable" || result.status === "uncertain") {
+      setSaveIssue(result.status);
+      const balance = getTokenBalance(storage);
+      if (!isCurrentAttempt()) return;
+      setTokenBalance(balance);
+      try { window.dispatchEvent(new Event("coachfi-tokens")); } catch { /* Keep the save warning. */ }
+      return;
+    }
+    const balance = result.balance ?? getTokenBalance(storage);
+    if (!isCurrentAttempt()) return;
+    setDone(new Set(result.completed));
+    setTokenBalance(balance);
+    setSaveIssue(null);
+  }
+
+  function handleCheckRead() {
+    if (saveIssue !== "unavailable" || !isCurrentAttempt() || !saveController.isOpen(saveTicket)) return;
+    const state = readCrisisActions(storage);
+    if (!isCurrentAttempt()) return;
+    setDone(new Set(state.status === "ready" ? state.completed : []));
+    setSaveIssue(state.status === "unavailable" ? "unavailable" : null);
   }
 
   async function copyText(id: string, text: string) {
+    if (!storage.isCurrent()) return;
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(text);
+      if (!storage.isCurrent()) return;
       setCopied(id);
-      window.setTimeout(() => setCopied(null), 1800);
+      window.setTimeout(() => { if (storage.isCurrent()) setCopied(null); }, 1800);
     }
   }
 
@@ -164,6 +219,12 @@ export default function CrisisPage() {
     <section aria-labelledby="crisis-title">
       <SectionHeader eyebrow={copy.eyebrow} title={copy.title} description={copy.description} readText={voiceText} />
 
+      {saveIssue && (
+        <div role="alert" className="mb-4 rounded-lg border border-warning/40 bg-warning/15 p-4 text-sm text-text">
+          <p>{saveCopy[saveIssue]}</p>
+          {saveIssue === "unavailable" && <Button type="button" className="mt-3" onClick={handleCheckRead}>{saveCopy.check}</Button>}
+        </div>
+      )}
       {locale !== "pl" && <p className="mb-4 text-sm font-bold leading-6 text-muted">{copy.polandNotice}</p>}
 
       <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -184,7 +245,7 @@ export default function CrisisPage() {
           </div>
         </div>
 
-        <Card>
+        <Card data-testid="crisis-balance">
           <CardHeader>
             <CardTitle>{copy.tokens.title}</CardTitle>
             <CardDescription>{copy.tokens.description.replace("{reward}", String(ACTION_REWARD))}</CardDescription>
@@ -303,6 +364,7 @@ export default function CrisisPage() {
                 key={id}
                 step={{ id, ...copy.firstDay.steps[index] }}
                 done={done.has(id)}
+                disabled={saveIssue === "unavailable" || saveIssue === "uncertain"}
                 doneLabel={copy.firstDay.done}
                 rewardLabel={rewardLabel}
                 onDone={() => markDone(id)}
@@ -504,18 +566,21 @@ function SafetyStep({ title, body }: { title: string; body: string }) {
 function ActionStep({
   step,
   done,
+  disabled,
   doneLabel,
   rewardLabel,
   onDone,
 }: {
   step: { id: string; title: string; body: string };
   done: boolean;
+  disabled: boolean;
   doneLabel: string;
   rewardLabel: string;
   onDone: () => void;
 }) {
   return (
     <div
+      data-testid={`crisis-action-${step.id}`}
       className={cn(
         "flex flex-col gap-3 rounded-lg border p-4 md:flex-row md:items-center",
         done ? "border-success/35 bg-success/12" : "border-primary/10 bg-background/45"
@@ -528,7 +593,7 @@ function ActionStep({
         <h3 className="font-black text-text">{step.title}</h3>
         <p className="mt-1 text-sm font-semibold leading-6 text-muted">{step.body}</p>
       </div>
-      <Button type="button" variant={done ? "success" : "outline"} size="sm" onClick={onDone} disabled={done}>
+      <Button type="button" variant={done ? "success" : "outline"} size="sm" onClick={onDone} disabled={done || disabled}>
         {done ? doneLabel : rewardLabel}
       </Button>
     </div>

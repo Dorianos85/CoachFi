@@ -1,0 +1,1486 @@
+{
+  "cycle": 24,
+  "date": "2026-10-15",
+  "author": "daily_author",
+  "status": "ACTUAL_PRE_IMPLEMENTATION_INVENTORY_NOT_ACCEPTANCE",
+  "scope": {
+    "stage": "long-term-investing",
+    "ids": [
+      "compound-interest",
+      "diversification",
+      "index-fund",
+      "etf-definition",
+      "time-in-market"
+    ],
+    "keys": [
+      "C",
+      "B",
+      "B",
+      "C",
+      "B"
+    ],
+    "rewards": [
+      30,
+      25,
+      25,
+      25,
+      30
+    ],
+    "totalReward": 135,
+    "productFiles": [
+      "data/stageLessons.ts",
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "localizedQuizUnchanged": true,
+    "stageCounts": {
+      "en": 5,
+      "pl": 5
+    },
+    "quizHref": "/quiz?topic=investing"
+  },
+  "counts": {
+    "english": 62,
+    "canonical": 82,
+    "uniqueCanonical": 82,
+    "stages": 7,
+    "plainByLocale": {
+      "en": 4,
+      "pl": 4,
+      "es": 31,
+      "fr": 31,
+      "zh": 4,
+      "ja": 4,
+      "hi": 4,
+      "pt-BR": 4,
+      "tr": 4
+    }
+  },
+  "targetQuestions": [
+    {
+      "id": "compound-interest",
+      "question": "What is compound interest?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Interest paid only on the original amount"
+        },
+        {
+          "id": "B",
+          "text": "A bank fee for early withdrawal"
+        },
+        {
+          "id": "C",
+          "text": "Interest earned on both principal and previously earned interest"
+        },
+        {
+          "id": "D",
+          "text": "Interest you pay on credit cards only"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Compound interest = earning interest on your interest. Over time it creates exponential growth. +30 points!",
+      "retryMessage": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "diversification",
+      "question": "What does 'diversification' mean in investing?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Putting all your money in one strong stock"
+        },
+        {
+          "id": "B",
+          "text": "Spreading investments across different assets to reduce risk"
+        },
+        {
+          "id": "C",
+          "text": "Investing only in government bonds"
+        },
+        {
+          "id": "D",
+          "text": "Changing your portfolio every week"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Don't put all your eggs in one basket. Diversification reduces the risk of one bad investment ruining your portfolio. +25 points!",
+      "retryMessage": "Diversification = spreading money across different assets to reduce risk.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "index-fund",
+      "question": "Which type of fund tracks a market index automatically with low fees?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Hedge fund"
+        },
+        {
+          "id": "B",
+          "text": "Index fund / ETF"
+        },
+        {
+          "id": "C",
+          "text": "Venture capital fund"
+        },
+        {
+          "id": "D",
+          "text": "Pension fund"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Index funds and ETFs passively track a market index with very low fees. Historically beat most actively managed funds. +25 points!",
+      "retryMessage": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "etf-definition",
+      "question": "What is an ETF?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "A savings account with higher interest"
+        },
+        {
+          "id": "B",
+          "text": "An electronic transfer fee"
+        },
+        {
+          "id": "C",
+          "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+        },
+        {
+          "id": "D",
+          "text": "A government emergency fund"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "ETF = basket of assets (stocks, bonds, commodities) tradeable like a single stock. Combines diversification with flexibility. +25 points!",
+      "retryMessage": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "time-in-market",
+      "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Timing the market (buy low, sell high perfectly)"
+        },
+        {
+          "id": "B",
+          "text": "Staying invested consistently over time ('time in the market')"
+        },
+        {
+          "id": "C",
+          "text": "Selling when the market drops 10%"
+        },
+        {
+          "id": "D",
+          "text": "Investing only in gold"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "'Time in the market beats timing the market' — missing just 10 best days in 20 years can cut returns in half. +30 points!",
+      "retryMessage": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+      "category": "Long-Term Investing"
+    }
+  ],
+  "targetUnifiedByLocale": {
+    "en": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "pl": [
+      {
+        "id": "compound-interest",
+        "question": "Czym jest procent składany?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Odsetki naliczane tylko od początkowej kwoty"
+          },
+          {
+            "id": "B",
+            "text": "Opłata bankowa za wcześniejszą wypłatę"
+          },
+          {
+            "id": "C",
+            "text": "Odsetki od kapitału i wcześniej naliczonych odsetek"
+          },
+          {
+            "id": "D",
+            "text": "Odsetki płacone wyłącznie od kart kredytowych"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Procent składany oznacza, że zarabiasz odsetki także od wcześniejszych odsetek.",
+        "category": "Długoterminowe inwestowanie",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "Co oznacza dywersyfikacja w inwestowaniu?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Włożenie wszystkich pieniędzy w jedną mocną akcję"
+          },
+          {
+            "id": "B",
+            "text": "Rozłożenie inwestycji na różne aktywa, aby ograniczyć ryzyko"
+          },
+          {
+            "id": "C",
+            "text": "Inwestowanie wyłącznie w obligacje skarbowe"
+          },
+          {
+            "id": "D",
+            "text": "Zmienianie portfela co tydzień"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Dywersyfikacja zmniejsza ryzyko, że jedna zła inwestycja zniszczy cały portfel.",
+        "category": "Długoterminowe inwestowanie",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Jaki typ funduszu automatycznie śledzi indeks rynkowy przy niskich opłatach?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Fundusz hedgingowy"
+          },
+          {
+            "id": "B",
+            "text": "Fundusz indeksowy lub ETF"
+          },
+          {
+            "id": "C",
+            "text": "Fundusz venture capital"
+          },
+          {
+            "id": "D",
+            "text": "Fundusz emerytalny"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Fundusze indeksowe i ETF-y pasywnie śledzą indeks i zwykle mają niskie opłaty.",
+        "category": "Długoterminowe inwestowanie",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "Czym jest ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Konto oszczędnościowe z wyższym oprocentowaniem"
+          },
+          {
+            "id": "B",
+            "text": "Elektroniczna opłata za przelew"
+          },
+          {
+            "id": "C",
+            "text": "Fundusz notowany na giełdzie, czyli koszyk aktywów handlowany jak akcja"
+          },
+          {
+            "id": "D",
+            "text": "Państwowy fundusz awaryjny"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF łączy wiele aktywów w jeden instrument, którym można handlować na giełdzie.",
+        "category": "Długoterminowe inwestowanie",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Która strategia zwykle lepiej działa u inwestorów długoterminowych?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Idealne wyczucie rynku"
+          },
+          {
+            "id": "B",
+            "text": "Konsekwentne pozostawanie na rynku przez długi czas"
+          },
+          {
+            "id": "C",
+            "text": "Sprzedaż po spadku rynku o 10%"
+          },
+          {
+            "id": "D",
+            "text": "Inwestowanie wyłącznie w złoto"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Dla większości osób czas spędzony na rynku jest ważniejszy niż próba idealnego wejścia i wyjścia.",
+        "category": "Długoterminowe inwestowanie",
+        "reward": 30
+      }
+    ],
+    "es": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "fr": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "zh": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "ja": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "hi": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "pt-BR": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ],
+    "tr": [
+      {
+        "id": "compound-interest",
+        "question": "What is compound interest?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Interest paid only on the original amount"
+          },
+          {
+            "id": "B",
+            "text": "A bank fee for early withdrawal"
+          },
+          {
+            "id": "C",
+            "text": "Interest earned on both principal and previously earned interest"
+          },
+          {
+            "id": "D",
+            "text": "Interest you pay on credit cards only"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      },
+      {
+        "id": "diversification",
+        "question": "What does 'diversification' mean in investing?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Putting all your money in one strong stock"
+          },
+          {
+            "id": "B",
+            "text": "Spreading investments across different assets to reduce risk"
+          },
+          {
+            "id": "C",
+            "text": "Investing only in government bonds"
+          },
+          {
+            "id": "D",
+            "text": "Changing your portfolio every week"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Diversification = spreading money across different assets to reduce risk.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "index-fund",
+        "question": "Which type of fund tracks a market index automatically with low fees?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Hedge fund"
+          },
+          {
+            "id": "B",
+            "text": "Index fund / ETF"
+          },
+          {
+            "id": "C",
+            "text": "Venture capital fund"
+          },
+          {
+            "id": "D",
+            "text": "Pension fund"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "etf-definition",
+        "question": "What is an ETF?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A savings account with higher interest"
+          },
+          {
+            "id": "B",
+            "text": "An electronic transfer fee"
+          },
+          {
+            "id": "C",
+            "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+          },
+          {
+            "id": "D",
+            "text": "A government emergency fund"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+        "category": "Long-Term Investing",
+        "reward": 25
+      },
+      {
+        "id": "time-in-market",
+        "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Timing the market (buy low, sell high perfectly)"
+          },
+          {
+            "id": "B",
+            "text": "Staying invested consistently over time ('time in the market')"
+          },
+          {
+            "id": "C",
+            "text": "Selling when the market drops 10%"
+          },
+          {
+            "id": "D",
+            "text": "Investing only in gold"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+        "category": "Long-Term Investing",
+        "reward": 30
+      }
+    ]
+  },
+  "targetSteps": {
+    "en": [
+      {
+        "title": "Compound interest",
+        "body": "Compound interest is interest earned on the original amount and on the interest already added. The balance grows, and the next round of interest uses that larger balance. It is not a bank fee, and it is not limited to credit cards. Over many years the added interest becomes a large part of the total."
+      },
+      {
+        "title": "Diversification",
+        "body": "Diversification means spreading money across different assets so one loss does not sink the plan. One stock, even a strong one, is a single bet. Bonds alone are not a full mix. The aim is lower risk, not a new portfolio every week."
+      },
+      {
+        "title": "Index funds",
+        "body": "An index fund tracks a market list automatically and charges a low fee. An ETF can do the same. A hedge fund and a venture fund are different products with higher costs. The low fee stays invested instead of being paid away."
+      },
+      {
+        "title": "What an ETF is",
+        "body": "An ETF is an exchange-traded fund: a basket of assets you can buy and sell like a stock. It is not a savings account and not a transfer fee. One purchase can hold many companies or bonds. You get a mix without picking each piece yourself."
+      },
+      {
+        "title": "Time in the market",
+        "body": "For long-term investors, staying invested has tended to beat buying the exact low and selling the exact high. Selling after a drop often misses the recovery. Gold alone is not the strategy these studies point to. Time in the market means remaining invested through ordinary ups and downs."
+      }
+    ],
+    "pl": [
+      {
+        "title": "Procent składany",
+        "body": "Procent składany to odsetki od kapitału i od odsetek, które już doszły. Saldo rośnie, więc kolejne odsetki liczą się od większej kwoty. To nie opłata banku za wcześniejszą wypłatę i nie chodzi tylko o karty. Po latach te dopisane odsetki robią sporą część całej sumy."
+      },
+      {
+        "title": "Dywersyfikacja",
+        "body": "Dywersyfikacja to rozłożenie pieniędzy na różne aktywa, żeby jedna wpadka nie zniszczyła planu. Jedna akcja, nawet mocna, to jeden zakład. Same obligacje też nie wystarczą. Chodzi o mniejsze ryzyko, a nie o nowy portfel co tydzień."
+      },
+      {
+        "title": "Fundusze indeksowe",
+        "body": "Fundusz indeksowy sam śledzi indeks rynkowy i bierze niską opłatę. ETF robi to samo. Fundusz hedgingowy i fundusz venture capital to co innego i kosztują więcej. Niska opłata zostaje w inwestycji, zamiast iść do pośrednika."
+      },
+      {
+        "title": "Czym jest ETF",
+        "body": "ETF to fundusz notowany na giełdzie: koszyk aktywów, który kupujesz i sprzedajesz jak akcję. To nie konto oszczędnościowe i nie opłata za przelew. W jednym zakupie masz wiele firm albo obligacji. Nie musisz wybierać każdej z osobna."
+      },
+      {
+        "title": "Czas na rynku",
+        "body": "Jak inwestujesz na lata, lepiej zostać na rynku niż zgadywać dokładny dołek i szczyt. Sprzedaż tuż po spadku często omija odbicie. Samo złoto nie jest tą strategią. Chodzi o to, żeby zostać w inwestycji przez zwykłe wzrosty i spadki."
+      }
+    ]
+  },
+  "plainTargetMembership": {
+    "en": [],
+    "pl": [],
+    "es": [],
+    "fr": [],
+    "zh": [],
+    "ja": [],
+    "hi": [],
+    "pt-BR": [],
+    "tr": []
+  },
+  "nonTargetRuntimeSha256": "53edd5d7008473de7da6f37e9ee947f160d724e6e1f73eee216de161e8deca23",
+  "sourceFingerprints": [
+    {
+      "path": "data/stageLessons.ts",
+      "sha256": "e9a7140b3f45e4561cd565c8abf0a8d6264985c8a8117a3347c8f465dab92c3e"
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "sha256": "c66fc8587e96249d5b93b3ef69dd61f55823b0344f45a593847ee3c756ee4831"
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "sha256": "e09d8cb97de58833514aff737386b013f5c9b9467f997e2fa941b06ab1245092"
+    },
+    {
+      "path": "lib/localizedQuiz.ts",
+      "sha256": "a85a1173d681bae61dc4836298c32b4254ea547e2e945b152d44cd7e0c5e9588"
+    },
+    {
+      "path": "lib/quiz-topic.ts",
+      "sha256": "594f3fa0c27ccc850d4ef51a978797d07544aeadeb703b87971fa5129880d406"
+    },
+    {
+      "path": "lib/learningProgress.ts",
+      "sha256": "1c4cdbd47be3d1446bb0184bf8a22985c2351b9f3d52310626cd6f94ed0985da"
+    }
+  ],
+  "execution": {
+    "kind": "Restricted VM imports actual banks and declaration dependencies, no test runner, no window/process/storage/fetch exposed",
+    "modules": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts",
+      "data/challengeQuestions.ts",
+      "lib/product-storage.ts",
+      "lib/sync/local-sync-state.ts",
+      "lib/localizedChallenge.ts",
+      "lib/localizedQuiz.ts",
+      "data/stageLessons.ts"
+    ],
+    "storageFunctionsCalled": 0,
+    "networkCalls": 0,
+    "limitations": "This inventory does not invoke actual UI, topic resolver, lesson counters, SRS or cloud."
+  }
+}

@@ -1,0 +1,197 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { extname, join, relative, resolve } from "node:path";
+import { isDeepStrictEqual } from "node:util";
+import { GET as certificatesGet, POST as certificatesPost } from "@/app/api/certificates/route";
+import { POST as mintPost } from "@/app/api/mint-nft/route";
+import { GET as vaultGet } from "@/app/api/vault/route";
+import { isFeatureEnabled, isRouteEnabled } from "@/lib/product-scope";
+
+type Entry = { version?: string; dependencies?: Record<string, string>; devDependencies?: Record<string, string>;
+  optionalDependencies?: Record<string, string>; peerDependencies?: Record<string, string>; peerDependenciesMeta?: Record<string, { optional?: boolean }>; [key: string]: unknown };
+type Lock = { packages: Record<string, Entry>; [key: string]: unknown };
+type Snapshot = { before: { package: { fullText: string; sha256: string }; lock: { fullText: string; sha256: string };
+  helper: { path: string; sha256: string } }; removedRootEdges: string[];
+  independentGraph: { beforePackages: number; beforeReachable: number; afterReachable: number; exclusiveRemoved: number; sharedWitnesses: string[] };
+  literalSourceWitnesses: Array<{ path: string; sha256: string }>; sourceScan: { roots: string[]; extensions: string[]; tokens: string[] } };
+const traps = vi.hoisted(() => ({ authConfigured: vi.fn(() => { throw Error("C63 auth initialization forbidden"); }),
+  verify: vi.fn(() => { throw Error("C63 auth/provider forbidden"); }), env: vi.fn(() => { throw Error("C63 provider environment access forbidden"); }),
+  storeConfigured: vi.fn(() => { throw Error("C63 account store initialization forbidden"); }),
+  getAccount: vi.fn(() => { throw Error("C63 data/provider forbidden"); }), deleteAccount: vi.fn(() => { throw Error("C63 data mutation forbidden"); }) }));
+// These denied boundaries stay uncalled: the actual disabled routes import only their actual scope guard.
+vi.mock("@/lib/cdp-server", () => ({ cdpAuthConfigured: traps.authConfigured, verifyCdpUser: traps.verify }));
+vi.mock("@/lib/server-env", () => ({ getOptionalEnv: traps.env }));
+vi.mock("@/lib/account-store", () => ({ accountStorageConfigured: traps.storeConfigured, getAccount: traps.getAccount, deleteAccount: traps.deleteAccount }));
+
+const model = JSON.parse(readFileSync(resolve("evidence/cycle-63/validation-plan.json"), "utf8")) as Snapshot;
+const originalPackage = JSON.parse(model.before.package.fullText) as Entry;
+const originalLock = JSON.parse(model.before.lock.fullText) as Lock;
+const ROOTS = ["@metaplex-foundation/mpl-core", "@metaplex-foundation/umi", "@metaplex-foundation/umi-bundle-defaults"] as const;
+const GROUPS = ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"] as const;
+const LIMITS = "Declared package/lock graph and bounded literal production-source inspection only, independently derived from frozen before JSON rather than author proposal. Conservative all-peer and nonoptional-peer ancestor closures distinguished; existing optionalDependencies retained in both, optional-annotated peers omitted only in required-consumer closure; not npm reification, semver compatibility, physical node_modules removal, clean install or advisory/CVE closure. Actual four deferred Web3 route methods and real guard/product-scope execute; no actual SDK/RPC/auth/account/provider or browser. Auth/store/env adapters and global fetch are deny traps, not simulated successful SDK clients. No real profiles, data, sessions, env values, provider keys or npm/network operations. Existing installed extraneous packages may remain, including YAML. Original conservative19 model remains immutable; revised20 admits YAML only after independent optional-peer/configuration assessment, not a second npm run. Current metadata additionally admits only C73 two scoped parser overrides and the retained parser version/resolved/integrity tuple through pinned immutable evidence; the independently derived C63 graph/removals and all other package/lock fields remain exact.";
+const sha = (value: string | Uint8Array) => createHash("sha256").update(value).digest("hex");
+const readPackage = () => JSON.parse(readFileSync(resolve("package.json"), "utf8")) as Entry;
+const readLock = () => JSON.parse(readFileSync(resolve("package-lock.json"), "utf8")) as Lock;
+function removeRoots(entry: Entry) { const copy = structuredClone(entry); for (const name of ROOTS) delete copy.dependencies?.[name]; return copy; }
+
+/** Node package lookup from the consumer's directory, including nested and scoped ancestors. Ranges are intentionally not solved here. */
+function locate(packages: Record<string, Entry>, from: string, name: string): string | null {
+  let directory = from;
+  for (;;) {
+    if (directory.split("/").at(-1) !== "node_modules") {
+      const candidate = (directory ? directory + "/" : "") + "node_modules/" + name;
+      if (Object.hasOwn(packages, candidate)) return candidate;
+    }
+    if (!directory) return null;
+    const slash = directory.lastIndexOf("/"); directory = slash < 0 ? "" : directory.slice(0, slash);
+  }
+}
+function graph(packages: Record<string, Entry>, root: Entry = packages[""], includeOptionalPeers = true) {
+  const reachable = new Set<string>(), pending = [""], unresolved: Array<{ from: string; group: string; name: string; optionalPeer: boolean }> = [];
+  for (let at = 0; at < pending.length; at++) {
+    const consumer = pending[at]; if (reachable.has(consumer)) continue; reachable.add(consumer);
+    const entry = consumer === "" ? root : packages[consumer];
+    for (const group of GROUPS) for (const name of Object.keys(entry[group] ?? {})) {
+      const optionalPeer = group === "peerDependencies" && entry.peerDependenciesMeta?.[name]?.optional === true;
+      if (!includeOptionalPeers && optionalPeer) continue;
+      const found = locate(packages, consumer, name);
+      if (found === null) unresolved.push({ from: consumer, group, name, optionalPeer }); else if (!reachable.has(found)) pending.push(found);
+    }
+  }
+  return { reachable: [...reachable].sort(), unresolved };
+}
+const beforeGraph = graph(originalLock.packages), projectedRoot = removeRoots(originalLock.packages[""]);
+const conservativeGraph = graph(originalLock.packages, projectedRoot);
+const requiredBeforeGraph = graph(originalLock.packages, originalLock.packages[""], false);
+const expectedGraph = graph(originalLock.packages, projectedRoot, false);
+const optionalPeerOnlyAfter = conservativeGraph.reachable.filter(path => !expectedGraph.reachable.includes(path));
+const expectedRemoved = beforeGraph.reachable.filter(path => !expectedGraph.reachable.includes(path));
+const expectedLock = structuredClone(originalLock); expectedLock.packages[""] = projectedRoot;
+for (const path of expectedRemoved) delete expectedLock.packages[path];
+
+// C73 is an explicit immutable follow-up; current files are observations, never the expected-state oracle.
+type C73State = { path: string; beforeSHA256: string; afterSHA256: string; fullBefore: string; fullAfter: string };
+const c73Text = readFileSync(resolve("evidence/cycle-73/dependency-change.json"), "utf8");
+function admitC73(condition: unknown, label: string): asserts condition {
+  if (!condition) throw new Error("C63/C73 strict metadata admission: " + label);
+}
+admitC73(sha(c73Text) === "9e2161040f9ff6a8a5cbe38431bdd39628ad2230d046eefbf76054ec4a8bc932", "immutable C73 evidence");
+const c73 = JSON.parse(c73Text) as { cycle: string; changes: C73State[] };
+admitC73(c73.cycle === "C73" && c73.changes.length === 3, "C73 identity and three metadata records");
+const C73_PARSER_PATH = "node_modules/postcss-selector-parser";
+const C73_PARSER_TUPLE = {
+  version: "7.1.6",
+  resolved: "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-7.1.6.tgz",
+  integrity: "sha512-7qASPzhKF2l2KLboRZux8CCTRMdGiV08vWmyKzPz22qZ7ZjQBOeY7rNzNoCLSUiftJ7HUq0GERHmxw/t0dCdMw==",
+};
+const currentExpectedPackage = removeRoots(originalPackage);
+currentExpectedPackage.overrides = { ...(currentExpectedPackage.overrides as Record<string, unknown>),
+  tailwindcss: { "postcss-selector-parser": "7.1.6" }, "postcss-nested": { "postcss-selector-parser": "7.1.6" } };
+const currentExpectedLock = structuredClone(expectedLock);
+admitC73(Object.hasOwn(currentExpectedLock.packages, C73_PARSER_PATH), "existing retained parser placement");
+currentExpectedLock.packages[C73_PARSER_PATH] = { ...currentExpectedLock.packages[C73_PARSER_PATH], ...C73_PARSER_TUPLE };
+for (const [file, baseline, expected, beforePin, afterPin] of [
+  ["package.json", removeRoots(originalPackage), currentExpectedPackage,
+    "e99a76fceda4b293af26d414231bf373340d486968c807577e1307eac662f109", "679f4f2e960546799e8995715a5e3f7adba8c52792ddf92eecadf6823f5201b6"],
+  ["package-lock.json", expectedLock, currentExpectedLock,
+    "3f981656236872e8db5d21fafbd6edc7b0ecd92c3755abc8caa562cf7e94b703", "9637bfbc2cb2db77c7a0e8d33fd65bcd4fe6c565f39145ac36c61261f1e2f150"],
+] as const) {
+  const matches = c73.changes.filter(row => row.path === file);
+  admitC73(matches.length === 1, "one evidence record for " + file);
+  const state = matches[0]!;
+  admitC73(state.beforeSHA256 === beforePin && state.afterSHA256 === afterPin
+    && sha(state.fullBefore) === beforePin && sha(state.fullAfter) === afterPin, "whole metadata pins for " + file);
+  admitC73(isDeepStrictEqual(JSON.parse(state.fullBefore), baseline), "independent C63 projection equals C73 before for " + file);
+  admitC73(isDeepStrictEqual(JSON.parse(state.fullAfter), expected), "only exact C73 delta admitted for " + file);
+}
+function productionFiles(directory: string): string[] {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    if (entry.isSymbolicLink()) return [];
+    const path = join(directory, entry.name);
+    return entry.isDirectory() ? productionFiles(path) : model.sourceScan.extensions.includes(extname(entry.name)) ? [path] : [];
+  });
+}
+function observe(name: string, data: unknown) { console.log("C63_DEPENDENCY_OBSERVATION " + JSON.stringify({ name, data, limits: LIMITS })); }
+function noProvider() { for (const trap of Object.values(traps)) expect(trap).not.toHaveBeenCalled(); expect(fetch).not.toHaveBeenCalled(); }
+
+beforeEach(() => { vi.clearAllMocks(); vi.stubEnv("NEXT_PUBLIC_ENABLE_WEB3", "true");
+  vi.stubGlobal("fetch", vi.fn(() => { throw Error("C63 network/RPC forbidden"); })); });
+afterEach(() => { noProvider(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
+
+describe("C63 minimal deferred chain dependency removal", () => {
+  it("removes exactly the three dead runtime declarations while preserving all other package fields", () => {
+    const actual = readPackage(), expected = currentExpectedPackage;
+    observe("manifest-edges", { rootEdges: ROOTS.map(name => ({ name, before: originalPackage.dependencies?.[name], current: actual.dependencies?.[name] ?? null })),
+      actualDependencies: actual.dependencies, originalSHA: sha(model.before.package.fullText), expectedModelSHA: model.before.package.sha256 });
+    expect(sha(model.before.package.fullText)).toBe(model.before.package.sha256); expect(model.removedRootEdges).toEqual([...ROOTS]);
+    expect(actual).toStrictEqual(expected);
+  });
+
+  it("prunes only independently exclusive lock entries and retains the complete CDP/Solana shared graph", () => {
+    const actual = readLock(), actualPaths = Object.keys(actual.packages).sort(), originalPaths = Object.keys(originalLock.packages).sort();
+    const removed = originalPaths.filter(path => !Object.hasOwn(actual.packages, path)), added = actualPaths.filter(path => !Object.hasOwn(originalLock.packages, path));
+    const retainedChanges = actualPaths.filter(path => path !== "" && Object.hasOwn(originalLock.packages, path) && !isDeepStrictEqual(actual.packages[path], originalLock.packages[path]));
+    const currentGraph = graph(actual.packages), expectedConservativeCurrent = graph(expectedLock.packages);
+    const yamlIncoming = Object.entries(actual.packages).flatMap(([from, entry]) => GROUPS.flatMap(group => entry[group]?.yaml === undefined ? [] : [{
+      from, group, range: entry[group]!.yaml, optionalPeer: group === "peerDependencies" && entry.peerDependenciesMeta?.yaml?.optional === true,
+    }])).sort((a, b) => a.from < b.from ? -1 : a.from > b.from ? 1 : 0);
+    const missingYaml = currentGraph.unresolved.filter(edge => edge.name === "yaml").sort((a, b) => a.from < b.from ? -1 : a.from > b.from ? 1 : 0);
+    observe("lock-graph", { beforeEntries: originalPaths.length, beforeReachable: beforeGraph.reachable.length, originalConservativeAfter: conservativeGraph.reachable.length,
+      requiredBefore: requiredBeforeGraph.reachable.length, expectedRequiredAfter: expectedGraph.reachable.length, optionalPeerOnlyAfter,
+      currentEntries: actualPaths.length, currentReachable: currentGraph.reachable.length, expectedRemoved: expectedRemoved.map(path => ({ path, version: originalLock.packages[path].version })),
+      actualRemoved: removed, added, retainedChanges, unresolvedBefore: beforeGraph.unresolved.length,
+      expectedConservativeUnresolvedAfter: expectedConservativeCurrent.unresolved.length, unresolvedCurrent: currentGraph.unresolved.length, yamlIncoming, missingYaml,
+      shared: model.independentGraph.sharedWitnesses.map(path => ({ path, present: Object.hasOwn(actual.packages, path), literal: isDeepStrictEqual(actual.packages[path], originalLock.packages[path]) })) });
+    expect(sha(model.before.lock.fullText)).toBe(model.before.lock.sha256); expect(beforeGraph.reachable).toEqual(originalPaths);
+    expect([originalPaths.length, conservativeGraph.reachable.length, requiredBeforeGraph.reachable.length, expectedGraph.reachable.length, expectedRemoved.length]).toEqual([628, 609, 628, 608, 20]);
+    expect(optionalPeerOnlyAfter).toEqual(["node_modules/yaml"]);
+    expect(added).toEqual([]); expect(retainedChanges).toEqual([C73_PARSER_PATH]); expect(removed).toEqual(expectedRemoved);
+    expect(actual).toStrictEqual(currentExpectedLock); expect(currentGraph.reachable).toEqual(actualPaths);
+    expect([beforeGraph.unresolved.length, expectedConservativeCurrent.unresolved.length, currentGraph.unresolved.length]).toEqual([50, 52, 52]);
+    const yamlConsumers = ["node_modules/postcss-load-config", "node_modules/vite"];
+    expect(yamlIncoming).toEqual(yamlConsumers.map(from => ({ from, group: "peerDependencies", range: "^2.4.2", optionalPeer: true })));
+    expect(missingYaml).toEqual(yamlConsumers.map(from => ({ from, group: "peerDependencies", name: "yaml", optionalPeer: true })));
+    for (const path of model.independentGraph.sharedWitnesses) expect(actual.packages[path]).toStrictEqual(originalLock.packages[path]);
+  });
+
+  it("removes the uncalled helper without changing active CDP or the disabled route policy", () => {
+    const files = model.sourceScan.roots.flatMap(root => productionFiles(resolve(root)));
+    const references = files.flatMap(path => {
+      const name = relative(process.cwd(), path).replaceAll("\\", "/"); if (name === model.before.helper.path) return [];
+      const source = readFileSync(path, "utf8"); return model.sourceScan.tokens.filter(token => source.includes(token)).map(token => ({ path: name, token }));
+    });
+    const configPins = [
+      { path: "postcss.config.mjs", sha256: "6ebe6241f8347bbea31480fed02d50db4b7232f4d0070dda3d231aa4a6b78ddc" },
+      { path: "vitest.config.ts", sha256: "71efb74ff79bc8a66be70cfa69ff9f2933fe7519e010e9178351a12e9a52597c" },
+    ];
+    const witnesses = [...model.literalSourceWitnesses, ...configPins].map(pin => ({ ...pin, actualSHA: sha(readFileSync(resolve(pin.path))) }));
+    const yamlConfigs = [".postcssrc", ".postcssrc.yaml", ".postcssrc.yml", "postcss.config.yaml", "postcss.config.yml",
+      "vite.config.yaml", "vite.config.yml", "vitest.config.yaml", "vitest.config.yml"].filter(path => existsSync(resolve(path)));
+    observe("dead-helper-and-source-boundary", { helperExists: existsSync(resolve(model.before.helper.path)), helperOriginalSHA: model.before.helper.sha256,
+      scannedSourceFiles: files.length, roots: model.sourceScan.roots, literalReferences: references, witnesses, yamlConfigs,
+      optionalYamlQualification: "Existing MJS PostCSS and TS Vitest configs pinned; installed YAML loader imports lazily for YAML configuration. This is a bounded config admission, not physical parser absence or clean-install proof." });
+    expect(existsSync(resolve(model.before.helper.path))).toBe(false); expect(references).toEqual([]); expect(yamlConfigs).toEqual([]);
+    for (const pin of witnesses) expect(pin.actualSHA).toBe(pin.sha256);
+    expect(isFeatureEnabled("web3")).toBe(false); for (const href of ["/vault", "/vault/nested?synthetic=1", "/achievement"]) expect(isRouteEnabled(href)).toBe(false);
+  });
+});
+
+describe("C63 unchanged actual deferred Web3 routes deny before provider boundaries", () => {
+  const methods: Array<[string, (request: Request) => Promise<Response>]> = [
+    ["certificates GET", certificatesGet], ["certificates POST", certificatesPost], ["mint POST", mintPost], ["vault GET", vaultGet],
+  ];
+  it.each(methods)("%s stays literal disabled despite spoofed authorization and enable flag", async (name, handler) => {
+    const method = name.endsWith("GET") ? "GET" : "POST";
+    const request = new Request("https://synthetic.invalid/api/c63", { method, headers: { authorization: "Bearer synthetic.payload.signature",
+      "x-user-id": "C63-synthetic-owner", "x-coachfi-consent": "blockchain", "content-type": "application/json" },
+      body: method === "POST" ? '{"consent":true,"owner":"C63-synthetic-owner"}' : undefined });
+    const response = await handler(request), body: unknown = await response.json();
+    observe("route-" + name, { status: response.status, body, cache: response.headers.get("cache-control"), web3Enabled: isFeatureEnabled("web3"),
+      authCalls: traps.verify.mock.calls.length, configuredCalls: traps.authConfigured.mock.calls.length, providerEnvCalls: traps.env.mock.calls.length,
+      storeCalls: traps.getAccount.mock.calls.length, fetchCalls: vi.mocked(fetch).mock.calls.length });
+    expect(response.status).toBe(404); expect(body).toStrictEqual({ ok: false, code: "FEATURE_DISABLED", error: "This feature is not available in the current release." });
+    expect(response.headers.get("cache-control")).toBe("no-store"); expect(isFeatureEnabled("web3")).toBe(false); noProvider();
+  });
+});

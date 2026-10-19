@@ -12,8 +12,17 @@ import type { ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 
 import { getSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { pushEntity, syncOnLogin } from "@/lib/sync/cloudSync";
-import { registerCloudPusher, type SyncEntity } from "@/lib/sync/syncQueue";
+import { syncOnLogin } from "@/lib/sync/cloudSync";
+import { registerCloudPusher } from "@/lib/sync/syncQueue";
+import { createSessionSyncController } from "@/lib/sync/session-sync";
+import { getStorageOwnershipSnapshot } from "@/lib/product-storage";
+
+export type SignOutResult = { error: "unconfirmed" | "cancelled" | null };
+type SignOutStatus = "idle" | "pending" | "error";
+type SignOutAttempt = {
+  controller: ReturnType<typeof createSessionSyncController>;
+  guest: ReturnType<typeof getStorageOwnershipSnapshot> | null;
+};
 
 interface AuthContextValue {
   configured: boolean;
@@ -23,7 +32,8 @@ interface AuthContextValue {
   signInWithPassword: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string) => Promise<{ error: string | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
-  signOut: () => Promise<void>;
+  signOutStatus: SignOutStatus;
+  signOut: () => Promise<SignOutResult>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
@@ -34,75 +44,78 @@ const AuthContext = createContext<AuthContextValue>({
   signInWithPassword: async () => ({ error: "Auth not configured" }),
   signUp: async () => ({ error: "Auth not configured" }),
   signInWithMagicLink: async () => ({ error: "Auth not configured" }),
-  signOut: async () => {},
+  signOutStatus: "idle",
+  signOut: async () => ({ error: "unconfirmed" }),
 });
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const supabase = getSupabaseBrowserClient();
-  const configured = isSupabaseConfigured();
+export function AuthProvider({ children, enabled = true }: { children: ReactNode; enabled?: boolean }) {
+  const supabase = enabled ? getSupabaseBrowserClient() : null;
+  const configured = enabled && isSupabaseConfigured();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
-  const user = session?.user ?? null;
-
-  // Debounce timers per entity so rapid local writes coalesce into one push.
-  const timers = useRef<Partial<Record<SyncEntity, ReturnType<typeof setTimeout>>>>({});
+  const [signOutStatus, setSignOutStatus] = useState<SignOutStatus>("idle");
+  const currentSession = enabled ? session : null;
+  const user = currentSession?.user ?? null;
+  const sync = useRef<ReturnType<typeof createSessionSyncController> | null>(null);
+  const signOutAttempt = useRef<SignOutAttempt | null>(null);
 
   useEffect(() => {
+    signOutAttempt.current = null;
+    setSignOutStatus("idle");
     if (!supabase) {
       setLoading(false);
       return;
     }
 
     let active = true;
-
-    // Register the pusher: mirror local changes to the cloud for the current user.
-    const installPusher = (userId: string) => {
-      registerCloudPusher((entity, payload) => {
-        // Rewards are deltas — never debounce/coalesce them.
-        if (entity === "reward") {
-          void pushEntity(supabase, userId, entity, payload).catch(() => {});
-          return;
-        }
-        clearTimeout(timers.current[entity]);
-        timers.current[entity] = setTimeout(() => {
-          void pushEntity(supabase, userId, entity, payload).catch(() => {});
-        }, 800);
-      });
-    };
-
-    const { data: sub } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
+    const controller = createSessionSyncController({
+      sync: (guard) => syncOnLogin(supabase, guard.userId, guard),
+      push: async () => {}, // Automatic account writes are disabled in B15.
+      registerPusher: registerCloudPusher,
+      onSynced: () => {}, // Initial hydration must not announce an account save.
+    });
+    sync.current = controller;
+    const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       if (!active) return;
+      const uid = nextSession?.user?.id ?? null;
+      const existing = controller.getCurrent();
+      // The SDK also emits SIGNED_IN on focus. A still-current same-owner
+      // refresh must not discard pending explicit local changes.
+      const sameOwnerRefresh = uid && existing?.userId === uid &&
+        (event === "TOKEN_REFRESHED" || event === "SIGNED_IN");
+      const guard = sameOwnerRefresh ? existing : controller.start(uid);
+      if (uid && !guard?.isCurrent()) return;
+      if (!uid) {
+        const view = getStorageOwnershipSnapshot();
+        if (view.status !== "ready" || view.owner?.kind !== "guest") return;
+        const attempt = signOutAttempt.current;
+        if (attempt?.controller === controller) attempt.guest = view;
+        else setSignOutStatus("idle");
+      } else {
+        signOutAttempt.current = null;
+        setSignOutStatus("idle");
+      }
       setSession(nextSession);
       setLoading(false);
-
-      const uid = nextSession?.user?.id;
-      if (uid) {
-        installPusher(uid);
-        try {
-          await syncOnLogin(supabase, uid);
-          // Contexts/components listen for this (plus "coachfi-tokens" dispatched
-          // during reconcile) and re-read localStorage — no full page reload.
-          window.dispatchEvent(new Event("coachfi-cloud-synced"));
-        } catch {
-          // Sync failures keep the app working in local-only mode.
-        }
-      } else {
-        registerCloudPusher(null);
-      }
     });
 
     return () => {
       active = false;
+      controller.dispose();
+      if (sync.current === controller) {
+        sync.current = null;
+        signOutAttempt.current = null;
+      }
       sub.subscription.unsubscribe();
-      registerCloudPusher(null);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [supabase]);
 
   const signInWithPassword = useCallback(
     async (email: string, password: string) => {
-      if (!supabase) return { error: "Auth not configured" };
+      const controller = sync.current;
+      if (!supabase || !controller) return { error: "Auth not configured" };
       const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (sync.current !== controller) return { error: "Sign-in cancelled" };
       return { error: error?.message ?? null };
     },
     [supabase]
@@ -110,8 +123,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = useCallback(
     async (email: string, password: string) => {
-      if (!supabase) return { error: "Auth not configured" };
+      const controller = sync.current;
+      if (!supabase || !controller) return { error: "Auth not configured" };
       const { error } = await supabase.auth.signUp({ email, password });
+      if (sync.current !== controller) return { error: "Sign-in cancelled" };
       return { error: error?.message ?? null };
     },
     [supabase]
@@ -119,33 +134,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithMagicLink = useCallback(
     async (email: string) => {
-      if (!supabase) return { error: "Auth not configured" };
+      const controller = sync.current;
+      if (!supabase || !controller) return { error: "Auth not configured" };
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: { emailRedirectTo: window.location.origin },
       });
+      if (sync.current !== controller) return { error: "Sign-in cancelled" };
       return { error: error?.message ?? null };
     },
     [supabase]
   );
 
-  const signOut = useCallback(async () => {
-    if (!supabase) return;
-    await supabase.auth.signOut();
-    registerCloudPusher(null);
-    setSession(null);
+  const signOut = useCallback(async (): Promise<SignOutResult> => {
+    const controller = sync.current;
+    if (!supabase || !controller) return { error: "unconfirmed" };
+    if (signOutAttempt.current) return { error: "cancelled" };
+    const attempt: SignOutAttempt = { controller, guest: null };
+    signOutAttempt.current = attempt;
+    setSignOutStatus("pending");
+    const finish = (error: "unconfirmed" | null): SignOutResult => {
+      if (sync.current !== controller || signOutAttempt.current !== attempt) return { error: "cancelled" };
+      signOutAttempt.current = null;
+      if (attempt.guest && getStorageOwnershipSnapshot() !== attempt.guest) {
+        setSignOutStatus("idle");
+        return { error: "cancelled" };
+      }
+      setSignOutStatus(error ? "error" : "idle");
+      return { error };
+    };
+    try {
+      // Fence local work before awaiting the SDK; never restore the old owner.
+      controller.start(null);
+      if (sync.current !== controller || signOutAttempt.current !== attempt) return { error: "cancelled" };
+      const guest = getStorageOwnershipSnapshot();
+      if (guest.status !== "ready" || guest.owner?.kind !== "guest") return finish("unconfirmed");
+      attempt.guest = guest;
+      setSession(null);
+      if (getStorageOwnershipSnapshot() !== guest) return finish("unconfirmed");
+      const { error } = await supabase.auth.signOut();
+      return finish(error ? "unconfirmed" : null);
+    } catch {
+      return finish("unconfirmed");
+    }
   }, [supabase]);
 
   return (
     <AuthContext.Provider
       value={{
         configured,
-        loading,
+        loading: enabled ? loading : false,
         user,
-        session,
+        session: currentSession,
         signInWithPassword,
         signUp,
         signInWithMagicLink,
+        signOutStatus: enabled ? signOutStatus : "idle",
         signOut,
       }}
     >

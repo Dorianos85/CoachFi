@@ -9,48 +9,18 @@ import { useLanguage } from "@/context/LanguageContext";
 import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { challengeQuestions } from "@/data/challengeQuestions";
-import { quizQuestions } from "@/data/quizQuestions";
-import { STAGE_QUESTION_IDS } from "@/lib/learningProgress";
 import { getLocalizedContent } from "@/lib/localizedContent";
-import { getQuizQuestions } from "@/lib/localizedQuiz";
-import { getAllCards, recordAnswer } from "@/lib/srs";
+import { getTopicQuestions, isKnownQuizTopic } from "@/lib/quiz-topic";
+import { recordAnswer } from "@/lib/srs";
+import { readReviewCards } from "@/lib/review-save";
 import { cn } from "@/lib/utils";
 import { getVoiceDemoLocale } from "@/lib/voiceDemoScripts";
+import { useProductStorage } from "@/lib/use-product-storage";
+import { getTokenBalance } from "@/lib/tokens";
+import { createQuizLearningSaveController, type QuizLearningSaveReward, type QuizLearningSaveTicket } from "@/lib/quiz-learning-save";
 
 const QUIZ_BATCH_SIZE = 4;
 const MAX_QUIZ_VOICE_LENGTH = 500;
-
-const TOPIC_STAGE: Record<string, keyof typeof STAGE_QUESTION_IDS> = {
-  mindset: "money-mindset",
-  saving: "saving-habit",
-  inflation: "inflation",
-  credit: "credit-rates",
-  emergency: "emergency-fund",
-  investing: "long-term-investing",
-  retirement: "retirement",
-  family: "family-plan",
-};
-
-function questionsForTopic(localeQuestions: QuizQuestion[], topic?: string) {
-  const stageId = topic ? TOPIC_STAGE[topic] : undefined;
-  if (!stageId) return localeQuestions;
-  const localizedById = new Map(localeQuestions.map((question) => [question.id, question]));
-  const challengeById = new Map(challengeQuestions.map((question) => [question.id, {
-    id: question.id,
-    question: question.question,
-    answers: question.answers,
-    correctAnswer: question.correctAnswer,
-    reward: question.reward,
-    successMessage: question.explanation,
-    retryMessage: question.explanation,
-    category: "Challenge",
-  } satisfies QuizQuestion]));
-  const staged = STAGE_QUESTION_IDS[stageId]
-    .map((id) => localizedById.get(id) ?? quizQuestions.find((question) => question.id === id) ?? challengeById.get(id))
-    .filter((question): question is QuizQuestion => Boolean(question));
-  return staged.length > 0 ? staged : localeQuestions;
-}
 
 function pickQuestions(questions: QuizQuestion[], startQuestionId?: string) {
   if (startQuestionId) {
@@ -79,73 +49,150 @@ function buildQuestionVoiceText(question: QuizQuestion) {
 
 interface QuizCardProps {
   onReward?: (amount: number) => void;
+  rewardPersistence?: Omit<QuizLearningSaveReward, "amount"> & { confirmed?: (balance: number) => void };
   onComplete?: (correctCount: number, totalCount: number) => void;
+  onPersistenceIssue?: () => void;
   startQuestionId?: string;
   topic?: string;
 }
 
-export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizCardProps) {
+export function QuizCard({ onReward, rewardPersistence, onComplete, onPersistenceIssue, startQuestionId, topic }: QuizCardProps) {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
   const voiceLocale = getVoiceDemoLocale(locale);
   const sessionQuestions = useMemo(() => {
-    const pool = questionsForTopic(getQuizQuestions(locale), topic);
-    if (topic && TOPIC_STAGE[topic]) return pool;
+    const pool = getTopicQuestions(locale, topic);
+    if (isKnownQuizTopic(topic)) return pool;
     return pickQuestions(pool, startQuestionId);
   }, [locale, startQuestionId, topic]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [rewarded, setRewarded] = useState<Set<number>>(new Set());
+  const [tokenError, setTokenError] = useState(false);
+  const [saveController] = useState(createQuizLearningSaveController);
+  const [saveTicket, setSaveTicket] = useState<QuizLearningSaveTicket | null>(null);
+  const [session, setSession] = useState(0);
+  const [loadIssue, setLoadIssue] = useState(false);
+  const [saveIssue, setSaveIssue] = useState<"retryable" | "uncertain" | null>(null);
+
+  const persistenceIssue = saveController.issue(storage) ?? saveIssue;
+  const readIssueCopy = locale === "pl"
+    ? "Nie udało się odczytać danych quizu. Nie zmieniono zapisanych danych. Spróbuj ponownie."
+    : "Quiz data could not be read. Saved data was not changed. Try again.";
 
   useLayoutEffect(() => {
+    saveController.retire();
+    setSaveTicket(null);
+    setSaveIssue(saveController.issue(storage));
+    setLoadIssue(false);
     setSelected("");
     setSubmitted(false);
     setRewarded(new Set());
-    const answered = new Set(getAllCards().filter((card) => card.repetitions > 0).map((card) => card.id));
-    const firstFresh = sessionQuestions.findIndex((item) => !answered.has(item.id));
-    setQuestionIndex(firstFresh > 0 ? firstFresh : 0);
-  }, [locale, sessionQuestions, startQuestionId, topic]);
+    setTokenError(false);
+    setQuestionIndex(0);
+    if (saveController.issue(storage)) {
+      setSaveTicket(saveController.begin(storage, { locale, questionId: "quiz-blocked", session }));
+      return () => { saveController.retire(); };
+    }
+    try {
+      const cards = readReviewCards(storage);
+      const answered = new Set(cards.filter(card => card.repetitions > 0).map(card => card.id));
+      const firstFresh = sessionQuestions.findIndex(item => !answered.has(item.id));
+      const index = firstFresh > 0 ? firstFresh : 0;
+      if (!storage.isCurrent()) return;
+      setQuestionIndex(index);
+      setSaveTicket(saveController.begin(storage, { locale, questionId: sessionQuestions[index]?.id ?? "quiz-empty", session }));
+    } catch {
+      if (storage.isCurrent()) {
+        setLoadIssue(true);
+        setSaveTicket(saveController.begin(storage, { locale, questionId: "quiz-read-retry", session }));
+      }
+    }
+    return () => { saveController.retire(); };
+  }, [locale, sessionQuestions, startQuestionId, topic, storage, saveController, session]);
 
   const question = sessionQuestions[questionIndex];
-  const isCorrect = submitted && selected === question.correctAnswer;
+  const isCorrect = submitted && selected === question?.correctAnswer;
   const isLast = questionIndex === sessionQuestions.length - 1;
   const allDone = submitted && isLast && isCorrect;
-  const questionVoiceText = buildQuestionVoiceText(question);
+  const questionVoiceText = question ? buildQuestionVoiceText(question) : "";
 
   function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault();
-    if (!selected || submitted) return;
-    setSubmitted(true);
+    if (!saveTicket || !saveController.current(saveTicket, storage)) return;
+    if (saveController.issue(storage)) { setSaveIssue("uncertain"); return; }
+    if (!question || !selected || submitted || loadIssue || !saveController.isOpen(saveTicket, storage)) return;
     const correct = selected === question.correctAnswer;
-    recordAnswer(question.id, correct);
+    const award = correct && !rewarded.has(questionIndex) && (rewardPersistence || onReward)
+      ? { amount: question.reward,
+          award: rewardPersistence?.award ?? ((amount: number, traced: Parameters<QuizLearningSaveReward["award"]>[1]) => {
+            onReward!(amount);
+            return getTokenBalance(traced);
+          }),
+          activity: rewardPersistence?.activity }
+      : undefined;
+    const result = saveController.run(saveTicket, storage,
+      traced => { recordAnswer(question.id, correct, traced); }, award);
+    if (result.status === "uncertain") {
+      if (storage.isCurrent()) { setTokenError(false); setSaveIssue("uncertain"); onPersistenceIssue?.(); }
+      return;
+    }
+    if (!saveController.current(saveTicket, storage) || result.status === "ignored" || result.status === "stopped") return;
+    const validationRejected = result.reason === "token-validation";
+    setTokenError(validationRejected);
+    if (result.status !== "saved") {
+      setSaveIssue(validationRejected ? null : "retryable");
+      onPersistenceIssue?.();
+      return;
+    }
+    const nextTicket = saveController.begin(storage, { locale, questionId: question.id, session });
+    setSaveTicket(nextTicket);
+    setSaveIssue(null);
+    setSubmitted(true);
+    if (result.balance !== undefined && saveController.current(nextTicket, storage)) rewardPersistence?.confirmed?.(result.balance);
+    if (!saveController.current(nextTicket, storage)) return;
     if (correct && !rewarded.has(questionIndex)) {
-      onReward?.(question.reward);
       const next = new Set(rewarded).add(questionIndex);
       setRewarded(next);
-      if (questionIndex === sessionQuestions.length - 1) {
-        onComplete?.(next.size, sessionQuestions.length);
-      }
+      if (questionIndex === sessionQuestions.length - 1) onComplete?.(next.size, sessionQuestions.length);
     }
   }
 
   function handleNext() {
-    setQuestionIndex((i) => i + 1);
+    if (!saveTicket || !saveController.current(saveTicket, storage) || saveController.issue(storage) || !submitted || !isCorrect || isLast) return;
+    const nextQuestion = sessionQuestions[questionIndex + 1];
+    if (!nextQuestion) return;
+    setSaveTicket(saveController.begin(storage, { locale, questionId: nextQuestion.id, session }));
+    setSaveIssue(null);
+    setQuestionIndex(i => i + 1);
     setSelected("");
     setSubmitted(false);
+    setTokenError(false);
   }
 
   function handleRestart() {
-    setQuestionIndex(0);
-    setSelected("");
-    setSubmitted(false);
-    setRewarded(new Set());
+    if (!saveTicket || !saveController.current(saveTicket, storage) || saveController.issue(storage) || !allDone) return;
+    saveController.retire(saveTicket);
+    setSession(value => value + 1);
   }
 
-  const progress = Math.round(((questionIndex + (submitted && isCorrect ? 1 : 0)) / sessionQuestions.length) * 100);
+  const progress = sessionQuestions.length ? Math.round(((questionIndex + (submitted && isCorrect ? 1 : 0)) / sessionQuestions.length) * 100) : 0;
+
+  if (loadIssue || !question) {
+    return <div className="focus-card rounded-lg p-5 md:p-6">
+      <p role="alert" data-testid="quiz-load-alert">{readIssueCopy}</p>
+      <Button type="button" data-testid="quiz-read-retry" onClick={() => {
+        if (!saveTicket || !saveController.current(saveTicket, storage) || saveController.issue(storage)) return;
+        saveController.retire(saveTicket);
+        setSession(value => value + 1);
+      }}>{locale === "pl" ? "Spróbuj ponownie" : "Try again"}</Button>
+    </div>;
+  }
 
   return (
-    <div className="focus-card rounded-lg p-5 md:p-6">
+    <div data-testid="quiz-card" className="focus-card rounded-lg p-5 md:p-6">
       {/* Progress bar */}
       <div className="mb-5">
         <div className="mb-2 flex items-center justify-between text-sm font-bold text-muted">
@@ -213,8 +260,14 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
                       name={question.id}
                       value={answer.id}
                       checked={isSelected}
-                      disabled={submitted}
-                      onChange={() => setSelected(answer.id)}
+                      data-testid={"quiz-answer-" + answer.id}
+                      disabled={submitted || persistenceIssue === "uncertain"}
+                      onChange={() => {
+                        if (!saveTicket || !saveController.current(saveTicket, storage)) return;
+                        if (saveController.issue(storage)) { setSaveIssue("uncertain"); return; }
+                        if (submitted || !saveController.isOpen(saveTicket, storage)) return;
+                        setSelected(answer.id); setTokenError(false); setSaveIssue(null);
+                      }}
                       className="h-5 w-5 shrink-0 accent-primary"
                     />
                     <span className="min-w-0 flex-1 break-words">
@@ -231,11 +284,36 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
         </fieldset>
 
         {!submitted && (
-          <Button type="submit" size="lg" className="mt-5 w-full" disabled={!selected}>
+          <Button data-testid="quiz-submit" type="submit" size="lg" className="mt-5 w-full" disabled={!selected || persistenceIssue === "uncertain"}>
             {t.quiz.submit}
           </Button>
         )}
       </form>
+
+      {tokenError && (
+        <p role="alert" className="mt-5 rounded-lg bg-warning/20 p-4 text-sm font-bold leading-6 text-text">
+          {locale === "pl"
+            ? "Nie można bezpiecznie zapisać nagrody w lokalnym saldzie punktów. Odpowiedź nie została zapisana. Sprawdź dane lokalne w Ustawieniach."
+            : "Your local points balance cannot safely accept this reward. This answer was not saved. Check your local data in Settings."}
+        </p>
+      )}
+
+      {persistenceIssue && (
+        <div role="alert" data-testid="quiz-save-alert" className="mt-5 rounded-lg bg-warning/20 p-4 text-sm font-bold leading-6 text-text">
+          <p>{persistenceIssue === "retryable"
+            ? locale === "pl" ? "Nie udało się zapisać odpowiedzi. Możesz spróbować ponownie." : "Your answer could not be saved. You can try again."
+            : locale === "pl"
+              ? "Nie udało się potwierdzić pełnego zapisu. Odpowiedź lub punkty mogły zostać zapisane częściowo. Nie ponawiaj tej odpowiedzi. Odśwież stronę, aby odczytać dane lokalne."
+              : "The full save could not be confirmed. Your answer or points may have been partially saved. Do not retry this answer. Reload the page to read your local data."}</p>
+          {persistenceIssue === "uncertain" && (
+            <Button type="button" variant="outline" className="mt-3" onClick={() => {
+              if (saveTicket && saveController.current(saveTicket, storage)) window.location.reload();
+            }}>
+              {locale === "pl" ? "Odśwież stronę" : "Reload page"}
+            </Button>
+          )}
+        </div>
+      )}
 
       {/* Feedback */}
       <AnimatePresence>
@@ -248,6 +326,7 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
               "mt-5 rounded-lg p-4 text-sm font-bold leading-6",
               isCorrect ? "bg-success/20 text-text" : "bg-warning/20 text-text"
             )}
+            data-testid="quiz-confirmed-feedback"
             aria-live="polite"
           >
             {isCorrect ? question.successMessage : question.retryMessage}
@@ -259,7 +338,7 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
       {submitted && (
         <div className="mt-4 flex gap-3">
           {isCorrect && !isLast && (
-            <Button type="button" size="lg" className="flex-1" onClick={handleNext}>
+            <Button data-testid="quiz-next" type="button" size="lg" className="flex-1" onClick={handleNext}>
               {t.quiz.next}
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -270,13 +349,14 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
               size="lg"
               variant="outline"
               className="flex-1"
-              onClick={() => { setSelected(""); setSubmitted(false); }}
+              data-testid="quiz-retry"
+              onClick={() => { if (saveTicket && saveController.current(saveTicket, storage) && !saveController.issue(storage) && submitted && !isCorrect) { setSaveTicket(saveController.begin(storage, { locale, questionId: question.id, session })); setSaveIssue(null); setSelected(""); setSubmitted(false); } }}
             >
               {t.quiz.retry}
             </Button>
           )}
           {allDone && (
-            <Button type="button" size="lg" variant="outline" onClick={handleRestart}>
+            <Button data-testid="quiz-restart" type="button" size="lg" variant="outline" onClick={handleRestart}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               {t.quiz.restart}
             </Button>

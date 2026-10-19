@@ -21,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { addTokens } from "@/lib/tokens";
+import type { PersonalStorageHandle } from "@/lib/product-storage";
+import { useProductStorage } from "@/lib/use-product-storage";
 import { cn, formatCurrency, LOCALE_INTL } from "@/lib/utils";
 
 type PlanVariant = "stabilize" | "build" | "optimize";
@@ -1452,19 +1454,18 @@ function getVariant(score: number): PlanVariant {
   return "optimize";
 }
 
-function readCompleted(): Record<string, boolean> {
-  if (typeof window === "undefined") return {};
+function readCompleted(storage: PersonalStorageHandle): Record<string, boolean> {
+  if (!storage.isCurrent()) return {};
   try {
-    const raw = localStorage.getItem(PLAN_KEY);
+    const raw = storage.getItem(PLAN_KEY);
     return raw ? (JSON.parse(raw) as Record<string, boolean>) : {};
   } catch {
     return {};
   }
 }
 
-function writeCompleted(next: Record<string, boolean>) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(PLAN_KEY, JSON.stringify(next));
+function writeCompleted(next: Record<string, boolean>, storage: PersonalStorageHandle) {
+  if (!storage.isCurrent() || !storage.setItem(PLAN_KEY, JSON.stringify(next)) || !storage.isCurrent()) throw new Error("Personal storage scope changed");
 }
 
 export function FamilyActionPlan({
@@ -1476,6 +1477,7 @@ export function FamilyActionPlan({
   trialActive,
   onStartTrial,
 }: FamilyActionPlanProps) {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const copy = pickLocalized(PLAN_COPY, locale);
   const intlLocale = LOCALE_INTL[locale] ?? "en-US";
@@ -1484,8 +1486,8 @@ export function FamilyActionPlan({
   const [earnedThisSession, setEarnedThisSession] = useState(0);
 
   useEffect(() => {
-    setCompleted(readCompleted());
-  }, []);
+    setCompleted(readCompleted(storage)); setEarnedThisSession(0);
+  }, [storage]);
 
   const steps = useMemo(
     () =>
@@ -1510,13 +1512,16 @@ export function FamilyActionPlan({
   ].join(". ");
 
   function toggleStep(step: PlanStep) {
+    if (!storage.isCurrent()) return;
     const alreadyDone = Boolean(completed[step.id]);
     const next = { ...completed, [step.id]: !alreadyDone };
+    writeCompleted(next, storage);
+    if (!storage.isCurrent()) return;
     setCompleted(next);
-    writeCompleted(next);
 
     if (!alreadyDone) {
-      addTokens(step.reward, step.title, "family_action_plan");
+      addTokens(step.reward, step.title, "family_action_plan", storage);
+      if (!storage.isCurrent()) return;
       setEarnedThisSession((value) => value + step.reward);
     }
   }

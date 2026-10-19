@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Mic, MicOff, Send, Sparkles, Volume2, Zap } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Send, Sparkles, Volume2, Zap } from "lucide-react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
@@ -12,10 +12,15 @@ import { useConsent } from "@/context/ConsentContext";
 import { useVoice } from "@/context/VoiceContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLocalizedContent } from "@/lib/localizedContent";
-import { localeSpeechLang } from "@/lib/i18n";
-import { useSpeechInput } from "@/hooks/useSpeechInput";
-import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
+import { beginAgentConversation, endAgentConversation, getAgentConversationStatus, subscribeSignInProgress } from "@/lib/signInGate";
 import { cn } from "@/lib/utils";
+import { getApiCredentials } from "@/lib/client/api-credentials";
+import { CONSENT_CHANGED_EVENT, hasConsentFor, readStoredConsent } from "@/lib/consent";
+import { useProductStorage } from "@/lib/use-product-storage";
+import { STORAGE_OWNER_CHANGED_EVENT, type PersonalStorageHandle } from "@/lib/product-storage";
+
+// External providers stay disabled until durable consent and quota controls exist.
+const EXTERNAL_CHAT_ENABLED = false;
 
 interface ChatMessage {
   role: "coach" | "user";
@@ -29,16 +34,17 @@ async function streamFromAPI(
   history: { role: "user" | "assistant"; content: string }[],
   onChunk: (chunk: string) => void,
   onDone: () => void,
-  onFallback: () => void
+  onFallback: () => void,
+  signal: AbortSignal
 ) {
   try {
+    const credentials = await getApiCredentials(["aiCoach"], signal);
+    if (!credentials || signal.aborted) { if (!signal.aborted) onFallback(); return; }
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CoachFI-Consent": "ai-coach",
-      },
-      body: JSON.stringify({ message, history, locale }),
+      headers: credentials.headers,
+      body: JSON.stringify({ message, history, locale, mode: "external", consent: credentials.consent }),
+      signal,
     });
 
     if (!res.ok || !res.body) {
@@ -55,14 +61,15 @@ async function streamFromAPI(
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
 
-    while (true) {
+    while (!signal.aborted) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done || signal.aborted) break;
       onChunk(decoder.decode(value, { stream: true }));
     }
+    if (signal.aborted) { await reader.cancel(); return; }
     onDone();
   } catch {
-    onFallback();
+    if (!signal.aborted) onFallback();
   }
 }
 
@@ -82,33 +89,32 @@ function simulateStream(text: string, onChunk: (chunk: string) => void, onDone: 
 }
 
 export default function CoachPage() {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale).coach;
   const { hasOptionalConsent, openSettings } = useConsent();
-  const { isPlaying: voicePlaying, currentText: spokenText, speak } = useVoice();
+  const { isPlaying: voicePlaying, currentText: spokenText, stop: stopVoice } = useVoice();
   const [messages, setMessages] = useState<ChatMessage[]>(
     copy.initialMessages.map((text) => ({ role: "coach", text }))
   );
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isLive, setIsLive] = useState<boolean | null>(null); // null = unknown
-  const [speechError, setSpeechError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const agentConversation = useRef(false);
+  const timePaused = useRef(false);
+  const [timeWarning, setTimeWarning] = useState(false);
+  const [view] = useState(() => ({ version: 0, active: false, owner: null as PersonalStorageHandle | null }));
+  const [viewTicket, setViewTicket] = useState(0);
+  const workGeneration = useRef(0);
+  const workActive = useRef(false);
+  const sendTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const localStreamStop = useRef<(() => void) | null>(null);
+  const chatRequest = useRef<AbortController | null>(null);
 
   // API history for context (only user/assistant pairs)
   const apiHistory = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
-
-  const { isListening, isSupported: speechSupported, start: startListening, stop: stopListening } = useSpeechInput({
-    lang: localeSpeechLang[locale],
-    onResult: useCallback((text: string) => {
-      setSpeechError(null);
-      sendMessage(text);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-    onError: useCallback((msg: string) => setSpeechError(msg), []),
-  });
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -117,13 +123,90 @@ export default function CoachPage() {
   useEffect(() => {
     setMessages(copy.initialMessages.map((text) => ({ role: "coach", text })));
     apiHistory.current = [];
-  }, [locale]);
+  }, [locale, storage]);
+
+  const cancelWork = useCallback(() => {
+    workGeneration.current += 1;
+    if (sendTimer.current !== null) clearTimeout(sendTimer.current);
+    sendTimer.current = null;
+    localStreamStop.current?.();
+    localStreamStop.current = null;
+    chatRequest.current?.abort();
+    chatRequest.current = null;
+    workActive.current = false;
+  }, []);
+
+  function isCurrentView() {
+    try { return view.active && view.owner === storage && viewTicket === view.version && storage.isCurrent(); }
+    catch { return false; }
+  }
+
+  useLayoutEffect(() => {
+    const version = ++view.version;
+    view.active = true;
+    setViewTicket(version);
+    if (view.owner !== storage) {
+      view.owner = storage;
+      cancelWork();
+      agentConversation.current = false;
+      timePaused.current = false;
+      setTimeWarning(false);
+      setInput("");
+      setMessages(copy.initialMessages.map(text => ({ role: "coach", text })));
+      apiHistory.current = [];
+    }
+    return () => {
+      if (view.version === version) { view.active = false; view.version += 1; }
+    };
+  }, [locale, storage, view, cancelWork]);
 
   useEffect(() => {
-    return () => {
-      if (agentConversation.current) endAgentConversation("coach");
+    const updateTime = () => {
+      if (!view.active || view.owner !== storage) return;
+      try {
+        if (!storage.isCurrent()) return;
+        const status = getAgentConversationStatus(storage);
+        if (status === "ready" || status === "counting") return;
+      } catch { /* A failed counter leaves local educational replies available. */ }
+      timePaused.current = true;
+      agentConversation.current = false;
+      setTimeWarning(true);
     };
-  }, []);
+    const unsubscribe = subscribeSignInProgress(updateTime);
+    updateTime();
+    return unsubscribe;
+  }, [storage, view]);
+
+  useEffect(() => {
+    const revoke = () => {
+      if (!view.active || view.owner !== storage) return;
+      cancelWork();
+      stopVoice();
+      setIsTyping(false);
+      setIsLive(false);
+      setMessages((previous) => previous.map((message) => message.streaming ? { ...message, streaming: false } : message));
+    };
+    const ownerChanged = () => { if (!storage.isCurrent()) revoke(); };
+    window.addEventListener(CONSENT_CHANGED_EVENT, revoke);
+    window.addEventListener(STORAGE_OWNER_CHANGED_EVENT, ownerChanged);
+    return () => {
+      window.removeEventListener(CONSENT_CHANGED_EVENT, revoke);
+      window.removeEventListener(STORAGE_OWNER_CHANGED_EVENT, ownerChanged);
+      if (view.owner === storage) {
+        cancelWork();
+        if (agentConversation.current) {
+          agentConversation.current = false;
+          try { if (storage.isCurrent()) endAgentConversation("coach", storage); }
+          catch { timePaused.current = true; }
+        }
+      }
+    };
+  }, [cancelWork, stopVoice, storage, view]);
+
+  useEffect(() => {
+    cancelWork();
+    setIsTyping(false);
+  }, [locale, cancelWork]);
 
   function appendChunk(chunk: string) {
     setMessages((prev) => {
@@ -136,7 +219,7 @@ export default function CoachPage() {
     });
   }
 
-  function finalizeMessage(textToSpeak?: string) {
+  function finalizeMessage() {
     setMessages((prev) => {
       const updated = [...prev];
       const last = updated[updated.length - 1];
@@ -145,9 +228,6 @@ export default function CoachPage() {
       }
       return updated;
     });
-    if (textToSpeak?.trim()) {
-      speak(textToSpeak, { locale });
-    }
   }
 
   function addStreamingPlaceholder() {
@@ -155,58 +235,68 @@ export default function CoachPage() {
   }
 
   function sendMessage(userText: string) {
-    if (!userText.trim() || isTyping) return;
-    if (!agentConversation.current) {
-      agentConversation.current = true;
-      beginAgentConversation("coach");
+    if (!userText.trim() || workActive.current || !isCurrentView()) return;
+    workActive.current = true;
+    const generation = ++workGeneration.current;
+    const active = () => isCurrentView() && workGeneration.current === generation;
+    if (!agentConversation.current && !timePaused.current) {
+      try {
+        beginAgentConversation("coach", storage);
+        if (!active()) { workActive.current = false; return; }
+        agentConversation.current = true;
+      } catch {
+        timePaused.current = true;
+        agentConversation.current = false;
+        if (!active()) { workActive.current = false; return; }
+        setTimeWarning(true);
+      }
     }
+    if (!active()) { workActive.current = false; return; }
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", text: userText }]);
+    setMessages((previous) => [...previous, { role: "user", text: userText }]);
     apiHistory.current.push({ role: "user", content: userText });
     setIsTyping(true);
-
-    setTimeout(() => {
+    sendTimer.current = setTimeout(() => {
+      sendTimer.current = null;
+      if (!active()) return;
       addStreamingPlaceholder();
-
-      const historySnapshot = [...apiHistory.current.slice(0, -1)]; // exclude just-added user msg
-      let liveReply = "";
-
-      if (!hasOptionalConsent("aiCoach")) {
+      const localReply = () => {
+        if (!active()) return;
         setIsLive(false);
         const fallback = copy.quickReplies[userText] ?? copy.fallback;
-        simulateStream(fallback, appendChunk, () => {
-          apiHistory.current.push({ role: "assistant", content: fallback });
-          finalizeMessage(fallback);
-          setIsTyping(false);
-        });
-        return;
-      }
-
-      streamFromAPI(
-        userText,
-        locale,
-        historySnapshot,
-        (chunk) => {
-          liveReply += chunk;
-          appendChunk(chunk);
-        },
-        () => {
-          setIsLive(true);
-          apiHistory.current.push({ role: "assistant", content: liveReply });
-          finalizeMessage(liveReply);
-          setIsTyping(false);
-        },
-        () => {
-          setIsLive(false);
-          const fallback = copy.quickReplies[userText] ?? copy.fallback;
-          simulateStream(fallback, appendChunk, () => {
+        localStreamStop.current = simulateStream(fallback,
+          (chunk) => { if (active()) appendChunk(chunk); },
+          () => {
+            if (!active()) return;
+            localStreamStop.current = null;
             apiHistory.current.push({ role: "assistant", content: fallback });
-            finalizeMessage(fallback);
+            finalizeMessage();
+            workActive.current = false;
             setIsTyping(false);
           });
-        }
-      );
-    }, 500 + Math.random() * 300);
+      };
+
+      if (!EXTERNAL_CHAT_ENABLED || !hasConsentFor(readStoredConsent(storage), ["aiCoach"])) {
+        localReply();
+        return;
+      }
+      const controller = new AbortController();
+      chatRequest.current = controller;
+      const historySnapshot = [...apiHistory.current.slice(0, -1)];
+      let liveReply = "";
+      void streamFromAPI(userText, locale, historySnapshot,
+        (chunk) => { if (active()) { liveReply += chunk; appendChunk(chunk); } },
+        () => {
+          if (!active()) return;
+          chatRequest.current = null;
+          setIsLive(true);
+          apiHistory.current.push({ role: "assistant", content: liveReply });
+          finalizeMessage();
+          workActive.current = false;
+          setIsTyping(false);
+        },
+        localReply, controller.signal);
+    }, 500);
   }
 
   return (
@@ -240,6 +330,16 @@ export default function CoachPage() {
         </div>
       </div>
 
+      <p role="status" data-testid="mila-provider-disabled" className="mb-4 rounded-lg bg-primary/5 p-3 text-sm text-muted">
+        {locale === "pl" ? "Mila odpowiada teraz lokalnymi przykładami edukacyjnymi. Zewnętrzne AI, rozmowy na żywo i mikrofon są wyłączone. Odczyt na kliknięcie działa tylko z lokalnym głosem urządzenia." : "Mila currently replies with local educational examples. External AI, live conversations and microphone input are disabled. Click-to-read uses only a local device voice."}
+      </p>
+      {timeWarning && (
+        <p role="alert" data-testid="coach-time-warning" className="mb-4 rounded-lg border border-warning/40 bg-warning/15 p-3 text-sm text-text">
+          {locale === "pl"
+            ? "Nie udało się potwierdzić naliczania czasu rozmowy. Licznik w tej rozmowie jest wstrzymany. Lokalne przykłady edukacyjne są nadal dostępne."
+            : "Conversation time could not be confirmed. The timer is paused for this conversation. Local educational examples are still available."}
+        </p>
+      )}
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
         {/* Chat area */}
         <div className="flex flex-col rounded-2xl border border-primary/10 bg-white shadow-soft">
@@ -342,37 +442,16 @@ export default function CoachPage() {
                 </button>
               </div>
             )}
-            {speechError && (
-              <p className="mb-2 rounded-lg bg-warning px-3 py-2 text-xs font-semibold text-text">
-                {speechError}
-              </p>
-            )}
             <form
               onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
               className="flex gap-2"
             >
-              {speechSupported && (
-                <button
-                  type="button"
-                  onClick={() => { setSpeechError(null); isListening ? stopListening() : startListening(); }}
-                  disabled={isTyping}
-                  aria-label={isListening ? "Zatrzymaj" : "Mów do Mili"}
-                  className={cn(
-                    "grid h-11 w-11 shrink-0 place-items-center rounded-xl border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40",
-                    isListening
-                      ? "border-attention bg-warning text-attention animate-pulse"
-                      : "border-primary/15 bg-white text-muted hover:text-primary"
-                  )}
-                >
-                  {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                </button>
-              )}
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={isListening ? "Słucham…" : t.coach.placeholder}
+                onChange={(e) => { if (isCurrentView()) setInput(e.target.value); }}
+                placeholder={t.coach.placeholder}
                 disabled={isTyping}
                 aria-label={t.coach.placeholder}
                 className="min-h-11 flex-1 rounded-input border-2 border-border bg-white px-4 text-sm font-semibold text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"

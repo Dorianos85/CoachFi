@@ -1,14 +1,13 @@
 "use client";
 
-import { BadgeCheck, BarChart3, Coins, Languages, Sparkles } from "lucide-react";
+import { BarChart3, Languages, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
-import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { type LocalizedMap } from "@/lib/i18n";
 import {
-  getVoiceDemoLocale,
   voiceDemoLanguages,
   voiceDemoScripts,
   type VoiceDemoLocale,
@@ -32,16 +31,6 @@ const demoCardMeta = [
     icon: Languages,
     tone: "bg-area-goals border-border-subtle",
   },
-  {
-    key: "kidsCoach",
-    icon: Coins,
-    tone: "bg-area-progress border-border-subtle",
-  },
-  {
-    key: "certificateUnlock",
-    icon: BadgeCheck,
-    tone: "bg-area-care border-border-subtle",
-  },
 ] satisfies Array<{
   key: VoiceDemoScriptKey;
   icon: LucideIcon;
@@ -61,14 +50,14 @@ const voiceDemoCopy: LocalizedMap<
   }
 > = {
   pl: {
-    eyebrow: "Demo ElevenLabs Creator plan",
+    eyebrow: "Przykłady lokalnego odczytu",
     title: "Coach FI mówi edukację finansową w Twoim języku",
     subtitle:
-      "Edukacja finansowa voice-first dla dorosłych, dzieci, rodzin oraz osób niewidomych i słabowidzących.",
+      "Przykładowe teksty edukacyjne dla dorosłych. Odczyt po kliknięciu korzysta z odpowiedniego lokalnego głosu urządzenia, jeśli jest dostępny. Zawsze możesz przeczytać tekst.",
     selectorLabel: "Wybór języka demo głosowego",
     playIn: (language) => `Odtwórz po ${language}`,
     playAria: (card, language) => `Odtwórz ${card} po ${language}`,
-    note: "Krótkie skrypty i cache ograniczają zużycie planu ElevenLabs Creator.",
+    note: "Ta wersja nie korzysta z zewnętrznego TTS ani rozmów głosowych. Gdy brak lokalnego głosu dla wybranego języka, pozostaje tekst. Przykładowy wynik nie jest Twoją diagnozą.",
     cards: {
       milaIntro: "Mila wita użytkownika",
       financialScore: "Wynik finansowy",
@@ -78,13 +67,13 @@ const voiceDemoCopy: LocalizedMap<
     },
   },
   en: {
-    eyebrow: "ElevenLabs Creator plan demo",
+    eyebrow: "Local reading examples",
     title: "Coach FI speaks financial education in your language",
-    subtitle: "Voice-first financial education for adults, children, families and blind or low-vision users.",
+    subtitle: "Sample educational text for adults. Reading after a click uses a suitable local device voice when available. You can always read the text.",
     selectorLabel: "Voice demo language selector",
     playIn: (language) => `Play in ${language}`,
     playAria: (card, language) => `Play ${card} in ${language}`,
-    note: "Short scripts and caching keep ElevenLabs Creator plan usage low.",
+    note: "This release does not use external TTS or live voice conversations. Text remains available when there is no local voice for the selected language. The example score is not your diagnosis.",
     cards: {
       milaIntro: "Mila welcomes you",
       financialScore: "Financial Score",
@@ -209,14 +198,14 @@ const voiceDemoCopy: LocalizedMap<
 
 export default function VoiceDemoPage() {
   const { locale } = useLanguage();
-  const copy = pickLocalized(voiceDemoCopy, locale);
-  const [selectedLocale, setSelectedLocale] = useState<VoiceDemoLocale>(() => getVoiceDemoLocale(locale));
+  const copy = locale === "pl" ? voiceDemoCopy.pl ?? voiceDemoCopy.en : voiceDemoCopy.en;
+  const [selectedLocale, setSelectedLocale] = useState<VoiceDemoLocale>(() => locale === "pl" ? "pl" : "en");
   const selectedLanguage =
     voiceDemoLanguages.find((language) => language.code === selectedLocale) ?? voiceDemoLanguages[0];
   const scripts = voiceDemoScripts[selectedLocale];
 
   useEffect(() => {
-    setSelectedLocale(getVoiceDemoLocale(locale));
+    setSelectedLocale(locale === "pl" ? "pl" : "en");
   }, [locale]);
 
   return (
@@ -234,7 +223,7 @@ export default function VoiceDemoPage() {
           </div>
 
           <div aria-label={copy.selectorLabel} className="grid gap-2 sm:grid-cols-3 lg:min-w-[420px]">
-            {voiceDemoLanguages.map((language) => {
+            {voiceDemoLanguages.filter((language) => language.code === "pl" || language.code === "en").map((language) => {
               const isSelected = selectedLocale === language.code;
 
               return (

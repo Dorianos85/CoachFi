@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getDisplayName, getUser } from "@/lib/user";
+import { useProductStorage } from "@/lib/use-product-storage";
 import { resolveCssColor } from "@/lib/cssColor";
 import { getStreak } from "@/lib/streak";
 
@@ -195,6 +196,7 @@ function AchievementCard({
 }
 
 function AchievementPageContent() {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
   const copy = pickLocalized(achievementCopy, locale);
   const searchParams = useSearchParams();
@@ -210,22 +212,22 @@ function AchievementPageContent() {
 
   useEffect(() => {
     if (!paramName) {
-      const refreshName = () => setName(getDisplayName(getUser()));
+      const refreshName = () => { if (storage.isCurrent()) setName(getDisplayName(getUser(storage))); };
       refreshName();
       window.addEventListener("coachfi-user", refreshName);
       return () => window.removeEventListener("coachfi-user", refreshName);
     }
-  }, [paramName]);
+  }, [paramName, storage]);
 
   useEffect(() => {
     if (!paramScore) {
-      const user = (typeof window !== "undefined" && JSON.parse(localStorage.getItem("coachfi-user") ?? "{}")) as { financialHealthScore?: number };
+      const user = JSON.parse(storage.getItem("coachfi-user") ?? "{}") as { financialHealthScore?: number };
       setScore(user.financialHealthScore ?? 72);
     }
     if (!paramStreak) {
-      setStreak(getStreak().currentStreak);
+      setStreak(getStreak(storage).currentStreak);
     }
-  }, [paramScore, paramStreak]);
+  }, [paramScore, paramStreak, storage]);
 
   const badge = getBadge(score);
   const badgeLabel = getBadgeLabel(score, copy.badgeLabels);

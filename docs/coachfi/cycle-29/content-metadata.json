@@ -1,0 +1,1153 @@
+{
+  "schema_version": 1,
+  "cycle": 29,
+  "module": null,
+  "version": "challenge-planning-pl-en-v1-c29-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 8,
+  "language_versions": 16,
+  "wrong_rationale_count": 24,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 400,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/challengeQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "c7",
+      "c8",
+      "c9",
+      "c10",
+      "c11",
+      "c12",
+      "c13",
+      "c14"
+    ],
+    "keys": [
+      "C",
+      "B",
+      "C",
+      "C",
+      "B",
+      "C",
+      "B",
+      "B"
+    ],
+    "rawEN": "8 existing objects; raw category absent, Deep Dive inherited canonical only.",
+    "PL": "8 existing value objects; Wyzwanie categories retained and own property count71 unchanged.",
+    "protected": "Other12 challenge including acceptedc1–c6/c15, all62quiz, seven explicit target translations each, app/rotation/utilitywriters/SRS/reward/stage/topic/defaultpools literal."
+  },
+  "sources": [
+    {
+      "id": "sec-dca",
+      "publisher": "SEC / Investor.gov",
+      "title": "Dollar Cost Averaging",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Equal amounts at regular intervals buy different unit counts as price changes.",
+      "limits": "Own hypothetical PLN illustration; no empirical claim of profit or emotion removal."
+    },
+    {
+      "id": "sec-compound",
+      "publisher": "SEC / Investor.gov",
+      "title": "What is compound interest? — Rule of72",
+      "url": "https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/what-compound-interest",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Rule72 is an approximate doubling-time calculation; compound growth requires stated assumptions.",
+      "limits": "Own constant8% PLN model/period count, no current return or forecast; no US account/tax imported."
+    },
+    {
+      "id": "sec-etf",
+      "publisher": "SEC Office of Investor Education and Advocacy",
+      "title": "Updated Investor Bulletin: ETFs",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Exchange-traded fund structure may be indexed or active and has risks/costs.",
+      "limits": "No US registration/tax rule or provider recommendation."
+    },
+    {
+      "id": "sec-risk",
+      "publisher": "SEC / Investor.gov",
+      "title": "What is Risk?",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/what-risk",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Investment loss, liquidity, issuer and interest-rate risks are distinct.",
+      "limits": "Only universal risk concepts; no US insurance limits, population statistics or guarantee imported."
+    },
+    {
+      "id": "cfpb-emergency",
+      "publisher": "CFPB",
+      "title": "An essential guide to building an emergency fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Accessible separately earmarked resources, situation-dependent amount and small start; adapt cash flows when income fluctuates.",
+      "limits": "No mandatory3–6-month threshold or product/safety/yield guarantee. Essentials/minima-first is explicit Coachfi framing."
+    },
+    {
+      "id": "sec-bond-rate",
+      "publisher": "SEC Office of Investor Education and Advocacy",
+      "title": "Fixed Income Investments — When Interest Rates Go Up, Prices of Fixed-Rate Bonds Fall",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-86",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Fixed coupon/cash flows and market yields have an inverse price relationship, all else equal, before maturity.",
+      "limits": "No actual rate or price forecast, no blanket statement about every bond, no US Treasury guarantee imported."
+    },
+    {
+      "id": "sec-bond-risks",
+      "publisher": "SEC / Investor.gov",
+      "title": "Bonds — FAQs",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Bond issuer may default; sale liquidity and price differ from maturity cash flows.",
+      "limits": "No guarantee of repayment, recommendation to hold/sell or new Polish legal product rule."
+    },
+    {
+      "id": "sec-goals",
+      "publisher": "SEC / Investor.gov",
+      "title": "Invest For Your Goals",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/invest-your-goals",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Future planning includes affordability, goals and risk tolerance.",
+      "limits": "No US retirement account, tax benefit or quantified early-start outcome imported."
+    },
+    {
+      "id": "sec-networth",
+      "publisher": "SEC / Investor.gov",
+      "title": "Figure Out Your Finances",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/figure-out-your-finances",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Assets minus liabilities is a net-worth statement; income/expense tracking is separate.",
+      "limits": "No claim that net worth alone determines financial health or person value; own PLN snapshot."
+    },
+    {
+      "id": "cfpb-wellbeing",
+      "publisher": "CFPB",
+      "title": "Explore Financial Well-being Findings",
+      "url": "https://www.consumerfinance.gov/consumer-tools/educator-tools/financial-well-being-resources/explore-findings/",
+      "checked_date": "2026-10-15",
+      "access": "Fresh public primary page relevant content read; no accounts/submissions/calculators or paid services.",
+      "bounded_use": "Financial well-being includes multiple dimensions and contextual factors, not a single asset measure.",
+      "limits": "No US scale/comparison, new personal data, causal effect claim or validated Coachfi score introduced."
+    }
+  ],
+  "questions": [
+    {
+      "id": "c7",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Identify fixed-amount periodic investing without a profit or emotion-control guarantee.",
+      "copy": {
+        "pl": {
+          "id": "c7",
+          "question": "Co opisuje DCA?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Kupowanie całej kwoty wyłącznie w najniższej cenie"
+            },
+            {
+              "id": "B",
+              "text": "Sprzedaż wszystkiego przy każdym spadku"
+            },
+            {
+              "id": "C",
+              "text": "Stała kwota w regularnych odstępach, niezależnie od ceny"
+            },
+            {
+              "id": "D",
+              "text": "Zamiana oszczędności na dolary"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "DCA oznacza równą kwotę w regularnych odstępach; niższa cena daje więcej jednostek. Nie gwarantuje zysku ani ochrony przed stratą i nie usuwa automatycznie emocji. Przykład bez opłat i podatku: 100 zł przy cenie 10 zł i 100 zł przy 20 zł to 15 jednostek. Przy cenie 8 zł są warte 120 zł wobec 200 zł wpłat. Wpłaty są dobrowolne, po podstawowych potrzebach i wymaganych minimalnych spłatach.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c7",
+          "question": "Which statement describes DCA?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Investing the whole amount only at the lowest price"
+            },
+            {
+              "id": "B",
+              "text": "Selling everything after every decline"
+            },
+            {
+              "id": "C",
+              "text": "An equal amount at regular intervals, regardless of price"
+            },
+            {
+              "id": "D",
+              "text": "Converting savings into dollars"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "DCA uses an equal amount at regular intervals; a lower price buys more units. It guarantees neither profit nor protection from loss and does not automatically remove emotions. With no fees or tax: PLN 100 at 10 and PLN 100 at 20 buys 15 units. At 8 they are worth PLN 120 versus PLN 200 contributed. Contributions are optional, after essentials and required minimum repayments.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-dca",
+        "sec-risk"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "DCA nie zakłada trafienia w najniższą cenę; cena może dalej spadać.",
+          "en": "DCA does not require identifying the lowest price; prices can keep falling."
+        },
+        "B": {
+          "pl": "Automatyczna sprzedaż przy każdym spadku nie jest regularnym nabywaniem za równą kwotę.",
+          "en": "Selling at every decline is not regular fixed-amount buying."
+        },
+        "D": {
+          "pl": "Nazwa nie wymaga dolara ani zmiany waluty; przykład dotyczy PLN.",
+          "en": "The name requires neither dollars nor currency conversion; this example uses PLN."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "equal_purchases": [
+          100,
+          100
+        ],
+        "prices": [
+          10,
+          20
+        ],
+        "units": [
+          10,
+          5
+        ],
+        "total_units": 15,
+        "total_contributed": 200,
+        "terminal_price": 8,
+        "terminal_value": 120,
+        "loss": 80,
+        "fees": 0,
+        "tax": 0,
+        "price_path_hypothetical": true,
+        "no_profit_or_loss_protection_guarantee": true,
+        "contributions_optional_after_essentials_minimums": true
+      }
+    },
+    {
+      "id": "c8",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Use rule72 only as an estimate under stated compounding assumptions.",
+      "copy": {
+        "pl": {
+          "id": "c8",
+          "question": "Reguła 72: hipotetyczne stałe dodatnie 8% nominalnie rocznie, kapitalizacja roczna, bez wpłat, wypłat, opłat i podatku; inflacja pominięta. Jaki szacunek czasu do podwojenia daje ta reguła?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Około 6 lat"
+            },
+            {
+              "id": "B",
+              "text": "Około 9 lat"
+            },
+            {
+              "id": "C",
+              "text": "Około 72 lat"
+            },
+            {
+              "id": "D",
+              "text": "Dokładnie 9 lat dla każdej inwestycji"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "72 ÷8 ≈ 9 lat to przybliżenie, nie dokładny termin. W podanym modelu 1 000 × 1,08⁹ ≈1 999,00 zł; po 10 rocznych dopisaniach jest ponad 2 000 zł. Stałe dodatnie 8% jest założeniem, nie prognozą. Rzeczywiste stopy mogą się zmieniać, a inwestycje tracić. To nominalny model bez przepływów, opłat, podatku i inflacji.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c8",
+          "question": "Rule 72: a hypothetical constant positive 8% nominal annual rate, annual compounding, no contributions, withdrawals, fees or tax; inflation ignored. What doubling-time estimate does the rule give?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "About 6 years"
+            },
+            {
+              "id": "B",
+              "text": "About 9 years"
+            },
+            {
+              "id": "C",
+              "text": "About 72 years"
+            },
+            {
+              "id": "D",
+              "text": "Exactly 9 years for every investment"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "72 ÷8 ≈ 9 years is an approximation, not an exact date. In the model, 1,000 × 1.08⁹ ≈ PLN 1,999.00; after 10 annual credits it exceeds PLN 2,000. A constant positive 8% is an assumption, not a forecast. Actual rates may change and investments can lose value. This nominal model excludes cash flows, fees, tax and inflation.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-compound"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "72 podzielone przez 8 daje 9, nie 6.",
+          "en": "72 divided by 8 is 9, not 6."
+        },
+        "C": {
+          "pl": "72 jest licznikiem reguły, a nie wynikiem dla założonych 8%.",
+          "en": "72 is the rule’s numerator, not the result at the assumed 8%."
+        },
+        "D": {
+          "pl": "Reguła jest przybliżeniem, a model po 9 okresach jest jeszcze poniżej podwojenia. Nie gwarantuje wyniku każdej inwestycji.",
+          "en": "The rule is approximate and this model is still below doubling after 9 periods. It guarantees no result for every investment."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial": 1000,
+        "constant_positive_nominal_annual_percent": 8,
+        "annual_compounding": true,
+        "contributions": 0,
+        "withdrawals": 0,
+        "fees": 0,
+        "tax": 0,
+        "inflation_ignored": true,
+        "rule72_estimate_years": 9,
+        "annual_periods_9_balance_exact": "1000*(1.08^9)",
+        "annual_periods_9_balance_rounded": 1999,
+        "annual_periods_10_balance_exact": "1000*(1.08^10)",
+        "nominal_doubling_target": 2000,
+        "first_integer_annual_period_above_target": 10,
+        "approximation_not_forecast": true
+      }
+    },
+    {
+      "id": "c9",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Understand exchange trading separately from strategy, concentration and costs.",
+      "copy": {
+        "pl": {
+          "id": "c9",
+          "question": "Czym jest ETF?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Depozytem gwarantującym określone odsetki"
+            },
+            {
+              "id": "B",
+              "text": "Elektroniczną opłatą za przelew"
+            },
+            {
+              "id": "C",
+              "text": "Funduszem notowanym na giełdzie, indeksowym lub aktywnym"
+            },
+            {
+              "id": "D",
+              "text": "Państwową rezerwą awaryjną"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "ETF jest funduszem notowanym na giełdzie. Może śledzić indeks albo być zarządzany aktywnie. Dywersyfikacja zależy od rzeczywistego składu; fundusz wąskiego sektora może być skoncentrowany. Nazwa nie gwarantuje niskich kosztów ani braku strat. Sprawdź cel, skład, ryzyko i koszty; zakup nie jest wymagany.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c9",
+          "question": "What is an ETF?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "A deposit guaranteeing a stated interest payment"
+            },
+            {
+              "id": "B",
+              "text": "An electronic transfer fee"
+            },
+            {
+              "id": "C",
+              "text": "An exchange-traded fund, indexed or actively managed"
+            },
+            {
+              "id": "D",
+              "text": "A government emergency reserve"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "An ETF is an exchange-traded fund. It may track an index or be actively managed. Diversification depends on actual holdings; a narrow-sector fund can be concentrated. The label guarantees neither low costs nor freedom from loss. Check objectives, holdings, risks and costs; no purchase is required.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-etf",
+        "sec-risk"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "ETF nie jest depozytem i sama forma nie gwarantuje odsetek.",
+          "en": "An ETF is not a deposit, and its structure alone guarantees no interest payment."
+        },
+        "B": {
+          "pl": "Skrót opisuje fundusz, nie opłatę za przelew.",
+          "en": "The abbreviation describes a fund, not a transfer fee."
+        },
+        "D": {
+          "pl": "ETF nie oznacza państwowej rezerwy na nagłe wydatki.",
+          "en": "ETF does not mean a government reserve for emergencies."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": null,
+        "no_forecast": true,
+        "active_or_indexed": true,
+        "diversification_depends_on_holdings": true,
+        "all_costs_need_review": true,
+        "no_purchase_required": true
+      }
+    },
+    {
+      "id": "c10",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Keep emergency resources accessible and separate without mandatory size or guaranteed safety.",
+      "copy": {
+        "pl": {
+          "id": "c10",
+          "question": "Który wybór NIE pasuje do celu rezerwy awaryjnej?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Łatwy dostęp w razie nagłego wydatku"
+            },
+            {
+              "id": "B",
+              "text": "Cel dopasowany do sytuacji i mały osiągalny start"
+            },
+            {
+              "id": "C",
+              "text": "Ryzykowne akcje wyłącznie dla maksymalnego wzrostu"
+            },
+            {
+              "id": "D",
+              "text": "Oddzielenie rezerwy od codziennych wydatków"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Celem rezerwy jest dostęp do środków na nagłe potrzeby, przy ograniczonym ryzyku, a nie maksymalizacja zysku. Oddziel ją od codziennych wydatków. Wielkość zależy od sytuacji;3–6 miesięcy to opcjonalna orientacja, nie obowiązek ani gwarancja. Zacznij dobrowolnie po podstawowych potrzebach i wymaganych minimalnych spłatach; bez nadwyżki wstrzymaj wpłatę.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c10",
+          "question": "Which choice does NOT fit the purpose of an emergency reserve?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Ready access for an unexpected expense"
+            },
+            {
+              "id": "B",
+              "text": "A situation-based goal and small achievable start"
+            },
+            {
+              "id": "C",
+              "text": "High-risk stocks solely for maximum growth"
+            },
+            {
+              "id": "D",
+              "text": "Keeping the reserve separate from everyday spending"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "A reserve aims to make funds accessible for unexpected needs with limited risk, rather than maximize returns. Keep it separate from everyday spending. Size depends on circumstances;3–6 months is an optional guide, not a duty or guarantee. Start voluntarily after essentials and required minimum repayments; without a surplus, pause contributions.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Dostępność pomaga wykorzystać rezerwę na nagłe potrzeby, więc nie jest niewłaściwą cechą.",
+          "en": "Accessibility supports using the reserve for unexpected needs, so it is not the unsuitable feature."
+        },
+        "B": {
+          "pl": "Dopasowany mały start jest zgodny z celem; nie ma jednego obowiązkowego progu.",
+          "en": "An adapted small start fits the purpose; there is no single compulsory threshold."
+        },
+        "D": {
+          "pl": "Oddzielenie celu rezerwy od wydatków codziennych pomaga ją wyodrębnić; nie wymaga wskazanego produktu.",
+          "en": "Separating the reserve from daily spending distinguishes its purpose; it requires no specified product."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": null,
+        "no_required_months": true,
+        "three_to_six_optional_orientation": true,
+        "no_zero_risk_or_yield_guarantee": true,
+        "accessible_and_separately_earmarked": true,
+        "small_optional_start_after_essentials_minimums": true,
+        "no_surplus_pause": true
+      }
+    },
+    {
+      "id": "c11",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Distinguish fixed-coupon secondary prices from contract cash flows and default risk.",
+      "copy": {
+        "pl": {
+          "id": "c11",
+          "question": "Co zwykle dzieje się z ceną istniejącej obligacji o stałym kuponie na rynku wtórnym, gdy porównywalna rentowność rynkowa rośnie, a pozostałe warunki są takie same?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Cena rośnie"
+            },
+            {
+              "id": "B",
+              "text": "Cena spada"
+            },
+            {
+              "id": "C",
+              "text": "Cena zawsze pozostaje równa nominałowi"
+            },
+            {
+              "id": "D",
+              "text": "Cena musi się podwoić"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Przy stałych przepływach i pozostałych warunkach bez zmian wyższa rentowność rynkowa oznacza niższą cenę wtórną. Ustalony kupon nie rośnie automatycznie. Cena sprzedaży przed wykupem różni się od płatności umownych. Wykup zależy także od wypłacalności emitenta; ryzyko niewypłacalności i płynności pozostaje.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c11",
+          "question": "What generally happens to an existing fixed-coupon bond’s secondary-market price when comparable market yields rise and all other conditions stay equal?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "The price rises"
+            },
+            {
+              "id": "B",
+              "text": "The price falls"
+            },
+            {
+              "id": "C",
+              "text": "The price always equals face value"
+            },
+            {
+              "id": "D",
+              "text": "The price must double"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "With fixed cash flows and all else equal, a higher market yield means a lower secondary-market price. The agreed coupon does not rise automatically. A sale price before maturity differs from contractual payments. Repayment also depends on the issuer’s ability to pay; default and liquidity risk remain.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-bond-rate",
+        "sec-bond-risks"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Przy tych samych przepływach wyższa wymagana rentowność obniża, nie podwyższa ich cenę obecną.",
+          "en": "For unchanged cash flows, a higher required yield lowers rather than raises their current price."
+        },
+        "C": {
+          "pl": "Nominał nie gwarantuje ceny sprzedaży na rynku wtórnym.",
+          "en": "Face value does not guarantee a secondary-market sale price."
+        },
+        "D": {
+          "pl": "Podwojenie nie wynika z tej zależności; brak założenia takiej zmiany ceny.",
+          "en": "Doubling does not follow from this relationship; no such price-change assumption is given."
+        }
+      },
+      "calculation_assumptions": {
+        "fixed_coupon_and_cash_flows": true,
+        "secondary_market": true,
+        "comparable_market_yield_rises": true,
+        "all_else_equal": true,
+        "no_numeric_price_projection": true,
+        "maturity_not_market_price": true,
+        "default_and_liquidity_risk_remain": true
+      }
+    },
+    {
+      "id": "c12",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Observe discretionary spending changes without shame or a compulsory saving rule.",
+      "copy": {
+        "pl": {
+          "id": "c12",
+          "question": "Hipotetycznie: dochód rośnie o 200 zł miesięcznie, dobrowolne wydatki o 180 zł; podstawowe potrzeby i wymagane minimalne spłaty bez zmian. O ile rośnie nadwyżka?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "O 200 zł"
+            },
+            {
+              "id": "B",
+              "text": "O 180 zł"
+            },
+            {
+              "id": "C",
+              "text": "O 20 zł"
+            },
+            {
+              "id": "D",
+              "text": "Nie może zmienić się nigdy"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "200 − 180 = 20 zł dodatkowej miesięcznej nadwyżki. Wzrost dobrowolnych wydatków wraz z dochodem to przykład inflacji stylu życia, odrębnej od wzrostu cen i koniecznych kosztów. Nie każda podwyżka musi być oszczędzana. Dostosuj plan do potrzeb, wymaganych minimalnych spłat, celów i zmiennego dochodu; to nie ocena osoby.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c12",
+          "question": "Hypothetically, monthly income rises by PLN 200 and discretionary spending by PLN 180; essentials and required minimum repayments are unchanged. How much does the surplus rise?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 200"
+            },
+            {
+              "id": "B",
+              "text": "PLN 180"
+            },
+            {
+              "id": "C",
+              "text": "PLN 20"
+            },
+            {
+              "id": "D",
+              "text": "It can never change"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "200 − 180 = PLN 20 of extra monthly surplus. Discretionary spending rising with income illustrates lifestyle inflation, distinct from rising prices and necessary costs. Not every pay rise must be saved. Adapt the plan to essentials, required minimum repayments, goals and variable income; this is not a judgment of the person.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "cfpb-emergency",
+        "cfpb-wellbeing"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "200 zł to wzrost dochodu przed odjęciem dodatkowych 180 zł wydatków.",
+          "en": "PLN 200 is the income increase before subtracting the extra PLN 180 spending."
+        },
+        "B": {
+          "pl": "180 zł to dodatkowy wydatek, a nie pozostała nadwyżka.",
+          "en": "PLN 180 is the extra expense, not the remaining surplus."
+        },
+        "D": {
+          "pl": "Przy podanych różnicach nadwyżka rośnie o 20 zł; nie jest z definicji stała.",
+          "en": "Given these changes, surplus rises by PLN 20; it is not constant by definition."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "Same month",
+        "income_change": 200,
+        "discretionary_spending_change": 180,
+        "essentials_change": 0,
+        "required_minimum_change": 0,
+        "surplus_change": 20,
+        "optional_spending_not_price_inflation": true,
+        "no_required_saving_share": true,
+        "no_moral_or_behavioral_diagnosis": true
+      }
+    },
+    {
+      "id": "c13",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Plan future resources without universal pension tax or replacement-income guarantees.",
+      "copy": {
+        "pl": {
+          "id": "c13",
+          "question": "Jaki jest główny cel długoterminowego planowania na emeryturę?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Gwarantowane podwojenie każdego salda"
+            },
+            {
+              "id": "B",
+              "text": "Przygotowanie środków na przyszłe potrzeby po zmianie lub końcu pracy"
+            },
+            {
+              "id": "C",
+              "text": "Zastąpienie rezerwy awaryjnej ryzykowną inwestycją"
+            },
+            {
+              "id": "D",
+              "text": "Pewna ulga podatkowa dla każdej wpłaty i każdego konta"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Planowanie pomaga przygotować środki na przyszłe potrzeby, ale nie gwarantuje pełnego zastąpienia dochodu ani zysku. Sam cel emerytalny nie zapewnia ulgi podatkowej każdemu kontu. Podstawowe potrzeby, wymagane minimalne spłaty i rezerwa mają pierwszeństwo przed dobrowolną inwestycją. Przy zmiennym dochodzie dostosuj lub wstrzymaj wpłaty.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c13",
+          "question": "What is the main purpose of long-term retirement planning?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Guaranteed doubling of every balance"
+            },
+            {
+              "id": "B",
+              "text": "Preparing resources for future needs when work changes or ends"
+            },
+            {
+              "id": "C",
+              "text": "Replacing an emergency reserve with a risky investment"
+            },
+            {
+              "id": "D",
+              "text": "A certain tax benefit for every payment and every account"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Planning helps prepare resources for future needs but guarantees neither full income replacement nor profit. A retirement goal alone does not give every account a tax benefit. Essentials, required minimum repayments and reserves come before optional investment. Adjust or pause contributions when income varies.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-goals",
+        "sec-risk",
+        "cfpb-emergency"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Sam upływ czasu lub przeznaczenie na emeryturę nie podwaja automatycznie każdego salda.",
+          "en": "Time or a retirement label alone does not automatically double every balance."
+        },
+        "C": {
+          "pl": "Inny cel i horyzont rezerwy nie uzasadnia jej obowiązkowej zamiany na ryzykowne aktywa.",
+          "en": "The reserve’s different purpose and horizon do not require replacing it with risky assets."
+        },
+        "D": {
+          "pl": "Przeznaczenie pieniędzy na emeryturę nie tworzy uniwersalnej ulgi dla wszystkich kont i wpłat.",
+          "en": "Earmarking money for retirement creates no universal tax benefit for all accounts and payments."
+        }
+      },
+      "calculation_assumptions": {
+        "no_account_product_rule": true,
+        "no_tax_eligibility_claim": true,
+        "no_return_forecast": true,
+        "no_full_income_replacement_guarantee": true,
+        "optional_after_essentials_minimums_reserve": true,
+        "variable_income_pause": true
+      }
+    },
+    {
+      "id": "c14",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-planning-pl-en-v1-c29-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Compute a dated assets-minus-liabilities snapshot without confusing it with liquidity or well-being.",
+      "copy": {
+        "pl": {
+          "id": "c14",
+          "question": "Hipotetycznie na dany dzień: aktywa 50 000 zł, zobowiązania 20 000 zł. Ile wynosi wartość netto?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "70 000 zł"
+            },
+            {
+              "id": "B",
+              "text": "30 000 zł"
+            },
+            {
+              "id": "C",
+              "text": "50 000 zł"
+            },
+            {
+              "id": "D",
+              "text": "Miesięczna pensja"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Wartość netto =aktywa −zobowiązania:50 000 − 20 000 = 30 000 zł na ten dzień. To stan majątku, nie miesięczny przepływ dochodów i wydatków ani ilość dostępnej gotówki. Nie określa całego dobrostanu finansowego i nie jest oceną wartości osoby. Wyceny i zobowiązania mogą się zmieniać.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c14",
+          "question": "Hypothetically on a given date: assets PLN 50,000 and liabilities PLN 20,000. What is net worth?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 70,000"
+            },
+            {
+              "id": "B",
+              "text": "PLN 30,000"
+            },
+            {
+              "id": "C",
+              "text": "PLN 50,000"
+            },
+            {
+              "id": "D",
+              "text": "Monthly salary"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Net worth =assets −liabilities:50,000 − 20,000 = PLN 30,000 on that date. It is a wealth snapshot, not monthly income and expense flows or available cash. It does not define overall financial well-being or a person’s worth. Valuations and liabilities may change.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "source_ids": [
+        "sec-networth",
+        "cfpb-wellbeing"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "70 000 zł dodaje zobowiązania zamiast odjąć je od aktywów.",
+          "en": "PLN 70,000 adds liabilities instead of subtracting them from assets."
+        },
+        "C": {
+          "pl": "50 000 zł to same aktywa; pomija wskazane zobowiązania.",
+          "en": "PLN 50,000 is assets alone and omits the stated liabilities."
+        },
+        "D": {
+          "pl": "Pensja jest przepływem za okres, nie różnicą aktywów i zobowiązań na wskazany dzień.",
+          "en": "Salary is a flow over a period, not assets minus liabilities on a date."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "as_of": "Hypothetical single date, not a user date",
+        "assets": 50000,
+        "liabilities": 20000,
+        "net_worth": 30000,
+        "not_cash_flow": true,
+        "not_available_cash": true,
+        "not_overall_wellbeing_or_person_score": true,
+        "negative_values_are_not_a_moral_judgment": true
+      }
+    }
+  ],
+  "voice_checks": {
+    "actualQuestionFormat": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\". \")",
+    "actualFeedbackFormat": "actual correctBanner or wrongBanner + \". \" + explanation",
+    "bannerSource": "Actual pure i18n translations captured in content-author-inventory.json",
+    "maximum": 447,
+    "cases": [
+      {
+        "id": "c7",
+        "locale": "pl",
+        "question_text": "Co opisuje DCA?. A. Kupowanie całej kwoty wyłącznie w najniższej cenie. B. Sprzedaż wszystkiego przy każdym spadku. C. Stała kwota w regularnych odstępach, niezależnie od ceny. D. Zamiana oszczędności na dolary",
+        "question_length": 210,
+        "explanation_length": 390,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. DCA oznacza równą kwotę w regularnych odstępach; niższa cena daje więcej jednostek. Nie gwarantuje zysku ani ochrony przed stratą i nie usuwa automatycznie emocji. Przykład bez opłat i podatku: 100 zł przy cenie 10 zł i 100 zł przy 20 zł to 15 jednostek. Przy cenie 8 zł są warte 120 zł wobec 200 zł wpłat. Wpłaty są dobrowolne, po podstawowych potrzebach i wymaganych minimalnych spłatach.",
+        "correct_feedback_length": 423,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. DCA oznacza równą kwotę w regularnych odstępach; niższa cena daje więcej jednostek. Nie gwarantuje zysku ani ochrony przed stratą i nie usuwa automatycznie emocji. Przykład bez opłat i podatku: 100 zł przy cenie 10 zł i 100 zł przy 20 zł to 15 jednostek. Przy cenie 8 zł są warte 120 zł wobec 200 zł wpłat. Wpłaty są dobrowolne, po podstawowych potrzebach i wymaganych minimalnych spłatach.",
+        "wrong_feedback_length": 447,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c7",
+        "locale": "en",
+        "question_text": "Which statement describes DCA?. A. Investing the whole amount only at the lowest price. B. Selling everything after every decline. C. An equal amount at regular intervals, regardless of price. D. Converting savings into dollars",
+        "question_length": 227,
+        "explanation_length": 377,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. DCA uses an equal amount at regular intervals; a lower price buys more units. It guarantees neither profit nor protection from loss and does not automatically remove emotions. With no fees or tax: PLN 100 at 10 and PLN 100 at 20 buys 15 units. At 8 they are worth PLN 120 versus PLN 200 contributed. Contributions are optional, after essentials and required minimum repayments.",
+        "correct_feedback_length": 411,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. DCA uses an equal amount at regular intervals; a lower price buys more units. It guarantees neither profit nor protection from loss and does not automatically remove emotions. With no fees or tax: PLN 100 at 10 and PLN 100 at 20 buys 15 units. At 8 they are worth PLN 120 versus PLN 200 contributed. Contributions are optional, after essentials and required minimum repayments.",
+        "wrong_feedback_length": 439,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c8",
+        "locale": "pl",
+        "question_text": "Reguła 72: hipotetyczne stałe dodatnie 8% nominalnie rocznie, kapitalizacja roczna, bez wpłat, wypłat, opłat i podatku; inflacja pominięta. Jaki szacunek czasu do podwojenia daje ta reguła?. A. Około 6 lat. B. Około 9 lat. C. Około 72 lat. D. Dokładnie 9 lat dla każdej inwestycji",
+        "question_length": 280,
+        "explanation_length": 313,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. 72 ÷8 ≈ 9 lat to przybliżenie, nie dokładny termin. W podanym modelu 1 000 × 1,08⁹ ≈1 999,00 zł; po 10 rocznych dopisaniach jest ponad 2 000 zł. Stałe dodatnie 8% jest założeniem, nie prognozą. Rzeczywiste stopy mogą się zmieniać, a inwestycje tracić. To nominalny model bez przepływów, opłat, podatku i inflacji.",
+        "correct_feedback_length": 346,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. 72 ÷8 ≈ 9 lat to przybliżenie, nie dokładny termin. W podanym modelu 1 000 × 1,08⁹ ≈1 999,00 zł; po 10 rocznych dopisaniach jest ponad 2 000 zł. Stałe dodatnie 8% jest założeniem, nie prognozą. Rzeczywiste stopy mogą się zmieniać, a inwestycje tracić. To nominalny model bez przepływów, opłat, podatku i inflacji.",
+        "wrong_feedback_length": 370,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c8",
+        "locale": "en",
+        "question_text": "Rule 72: a hypothetical constant positive 8% nominal annual rate, annual compounding, no contributions, withdrawals, fees or tax; inflation ignored. What doubling-time estimate does the rule give?. A. About 6 years. B. About 9 years. C. About 72 years. D. Exactly 9 years for every investment",
+        "question_length": 292,
+        "explanation_length": 323,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. 72 ÷8 ≈ 9 years is an approximation, not an exact date. In the model, 1,000 × 1.08⁹ ≈ PLN 1,999.00; after 10 annual credits it exceeds PLN 2,000. A constant positive 8% is an assumption, not a forecast. Actual rates may change and investments can lose value. This nominal model excludes cash flows, fees, tax and inflation.",
+        "correct_feedback_length": 357,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. 72 ÷8 ≈ 9 years is an approximation, not an exact date. In the model, 1,000 × 1.08⁹ ≈ PLN 1,999.00; after 10 annual credits it exceeds PLN 2,000. A constant positive 8% is an assumption, not a forecast. Actual rates may change and investments can lose value. This nominal model excludes cash flows, fees, tax and inflation.",
+        "wrong_feedback_length": 385,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c9",
+        "locale": "pl",
+        "question_text": "Czym jest ETF?. A. Depozytem gwarantującym określone odsetki. B. Elektroniczną opłatą za przelew. C. Funduszem notowanym na giełdzie, indeksowym lub aktywnym. D. Państwową rezerwą awaryjną",
+        "question_length": 188,
+        "explanation_length": 304,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. ETF jest funduszem notowanym na giełdzie. Może śledzić indeks albo być zarządzany aktywnie. Dywersyfikacja zależy od rzeczywistego składu; fundusz wąskiego sektora może być skoncentrowany. Nazwa nie gwarantuje niskich kosztów ani braku strat. Sprawdź cel, skład, ryzyko i koszty; zakup nie jest wymagany.",
+        "correct_feedback_length": 337,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. ETF jest funduszem notowanym na giełdzie. Może śledzić indeks albo być zarządzany aktywnie. Dywersyfikacja zależy od rzeczywistego składu; fundusz wąskiego sektora może być skoncentrowany. Nazwa nie gwarantuje niskich kosztów ani braku strat. Sprawdź cel, skład, ryzyko i koszty; zakup nie jest wymagany.",
+        "wrong_feedback_length": 361,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c9",
+        "locale": "en",
+        "question_text": "What is an ETF?. A. A deposit guaranteeing a stated interest payment. B. An electronic transfer fee. C. An exchange-traded fund, indexed or actively managed. D. A government emergency reserve",
+        "question_length": 191,
+        "explanation_length": 298,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. An ETF is an exchange-traded fund. It may track an index or be actively managed. Diversification depends on actual holdings; a narrow-sector fund can be concentrated. The label guarantees neither low costs nor freedom from loss. Check objectives, holdings, risks and costs; no purchase is required.",
+        "correct_feedback_length": 332,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. An ETF is an exchange-traded fund. It may track an index or be actively managed. Diversification depends on actual holdings; a narrow-sector fund can be concentrated. The label guarantees neither low costs nor freedom from loss. Check objectives, holdings, risks and costs; no purchase is required.",
+        "wrong_feedback_length": 360,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c10",
+        "locale": "pl",
+        "question_text": "Który wybór NIE pasuje do celu rezerwy awaryjnej?. A. Łatwy dostęp w razie nagłego wydatku. B. Cel dopasowany do sytuacji i mały osiągalny start. C. Ryzykowne akcje wyłącznie dla maksymalnego wzrostu. D. Oddzielenie rezerwy od codziennych wydatków",
+        "question_length": 247,
+        "explanation_length": 354,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Celem rezerwy jest dostęp do środków na nagłe potrzeby, przy ograniczonym ryzyku, a nie maksymalizacja zysku. Oddziel ją od codziennych wydatków. Wielkość zależy od sytuacji;3–6 miesięcy to opcjonalna orientacja, nie obowiązek ani gwarancja. Zacznij dobrowolnie po podstawowych potrzebach i wymaganych minimalnych spłatach; bez nadwyżki wstrzymaj wpłatę.",
+        "correct_feedback_length": 387,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Celem rezerwy jest dostęp do środków na nagłe potrzeby, przy ograniczonym ryzyku, a nie maksymalizacja zysku. Oddziel ją od codziennych wydatków. Wielkość zależy od sytuacji;3–6 miesięcy to opcjonalna orientacja, nie obowiązek ani gwarancja. Zacznij dobrowolnie po podstawowych potrzebach i wymaganych minimalnych spłatach; bez nadwyżki wstrzymaj wpłatę.",
+        "wrong_feedback_length": 411,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c10",
+        "locale": "en",
+        "question_text": "Which choice does NOT fit the purpose of an emergency reserve?. A. Ready access for an unexpected expense. B. A situation-based goal and small achievable start. C. High-risk stocks solely for maximum growth. D. Keeping the reserve separate from everyday spending",
+        "question_length": 262,
+        "explanation_length": 346,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. A reserve aims to make funds accessible for unexpected needs with limited risk, rather than maximize returns. Keep it separate from everyday spending. Size depends on circumstances;3–6 months is an optional guide, not a duty or guarantee. Start voluntarily after essentials and required minimum repayments; without a surplus, pause contributions.",
+        "correct_feedback_length": 380,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. A reserve aims to make funds accessible for unexpected needs with limited risk, rather than maximize returns. Keep it separate from everyday spending. Size depends on circumstances;3–6 months is an optional guide, not a duty or guarantee. Start voluntarily after essentials and required minimum repayments; without a surplus, pause contributions.",
+        "wrong_feedback_length": 408,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c11",
+        "locale": "pl",
+        "question_text": "Co zwykle dzieje się z ceną istniejącej obligacji o stałym kuponie na rynku wtórnym, gdy porównywalna rentowność rynkowa rośnie, a pozostałe warunki są takie same?. A. Cena rośnie. B. Cena spada. C. Cena zawsze pozostaje równa nominałowi. D. Cena musi się podwoić",
+        "question_length": 263,
+        "explanation_length": 308,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Przy stałych przepływach i pozostałych warunkach bez zmian wyższa rentowność rynkowa oznacza niższą cenę wtórną. Ustalony kupon nie rośnie automatycznie. Cena sprzedaży przed wykupem różni się od płatności umownych. Wykup zależy także od wypłacalności emitenta; ryzyko niewypłacalności i płynności pozostaje.",
+        "correct_feedback_length": 341,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Przy stałych przepływach i pozostałych warunkach bez zmian wyższa rentowność rynkowa oznacza niższą cenę wtórną. Ustalony kupon nie rośnie automatycznie. Cena sprzedaży przed wykupem różni się od płatności umownych. Wykup zależy także od wypłacalności emitenta; ryzyko niewypłacalności i płynności pozostaje.",
+        "wrong_feedback_length": 365,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c11",
+        "locale": "en",
+        "question_text": "What generally happens to an existing fixed-coupon bond’s secondary-market price when comparable market yields rise and all other conditions stay equal?. A. The price rises. B. The price falls. C. The price always equals face value. D. The price must double",
+        "question_length": 257,
+        "explanation_length": 302,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. With fixed cash flows and all else equal, a higher market yield means a lower secondary-market price. The agreed coupon does not rise automatically. A sale price before maturity differs from contractual payments. Repayment also depends on the issuer’s ability to pay; default and liquidity risk remain.",
+        "correct_feedback_length": 336,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. With fixed cash flows and all else equal, a higher market yield means a lower secondary-market price. The agreed coupon does not rise automatically. A sale price before maturity differs from contractual payments. Repayment also depends on the issuer’s ability to pay; default and liquidity risk remain.",
+        "wrong_feedback_length": 364,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c12",
+        "locale": "pl",
+        "question_text": "Hipotetycznie: dochód rośnie o 200 zł miesięcznie, dobrowolne wydatki o 180 zł; podstawowe potrzeby i wymagane minimalne spłaty bez zmian. O ile rośnie nadwyżka?. A. O 200 zł. B. O 180 zł. C. O 20 zł. D. Nie może zmienić się nigdy",
+        "question_length": 230,
+        "explanation_length": 320,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. 200 − 180 = 20 zł dodatkowej miesięcznej nadwyżki. Wzrost dobrowolnych wydatków wraz z dochodem to przykład inflacji stylu życia, odrębnej od wzrostu cen i koniecznych kosztów. Nie każda podwyżka musi być oszczędzana. Dostosuj plan do potrzeb, wymaganych minimalnych spłat, celów i zmiennego dochodu; to nie ocena osoby.",
+        "correct_feedback_length": 353,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. 200 − 180 = 20 zł dodatkowej miesięcznej nadwyżki. Wzrost dobrowolnych wydatków wraz z dochodem to przykład inflacji stylu życia, odrębnej od wzrostu cen i koniecznych kosztów. Nie każda podwyżka musi być oszczędzana. Dostosuj plan do potrzeb, wymaganych minimalnych spłat, celów i zmiennego dochodu; to nie ocena osoby.",
+        "wrong_feedback_length": 377,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c12",
+        "locale": "en",
+        "question_text": "Hypothetically, monthly income rises by PLN 200 and discretionary spending by PLN 180; essentials and required minimum repayments are unchanged. How much does the surplus rise?. A. PLN 200. B. PLN 180. C. PLN 20. D. It can never change",
+        "question_length": 235,
+        "explanation_length": 326,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. 200 − 180 = PLN 20 of extra monthly surplus. Discretionary spending rising with income illustrates lifestyle inflation, distinct from rising prices and necessary costs. Not every pay rise must be saved. Adapt the plan to essentials, required minimum repayments, goals and variable income; this is not a judgment of the person.",
+        "correct_feedback_length": 360,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. 200 − 180 = PLN 20 of extra monthly surplus. Discretionary spending rising with income illustrates lifestyle inflation, distinct from rising prices and necessary costs. Not every pay rise must be saved. Adapt the plan to essentials, required minimum repayments, goals and variable income; this is not a judgment of the person.",
+        "wrong_feedback_length": 388,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c13",
+        "locale": "pl",
+        "question_text": "Jaki jest główny cel długoterminowego planowania na emeryturę?. A. Gwarantowane podwojenie każdego salda. B. Przygotowanie środków na przyszłe potrzeby po zmianie lub końcu pracy. C. Zastąpienie rezerwy awaryjnej ryzykowną inwestycją. D. Pewna ulga podatkowa dla każdej wpłaty i każdego konta",
+        "question_length": 292,
+        "explanation_length": 339,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Planowanie pomaga przygotować środki na przyszłe potrzeby, ale nie gwarantuje pełnego zastąpienia dochodu ani zysku. Sam cel emerytalny nie zapewnia ulgi podatkowej każdemu kontu. Podstawowe potrzeby, wymagane minimalne spłaty i rezerwa mają pierwszeństwo przed dobrowolną inwestycją. Przy zmiennym dochodzie dostosuj lub wstrzymaj wpłaty.",
+        "correct_feedback_length": 372,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Planowanie pomaga przygotować środki na przyszłe potrzeby, ale nie gwarantuje pełnego zastąpienia dochodu ani zysku. Sam cel emerytalny nie zapewnia ulgi podatkowej każdemu kontu. Podstawowe potrzeby, wymagane minimalne spłaty i rezerwa mają pierwszeństwo przed dobrowolną inwestycją. Przy zmiennym dochodzie dostosuj lub wstrzymaj wpłaty.",
+        "wrong_feedback_length": 396,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c13",
+        "locale": "en",
+        "question_text": "What is the main purpose of long-term retirement planning?. A. Guaranteed doubling of every balance. B. Preparing resources for future needs when work changes or ends. C. Replacing an emergency reserve with a risky investment. D. A certain tax benefit for every payment and every account",
+        "question_length": 287,
+        "explanation_length": 311,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. Planning helps prepare resources for future needs but guarantees neither full income replacement nor profit. A retirement goal alone does not give every account a tax benefit. Essentials, required minimum repayments and reserves come before optional investment. Adjust or pause contributions when income varies.",
+        "correct_feedback_length": 345,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. Planning helps prepare resources for future needs but guarantees neither full income replacement nor profit. A retirement goal alone does not give every account a tax benefit. Essentials, required minimum repayments and reserves come before optional investment. Adjust or pause contributions when income varies.",
+        "wrong_feedback_length": 373,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c14",
+        "locale": "pl",
+        "question_text": "Hipotetycznie na dany dzień: aktywa 50 000 zł, zobowiązania 20 000 zł. Ile wynosi wartość netto?. A. 70 000 zł. B. 30 000 zł. C. 50 000 zł. D. Miesięczna pensja",
+        "question_length": 160,
+        "explanation_length": 283,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Wartość netto =aktywa −zobowiązania:50 000 − 20 000 = 30 000 zł na ten dzień. To stan majątku, nie miesięczny przepływ dochodów i wydatków ani ilość dostępnej gotówki. Nie określa całego dobrostanu finansowego i nie jest oceną wartości osoby. Wyceny i zobowiązania mogą się zmieniać.",
+        "correct_feedback_length": 316,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Wartość netto =aktywa −zobowiązania:50 000 − 20 000 = 30 000 zł na ten dzień. To stan majątku, nie miesięczny przepływ dochodów i wydatków ani ilość dostępnej gotówki. Nie określa całego dobrostanu finansowego i nie jest oceną wartości osoby. Wyceny i zobowiązania mogą się zmieniać.",
+        "wrong_feedback_length": 340,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c14",
+        "locale": "en",
+        "question_text": "Hypothetically on a given date: assets PLN 50,000 and liabilities PLN 20,000. What is net worth?. A. PLN 70,000. B. PLN 30,000. C. PLN 50,000. D. Monthly salary",
+        "question_length": 160,
+        "explanation_length": 262,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. Net worth =assets −liabilities:50,000 − 20,000 = PLN 30,000 on that date. It is a wealth snapshot, not monthly income and expense flows or available cash. It does not define overall financial well-being or a person’s worth. Valuations and liabilities may change.",
+        "correct_feedback_length": 296,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. Net worth =assets −liabilities:50,000 − 20,000 = PLN 30,000 on that date. It is a wealth snapshot, not monthly income and expense flows or available cash. It does not define overall financial well-being or a person’s worth. Valuations and liabilities may change.",
+        "wrong_feedback_length": 324,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Draft only; financial/source/baseline acceptance remains independent before ROOTGO.",
+    "No mandatory investment, contribution, saving share or universal tax/account rule.",
+    "Explicit PLN hypothetical models are not forecasts, guarantees or individualized financial advice.",
+    "Historical SRS does not prove understanding of changed words.",
+    "Seven explicit translations per target remain source-literal and outside PLEN acceptance.",
+    "Failed initial generic bonds URL and empty net-worth glossary were replaced with actual primary pages above; no source verification claimed for those initial responses."
+  ]
+}

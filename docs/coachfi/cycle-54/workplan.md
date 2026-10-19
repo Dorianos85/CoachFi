@@ -1,0 +1,11 @@
+# C54 — warunki ulg podatkowych w istniejącym porównaniu
+
+18.10.2026. Rynek Polska, dorośli, PL/EN. Root jest autorem wyłącznie pięciu pól istniejącego tax-advantaged-wrapper w data/quizQuestions.ts i lib/allQuestions.ts: B/success/retry EN oraz B/explanation PL. Przed zmianą wymagana niezależna aktualna recenzja finansowa propozycji oraz rzeczywisty baseline. Poprawny rdzeń wspólnych ulg zostaje; doprecyzowanie oddziela korzyść podatkową od ochrony wyniku i podaje warunkowość wypłat IKE. Bez zmiany pytania, ACD, ID/B/reward30, banku82, pul lub polityki nagród, nowych krajów rynku, kont i danych.
+
+FDIC250000/kategoria oraz RBI4±2pp są osobno oceniane źródłowo; brak automatycznej mutacji lub nowego runtime PASS dla poprawnych wpisów. RBI wymaga aktualnego dowodu urzędowego dla okresu po marcu2026. Historyczna inwentaryzacja C47 nie jest przepisywana. Rodzinne ID pozostają osobną, odroczoną oceną; osiągalność adult family-plan sama nie dowodzi obejścia Kids Mode. Triage source zachowa kontrdowody, bez zmiany polityki allow/deny.
+
+Root +3: c49_advisories jest niezależnym financial/PLEN/fixture/raw/ledger recenzentem, c49_validation autorem wyłącznie czterech fixture/config i design, c49_dependency_review niezależnym source/tools/raw recenzentem i autorem scope-candidate. Rozłączne pliki; autor nie przyjmuje własnej zmiany. Narzędzia i testy mają peer przed wykonaniem.
+
+Zachować C53 pełne169 current pins,556 wejść, receipts, stare źródła i Git HEAD/branch/index. Ograniczone nowe semantyczne PL/EN przypadki oraz preservation prawdziwych81 nietargetowych obiektów i82metadata;4 actualReviewPLEN×correctB/wrongA z jawnymi emulacjami;2ChromePLwrong/ENcorrect w tej samej kopii po jednym TEMPbuildzie,375×812/klawiatura/readback/125points/reload. Nie powtarzać historycznych zielonych bez zmiany/obawy. Wyniki i ograniczenia zapisać oddzielnie od źródłowego przyjęcia dwóch niezmienionych ID.
+
+Dependency C50 artifact deferral pozostaje historyczny, bez nowego poll lub advisory closure. Zewnętrzne AI/cloud writes HARD_OFF. Bez gitadd/commit/push/deploy, migracji/produkcyjnych zapisów, realnych sesji/profili/sekretów, płatnych/provider calls i kontaktów do ludzi. Brak clean-install, staging, prawdziwego auth lub produkcyjnego PASS.

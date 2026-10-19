@@ -1,15 +1,17 @@
 "use client";
 
+import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { BadgeCheck, Bot, Database, FileText, ShieldCheck, Trophy, Volume2, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { DEFAULT_OPTIONAL_CONSENTS, type OptionalConsentKey } from "@/lib/consent";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 const OPTION_ICONS: Record<OptionalConsentKey, typeof Bot> = {
   aiCoach: Bot,
@@ -43,36 +45,36 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     close: "Close consent settings",
     eyebrow: "Data safety",
     title: "Coach FI terms of use",
-    intro: "Minimum data stays on this device. External features are enabled with separate optional consent.",
+    intro: "Optional permissions start off. External AI and live voice are disabled in this version; selecting permission does not activate them. Local text chat remains available.",
     bannerBody:
-      "You can browse the demo now. Accept the required terms when you want to unlock your full result, save progress or use external integrations.",
+      "You can browse lessons and local educational examples. Review the terms and your separate optional choices below.",
     reviewSettings: "Review settings",
     requiredTitle: "I accept the Terms and Privacy Policy",
-    requiredDesc: "This consent is required to use the app. Documents are available here:",
+    requiredDesc: "This checkbox records acceptance of these documents. It does not grant permission for optional data uses:",
     terms: "Terms",
     privacy: "Privacy",
     optionalTitle: "Optional consents",
     footer: "You can change consents in the app footer. Withdrawing consent does not automatically delete data already stored by external providers or on public blockchain.",
-    requiredHint: "Select the required consent or choose Accept all.",
+    requiredHint: "Select acceptance of the terms before saving. Optional choices may remain off.",
     save: "Save settings",
     acceptRequired: "Accept required",
     acceptAll: "Accept all",
     options: {
       aiCoach: {
         title: "AI Coach Mila",
-        description: "Send coach chat text and Conversational AI agent context through secure server or widget integrations.",
+        description: "Permission to send chat text and agent context to an external AI provider. External AI is currently disabled; local examples do not require this permission.",
       },
       voice: {
-        title: "ElevenLabs voice",
-        description: "Use ElevenLabs for click-to-play speech and the optional voice agent after you start it. Browser voice is used when TTS is unavailable.",
+        title: "External voice provider",
+        description: "Permission to send text or audio to an external voice provider. External TTS, live voice and microphone input are currently disabled. Click-to-read uses only a matching local device voice and does not require this permission.",
       },
       leaderboard: {
         title: "Global leaderboard",
-        description: "Publish display name, score and streak in the Supabase leaderboard.",
+        description: "Permission for a future publication of display name, score and streak in a leaderboard. The leaderboard is deferred; selecting this option does not publish data.",
       },
       blockchain: {
         title: "Certificates",
-        description: "Store wallet address and certificate metadata on public Solana Devnet.",
+        description: "Permission for a future publication of wallet address and certificate metadata. Certificates and blockchain features are deferred; selecting this option does not create a wallet or publish data.",
       },
     },
   },
@@ -80,36 +82,36 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     close: "Zamknij ustawienia zgód",
     eyebrow: "Bezpieczeństwo danych",
     title: "Zasady korzystania z Coach FI",
-    intro: "Minimum danych zostaje na tym urządzeniu. Funkcje zewnętrzne włączasz osobnymi zgodami.",
+    intro: "Zgody opcjonalne zaczynają się od wyłączonych. Zewnętrzne AI i rozmowy głosowe są w tej wersji wyłączone; zaznaczenie zgody ich nie uruchamia. Lokalny czat tekstowy jest dostępny.",
     bannerBody:
-      "Możesz od razu obejrzeć demo. Wymagane zasady akceptujesz wtedy, gdy chcesz odblokować pełny wynik, zapisać postęp albo użyć integracji zewnętrznych.",
+      "Możesz przeglądać lekcje i lokalne przykłady edukacyjne. Poniżej sprawdzisz dokumenty i osobne zgody opcjonalne.",
     reviewSettings: "Sprawdź ustawienia",
     requiredTitle: "Akceptuję Regulamin i Politykę prywatności",
-    requiredDesc: "To jest wymagana zgoda na korzystanie z aplikacji. Dokumenty są dostępne tutaj:",
+    requiredDesc: "To pole zapisuje akceptację poniższych dokumentów. Nie daje zgody na opcjonalne wykorzystanie danych:",
     terms: "Regulamin",
     privacy: "Prywatność",
     optionalTitle: "Zgody opcjonalne",
     footer: "Możesz zmienić zgody w stopce aplikacji. Wycofanie zgody nie usuwa automatycznie danych zapisanych już u zewnętrznych dostawców lub na publicznym blockchainie.",
-    requiredHint: "Zaznacz wymaganą zgodę albo kliknij Akceptuj wszystko.",
+    requiredHint: "Przed zapisaniem zaznacz akceptację zasad. Zgody opcjonalne mogą pozostać wyłączone.",
     save: "Zapisz ustawienia",
     acceptRequired: "Akceptuj wymagane",
     acceptAll: "Akceptuj wszystko",
     options: {
       aiCoach: {
         title: "AI Coach Mila",
-        description: "Wysyłanie tekstu czatu i kontekstu agenta głosowego przez bezpieczny endpoint lub widget.",
+        description: "Zgoda na wysyłanie tekstu czatu i kontekstu agenta do zewnętrznego dostawcy AI. Zewnętrzne AI jest teraz wyłączone; lokalne przykłady nie wymagają tej zgody.",
       },
       voice: {
-        title: "Głos ElevenLabs",
-        description: "Odczyt tekstu po kliknięciu i opcjonalny agent głosowy po jego uruchomieniu. Głos przeglądarki działa, gdy TTS jest niedostępny.",
+        title: "Zewnętrzny dostawca głosu",
+        description: "Zgoda na wysyłanie tekstu lub dźwięku do zewnętrznego dostawcy głosu. Zewnętrzny TTS, rozmowy na żywo i mikrofon są teraz wyłączone. Odczyt po kliknięciu korzysta tylko z odpowiedniego lokalnego głosu urządzenia i nie wymaga tej zgody.",
       },
       leaderboard: {
         title: "Ranking globalny",
-        description: "Publikacja nazwy wyświetlanej, wyniku i serii w tabeli wyników Supabase.",
+        description: "Zgoda na przyszłą publikację nazwy wyświetlanej, wyniku i serii w rankingu. Ranking jest odłożony; zaznaczenie tej opcji nie publikuje danych.",
       },
       blockchain: {
         title: "Certyfikaty",
-        description: "Zapis adresu portfela i metadanych certyfikatu na publicznej sieci Solana Devnet.",
+        description: "Zgoda na przyszłą publikację adresu portfela i metadanych certyfikatu. Certyfikaty i funkcje blockchain są odłożone; zaznaczenie tej opcji nie tworzy portfela ani nie publikuje danych.",
       },
     },
   },
@@ -364,6 +366,8 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
 const optionKeys: OptionalConsentKey[] = ["aiCoach", "voice", "leaderboard", "blockchain"];
 
 export function ConsentManager() {
+  const { storage } = useProductStorage();
+  const [saveFailed, setSaveFailed] = useState(false);
   const {
     consent,
     loaded,
@@ -380,12 +384,14 @@ export function ConsentManager() {
   const open = settingsOpen;
   const [requiredChecked, setRequiredChecked] = useState(false);
   const [optional, setOptional] = useState(DEFAULT_OPTIONAL_CONSENTS);
+  const previousFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!open) return;
     setRequiredChecked(requiredAccepted);
     setOptional(consent?.optional ?? DEFAULT_OPTIONAL_CONSENTS);
-  }, [consent, open, requiredAccepted]);
+    setSaveFailed(false);
+  }, [consent, open, requiredAccepted, storage]);
 
   const allOptional = useMemo(
     () => ({
@@ -398,18 +404,30 @@ export function ConsentManager() {
   );
 
   function toggle(key: OptionalConsentKey) {
+    if (!storage.isCurrent()) return;
     setOptional((current) => ({ ...current, [key]: !current[key] }));
   }
 
   function saveCurrent() {
+    if (!storage.isCurrent()) return;
     if (!requiredAccepted && !requiredChecked) return;
-    if (requiredAccepted) updateOptional(optional);
-    else acceptRequired(optional);
+    try {
+      if (requiredAccepted) updateOptional(optional, storage);
+      else acceptRequired(optional, storage);
+    } catch { if (storage.isCurrent()) setSaveFailed(true); }
   }
 
   function acceptAll() {
-    if (requiredAccepted) updateOptional(allOptional);
-    else acceptRequired(allOptional);
+    if (!storage.isCurrent()) return;
+    try {
+      if (requiredAccepted) updateOptional(allOptional, storage);
+      else acceptRequired(allOptional, storage);
+    } catch { if (storage.isCurrent()) setSaveFailed(true); }
+  }
+  function acceptOnlyRequired() {
+    if (!storage.isCurrent()) return;
+    try { acceptRequired(DEFAULT_OPTIONAL_CONSENTS, storage); }
+    catch { if (storage.isCurrent()) setSaveFailed(true); }
   }
 
   if (!loaded) return null;
@@ -418,7 +436,7 @@ export function ConsentManager() {
     <AnimatePresence>
       {mustShow && !settingsOpen && (
         <motion.div
-          className="fixed inset-x-3 bottom-20 z-[70] mx-auto max-w-4xl lg:bottom-5"
+          className="relative mx-auto mb-[calc(6rem+env(safe-area-inset-bottom,0px))] mt-4 w-[calc(100%-1.5rem)] max-w-4xl lg:mb-5"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
@@ -437,6 +455,7 @@ export function ConsentManager() {
                 <p className="text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
                 <h2 className="mt-1 text-base font-black leading-tight text-text">{copy.title}</h2>
                 <p className="mt-1 text-sm font-semibold leading-6 text-muted">{copy.bannerBody}</p>
+                {saveFailed ? <p role="alert" className="mt-2 text-sm text-attention">{locale === "pl" ? "Nie udało się zapisać ustawień lokalnych. Spróbuj ponownie." : "Local settings could not be saved. Please try again."}</p> : null}
               </div>
             </div>
 
@@ -447,7 +466,7 @@ export function ConsentManager() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => acceptRequired(DEFAULT_OPTIONAL_CONSENTS)}
+                onClick={acceptOnlyRequired}
                 className="w-full sm:w-auto"
               >
                 <BadgeCheck className="h-4 w-4" aria-hidden="true" />
@@ -462,13 +481,20 @@ export function ConsentManager() {
       )}
 
       {open && (
+        <Dialog.Root open onOpenChange={(next) => { if (!next) closeSettings(); }}>
+        <Dialog.Portal>
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4">
-          <motion.div
+          <Dialog.Overlay asChild><motion.div
             className="absolute inset-0 bg-text/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-          />
+          /></Dialog.Overlay>
+          <Dialog.Content asChild
+            onOpenAutoFocus={() => { previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; }}
+            onCloseAutoFocus={(event) => {
+              if (previousFocus.current?.isConnected) { event.preventDefault(); previousFocus.current.focus(); }
+            }}>
           <motion.section
             role="dialog"
             aria-modal="true"
@@ -497,15 +523,16 @@ export function ConsentManager() {
                 </span>
                 <div>
                   <p className="text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
-                  <h2 id="consent-title" className="mt-1 text-xl font-black leading-tight text-text md:text-2xl">
+                  <Dialog.Title asChild><h2 id="consent-title" className="mt-1 text-xl font-black leading-tight text-text md:text-2xl">
                     {copy.title}
-                  </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{copy.intro}</p>
+                  </h2></Dialog.Title>
+                  <Dialog.Description asChild><p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{copy.intro}</p></Dialog.Description>
                 </div>
               </div>
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5">
+              {saveFailed ? <p role="alert" className="mb-4 text-sm text-attention">{locale === "pl" ? "Nie udało się zapisać ustawień lokalnych. Spróbuj ponownie." : "Local settings could not be saved. Please try again."}</p> : null}
               <div className="rounded-lg border border-primary/15 bg-primary/5 p-4">
                 <label className="flex cursor-pointer items-start gap-3">
                   <input
@@ -545,6 +572,7 @@ export function ConsentManager() {
                       <button
                         key={key}
                         type="button"
+                        aria-pressed={optional[key] === true}
                         onClick={() => toggle(key)}
                         className="rounded-lg border border-primary/12 bg-white p-4 text-left transition hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       >
@@ -597,7 +625,7 @@ export function ConsentManager() {
                   className="w-full sm:w-auto"
                 >
                   <BadgeCheck className="h-4 w-4" aria-hidden="true" />
-                  {requiredAccepted ? copy.save : copy.acceptRequired}
+                  {copy.save}
                 </Button>
                 <Button type="button" onClick={acceptAll} className="w-full sm:w-auto">
                   {copy.acceptAll}
@@ -605,7 +633,10 @@ export function ConsentManager() {
               </div>
             </div>
           </motion.section>
+          </Dialog.Content>
         </div>
+        </Dialog.Portal>
+        </Dialog.Root>
       )}
     </AnimatePresence>
   );

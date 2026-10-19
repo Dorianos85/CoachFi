@@ -1,0 +1,13 @@
+# C52 — uczciwy podgląd wyglądu avatara
+
+18.10.2026, c49_dependency_review. **SOURCE_CONFIRMED_PRESENTATION_CANDIDATE_BASELINE_PENDING.** Zastosowano frontend-quality i localization po odczycie manifestów/programu. Niezależne GO obejmuje tylko zaplanowane usunięcie dwóch bloków i dwie etykiety PL/EN, przed runtime baseline. [Piny i anchors](../../../evidence/cycle-52/integrity-candidate.json).
+
+Aktywna app/avatar/page.tsx bez gate renderuje w profile card stałe Saving67%, Investing40%, Credit80% (336–348) oraz Financial Shield62/100 (350–354). To literały; komponent nie pobiera rzeczywistego health/score i nie ma score prop. W tym bloku nie ma oznaczenia demo. Bieżący hash16123fc9… jest literalny względem strony zachowanej i osobno sprawdzonej w C51. Istniejący real-score model ma własny kontrakt/max98; nie należy podłączać go do tej poprawki lub przeliczać arbitralnych wartości.
+
+Zalecana delta tylko app/avatar/page.tsx: usunąć wspólne stats strip i Financial Shield badge. Shield ma wyłącznie import w5 i ikonę w351, więc po usunięciu badge usunąć wyłącznie ten import item. Zachować wygląd/wybór gender/style, archetyp, save/error/effect/voice/storage oraz wszystkie pozostałe teksty i modele.
+
+Etykiety EN Appearance preview i PL Podgląd wyglądu są równoważne: panel pokazuje wygląd avatara, bez sugestii obliczonego wyniku finansowego. Zmienić tylko istniejące livePreview values w42/62. Shared block removal obejmie strukturę wszystkich dziewięciu locale; świeża recenzja znaczenia dotyczy tylko PL/EN, pozostałe siedem copy ma pozostać literalne. Brak nowych formatów waluty/liczb, parserów, rynku, danych, kalkulacji lub warning flow.
+
+Meaningful baseline powinien użyć actual AvatarPage po istniejących efektach, w PL/EN: oczekiwana nowa etykieta oraz brak usuwanych stat nodes muszą zawieść na starym źródle. Fixture/oracles zamrozić. Kontrole zachowują rzeczywisty title, appearance/archetype i dostępne przyciski, bez Save/voice podczas readonly checks. Osobny Chrome na tej samej zbudowanej kopii może sprawdzić podgląd, klawiaturę i reload oraz niezmienione raw keys/API/page errors. Node emulator nie dowodzi hydratacji; nie obiecywać nowego finance/auth/production PASS.
+
+Carry-forward C51 sprawdzony: 150 base tuples +1 browser-retest supplement =151 unikalnych current paths,0mismatch. C52 bootstrap musi scalić additionalToolFingerprints przed deduplikacją. Strona avatara nie należy do prior source/tool pins, ale jest w starszych build inputs. C39–51 pozostają immutable; dependency deferral C50 jest historyczne, bez ponownego network poll. Recenzent niczego nie wykonał lub zmienił w produkcie i nie deklaruje jeszcze naprawy lub akceptacji UI.

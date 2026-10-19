@@ -1,0 +1,17 @@
+# C47 — inwentaryzacja dwóch nieużywanych zależności
+
+17.10.2026. **INVENTORY_GO_FOR_BOUNDED_REMOVAL**. Niezależny recenzent: c47_dependencies. To statyczna kwalifikacja kandydata; akceptacja poprawki i dowody wykonania pozostają otwarte.
+
+Sprawdzono 489 plików kodu, danych i konfiguracji w admin, app, components, context, data, db, design, hooks, lib, public, scripts, styles, supabase, tests, tools, types i plikach głównych. Rejestr SHA256 oraz 2591 literalnych deklaracji/specyfikatorów import, export, import-type, dynamic import i require jest w [JSON](../../../evidence/cycle-47/dependency-inventory.json). Dodatkowy przebieg obejmuje aliasy require, require.resolve i inline createRequire; wszystkie ich argumenty są literalne. Dokładne ciągi @anthropic-ai/sdk, @11labs/react i @11labs/client występują wyłącznie w package.json oraz package-lock.json. Nie znaleziono ich w aplikacji, testach, skryptach, config ani publicznym vendorze. Nie jest to dowód przeciwko każdemu możliwemu obliczanemu ładowaniu.
+
+Lock wskazuje wyłącznie root jako konsumenta @11labs/react0.2.0 i @anthropic-ai/sdk0.95.1. Pierwszy ma w locku oznaczenie deprecated; nie wnioskowano stąd o podatności. Osiem proponowanych wpisów do usunięcia: @11labs/react, @11labs/client, @anthropic-ai/sdk, json-schema-to-ts, ts-algebra, standardwebhooks, @stablelib/base64 oraz fast-sha256. Dla każdego wpisu JSON zapisuje pełne metadane locka i wszystkich incoming consumers. Po usunięciu obu korzeni każdy z tych sześciu dzieci traci jedynego konsumenta.
+
+**Zachować wspólne zależności.** livekit-client jest nadal wymagany przez zachowany @elevenlabs/client; @babel/runtime ma innych konsumentów, a zod jest wymagany przez aktywny @coinbase/cdp-sdk. Coinbase ma rzeczywiste importy w providers, SignInGate, AccountSync, AppNavigation, lib/cdp-server i admin/server; Web3 odroczone nie oznacza, że te pakiety są nieużywane. Usuwania @elevenlabs/client nie zatwierdzono w tym zakresie.
+
+MilaVoiceAgent wczytuje samodzielny wygenerowany public/elevenlabs/convai-widget.js przez Script.src; to inne bajty i mechanizm niż import @11labs/react. Worklets oraz vendor pozostają zachowane. Aktywny chat udziela lokalnej predefiniowanej odpowiedzi, a external mode odsyła do istniejącej hardOFF bramki. Deklaracje providerów, domeny CSP oraz opisy zgód nie są importem SDK. Nie wykonano kodu tych ścieżek.
+
+Historyczny C2 audit-after podawał 5high i13moderate, production-after12moderate; oba miały exit1. To historyczne wyniki z14.10.2026, a nie dzisiejszy pomiar. C45 parsermajor/vendored/braces residuals pozostają otwarte. Nie wykonano nowego audit, install, registry request, testu, połączenia z dostawcą ani produkcyjnego zapisu; nie deklaruję spadku CVE, zamknięcia podatności, czystej instalacji lub gotowości wdrożenia.
+
+Root może przygotować dwa usunięcia deklaracji w package i osiem wyłącznych wpisów w locku w izolowanym offline TEMP. Warunek przyjęcia: dokładna semantyczna delta, wszystkie pozostałe entries literalne, zachowany parser6.1.4 i poprzednie granice, niezależny peer narzędzi i źródeł, odpowiednie istniejące testy hardOFF oraz TypeScript/build na uczciwie opisanym dependency view. Pozostawione nieużywane pakiety w istniejącym node_modules nie dowodzą zgodności z clean install.
+
+Odczytano C46 final-local.json: ACCEPTED_LIMITED_LOCAL_UNSTAGED; final-stage nie jest wymagany dla tej świadomie niestageowanej paczki. Zachowano wcześniejsze raporty i receipts. Autor przyszłej zmiany nie zatwierdza własnej implementacji.

@@ -12,14 +12,16 @@ import {
   ShoppingBag,
   Undo2,
 } from "lucide-react";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
+import { FINANCIAL_AMOUNT_MAX } from "@/lib/financial-score";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { parseShoppingAmountCents, parseShoppingPriceCents, shoppingTotalCents } from "@/lib/shopping-amounts";
 import { cn, formatCurrency } from "@/lib/utils";
 
 type Trigger = "ad" | "sale" | "stress" | "boredom" | "social" | "need";
@@ -71,7 +73,7 @@ type ShoppingCopy = {
 type UnusedItem = {
   id: number;
   name: string;
-  value: number;
+  valueCents: number;
 };
 
 const EN_SHOPPING_COPY: ShoppingCopy = {
@@ -862,23 +864,74 @@ const SHOPPING_COPY: LocalizedMap<ShoppingCopy> = {
 },
 };
 
+const UNUSED_AUDIT_ERROR: LocalizedMap<(maximum: string) => string> = {
+  pl: (maximum) =>
+    `Podaj nazwę rzeczy i dodatnią kwotę z dokładnością do grosza. Kwota i suma listy nie mogą przekraczać ${maximum}.`,
+  en: (maximum) =>
+    `Enter an item name and a positive amount in steps of 0.01. The item and combined total must not exceed ${maximum}.`,
+};
+
+const PURCHASE_PRICE_ERROR: LocalizedMap<(maximum: string) => string> = {
+  pl: (maximum) => `Podaj cenę od 0 do ${maximum} z dokładnością do grosza.`,
+  en: (maximum) => `Enter a price from 0 to ${maximum} in steps of 0.01.`,
+};
+
+const PURCHASE_DAYS_ERROR: LocalizedMap<string> = {
+  pl: "Podaj liczbę dni od zakupu równą 0 lub większą.",
+  en: "Enter the days since purchase as a number of 0 or more.",
+};
+
+function parsePurchaseDays(raw: string): number | null {
+  const text = raw.trim();
+  if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(text)) return null;
+  const days = Number(text);
+  if (!Number.isFinite(days) || days < 0) return null;
+  if (days === 0 && /[1-9]/.test(text.replace(/[eE].*$/, ""))) return null;
+  return days === 0 ? 0 : days;
+}
+
+const PURCHASE_COUNT_ERROR: LocalizedMap<{ usedTimes: string; returnWindow: string }> = {
+  pl: {
+    usedTimes: "Podaj liczbę użyć równą 0 lub większą.",
+    returnWindow: "Podaj okno zwrotu wynoszące co najmniej 1 dzień.",
+  },
+  en: {
+    usedTimes: "Enter the number of uses as a number of 0 or more.",
+    returnWindow: "Enter a return window of at least 1 day.",
+  },
+};
+
+function parsePurchaseCount(raw: string, minimum: number): number | null {
+  const count = parsePurchaseDays(raw);
+  return count === null || count < minimum ? null : count;
+}
+
 export default function ShoppingPage() {
   const { locale, t } = useLanguage();
   const copy = pickLocalized(SHOPPING_COPY, locale);
   const [itemName, setItemName] = useState("");
-  const [price, setPrice] = useState(249);
-  const [daysSincePurchase, setDaysSincePurchase] = useState(3);
-  const [returnWindow, setReturnWindow] = useState(14);
-  const [usedTimes, setUsedTimes] = useState(0);
+  const [priceRaw, setPriceRaw] = useState("249");
+  const [daysRaw, setDaysRaw] = useState("3");
+  const [returnWindowRaw, setReturnWindowRaw] = useState("14");
+  const [usedTimesRaw, setUsedTimesRaw] = useState("0");
   const [needLevel, setNeedLevel] = useState(2);
   const [regretLevel, setRegretLevel] = useState(4);
   const [trigger, setTrigger] = useState<Trigger>("ad");
   const [hasReceipt, setHasReceipt] = useState(true);
   const [unusedItems, setUnusedItems] = useState<UnusedItem[]>([]);
+  const unusedItemsRef = useRef<UnusedItem[]>([]);
+  const nextUnusedId = useRef(0);
   const [unusedName, setUnusedName] = useState("");
-  const [unusedValue, setUnusedValue] = useState(80);
+  const [unusedValue, setUnusedValue] = useState("80");
+  const [unusedIssue, setUnusedIssue] = useState(false);
 
+  const priceCents = parseShoppingPriceCents(priceRaw);
+  const price = priceCents === null ? null : priceCents / 100;
+  const daysSincePurchase = parsePurchaseDays(daysRaw);
+  const returnWindow = parsePurchaseCount(returnWindowRaw, 1);
+  const usedTimes = parsePurchaseCount(usedTimesRaw, 0);
   const analysis = useMemo(() => {
+    if (price === null || daysSincePurchase === null || returnWindow === null || usedTimes === null) return null;
     const returnOpen = hasReceipt && daysSincePurchase <= returnWindow;
     const impulseTrigger = trigger !== "need";
     const impulseScore = clamp(
@@ -907,26 +960,57 @@ export default function ShoppingPage() {
     return { decision, impulseScore, returnOpen, recoverableCash };
   }, [daysSincePurchase, hasReceipt, needLevel, price, regretLevel, returnWindow, trigger, usedTimes]);
 
-  const decisionCopy = copy.decisions[analysis.decision];
-  const sellableTotal = unusedItems.reduce((total, item) => total + item.value, 0);
+  const decisionCopy = analysis ? copy.decisions[analysis.decision] : null;
+  const marketCurrency = useMemo(
+    () => new Intl.NumberFormat(locale === "pl" ? "pl-PL" : "en-US", {
+      style: "currency", currency: "PLN", minimumFractionDigits: 2, maximumFractionDigits: 2,
+    }),
+    [locale]
+  );
+  const formatAmount = (amount: number) => locale === "pl" || locale === "en"
+    ? marketCurrency.format(amount)
+    : formatCurrency(amount, t.currency, locale);
+  const sellableTotal = unusedItems.reduce((total, item) => total + item.valueCents, 0) / 100;
+  const unusedError = pickLocalized(UNUSED_AUDIT_ERROR, locale)(formatAmount(FINANCIAL_AMOUNT_MAX));
+  const priceError = pickLocalized(PURCHASE_PRICE_ERROR, locale)(formatAmount(FINANCIAL_AMOUNT_MAX));
+  const daysError = pickLocalized(PURCHASE_DAYS_ERROR, locale);
+  const countErrors = pickLocalized(PURCHASE_COUNT_ERROR, locale);
   const purchaseLabel = itemName.trim() || copy.itemPlaceholder.replace("...", "");
-  const voiceText = limitVoiceText(
+  const voiceText = analysis && decisionCopy ? limitVoiceText(
     [
       decisionCopy.voice,
       `${copy.impulseScore}: ${analysis.impulseScore} out of 100.`,
-      `${copy.recoverableCash}: ${formatCurrency(analysis.recoverableCash, t.currency, locale)}.`,
+      `${copy.recoverableCash}: ${formatAmount(analysis.recoverableCash)}.`,
       sellableTotal > 0
-        ? `${copy.sellableTotal}: ${formatCurrency(sellableTotal, t.currency, locale)}.`
+        ? `${copy.sellableTotal}: ${formatAmount(sellableTotal)}.`
         : copy.emptyItems,
     ].join(" ")
-  );
+  ) : "";
 
   function addUnusedItem() {
     const cleanName = unusedName.trim();
-    if (!cleanName || unusedValue <= 0) return;
-    setUnusedItems((items) => [...items, { id: Date.now(), name: cleanName, value: unusedValue }]);
+    const valueCents = parseShoppingAmountCents(unusedValue);
+    const current = unusedItemsRef.current;
+    if (!cleanName || valueCents === null ||
+      shoppingTotalCents([...current.map((item) => item.valueCents), valueCents]) === null) {
+      setUnusedIssue(true);
+      return;
+    }
+    const next = [...current, { id: ++nextUnusedId.current, name: cleanName, valueCents }];
+    unusedItemsRef.current = next;
+    setUnusedItems(next);
     setUnusedName("");
-    setUnusedValue(80);
+    setUnusedValue("80");
+    setUnusedIssue(false);
+  }
+
+  function removeUnusedItem(id: number) {
+    const current = unusedItemsRef.current;
+    const next = current.filter((item) => item.id !== id);
+    if (next.length === current.length) return;
+    unusedItemsRef.current = next;
+    setUnusedItems(next);
+    setUnusedIssue(false);
   }
 
   return (
@@ -959,11 +1043,46 @@ export default function ShoppingPage() {
               onChange={setItemName}
             />
             <div className="grid gap-4 sm:grid-cols-2">
-              <NumberField label={copy.price} value={price} min={0} onChange={setPrice} />
-              <NumberField label={copy.usedTimes} value={usedTimes} min={0} onChange={setUsedTimes} />
-              <NumberField label={copy.daysSincePurchase} value={daysSincePurchase} min={0} onChange={setDaysSincePurchase} />
-              <NumberField label={copy.returnWindow} value={returnWindow} min={1} onChange={setReturnWindow} />
+              <label className="grid gap-2 text-sm font-bold text-text">
+                {copy.price}
+                <input
+                  type="number"
+                  min={0}
+                  max={FINANCIAL_AMOUNT_MAX}
+                  step="0.01"
+                  value={priceRaw}
+                  aria-invalid={price === null}
+                  aria-describedby={price === null ? "shopping-price-error" : undefined}
+                  onChange={(event) => setPriceRaw(event.target.value)}
+                  className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                />
+              </label>
+              <NumberField
+                label={copy.usedTimes} value={usedTimesRaw} min={0} onChange={setUsedTimesRaw}
+                invalid={usedTimes === null} errorId="shopping-used-times-error"
+              />
+              <label className="grid gap-2 text-sm font-bold text-text">
+                {copy.daysSincePurchase}
+                <input
+                  type="number"
+                  min={0}
+                  step="any"
+                  value={daysRaw}
+                  aria-invalid={daysSincePurchase === null}
+                  aria-describedby={daysSincePurchase === null ? "shopping-days-error" : undefined}
+                  onChange={(event) => setDaysRaw(event.target.value)}
+                  className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                />
+              </label>
+              <NumberField
+                label={copy.returnWindow} value={returnWindowRaw} min={1} onChange={setReturnWindowRaw}
+                invalid={returnWindow === null} errorId="shopping-return-window-error"
+              />
             </div>
+            {price === null ? <p id="shopping-price-error" role="alert" className="text-sm font-bold text-attention">{priceError}</p> : null}
+            {daysSincePurchase === null ? <p id="shopping-days-error" role="alert" className="text-sm font-bold text-attention">{daysError}</p> : null}
+            {usedTimes === null ? <p id="shopping-used-times-error" role="alert" className="text-sm font-bold text-attention">{countErrors.usedTimes}</p> : null}
+            {returnWindow === null ? <p id="shopping-return-window-error" role="alert" className="text-sm font-bold text-attention">{countErrors.returnWindow}</p> : null}
             <RangeField
               label={copy.needLevel}
               value={needLevel}
@@ -1005,6 +1124,7 @@ export default function ShoppingPage() {
         </Card>
 
         <div className="grid gap-5">
+          {analysis && decisionCopy ? (
           <Card className="overflow-hidden">
             <CardHeader className="gap-4 space-y-0 md:flex md:flex-row md:items-start md:justify-between">
               <div>
@@ -1034,7 +1154,7 @@ export default function ShoppingPage() {
                   <div>
                     <p className="text-sm font-bold text-muted">{purchaseLabel}</p>
                     <p className="mt-1 text-4xl font-black leading-none text-text">
-                      {formatCurrency(analysis.recoverableCash, t.currency, locale)}
+                      {formatAmount(analysis.recoverableCash)}
                     </p>
                     <p className="mt-2 text-sm font-bold text-muted">{copy.recoverableCash}</p>
                   </div>
@@ -1043,8 +1163,11 @@ export default function ShoppingPage() {
               </div>
             </CardContent>
           </Card>
+          ) : null}
 
           <div className="grid gap-4 md:grid-cols-3">
+            {analysis ? (
+            <>
             <MetricBox
               icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}
               label={copy.impulseScore}
@@ -1055,10 +1178,12 @@ export default function ShoppingPage() {
               label={copy.returnStatus}
               value={analysis.returnOpen ? copy.returnOpen : copy.returnClosed}
             />
+            </>
+            ) : null}
             <MetricBox
               icon={<Coins className="h-5 w-5" aria-hidden="true" />}
               label={copy.sellableTotal}
-              value={formatCurrency(sellableTotal, t.currency, locale)}
+              value={formatAmount(sellableTotal)}
             />
           </div>
         </div>
@@ -1073,12 +1198,25 @@ export default function ShoppingPage() {
           <CardContent className="grid gap-4">
             <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_180px_auto]">
               <TextField label={copy.unusedName} value={unusedName} onChange={setUnusedName} />
-              <NumberField label={copy.unusedValue} value={unusedValue} min={0} onChange={setUnusedValue} />
+              <label className="grid gap-2 text-sm font-bold text-text">
+                {copy.unusedValue}
+                <input
+                  type="number"
+                  min={0}
+                  max={FINANCIAL_AMOUNT_MAX}
+                  step="0.01"
+                  value={unusedValue}
+                  onChange={(event) => setUnusedValue(event.target.value)}
+                  className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                />
+              </label>
               <Button type="button" onClick={addUnusedItem} className="self-end">
                 <Plus className="h-4 w-4" aria-hidden="true" />
                 {copy.addItem}
               </Button>
             </div>
+
+            {unusedIssue ? <p role="alert" className="text-sm font-bold text-attention">{unusedError}</p> : null}
 
             {unusedItems.length === 0 ? (
               <div className="rounded-lg border border-dashed border-primary/25 bg-primary/5 p-4 text-sm font-bold leading-6 text-muted">
@@ -1093,11 +1231,11 @@ export default function ShoppingPage() {
                   >
                     <div className="min-w-0 flex-1">
                       <p className="font-black text-text">{item.name}</p>
-                      <p className="text-sm font-bold text-muted">{formatCurrency(item.value, t.currency, locale)}</p>
+                      <p className="text-sm font-bold text-muted">{formatAmount(item.valueCents / 100)}</p>
                     </div>
                     <button
                       type="button"
-                      onClick={() => setUnusedItems((items) => items.filter((candidate) => candidate.id !== item.id))}
+                      onClick={() => removeUnusedItem(item.id)}
                       className="inline-flex min-h-10 items-center justify-center rounded-lg border border-primary/15 bg-white px-3 text-sm font-bold text-muted transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       {copy.remove}
@@ -1188,11 +1326,15 @@ function NumberField({
   value,
   min,
   onChange,
+  invalid,
+  errorId,
 }: {
   label: string;
-  value: number;
+  value: string;
   min: number;
-  onChange: (value: number) => void;
+  onChange: (value: string) => void;
+  invalid: boolean;
+  errorId: string;
 }) {
   return (
     <label className="grid gap-2 text-sm font-bold text-text">
@@ -1200,8 +1342,11 @@ function NumberField({
       <input
         type="number"
         min={min}
+        step="any"
         value={value}
-        onChange={(event) => onChange(Math.max(min, Number(event.target.value) || 0))}
+        aria-invalid={invalid}
+        aria-describedby={invalid ? errorId : undefined}
+        onChange={(event) => onChange(event.target.value)}
         className="min-h-12 rounded-lg border border-primary/15 bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       />
     </label>

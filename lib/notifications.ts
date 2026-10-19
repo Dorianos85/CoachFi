@@ -1,3 +1,4 @@
+import { captureCurrentPersonalStorage, type PersonalStorageHandle } from "@/lib/product-storage";
 export type NotifPermission = "default" | "granted" | "denied";
 
 export function getPermission(): NotifPermission {
@@ -11,8 +12,8 @@ export async function requestPermission(): Promise<NotifPermission> {
   return result as NotifPermission;
 }
 
-export function sendNotification(title: string, body: string, icon = "/icon-192.png") {
-  if (getPermission() !== "granted") return;
+export function sendNotification(title: string, body: string, icon = "/icon-192.png", storage: PersonalStorageHandle = captureCurrentPersonalStorage()) {
+  if (!storage.isCurrent() || getPermission() !== "granted") return;
   try {
     new Notification(title, { body, icon, badge: icon });
   } catch {
@@ -20,13 +21,20 @@ export function sendNotification(title: string, body: string, icon = "/icon-192.
   }
 }
 
-const scheduledTimers: ReturnType<typeof setTimeout>[] = [];
+const scheduledTimers = new Map<ReturnType<typeof setTimeout>, PersonalStorageHandle>();
 
-export function scheduleStreakReminder(currentStreak: number) {
-  if (getPermission() !== "granted") return;
+/** A stale context cleanup may cancel only timers created for its own revision. */
+export function cancelScheduledNotifications(storage?: PersonalStorageHandle) {
+  for (const [timer, owner] of scheduledTimers) {
+    if (storage && owner.revision !== storage.revision) continue;
+    clearTimeout(timer); scheduledTimers.delete(timer);
+  }
+}
+
+export function scheduleStreakReminder(currentStreak: number, storage: PersonalStorageHandle = captureCurrentPersonalStorage()) {
+  if (!storage.isCurrent() || getPermission() !== "granted") return;
   // Clear previous timers
-  scheduledTimers.forEach(clearTimeout);
-  scheduledTimers.length = 0;
+  cancelScheduledNotifications(storage);
 
   const now = new Date();
   const target = new Date(now);
@@ -36,16 +44,19 @@ export function scheduleStreakReminder(currentStreak: number) {
 
   const delay = target.getTime() - now.getTime();
   const t = setTimeout(() => {
+    scheduledTimers.delete(t);
+    if (!storage.isCurrent()) return;
     sendNotification(
       `Don't lose your ${currentStreak}-day streak! 🔥`,
-      "Complete a quick lesson or quiz today — it only takes 2 minutes."
+      "Complete a quick lesson or quiz today — it only takes 2 minutes.",
+      "/icon-192.png", storage
     );
   }, delay);
-  scheduledTimers.push(t);
+  scheduledTimers.set(t, storage);
 }
 
-export function scheduleQuizReminder() {
-  if (getPermission() !== "granted") return;
+export function scheduleQuizReminder(storage: PersonalStorageHandle = captureCurrentPersonalStorage()) {
+  if (!storage.isCurrent() || getPermission() !== "granted") return;
   const messages = [
     { title: "New quiz ready 🎯", body: "Test your knowledge — earn 25 Coach FI Points." },
     { title: "Mila has a question for you 🐷", body: "A 2-minute quiz is waiting. Don't let your score drop." },
@@ -55,6 +66,6 @@ export function scheduleQuizReminder() {
 
   // Remind after 24h (approximated with a shorter delay for demo: 30s)
   const DEMO_DELAY = 30_000; // in production: 86_400_000 (24h)
-  const t = setTimeout(() => sendNotification(pick.title, pick.body), DEMO_DELAY);
-  scheduledTimers.push(t);
+  const t = setTimeout(() => { scheduledTimers.delete(t); if (storage.isCurrent()) sendNotification(pick.title, pick.body, "/icon-192.png", storage); }, DEMO_DELAY);
+  scheduledTimers.set(t, storage);
 }

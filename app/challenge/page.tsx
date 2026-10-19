@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Zap } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
@@ -12,19 +12,17 @@ import { useStreak } from "@/context/StreakContext";
 import {
   getDailyQuestion,
   getSecondsUntilMidnight,
-  isChallengeCompletedToday,
-  markChallengeCompleted,
   type ChallengeQuestion,
 } from "@/data/challengeQuestions";
 import { getQuestionById } from "@/lib/allQuestions";
-import { notifyCloud } from "@/lib/sync/syncQueue";
-import { addTokens } from "@/lib/tokens";
+import { createChallengeSaveController, readDailyChallengeState } from "@/lib/challenge-save";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 const challengeCopy: LocalizedMap<{ earnedThisSession: string }> = {
-  en: { earnedThisSession: "Tokens earned this session" },
-  pl: { earnedThisSession: "Zdobyte tokeny tej sesji" },
+  en: { earnedThisSession: "Points earned during this session" },
+  pl: { earnedThisSession: "Punkty zdobyte podczas tej sesji" },
   es: { earnedThisSession: "Tokens ganados en esta sesión" },
   fr: { earnedThisSession: "Jetons gagnés dans cette session" },
   ja: { earnedThisSession: "このセッションで獲得したトークン" },
@@ -32,6 +30,21 @@ const challengeCopy: LocalizedMap<{ earnedThisSession: string }> = {
   hi: { earnedThisSession: "इस सत्र में कमाए गए पॉइंट" },
   "pt-BR": { earnedThisSession: "Pontos ganhos nesta sessão" },
   tr: { earnedThisSession: "Bu oturumda kazanılan puanlar" },
+};
+
+const saveCopy = {
+  pl: {
+    unavailable: "Nie można odczytać danych wyzwania. Nie przyznano nowych punktów. Sprawdź odczyt ponownie.",
+    check: "Sprawdź odczyt ponownie",
+    retryable: "Nie udało się zapisać odpowiedzi. Nie przyznano nowych punktów. Możesz spróbować ponownie.",
+    uncertain: "Nie udało się potwierdzić pełnego zapisu. Punkty lub ukończenie wyzwania mogły zostać zapisane częściowo. Nie ponawiaj tej odpowiedzi. Zmiana języka nie odblokuje ponowienia.",
+  },
+  en: {
+    unavailable: "The challenge data could not be read. No new points were awarded. Check the data again.",
+    check: "Check the data again",
+    retryable: "Your answer could not be saved. No new points were awarded. You can try again.",
+    uncertain: "The full save could not be confirmed. Points or challenge completion may have been partially saved. Do not retry this answer. Changing the language will not unlock another attempt.",
+  },
 };
 
 function pad(n: number) {
@@ -46,6 +59,7 @@ function formatCountdown(seconds: number, t: { hours: string; minutes: string; s
 }
 
 export default function ChallengePage() {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const { markActive } = useStreak();
 
@@ -55,6 +69,27 @@ export default function ChallengePage() {
   const [alreadyDone, setAlreadyDone] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [tokenBalance, setTokenBalance] = useState(0);
+  const [saveController] = useState(createChallengeSaveController);
+  const [saveTicket, setSaveTicket] = useState(() => saveController.version());
+  const [saveIssue, setSaveIssue] = useState<"unavailable" | "retryable" | "uncertain" | null>("unavailable");
+  const copy = locale === "pl" ? saveCopy.pl : saveCopy.en;
+
+  function isCurrentAttempt() {
+    try { return storage.isCurrent() && saveTicket === saveController.version(); }
+    catch { return false; }
+  }
+
+  useLayoutEffect(() => {
+    const ticket = saveController.reset();
+    setSaveTicket(ticket);
+    setSelected(null);
+    setSubmitted(false);
+    setTokenBalance(0);
+    const state = readDailyChallengeState(storage);
+    setAlreadyDone(state === "completed");
+    setSaveIssue(state === "unavailable" ? "unavailable" : null);
+    return () => { saveController.reset(); };
+  }, [storage, saveController]);
 
   useEffect(() => {
     const daily = getDailyQuestion();
@@ -70,7 +105,6 @@ export default function ChallengePage() {
           }
         : daily
     );
-    setAlreadyDone(isChallengeCompletedToday());
     setCountdown(getSecondsUntilMidnight());
   }, [locale]);
 
@@ -82,23 +116,39 @@ export default function ChallengePage() {
   }, [countdown]);
 
   function handleSubmit() {
-    if (!selected || !question) return;
-    setSubmitted(true);
-    const correct = selected === question.correctAnswer;
-    notifyCloud("challenge", {
+    if (!selected || !question || submitted || alreadyDone ||
+      saveIssue === "unavailable" || saveIssue === "uncertain" || !isCurrentAttempt() || !saveController.isOpen(saveTicket)) return;
+    const result = saveController.run(saveTicket, storage, {
       questionId: question.id,
-      isCorrect: correct,
-      reward: correct ? question.reward : 0,
-    });
-    if (correct) {
-      // Persist to the real balance (localStorage + reward_ledger when signed in);
-      // tokenBalance below is only the "earned this session" display counter.
-      addTokens(question.reward, "Daily challenge", "daily_challenge");
-      setTokenBalance((b) => b + question.reward);
-      markChallengeCompleted();
-      setAlreadyDone(true);
-      markActive();
+      selectedAnswer: selected,
+      correctAnswer: question.correctAnswer,
+      reward: question.reward,
+    }, markActive);
+    if (!isCurrentAttempt() || result.status === "ignored" || result.status === "stopped") return;
+    if (result.status === "uncertain" || result.status === "retryable") {
+      setSaveIssue(result.status);
+      // Refresh readers only; this event cannot replay the reward or mark success.
+      try { window.dispatchEvent(new Event("coachfi-tokens")); } catch { /* Keep the save warning. */ }
+      return;
     }
+    setSaveIssue(null);
+    if (result.status === "completed") {
+      setAlreadyDone(true);
+      return;
+    }
+    if (result.status === "saved") {
+      setTokenBalance((balance) => balance + (result.earned ?? 0));
+      setAlreadyDone(true);
+    }
+    setSubmitted(true);
+  }
+
+  function handleCheckRead() {
+    if (saveIssue !== "unavailable" || !isCurrentAttempt() || !saveController.isOpen(saveTicket)) return;
+    const state = readDailyChallengeState(storage);
+    if (!isCurrentAttempt()) return;
+    setAlreadyDone(state === "completed");
+    setSaveIssue(state === "unavailable" ? "unavailable" : null);
   }
 
   const isCorrect = submitted && selected === question?.correctAnswer;
@@ -114,6 +164,14 @@ export default function ChallengePage() {
       />
 
       <div className="mx-auto max-w-2xl">
+        {saveIssue && (
+          <div role="alert" className="mb-4 rounded-xl border border-warning/40 bg-warning/15 p-4 text-sm text-text">
+            <p>{copy[saveIssue]}</p>
+            {saveIssue === "unavailable" && (
+              <Button type="button" className="mt-3" onClick={handleCheckRead}>{copy.check}</Button>
+            )}
+          </div>
+        )}
         {/* Reward badge */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
@@ -155,6 +213,7 @@ export default function ChallengePage() {
         {/* Question card */}
         {!alreadyDone && question && (
           <motion.div
+            data-testid="daily-challenge-question"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -180,8 +239,11 @@ export default function ChallengePage() {
                   <motion.button
                     key={answer.id}
                     type="button"
-                    whileTap={!submitted ? { scale: 0.98 } : {}}
-                    onClick={() => !submitted && setSelected(answer.id)}
+                    disabled={submitted || saveIssue === "unavailable" || saveIssue === "uncertain"}
+                    whileTap={!submitted && !saveIssue ? { scale: 0.98 } : {}}
+                    onClick={() => {
+                      if (!submitted && saveIssue !== "unavailable" && saveIssue !== "uncertain" && isCurrentAttempt() && saveController.isOpen(saveTicket)) setSelected(answer.id);
+                    }}
                     className={cn(
                       "w-full rounded-xl border-2 px-4 py-3.5 text-left text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                       !submitted && !isSelected && "border-primary/10 bg-white text-text hover:border-primary/30",
@@ -236,7 +298,7 @@ export default function ChallengePage() {
                 type="button"
                 size="lg"
                 className="mt-5 w-full"
-                disabled={!selected}
+                disabled={!selected || saveIssue === "unavailable" || saveIssue === "uncertain"}
                 onClick={handleSubmit}
               >
                 {t.challenge.answerButton}
@@ -248,6 +310,7 @@ export default function ChallengePage() {
         {/* Token balance earned this session */}
         {tokenBalance > 0 && (
           <motion.div
+            data-testid="daily-challenge-earned"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 rounded-2xl bg-primary/5 px-5 py-4 text-center"

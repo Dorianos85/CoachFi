@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import {fingerprintRuntime} from '../cycle-38/runtime-fingerprint.mjs';
+const dir='evidence/cycle-47/';assert(!fs.existsSync(dir+'source-change.json'),'One-shot mutation');
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex'),read=p=>fs.readFileSync(p),before=JSON.parse(read(dir+'before.json'));
+const experiment=JSON.parse(read(dir+'experiment.json'));assert.equal(experiment.minimal,true);assert.equal(experiment.childExitCode,0);assert.equal(experiment.repositoryUnchanged,true);
+const names=['@11labs/react','@anthropic-ai/sdk'];
+const removed=['@11labs/react','@11labs/client','@anthropic-ai/sdk','json-schema-to-ts','ts-algebra','standardwebhooks','@stablelib/base64','fast-sha256'].map(n=>'node_modules/'+n).sort();
+const pkg=JSON.parse(before.manifests[0].fullBefore),lock=JSON.parse(before.manifests[1].fullBefore);
+for(const n of names){assert(Object.hasOwn(pkg.dependencies,n));delete pkg.dependencies[n];assert(Object.hasOwn(lock.packages[''].dependencies,n));delete lock.packages[''].dependencies[n];}for(const n of removed){assert(Object.hasOwn(lock.packages,n));delete lock.packages[n];}
+const candidateTexts=experiment.candidates.map(p=>{const b=read(p.path);assert.equal(hash(b),p.sha256,p.path);return b;});assert.equal(candidateTexts.length,2);
+assert.deepEqual(JSON.parse(candidateTexts[0]),pkg);assert.deepEqual(JSON.parse(candidateTexts[1]),lock);
+for(const p of before.inputs)assert.equal(hash(read(p.path)),p.sha256,p.path);
+for(const p of before.previousSourceTools)assert.equal(hash(read(p.path)),p.sha256,p.path);
+for(const p of before.receipts)assert.equal(hash(read(p.path)),p.sha256,p.path);
+assert.deepEqual(fingerprintRuntime(process.cwd(),'6.1.4'),before.runtime);
+for(let i=0;i<2;i++)fs.writeFileSync(before.manifests[i].path,candidateTexts[i]);
+const after=before.manifests.map(m=>({path:m.path,sha256:hash(read(m.path))}));
+for(const p of before.inputs)if(!after.some(a=>a.path===p.path))assert.equal(hash(read(p.path)),p.sha256,p.path);
+const runtime=fingerprintRuntime(process.cwd(),'6.1.4');assert.deepEqual({...runtime,lockSHA256:before.runtime.lockSHA256},before.runtime);
+fs.writeFileSync(dir+'source-change.json',JSON.stringify({cycle:47,at:new Date().toISOString(),author:'root',status:'APPLIED_PENDING_INDEPENDENT_EXECUTION_REVIEW',experimentSHA256:hash(read(dir+'experiment.json')),before:before.manifests.map(({path,sha256})=>({path,sha256})),after,rootDependenciesRemoved:names,lockEntriesRemoved:removed,addedEntries:[],retainedEntryChanges:[],originalInputs:before.inputs.length,literalOriginalInputs:before.inputs.length-2,qualifiedChanges:after,runtime,parserRuntimeLiteralExceptLockSHA:true,nodeModulesPruned:false,cleanInstall:false,advisoryClosure:false},null,2)+'\n');
+console.log(JSON.stringify({after,removed:removed.length,literalOriginalInputs:before.inputs.length-2}));

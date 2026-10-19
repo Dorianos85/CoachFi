@@ -1,0 +1,9 @@
+# C50 — integralność liczników w wybranym eksporcie
+
+Status: PLAN_LOCAL_REPRODUCTION. 18.10.2026. Root autor kodu i narzędzi; c49_validation autor nowego niezależnego fixture, c49_dependency_review niezależny source/tools reviewer; c49_advisories bada najpierw wykonalność poprawki parsera. Limit root+3, pliki rozłączne.
+
+B10: jeden ograniczony read-only feasibility check dla zewnętrznego parsera 7.1.6, bez ponownego audit/npm/install lub mutacji zależności. Nie nadaje security PASS. Niezależnie wykonalne B05/B17: istniejący selected export przepuszcza dodatni ułamkowy stan punktów, którego rzeczywisty reader punktów nie akceptuje. Planowana mała zmiana tylko admission gałęzi coachfi-tokens w lib/data-export.ts: safe integer wewnątrz istniejącego cap 1e9; bez zaokrąglania, naprawy raw, poszerzania cap lub zmiany writers/readers.
+
+Przyjęcie: frozen niezależne fixture, failing baseline przed produktem; te same przypadki po poprawce, 44 dotknięte historyczne przypadki eksportu raz z powodu zmiany wspólnego sanitizera; jeden TypeScript i jeden TEMP build z dotychczasowym runtime; niezależne source/tools/raw/ledger review, retest konkretnych findings. Rzeczywiste sanitize/collector/owned builder/owner leases i token read, tylko syntetyczne storage; writer-only efekty mock i fetch trap jawne. Brak nowej przeglądarki/download, clean-install, cloud rights/legal lub produkcja PASS.
+
+Root owns tools, lib/data-export.ts, verification/REPORT/final metadata. c49_validation owns tests/cycle50-token-export-review.test.ts + fixture-design; c49_dependency_review owns integrity-candidate and later separate reviews; c49_advisories owns dependency-feasibility only. C39–49 receipts, prior source/tool pins, C49 manifests i istniejące HEAD/branch/index zachowane. Bez stagingu nowych zmian, commit/push/deploy, migracji, produkcyjnych zapisów, rzeczywistych profili/sesji/sekretów/płatnych wywołań. AI/cloud writes HARD_OFF.

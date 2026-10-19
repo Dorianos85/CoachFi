@@ -1,0 +1,4183 @@
+{
+  "kind": "baseline-non-target-content",
+  "plainByLocale": {
+    "pl": [
+      {
+        "id": "inflation-basics",
+        "question": "Co oznacza inflacja?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Pieniądze kupują więcej z czasem"
+          },
+          {
+            "id": "B",
+            "text": "Pieniądze tracą siłę nabywczą z czasem"
+          },
+          {
+            "id": "C",
+            "text": "Banki rozdają darmowe pieniądze"
+          },
+          {
+            "id": "D",
+            "text": "Ceny zawsze spadają"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Inflacja to cichy przeciwnik gotówki bez planu. +25 punktów!",
+        "retryMessage": "Inflacja oznacza, że ta sama kwota kupuje z czasem mniej.",
+        "category": "Inflacja"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "Ile miesięcy wydatków powinien obejmować fundusz awaryjny?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 tydzień"
+          },
+          {
+            "id": "B",
+            "text": "1 miesiąc"
+          },
+          {
+            "id": "C",
+            "text": "3 do 6 miesięcy"
+          },
+          {
+            "id": "D",
+            "text": "10 lat"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 do 6 miesięcy to rozsądna poduszka na utratę dochodu lub nagłe koszty. +25 punktów!",
+        "retryMessage": "Fundusz awaryjny powinien zwykle pokrywać 3 do 6 miesięcy podstawowych wydatków.",
+        "category": "Fundusz awaryjny"
+      },
+      {
+        "id": "saving-habit",
+        "question": "Który nawyk oszczędzania jest najskuteczniejszy?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Odkładać to, co zostanie na koniec miesiąca"
+          },
+          {
+            "id": "B",
+            "text": "Oszczędzać tylko wtedy, gdy zarabiasz więcej"
+          },
+          {
+            "id": "C",
+            "text": "Automatycznie przelewać stałą kwotę po wypłacie"
+          },
+          {
+            "id": "D",
+            "text": "Trzymać wszystko w gotówce w domu"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Automatyczne oszczędzanie po wypłacie to najmocniejszy nawyk. +25 punktów!",
+        "retryMessage": "Najskuteczniejszy jest automatyczny przelew zaraz po wpływie dochodu.",
+        "category": "Nawyk oszczędzania"
+      },
+      {
+        "id": "interest-rates",
+        "question": "Co zwykle dzieje się z kredytem o zmiennej stopie, gdy stopy procentowe rosną?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Rata spada"
+          },
+          {
+            "id": "B",
+            "text": "Nic się nie zmienia"
+          },
+          {
+            "id": "C",
+            "text": "Rata zwykle rośnie"
+          },
+          {
+            "id": "D",
+            "text": "Kredyt znika"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Kredyt o zmiennej stopie zwykle robi się droższy, gdy stopy rosną. +25 punktów!",
+        "retryMessage": "Kredyty zmienne są powiązane ze stopami rynkowymi, więc rata może wzrosnąć.",
+        "category": "Kredyt"
+      }
+    ],
+    "en": [
+      {
+        "id": "inflation-basics",
+        "question": "What does inflation mean?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Money buys more over time"
+          },
+          {
+            "id": "B",
+            "text": "Money loses purchasing power over time"
+          },
+          {
+            "id": "C",
+            "text": "Banks give out free money"
+          },
+          {
+            "id": "D",
+            "text": "Prices always go down"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Inflation is the silent enemy of unmanaged cash. +25 points!",
+        "retryMessage": "Inflation means money loses purchasing power. The same amount buys less over time.",
+        "category": "Inflation"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "How many months of expenses should an emergency fund cover?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 week"
+          },
+          {
+            "id": "B",
+            "text": "1 month"
+          },
+          {
+            "id": "C",
+            "text": "3 to 6 months"
+          },
+          {
+            "id": "D",
+            "text": "10 years"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 to 6 months is a safe cushion for job loss or unexpected expenses. +25 points!",
+        "retryMessage": "A practical emergency fund usually covers 3 to 6 months of essential expenses.",
+        "category": "Emergency Fund"
+      },
+      {
+        "id": "saving-habit",
+        "question": "Which saving habit is most effective?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Save whatever is left at the end of the month"
+          },
+          {
+            "id": "B",
+            "text": "Save only when you earn more"
+          },
+          {
+            "id": "C",
+            "text": "Transfer a fixed amount automatically after your paycheck arrives"
+          },
+          {
+            "id": "D",
+            "text": "Keep everything as cash at home"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Automatic saving after payday is the strongest habit. +25 points!",
+        "retryMessage": "The most effective habit is an automatic transfer right after income arrives.",
+        "category": "Saving Habit"
+      },
+      {
+        "id": "interest-rates",
+        "question": "What happens to a variable-rate loan when interest rates rise?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Monthly payments go down"
+          },
+          {
+            "id": "B",
+            "text": "Nothing changes"
+          },
+          {
+            "id": "C",
+            "text": "Monthly payments usually go up"
+          },
+          {
+            "id": "D",
+            "text": "The loan disappears"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Variable-rate loans usually become more expensive when rates rise. +25 points!",
+        "retryMessage": "Variable-rate loans are linked to market rates, so payments can rise.",
+        "category": "Credit"
+      }
+    ],
+    "es": [
+      {
+        "id": "inflation-basics",
+        "question": "¿Qué significa inflación?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "El dinero compra más con el tiempo"
+          },
+          {
+            "id": "B",
+            "text": "El dinero pierde poder adquisitivo con el tiempo"
+          },
+          {
+            "id": "C",
+            "text": "Los bancos regalan dinero"
+          },
+          {
+            "id": "D",
+            "text": "Los precios siempre bajan"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "La inflación es el enemigo silencioso del efectivo sin plan. +25 puntos!",
+        "retryMessage": "Inflación significa que la misma cantidad compra menos con el tiempo.",
+        "category": "Inflación"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "¿Cuántos meses de gastos debería cubrir un fondo de emergencia?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 semana"
+          },
+          {
+            "id": "B",
+            "text": "1 mes"
+          },
+          {
+            "id": "C",
+            "text": "3 a 6 meses"
+          },
+          {
+            "id": "D",
+            "text": "10 años"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 a 6 meses es una buena protección ante pérdida de ingresos o gastos inesperados. +25 puntos!",
+        "retryMessage": "Un fondo de emergencia suele cubrir 3 a 6 meses de gastos esenciales.",
+        "category": "Fondo de emergencia"
+      },
+      {
+        "id": "saving-habit",
+        "question": "¿Qué hábito de ahorro es más eficaz?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ahorrar lo que queda al final del mes"
+          },
+          {
+            "id": "B",
+            "text": "Ahorrar solo cuando ganas más"
+          },
+          {
+            "id": "C",
+            "text": "Transferir una cantidad fija automáticamente al cobrar"
+          },
+          {
+            "id": "D",
+            "text": "Guardar todo en efectivo en casa"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Ahorrar automáticamente al cobrar es el hábito más fuerte. +25 puntos!",
+        "retryMessage": "El hábito más eficaz es una transferencia automática justo después de recibir ingresos.",
+        "category": "Ahorro"
+      },
+      {
+        "id": "interest-rates",
+        "question": "¿Qué pasa con un préstamo a tasa variable cuando suben las tasas?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "La cuota baja"
+          },
+          {
+            "id": "B",
+            "text": "No cambia nada"
+          },
+          {
+            "id": "C",
+            "text": "La cuota normalmente sube"
+          },
+          {
+            "id": "D",
+            "text": "El préstamo desaparece"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Los préstamos variables suelen encarecerse cuando suben las tasas. +25 puntos!",
+        "retryMessage": "Los préstamos variables dependen de tasas de mercado, por eso la cuota puede subir.",
+        "category": "Crédito"
+      },
+      {
+        "id": "nbp-inflation-target",
+        "question": "¿Qué meta de inflación aplica el banco central de Polonia (NBP) desde 2004?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "0% — los precios nunca deben subir"
+          },
+          {
+            "id": "B",
+            "text": "2,5% con una banda de ±1 punto porcentual"
+          },
+          {
+            "id": "C",
+            "text": "5% para fomentar el gasto"
+          },
+          {
+            "id": "D",
+            "text": "La que fije el gobierno cada año"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "El NBP apunta a 2,5% de inflación con banda simétrica de ±1 pp. +30 tokens!",
+        "retryMessage": "Desde 2004 la meta del NBP es 2,5% (±1 pp), medida por la variación anual del IPC.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "inflation-target-why",
+        "question": "¿Por qué los bancos centrales buscan una inflación baja y positiva (~2–2,5%) en vez de 0%?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Para que la moneda pierda valor más rápido"
+          },
+          {
+            "id": "B",
+            "text": "Un colchón pequeño y estable apoya el crecimiento y evita la deflación"
+          },
+          {
+            "id": "C",
+            "text": "Porque precios más altos siempre son buenos"
+          },
+          {
+            "id": "D",
+            "text": "Solo para aumentar la recaudación de impuestos"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Una meta positiva pequeña mantiene margen de seguridad frente a la deflación. +30 tokens!",
+        "retryMessage": "Una meta baja y estable evita la deflación y mantiene los precios predecibles.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "monetary-policy-tool",
+        "question": "¿Cuál es la herramienta principal de un banco central para dirigir la inflación?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Imprimir billetes para los ciudadanos"
+          },
+          {
+            "id": "B",
+            "text": "Fijar las tasas de interés de referencia"
+          },
+          {
+            "id": "C",
+            "text": "Fijar el precio del pan"
+          },
+          {
+            "id": "D",
+            "text": "Prohibir las importaciones"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Al mover las tasas de referencia, el banco central cambia el costo del crédito en toda la economía. +25 tokens!",
+        "retryMessage": "Los bancos centrales usan sobre todo las tasas de referencia para influir en el crédito y la inflación.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "rates-and-borrowing",
+        "question": "¿Qué suele ocurrir cuando un banco central sube las tasas de interés?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "El crédito se abarata y el gasto se dispara"
+          },
+          {
+            "id": "B",
+            "text": "El crédito se encarece, enfriando la demanda y la inflación"
+          },
+          {
+            "id": "C",
+            "text": "Nada cambia para los hogares"
+          },
+          {
+            "id": "D",
+            "text": "Las cuentas de ahorro siempre pagan 0%"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Tasas más altas encarecen los préstamos, se gasta menos y la inflación cede. +25 tokens!",
+        "retryMessage": "Las subidas de tasas encarecen el crédito, lo que enfría el gasto y baja la inflación.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "gdp-definition",
+        "question": "¿Qué mide el PIB (Producto Interno Bruto)?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Los ahorros totales de los ciudadanos"
+          },
+          {
+            "id": "B",
+            "text": "El valor de todos los bienes y servicios producidos en una economía"
+          },
+          {
+            "id": "C",
+            "text": "La cantidad de efectivo en circulación"
+          },
+          {
+            "id": "D",
+            "text": "La deuda pública"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "El PIB es el valor total de bienes y servicios que produce una economía. +25 tokens!",
+        "retryMessage": "PIB = valor de mercado total de los bienes y servicios producidos en un país en un período.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "deflation-risk",
+        "question": "¿Por qué la deflación persistente (precios cayendo) se considera peligrosa?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Todos se enriquecen sin ningún inconveniente"
+          },
+          {
+            "id": "B",
+            "text": "La gente pospone compras, la demanda cae y las deudas pesan más"
+          },
+          {
+            "id": "C",
+            "text": "Siempre sube los salarios"
+          },
+          {
+            "id": "D",
+            "text": "No afecta a la economía"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Con precios cayendo, la gente pospone compras y la carga real de las deudas crece — una espiral dañina. +30 tokens!",
+        "retryMessage": "La deflación empuja a aplazar el gasto y hace más pesadas las deudas en términos reales.",
+        "category": "Macroeconomía"
+      },
+      {
+        "id": "zero-based-budget",
+        "question": "¿Qué es el presupuesto en base cero?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Gastar hasta que la cuenta llegue a cero"
+          },
+          {
+            "id": "B",
+            "text": "Dar a cada unidad de ingreso una tarea hasta que ingreso − asignaciones = 0"
+          },
+          {
+            "id": "C",
+            "text": "No tener ahorros"
+          },
+          {
+            "id": "D",
+            "text": "Presupuestar solo en efectivo"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "En base cero cada euro tiene un propósito — incluido el ahorro — y nada se escapa sin plan. +25 tokens!",
+        "retryMessage": "Presupuesto en base cero = asignar una tarea a cada unidad de ingreso hasta que el plan cierre en cero.",
+        "category": "Presupuesto"
+      },
+      {
+        "id": "track-before-budget",
+        "question": "¿Cuál es el primer paso recomendado antes de armar un presupuesto familiar?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Cancelar todas las suscripciones de inmediato"
+          },
+          {
+            "id": "B",
+            "text": "Registrar el gasto real durante unos 30 días"
+          },
+          {
+            "id": "C",
+            "text": "Pedir un préstamo para cubrir huecos"
+          },
+          {
+            "id": "D",
+            "text": "Adivinar los gastos de memoria"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 20,
+        "successMessage": "Registrar ~30 días de gasto real revela a dónde va el dinero. +20 tokens!",
+        "retryMessage": "Primero registra ~30 días de gastos: no puedes gestionar lo que no mides.",
+        "category": "Presupuesto"
+      },
+      {
+        "id": "sinking-fund",
+        "question": "¿Qué es un fondo de amortización (sinking fund) en el presupuesto del hogar?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Dinero que esperas perder"
+          },
+          {
+            "id": "B",
+            "text": "Efectivo apartado poco a poco para un gasto futuro conocido"
+          },
+          {
+            "id": "C",
+            "text": "Un tipo de inversión arriesgada"
+          },
+          {
+            "id": "D",
+            "text": "Un descubierto en la cuenta"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Reparte costos grandes conocidos (taller, vacaciones, impuestos) en cuotas mensuales pequeñas — sin deudas. +25 tokens!",
+        "retryMessage": "Un sinking fund = ahorrar un poco cada mes para un costo futuro planificado.",
+        "category": "Presupuesto"
+      },
+      {
+        "id": "impulse-pause",
+        "question": "¿Qué táctica es eficaz contra las compras impulsivas?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Comprar ahora y decidir después si hacía falta"
+          },
+          {
+            "id": "B",
+            "text": "Un período de espera (24–72h, o 30 días en compras grandes) antes de lo no esencial"
+          },
+          {
+            "id": "C",
+            "text": "Comprar siempre con estrés"
+          },
+          {
+            "id": "D",
+            "text": "Quitar los precios para no verlos"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 20,
+        "successMessage": "La pausa deja que el impulso se apague y gane la decisión racional. +20 tokens!",
+        "retryMessage": "Añade un período de espera antes de compras no esenciales — la pausa vence al impulso.",
+        "category": "Presupuesto"
+      },
+      {
+        "id": "emergency-first-milestone",
+        "question": "¿Cuál es una PRIMERA meta realista de ahorro de emergencia si 3–6 meses parece lejano?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "No empezar hasta poder ahorrar 6 meses de golpe"
+          },
+          {
+            "id": "B",
+            "text": "Un mes de gastos esenciales"
+          },
+          {
+            "id": "C",
+            "text": "Dos años de gastos"
+          },
+          {
+            "id": "D",
+            "text": "Exactamente tu salario anual"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Un solo mes de gastos ya reduce mucho el riesgo de atrasarte con las cuentas. +25 tokens!",
+        "retryMessage": "Apunta primero a un mes de gastos esenciales; incluso un colchón pequeño reduce mucho la morosidad.",
+        "category": "Fondo de emergencia"
+      },
+      {
+        "id": "bfg-guarantee",
+        "question": "En Polonia, ¿hasta qué monto garantiza el BFG los depósitos bancarios?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "No existe garantía de depósitos"
+          },
+          {
+            "id": "B",
+            "text": "El equivalente de 100.000 € por depositante y banco"
+          },
+          {
+            "id": "C",
+            "text": "Exactamente 10.000 zlotys en total"
+          },
+          {
+            "id": "D",
+            "text": "Sin límite, siempre el 100%"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "El BFG polaco garantiza depósitos hasta el equivalente de 100.000 € por persona y banco. +30 tokens!",
+        "retryMessage": "El fondo de garantía polaco (BFG) cubre hasta el equivalente de 100.000 € por depositante en cada banco.",
+        "category": "Ahorro"
+      },
+      {
+        "id": "asset-allocation",
+        "question": "¿Qué significa 'asignación de activos'?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Elegir una acción ganadora"
+          },
+          {
+            "id": "B",
+            "text": "Cómo repartes la inversión entre acciones, bonos y efectivo"
+          },
+          {
+            "id": "C",
+            "text": "Pedir dinero prestado para invertir"
+          },
+          {
+            "id": "D",
+            "text": "Tenerlo todo en la cuenta corriente"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Tu mezcla de acciones/bonos/efectivo determina la mayor parte del riesgo y del retorno a largo plazo. +25 tokens!",
+        "retryMessage": "Asignación de activos = cómo divides el dinero entre tipos de activos según tu meta y tu riesgo.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "rebalancing",
+        "question": "¿Qué es el rebalanceo de una cartera?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Vender todo cuando el mercado cae"
+          },
+          {
+            "id": "B",
+            "text": "Ajustar periódicamente la cartera a su mezcla objetivo"
+          },
+          {
+            "id": "C",
+            "text": "Comprar solo la mejor acción"
+          },
+          {
+            "id": "D",
+            "text": "Mirar el saldo cada día"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "El rebalanceo recorta lo que creció de más y repone lo que cayó — el riesgo se queda donde lo planeaste. +25 tokens!",
+        "retryMessage": "Rebalancear = restaurar periódicamente tu mezcla objetivo de acciones/bonos/efectivo.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "fees-ter",
+        "question": "¿Por qué importan tanto las comisiones bajas (TER) al invertir a largo plazo?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "No importan — las comisiones son insignificantes"
+          },
+          {
+            "id": "B",
+            "text": "Las comisiones se capitalizan en tu contra y erosionan décadas de retornos"
+          },
+          {
+            "id": "C",
+            "text": "Comisiones más altas siempre dan más rentabilidad"
+          },
+          {
+            "id": "D",
+            "text": "Las comisiones se devuelven al jubilarte"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "1% vs 0,2% anual durante 30 años puede costarte una gran parte del capital final. +30 tokens!",
+        "retryMessage": "Los costos se capitalizan igual que los retornos; ~1% anual puede erosionar gran parte de tus ganancias.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "risk-return",
+        "question": "¿Cuál es la relación general entre riesgo y retorno esperado?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Mayor retorno esperado suele implicar mayor riesgo"
+          },
+          {
+            "id": "B",
+            "text": "Altos retornos garantizados sin riesgo"
+          },
+          {
+            "id": "C",
+            "text": "Riesgo y retorno no se relacionan"
+          },
+          {
+            "id": "D",
+            "text": "Menos riesgo siempre da más retorno"
+          }
+        ],
+        "correctAnswer": "A",
+        "reward": 25,
+        "successMessage": "No hay almuerzo gratis: buscar más retorno implica aceptar más vaivenes. +25 tokens!",
+        "retryMessage": "Más retorno potencial exige asumir más riesgo. Desconfía de 'alta rentabilidad sin riesgo'.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "invest-prerequisites",
+        "question": "¿Qué conviene tener ANTES de invertir en activos volátiles?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Un dato bursátil caliente"
+          },
+          {
+            "id": "B",
+            "text": "Un fondo de emergencia y las deudas caras bajo control"
+          },
+          {
+            "id": "C",
+            "text": "La tarjeta de crédito al tope"
+          },
+          {
+            "id": "D",
+            "text": "Nada — invertir todo de inmediato"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Primero los cimientos: el colchón y las deudas caras controladas evitan vender en el peor momento. +30 tokens!",
+        "retryMessage": "Antes de invertir en volátil: fondo de emergencia y deudas de alto interés saldadas.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "speculative-allocation",
+        "question": "¿Cómo deberían tratar los principiantes activos muy especulativos como las criptomonedas?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Meter todos los ahorros para máximas ganancias"
+          },
+          {
+            "id": "B",
+            "text": "Limitarlos a una porción pequeña cuya pérdida total puedan asumir"
+          },
+          {
+            "id": "C",
+            "text": "Pedir prestado para comprar más"
+          },
+          {
+            "id": "D",
+            "text": "Tratarlos como fondo de emergencia seguro"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Los activos especulativos son muy volátiles — que sean una porción pequeña y solo dinero que puedas perder. +25 tokens!",
+        "retryMessage": "Mantén lo especulativo como porción pequeña de la cartera, solo con dinero que puedas perder por completo.",
+        "category": "Inversión a largo plazo"
+      },
+      {
+        "id": "ike-vs-ikze",
+        "question": "¿Cuál es la diferencia fiscal clave entre las cuentas polacas IKE e IKZE?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Son idénticas en todo"
+          },
+          {
+            "id": "B",
+            "text": "IKE: ganancias libres de impuestos al retirar cumpliendo condiciones; IKZE: deduces aportes ahora y pagas 10% al retirar"
+          },
+          {
+            "id": "C",
+            "text": "Ambas tributan 19% cada año"
+          },
+          {
+            "id": "D",
+            "text": "Ninguna ofrece ventaja fiscal"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 35,
+        "successMessage": "IKE premia después (ganancias sin impuestos); IKZE premia ahora (deducción) con un 10% fijo al retirar. +35 tokens!",
+        "retryMessage": "IKE = crecimiento libre de impuestos al retirar; IKZE = deducción hoy y 10% fijo al retirar.",
+        "category": "Jubilación"
+      },
+      {
+        "id": "ppk-employer-match",
+        "question": "En el plan polaco PPK, ¿qué añade el empleador sobre el aporte básico del 2% del empleado?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Nada — solo aporta el empleado"
+          },
+          {
+            "id": "B",
+            "text": "Un 1,5% básico del salario (más un extra opcional de hasta 2,5%)"
+          },
+          {
+            "id": "C",
+            "text": "100 zlotys fijos sin importar el salario"
+          },
+          {
+            "id": "D",
+            "text": "El 10% del salario"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "El empleador añade un 1,5% básico de tu salario — dinero gratis para tu jubilación. +30 tokens!",
+        "retryMessage": "PPK: empleado 2% básico, empleador añade 1,5% básico (hasta +2,5% extra) — dinero gratis.",
+        "category": "Jubilación"
+      },
+      {
+        "id": "ppk-state-bonus",
+        "question": "¿Qué incentivos estatales reciben los participantes del PPK polaco?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ningún apoyo estatal"
+          },
+          {
+            "id": "B",
+            "text": "Un pago de bienvenida de 250 PLN y un bono anual de 240 PLN"
+          },
+          {
+            "id": "C",
+            "text": "Una suma única de 50.000 PLN"
+          },
+          {
+            "id": "D",
+            "text": "Acciones gratis del empleador"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "El Estado añade 250 PLN de bienvenida más 240 PLN cada año. +25 tokens!",
+        "retryMessage": "Apoyo estatal del PPK: 250 PLN de bienvenida y un bono anual de 240 PLN.",
+        "category": "Jubilación"
+      },
+      {
+        "id": "deposit-guarantee-scope",
+        "question": "¿Qué protegen realmente los sistemas de garantía de depósitos (BFG, FDIC, DGS de la UE, FGC)?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Todas las inversiones, incluidas acciones y cripto"
+          },
+          {
+            "id": "B",
+            "text": "Depósitos bancarios — no acciones, fondos, pensiones ni cripto"
+          },
+          {
+            "id": "C",
+            "text": "Solo el efectivo guardado en casa"
+          },
+          {
+            "id": "D",
+            "text": "Tu salario si pierdes el empleo"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Las garantías cubren dinero en cuentas y depósitos bancarios — inversiones y cripto quedan fuera. +30 tokens!",
+        "retryMessage": "Estos sistemas protegen solo depósitos bancarios; acciones, fondos, pensiones y cripto quedan fuera.",
+        "category": "Mercados globales"
+      },
+      {
+        "id": "fdic-coverage",
+        "question": "En Estados Unidos, ¿cuánto asegura la FDIC por depositante y banco?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1.000 dólares"
+          },
+          {
+            "id": "B",
+            "text": "250.000 dólares (por categoría de titularidad)"
+          },
+          {
+            "id": "C",
+            "text": "Sin límite"
+          },
+          {
+            "id": "D",
+            "text": "En EE. UU. no hay seguro de depósitos"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "La FDIC asegura 250.000 USD por depositante, banco y categoría de titularidad. +25 tokens!",
+        "retryMessage": "La cobertura de la FDIC es de 250.000 USD por depositante y banco asegurado, por categoría.",
+        "category": "Mercados globales"
+      },
+      {
+        "id": "eu-dgs",
+        "question": "En toda la UE (incluidas Polonia y España), ¿hasta cuánto están garantizados los depósitos bancarios?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1.000 € por país"
+          },
+          {
+            "id": "B",
+            "text": "100.000 € por depositante y banco (o su equivalente en moneda local)"
+          },
+          {
+            "id": "C",
+            "text": "Siempre 1.000.000 €"
+          },
+          {
+            "id": "D",
+            "text": "En la UE nada está garantizado"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "La protección de depósitos en la UE está armonizada en 100.000 € por depositante y banco. +25 tokens!",
+        "retryMessage": "Las normas de la UE armonizan la protección en 100.000 € por depositante y banco.",
+        "category": "Mercados globales"
+      },
+      {
+        "id": "us-401k-match",
+        "question": "Con un 401(k) estadounidense que ofrece aporte igualado del empleador, ¿cuál es el primer movimiento inteligente?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ignorarlo — los matches son un truco"
+          },
+          {
+            "id": "B",
+            "text": "Aportar al menos lo necesario para captar todo el match del empleador (dinero gratis)"
+          },
+          {
+            "id": "C",
+            "text": "Aportar solo después de los 60"
+          },
+          {
+            "id": "D",
+            "text": "Todo en acciones de una sola empresa"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "El match del empleador es un retorno instantáneo del 100% sobre esos aportes — captúralo siempre completo. +30 tokens!",
+        "retryMessage": "Aporta siempre lo suficiente para captar el match completo del empleador: es dinero gratis.",
+        "category": "Mercados globales"
+      },
+      {
+        "id": "tax-advantaged-wrapper",
+        "question": "¿Qué tienen en común una ISA británica, una NISA japonesa y una IKE polaca?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Garantizan un 10% fijo de rentabilidad"
+          },
+          {
+            "id": "B",
+            "text": "Son cuentas con ventajas fiscales que protegen el crecimiento de las inversiones"
+          },
+          {
+            "id": "C",
+            "text": "Son tipos de tarjeta de crédito"
+          },
+          {
+            "id": "D",
+            "text": "Son solo para millonarios"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "ISA, NISA e IKE son envoltorios fiscales: dejan crecer las inversiones sin el lastre fiscal habitual. +30 tokens!",
+        "retryMessage": "ISA (UK), NISA (Japón) e IKE (Polonia) son cuentas con ventajas fiscales para las ganancias de inversión.",
+        "category": "Mercados globales"
+      },
+      {
+        "id": "rbi-inflation-target",
+        "question": "¿Qué meta de inflación tiene el banco central de la India (RBI)?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "4% con banda de tolerancia de ±2 puntos porcentuales"
+          },
+          {
+            "id": "B",
+            "text": "0%"
+          },
+          {
+            "id": "C",
+            "text": "15%"
+          },
+          {
+            "id": "D",
+            "text": "No tiene meta"
+          }
+        ],
+        "correctAnswer": "A",
+        "reward": 25,
+        "successMessage": "El RBI apunta a 4% con banda de ±2 pp (2–6%), mantenida para 2026–2031. +25 tokens!",
+        "retryMessage": "La meta del RBI es 4% de inflación con tolerancia de ±2 puntos porcentuales (2–6%).",
+        "category": "Mercados globales"
+      }
+    ],
+    "fr": [
+      {
+        "id": "inflation-basics",
+        "question": "Que signifie l'inflation ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "L'argent achète plus avec le temps"
+          },
+          {
+            "id": "B",
+            "text": "L'argent perd du pouvoir d'achat avec le temps"
+          },
+          {
+            "id": "C",
+            "text": "Les banques donnent de l'argent gratuit"
+          },
+          {
+            "id": "D",
+            "text": "Les prix baissent toujours"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "L'inflation est l'ennemi silencieux de l'argent sans plan. +25 points !",
+        "retryMessage": "L'inflation signifie que la même somme achète moins avec le temps.",
+        "category": "Inflation"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "Combien de mois de dépenses un fonds d'urgence doit-il couvrir ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 semaine"
+          },
+          {
+            "id": "B",
+            "text": "1 mois"
+          },
+          {
+            "id": "C",
+            "text": "3 à 6 mois"
+          },
+          {
+            "id": "D",
+            "text": "10 ans"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 à 6 mois est une protection solide contre les imprévus. +25 points !",
+        "retryMessage": "Un fonds d'urgence couvre généralement 3 à 6 mois de dépenses essentielles.",
+        "category": "Fonds d'urgence"
+      },
+      {
+        "id": "saving-habit",
+        "question": "Quelle habitude d'épargne est la plus efficace ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Épargner ce qui reste à la fin du mois"
+          },
+          {
+            "id": "B",
+            "text": "Épargner seulement quand on gagne plus"
+          },
+          {
+            "id": "C",
+            "text": "Virer automatiquement un montant fixe après le salaire"
+          },
+          {
+            "id": "D",
+            "text": "Garder tout en espèces à la maison"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "L'épargne automatique après le salaire est l'habitude la plus forte. +25 points !",
+        "retryMessage": "Le plus efficace est un virement automatique juste après le revenu.",
+        "category": "Épargne"
+      },
+      {
+        "id": "interest-rates",
+        "question": "Que se passe-t-il pour un prêt à taux variable quand les taux montent ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "La mensualité baisse"
+          },
+          {
+            "id": "B",
+            "text": "Rien ne change"
+          },
+          {
+            "id": "C",
+            "text": "La mensualité augmente généralement"
+          },
+          {
+            "id": "D",
+            "text": "Le prêt disparaît"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Les prêts à taux variable deviennent souvent plus chers quand les taux montent. +25 points !",
+        "retryMessage": "Les prêts variables suivent les taux du marché, donc la mensualité peut augmenter.",
+        "category": "Crédit"
+      },
+      {
+        "id": "nbp-inflation-target",
+        "question": "Quelle cible d'inflation la banque centrale de Pologne (NBP) applique-t-elle depuis 2004 ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "0 % — les prix ne doivent jamais monter"
+          },
+          {
+            "id": "B",
+            "text": "2,5 % avec une bande de ±1 point de pourcentage"
+          },
+          {
+            "id": "C",
+            "text": "5 % pour encourager la dépense"
+          },
+          {
+            "id": "D",
+            "text": "Celle que le gouvernement fixe chaque année"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "La NBP vise 2,5 % d'inflation avec une bande symétrique de ±1 pp. +30 tokens !",
+        "retryMessage": "Depuis 2004, la cible de la NBP est 2,5 % (±1 pp), mesurée par la variation annuelle de l'IPC.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "inflation-target-why",
+        "question": "Pourquoi les banques centrales visent-elles une inflation faible et positive (~2–2,5 %) plutôt que 0 % ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Pour que la monnaie perde de la valeur plus vite"
+          },
+          {
+            "id": "B",
+            "text": "Un petit coussin stable soutient la croissance et évite la déflation dangereuse"
+          },
+          {
+            "id": "C",
+            "text": "Parce que des prix plus élevés sont toujours bons"
+          },
+          {
+            "id": "D",
+            "text": "Uniquement pour augmenter les recettes fiscales"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Une petite cible positive garde une marge de sécurité face à la déflation. +30 tokens !",
+        "retryMessage": "Une cible basse et stable évite la déflation et garde des prix prévisibles.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "monetary-policy-tool",
+        "question": "Quel est l'outil principal d'une banque centrale pour piloter l'inflation ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Imprimer des billets pour les citoyens"
+          },
+          {
+            "id": "B",
+            "text": "Fixer les taux d'intérêt directeurs"
+          },
+          {
+            "id": "C",
+            "text": "Fixer le prix du pain"
+          },
+          {
+            "id": "D",
+            "text": "Interdire les importations"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "En bougeant les taux directeurs, la banque centrale change le coût du crédit dans toute l'économie. +25 tokens !",
+        "retryMessage": "Les banques centrales utilisent surtout les taux directeurs pour influencer le crédit et l'inflation.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "rates-and-borrowing",
+        "question": "Que se passe-t-il généralement quand une banque centrale relève ses taux ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Le crédit devient moins cher et la dépense s'envole"
+          },
+          {
+            "id": "B",
+            "text": "Le crédit devient plus cher, ce qui refroidit la demande et l'inflation"
+          },
+          {
+            "id": "C",
+            "text": "Rien ne change pour les ménages"
+          },
+          {
+            "id": "D",
+            "text": "Les livrets d'épargne rapportent toujours 0 %"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Des taux plus hauts renchérissent les prêts : on dépense moins et l'inflation ralentit. +25 tokens !",
+        "retryMessage": "Les hausses de taux renchérissent le crédit, refroidissent la dépense et font baisser l'inflation.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "gdp-definition",
+        "question": "Que mesure le PIB (Produit Intérieur Brut) ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "L'épargne totale des citoyens"
+          },
+          {
+            "id": "B",
+            "text": "La valeur de tous les biens et services produits dans une économie"
+          },
+          {
+            "id": "C",
+            "text": "La quantité de liquide en circulation"
+          },
+          {
+            "id": "D",
+            "text": "La dette publique"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Le PIB est la valeur totale des biens et services produits par une économie. +25 tokens !",
+        "retryMessage": "PIB = valeur marchande totale des biens et services produits dans un pays sur une période.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "deflation-risk",
+        "question": "Pourquoi une déflation persistante (baisse des prix) est-elle jugée dangereuse ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Tout le monde s'enrichit sans inconvénient"
+          },
+          {
+            "id": "B",
+            "text": "Les gens reportent leurs achats, la demande chute et les dettes pèsent plus lourd"
+          },
+          {
+            "id": "C",
+            "text": "Elle augmente toujours les salaires"
+          },
+          {
+            "id": "D",
+            "text": "Elle n'a aucun effet sur l'économie"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Quand les prix baissent, on reporte ses achats et le poids réel des dettes augmente — une spirale nocive. +30 tokens !",
+        "retryMessage": "La déflation pousse à reporter les dépenses et alourdit les dettes en termes réels.",
+        "category": "Macroéconomie"
+      },
+      {
+        "id": "zero-based-budget",
+        "question": "Qu'est-ce que le budget base zéro ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Dépenser jusqu'à ce que le compte soit à zéro"
+          },
+          {
+            "id": "B",
+            "text": "Donner une mission à chaque euro jusqu'à ce que revenu − affectations = 0"
+          },
+          {
+            "id": "C",
+            "text": "N'avoir aucune épargne"
+          },
+          {
+            "id": "D",
+            "text": "Budgéter uniquement en liquide"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "En base zéro, chaque euro a une mission — épargne comprise — et rien ne fuit sans plan. +25 tokens !",
+        "retryMessage": "Budget base zéro = affecter chaque euro de revenu jusqu'à ce que le plan tombe à zéro.",
+        "category": "Budget"
+      },
+      {
+        "id": "track-before-budget",
+        "question": "Quelle est la première étape recommandée avant de construire un budget familial ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Annuler immédiatement tous les abonnements"
+          },
+          {
+            "id": "B",
+            "text": "Suivre ses dépenses réelles pendant environ 30 jours"
+          },
+          {
+            "id": "C",
+            "text": "Prendre un crédit pour combler les trous"
+          },
+          {
+            "id": "D",
+            "text": "Deviner ses dépenses de mémoire"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 20,
+        "successMessage": "Suivre ~30 jours de dépenses réelles révèle où part l'argent. +20 tokens !",
+        "retryMessage": "Suis d'abord ~30 jours de dépenses : on ne gère pas ce qu'on ne mesure pas.",
+        "category": "Budget"
+      },
+      {
+        "id": "sinking-fund",
+        "question": "Qu'est-ce qu'un fonds dédié (sinking fund) dans un budget familial ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "De l'argent que tu t'attends à perdre"
+          },
+          {
+            "id": "B",
+            "text": "Du liquide mis de côté peu à peu pour une dépense future connue"
+          },
+          {
+            "id": "C",
+            "text": "Un type d'investissement risqué"
+          },
+          {
+            "id": "D",
+            "text": "Un découvert bancaire"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Il répartit les gros coûts connus (garage, vacances, impôts) en petites mensualités — sans dette. +25 tokens !",
+        "retryMessage": "Un fonds dédié = épargner un peu chaque mois pour un coût futur planifié.",
+        "category": "Budget"
+      },
+      {
+        "id": "impulse-pause",
+        "question": "Quelle tactique est efficace contre les achats impulsifs ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Acheter maintenant et décider ensuite si c'était utile"
+          },
+          {
+            "id": "B",
+            "text": "Un délai d'attente (24–72 h, ou 30 jours pour les gros achats) avant le non-essentiel"
+          },
+          {
+            "id": "C",
+            "text": "Toujours faire ses courses stressé"
+          },
+          {
+            "id": "D",
+            "text": "Enlever les prix pour ne pas les voir"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 20,
+        "successMessage": "La pause laisse l'envie retomber et la décision rationnelle gagner. +20 tokens !",
+        "retryMessage": "Ajoute un délai avant les achats non essentiels — la pause bat l'impulsion.",
+        "category": "Budget"
+      },
+      {
+        "id": "emergency-first-milestone",
+        "question": "Quel est un PREMIER objectif réaliste d'épargne de précaution si 3–6 mois semble lointain ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ne pas commencer avant de pouvoir épargner 6 mois d'un coup"
+          },
+          {
+            "id": "B",
+            "text": "Un mois de dépenses essentielles"
+          },
+          {
+            "id": "C",
+            "text": "Deux ans de dépenses"
+          },
+          {
+            "id": "D",
+            "text": "Exactement ton salaire annuel"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Un seul mois de dépenses réduit déjà fortement le risque de retard sur les factures. +25 tokens !",
+        "retryMessage": "Vise d'abord un mois de dépenses essentielles ; même un petit coussin réduit beaucoup les impayés.",
+        "category": "Fonds d'urgence"
+      },
+      {
+        "id": "bfg-guarantee",
+        "question": "En Pologne, à quelle hauteur le BFG garantit-il les dépôts bancaires ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Il n'existe aucune garantie des dépôts"
+          },
+          {
+            "id": "B",
+            "text": "L'équivalent de 100 000 € par déposant et par banque"
+          },
+          {
+            "id": "C",
+            "text": "Exactement 10 000 zlotys au total"
+          },
+          {
+            "id": "D",
+            "text": "Sans limite, toujours 100 %"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Le BFG polonais garantit les dépôts jusqu'à l'équivalent de 100 000 € par personne et par banque. +30 tokens !",
+        "retryMessage": "Le fonds de garantie polonais (BFG) couvre jusqu'à l'équivalent de 100 000 € par déposant dans chaque banque.",
+        "category": "Épargne"
+      },
+      {
+        "id": "asset-allocation",
+        "question": "Que signifie « allocation d'actifs » ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Choisir une action gagnante"
+          },
+          {
+            "id": "B",
+            "text": "La répartition de tes investissements entre actions, obligations et liquidités"
+          },
+          {
+            "id": "C",
+            "text": "Emprunter pour investir"
+          },
+          {
+            "id": "D",
+            "text": "Tout garder sur le compte courant"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Ton mélange actions/obligations/liquidités détermine l'essentiel du risque et du rendement à long terme. +25 tokens !",
+        "retryMessage": "Allocation d'actifs = comment tu répartis l'argent entre types d'actifs selon ton objectif et ton risque.",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "rebalancing",
+        "question": "Qu'est-ce que le rééquilibrage d'un portefeuille ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Tout vendre quand le marché baisse"
+          },
+          {
+            "id": "B",
+            "text": "Ramener périodiquement le portefeuille à sa répartition cible"
+          },
+          {
+            "id": "C",
+            "text": "N'acheter que la meilleure action"
+          },
+          {
+            "id": "D",
+            "text": "Vérifier son solde chaque jour"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Le rééquilibrage taille ce qui a trop grossi et renforce ce qui a baissé — le risque reste là où tu l'as prévu. +25 tokens !",
+        "retryMessage": "Rééquilibrer = restaurer périodiquement ta répartition cible actions/obligations/liquidités.",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "fees-ter",
+        "question": "Pourquoi des frais courants bas (TER) comptent-ils autant pour l'investissement à long terme ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ils ne comptent pas — les frais sont négligeables"
+          },
+          {
+            "id": "B",
+            "text": "Les frais se capitalisent contre toi et rongent des décennies de rendements"
+          },
+          {
+            "id": "C",
+            "text": "Des frais plus élevés donnent toujours plus de rendement"
+          },
+          {
+            "id": "D",
+            "text": "Les frais sont remboursés à la retraite"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "1 % contre 0,2 % par an sur 30 ans peut coûter une grande partie du capital final. +30 tokens !",
+        "retryMessage": "Les coûts se capitalisent comme les rendements ; ~1 % par an peut éroder une grande part de tes gains.",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "risk-return",
+        "question": "Quelle est la relation générale entre risque et rendement attendu ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Un rendement attendu plus élevé s'accompagne généralement d'un risque plus élevé"
+          },
+          {
+            "id": "B",
+            "text": "Des rendements élevés garantis sans risque"
+          },
+          {
+            "id": "C",
+            "text": "Risque et rendement n'ont aucun lien"
+          },
+          {
+            "id": "D",
+            "text": "Moins de risque donne toujours plus de rendement"
+          }
+        ],
+        "correctAnswer": "A",
+        "reward": 25,
+        "successMessage": "Pas de repas gratuit : viser plus de rendement, c'est accepter plus de secousses. +25 tokens !",
+        "retryMessage": "Plus de rendement potentiel exige plus de risque. Méfie-toi du « haut rendement sans risque ».",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "invest-prerequisites",
+        "question": "Que faut-il avoir AVANT d'investir dans des actifs volatils ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Un tuyau boursier brûlant"
+          },
+          {
+            "id": "B",
+            "text": "Un fonds d'urgence et les dettes chères sous contrôle"
+          },
+          {
+            "id": "C",
+            "text": "Une carte de crédit au plafond"
+          },
+          {
+            "id": "D",
+            "text": "Rien — tout investir immédiatement"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Les fondations d'abord : coussin de sécurité et dettes chères maîtrisées évitent de vendre au pire moment. +30 tokens !",
+        "retryMessage": "Avant d'investir dans le volatil : fonds d'urgence et dettes à taux élevé remboursées.",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "speculative-allocation",
+        "question": "Comment les débutants devraient-ils traiter les actifs très spéculatifs comme les cryptomonnaies ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Y mettre toute son épargne pour un gain maximal"
+          },
+          {
+            "id": "B",
+            "text": "Les limiter à une petite part dont on peut accepter la perte totale"
+          },
+          {
+            "id": "C",
+            "text": "Emprunter pour en acheter plus"
+          },
+          {
+            "id": "D",
+            "text": "Les traiter comme un fonds d'urgence sûr"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Les actifs spéculatifs sont très volatils — une petite part, et seulement de l'argent que tu peux perdre. +25 tokens !",
+        "retryMessage": "Garde le spéculatif comme une petite part du portefeuille, avec de l'argent que tu peux perdre entièrement.",
+        "category": "Investissement long terme"
+      },
+      {
+        "id": "ike-vs-ikze",
+        "question": "Quelle est la différence fiscale clé entre les comptes polonais IKE et IKZE ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ils sont identiques en tout"
+          },
+          {
+            "id": "B",
+            "text": "IKE : gains exonérés au retrait sous conditions ; IKZE : déduction des versements maintenant, 10 % forfaitaire au retrait"
+          },
+          {
+            "id": "C",
+            "text": "Les deux sont taxés à 19 % chaque année"
+          },
+          {
+            "id": "D",
+            "text": "Aucun n'offre d'avantage fiscal"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 35,
+        "successMessage": "IKE récompense plus tard (gains exonérés) ; IKZE récompense maintenant (déduction) avec 10 % au retrait. +35 tokens !",
+        "retryMessage": "IKE = croissance exonérée au retrait ; IKZE = déduction aujourd'hui et 10 % forfaitaire au retrait.",
+        "category": "Retraite"
+      },
+      {
+        "id": "ppk-employer-match",
+        "question": "Dans le plan polonais PPK, qu'ajoute l'employeur à la cotisation de base de 2 % du salarié ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Rien — seul le salarié cotise"
+          },
+          {
+            "id": "B",
+            "text": "1,5 % de base du salaire (plus un extra optionnel jusqu'à 2,5 %)"
+          },
+          {
+            "id": "C",
+            "text": "100 zlotys fixes quel que soit le salaire"
+          },
+          {
+            "id": "D",
+            "text": "10 % du salaire"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "L'employeur ajoute 1,5 % de base de ton salaire — de l'argent gratuit pour ta retraite. +30 tokens !",
+        "retryMessage": "PPK : salarié 2 % de base, employeur 1,5 % de base (jusqu'à +2,5 % en option) — de l'argent gratuit.",
+        "category": "Retraite"
+      },
+      {
+        "id": "ppk-state-bonus",
+        "question": "Quelles incitations l'État accorde-t-il aux participants du PPK polonais ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Aucun soutien de l'État"
+          },
+          {
+            "id": "B",
+            "text": "Un versement de bienvenue de 250 PLN et un bonus annuel de 240 PLN"
+          },
+          {
+            "id": "C",
+            "text": "Une somme unique de 50 000 PLN"
+          },
+          {
+            "id": "D",
+            "text": "Des actions gratuites de l'employeur"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "L'État ajoute 250 PLN de bienvenue plus 240 PLN chaque année. +25 tokens !",
+        "retryMessage": "Soutien de l'État au PPK : 250 PLN de bienvenue et un bonus annuel de 240 PLN.",
+        "category": "Retraite"
+      },
+      {
+        "id": "deposit-guarantee-scope",
+        "question": "Que protègent réellement les systèmes de garantie des dépôts (BFG, FDIC, DGS de l'UE, FGC) ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Tous les investissements, y compris actions et crypto"
+          },
+          {
+            "id": "B",
+            "text": "Les dépôts bancaires — pas les actions, fonds, retraites ni crypto"
+          },
+          {
+            "id": "C",
+            "text": "Seulement le liquide gardé à la maison"
+          },
+          {
+            "id": "D",
+            "text": "Ton salaire en cas de perte d'emploi"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "Les garanties couvrent l'argent sur comptes et dépôts bancaires — investissements et crypto en sont exclus. +30 tokens !",
+        "retryMessage": "Ces systèmes protègent uniquement les dépôts bancaires ; actions, fonds, retraites et crypto en sont exclus.",
+        "category": "Marchés mondiaux"
+      },
+      {
+        "id": "fdic-coverage",
+        "question": "Aux États-Unis, à quelle hauteur la FDIC assure-t-elle les dépôts par déposant et par banque ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 000 dollars"
+          },
+          {
+            "id": "B",
+            "text": "250 000 dollars (par catégorie de détention)"
+          },
+          {
+            "id": "C",
+            "text": "Sans limite"
+          },
+          {
+            "id": "D",
+            "text": "Il n'y a pas d'assurance des dépôts aux États-Unis"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "La FDIC assure 250 000 USD par déposant, par banque et par catégorie de détention. +25 tokens !",
+        "retryMessage": "La couverture FDIC est de 250 000 USD par déposant et par banque assurée, par catégorie.",
+        "category": "Marchés mondiaux"
+      },
+      {
+        "id": "eu-dgs",
+        "question": "Dans toute l'UE (Pologne et France comprises), à quelle hauteur les dépôts bancaires sont-ils garantis ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 000 € par pays"
+          },
+          {
+            "id": "B",
+            "text": "100 000 € par déposant et par banque (ou l'équivalent en monnaie locale)"
+          },
+          {
+            "id": "C",
+            "text": "Toujours 1 000 000 €"
+          },
+          {
+            "id": "D",
+            "text": "Rien n'est garanti dans l'UE"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "La protection des dépôts dans l'UE est harmonisée à 100 000 € par déposant et par banque. +25 tokens !",
+        "retryMessage": "Les règles de l'UE harmonisent la protection à 100 000 € par déposant et par banque.",
+        "category": "Marchés mondiaux"
+      },
+      {
+        "id": "us-401k-match",
+        "question": "Avec un 401(k) américain offrant un abondement de l'employeur, quel est le premier geste malin ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "L'ignorer — les abondements sont un piège"
+          },
+          {
+            "id": "B",
+            "text": "Cotiser au moins assez pour capter tout l'abondement de l'employeur (argent gratuit)"
+          },
+          {
+            "id": "C",
+            "text": "Cotiser seulement après 60 ans"
+          },
+          {
+            "id": "D",
+            "text": "Tout mettre dans l'action d'une seule entreprise"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "L'abondement de l'employeur est un rendement instantané de 100 % sur ces cotisations — capte-le toujours en entier. +30 tokens !",
+        "retryMessage": "Cotise toujours assez pour capter l'abondement complet de l'employeur : c'est de l'argent gratuit.",
+        "category": "Marchés mondiaux"
+      },
+      {
+        "id": "tax-advantaged-wrapper",
+        "question": "Qu'ont en commun une ISA britannique, une NISA japonaise et une IKE polonaise ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Elles garantissent un rendement fixe de 10 %"
+          },
+          {
+            "id": "B",
+            "text": "Ce sont des comptes fiscalement avantagés qui protègent la croissance des investissements"
+          },
+          {
+            "id": "C",
+            "text": "Ce sont des types de cartes de crédit"
+          },
+          {
+            "id": "D",
+            "text": "Elles sont réservées aux millionnaires"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 30,
+        "successMessage": "ISA, NISA et IKE sont des enveloppes fiscales : les investissements y croissent sans le frein fiscal habituel. +30 tokens !",
+        "retryMessage": "ISA (UK), NISA (Japon) et IKE (Pologne) sont des comptes fiscalement avantagés pour les gains d'investissement.",
+        "category": "Marchés mondiaux"
+      },
+      {
+        "id": "rbi-inflation-target",
+        "question": "Quelle cible d'inflation vise la banque centrale de l'Inde (RBI) ?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "4 % avec une bande de tolérance de ±2 points de pourcentage"
+          },
+          {
+            "id": "B",
+            "text": "0 %"
+          },
+          {
+            "id": "C",
+            "text": "15 %"
+          },
+          {
+            "id": "D",
+            "text": "Elle n'a pas de cible"
+          }
+        ],
+        "correctAnswer": "A",
+        "reward": 25,
+        "successMessage": "La RBI vise 4 % avec une bande de ±2 pp (2–6 %), maintenue pour 2026–2031. +25 tokens !",
+        "retryMessage": "La cible de la RBI est 4 % d'inflation avec une tolérance de ±2 points de pourcentage (2–6 %).",
+        "category": "Marchés mondiaux"
+      }
+    ],
+    "ja": [
+      {
+        "id": "inflation-basics",
+        "question": "インフレとは何ですか？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "時間とともにお金で買えるものが増える"
+          },
+          {
+            "id": "B",
+            "text": "時間とともにお金の購買力が下がる"
+          },
+          {
+            "id": "C",
+            "text": "銀行がお金を無料で配る"
+          },
+          {
+            "id": "D",
+            "text": "価格は常に下がる"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "インフレは、計画のない現金の静かな敵です。+25 ポイント！",
+        "retryMessage": "インフレとは、同じ金額で買えるものが時間とともに減ることです。",
+        "category": "インフレ"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "緊急資金は何か月分の支出をカバーすべきですか？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 週間"
+          },
+          {
+            "id": "B",
+            "text": "1 か月"
+          },
+          {
+            "id": "C",
+            "text": "3 から 6 か月"
+          },
+          {
+            "id": "D",
+            "text": "10 年"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 から 6 か月分は、収入減や予期せぬ支出への安全な備えです。+25 ポイント！",
+        "retryMessage": "実用的な緊急資金は通常、3 から 6 か月分の必要支出をカバーします。",
+        "category": "緊急資金"
+      },
+      {
+        "id": "saving-habit",
+        "question": "最も効果的な貯蓄習慣はどれですか？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "月末に残った分だけ貯める"
+          },
+          {
+            "id": "B",
+            "text": "収入が増えた時だけ貯める"
+          },
+          {
+            "id": "C",
+            "text": "給料後に固定額を自動で移す"
+          },
+          {
+            "id": "D",
+            "text": "すべて現金で家に置く"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "給料後の自動貯蓄が最も強い習慣です。+25 ポイント！",
+        "retryMessage": "最も効果的なのは、収入が入った直後の自動振替です。",
+        "category": "貯蓄習慣"
+      },
+      {
+        "id": "interest-rates",
+        "question": "金利が上がると変動金利ローンは通常どうなりますか？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "月々の支払いが下がる"
+          },
+          {
+            "id": "B",
+            "text": "何も変わらない"
+          },
+          {
+            "id": "C",
+            "text": "月々の支払いが上がりやすい"
+          },
+          {
+            "id": "D",
+            "text": "ローンが消える"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "金利が上がると、変動金利ローンは通常高くなります。+25 ポイント！",
+        "retryMessage": "変動金利ローンは市場金利に連動するため、支払いが増えることがあります。",
+        "category": "信用"
+      }
+    ],
+    "zh": [
+      {
+        "id": "inflation-basics",
+        "question": "通货膨胀是什么意思？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "钱会随着时间买到更多东西"
+          },
+          {
+            "id": "B",
+            "text": "钱会随着时间失去购买力"
+          },
+          {
+            "id": "C",
+            "text": "银行免费送钱"
+          },
+          {
+            "id": "D",
+            "text": "价格总是下降"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "通货膨胀是没有计划的现金的隐形敌人。+25 积分！",
+        "retryMessage": "通货膨胀意味着同样的钱随着时间能买到的东西更少。",
+        "category": "通胀"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "应急基金应该覆盖几个月的支出？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 周"
+          },
+          {
+            "id": "B",
+            "text": "1 个月"
+          },
+          {
+            "id": "C",
+            "text": "3 到 6 个月"
+          },
+          {
+            "id": "D",
+            "text": "10 年"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 到 6 个月可以应对失业或意外支出。+25 积分！",
+        "retryMessage": "实用的应急基金通常覆盖 3 到 6 个月的必要支出。",
+        "category": "应急基金"
+      },
+      {
+        "id": "saving-habit",
+        "question": "哪种储蓄习惯最有效？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "月底剩多少存多少"
+          },
+          {
+            "id": "B",
+            "text": "只有收入更高时才存钱"
+          },
+          {
+            "id": "C",
+            "text": "工资到账后自动转入固定金额"
+          },
+          {
+            "id": "D",
+            "text": "把所有钱都放在家里现金保存"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "发薪后自动储蓄是最强的习惯。+25 积分！",
+        "retryMessage": "最有效的习惯是在收入到账后立即自动储蓄。",
+        "category": "储蓄习惯"
+      },
+      {
+        "id": "interest-rates",
+        "question": "当利率上升时，浮动利率贷款通常会怎样？",
+        "answers": [
+          {
+            "id": "A",
+            "text": "月供下降"
+          },
+          {
+            "id": "B",
+            "text": "没有变化"
+          },
+          {
+            "id": "C",
+            "text": "月供通常上升"
+          },
+          {
+            "id": "D",
+            "text": "贷款消失"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "利率上升时，浮动利率贷款通常会更贵。+25 积分！",
+        "retryMessage": "浮动利率贷款与市场利率相关，因此月供可能上升。",
+        "category": "信贷"
+      }
+    ],
+    "hi": [
+      {
+        "id": "inflation-basics",
+        "question": "मुद्रास्फीति का क्या अर्थ है?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "समय के साथ पैसा अधिक चीजें खरीदता है"
+          },
+          {
+            "id": "B",
+            "text": "समय के साथ पैसे की क्रय शक्ति घटती है"
+          },
+          {
+            "id": "C",
+            "text": "बैंक मुफ्त पैसा देते हैं"
+          },
+          {
+            "id": "D",
+            "text": "कीमतें हमेशा घटती हैं"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "मुद्रास्फीति बिना योजना वाली नकदी की शांत दुश्मन है। +25 अंक!",
+        "retryMessage": "मुद्रास्फीति का मतलब है कि वही राशि समय के साथ कम खरीदती है।",
+        "category": "मुद्रास्फीति"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "आपातकालीन फंड कितने महीनों के खर्च को कवर करना चाहिए?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 सप्ताह"
+          },
+          {
+            "id": "B",
+            "text": "1 महीना"
+          },
+          {
+            "id": "C",
+            "text": "3 से 6 महीने"
+          },
+          {
+            "id": "D",
+            "text": "10 साल"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 से 6 महीने आय रुकने या अचानक खर्च के लिए अच्छा कवच है। +25 अंक!",
+        "retryMessage": "आपातकालीन फंड आम तौर पर 3 से 6 महीने के जरूरी खर्च कवर करता है।",
+        "category": "आपातकालीन फंड"
+      },
+      {
+        "id": "saving-habit",
+        "question": "कौन सी बचत आदत सबसे प्रभावी है?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "महीने के अंत में जो बचे उसे बचाना"
+          },
+          {
+            "id": "B",
+            "text": "केवल ज्यादा कमाने पर बचत करना"
+          },
+          {
+            "id": "C",
+            "text": "वेतन आते ही तय राशि अपने आप ट्रांसफर करना"
+          },
+          {
+            "id": "D",
+            "text": "सब कुछ घर में नकद रखना"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "वेतन के बाद स्वचालित बचत सबसे मजबूत आदत है। +25 अंक!",
+        "retryMessage": "सबसे प्रभावी आदत है आय आते ही स्वचालित बचत।",
+        "category": "बचत"
+      },
+      {
+        "id": "interest-rates",
+        "question": "ब्याज दरें बढ़ने पर परिवर्ती दर वाले ऋण में क्या होता है?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "मासिक भुगतान घटता है"
+          },
+          {
+            "id": "B",
+            "text": "कुछ नहीं बदलता"
+          },
+          {
+            "id": "C",
+            "text": "मासिक भुगतान आम तौर पर बढ़ता है"
+          },
+          {
+            "id": "D",
+            "text": "ऋण खत्म हो जाता है"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "दरें बढ़ने पर परिवर्ती दर वाले ऋण अक्सर महंगे हो जाते हैं। +25 अंक!",
+        "retryMessage": "परिवर्ती दर वाले ऋण बाजार दरों से जुड़े होते हैं, इसलिए भुगतान बढ़ सकता है।",
+        "category": "ऋण"
+      }
+    ],
+    "pt-BR": [
+      {
+        "id": "inflation-basics",
+        "question": "O que significa inflação?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "O dinheiro compra mais com o tempo"
+          },
+          {
+            "id": "B",
+            "text": "O dinheiro perde poder de compra com o tempo"
+          },
+          {
+            "id": "C",
+            "text": "Bancos dão dinheiro de graça"
+          },
+          {
+            "id": "D",
+            "text": "Os preços sempre caem"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "A inflação é a inimiga silenciosa do dinheiro sem plano. +25 pontos!",
+        "retryMessage": "Inflação significa que a mesma quantia compra menos com o tempo.",
+        "category": "Inflação"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "Quantos meses de despesas um fundo de emergência deve cobrir?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 semana"
+          },
+          {
+            "id": "B",
+            "text": "1 mês"
+          },
+          {
+            "id": "C",
+            "text": "3 a 6 meses"
+          },
+          {
+            "id": "D",
+            "text": "10 anos"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 a 6 meses protegem contra perda de renda ou despesas inesperadas. +25 pontos!",
+        "retryMessage": "Um fundo de emergência costuma cobrir 3 a 6 meses de despesas essenciais.",
+        "category": "Fundo de emergência"
+      },
+      {
+        "id": "saving-habit",
+        "question": "Qual hábito de poupança é mais eficaz?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Guardar o que sobra no fim do mês"
+          },
+          {
+            "id": "B",
+            "text": "Guardar só quando ganhar mais"
+          },
+          {
+            "id": "C",
+            "text": "Transferir automaticamente um valor fixo ao receber"
+          },
+          {
+            "id": "D",
+            "text": "Manter tudo em dinheiro em casa"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Poupar automaticamente ao receber é o hábito mais forte. +25 pontos!",
+        "retryMessage": "O hábito mais eficaz é uma transferência automática logo após receber a renda.",
+        "category": "Poupança"
+      },
+      {
+        "id": "interest-rates",
+        "question": "O que acontece com um empréstimo de taxa variável quando os juros sobem?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "A parcela diminui"
+          },
+          {
+            "id": "B",
+            "text": "Nada muda"
+          },
+          {
+            "id": "C",
+            "text": "A parcela geralmente aumenta"
+          },
+          {
+            "id": "D",
+            "text": "O empréstimo desaparece"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Empréstimos variáveis costumam ficar mais caros quando os juros sobem. +25 pontos!",
+        "retryMessage": "Eles acompanham taxas de mercado, então a parcela pode subir.",
+        "category": "Crédito"
+      }
+    ],
+    "tr": [
+      {
+        "id": "inflation-basics",
+        "question": "Enflasyon ne demektir?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Para zamanla daha fazla şey satın alır"
+          },
+          {
+            "id": "B",
+            "text": "Para zamanla satın alma gücünü kaybeder"
+          },
+          {
+            "id": "C",
+            "text": "Bankalar ücretsiz para verir"
+          },
+          {
+            "id": "D",
+            "text": "Fiyatlar her zaman düşer"
+          }
+        ],
+        "correctAnswer": "B",
+        "reward": 25,
+        "successMessage": "Enflasyon, plansız nakdin sessiz düşmanıdır. +25 puan!",
+        "retryMessage": "Enflasyon aynı paranın zamanla daha az şey satın almasıdır.",
+        "category": "Enflasyon"
+      },
+      {
+        "id": "emergency-fund",
+        "question": "Acil durum fonu kaç aylık gideri karşılamalıdır?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "1 hafta"
+          },
+          {
+            "id": "B",
+            "text": "1 ay"
+          },
+          {
+            "id": "C",
+            "text": "3 ila 6 ay"
+          },
+          {
+            "id": "D",
+            "text": "10 yıl"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "3 ila 6 ay, gelir kaybı veya beklenmeyen giderler için iyi bir tampondur. +25 puan!",
+        "retryMessage": "Acil durum fonu genellikle 3 ila 6 aylık temel giderleri karşılar.",
+        "category": "Acil durum fonu"
+      },
+      {
+        "id": "saving-habit",
+        "question": "Hangi tasarruf alışkanlığı en etkilidir?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Ay sonunda kalan parayı biriktirmek"
+          },
+          {
+            "id": "B",
+            "text": "Sadece daha çok kazanınca biriktirmek"
+          },
+          {
+            "id": "C",
+            "text": "Maaş gelince sabit tutarı otomatik aktarmak"
+          },
+          {
+            "id": "D",
+            "text": "Her şeyi evde nakit tutmak"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Maaştan sonra otomatik tasarruf en güçlü alışkanlıktır. +25 puan!",
+        "retryMessage": "En etkili alışkanlık, gelir gelir gelmez otomatik aktarım yapmaktır.",
+        "category": "Tasarruf"
+      },
+      {
+        "id": "interest-rates",
+        "question": "Faizler yükselince değişken faizli kredide ne olur?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Aylık ödeme düşer"
+          },
+          {
+            "id": "B",
+            "text": "Hiçbir şey değişmez"
+          },
+          {
+            "id": "C",
+            "text": "Aylık ödeme genelde artar"
+          },
+          {
+            "id": "D",
+            "text": "Kredi kaybolur"
+          }
+        ],
+        "correctAnswer": "C",
+        "reward": 25,
+        "successMessage": "Faizler yükselince değişken faizli krediler genelde pahalılaşır. +25 puan!",
+        "retryMessage": "Değişken faizli krediler piyasa faizlerine bağlıdır; ödeme artabilir.",
+        "category": "Kredi"
+      }
+    ]
+  },
+  "nonMindsetEnglish": [
+    {
+      "id": "inflation-basics",
+      "question": "What does inflation mean?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Money buys more over time"
+        },
+        {
+          "id": "B",
+          "text": "Money loses purchasing power over time"
+        },
+        {
+          "id": "C",
+          "text": "Banks give out free money"
+        },
+        {
+          "id": "D",
+          "text": "Prices always go down"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Inflation is the silent enemy of unmanaged cash. +25 points!",
+      "retryMessage": "Inflation = money loses purchasing power. The same amount buys less over time.",
+      "category": "Inflation"
+    },
+    {
+      "id": "emergency-fund",
+      "question": "How many months of expenses should an emergency fund cover?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "1 week"
+        },
+        {
+          "id": "B",
+          "text": "1 month"
+        },
+        {
+          "id": "C",
+          "text": "3–6 months"
+        },
+        {
+          "id": "D",
+          "text": "10 years"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "3–6 months is the safe cushion for income loss or unexpected expenses. +25 points!",
+      "retryMessage": "The goal is 3–6 months of essential expenses — realistic protection against most surprises.",
+      "category": "Emergency Fund"
+    },
+    {
+      "id": "saving-habit",
+      "question": "Which saving habit is most effective?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Save whatever is left at the end of the month"
+        },
+        {
+          "id": "B",
+          "text": "Save only when you earn more"
+        },
+        {
+          "id": "C",
+          "text": "Transfer a fixed amount automatically right after your paycheck arrives"
+        },
+        {
+          "id": "D",
+          "text": "Keep everything as cash at home"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "Automatic saving right after payday is the strongest habit. The system works so willpower doesn't have to. +25 points!",
+      "retryMessage": "Most effective: automatic transfer right after your paycheck. The rest of the month happens with what's left.",
+      "category": "Saving Habit"
+    },
+    {
+      "id": "interest-rates",
+      "question": "What happens to your variable-rate loan when the central bank raises interest rates?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Your monthly payments go down"
+        },
+        {
+          "id": "B",
+          "text": "Nothing changes — fixed rates only"
+        },
+        {
+          "id": "C",
+          "text": "Your monthly payments go up"
+        },
+        {
+          "id": "D",
+          "text": "The loan is automatically refinanced"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "Variable-rate loans track the benchmark rate. When central banks raise rates, your payments rise. +25 points!",
+      "retryMessage": "Variable-rate loans are tied to benchmark rates. When rates rise, so do your monthly payments.",
+      "category": "Credit & Rates"
+    },
+    {
+      "id": "budget-50-30-20",
+      "question": "What is the 50/30/20 budget rule?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "50% savings, 30% needs, 20% wants"
+        },
+        {
+          "id": "B",
+          "text": "50% needs, 30% wants, 20% savings"
+        },
+        {
+          "id": "C",
+          "text": "50% debt repayment, 30% food, 20% fun"
+        },
+        {
+          "id": "D",
+          "text": "50% income tax, 30% rent, 20% food"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "50% needs, 30% wants, 20% savings — simple and proven. +25 points!",
+      "retryMessage": "50% for needs (rent, food), 30% for wants (entertainment), 20% for savings and debt.",
+      "category": "Saving Habit"
+    },
+    {
+      "id": "high-yield-savings",
+      "question": "What is a high-yield savings account?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "A savings account that invests in stocks automatically"
+        },
+        {
+          "id": "B",
+          "text": "A savings account offering significantly higher interest than a standard account"
+        },
+        {
+          "id": "C",
+          "text": "An account that charges fees for withdrawals"
+        },
+        {
+          "id": "D",
+          "text": "A savings account for businesses only"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 20,
+      "successMessage": "High-yield savings accounts pay more interest — often 4–5× a standard account. Great for emergency funds. +20 points!",
+      "retryMessage": "A high-yield savings account offers much better interest rates than a traditional savings account.",
+      "category": "Saving Habit"
+    },
+    {
+      "id": "dca",
+      "question": "What is dollar-cost averaging (DCA)?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Buying all at the market low"
+        },
+        {
+          "id": "B",
+          "text": "Selling everything when prices drop"
+        },
+        {
+          "id": "C",
+          "text": "Investing a fixed amount at regular intervals regardless of price"
+        },
+        {
+          "id": "D",
+          "text": "Converting all savings to USD"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "DCA: invest the same fixed amount monthly, regardless of price. Buy more when low, less when high — removes emotion. +30 points!",
+      "retryMessage": "Dollar-cost averaging = invest a fixed amount every month, regardless of market conditions.",
+      "category": "Saving Habit"
+    },
+    {
+      "id": "real-return",
+      "question": "What is the real return on your savings if inflation is 5% and your bank gives 2%?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "+7%"
+        },
+        {
+          "id": "B",
+          "text": "+2%"
+        },
+        {
+          "id": "C",
+          "text": "0%"
+        },
+        {
+          "id": "D",
+          "text": "−3%"
+        }
+      ],
+      "correctAnswer": "D",
+      "reward": 30,
+      "successMessage": "Real return = nominal rate − inflation = 2% − 5% = −3%. Your money loses purchasing power even in a savings account. +30 points!",
+      "retryMessage": "Real return = nominal rate − inflation rate. 2% − 5% = −3%. You're losing ground.",
+      "category": "Inflation"
+    },
+    {
+      "id": "rule-of-72",
+      "question": "What is the 'rule of 72'?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "You need 72 months to pay off any debt"
+        },
+        {
+          "id": "B",
+          "text": "Divide 72 by annual return rate to estimate years to double your money"
+        },
+        {
+          "id": "C",
+          "text": "Save 72% of your income"
+        },
+        {
+          "id": "D",
+          "text": "Retire at 72 to maximize pension"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "72 ÷ annual return % = years to double your money. At 8%, money doubles in ~9 years. +30 points!",
+      "retryMessage": "Rule of 72: 72 ÷ return rate = years to double your money. Mental shortcut for compound growth.",
+      "category": "Inflation"
+    },
+    {
+      "id": "inflation-hedge",
+      "question": "Which is considered the best long-term hedge against inflation?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Keeping cash under the mattress"
+        },
+        {
+          "id": "B",
+          "text": "Savings account at 1%"
+        },
+        {
+          "id": "C",
+          "text": "Broad equity index funds (stocks)"
+        },
+        {
+          "id": "D",
+          "text": "Lottery tickets"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "Broadly diversified stock index funds have historically outpaced inflation over the long term. +25 points!",
+      "retryMessage": "Broad equity index funds have historically beaten inflation over 10+ year horizons.",
+      "category": "Inflation"
+    },
+    {
+      "id": "debt-avalanche",
+      "question": "What is the 'debt avalanche' strategy?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Taking new loans to pay old loans"
+        },
+        {
+          "id": "B",
+          "text": "Paying off smallest debts first regardless of interest rate"
+        },
+        {
+          "id": "C",
+          "text": "Paying off highest-interest debts first to minimize total interest"
+        },
+        {
+          "id": "D",
+          "text": "Ignoring debt until it grows"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Debt avalanche = attack highest interest rate first. Saves the most money mathematically. +30 points!",
+      "retryMessage": "Debt avalanche: pay off highest-interest debt first. Saves the most money overall.",
+      "category": "Credit & Rates"
+    },
+    {
+      "id": "credit-score-factors",
+      "question": "Which factor has the BIGGEST impact on your credit score?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Number of credit cards you own"
+        },
+        {
+          "id": "B",
+          "text": "Payment history (paying on time)"
+        },
+        {
+          "id": "C",
+          "text": "Age of your oldest account"
+        },
+        {
+          "id": "D",
+          "text": "Your income level"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Payment history is ~35% of your credit score — the single biggest factor. Always pay on time. +25 points!",
+      "retryMessage": "Payment history accounts for ~35% of a credit score. Paying on time, every time, is the #1 driver.",
+      "category": "Credit & Rates"
+    },
+    {
+      "id": "bond-prices",
+      "question": "What happens to bond prices when interest rates rise?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Bond prices rise"
+        },
+        {
+          "id": "B",
+          "text": "Bond prices fall"
+        },
+        {
+          "id": "C",
+          "text": "No change"
+        },
+        {
+          "id": "D",
+          "text": "Bond prices double"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "Bonds and interest rates move inversely. When rates rise, existing bonds become less attractive → prices fall. +30 points!",
+      "retryMessage": "Bonds and interest rates are inversely related: rates up → bond prices down.",
+      "category": "Credit & Rates"
+    },
+    {
+      "id": "emergency-fund-characteristics",
+      "question": "Which is NOT a characteristic of a good emergency fund?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Easily accessible (liquid)"
+        },
+        {
+          "id": "B",
+          "text": "Covers 3–6 months of expenses"
+        },
+        {
+          "id": "C",
+          "text": "Invested in high-risk stocks for maximum growth"
+        },
+        {
+          "id": "D",
+          "text": "Kept separate from everyday spending account"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "Emergency fund = liquid and safe, NOT invested in volatile assets. Accessibility matters most. +25 points!",
+      "retryMessage": "An emergency fund must be liquid and low-risk. High-risk stocks defeat the purpose.",
+      "category": "Emergency Fund"
+    },
+    {
+      "id": "emergency-fund-start",
+      "question": "If 3–6 months seems too hard, what is the recommended first milestone?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "$10,000 regardless of expenses"
+        },
+        {
+          "id": "B",
+          "text": "One month of essential expenses"
+        },
+        {
+          "id": "C",
+          "text": "Three credit card limits"
+        },
+        {
+          "id": "D",
+          "text": "50% of annual salary"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 20,
+      "successMessage": "Start with 1 month. That alone covers most common emergencies. Build from there. +20 points!",
+      "retryMessage": "One month of essential expenses is the first realistic milestone for an emergency fund.",
+      "category": "Emergency Fund"
+    },
+    {
+      "id": "compound-interest",
+      "question": "What is compound interest?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Interest paid only on the original amount"
+        },
+        {
+          "id": "B",
+          "text": "A bank fee for early withdrawal"
+        },
+        {
+          "id": "C",
+          "text": "Interest earned on both principal and previously earned interest"
+        },
+        {
+          "id": "D",
+          "text": "Interest you pay on credit cards only"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Compound interest = earning interest on your interest. Over time it creates exponential growth. +30 points!",
+      "retryMessage": "Compound interest: you earn interest on your interest — creates exponential growth over time.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "diversification",
+      "question": "What does 'diversification' mean in investing?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Putting all your money in one strong stock"
+        },
+        {
+          "id": "B",
+          "text": "Spreading investments across different assets to reduce risk"
+        },
+        {
+          "id": "C",
+          "text": "Investing only in government bonds"
+        },
+        {
+          "id": "D",
+          "text": "Changing your portfolio every week"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Don't put all your eggs in one basket. Diversification reduces the risk of one bad investment ruining your portfolio. +25 points!",
+      "retryMessage": "Diversification = spreading money across different assets to reduce risk.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "index-fund",
+      "question": "Which type of fund tracks a market index automatically with low fees?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Hedge fund"
+        },
+        {
+          "id": "B",
+          "text": "Index fund / ETF"
+        },
+        {
+          "id": "C",
+          "text": "Venture capital fund"
+        },
+        {
+          "id": "D",
+          "text": "Pension fund"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Index funds and ETFs passively track a market index with very low fees. Historically beat most actively managed funds. +25 points!",
+      "retryMessage": "Index funds / ETFs passively track an index (like S&P 500) with low fees.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "etf-definition",
+      "question": "What is an ETF?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "A savings account with higher interest"
+        },
+        {
+          "id": "B",
+          "text": "An electronic transfer fee"
+        },
+        {
+          "id": "C",
+          "text": "Exchange-Traded Fund — a basket of assets traded like a stock"
+        },
+        {
+          "id": "D",
+          "text": "A government emergency fund"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 25,
+      "successMessage": "ETF = basket of assets (stocks, bonds, commodities) tradeable like a single stock. Combines diversification with flexibility. +25 points!",
+      "retryMessage": "ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "time-in-market",
+      "question": "Studies show that for long-term investors, which strategy tends to outperform?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Timing the market (buy low, sell high perfectly)"
+        },
+        {
+          "id": "B",
+          "text": "Staying invested consistently over time ('time in the market')"
+        },
+        {
+          "id": "C",
+          "text": "Selling when the market drops 10%"
+        },
+        {
+          "id": "D",
+          "text": "Investing only in gold"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "'Time in the market beats timing the market' — missing just 10 best days in 20 years can cut returns in half. +30 points!",
+      "retryMessage": "Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "retirement-purpose",
+      "question": "What is the primary purpose of a retirement account?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "To pay for vacations"
+        },
+        {
+          "id": "B",
+          "text": "To replace income when you stop working, using decades of compounding"
+        },
+        {
+          "id": "C",
+          "text": "To speculate on high-risk assets"
+        },
+        {
+          "id": "D",
+          "text": "To store emergency cash"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Retirement accounts leverage decades of compounding. Starting at 25 vs 35 can mean 2× the final balance. +25 points!",
+      "retryMessage": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+      "category": "Retirement"
+    },
+    {
+      "id": "retirement-early-start",
+      "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "~$96,000"
+        },
+        {
+          "id": "B",
+          "text": "~$240,000"
+        },
+        {
+          "id": "C",
+          "text": "~$525,000"
+        },
+        {
+          "id": "D",
+          "text": "~$1,200,000"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 35,
+      "successMessage": "~$525,000 from just $200/month! That's 40 years of compounding. Starting at 45 would require ~$800/month for the same result. +35 points!",
+      "retryMessage": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+      "category": "Retirement"
+    },
+    {
+      "id": "poland-compound-gap",
+      "question": "According to OECD data, what percentage of Poles correctly understand how compound interest works?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "About 75%"
+        },
+        {
+          "id": "B",
+          "text": "About 50%"
+        },
+        {
+          "id": "C",
+          "text": "About 33%"
+        },
+        {
+          "id": "D",
+          "text": "About 10%"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Only ~1 in 3 Poles understands compound interest. This gap leads directly to debt spirals and low pension savings. +30 points!",
+      "retryMessage": "Only ~33% of Poles correctly understand compound interest — the OECD data confirms this critical knowledge gap.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "poland-trust-institutions",
+      "question": "In 2022, what percentage of Poles trusted financial institutions for savings and investments?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "65%"
+        },
+        {
+          "id": "B",
+          "text": "40%"
+        },
+        {
+          "id": "C",
+          "text": "28%"
+        },
+        {
+          "id": "D",
+          "text": "15%"
+        }
+      ],
+      "correctAnswer": "D",
+      "reward": 25,
+      "successMessage": "Only 15% of Poles trusted financial institutions in 2022 — and it bottomed at just 6% in 2021. Trust is the biggest barrier. +25 points!",
+      "retryMessage": "Only 15% of Poles trusted financial institutions in 2022. The 2021 low was just 6% — a profound trust deficit.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "poland-oecd-score",
+      "question": "What did Poland score on the OECD Financial Competency index?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "19 out of 21"
+        },
+        {
+          "id": "B",
+          "text": "13 out of 21"
+        },
+        {
+          "id": "C",
+          "text": "7 out of 21"
+        },
+        {
+          "id": "D",
+          "text": "21 out of 21"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Poland scored 13/21 — middle of the pack. The missing 8 points represent lost wealth opportunities for millions of people. +25 points!",
+      "retryMessage": "Poland scored 13/21 on the OECD Financial Competency index. The gap to maximum represents real lost savings.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "poland-ppk-participation",
+      "question": "What percentage of employees in large Polish firms participate in the voluntary PPK/PPE pension scheme?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "85%"
+        },
+        {
+          "id": "B",
+          "text": "68%"
+        },
+        {
+          "id": "C",
+          "text": "47%"
+        },
+        {
+          "id": "D",
+          "text": "12%"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Only 47% participate in PPK/PPE — largely because people don't understand compound interest and long-term benefit. +30 points!",
+      "retryMessage": "Only 47% of employees in large Polish firms use voluntary PPK/PPE schemes — a direct consequence of compound interest illiteracy.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "financial-wellbeing-components",
+      "question": "Financial well-being is measured by three components. Which set is correct?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Income, spending, borrowing"
+        },
+        {
+          "id": "B",
+          "text": "Control, safety net, future goals"
+        },
+        {
+          "id": "C",
+          "text": "Savings rate, credit score, net worth"
+        },
+        {
+          "id": "D",
+          "text": "Insurance, pension, property"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Control (daily expenses), Safety Net (emergency cushion), Future Goals (retirement). Master all three to achieve real financial well-being. +25 points!",
+      "retryMessage": "Financial well-being = Control over daily expenses + Safety Net (poduszka finansowa) + Future Goals like retirement.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "financial-resilience",
+      "question": "How is 'financial resilience' defined by Poland's National Financial Education Strategy?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Having over $1 million saved"
+        },
+        {
+          "id": "B",
+          "text": "Never borrowing any money"
+        },
+        {
+          "id": "C",
+          "text": "The ability to absorb financial shocks and recover from a difficult material situation"
+        },
+        {
+          "id": "D",
+          "text": "Owning property and having no debt"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 30,
+      "successMessage": "Financial resilience = surviving shocks and bouncing back. It's not about wealth — it's about preparedness. +30 points!",
+      "retryMessage": "Resilience = ability to deal with adverse financial shocks and recover. It's about preparedness, not wealth level.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "debt-spiral-cause",
+      "question": "What is the primary financial literacy gap that leads to 'debt spirals'?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Not knowing how to use a credit card"
+        },
+        {
+          "id": "B",
+          "text": "Not understanding compound interest — debt grows faster than expected"
+        },
+        {
+          "id": "C",
+          "text": "Not having a bank account"
+        },
+        {
+          "id": "D",
+          "text": "Spending too much on food"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 35,
+      "successMessage": "Debt spirals happen when people don't realize how fast interest compounds on their loans — the debt grows faster than they can pay. +35 points!",
+      "retryMessage": "Debt spirals are caused by not understanding compound interest — people underestimate how fast unpaid interest accumulates.",
+      "category": "Financial Literacy"
+    },
+    {
+      "id": "insurance-purpose",
+      "question": "What is the main purpose of life insurance?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "To get rich when someone dies"
+        },
+        {
+          "id": "B",
+          "text": "To replace income for dependents if the primary earner dies"
+        },
+        {
+          "id": "C",
+          "text": "To save on taxes"
+        },
+        {
+          "id": "D",
+          "text": "To invest in the stock market safely"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Life insurance = income protection for your dependents. If you have people depending on your earnings, you need it. +25 points!",
+      "retryMessage": "Life insurance protects dependents by replacing the primary earner's income if they die prematurely.",
+      "category": "Family Financial Plan"
+    },
+    {
+      "id": "joint-finances",
+      "question": "What is the recommended approach to finances for couples?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "One partner handles all finances, the other doesn't need to know"
+        },
+        {
+          "id": "B",
+          "text": "Both partners should understand the full financial picture and plan together"
+        },
+        {
+          "id": "C",
+          "text": "Keep all finances 100% separate — never share anything"
+        },
+        {
+          "id": "D",
+          "text": "Whoever earns more controls all decisions"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 20,
+      "successMessage": "Both partners understanding the full financial picture reduces conflict and improves outcomes. +20 points!",
+      "retryMessage": "Financial transparency and joint planning between partners leads to better decisions and fewer conflicts.",
+      "category": "Family Financial Plan"
+    },
+    {
+      "id": "teaching-kids-money",
+      "question": "What is the most effective way to teach kids about money?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Give them pocket money with no conditions"
+        },
+        {
+          "id": "B",
+          "text": "Let them observe — never discuss money with children"
+        },
+        {
+          "id": "C",
+          "text": "Give pocket money with saving rules (e.g. save 20%, spend 60%, give 20%)"
+        },
+        {
+          "id": "D",
+          "text": "Wait until they're 18 to discuss finances"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 20,
+      "successMessage": "Pocket money with rules teaches budgeting through real decisions. Mistakes with small amounts are cheap lessons. +20 points!",
+      "retryMessage": "Pocket money with saving/spending rules gives kids real financial decisions at low cost.",
+      "category": "Family Financial Plan"
+    },
+    {
+      "id": "nbp-inflation-target",
+      "question": "What inflation rate has the National Bank of Poland (NBP) targeted since 2004?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "0% — prices should never rise"
+        },
+        {
+          "id": "B",
+          "text": "2.5% with a ±1 percentage point band"
+        },
+        {
+          "id": "C",
+          "text": "5% to encourage spending"
+        },
+        {
+          "id": "D",
+          "text": "Whatever the government sets each year"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "NBP targets 2.5% inflation with a symmetric ±1pp band — a medium-term goal for price stability. +30 tokens!",
+      "retryMessage": "Since 2004 the NBP's target is 2.5% (±1 percentage point), measured by the annual change in the CPI.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "inflation-target-why",
+      "question": "Why do central banks aim for low, positive inflation (~2–2.5%) instead of 0%?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "To make the currency worthless faster"
+        },
+        {
+          "id": "B",
+          "text": "A small, stable buffer supports growth and avoids dangerous deflation"
+        },
+        {
+          "id": "C",
+          "text": "Because higher prices are always good"
+        },
+        {
+          "id": "D",
+          "text": "To increase government tax revenue only"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "A small positive target keeps a safety margin away from deflation while keeping prices predictable. +30 tokens!",
+      "retryMessage": "A low, stable target avoids deflation (which can stall an economy) and keeps inflation predictable.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "monetary-policy-tool",
+      "question": "What is a central bank's main tool for steering inflation?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Printing more banknotes for citizens"
+        },
+        {
+          "id": "B",
+          "text": "Setting benchmark interest rates"
+        },
+        {
+          "id": "C",
+          "text": "Fixing the price of bread"
+        },
+        {
+          "id": "D",
+          "text": "Banning imports"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "By moving benchmark rates, central banks change the cost of borrowing across the whole economy. +25 tokens!",
+      "retryMessage": "Central banks mainly use benchmark interest rates to influence borrowing, demand and ultimately inflation.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "rates-and-borrowing",
+      "question": "When a central bank raises interest rates, what typically happens?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Borrowing gets cheaper and spending jumps"
+        },
+        {
+          "id": "B",
+          "text": "Borrowing gets more expensive, cooling demand and inflation"
+        },
+        {
+          "id": "C",
+          "text": "Nothing changes for households"
+        },
+        {
+          "id": "D",
+          "text": "Savings accounts always pay 0%"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Higher rates make loans pricier, so households and firms borrow and spend less — easing inflation. +25 tokens!",
+      "retryMessage": "Rate hikes raise the cost of borrowing, which cools spending and helps bring inflation down.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "gdp-definition",
+      "question": "What does GDP (Gross Domestic Product) measure?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "The total savings of all citizens"
+        },
+        {
+          "id": "B",
+          "text": "The value of all goods and services produced in an economy"
+        },
+        {
+          "id": "C",
+          "text": "The amount of cash in circulation"
+        },
+        {
+          "id": "D",
+          "text": "The national debt"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "GDP is the total value of goods and services an economy produces — the broadest gauge of activity. +25 tokens!",
+      "retryMessage": "GDP = the total market value of goods and services produced in a country over a period.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "deflation-risk",
+      "question": "Why is persistent deflation (falling prices) considered dangerous?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "It makes everyone richer with no downside"
+        },
+        {
+          "id": "B",
+          "text": "People delay purchases, demand drops, and debts get harder to repay"
+        },
+        {
+          "id": "C",
+          "text": "It always boosts wages"
+        },
+        {
+          "id": "D",
+          "text": "It has no effect on the economy"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "If prices keep falling, people postpone buying, demand shrinks, and real debt burdens rise — a harmful spiral. +30 tokens!",
+      "retryMessage": "Deflation pushes people to delay spending and makes existing debt heavier in real terms — a dangerous loop.",
+      "category": "Macroeconomics"
+    },
+    {
+      "id": "zero-based-budget",
+      "question": "What is 'zero-based budgeting'?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Spending until your account hits zero"
+        },
+        {
+          "id": "B",
+          "text": "Giving every unit of income a job so income − all allocations = 0"
+        },
+        {
+          "id": "C",
+          "text": "Having zero savings"
+        },
+        {
+          "id": "D",
+          "text": "Only budgeting in cash"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Zero-based budgeting assigns every złoty a purpose — including savings — so nothing leaks unplanned. +25 tokens!",
+      "retryMessage": "Zero-based budgeting = assign every unit of income a job (spending, saving, debt) until the plan balances to zero.",
+      "category": "Budgeting"
+    },
+    {
+      "id": "track-before-budget",
+      "question": "What's the recommended first step before building a household budget?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Cancel every subscription immediately"
+        },
+        {
+          "id": "B",
+          "text": "Track your actual spending for about 30 days"
+        },
+        {
+          "id": "C",
+          "text": "Take out a loan to cover gaps"
+        },
+        {
+          "id": "D",
+          "text": "Guess your expenses from memory"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 20,
+      "successMessage": "Tracking real spending for ~30 days reveals where money actually goes — most people find hidden leakage. +20 tokens!",
+      "retryMessage": "Track spending for ~30 days first. You can't manage what you don't measure.",
+      "category": "Budgeting"
+    },
+    {
+      "id": "sinking-fund",
+      "question": "What is a 'sinking fund' in household budgeting?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Money you expect to lose"
+        },
+        {
+          "id": "B",
+          "text": "Cash set aside gradually for a known future expense"
+        },
+        {
+          "id": "C",
+          "text": "A type of risky investment"
+        },
+        {
+          "id": "D",
+          "text": "An overdraft on your account"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Sinking funds spread big known costs (car service, holidays, taxes) into small monthly amounts — no debt needed. +25 tokens!",
+      "retryMessage": "A sinking fund = saving a little each month for a planned future cost, so it doesn't become a shock.",
+      "category": "Budgeting"
+    },
+    {
+      "id": "impulse-pause",
+      "question": "What's an effective tactic against impulse spending?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Buy now and decide later if you needed it"
+        },
+        {
+          "id": "B",
+          "text": "Use a waiting period (e.g. 24–72h, or 30 days for big buys) before non-essentials"
+        },
+        {
+          "id": "C",
+          "text": "Always shop when stressed"
+        },
+        {
+          "id": "D",
+          "text": "Remove all prices so you don't notice"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 20,
+      "successMessage": "A built-in pause lets the urge fade and the rational decision win. Most impulse buys don't survive the wait. +20 tokens!",
+      "retryMessage": "Add a waiting period before non-essential purchases — the pause defeats most impulse spending.",
+      "category": "Budgeting"
+    },
+    {
+      "id": "emergency-first-milestone",
+      "question": "What's a realistic FIRST emergency-savings milestone if 3–6 months feels far away?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Don't bother until you can save 6 months at once"
+        },
+        {
+          "id": "B",
+          "text": "One month of essential expenses"
+        },
+        {
+          "id": "C",
+          "text": "Two years of expenses"
+        },
+        {
+          "id": "D",
+          "text": "Exactly your annual salary"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Even one month of expenses sharply cuts the risk of falling behind on bills. Start small, then build to 3–6 months. +25 tokens!",
+      "retryMessage": "Aim for one month of essentials first — research shows even a small buffer dramatically reduces delinquency.",
+      "category": "Emergency Fund"
+    },
+    {
+      "id": "bfg-guarantee",
+      "question": "In Poland, up to what amount are bank deposits guaranteed by the BFG?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "There is no deposit guarantee"
+        },
+        {
+          "id": "B",
+          "text": "The PLN equivalent of €100,000 per depositor, per bank"
+        },
+        {
+          "id": "C",
+          "text": "Exactly 10,000 PLN total"
+        },
+        {
+          "id": "D",
+          "text": "Unlimited, always 100%"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "The BFG guarantees deposits up to the PLN equivalent of €100,000 per person per bank — paid out in złoty. +30 tokens!",
+      "retryMessage": "Poland's BFG guarantees deposits up to the PLN equivalent of €100,000 per depositor in each bank.",
+      "category": "Saving Habit"
+    },
+    {
+      "id": "asset-allocation",
+      "question": "What does 'asset allocation' mean?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Picking one winning stock"
+        },
+        {
+          "id": "B",
+          "text": "How you split investments among stocks, bonds and cash"
+        },
+        {
+          "id": "C",
+          "text": "Borrowing money to invest"
+        },
+        {
+          "id": "D",
+          "text": "Keeping everything in a checking account"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Asset allocation — your mix of stocks/bonds/cash — drives most of your long-run risk and return. +25 tokens!",
+      "retryMessage": "Asset allocation = how you divide money across asset types (stocks, bonds, cash) to match your goals and risk.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "rebalancing",
+      "question": "What is portfolio 'rebalancing'?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Selling everything when markets fall"
+        },
+        {
+          "id": "B",
+          "text": "Periodically adjusting holdings back to your target mix"
+        },
+        {
+          "id": "C",
+          "text": "Adding only the best-performing stock"
+        },
+        {
+          "id": "D",
+          "text": "Checking your balance every day"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Rebalancing trims what grew too big and tops up what shrank — keeping your risk where you intended. +25 tokens!",
+      "retryMessage": "Rebalancing = restoring your target stock/bond/cash mix periodically, so risk doesn't drift.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "fees-ter",
+      "question": "Why do low ongoing fees (TER) matter so much for long-term investing?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "They don't — fees are negligible"
+        },
+        {
+          "id": "B",
+          "text": "Fees compound against you and quietly erode decades of returns"
+        },
+        {
+          "id": "C",
+          "text": "Higher fees always mean higher returns"
+        },
+        {
+          "id": "D",
+          "text": "Fees are refunded at retirement"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "A 1% fee vs 0.2% can cost a large chunk of your final pot over 30 years — costs compound just like returns. +30 tokens!",
+      "retryMessage": "Fees compound against you. Over decades, even ~1% per year can erode a big share of your returns.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "risk-return",
+      "question": "What is the general relationship between risk and expected return?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Higher expected returns generally come with higher risk"
+        },
+        {
+          "id": "B",
+          "text": "High returns are guaranteed with zero risk"
+        },
+        {
+          "id": "C",
+          "text": "Risk and return are unrelated"
+        },
+        {
+          "id": "D",
+          "text": "Lower risk always means higher return"
+        }
+      ],
+      "correctAnswer": "A",
+      "reward": 25,
+      "successMessage": "There's no free lunch: chasing higher expected returns means accepting more ups and downs along the way. +25 tokens!",
+      "retryMessage": "Higher potential return generally requires taking on more risk. Be sceptical of 'high return, no risk' offers.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "invest-prerequisites",
+      "question": "What should you generally have in place BEFORE investing in volatile assets?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "A hot stock tip"
+        },
+        {
+          "id": "B",
+          "text": "An emergency fund and high-interest debt under control"
+        },
+        {
+          "id": "C",
+          "text": "A maxed-out credit card"
+        },
+        {
+          "id": "D",
+          "text": "Nothing — invest everything immediately"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "Foundations first: an emergency fund and tamed high-interest debt protect you from being forced to sell at a bad time. +30 tokens!",
+      "retryMessage": "Before volatile investing: build an emergency fund and clear high-interest debt — that's your foundation.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "speculative-allocation",
+      "question": "How should beginners treat highly speculative assets like crypto?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Put all savings in for maximum gains"
+        },
+        {
+          "id": "B",
+          "text": "Limit to a small share you could afford to lose entirely"
+        },
+        {
+          "id": "C",
+          "text": "Borrow money to buy more"
+        },
+        {
+          "id": "D",
+          "text": "Treat it as a safe emergency fund"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Speculative assets are volatile — cap them at a small slice and never use money you can't afford to lose. +25 tokens!",
+      "retryMessage": "Keep speculative assets to a small portion of your portfolio, and only money you can afford to lose completely.",
+      "category": "Long-Term Investing"
+    },
+    {
+      "id": "ike-vs-ikze",
+      "question": "What's the key tax difference between Poland's IKE and IKZE accounts?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "They are identical in every way"
+        },
+        {
+          "id": "B",
+          "text": "IKE: tax-free gains on a qualifying withdrawal; IKZE: deduct contributions now, pay a 10% flat tax on withdrawal"
+        },
+        {
+          "id": "C",
+          "text": "Both are taxed at 19% every year"
+        },
+        {
+          "id": "D",
+          "text": "Neither offers any tax benefit"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 35,
+      "successMessage": "IKE rewards you later (tax-free gains); IKZE rewards you now (deduction), with a 10% flat tax at withdrawal. +35 tokens!",
+      "retryMessage": "IKE = tax-free growth on qualifying withdrawal. IKZE = deduct contributions today, 10% flat tax when you withdraw.",
+      "category": "Retirement"
+    },
+    {
+      "id": "ppk-employer-match",
+      "question": "In Poland's PPK, what does the employer add on top of the employee's 2% basic contribution?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Nothing — only the employee pays"
+        },
+        {
+          "id": "B",
+          "text": "A basic 1.5% of salary (plus an optional extra up to 2.5%)"
+        },
+        {
+          "id": "C",
+          "text": "A flat 100 PLN regardless of salary"
+        },
+        {
+          "id": "D",
+          "text": "10% of salary"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "The employer adds a basic 1.5% of your salary (optionally more) — essentially free money toward retirement. +30 tokens!",
+      "retryMessage": "PPK: employee 2% basic, employer adds 1.5% basic (up to +2.5% extra). The employer match is free retirement money.",
+      "category": "Retirement"
+    },
+    {
+      "id": "ppk-state-bonus",
+      "question": "What state incentives does Poland's PPK give participants?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "No state support at all"
+        },
+        {
+          "id": "B",
+          "text": "A 250 PLN welcome payment and a 240 PLN annual bonus"
+        },
+        {
+          "id": "C",
+          "text": "A 50,000 PLN lump sum"
+        },
+        {
+          "id": "D",
+          "text": "Free shares in the employer"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "The state adds a 250 PLN welcome payment plus 240 PLN each year — extra return on your PPK savings. +25 tokens!",
+      "retryMessage": "PPK state support: a one-off 250 PLN welcome payment and a 240 PLN annual bonus for participants.",
+      "category": "Retirement"
+    },
+    {
+      "id": "deposit-guarantee-scope",
+      "question": "What do deposit guarantee schemes (BFG, FDIC, EU DGS, FGC) actually protect?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "All investments including stocks and crypto"
+        },
+        {
+          "id": "B",
+          "text": "Bank deposits — not stocks, funds, pensions or crypto"
+        },
+        {
+          "id": "C",
+          "text": "Only cash kept at home"
+        },
+        {
+          "id": "D",
+          "text": "Your salary if you lose your job"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "Deposit guarantees cover money in bank accounts/deposits — investments and crypto are NOT covered. +30 tokens!",
+      "retryMessage": "These schemes protect bank deposits only. Stocks, funds, pensions and crypto fall outside them.",
+      "category": "Global Markets"
+    },
+    {
+      "id": "fdic-coverage",
+      "question": "In the United States, how much does the FDIC insure per depositor, per bank?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "$1,000"
+        },
+        {
+          "id": "B",
+          "text": "$250,000 (per ownership category)"
+        },
+        {
+          "id": "C",
+          "text": "Unlimited"
+        },
+        {
+          "id": "D",
+          "text": "There is no deposit insurance in the US"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "The FDIC insures $250,000 per depositor, per bank, per ownership category. +25 tokens!",
+      "retryMessage": "US FDIC coverage is $250,000 per depositor, per insured bank, for each ownership category.",
+      "category": "Global Markets"
+    },
+    {
+      "id": "eu-dgs",
+      "question": "Across the EU (incl. Poland, Spain, France), bank deposits are guaranteed up to…",
+      "answers": [
+        {
+          "id": "A",
+          "text": "€1,000 per country"
+        },
+        {
+          "id": "B",
+          "text": "€100,000 per depositor, per bank (or local-currency equivalent)"
+        },
+        {
+          "id": "C",
+          "text": "€1,000,000 always"
+        },
+        {
+          "id": "D",
+          "text": "Nothing is guaranteed in the EU"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "EU deposit protection is harmonised at €100,000 per depositor, per bank. +25 tokens!",
+      "retryMessage": "EU rules harmonise deposit protection at €100,000 per depositor, per bank.",
+      "category": "Global Markets"
+    },
+    {
+      "id": "us-401k-match",
+      "question": "With a US 401(k) that offers an employer match, what's the smartest first move?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "Skip it — matches are a trick"
+        },
+        {
+          "id": "B",
+          "text": "Contribute at least enough to get the full employer match (free money)"
+        },
+        {
+          "id": "C",
+          "text": "Only contribute after age 60"
+        },
+        {
+          "id": "D",
+          "text": "Put it all into a single company stock"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "An employer match is an instant 100% return on those contributions — always capture the full match first. +30 tokens!",
+      "retryMessage": "Always contribute enough to capture the full employer match — it's free money you can't get any other way.",
+      "category": "Global Markets"
+    },
+    {
+      "id": "tax-advantaged-wrapper",
+      "question": "What do a UK ISA, a Japanese NISA and a Polish IKE have in common?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "They guarantee a fixed 10% return"
+        },
+        {
+          "id": "B",
+          "text": "They are tax-advantaged accounts that shelter investment growth"
+        },
+        {
+          "id": "C",
+          "text": "They are types of credit card"
+        },
+        {
+          "id": "D",
+          "text": "They are only for millionaires"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 30,
+      "successMessage": "ISA, NISA and IKE are all tax-advantaged wrappers — they let qualifying investments grow without the usual tax drag. +30 tokens!",
+      "retryMessage": "ISA (UK), NISA (Japan) and IKE (Poland) are tax-advantaged accounts that shelter investment gains.",
+      "category": "Global Markets"
+    },
+    {
+      "id": "rbi-inflation-target",
+      "question": "What inflation target does India's central bank (RBI) aim for?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "4% with a ±2 percentage point tolerance band"
+        },
+        {
+          "id": "B",
+          "text": "0%"
+        },
+        {
+          "id": "C",
+          "text": "15%"
+        },
+        {
+          "id": "D",
+          "text": "It has no target"
+        }
+      ],
+      "correctAnswer": "A",
+      "reward": 25,
+      "successMessage": "The RBI targets 4% inflation with a ±2pp band (2–6%), retained through 2026–2031. +25 tokens!",
+      "retryMessage": "India's RBI targets 4% inflation with a tolerance band of ±2 percentage points (2–6%).",
+      "category": "Global Markets"
+    }
+  ],
+  "otherLessonLocales": {
+    "es": {
+      "title": "Mentalidad financiera",
+      "next": "Siguiente",
+      "quiz": "Hacer el quiz",
+      "steps": [
+        {
+          "title": "Patrimonio neto",
+          "body": "El patrimonio neto es lo que tienes menos lo que debes. La nómina muestra el dinero que entra. El patrimonio neto muestra si estás avanzando. Los ahorros y una vivienda cuentan como activos; los préstamos y los saldos de las tarjetas cuentan como deudas."
+        },
+        {
+          "title": "Inflación del estilo de vida",
+          "body": "La inflación del estilo de vida significa que gastas más a medida que ganas más, así que tus ahorros no crecen. Un aumento de sueldo puede esfumarse en un alquiler más alto, mejores comidas o una nueva suscripción. Llega el dinero extra y el gasto extra se lo come. Ahorrar el aumento antes de acostumbrarte a él conserva la ganancia."
+        },
+        {
+          "title": "Págate primero",
+          "body": "Pagarte primero significa mover una cantidad fija al ahorro en cuanto cobras. Hazlo antes del alquiler, la comida y todo lo demás. Esperar a ahorrar lo que sobre suele dejar nada. Una transferencia automática el día de cobro hace que el hábito ocurra sin tener que decidirlo cada vez."
+        }
+      ]
+    },
+    "fr": {
+      "title": "État d'esprit financier",
+      "next": "Suivant",
+      "quiz": "Passer le quiz",
+      "steps": [
+        {
+          "title": "Patrimoine net",
+          "body": "Le patrimoine net, c'est ce que vous possédez moins ce que vous devez. Un salaire montre l'argent qui entre. Le patrimoine net montre si vous avancez. L'épargne et un logement comptent comme des actifs ; les prêts et les soldes de carte comptent comme des dettes."
+        },
+        {
+          "title": "Inflation du train de vie",
+          "body": "L'inflation du train de vie signifie que vous dépensez plus à mesure que vous gagnez plus, si bien que l'épargne stagne. Une augmentation peut disparaître dans un loyer plus élevé, de meilleurs repas ou un nouvel abonnement. L'argent supplémentaire arrive, puis les dépenses supplémentaires l'absorbent. Épargner l'augmentation avant de vous y habituer préserve le gain."
+        },
+        {
+          "title": "Se payer en premier",
+          "body": "Se payer en premier, c'est transférer un montant fixe vers l'épargne dès que vous êtes payé. Faites-le avant le loyer, la nourriture et tout le reste. Attendre d'épargner ce qui reste ne laisse généralement rien. Un virement automatique le jour de la paie installe l'habitude sans nouvelle décision à prendre."
+        }
+      ]
+    },
+    "ja": {
+      "title": "お金の考え方",
+      "next": "次へ",
+      "quiz": "クイズへ進む",
+      "steps": [
+        {
+          "title": "純資産",
+          "body": "純資産は、持っているものから借りているものを引いた額です。給料は入ってくるお金を示します。純資産は、前に進んでいるかを示します。貯金や家は資産で、ローンやカードの残高は借金です。"
+        },
+        {
+          "title": "生活水準のインフレ",
+          "body": "生活水準のインフレは、収入が増えるほど支出も増え、貯金が変わらないことです。昇給は、高い家賃や良い食事や新しい契約に消えます。増えたお金は入ってきても、増えた支出が使い切ります。慣れる前に昇給分を先に貯めると、その分が残ります。"
+        },
+        {
+          "title": "先に自分へ払う",
+          "body": "先に自分へ払うとは、給料が入ったら決めた額を先に貯金へ移すことです。家賃や食費より前にします。残りを貯めようと待つと、たいてい何も残りません。給料日の自動振込なら、毎月決め直さなくても習慣になります。"
+        }
+      ]
+    },
+    "zh": {
+      "title": "金钱心态",
+      "next": "下一步",
+      "quiz": "参加测验",
+      "steps": [
+        {
+          "title": "净资产",
+          "body": "净资产是你拥有的减去你欠下的。工资显示的是进来的钱。净资产显示的是你是否在向前走。储蓄和房产算资产，贷款和信用卡欠款算负债。"
+        },
+        {
+          "title": "生活方式膨胀",
+          "body": "生活方式膨胀是指赚得越多花得越多，所以储蓄原地不动。加薪可能消失在更高的房租、更好的餐食或新的订阅里。多出来的钱到账，多出来的开销又把它花掉。在习惯加薪之前先把它存起来，才能留住这份增长。"
+        },
+        {
+          "title": "先付给自己",
+          "body": "先付给自己，就是一发工资就把固定金额转入储蓄。在付房租、买食物和其他一切之前先做这件事。等着存“剩下的钱”，通常什么都剩不下。发薪日的自动转账让这个习惯自动发生，不需要每次重新做决定。"
+        }
+      ]
+    },
+    "hi": {
+      "title": "पैसे की सोच",
+      "next": "अगला",
+      "quiz": "क्विज़ दें",
+      "steps": [
+        {
+          "title": "नेट वर्थ",
+          "body": "नेट वर्थ वह है जो आपके पास है, उसमें से जो आप पर बकाया है उसे घटाकर। वेतन आने वाला पैसा दिखाता है। नेट वर्थ दिखाता है कि आप आगे बढ़ रहे हैं या नहीं। बचत और घर संपत्ति गिने जाते हैं; लोन और कार्ड का बकाया कर्ज़ गिना जाता है।"
+        },
+        {
+          "title": "जीवनशैली की महंगाई",
+          "body": "जीवनशैली की महंगाई का मतलब है कि कमाई बढ़ने के साथ खर्च भी बढ़ता है, इसलिए बचत वहीं की वहीं रहती है। वेतन वृद्धि ज़्यादा किराये, बेहतर खाने या नए सब्सक्रिप्शन में गुम हो सकती है। अतिरिक्त पैसा आता है और अतिरिक्त खर्च उसे खा जाता है। वृद्धि की आदत पड़ने से पहले उसे बचा लेना बढ़त को बचाए रखता है।"
+        },
+        {
+          "title": "पहले खुद को भुगतान करें",
+          "body": "पहले खुद को भुगतान करने का मतलब है वेतन मिलते ही एक तय रकम बचत में डाल देना। यह किराये, खाने और बाकी सब से पहले करें। जो बचेगा उसे बचाने का इंतज़ार करने पर अक्सर कुछ नहीं बचता। वेतन के दिन का स्वचालित ट्रांसफ़र बिना नए फ़ैसले के आदत बना देता है।"
+        }
+      ]
+    },
+    "pt-BR": {
+      "title": "Mentalidade financeira",
+      "next": "Próximo",
+      "quiz": "Fazer o quiz",
+      "steps": [
+        {
+          "title": "Patrimônio líquido",
+          "body": "Patrimônio líquido é o que você tem menos o que você deve. O salário mostra o dinheiro que entra. O patrimônio líquido mostra se você está avançando. Poupança e imóvel contam como ativos; empréstimos e faturas de cartão contam como dívidas."
+        },
+        {
+          "title": "Inflação do estilo de vida",
+          "body": "Inflação do estilo de vida é gastar mais à medida que você ganha mais, de modo que a poupança não cresce. Um aumento pode sumir em um aluguel mais caro, refeições melhores ou uma nova assinatura. O dinheiro extra chega e o gasto extra o consome. Poupar o aumento antes de se acostumar com ele preserva o ganho."
+        },
+        {
+          "title": "Pague-se primeiro",
+          "body": "Pagar-se primeiro é transferir um valor fixo para a poupança assim que você recebe. Faça isso antes do aluguel, da comida e de todo o resto. Esperar para poupar o que sobrar costuma não deixar nada. Uma transferência automática no dia do pagamento faz o hábito acontecer sem uma nova decisão."
+        }
+      ]
+    },
+    "tr": {
+      "title": "Para Zihniyeti",
+      "next": "Sonraki",
+      "quiz": "Quize geç",
+      "steps": [
+        {
+          "title": "Net varlık",
+          "body": "Net varlık, sahip oldukların eksi borçlarındır. Maaş, gelen parayı gösterir. Net varlık ise ilerleyip ilerlemediğini gösterir. Birikimler ve ev varlık sayılır; krediler ve kart borçları borç sayılır."
+        },
+        {
+          "title": "Yaşam tarzı enflasyonu",
+          "body": "Yaşam tarzı enflasyonu, kazandıkça daha fazla harcaman ve birikimin yerinde sayması demektir. Bir zam; daha yüksek kiraya, daha iyi yemeklere veya yeni bir aboneliğe gidebilir. Ek para gelir, ek harcama onu tüketir. Zamma alışmadan önce onu biriktirmek kazancı korur."
+        },
+        {
+          "title": "Önce kendine öde",
+          "body": "Önce kendine ödemek, maaşını alır almaz belirli bir tutarı birikime aktarmaktır. Bunu kiradan, yemekten ve diğer her şeyden önce yap. Kalanı biriktirmeyi beklemek genellikle geriye bir şey bırakmaz. Maaş gününde otomatik transfer, alışkanlığın her seferinde yeniden karar vermeden gerçekleşmesini sağlar."
+        }
+      ]
+    }
+  }
+}

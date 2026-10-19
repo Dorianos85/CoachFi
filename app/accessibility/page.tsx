@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, CheckCircle2, ShieldAlert, Volume2 } from "lucide-react";
+import { CheckCircle2, ShieldAlert, Volume2 } from "lucide-react";
 import { useState } from "react";
 
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
@@ -11,7 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
-import { calculateLifePathNumber, numerologyStyles } from "@/lib/numerology";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
 const accessibilityVoiceCopy: LocalizedMap<
@@ -153,7 +152,7 @@ const accessibilityVoiceCopy: LocalizedMap<
 };
 
 export default function AccessibilityPage() {
-  const { locale, t } = useLanguage();
+  const { locale } = useLanguage();
   const copy = getLocalizedContent(locale).accessibility;
   const voiceCopy = pickLocalized(accessibilityVoiceCopy, locale);
   const voiceLocale = getVoiceDemoLocale(locale);
@@ -163,13 +162,9 @@ export default function AccessibilityPage() {
     { id: "financial-score", label: voiceCopy.actions[0], text: voiceScripts.financialScore },
     { id: "inflation", label: voiceCopy.actions[1], text: voiceScripts.inflationWakeUp },
     { id: "next-lesson", label: voiceCopy.actions[2], text: voiceScripts.milaIntro },
-    { id: "quiz-question", label: voiceCopy.actions[3], text: voiceScripts.kidsCoach },
-    { id: "progress", label: voiceCopy.actions[4], text: voiceScripts.certificateUnlock },
   ];
   const [highContrast, setHighContrast] = useState(false);
   const [textScale, setTextScale] = useState<TextScale>("normal");
-  const [birthDate, setBirthDate] = useState("");
-  const [lifePath, setLifePath] = useState<number | null>(null);
 
   return (
     <section aria-labelledby="accessibility-title">
@@ -256,45 +251,6 @@ export default function AccessibilityPage() {
         </div>
       </div>
 
-      <div id="numerology" className="mt-8 grid gap-5 lg:grid-cols-[360px_minmax(0,1fr)]">
-        <div className="rounded-lg bg-white p-5 shadow-soft">
-          <p className="mb-2 text-sm font-black uppercase text-primary">{copy.numerologyTitle}</p>
-          <label className="grid gap-2 text-sm font-bold text-text">
-            {copy.dateOfBirth}
-            <input
-              type="date"
-              value={birthDate}
-              onChange={(event) => setBirthDate(event.target.value)}
-              className="min-h-12 rounded-input border-2 border-border bg-white px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            />
-          </label>
-          <Button
-            type="button"
-            size="lg"
-            className="mt-4 w-full"
-            onClick={() => setLifePath(calculateLifePathNumber(birthDate))}
-          >
-            <CalendarDays className="h-5 w-5" aria-hidden="true" />
-            {copy.calculateStyle}
-          </Button>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{lifePath !== null ? `${copy.numerologyTitle} ${lifePath}` : copy.enterDate}</CardTitle>
-            <CardDescription>
-              {lifePath !== null
-                ? (numerologyStyles[lifePath] ?? copy.uniqueStyle)
-                : `${t.accessibility.numerologyDesc}`}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="rounded-lg bg-warning/20 p-4 text-sm font-bold leading-6 text-text">
-              {copy.numerologyDisclaimer}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </section>
   );
 }

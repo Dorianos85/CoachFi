@@ -1,0 +1,481 @@
+{
+  "schema_version": 1,
+  "cycle": 35,
+  "module": null,
+  "version": "deposit-protection-pl-en-v1-c35-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 3,
+  "language_versions": 6,
+  "wrong_rationale_count": 9,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_per_language": 0,
+  "reward_total": 85,
+  "canonical_union_count_unchanged": 82,
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "bfg-guarantee",
+      "deposit-guarantee-scope",
+      "eu-dgs"
+    ],
+    "keys": [
+      "B",
+      "B",
+      "B"
+    ],
+    "rewards": [
+      30,
+      30,
+      25
+    ],
+    "rawEN": "ThreeexistingENobjects, originalSaving Habit/GlobalMarkets categories retained.",
+    "PL": "ThreeexistingPLvalueinitializers, originalNawykoszczędzania/Rynkiglobalne categories/82properties retained.",
+    "otherLocales": "ES/FRallthreeexplicittranslations literal;fiveothercanonicalviews existingENfallbackeffect without acceptingnewmarkets/locales.",
+    "protected": "Other59rawquiz,all20challenges,explicitlocalization/stage/topic/pools/app/writers/SRS and acceptedcopy/proofs literal."
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "pl-bfg-law",
+      "publisher": "Sejm RP / ELI",
+      "title": "Ustawa o BFG — tekst ujednolicony datowany8October2026; alsoDz.U.2026poz620",
+      "url": "https://eli.gov.pl/api/acts/DU/2016/996/text/U/D20160996Lj.pdf",
+      "supporting_url": "https://eli.gov.pl/api/acts/DU/2026/620/text/T/D20260620L.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official UfullPDF relevantArticles17–24/35 and2026Ttext independently read. Uheader2026-10-08,351pages;T2026-05-12,169pages.",
+      "bounded_use": "Eligibledeposit/depositor conditions, EURstandardPLNlimit, aggregation, distinctFXvaluationrules, PLNpayout and specialhighercoverage.",
+      "limits": "Not individuallegaladvice or verificationofrealbank/account. No jointaccount/payouttiming detail, exhaustiveexceptions, currentFXrate or claim allfutureamendments/entirelaw implementedbyCoachfi."
+    },
+    {
+      "id": "bfg-amount",
+      "publisher": "BFG",
+      "title": "Wysokość gwarancji (updated2October2025)",
+      "url": "https://bfg.pl/gwarantowanie-depozytow/zasady-gwarantowania-depozytow/wysokosc-gwarancji-bfg/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: aggregateaccounts+interest, PLN100000EURequivalent, specialhigherprotection.",
+      "bounded_use": "Existingstandardlimit/aggregation explained through referenceunitexercise.",
+      "limits": "No actualFX/payoutcomputation, limitlessguarantee, bankrecommendation or implication separatebrand/accountcreatesanotherlimit."
+    },
+    {
+      "id": "bfg-scope",
+      "publisher": "BFG",
+      "title": "Zakres przedmiotowy gwarancji (updated7January2026)",
+      "url": "https://bfg.pl/gwarantowanie-depozytow/zasady-gwarantowania-depozytow/zakres-przedmiotowy-gwarancji/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: coveredfunds and noncoveredcategories; crosscheckedwithstatute.",
+      "bounded_use": "Depositcoverage differs from stock/fundunit/cryptomarketrisk; eligibilitymustbechecked.",
+      "limits": "No claim allpension-labelledarrangements excluded or otherprotectionssystems neverapply. No product/foreignscheme comparison."
+    },
+    {
+      "id": "bfg-faq",
+      "publisher": "BFG",
+      "title": "Najczęstsze pytania i odpowiedzi (updated19April2025)",
+      "url": "https://bfg.pl/gwarantowanie-depozytow/najczestsze-pytania-i-odpowiedzi/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official indexedFAQfullrelevantsections: EUhome-countrybranchscheme; directopenunavailable.",
+      "bounded_use": "Not everyentityoperatinginPoland isBFGcovered; identifyapplicablescheme.",
+      "limits": "No exhaustiveparticipantlist, authorisationdecision or currentbankrecommendation; officialmembership/documentscheckratherthanassumption."
+    },
+    {
+      "id": "eu-dgs-current",
+      "publisher": "European Commission",
+      "title": "Deposit guarantee schemes — currentlegislationoverview, includingDGSDII2026/804",
+      "url": "https://finance.ec.europa.eu/banking/banking-regulation/deposit-guarantee-schemes_en",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: harmonisedEUR100000 andhome-countrybranchcoverage;2026/804adopted30March2026 explicitlynoted. DirectEUR-LexTXT/PDFreturnedchallenge, nottreatedasfullread.",
+      "bounded_use": "BasicEUstandard/aggregationinstitutioncontext, withnationalconditionsandexceptions.",
+      "limits": "Do notpresent2014/49 as completeunchanged2026law or teachallreform/transpositiondates. No newmarket/productactivation."
+    }
+  ],
+  "questions": [
+    {
+      "id": "bfg-guarantee",
+      "objective": {
+        "pl": "Zachować podstawowy limit EUR100000 i rozpoznać agregację, kwalifikację oraz PLN bez stałego kursu.",
+        "en": "Retain the standard EUR100000 limit and recognise aggregation, eligibility and PLN without a fixed exchange rate."
+      },
+      "source_ids": [
+        "bfg-amount",
+        "pl-bfg-law"
+      ],
+      "copy": {
+        "pl": {
+          "id": "bfg-guarantee",
+          "question": "Jaki jest podstawowy limit BFG dla uprawnionego deponenta w jednym banku objętym systemem?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Nie ma żadnej gwarancji depozytów"
+            },
+            {
+              "id": "B",
+              "text": "Równowartość w złotych 100 000 EUR na deponenta w jednym banku"
+            },
+            {
+              "id": "C",
+              "text": "Dokładnie 10 000 zł łącznie"
+            },
+            {
+              "id": "D",
+              "text": "Bez limitu, zawsze 100%"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Nawyk oszczędzania",
+          "reward": 30,
+          "successMessage": "Łączy się kwalifikujące depozyty z odsetkami jednego uprawnionego deponenta w jednym objętym banku. Kwoty odniesienia: 60 000 + 50 000 = 110 000 EUR; bez szczególnej wyższej ochrony podstawowy limit obejmuje 100 000 EUR. To nie wycena rachunków walutowych ani wyliczenie wypłaty. BFG wypłaca w PLN; limit w PLN zależy od średniego kursu NBP z dnia spełnienia warunku gwarancji, nie stałego kursu. Są wyłączenia i szczególne wyższe gwarancje.",
+          "retryMessage": "Łączy się kwalifikujące depozyty z odsetkami jednego uprawnionego deponenta w jednym objętym banku. Kwoty odniesienia: 60 000 + 50 000 = 110 000 EUR; bez szczególnej wyższej ochrony podstawowy limit obejmuje 100 000 EUR. To nie wycena rachunków walutowych ani wyliczenie wypłaty. BFG wypłaca w PLN; limit w PLN zależy od średniego kursu NBP z dnia spełnienia warunku gwarancji, nie stałego kursu. Są wyłączenia i szczególne wyższe gwarancje."
+        },
+        "en": {
+          "id": "bfg-guarantee",
+          "question": "What is BFG’s standard limit for an eligible depositor in one bank covered by the scheme?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "There is no deposit guarantee"
+            },
+            {
+              "id": "B",
+              "text": "The PLN equivalent of EUR 100,000 per depositor, per bank"
+            },
+            {
+              "id": "C",
+              "text": "Exactly 10,000 PLN total"
+            },
+            {
+              "id": "D",
+              "text": "Unlimited, always 100%"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Aggregate eligible deposits, including interest, for one eligible depositor in one covered bank. Reference amounts: EUR 60,000 + 50,000 = 110,000; without special higher cover, the standard limit covers 100,000. This is not a foreign-currency valuation or payout calculation. BFG pays in PLN; the PLN limit uses the NBP average rate on the guarantee-trigger date, not a fixed rate. Exclusions and special higher guarantees exist.",
+          "retryMessage": "Aggregate eligible deposits, including interest, for one eligible depositor in one covered bank. Reference amounts: EUR 60,000 + 50,000 = 110,000; without special higher cover, the standard limit covers 100,000. This is not a foreign-currency valuation or payout calculation. BFG pays in PLN; the PLN limit uses the NBP average rate on the guarantee-trigger date, not a fixed rate. Exclusions and special higher guarantees exist.",
+          "category": "Saving Habit"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "System BFG istnieje, choć obejmuje określonych deponentów, środki i instytucje na ustawowych warunkach.",
+          "en": "The BFG system exists, though it covers specified depositors, funds and institutions under statutory conditions."
+        },
+        "C": {
+          "pl": "Podstawowy limit to równowartość100000EUR, nie uniwersalna stała kwota10000PLN.",
+          "en": "The standard limit is the PLN equivalent of EUR100000, not a universal fixed PLN10000 amount."
+        },
+        "D": {
+          "pl": "Podstawowy limit nie jest nieograniczony; wyższa ochrona dotyczy szczególnych przypadków, a nie wszystkiego zawsze.",
+          "en": "Standard coverage is not unlimited; higher protection concerns specific cases, not everything at all times."
+        }
+      },
+      "number_model": {
+        "kind": "illustrative-same-unit-aggregation-not-FX-payout",
+        "assumptions": [
+          "One eligible depositor, one bank covered by the scheme, two eligible deposits with interest already included.",
+          "EUR60000 and50000 are already expressed reference values in the same unit for comparison with EUR100000 standardlimit, not a calculation of actual foreigncurrency accountvaluation or payout.",
+          "No special temporary/highercoverage or otherexception applies in this illustrative comparison.",
+          "ActualBFGpayout isPLN. Article19(3) valuation of foreigncurrencyfunds and Article24(2) conversion of the EURlimit have distinct statutoryrules; do not assume one universal FXrate.",
+          "No currentFXrate, realaccount or bankrecommendation."
+        ],
+        "inputs": {
+          "referenceEURFirst": 60000,
+          "referenceEURSecond": 50000,
+          "standardLimitReferenceEUR": 100000
+        },
+        "expressions": [
+          "60000+50000=110000",
+          "min(110000,100000)=100000"
+        ],
+        "result": {
+          "aggregateReferenceEUR": 110000,
+          "standardCoveredReferenceEUR": 100000
+        }
+      },
+      "preserved": "CoreEUR100000/perdepositor/perbank, A/C/D options, key/reward/category retained; stem qualifies ordinarylimit/coveredbank.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "EUR reference limit/aggregation;actualBFGpayoutPLN,no fixedFX",
+      "author": "daily_author",
+      "version": "deposit-protection-pl-en-v1-c35-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaki jest podstawowy limit BFG dla uprawnionego deponenta w jednym banku objętym systemem? A. Nie ma żadnej gwarancji depozytów B. Równowartość w złotych 100 000 EUR na deponenta w jednym banku C. Dokładnie 10 000 zł łącznie D. Bez limitu, zawsze 100%",
+          "wholeQuestionABCDLength": 251,
+          "conservativeWholeQuestionABCDLength": 255,
+          "successLength": 441,
+          "retryLength": 441
+        },
+        "en": {
+          "wholeQuestionABCD": "What is BFG’s standard limit for an eligible depositor in one bank covered by the scheme? A. There is no deposit guarantee B. The PLN equivalent of EUR 100,000 per depositor, per bank C. Exactly 10,000 PLN total D. Unlimited, always 100%",
+          "wholeQuestionABCDLength": 237,
+          "conservativeWholeQuestionABCDLength": 241,
+          "successLength": 429,
+          "retryLength": 429
+        }
+      }
+    },
+    {
+      "id": "deposit-guarantee-scope",
+      "objective": {
+        "pl": "Rozróżnić depozyt objęty BFG od ryzyka inwestycji, bez mieszania zagranicznych systemów lub wszystkich emerytur.",
+        "en": "Distinguish BFG-covered deposits from investment risk without mixing foreign schemes or all pension arrangements."
+      },
+      "source_ids": [
+        "bfg-scope",
+        "pl-bfg-law"
+      ],
+      "copy": {
+        "pl": {
+          "id": "deposit-guarantee-scope",
+          "question": "Co obejmuje ochrona depozytów BFG w Polsce, na ustawowych warunkach?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wszystkie inwestycje, w tym akcje i krypto"
+            },
+            {
+              "id": "B",
+              "text": "Kwalifikujące depozyty; nie akcje, jednostki funduszy ani krypto"
+            },
+            {
+              "id": "C",
+              "text": "Tylko gotówkę trzymaną w domu"
+            },
+            {
+              "id": "D",
+              "text": "Twoją pensję po utracie pracy"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Rynki globalne",
+          "reward": 30,
+          "successMessage": "BFG chroni kwalifikujące depozyty uprawnionych deponentów w objętych instytucjach, na ustawowych warunkach. Akcje, jednostki funduszy i krypto nie są depozytami i nie zyskują tej ochrony tylko dlatego, że kupiono je przez bank. Gwarancja depozytów nie usuwa inflacji ani rynkowego ryzyka inwestycji. Sprawdź rodzaj produktu, instytucję i właściwy system; nie każdy podmiot działający w Polsce jest objęty BFG.",
+          "retryMessage": "BFG chroni kwalifikujące depozyty uprawnionych deponentów w objętych instytucjach, na ustawowych warunkach. Akcje, jednostki funduszy i krypto nie są depozytami i nie zyskują tej ochrony tylko dlatego, że kupiono je przez bank. Gwarancja depozytów nie usuwa inflacji ani rynkowego ryzyka inwestycji. Sprawdź rodzaj produktu, instytucję i właściwy system; nie każdy podmiot działający w Polsce jest objęty BFG."
+        },
+        "en": {
+          "id": "deposit-guarantee-scope",
+          "question": "What does BFG deposit protection in Poland cover under statutory conditions?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "All investments including stocks and crypto"
+            },
+            {
+              "id": "B",
+              "text": "Eligible deposits; not stocks, fund units or crypto"
+            },
+            {
+              "id": "C",
+              "text": "Only cash kept at home"
+            },
+            {
+              "id": "D",
+              "text": "Your salary if you lose your job"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "BFG protects eligible deposits of eligible depositors in covered institutions under statutory conditions. Stocks, fund units and crypto are not deposits and do not gain this cover merely because they were bought through a bank. Deposit protection does not remove inflation or investment market risk. Check the product, institution and applicable scheme; not every entity operating in Poland is covered by BFG.",
+          "retryMessage": "BFG protects eligible deposits of eligible depositors in covered institutions under statutory conditions. Stocks, fund units and crypto are not deposits and do not gain this cover merely because they were bought through a bank. Deposit protection does not remove inflation or investment market risk. Check the product, institution and applicable scheme; not every entity operating in Poland is covered by BFG.",
+          "category": "Global Markets"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Gwarancja depozytu nie jest ochroną przed spadkiem wartości wszystkich inwestycji; akcje i krypto nie są depozytami.",
+          "en": "A deposit guarantee does not protect the value of all investments; stocks and crypto are not deposits."
+        },
+        "C": {
+          "pl": "Gotówka trzymana w domu nie jest depozytem w instytucji objętej systemem.",
+          "en": "Cash kept at home is not a deposit at an institution covered by the scheme."
+        },
+        "D": {
+          "pl": "BFG nie jest ubezpieczeniem utraty pracy ani gwarancją przyszłego wynagrodzenia.",
+          "en": "BFG is not unemployment insurance or a guarantee of future salary."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Education scoped to BFG/Poland, not a comparison or activation of FDIC/FGC/foreignproducts.",
+          "No blanketclaim about all pension-labelledproducts: eligibility depends on legalproduct/depositor/institution.",
+          "No claim that other legalprotections or compensationarrangements never exist."
+        ]
+      },
+      "preserved": "Original A/C/D options, key/reward/category retained; stem+B narrow to BFG depositcover in approvedPLmarket.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "EUR reference limit/aggregation;actualBFGpayoutPLN,no fixedFX",
+      "author": "daily_author",
+      "version": "deposit-protection-pl-en-v1-c35-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Co obejmuje ochrona depozytów BFG w Polsce, na ustawowych warunkach? A. Wszystkie inwestycje, w tym akcje i krypto B. Kwalifikujące depozyty; nie akcje, jednostki funduszy ani krypto C. Tylko gotówkę trzymaną w domu D. Twoją pensję po utracie pracy",
+          "wholeQuestionABCDLength": 248,
+          "conservativeWholeQuestionABCDLength": 252,
+          "successLength": 409,
+          "retryLength": 409
+        },
+        "en": {
+          "wholeQuestionABCD": "What does BFG deposit protection in Poland cover under statutory conditions? A. All investments including stocks and crypto B. Eligible deposits; not stocks, fund units or crypto C. Only cash kept at home D. Your salary if you lose your job",
+          "wholeQuestionABCDLength": 240,
+          "conservativeWholeQuestionABCDLength": 244,
+          "successLength": 409,
+          "retryLength": 409
+        }
+      }
+    },
+    {
+      "id": "eu-dgs",
+      "objective": {
+        "pl": "Zachować standard UE i odróżnić agregację oraz właściwy system od nazwy marki lub miejsca oddziału.",
+        "en": "Retain the EU standard and distinguish aggregation and the applicable scheme from a brand name or branch location."
+      },
+      "source_ids": [
+        "eu-dgs-current",
+        "bfg-faq",
+        "pl-bfg-law"
+      ],
+      "copy": {
+        "pl": {
+          "id": "eu-dgs",
+          "question": "Jaki jest standardowy limit ochrony kwalifikujących depozytów w systemach gwarantowania w UE?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "1 000 € na kraj"
+            },
+            {
+              "id": "B",
+              "text": "100 000 € na deponenta w danym banku (lub równowartość w walucie krajowej)"
+            },
+            {
+              "id": "C",
+              "text": "Zawsze 1 000 000 €"
+            },
+            {
+              "id": "D",
+              "text": "W UE nic nie jest gwarantowane"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Rynki globalne",
+          "reward": 25,
+          "successMessage": "Standard UE to 100 000 EUR na uprawnionego deponenta w jednej instytucji kredytowej, dla depozytów objętych systemem. Rachunki tej osoby łączy się; kilka marek jednego banku nie tworzy osobnych limitów. Oddział banku z innego kraju UE działający w Polsce co do zasady podlega systemowi kraju macierzystego, nie automatycznie BFG. Są warunki, wyłączenia i szczególne wyższe gwarancje; sprawdź właściwy system.",
+          "retryMessage": "Standard UE to 100 000 EUR na uprawnionego deponenta w jednej instytucji kredytowej, dla depozytów objętych systemem. Rachunki tej osoby łączy się; kilka marek jednego banku nie tworzy osobnych limitów. Oddział banku z innego kraju UE działający w Polsce co do zasady podlega systemowi kraju macierzystego, nie automatycznie BFG. Są warunki, wyłączenia i szczególne wyższe gwarancje; sprawdź właściwy system."
+        },
+        "en": {
+          "id": "eu-dgs",
+          "question": "What is the standard EU deposit guarantee limit for eligible deposits?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "€1,000 per country"
+            },
+            {
+              "id": "B",
+              "text": "€100,000 per depositor, per bank (or local-currency equivalent)"
+            },
+            {
+              "id": "C",
+              "text": "€1,000,000 always"
+            },
+            {
+              "id": "D",
+              "text": "Nothing is guaranteed in the EU"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "The EU standard is EUR 100,000 per eligible depositor at one credit institution for covered deposits. That person’s accounts are aggregated; several brands of one bank do not create separate limits. A branch of a bank from another EU country operating in Poland is generally covered by its home-country scheme, not automatically BFG. Conditions, exclusions and special higher guarantees exist; check the applicable scheme.",
+          "retryMessage": "The EU standard is EUR 100,000 per eligible depositor at one credit institution for covered deposits. That person’s accounts are aggregated; several brands of one bank do not create separate limits. A branch of a bank from another EU country operating in Poland is generally covered by its home-country scheme, not automatically BFG. Conditions, exclusions and special higher guarantees exist; check the applicable scheme.",
+          "category": "Global Markets"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Standard nie wynosi1000EUR na kraj; dotyczy uprawnionego deponenta w jednej instytucji.",
+          "en": "The standard is not EUR1000 per country; it applies per eligible depositor at one institution."
+        },
+        "C": {
+          "pl": "Nie obowiązuje uniwersalna gwarancja1000000EUR zawsze; szczególne wyższe gwarancje mają warunki.",
+          "en": "There is no universal EUR1000000 guarantee at all times; special higher protection has conditions."
+        },
+        "D": {
+          "pl": "UE ma zharmonizowany standard gwarantowania depozytów, choć z warunkami i wyłączeniami.",
+          "en": "The EU has a harmonised deposit protection standard, with conditions and exclusions."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "EUR100000 is the standard coveragelevel, not an always/unlimited guarantee or one newlimit per brand.",
+          "The question does not activate newforeignmarkets or products.",
+          "DGSDII2026/804 exists; no claim the2014text is complete or unchanged law for2026, no attempt to teach all implementationdates."
+        ]
+      },
+      "preserved": "Original fouransweroptions/coreEUR100000/localcurrencyequivalent, key/reward/category retained; stem specifies standard/eligibledeposits.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "EUR reference limit/aggregation;actualBFGpayoutPLN,no fixedFX",
+      "author": "daily_author",
+      "version": "deposit-protection-pl-en-v1-c35-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaki jest standardowy limit ochrony kwalifikujących depozytów w systemach gwarantowania w UE? A. 1 000 € na kraj B. 100 000 € na deponenta w danym banku (lub równowartość w walucie krajowej) C. Zawsze 1 000 000 € D. W UE nic nie jest gwarantowane",
+          "wholeQuestionABCDLength": 246,
+          "conservativeWholeQuestionABCDLength": 250,
+          "successLength": 408,
+          "retryLength": 408
+        },
+        "en": {
+          "wholeQuestionABCD": "What is the standard EU deposit guarantee limit for eligible deposits? A. €1,000 per country B. €100,000 per depositor, per bank (or local-currency equivalent) C. €1,000,000 always D. Nothing is guaranteed in the EU",
+          "wholeQuestionABCDLength": 215,
+          "conservativeWholeQuestionABCDLength": 219,
+          "successLength": 422,
+          "retryLength": 422
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-35/content-author-inventory.json",
+    "sha256": "6e64d65b1548f38e92a387d09802a543d6a20cc3c5715dfce85b3b29d52fbef1"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "helper_writes": 0,
+    "test_runs": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

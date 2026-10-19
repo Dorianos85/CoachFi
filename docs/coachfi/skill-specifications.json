@@ -1,0 +1,415 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-14",
+  "scope": "repository .agents/skills; procedural specifications, not proof of beta implementation",
+  "skills": [
+    {
+      "name": "coachfi-orchestration",
+      "description": "Koordynuj program Coachfi, zależności, budżet i niezależne recenzje podczas wieloetapowej pracy.",
+      "input": "Decyzje Foundera, rejestr ról, backlog, dostępne zasoby i limit aktywnych agentów.",
+      "procedure": [
+        "Odczytaj decyzje i dowody; ustal zakres wydania oraz brakujące zasoby bez zgadywania stanu aplikacji.",
+        "Wybierz potrzebne role i przydziel rozłączne pliki; pozostaw miejsce koordynatorowi w limicie równoległości.",
+        "Dla zadania zapisz problem, właściciela, zależności, rezultat, kryteria oraz odrębnego recenzenta.",
+        "Integruj wyniki po recenzji; konflikty dowodów zachowaj z opisem narzędzia/stanu, a nie uśredniaj.",
+        "Aktualizuj backlog, ryzyka i decyzje; zgłaszaj Founderowi konkretne wybory z rekomendacją i konsekwencjami."
+      ],
+      "output": "Aktualne rejestry i krótki raport Foundera.",
+      "acceptance": "Brak osieroconych zadań; każdy zaakceptowany rezultat ma niezależną recenzję; nie zatwierdzono kosztów domyślnie.",
+      "sources_freshness": "OpenAI multi-agent i Build skills; odczytaj aktualne oficjalne strony przy zmianie narzędzi.",
+      "escalation": "Strategia, limit wydatków, nowy rynek, zakres danych albo konflikt wymagający priorytetu Foundera.",
+      "content": "---\nname: coachfi-orchestration\ndescription: 'Koordynuj program Coachfi, zależności, budżet i niezależne recenzje podczas wieloetapowej pracy.'\n---\n\n# coachfi-orchestration\n\n## Zakres i wejście\n\nDecyzje Foundera, rejestr ról, backlog, dostępne zasoby i limit aktywnych agentów. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Odczytaj decyzje i dowody; ustal zakres wydania oraz brakujące zasoby bez zgadywania stanu aplikacji.\n2. Wybierz potrzebne role i przydziel rozłączne pliki; pozostaw miejsce koordynatorowi w limicie równoległości.\n3. Dla zadania zapisz problem, właściciela, zależności, rezultat, kryteria oraz odrębnego recenzenta.\n4. Integruj wyniki po recenzji; konflikty dowodów zachowaj z opisem narzędzia/stanu, a nie uśredniaj.\n5. Aktualizuj backlog, ryzyka i decyzje; zgłaszaj Founderowi konkretne wybory z rekomendacją i konsekwencjami.\n\n## Rezultat i przyjęcie\n\nAktualne rejestry i krótki raport Foundera. Kryteria: Brak osieroconych zadań; każdy zaakceptowany rezultat ma niezależną recenzję; nie zatwierdzono kosztów domyślnie. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOpenAI multi-agent i Build skills; odczytaj aktualne oficjalne strony przy zmianie narzędzi. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Strategia, limit wydatków, nowy rynek, zakres danych albo konflikt wymagający priorytetu Foundera. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-architecture",
+      "description": "Audytuj lub zmieniaj architekturę Coachfi po identyfikacji rzeczywistego kodu i środowiska.",
+      "input": "Repo, manifesty i lockfile, konfiguracja bez sekretów, migracje, diagramy, ścieżka użytkownika.",
+      "procedure": [
+        "Zidentyfikuj commit, wersje i środowisko; brak kodu odnotuj zamiast rekonstruować backend z marketingu.",
+        "Mapuj browser, API, auth, storage, AI i zewnętrzne usługi; oznacz deklaracje i potwierdzone integracje oddzielnie.",
+        "Prześledź przepływ postępu i score; określ właściciela danych, walidację i punkty awarii.",
+        "Dla zmiany przygotuj ADR z prostszą alternatywą, kosztem, migracją i rollbackiem.",
+        "Oddaj ADR właściwemu specjaliście, a dowody działania niezależnemu audytorowi."
+      ],
+      "output": "Mapa architektury, brakujące dostępy, ADR i plan integracji.",
+      "acceptance": "Każdy komponent ma źródło; migracja ma uzasadnienie i sprawdzalny powrót; nie przypisano niepotwierdzonego hostingu.",
+      "sources_freshness": "Oficjalne dokumentacje wykrytych wersji; sprawdź release notes przy decyzji.",
+      "escalation": "Płatna usługa, zmiana dostawcy, koszt utrzymania lub rozszerzenie zbierania danych.",
+      "content": "---\nname: coachfi-architecture\ndescription: 'Audytuj lub zmieniaj architekturę Coachfi po identyfikacji rzeczywistego kodu i środowiska.'\n---\n\n# coachfi-architecture\n\n## Zakres i wejście\n\nRepo, manifesty i lockfile, konfiguracja bez sekretów, migracje, diagramy, ścieżka użytkownika. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zidentyfikuj commit, wersje i środowisko; brak kodu odnotuj zamiast rekonstruować backend z marketingu.\n2. Mapuj browser, API, auth, storage, AI i zewnętrzne usługi; oznacz deklaracje i potwierdzone integracje oddzielnie.\n3. Prześledź przepływ postępu i score; określ właściciela danych, walidację i punkty awarii.\n4. Dla zmiany przygotuj ADR z prostszą alternatywą, kosztem, migracją i rollbackiem.\n5. Oddaj ADR właściwemu specjaliście, a dowody działania niezależnemu audytorowi.\n\n## Rezultat i przyjęcie\n\nMapa architektury, brakujące dostępy, ADR i plan integracji. Kryteria: Każdy komponent ma źródło; migracja ma uzasadnienie i sprawdzalny powrót; nie przypisano niepotwierdzonego hostingu. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOficjalne dokumentacje wykrytych wersji; sprawdź release notes przy decyzji. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Płatna usługa, zmiana dostawcy, koszt utrzymania lub rozszerzenie zbierania danych. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-financial-review",
+      "description": "Recenzuj treści finansowe, kalkulatory i quizy Coachfi przed udostępnieniem.",
+      "input": "Materiał z wersją, źródła, kraj, języki, założenia obliczeń i autor.",
+      "procedure": [
+        "Oddziel zasady uniwersalne od prawa/produktu dla Polski; język EN nie ustala rynku USA.",
+        "Przelicz niezależnie każdą odpowiedź liczbową, jednostki, zaokrąglenia i przypadki graniczne.",
+        "Sprawdź poprawną odpowiedź oraz każde wyjaśnienie dystraktora; zapisz niejednoznaczności.",
+        "Porównaj PL/EN i usuń gwarancje wyników; nie oceniaj score jako walidowanego bez badań.",
+        "Wydaj pozycjami accept, revise lub blocked z datą i nazwą recenzenta; autor poprawia, recenzent weryfikuje ponownie."
+      ],
+      "output": "Rejestr merytorycznej recenzji i wymaganych poprawek.",
+      "acceptance": "Recenzent nie jest autorem; wszystkie liczby sprawdzone; prawo/produkty mają aktualne źródło kraju.",
+      "sources_freshness": "EU/OECD i pierwotne źródła regulatora/dostawcy; prawo i stawki sprawdzaj przed każdym wydaniem.",
+      "escalation": "Porada indywidualna, niejasna kwalifikacja prawna lub brak źródła dla wysokiego ryzyka.",
+      "content": "---\nname: coachfi-financial-review\ndescription: 'Recenzuj treści finansowe, kalkulatory i quizy Coachfi przed udostępnieniem.'\n---\n\n# coachfi-financial-review\n\n## Zakres i wejście\n\nMateriał z wersją, źródła, kraj, języki, założenia obliczeń i autor. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Oddziel zasady uniwersalne od prawa/produktu dla Polski; język EN nie ustala rynku USA.\n2. Przelicz niezależnie każdą odpowiedź liczbową, jednostki, zaokrąglenia i przypadki graniczne.\n3. Sprawdź poprawną odpowiedź oraz każde wyjaśnienie dystraktora; zapisz niejednoznaczności.\n4. Porównaj PL/EN i usuń gwarancje wyników; nie oceniaj score jako walidowanego bez badań.\n5. Wydaj pozycjami accept, revise lub blocked z datą i nazwą recenzenta; autor poprawia, recenzent weryfikuje ponownie.\n\n## Rezultat i przyjęcie\n\nRejestr merytorycznej recenzji i wymaganych poprawek. Kryteria: Recenzent nie jest autorem; wszystkie liczby sprawdzone; prawo/produkty mają aktualne źródło kraju. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nEU/OECD i pierwotne źródła regulatora/dostawcy; prawo i stawki sprawdzaj przed każdym wydaniem. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Porada indywidualna, niejasna kwalifikacja prawna lub brak źródła dla wysokiego ryzyka. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-evidence-review",
+      "description": "Sprawdzaj naukowe twierdzenia Coachfi o uczeniu się, nawykach i dobrostanie.",
+      "input": "Twierdzenia, publikacje pierwotne, próba, metody, miary i proponowany komunikat.",
+      "procedure": [
+        "Zmapuj każde twierdzenie do konkretnego wyniku badania, populacji i ograniczeń.",
+        "Rozróżnij model COM-B, wyniki eksperymentu i hipotezę wdrożenia w Coachfi.",
+        "Przy adaptacji skali CFPB sprawdź licencję, scoring i wpływ tłumaczenia na interpretację.",
+        "Oddziel wiedzę, deklarowane zachowanie i sytuację finansową; korelacji nie opisuj jako przyczyny.",
+        "Zaproponuj mierzalny test produktu i wersję komunikatu zgodną z zakresem dowodu."
+      ],
+      "output": "Tabela twierdzenie–dowód–ograniczenie–decyzja.",
+      "acceptance": "Żadna obietnica nie wykracza poza dane; adaptacja skali nie jest nazwana walidacją Coachfi.",
+      "sources_freshness": "COM-B 2011, retrieval practice 2008, CFPB scale; sprawdź korekty i pełny opis metod.",
+      "escalation": "Brak danych dla twierdzenia o skuteczności albo potrzeba badania z udziałem ludzi.",
+      "content": "---\nname: coachfi-evidence-review\ndescription: 'Sprawdzaj naukowe twierdzenia Coachfi o uczeniu się, nawykach i dobrostanie.'\n---\n\n# coachfi-evidence-review\n\n## Zakres i wejście\n\nTwierdzenia, publikacje pierwotne, próba, metody, miary i proponowany komunikat. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zmapuj każde twierdzenie do konkretnego wyniku badania, populacji i ograniczeń.\n2. Rozróżnij model COM-B, wyniki eksperymentu i hipotezę wdrożenia w Coachfi.\n3. Przy adaptacji skali CFPB sprawdź licencję, scoring i wpływ tłumaczenia na interpretację.\n4. Oddziel wiedzę, deklarowane zachowanie i sytuację finansową; korelacji nie opisuj jako przyczyny.\n5. Zaproponuj mierzalny test produktu i wersję komunikatu zgodną z zakresem dowodu.\n\n## Rezultat i przyjęcie\n\nTabela twierdzenie–dowód–ograniczenie–decyzja. Kryteria: Żadna obietnica nie wykracza poza dane; adaptacja skali nie jest nazwana walidacją Coachfi. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nCOM-B 2011, retrieval practice 2008, CFPB scale; sprawdź korekty i pełny opis metod. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Brak danych dla twierdzenia o skuteczności albo potrzeba badania z udziałem ludzi. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-release-assurance",
+      "description": "Oceniaj gotowość konkretnego wydania Coachfi na podstawie niezależnych testów.",
+      "input": "Zakres/commit wydania, backlog, dowody PL/EN, threat model, plan rollbacku.",
+      "procedure": [
+        "Zamroź zakres oceny i mapuj każde kryterium na dowód albo brak dowodu.",
+        "Odtwórz ścieżkę start, nauka, quiz, działanie, zapis i powrót w PL/EN; dla kont sprawdź dwa konta w stagingu.",
+        "Zweryfikuj dostępność, kalkulatory, wsparcie, usuwanie i awarię AI; niezrobiony test oznacz pending.",
+        "Sprawdź zamknięcie krytycznych/wysokich podatności oraz odtworzenie i cofnięcie wydania.",
+        "Wydaj go, no-go lub conditional dla dokładnego zakresu; dokumenty audytu mogą być przyjęte bez uznania produktu za gotowy."
+      ],
+      "output": "Macierz kryteriów i niezależna decyzja wydania.",
+      "acceptance": "Autor zmiany nie jest recenzentem; brak testu nie jest pass; dowody są odtwarzalne.",
+      "sources_freshness": "WCAG 2.2 AA, ASVS 5.0.0, LLM Top10 2025; odnotuj wersje oraz aktualizacje.",
+      "escalation": "Nierozwiązana wysoka/krytyczna luka, brak kluczowego dowodu lub presja pominięcia kryterium.",
+      "content": "---\nname: coachfi-release-assurance\ndescription: 'Oceniaj gotowość konkretnego wydania Coachfi na podstawie niezależnych testów.'\n---\n\n# coachfi-release-assurance\n\n## Zakres i wejście\n\nZakres/commit wydania, backlog, dowody PL/EN, threat model, plan rollbacku. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zamroź zakres oceny i mapuj każde kryterium na dowód albo brak dowodu.\n2. Odtwórz ścieżkę start, nauka, quiz, działanie, zapis i powrót w PL/EN; dla kont sprawdź dwa konta w stagingu.\n3. Zweryfikuj dostępność, kalkulatory, wsparcie, usuwanie i awarię AI; niezrobiony test oznacz pending.\n4. Sprawdź zamknięcie krytycznych/wysokich podatności oraz odtworzenie i cofnięcie wydania.\n5. Wydaj go, no-go lub conditional dla dokładnego zakresu; dokumenty audytu mogą być przyjęte bez uznania produktu za gotowy.\n\n## Rezultat i przyjęcie\n\nMacierz kryteriów i niezależna decyzja wydania. Kryteria: Autor zmiany nie jest recenzentem; brak testu nie jest pass; dowody są odtwarzalne. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nWCAG 2.2 AA, ASVS 5.0.0, LLM Top10 2025; odnotuj wersje oraz aktualizacje. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nierozwiązana wysoka/krytyczna luka, brak kluczowego dowodu lub presja pominięcia kryterium. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-user-research",
+      "description": "Przygotuj i analizuj badania potrzeb dorosłych użytkowników Coachfi.",
+      "input": "Segmenty, cel badania, zgody i kanał rekrutacji, istniejące dowody.",
+      "procedure": [
+        "Zapisz hipotezy osobno od obserwacji; uwzględnij początkujących, nieregularny dochód i gospodarstwa domowe.",
+        "Przygotuj wywiad o ostatniej decyzji i przeszkodach, bez sugerowania rozwiązania.",
+        "Ułóż zadania testu pierwszego użytecznego rezultatu oraz kryteria ukończenia.",
+        "Po autoryzowanej rekrutacji zbierz tylko potrzebne dane; usuń identyfikatory z analizy.",
+        "Zmapuj problemy i cytaty z deidentyfikacją na priorytety oraz kontrdowody."
+      ],
+      "output": "Mapa problemów, scenariusz i rejestr hipotez.",
+      "acceptance": "Planu nie nazwano wynikami badania; udokumentowano zakres próby i ograniczenia.",
+      "sources_freshness": "Pierwotne wyniki własnych badań i COM-B; odświeżaj po istotnej zmianie segmentu.",
+      "escalation": "Kontakt do uczestników, wynagrodzenie, nowe dane lub włączenie nieletnich.",
+      "content": "---\nname: coachfi-user-research\ndescription: 'Przygotuj i analizuj badania potrzeb dorosłych użytkowników Coachfi.'\n---\n\n# coachfi-user-research\n\n## Zakres i wejście\n\nSegmenty, cel badania, zgody i kanał rekrutacji, istniejące dowody. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zapisz hipotezy osobno od obserwacji; uwzględnij początkujących, nieregularny dochód i gospodarstwa domowe.\n2. Przygotuj wywiad o ostatniej decyzji i przeszkodach, bez sugerowania rozwiązania.\n3. Ułóż zadania testu pierwszego użytecznego rezultatu oraz kryteria ukończenia.\n4. Po autoryzowanej rekrutacji zbierz tylko potrzebne dane; usuń identyfikatory z analizy.\n5. Zmapuj problemy i cytaty z deidentyfikacją na priorytety oraz kontrdowody.\n\n## Rezultat i przyjęcie\n\nMapa problemów, scenariusz i rejestr hipotez. Kryteria: Planu nie nazwano wynikami badania; udokumentowano zakres próby i ograniczenia. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nPierwotne wyniki własnych badań i COM-B; odświeżaj po istotnej zmianie segmentu. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Kontakt do uczestników, wynagrodzenie, nowe dane lub włączenie nieletnich. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-habit-design",
+      "description": "Projektuj małe działania i spokojny powrót do planu Coachfi.",
+      "input": "Cel kompetencji, segment, bariery, dane badania i preferencje przypomnień.",
+      "procedure": [
+        "Opisz zdolność, warunki i motywację według COM-B dla jednego działania.",
+        "Zaprojektuj sytuacja → małe działanie → feedback → powrót i wariant minimum na trudny dzień.",
+        "Dodaj plan jeśli–to oraz powrót po przerwie bez presji serii.",
+        "Umożliw wyłączenie przypomnień i zmianę tempa; nie zawstydzaj małego dochodu.",
+        "Zdefiniuj hipotezę i test utrzymania działania, oddzielając deklarację od weryfikacji."
+      ],
+      "output": "Specyfikacja pętli, przeszkód, komunikatów PL/EN i testu.",
+      "acceptance": "Działanie jest wykonalne w realnych warunkach; zgody/przypomnienia są dobrowolne; skuteczność pozostaje hipotezą.",
+      "sources_freshness": "COM-B i badania pierwotne; aktualizuj po testach z użytkownikami.",
+      "escalation": "Nowy kanał przypomnień, presja behawioralna lub dane wymagane do weryfikacji.",
+      "content": "---\nname: coachfi-habit-design\ndescription: 'Projektuj małe działania i spokojny powrót do planu Coachfi.'\n---\n\n# coachfi-habit-design\n\n## Zakres i wejście\n\nCel kompetencji, segment, bariery, dane badania i preferencje przypomnień. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Opisz zdolność, warunki i motywację według COM-B dla jednego działania.\n2. Zaprojektuj sytuacja → małe działanie → feedback → powrót i wariant minimum na trudny dzień.\n3. Dodaj plan jeśli–to oraz powrót po przerwie bez presji serii.\n4. Umożliw wyłączenie przypomnień i zmianę tempa; nie zawstydzaj małego dochodu.\n5. Zdefiniuj hipotezę i test utrzymania działania, oddzielając deklarację od weryfikacji.\n\n## Rezultat i przyjęcie\n\nSpecyfikacja pętli, przeszkód, komunikatów PL/EN i testu. Kryteria: Działanie jest wykonalne w realnych warunkach; zgody/przypomnienia są dobrowolne; skuteczność pozostaje hipotezą. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nCOM-B i badania pierwotne; aktualizuj po testach z użytkownikami. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowy kanał przypomnień, presja behawioralna lub dane wymagane do weryfikacji. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-curriculum",
+      "description": "Mapuj istniejące lekcje i układaj program kompetencji finansowych Coachfi.",
+      "input": "Eksport lekcji, źródła, osiem obszarów, języki i segment.",
+      "procedure": [
+        "Policz istniejące lekcje z identyfikatorami; licznik demo nie jest eksportem.",
+        "Mapuj umiejętności na EU/OECD i zależności między tematami.",
+        "Dla luki opracuj krótkie wyjaśnienie, przykład, ćwiczenie, quiz, działanie i powtórkę.",
+        "Powiąż moduł z życiowym zastosowaniem oraz opcją dla nieregularnego dochodu.",
+        "Przekaż treść do merytorycznej recenzji i testu zrozumienia PL/EN."
+      ],
+      "output": "Inwentaryzacja, mapa luk i kolejność modułów.",
+      "acceptance": "Każda lekcja ma cel i zastosowanie; proponowane treści oddzielone od istniejących.",
+      "sources_freshness": "EU/OECD adult competence 2022, retrieval study 2008; sprawdzaj źródła finansowe przy przeglądzie.",
+      "escalation": "Zmiana głównego rezultatu produktu albo potrzeba krajowego programu poza Polską.",
+      "content": "---\nname: coachfi-curriculum\ndescription: 'Mapuj istniejące lekcje i układaj program kompetencji finansowych Coachfi.'\n---\n\n# coachfi-curriculum\n\n## Zakres i wejście\n\nEksport lekcji, źródła, osiem obszarów, języki i segment. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Policz istniejące lekcje z identyfikatorami; licznik demo nie jest eksportem.\n2. Mapuj umiejętności na EU/OECD i zależności między tematami.\n3. Dla luki opracuj krótkie wyjaśnienie, przykład, ćwiczenie, quiz, działanie i powtórkę.\n4. Powiąż moduł z życiowym zastosowaniem oraz opcją dla nieregularnego dochodu.\n5. Przekaż treść do merytorycznej recenzji i testu zrozumienia PL/EN.\n\n## Rezultat i przyjęcie\n\nInwentaryzacja, mapa luk i kolejność modułów. Kryteria: Każda lekcja ma cel i zastosowanie; proponowane treści oddzielone od istniejących. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nEU/OECD adult competence 2022, retrieval study 2008; sprawdzaj źródła finansowe przy przeglądzie. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Zmiana głównego rezultatu produktu albo potrzeba krajowego programu poza Polską. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-quiz-quality",
+      "description": "Twórz lub sprawdzaj bank pytań i pomiar zrozumienia w Coachfi.",
+      "input": "Eksport istniejących pytań, cele, schemat pilota, źródła i recenzenci.",
+      "procedure": [
+        "Najpierw zinwentaryzuj rzeczywisty bank i działanie scoringu; sprawdź duplikaty.",
+        "Dla każdej pozycji zapisz ID, cel, poziom, PL/EN, kraj, odpowiedź, uzasadnienie i błędne opcje.",
+        "Dodaj źródło, datę, założenia obliczeń, wersję, status, autora i niezależnego recenzenta.",
+        "Łącz wybór, sytuacje i obliczenia; usuń podpowiedzi językowe i więcej niż jedną poprawną odpowiedź.",
+        "Zacznij od 24 różnych pozycji; rozszerzaj do160 dopiero po recenzji i pilocie użytkowników, licząc tłumaczenia osobno."
+      ],
+      "output": "Bank wersjonowanych pytań i raport jakości.",
+      "acceptance": "24 IDs i48 wersji językowych; jednoznaczne klucze; zrozumienie po czasie testowane; draft nie publikowany.",
+      "sources_freshness": "OECD i źródła dziedzinowe; prawo/produkty z krajem i aktualnym źródłem.",
+      "escalation": "Niejasna odpowiedź, spór recenzentów lub nieudokumentowana informacja krajowa.",
+      "content": "---\nname: coachfi-quiz-quality\ndescription: 'Twórz lub sprawdzaj bank pytań i pomiar zrozumienia w Coachfi.'\n---\n\n# coachfi-quiz-quality\n\n## Zakres i wejście\n\nEksport istniejących pytań, cele, schemat pilota, źródła i recenzenci. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Najpierw zinwentaryzuj rzeczywisty bank i działanie scoringu; sprawdź duplikaty.\n2. Dla każdej pozycji zapisz ID, cel, poziom, PL/EN, kraj, odpowiedź, uzasadnienie i błędne opcje.\n3. Dodaj źródło, datę, założenia obliczeń, wersję, status, autora i niezależnego recenzenta.\n4. Łącz wybór, sytuacje i obliczenia; usuń podpowiedzi językowe i więcej niż jedną poprawną odpowiedź.\n5. Zacznij od 24 różnych pozycji; rozszerzaj do160 dopiero po recenzji i pilocie użytkowników, licząc tłumaczenia osobno.\n\n## Rezultat i przyjęcie\n\nBank wersjonowanych pytań i raport jakości. Kryteria: 24 IDs i48 wersji językowych; jednoznaczne klucze; zrozumienie po czasie testowane; draft nie publikowany. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOECD i źródła dziedzinowe; prawo/produkty z krajem i aktualnym źródłem. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Niejasna odpowiedź, spór recenzentów lub nieudokumentowana informacja krajowa. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-resilience-scenarios",
+      "description": "Buduj edukacyjne scenariusze odporności finansowej Coachfi.",
+      "input": "Hipotetyczny dochód, wydatki, rezerwa, horyzont i cel ćwiczenia.",
+      "procedure": [
+        "Opracuj utratę pracy, spadek dochodu, wydatek nagły i finansowe skutki choroby.",
+        "Podaj kwoty, terminy, zakres wydatków i brakujące dane; nie żądaj diagnoz zdrowotnych.",
+        "Policz przepływy i czas pokrycia wydatków z rezerwy deterministycznie.",
+        "Pokaż wariant małego działania i ograniczenia symulacji bez prognoz rynku.",
+        "Oddaj obliczenia do niezależnego przeliczenia oraz sprawdź zero/ujemne dane."
+      ],
+      "output": "Scenariusze PL/EN, kalkulacje i zakres niepewności.",
+      "acceptance": "Jawne założenia; brak dzielenia przez zero; brak obietnicy ochrony przed każdym kryzysem.",
+      "sources_freshness": "OECD/CFPB, oficjalne źródła PL dla świadczeń; odświeżaj stawki przed publikacją.",
+      "escalation": "Szczegółowe dane zdrowotne, personalizowana rekomendacja produktu lub gwarancja.",
+      "content": "---\nname: coachfi-resilience-scenarios\ndescription: 'Buduj edukacyjne scenariusze odporności finansowej Coachfi.'\n---\n\n# coachfi-resilience-scenarios\n\n## Zakres i wejście\n\nHipotetyczny dochód, wydatki, rezerwa, horyzont i cel ćwiczenia. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Opracuj utratę pracy, spadek dochodu, wydatek nagły i finansowe skutki choroby.\n2. Podaj kwoty, terminy, zakres wydatków i brakujące dane; nie żądaj diagnoz zdrowotnych.\n3. Policz przepływy i czas pokrycia wydatków z rezerwy deterministycznie.\n4. Pokaż wariant małego działania i ograniczenia symulacji bez prognoz rynku.\n5. Oddaj obliczenia do niezależnego przeliczenia oraz sprawdź zero/ujemne dane.\n\n## Rezultat i przyjęcie\n\nScenariusze PL/EN, kalkulacje i zakres niepewności. Kryteria: Jawne założenia; brak dzielenia przez zero; brak obietnicy ochrony przed każdym kryzysem. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOECD/CFPB, oficjalne źródła PL dla świadczeń; odświeżaj stawki przed publikacją. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Szczegółowe dane zdrowotne, personalizowana rekomendacja produktu lub gwarancja. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-ux-accessibility",
+      "description": "Audytuj lub projektuj główne ścieżki i dostępność Coachfi.",
+      "input": "Publiczne/staging routes, oba języki, urządzenia, cele WCAG.",
+      "procedure": [
+        "Przejdź start → pierwszy rezultat → powrót; zapisuj czynność, stan i narzędzie.",
+        "Porównaj PL/EN oraz demo z realnymi danymi; sprawdź stany loading/error/empty/offline.",
+        "Na telefonie i desktopie sprawdź reflow, liczby, komunikaty i następny krok.",
+        "Połącz automatyczny audyt z klawiaturą, fokusami i czytnikiem ekranu; brak narzędzia oznacz pending.",
+        "Przygotuj poprawki z kryteriami WCAG i retestem niezależnego audytora."
+      ],
+      "output": "Mapa UX, dowody i specyfikacja poprawek.",
+      "acceptance": "Każda blokada jest odtwarzalna; nie nazwano pełnego AA na podstawie samego automatu.",
+      "sources_freshness": "WCAG 2.2 AA i WAI; zanotuj wersję oraz metodę testu.",
+      "escalation": "Zmiana grupy docelowej, danych onboardingu lub niemożliwy do usunięcia konflikt potrzeb.",
+      "content": "---\nname: coachfi-ux-accessibility\ndescription: 'Audytuj lub projektuj główne ścieżki i dostępność Coachfi.'\n---\n\n# coachfi-ux-accessibility\n\n## Zakres i wejście\n\nPubliczne/staging routes, oba języki, urządzenia, cele WCAG. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Przejdź start → pierwszy rezultat → powrót; zapisuj czynność, stan i narzędzie.\n2. Porównaj PL/EN oraz demo z realnymi danymi; sprawdź stany loading/error/empty/offline.\n3. Na telefonie i desktopie sprawdź reflow, liczby, komunikaty i następny krok.\n4. Połącz automatyczny audyt z klawiaturą, fokusami i czytnikiem ekranu; brak narzędzia oznacz pending.\n5. Przygotuj poprawki z kryteriami WCAG i retestem niezależnego audytora.\n\n## Rezultat i przyjęcie\n\nMapa UX, dowody i specyfikacja poprawek. Kryteria: Każda blokada jest odtwarzalna; nie nazwano pełnego AA na podstawie samego automatu. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nWCAG 2.2 AA i WAI; zanotuj wersję oraz metodę testu. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Zmiana grupy docelowej, danych onboardingu lub niemożliwy do usunięcia konflikt potrzeb. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-frontend-quality",
+      "description": "Implementuj sprawdzone ścieżki frontendu Coachfi w wykrytym stosie.",
+      "input": "Repo, wersje, specyfikacja UX, API contract i scope zmian.",
+      "procedure": [
+        "Odczytaj stos i istniejące komponenty; nie twórz zastępczej aplikacji bez kodu bety.",
+        "Implementuj zatwierdzoną ścieżkę i spójne formaty PL/EN.",
+        "Obsłuż loading, błędy, puste dane, brak sieci i niepowodzenie zapisu bez fałszywego sukcesu.",
+        "Sprawdź mobile, klawiaturę oraz deterministyczne obliczenia na granicach.",
+        "Uruchom wymagane checks; dla wielu TSX przeczytaj react-best-practices; przekaż wynik audytorowi."
+      ],
+      "output": "Zmiana kodu, dowody działania i ograniczenia.",
+      "acceptance": "Postęp nie znika po powrocie według kontraktu; sukces UI odpowiada zapisowi; oba języki przetestowane.",
+      "sources_freshness": "Dokumentacja zainstalowanych wersji; release notes przy aktualizacji.",
+      "escalation": "Nowa biblioteka/dostawca zwiększający koszty albo brak kontraktu API.",
+      "content": "---\nname: coachfi-frontend-quality\ndescription: 'Implementuj sprawdzone ścieżki frontendu Coachfi w wykrytym stosie.'\n---\n\n# coachfi-frontend-quality\n\n## Zakres i wejście\n\nRepo, wersje, specyfikacja UX, API contract i scope zmian. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Odczytaj stos i istniejące komponenty; nie twórz zastępczej aplikacji bez kodu bety.\n2. Implementuj zatwierdzoną ścieżkę i spójne formaty PL/EN.\n3. Obsłuż loading, błędy, puste dane, brak sieci i niepowodzenie zapisu bez fałszywego sukcesu.\n4. Sprawdź mobile, klawiaturę oraz deterministyczne obliczenia na granicach.\n5. Uruchom wymagane checks; dla wielu TSX przeczytaj react-best-practices; przekaż wynik audytorowi.\n\n## Rezultat i przyjęcie\n\nZmiana kodu, dowody działania i ograniczenia. Kryteria: Postęp nie znika po powrocie według kontraktu; sukces UI odpowiada zapisowi; oba języki przetestowane. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDokumentacja zainstalowanych wersji; release notes przy aktualizacji. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowa biblioteka/dostawca zwiększający koszty albo brak kontraktu API. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-data-integrity",
+      "description": "Sprawdzaj zapis, uprawnienia i obliczenia danych Coachfi.",
+      "input": "Powiązane repo/baza staging, migracje, role, modele danych i kalkulatory.",
+      "procedure": [
+        "Potwierdź związek projektu z Coachfi; nie czytaj niepowiązanej bazy.",
+        "Odtwórz zapis i powrót dwóch kont; sprawdź autoryzację serwerową i izolację w stagingu.",
+        "Zweryfikuj walidację, idempotencję i transakcje, konflikty zapisu oraz braki danych.",
+        "Przelicz score i kalkulatory; udokumentuj wejścia, wzór, jednostki i demo.",
+        "Dla płatności sprawdź podpisy webhooków, powtórki i uprawnienia; migracje przygotuj z rollbackiem."
+      ],
+      "output": "Mapa danych, testy integralności i przygotowane migracje.",
+      "acceptance": "Żadnego dostępu między użytkownikami; retry nie dubluje postępu/płatności; score jest wyjaśnialny.",
+      "sources_freshness": "Dokumentacja wykrytej bazy/auth; Supabase skills po potwierdzeniu; aktualizuj wersje standardów.",
+      "escalation": "Operacja produkcyjna, migracja danych, szersze uprawnienia lub brak stagingu do testu.",
+      "content": "---\nname: coachfi-data-integrity\ndescription: 'Sprawdzaj zapis, uprawnienia i obliczenia danych Coachfi.'\n---\n\n# coachfi-data-integrity\n\n## Zakres i wejście\n\nPowiązane repo/baza staging, migracje, role, modele danych i kalkulatory. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Potwierdź związek projektu z Coachfi; nie czytaj niepowiązanej bazy.\n2. Odtwórz zapis i powrót dwóch kont; sprawdź autoryzację serwerową i izolację w stagingu.\n3. Zweryfikuj walidację, idempotencję i transakcje, konflikty zapisu oraz braki danych.\n4. Przelicz score i kalkulatory; udokumentuj wejścia, wzór, jednostki i demo.\n5. Dla płatności sprawdź podpisy webhooków, powtórki i uprawnienia; migracje przygotuj z rollbackiem.\n\n## Rezultat i przyjęcie\n\nMapa danych, testy integralności i przygotowane migracje. Kryteria: Żadnego dostępu między użytkownikami; retry nie dubluje postępu/płatności; score jest wyjaśnialny. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDokumentacja wykrytej bazy/auth; Supabase skills po potwierdzeniu; aktualizuj wersje standardów. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Operacja produkcyjna, migracja danych, szersze uprawnienia lub brak stagingu do testu. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-ai-evaluation",
+      "description": "Projektuj i oceniaj Milę oraz bezpieczne kalkulacje AI Coachfi.",
+      "input": "Prompt z wersją, zatwierdzona baza treści, provider config, eval cases i limity.",
+      "procedure": [
+        "Oddziel lokalne reguły od aktywnego LLM; ustal źródła, model, koszty i transfer danych.",
+        "Zbuduj testy braku dochodu, zadłużenia, nieregularności, utraty pracy, choroby i błędnych danych.",
+        "Dodaj ataki na instrukcje, żądania sekretów i gwarantowanego zysku oraz nieaktualne informacje.",
+        "Obliczenia kieruj do przetestowanego kalkulatora; wymagaj założeń i śladów źródła.",
+        "Oceń użyteczność, wierność źródłom, zakres edukacyjny, koszt i fallback; recenzent sprawdza wyniki."
+      ],
+      "output": "Wersjonowany zestaw evals i raport Mili.",
+      "acceptance": "Brak wycieku/nieautoryzowanej akcji; poprawna arytmetyka; niepewność i awaria mają jasny komunikat.",
+      "sources_freshness": "Dokumentacja faktycznego dostawcy, OpenAI docs gdy użyty; OWASP LLM Top10 2025.",
+      "escalation": "Nowy provider/transfer, koszt, spersonalizowana porada lub eskalacja do człowieka.",
+      "content": "---\nname: coachfi-ai-evaluation\ndescription: 'Projektuj i oceniaj Milę oraz bezpieczne kalkulacje AI Coachfi.'\n---\n\n# coachfi-ai-evaluation\n\n## Zakres i wejście\n\nPrompt z wersją, zatwierdzona baza treści, provider config, eval cases i limity. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Oddziel lokalne reguły od aktywnego LLM; ustal źródła, model, koszty i transfer danych.\n2. Zbuduj testy braku dochodu, zadłużenia, nieregularności, utraty pracy, choroby i błędnych danych.\n3. Dodaj ataki na instrukcje, żądania sekretów i gwarantowanego zysku oraz nieaktualne informacje.\n4. Obliczenia kieruj do przetestowanego kalkulatora; wymagaj założeń i śladów źródła.\n5. Oceń użyteczność, wierność źródłom, zakres edukacyjny, koszt i fallback; recenzent sprawdza wyniki.\n\n## Rezultat i przyjęcie\n\nWersjonowany zestaw evals i raport Mili. Kryteria: Brak wycieku/nieautoryzowanej akcji; poprawna arytmetyka; niepewność i awaria mają jasny komunikat. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDokumentacja faktycznego dostawcy, OpenAI docs gdy użyty; OWASP LLM Top10 2025. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowy provider/transfer, koszt, spersonalizowana porada lub eskalacja do człowieka. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-security-review",
+      "description": "Audytuj bezpieczeństwo i testy adversarialne Coachfi w autoryzowanym zakresie.",
+      "input": "Repo, scope, staging, mapy danych, zależności, auth i funkcje AI.",
+      "procedure": [
+        "Zdefiniuj aktywa, granice zaufania i nadużycia; zanotuj scope oraz środowisko.",
+        "Mapuj ASVS5.0.0 i LLMTop10 2025 na wymagania z wersjonowanymi IDs; nie wymyślaj ID.",
+        "Sprawdź izolację, odzyskiwanie kont, sekrety, minimalne uprawnienia i limity kosztów.",
+        "Eksploatację, testy zakłócające i cross-user wykonuj tylko na kontrolowanych kontach staging.",
+        "Dla finding zapisz reprodukcję bez sekretów, dotkliwość i retest poprawki; brak testu nie jest dowodem bezpieczeństwa."
+      ],
+      "output": "Threat model i findings z odtwarzalnym retestem.",
+      "acceptance": "Brak otwartych high/critical w scope wydania; dowody nie zawierają cudzych danych.",
+      "sources_freshness": "ASVS5.0.0, LLMTop10 2025, advisories wykrytych zależności; sprawdź przed wydaniem.",
+      "escalation": "Produkcja wymagająca ingerencji, znalezione sekrety/wyciek lub potrzeba rozszerzenia scope.",
+      "content": "---\nname: coachfi-security-review\ndescription: 'Audytuj bezpieczeństwo i testy adversarialne Coachfi w autoryzowanym zakresie.'\n---\n\n# coachfi-security-review\n\n## Zakres i wejście\n\nRepo, scope, staging, mapy danych, zależności, auth i funkcje AI. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zdefiniuj aktywa, granice zaufania i nadużycia; zanotuj scope oraz środowisko.\n2. Mapuj ASVS5.0.0 i LLMTop10 2025 na wymagania z wersjonowanymi IDs; nie wymyślaj ID.\n3. Sprawdź izolację, odzyskiwanie kont, sekrety, minimalne uprawnienia i limity kosztów.\n4. Eksploatację, testy zakłócające i cross-user wykonuj tylko na kontrolowanych kontach staging.\n5. Dla finding zapisz reprodukcję bez sekretów, dotkliwość i retest poprawki; brak testu nie jest dowodem bezpieczeństwa.\n\n## Rezultat i przyjęcie\n\nThreat model i findings z odtwarzalnym retestem. Kryteria: Brak otwartych high/critical w scope wydania; dowody nie zawierają cudzych danych. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nASVS5.0.0, LLMTop10 2025, advisories wykrytych zależności; sprawdź przed wydaniem. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Produkcja wymagająca ingerencji, znalezione sekrety/wyciek lub potrzeba rozszerzenia scope. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-privacy-compliance",
+      "description": "Mapuj dane i przygotuj wymagania prywatności Coachfi dla zatwierdzonych rynków.",
+      "input": "Kraj Polska, przepływy danych, cele, dostawcy, polityki, cookies i procesy praw.",
+      "procedure": [
+        "Dla danych zapisz cel, konieczność, podstawę do oceny prawnej, odbiorcę, lokalizację i retencję.",
+        "Oddziel browser-local, konto, analitykę i wysłanie do AI; zgoda musi odpowiadać faktycznemu przepływowi.",
+        "Przejdź eksport, usuwanie, wycofanie zgód i retencję kopii w stagingu.",
+        "Zidentyfikuj transfery, umowy i kwestie prawa konsumenckiego wymagające prawnika.",
+        "Proponuj minimalizację; nie dodawaj nowych pól ani danych zdrowotnych bez decyzji."
+      ],
+      "output": "Rejestr przetwarzania, luki polityk i lista do prawnika.",
+      "acceptance": "Deklaracje zgodne z testami; prawa użytkownika mają działający proces; nie zadeklarowano zgodności bez oceny.",
+      "sources_freshness": "EUR-Lex RODO, UODO/UOKiK i dostawcy; wymagania krajowe weryfikuj przed publikacją.",
+      "escalation": "Nowy cel/dane/dostawca, dzieci, transfer lub rozstrzygnięcie prawne.",
+      "content": "---\nname: coachfi-privacy-compliance\ndescription: 'Mapuj dane i przygotuj wymagania prywatności Coachfi dla zatwierdzonych rynków.'\n---\n\n# coachfi-privacy-compliance\n\n## Zakres i wejście\n\nKraj Polska, przepływy danych, cele, dostawcy, polityki, cookies i procesy praw. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Dla danych zapisz cel, konieczność, podstawę do oceny prawnej, odbiorcę, lokalizację i retencję.\n2. Oddziel browser-local, konto, analitykę i wysłanie do AI; zgoda musi odpowiadać faktycznemu przepływowi.\n3. Przejdź eksport, usuwanie, wycofanie zgód i retencję kopii w stagingu.\n4. Zidentyfikuj transfery, umowy i kwestie prawa konsumenckiego wymagające prawnika.\n5. Proponuj minimalizację; nie dodawaj nowych pól ani danych zdrowotnych bez decyzji.\n\n## Rezultat i przyjęcie\n\nRejestr przetwarzania, luki polityk i lista do prawnika. Kryteria: Deklaracje zgodne z testami; prawa użytkownika mają działający proces; nie zadeklarowano zgodności bez oceny. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nEUR-Lex RODO, UODO/UOKiK i dostawcy; wymagania krajowe weryfikuj przed publikacją. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowy cel/dane/dostawca, dzieci, transfer lub rozstrzygnięcie prawne. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-operations-finops",
+      "description": "Sprawdzaj niezawodność oraz koszty free/premium Coachfi.",
+      "input": "Powiązany hosting, monitoring, billing, limity, backup i plan wydania.",
+      "procedure": [
+        "Potwierdź środowiska i właścicieli alertów; nie przypisuj hostingu z samego Next.",
+        "Odtwórz awarię AI/storage w stagingu i sprawdź fallback bez utraty postępu.",
+        "Sprawdź kopię, kontrolowane odtworzenie oraz rollback z wynikiem i czasem.",
+        "Policz koszty per free/premium z podatkiem, opłatami, tokenami, wsparciem i stałymi kosztami; założenia oddziel od faktur.",
+        "Zaproponuj limity per-user/global, alerty i politykę przekroczenia do Foundera."
+      ],
+      "output": "Runbook, dowody recovery i model kosztów.",
+      "acceptance": "Przetestowane odtworzenie; budżet nie jest automatyczną zgodą; marża liczona po kosztach free.",
+      "sources_freshness": "Faktury i aktualne cenniki faktycznych dostawców; odświeżaj przed zakupem i miesięcznie.",
+      "escalation": "Limit kosztów, płatne plany, próg stopu, RTO/RPO lub produkcyjny test awarii.",
+      "content": "---\nname: coachfi-operations-finops\ndescription: 'Sprawdzaj niezawodność oraz koszty free/premium Coachfi.'\n---\n\n# coachfi-operations-finops\n\n## Zakres i wejście\n\nPowiązany hosting, monitoring, billing, limity, backup i plan wydania. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Potwierdź środowiska i właścicieli alertów; nie przypisuj hostingu z samego Next.\n2. Odtwórz awarię AI/storage w stagingu i sprawdź fallback bez utraty postępu.\n3. Sprawdź kopię, kontrolowane odtworzenie oraz rollback z wynikiem i czasem.\n4. Policz koszty per free/premium z podatkiem, opłatami, tokenami, wsparciem i stałymi kosztami; założenia oddziel od faktur.\n5. Zaproponuj limity per-user/global, alerty i politykę przekroczenia do Foundera.\n\n## Rezultat i przyjęcie\n\nRunbook, dowody recovery i model kosztów. Kryteria: Przetestowane odtworzenie; budżet nie jest automatyczną zgodą; marża liczona po kosztach free. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nFaktury i aktualne cenniki faktycznych dostawców; odświeżaj przed zakupem i miesięcznie. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Limit kosztów, płatne plany, próg stopu, RTO/RPO lub produkcyjny test awarii. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-outcome-analytics",
+      "description": "Projektuj pomiar korzyści użytkownika i eksperymenty Coachfi.",
+      "input": "Cele, zadania, events, zgody, kohorty i metody oceny wiedzy.",
+      "procedure": [
+        "Zdefiniuj aktywację jako pierwszy użyteczny rezultat z zapisem i małym działaniem.",
+        "Mierz powrót, poprawną odpowiedź po czasie i wykonanie działania; oddziel self-report od verified.",
+        "Ogranicz eventy do koniecznych pól bez treści rozmów i szczegółowych finansów.",
+        "Dla eksperymentu zapisz hipotezę, wynik główny, guardrails, próbę i regułę decyzji.",
+        "Raportuj kohorty, brak danych i niepewność; rejestracje/czas są pomocnicze."
+      ],
+      "output": "Słownik eventów i prerejestrowany plan eksperymentu.",
+      "acceptance": "Efekt nie jest utożsamiany ze streakiem; brak ukrytego zbierania danych; retencja jawna.",
+      "sources_freshness": "Pierwotne dane własne i badania metod; odświeżaj definicje przy zmianie produktu.",
+      "escalation": "Nowe śledzenie, identyfikatory, profilowanie lub badanie wymagające człowieka.",
+      "content": "---\nname: coachfi-outcome-analytics\ndescription: 'Projektuj pomiar korzyści użytkownika i eksperymenty Coachfi.'\n---\n\n# coachfi-outcome-analytics\n\n## Zakres i wejście\n\nCele, zadania, events, zgody, kohorty i metody oceny wiedzy. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Zdefiniuj aktywację jako pierwszy użyteczny rezultat z zapisem i małym działaniem.\n2. Mierz powrót, poprawną odpowiedź po czasie i wykonanie działania; oddziel self-report od verified.\n3. Ogranicz eventy do koniecznych pól bez treści rozmów i szczegółowych finansów.\n4. Dla eksperymentu zapisz hipotezę, wynik główny, guardrails, próbę i regułę decyzji.\n5. Raportuj kohorty, brak danych i niepewność; rejestracje/czas są pomocnicze.\n\n## Rezultat i przyjęcie\n\nSłownik eventów i prerejestrowany plan eksperymentu. Kryteria: Efekt nie jest utożsamiany ze streakiem; brak ukrytego zbierania danych; retencja jawna. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nPierwotne dane własne i badania metod; odświeżaj definicje przy zmianie produktu. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowe śledzenie, identyfikatory, profilowanie lub badanie wymagające człowieka. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-trustworthy-growth",
+      "description": "Projektuj komunikację i granicę free/premium Coachfi bez nieudokumentowanych obietnic.",
+      "input": "Faktycznie działające funkcje, segment, cena5USD, koszty i wyniki badań.",
+      "procedure": [
+        "Porównaj landing/SEO z działaniem; usuń twierdzenia o gwarancji, przewidywaniu kryzysu i niegotowych modułach.",
+        "Zaproponuj free z pierwszym rezultatem i premium pogłębiającym naukę/plan.",
+        "Policz wkład przy różnych użyciach oraz rabacie rodzin, bez zatwierdzania ceny szczegółowej.",
+        "Zaprojektuj test gotowości do zapłaty z satysfakcją, anulowaniem i kosztami.",
+        "Przygotuj lokalne copy PL/EN; kampanie i publikacja wymagają konkretnej autoryzacji."
+      ],
+      "output": "Propozycja wartości, wariant ceny/pakietów i eksperyment.",
+      "acceptance": "Każda obietnica ma dowód; free jest użyteczny; płatny start spełnia bramkę płatności.",
+      "sources_freshness": "Dane produktu, faktury/cenniki i UOKiK dla PL; weryfikuj aktualność przed publikacją.",
+      "escalation": "Zmiana ceny, kampania, rabat rodzinny, afiliacja lub komunikacja publiczna.",
+      "content": "---\nname: coachfi-trustworthy-growth\ndescription: 'Projektuj komunikację i granicę free/premium Coachfi bez nieudokumentowanych obietnic.'\n---\n\n# coachfi-trustworthy-growth\n\n## Zakres i wejście\n\nFaktycznie działające funkcje, segment, cena5USD, koszty i wyniki badań. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Porównaj landing/SEO z działaniem; usuń twierdzenia o gwarancji, przewidywaniu kryzysu i niegotowych modułach.\n2. Zaproponuj free z pierwszym rezultatem i premium pogłębiającym naukę/plan.\n3. Policz wkład przy różnych użyciach oraz rabacie rodzin, bez zatwierdzania ceny szczegółowej.\n4. Zaprojektuj test gotowości do zapłaty z satysfakcją, anulowaniem i kosztami.\n5. Przygotuj lokalne copy PL/EN; kampanie i publikacja wymagają konkretnej autoryzacji.\n\n## Rezultat i przyjęcie\n\nPropozycja wartości, wariant ceny/pakietów i eksperyment. Kryteria: Każda obietnica ma dowód; free jest użyteczny; płatny start spełnia bramkę płatności. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDane produktu, faktury/cenniki i UOKiK dla PL; weryfikuj aktualność przed publikacją. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Zmiana ceny, kampania, rabat rodzinny, afiliacja lub komunikacja publiczna. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-user-support",
+      "description": "Buduj pomoc, zgłoszenia i eskalację do człowieka dla Coachfi.",
+      "input": "Główne ścieżki, błędy, kontakt Foundera i zasady retencji zgłoszeń.",
+      "procedure": [
+        "Ułóż FAQ startu, postępu lokalnego/konta, score/demo i zakresu Mili w PL/EN.",
+        "Zaprojektuj zgłoszenie z minimalnymi danymi i instrukcją bez sekretów/szczegółów zdrowia.",
+        "Ustal ownera, godziny i cel czasu odpowiedzi jako propozycję do potwierdzenia.",
+        "Dodaj ścieżkę eskalacji błędów obliczeń, prywatności i zagubionego postępu.",
+        "Klasyfikuj powtarzające się problemy w backlogu; testuj formularz na kontrolowanych danych."
+      ],
+      "output": "Centrum pomocy, makra i runbook eskalacji.",
+      "acceptance": "Użytkownik ma działający kontakt; nie obiecano nieobsadzonego SLA; zgłoszenia mają właściciela.",
+      "sources_freshness": "Dowody produktu i zatwierdzone polityki; aktualizuj po zmianie ścieżki.",
+      "escalation": "Kontakt do innych osób, zobowiązanie SLA lub pilny problem wymagający człowieka.",
+      "content": "---\nname: coachfi-user-support\ndescription: 'Buduj pomoc, zgłoszenia i eskalację do człowieka dla Coachfi.'\n---\n\n# coachfi-user-support\n\n## Zakres i wejście\n\nGłówne ścieżki, błędy, kontakt Foundera i zasady retencji zgłoszeń. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Ułóż FAQ startu, postępu lokalnego/konta, score/demo i zakresu Mili w PL/EN.\n2. Zaprojektuj zgłoszenie z minimalnymi danymi i instrukcją bez sekretów/szczegółów zdrowia.\n3. Ustal ownera, godziny i cel czasu odpowiedzi jako propozycję do potwierdzenia.\n4. Dodaj ścieżkę eskalacji błędów obliczeń, prywatności i zagubionego postępu.\n5. Klasyfikuj powtarzające się problemy w backlogu; testuj formularz na kontrolowanych danych.\n\n## Rezultat i przyjęcie\n\nCentrum pomocy, makra i runbook eskalacji. Kryteria: Użytkownik ma działający kontakt; nie obiecano nieobsadzonego SLA; zgłoszenia mają właściciela. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDowody produktu i zatwierdzone polityki; aktualizuj po zmianie ścieżki. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Kontakt do innych osób, zobowiązanie SLA lub pilny problem wymagający człowieka. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-trend-radar",
+      "description": "Oceniaj aktualne technologie i badania przy istotnych wyborach Coachfi.",
+      "input": "Wykryty problem, stan stosu, koszt, cel użytkownika i źródła.",
+      "procedure": [
+        "Szukaj oficjalnej dokumentacji oraz badań pierwotnych z datą.",
+        "Dla opcji oceń dojrzałość, związek z problemem, korzyść, ryzyko i koszt.",
+        "Porównaj rozwiązanie prostsze oraz brak zmiany; nie migruj dla nowości.",
+        "Oceń powtórki, personalizację, AI ze źródłami, auth i limity modeli w realnym scope.",
+        "Rekomenduj wdrożyć/przetestować/obserwować z miarą efektu i warunkiem powrotu."
+      ],
+      "output": "Datowany radar decyzji ze źródłami.",
+      "acceptance": "Brak rekomendacji bez problemu i dowodu; koszt jest jawny; wersje sprawdzone.",
+      "sources_freshness": "Dokumentacja faktycznych bibliotek i pierwotne publikacje; sprawdzaj przy każdej decyzji.",
+      "escalation": "Migracja, nowy koszt/provider lub eksperyment zmieniający dane/strategię.",
+      "content": "---\nname: coachfi-trend-radar\ndescription: 'Oceniaj aktualne technologie i badania przy istotnych wyborach Coachfi.'\n---\n\n# coachfi-trend-radar\n\n## Zakres i wejście\n\nWykryty problem, stan stosu, koszt, cel użytkownika i źródła. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Szukaj oficjalnej dokumentacji oraz badań pierwotnych z datą.\n2. Dla opcji oceń dojrzałość, związek z problemem, korzyść, ryzyko i koszt.\n3. Porównaj rozwiązanie prostsze oraz brak zmiany; nie migruj dla nowości.\n4. Oceń powtórki, personalizację, AI ze źródłami, auth i limity modeli w realnym scope.\n5. Rekomenduj wdrożyć/przetestować/obserwować z miarą efektu i warunkiem powrotu.\n\n## Rezultat i przyjęcie\n\nDatowany radar decyzji ze źródłami. Kryteria: Brak rekomendacji bez problemu i dowodu; koszt jest jawny; wersje sprawdzone. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nDokumentacja faktycznych bibliotek i pierwotne publikacje; sprawdzaj przy każdej decyzji. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Migracja, nowy koszt/provider lub eksperyment zmieniający dane/strategię. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-localization",
+      "description": "Weryfikuj znaczenie i formaty PL/EN Coachfi na rynku Polski.",
+      "input": "Teksty z kluczami, quizy, waluty, kraj, daty i terminologia.",
+      "procedure": [
+        "Ustal glossary i odróżnij tłumaczenie od lokalizacji prawnej.",
+        "Porównaj cel, sens odpowiedzi, dystraktory i komunikaty błędów po obu stronach.",
+        "Dla PL/EN w Polsce zachowaj PLN/kraj; sprawdź separatory, daty i parsery liczb.",
+        "Sprawdź brakujące klucze, fallback, długość tekstu i etykiety dostępności.",
+        "Oddaj treści do niezależnej recenzji merytorycznej i testu UI."
+      ],
+      "output": "Glossary, kompletne klucze i raport równoważności.",
+      "acceptance": "Tłumaczenia nie zwiększają liczby pytań; locale nie zmienia kraju; liczby nie tracą znaczenia.",
+      "sources_freshness": "Oficjalne źródła finansowe PL i standardy locale; odświeżaj glossary przy nowej treści.",
+      "escalation": "Nowy rynek lub różnica znaczeń wymagająca przebudowy pytania.",
+      "content": "---\nname: coachfi-localization\ndescription: 'Weryfikuj znaczenie i formaty PL/EN Coachfi na rynku Polski.'\n---\n\n# coachfi-localization\n\n## Zakres i wejście\n\nTeksty z kluczami, quizy, waluty, kraj, daty i terminologia. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Ustal glossary i odróżnij tłumaczenie od lokalizacji prawnej.\n2. Porównaj cel, sens odpowiedzi, dystraktory i komunikaty błędów po obu stronach.\n3. Dla PL/EN w Polsce zachowaj PLN/kraj; sprawdź separatory, daty i parsery liczb.\n4. Sprawdź brakujące klucze, fallback, długość tekstu i etykiety dostępności.\n5. Oddaj treści do niezależnej recenzji merytorycznej i testu UI.\n\n## Rezultat i przyjęcie\n\nGlossary, kompletne klucze i raport równoważności. Kryteria: Tłumaczenia nie zwiększają liczby pytań; locale nie zmienia kraju; liczby nie tracą znaczenia. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOficjalne źródła finansowe PL i standardy locale; odświeżaj glossary przy nowej treści. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Nowy rynek lub różnica znaczeń wymagająca przebudowy pytania. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-family-learning",
+      "description": "Planuj późniejszą edukację rodzinną i Kids Mode Coachfi bez uruchamiania teraz.",
+      "input": "Decyzje Foundera, grupy wieku, model opiekuna, wymagania prywatności.",
+      "procedure": [
+        "Oddziel obecny adult scope od przyszłych dzieci i kont rodzinnych.",
+        "Mapuj kompetencje na wiek i EU/OECD youth framework.",
+        "Zaprojektuj kontrolę opiekuna, wspólne ćwiczenia i granice widoczności danych.",
+        "Oceń reklamy/afiliację, AI i prywatność odrębnie; nie przenoś komercyjnej pętli dorosłych.",
+        "Przedstaw warianty, koszty i wymagane badania do decyzji, zachowując status plan."
+      ],
+      "output": "Plan wieku/opiekuna i odrębna bramka bezpieczeństwa.",
+      "acceptance": "Brak wdrożenia Kids w scope dorosłych; nie zbierano danych dzieci; nie sugerowano obecnej gotowości.",
+      "sources_freshness": "EU/OECD youth framework, aktualne krajowe prawo i badania; weryfikuj przed etapem dzieci.",
+      "escalation": "Włączenie dzieci, badania, profilowanie, reklama lub decyzja o rodzinnych uprawnieniach.",
+      "content": "---\nname: coachfi-family-learning\ndescription: 'Planuj późniejszą edukację rodzinną i Kids Mode Coachfi bez uruchamiania teraz.'\n---\n\n# coachfi-family-learning\n\n## Zakres i wejście\n\nDecyzje Foundera, grupy wieku, model opiekuna, wymagania prywatności. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Oddziel obecny adult scope od przyszłych dzieci i kont rodzinnych.\n2. Mapuj kompetencje na wiek i EU/OECD youth framework.\n3. Zaprojektuj kontrolę opiekuna, wspólne ćwiczenia i granice widoczności danych.\n4. Oceń reklamy/afiliację, AI i prywatność odrębnie; nie przenoś komercyjnej pętli dorosłych.\n5. Przedstaw warianty, koszty i wymagane badania do decyzji, zachowując status plan.\n\n## Rezultat i przyjęcie\n\nPlan wieku/opiekuna i odrębna bramka bezpieczeństwa. Kryteria: Brak wdrożenia Kids w scope dorosłych; nie zbierano danych dzieci; nie sugerowano obecnej gotowości. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nEU/OECD youth framework, aktualne krajowe prawo i badania; weryfikuj przed etapem dzieci. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Włączenie dzieci, badania, profilowanie, reklama lub decyzja o rodzinnych uprawnieniach. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    },
+    {
+      "name": "coachfi-marketplace-integrity",
+      "description": "Planuj późniejsze partnerstwa, afiliację i porównywarki Coachfi.",
+      "input": "Kraj, kategorie, dane ofert, dostawcy, prowizje i kryteria rankingu.",
+      "procedure": [
+        "Oddziel edukację, porównanie i sprzedaż oraz zakres rynku objętego danymi.",
+        "Dla oferty określ koszty, warunki, wyłączenia, datę i regułę wycofania nieaktualnych danych.",
+        "Zaprojektuj ranking niezależny od prowizji, ujawnienia sponsorów i reklamacje.",
+        "Mapuj przekazywanie danych i kwalifikację prawną do oceny człowieka.",
+        "Przedstaw plan/test w późniejszym etapie; bez integracji partnerów lub outreach teraz."
+      ],
+      "output": "Polityka ofert, rankingu i danych oraz bramka prawna.",
+      "acceptance": "Nieukryta prowizja; brak automatycznego transferu danych; nieaktualna oferta nie jest promowana.",
+      "sources_freshness": "Oficjalne warunki dostawców, UOKiK/KNF i prawo PL; źródła ofert sprawdzaj przy odświeżeniu.",
+      "escalation": "Partner, kraj/kategoria, umowa, dane użytkowników lub działalność regulowana.",
+      "content": "---\nname: coachfi-marketplace-integrity\ndescription: 'Planuj późniejsze partnerstwa, afiliację i porównywarki Coachfi.'\n---\n\n# coachfi-marketplace-integrity\n\n## Zakres i wejście\n\nKraj, kategorie, dane ofert, dostawcy, prowizje i kryteria rankingu. Przy pracy z Coachfi odczytaj [program](../../../docs/coachfi/program.md) i właściwe rejestry. Uruchamiaj dla zakresu wskazanego w opisie.\n\n## Procedura\n\n1. Oddziel edukację, porównanie i sprzedaż oraz zakres rynku objętego danymi.\n2. Dla oferty określ koszty, warunki, wyłączenia, datę i regułę wycofania nieaktualnych danych.\n3. Zaprojektuj ranking niezależny od prowizji, ujawnienia sponsorów i reklamacje.\n4. Mapuj przekazywanie danych i kwalifikację prawną do oceny człowieka.\n5. Przedstaw plan/test w późniejszym etapie; bez integracji partnerów lub outreach teraz.\n\n## Rezultat i przyjęcie\n\nPolityka ofert, rankingu i danych oraz bramka prawna. Kryteria: Nieukryta prowizja; brak automatycznego transferu danych; nieaktualna oferta nie jest promowana. Zapisz dowody jako sprawdzone, prawdopodobne, niesprawdzone lub niedostępne, z datą i środowiskiem.\n\n## Źródła i aktualność\n\nOficjalne warunki dostawców, UOKiK/KNF i prawo PL; źródła ofert sprawdzaj przy odświeżeniu. Linki i daty sprawdzenia zapisz w rejestrze źródeł, a ograniczenia w rezultacie.\n\n## Uprawnienia i eskalacja\n\nSam skill nie przyznaje dostępu ani prawa do produkcyjnych zmian, wydatków i kontaktu z ludźmi. Wykonuj autoryzowane, odwracalne prace lokalne oraz read-only kontrole związanych zasobów. Eskaluj: Partner, kraj/kategoria, umowa, dane użytkowników lub działalność regulowana. Kontynuuj niezależne zadania. Autor nie zatwierdza własnego rezultatu.\n"
+    }
+  ]
+}

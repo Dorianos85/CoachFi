@@ -15,6 +15,12 @@ import { beginAgentConversation, endAgentConversation } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 import { getMilaAgentId } from "@/lib/mila-voice";
+import { getApiCredentials } from "@/lib/client/api-credentials";
+import { CONSENT_CHANGED_EVENT, hasConsentFor, readStoredConsent } from "@/lib/consent";
+import { useProductStorage } from "@/lib/use-product-storage";
+
+// P0: no durable consent/quota ledger yet. Never load a live provider widget.
+const LIVE_VOICE_ENABLED = false;
 
 const AGENT_ID = getMilaAgentId();
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
@@ -330,6 +336,18 @@ function clickStartCall(widget: HTMLElement, startLabel: string) {
 }
 
 export function MilaVoiceFab() {
+  const { locale } = useLanguage();
+  if (!LIVE_VOICE_ENABLED) return (
+    <p role="status" className="sr-only" data-testid="mila-live-disabled">
+      {locale === "pl" ? "Rozmowy głosowe Mili są wyłączone w tej wersji. Skorzystaj z lokalnego czatu tekstowego; odczyt lokalnym głosem wymaga kliknięcia." : "Mila live voice conversations are disabled in this version. Use the local text chat; local voice reading requires a click."}
+    </p>
+  );
+  return <LiveMilaVoiceFab />;
+}
+
+// Not mounted while P0 hard-off is active: no storage-derived provider payload.
+function LiveMilaVoiceFab() {
+  const { storage } = useProductStorage();
   const router = useRouter();
   const pathname = usePathname();
   const widgetRef = useRef<HTMLElement | null>(null);
@@ -337,6 +355,7 @@ export function MilaVoiceFab() {
   const lastClosedWidgetRef = useRef<HTMLElement | null>(null);
   const launchTimerRef = useRef<number | null>(null);
   const voiceWatchRef = useRef<number | null>(null);
+  const tokenRequestRef = useRef<AbortController | null>(null);
   const { locale, t } = useLanguage();
   const { loaded, requiredAccepted, hasOptionalConsent } = useConsent();
   const [signedUrl, setSignedUrl] = useState("");
@@ -361,24 +380,25 @@ export function MilaVoiceFab() {
     if (voiceWatchRef.current != null) window.clearInterval(voiceWatchRef.current);
     voiceWatchRef.current = null;
     if (widget) hideWidget(widget);
-    endAgentConversation("voice");
+    if (storage.isCurrent()) endAgentConversation("voice", storage);
     setCallOpen(false);
     setCallStatus(reason === "error" ? t.common.error : "");
     // Disconnecting the old custom element invokes SDK session/media cleanup.
     setWidgetEpoch((epoch) => epoch + 1);
-    window.requestAnimationFrame(() => launcherRef.current?.focus({ preventScroll: true }));
-  }, [t.common.error]);
+    window.requestAnimationFrame(() => { if (storage.isCurrent()) launcherRef.current?.focus({ preventScroll: true }); });
+  }, [t.common.error, storage]);
   const markWidgetFrameReady = useCallback(() => setWidgetFrameReady(true), []);
-  const enabled = loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
+  const enabled = LIVE_VOICE_ENABLED && storage.isCurrent() && loaded && requiredAccepted && hasOptionalConsent("aiCoach") && hasOptionalConsent("voice");
   const currentPage = pageLabels[pathname] ?? (pathname.replace("/", "") || "home dashboard");
 
   useEffect(() => {
     const refreshLocalContext = () => {
-      const user = getUser();
+      if (!storage.isCurrent()) return;
+      const user = getUser(storage);
       setUserName(getDisplayName(user));
       setUserGoal(user.goal.trim() || mockUser.mainFinancialGoal);
-      setTokenBalance(getTokenBalance());
-      setTextOnly(localStorage.getItem(TEXT_ONLY_KEY) === "true");
+      setTokenBalance(getTokenBalance(storage));
+      setTextOnly(storage.getItem(TEXT_ONLY_KEY) === "true");
     };
 
     refreshLocalContext();
@@ -390,32 +410,60 @@ export function MilaVoiceFab() {
       window.removeEventListener("coachfi-user", refreshLocalContext);
       window.removeEventListener("coachfi-tokens", refreshLocalContext);
     };
-  }, []);
+  }, [storage]);
+
+  useEffect(() => {
+    const clearSession = () => {
+      tokenRequestRef.current?.abort();
+      tokenRequestRef.current = null;
+      setSignedUrl("");
+      setWidgetConfig("");
+      closeConversation();
+    };
+    const onConsentChange = () => {
+      if (!storage.isCurrent() || !hasConsentFor(readStoredConsent(storage), ["aiCoach", "voice"])) clearSession();
+    };
+    window.addEventListener(CONSENT_CHANGED_EVENT, onConsentChange);
+    if (!enabled) clearSession();
+    return () => {
+      window.removeEventListener(CONSENT_CHANGED_EVENT, onConsentChange);
+      tokenRequestRef.current?.abort();
+    };
+  }, [enabled, closeConversation, storage]);
 
   useEffect(() => {
     if (!enabled) return;
-    let cancelled = false;
-
-    fetch("/api/mila-token", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((data: { signedUrl?: string; agentId?: string; widgetConfig?: unknown }) => {
-        if (cancelled) return;
+    const controller = new AbortController();
+    tokenRequestRef.current = controller;
+    void (async () => {
+      const credentials = await getApiCredentials(["aiCoach", "voice"], controller.signal);
+      if (!storage.isCurrent() || !credentials || controller.signal.aborted) return;
+      try {
+        const response = await fetch("/api/mila-token", {
+          method: "POST",
+          cache: "no-store",
+          headers: credentials.headers,
+          body: JSON.stringify({ consent: credentials.consent }),
+          signal: controller.signal,
+        });
+        if (!response.ok) return;
+        const data = await response.json() as { signedUrl?: string; agentId?: string; widgetConfig?: unknown };
+        if (!storage.isCurrent() || controller.signal.aborted || !hasConsentFor(readStoredConsent(storage), ["aiCoach", "voice"])) return;
         setSignedUrl(data.signedUrl?.trim() ?? "");
         setAgentId(data.agentId?.trim() || AGENT_ID);
         setWidgetConfig(data.widgetConfig ? JSON.stringify(data.widgetConfig) : "");
-      })
-      .catch(() => {
-        if (!cancelled) {
+      } catch {
+        if (storage.isCurrent() && !controller.signal.aborted) {
           setSignedUrl("");
-          setAgentId(AGENT_ID);
           setWidgetConfig("");
         }
-      });
-
+      }
+    })();
     return () => {
-      cancelled = true;
+      controller.abort();
+      if (tokenRequestRef.current === controller) tokenRequestRef.current = null;
     };
-  }, [enabled]);
+  }, [enabled, storage]);
 
   const agentContext = useMemo(
     () => ({
@@ -474,7 +522,8 @@ export function MilaVoiceFab() {
 
       if (voiceWatchRef.current == null) {
         let idleTicks = 0;
-        beginAgentConversation("voice");
+        if (!storage.isCurrent()) return;
+        beginAgentConversation("voice", storage);
         voiceWatchRef.current = window.setInterval(() => {
           if (++idleTicks >= 40) closeConversation("error", widget);
         }, 500);
@@ -509,8 +558,8 @@ export function MilaVoiceFab() {
         }),
         setCoachFIAgentTextMode: (args) => {
           const enabledTextOnly = args?.enabled !== false;
+          if (!storage.isCurrent() || !storage.setItem(TEXT_ONLY_KEY, String(enabledTextOnly)) || !storage.isCurrent()) return { ok: false, error: "Session changed" };
           setTextOnly(enabledTextOnly);
-          localStorage.setItem(TEXT_ONLY_KEY, String(enabledTextOnly));
           return { ok: true, text_only_mode: enabledTextOnly };
         },
       };
@@ -590,12 +639,12 @@ export function MilaVoiceFab() {
         if (voiceWatchRef.current == null) return;
         window.clearInterval(voiceWatchRef.current);
         voiceWatchRef.current = null;
-        endAgentConversation("voice");
+        if (storage.isCurrent()) endAgentConversation("voice", storage);
       });
     };
-  }, [agentContext, enabled, router, widgetFrameReady, widgetKey, closeConversation]);
+  }, [agentContext, enabled, router, widgetFrameReady, widgetKey, closeConversation, storage]);
 
-  if (!AGENT_ID || !enabled) return null;
+  if (!AGENT_ID || !enabled || !signedUrl) return null;
 
   if (quotaExceeded) {
     return (
@@ -696,7 +745,7 @@ export function MilaVoiceFab() {
         ref={widgetRef}
         key={widgetKey}
         {...(widgetConfig ? { "override-config": widgetConfig } : {})}
-        {...(signedUrl ? { "signed-url": signedUrl } : { "agent-id": agentId })}
+        signed-url={signedUrl}
         server-location="us"
         avatar-image-url="/brand/mila/mila-head-neutral.svg"
         dynamic-variables={dynamicVariables}
@@ -718,7 +767,7 @@ export function MilaVoiceFab() {
 }
 
 export function MilaVoiceAgent({ compact: _compact = false }: { compact?: boolean }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const va = t.voiceAgent;
 
   return (
@@ -728,7 +777,7 @@ export function MilaVoiceAgent({ compact: _compact = false }: { compact?: boolea
         {va.title}
       </h2>
       <p className="mt-3 text-sm font-semibold leading-6 text-muted">
-        {va.hint}
+        {locale === "pl" ? "Rozmowy głosowe z zewnętrzną Milą są teraz wyłączone. W czacie możesz korzystać z lokalnych przykładów i odczytu na kliknięcie, jeśli urządzenie ma lokalny głos." : "External Mila voice conversations are currently disabled. Chat offers local examples and click-to-read when a local device voice is available."}
       </p>
       <div className="mt-4 flex items-center gap-3 rounded-xl bg-primary/5 p-3">
         <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-white">
@@ -737,7 +786,7 @@ export function MilaVoiceAgent({ compact: _compact = false }: { compact?: boolea
         <p className="text-xs font-bold text-text">
           {va.fab}
           <span className="mt-0.5 block text-[11px] font-semibold text-muted">
-            {va.poweredBy}
+            {locale === "pl" ? "Bez połączenia z dostawcą głosu" : "No connection to a voice provider"}
           </span>
         </p>
       </div>

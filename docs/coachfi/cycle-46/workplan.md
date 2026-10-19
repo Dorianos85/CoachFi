@@ -1,0 +1,9 @@
+# C46 — komunikat kamienia milowego PL/EN
+
+Zakres: wyłącznie dwa string literals w aktywnym StreakBadge. Zamiast obietnicy automatycznego nawyku po 66 dniach komunikat docenia regularność. Root autor; c46_evidence niezależna recenzja naukowa/źródła, c46_ui autor fixtures oraz niezależny reviewer produktu/narzędzi/wyników; root peer fixtures. Root+2, rozłączne pliki. Najpierw źródła i baseline, potem poprawka i niezależny retest.
+
+12 SSR cases (PL/EN × available66/3/0/67/loading66/unavailable66), actual ReactDOMServer + real framer-motion, dwa jawne mocki hooków. Compact/full to próbki wewnątrz case. 4 Chrome cases PL/EN ×66/3 na tym samym built TEMP, actual shell/provider/badge/QuizCard/Space/reload; dane wyłącznie syntetyczne, 6 kluczy bez set/remove,125tokenów/API0/pageErrors0. StandaloneTS i jeden build. Nie powtarzamy C45 zielonych reader/provider regresji: ich źródła są literalnie zachowane. Nie deklarujemy SSR jako testu actualProvider ani DOMtitle jako wizualnego testu natywnego tooltipa.
+
+Snapshot 541 poprzednich wejść +3 fixtures/config, oczekiwane544/543 po pominięciu generowanego next-env. 112 wcześniejszych tuple/110 ścieżek:109 literalnych,1 jawnie kwalifikowany Badge. Preserve13, dependency runtime37files/2consumers unchanged. Freeze przed checks, zachowanie starych receipts. Uproszczony ledger dla dwóch komunikatów: brak git add/commit/push/deploy; istniejący index zachowany. Przyjęcie wyłącznie LOCAL_UNSTAGED po niezależnych recenzjach rzeczywistych wyników, bez automatycznej promocji metadanych z QA.
+
+C45 triage zależności pozostaje odroczona (major/bundled), bez nowego audit/install/closure. B06 siedem modułów/51 poprawek pytań bez zmiany, B10 częściowo otwarte. Inne locale i pozostałe claimy poza akceptacją. Milestone66/bonus5/writers/statusguards literalnie zachowane. Bez nowych danych, rynków, AI/cloudwrites/płatnych wywołań/produkcji/realnych sesji. Brak staging nie daje PASS; produkcja NO-GO.

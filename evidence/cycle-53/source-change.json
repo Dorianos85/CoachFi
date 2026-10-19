@@ -1,0 +1,103 @@
+{
+  "cycle": 53,
+  "at": "2026-10-18T20:30:47.970Z",
+  "status": "SEVEN_COPY_FIELDS_CHANGED_BASELINE_PRESERVED",
+  "proposal": {
+    "path": "evidence/cycle-53/source-proposal.json",
+    "sha256": "d1f2d7dfbe3e5892b9603a12a9254a6cc5870abd72c7b39615a5f01991159fe4"
+  },
+  "sources": [
+    {
+      "path": "data/quizQuestions.ts",
+      "beforeSHA256": "1d78f25ea02b6d11a514614cd593d56c8f72e32bc5bc59d86689065829d7ddfe",
+      "afterSHA256": "44d2bad55f835b610cee342de9b2d5f8a1beed41d5b2285f59cb9caad7e977ce",
+      "newlineBefore": {
+        "crlf": 1306,
+        "loneLF": 208
+      },
+      "newlineAfter": {
+        "crlf": 1306,
+        "loneLF": 208
+      },
+      "exactChangedFields": [
+        "question",
+        "B",
+        "successMessage",
+        "retryMessage"
+      ]
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "beforeSHA256": "f1a7e9849409e1efc7e1211d6585a31ca317f720a68b9fb5e470f4fdf8443343",
+      "afterSHA256": "ed84b6d63e1c7ff5ea18b7d85395f9138abd9a1adf0594c6db986552e7573ad9",
+      "newlineBefore": {
+        "crlf": 1603,
+        "loneLF": 176
+      },
+      "newlineAfter": {
+        "crlf": 1603,
+        "loneLF": 176
+      },
+      "exactChangedFields": [
+        "question",
+        "B",
+        "explanation"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "question",
+      "oldSpan": "question: \"With a US 401(k) that offers an employer match, what's the smartest first move?\"",
+      "newSpan": "question: \"In this US 401(k) example, the employee is eligible and the contribution is affordable after essentials and required debt payments. Which action can qualify for the full employer match under the plan rules?\""
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "B",
+      "oldSpan": "{ id: \"B\", text: \"Contribute at least enough to get the full employer match (free money)\"",
+      "newSpan": "{ id: \"B\", text: \"Contribute the amount needed for the full match under the plan rules\""
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "successMessage",
+      "oldSpan": "successMessage: \"An employer match is an instant 100% return on those contributions — always capture the full match first. +30 tokens!\"",
+      "newSpan": "successMessage: \"The matching formula, cap, eligibility and vesting schedule depend on the plan. For illustration, a 50% match on an eligible USD 100 contribution adds USD 50. Employer contributions may vest over time. Any unvested portion may be forfeited if you leave before it vests. This is not a guaranteed investment return or a universal first spending priority. This US example does not describe Polish PPK.\""
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "locale": "EN",
+      "field": "retryMessage",
+      "oldSpan": "retryMessage: \"Always contribute enough to capture the full employer match — it's free money you can't get any other way.\"",
+      "newSpan": "retryMessage: \"The matching formula, cap, eligibility and vesting schedule depend on the plan. For illustration, a 50% match on an eligible USD 100 contribution adds USD 50. Employer contributions may vest over time. Any unvested portion may be forfeited if you leave before it vests. This is not a guaranteed investment return or a universal first spending priority. This US example does not describe Polish PPK.\""
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "locale": "PL",
+      "field": "question",
+      "oldSpan": "question: \"Masz w USA plan 401(k) z dopłatą pracodawcy. Jaki jest najmądrzejszy pierwszy ruch?\"",
+      "newSpan": "question: \"W tym przykładzie z amerykańskim planem 401(k) pracownik spełnia warunki udziału, a wpłata mieści się w budżecie po podstawowych potrzebach i wymaganych spłatach długu. Które działanie może uprawniać do pełnej dopłaty zgodnie z zasadami planu?\""
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "locale": "PL",
+      "field": "B",
+      "oldSpan": "{ id: \"B\", text: \"Wpłacać co najmniej tyle, by dostać pełną dopłatę pracodawcy (darmowe pieniądze)\"",
+      "newSpan": "{ id: \"B\", text: \"Wpłacić kwotę potrzebną do pełnej dopłaty zgodnie z zasadami planu\""
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "locale": "PL",
+      "field": "explanation",
+      "oldSpan": "explanation: \"Dopłata pracodawcy to natychmiastowy 100% zwrot z tych wpłat — zawsze wykorzystaj ją w całości.\"",
+      "newSpan": "explanation: \"Formuła, limit dopłaty, warunki udziału i vesting zależą od planu. Hipotetyczna dopłata 50% do uprawnionej wpłaty 100 USD dodaje 50 USD. Prawa do wpłat pracodawcy można nabywać z czasem. Odchodząc z pracy, można utracić tylko ich część, do której nie nabyto praw. To nie gwarantowany zwrot z inwestycji ani uniwersalny pierwszy priorytet wydatków. Przykład z USA nie opisuje polskiego PPK.\""
+    }
+  ],
+  "nonTargetBytesLiteral": true,
+  "idsOrderKeyRewardAndOptionACDUnchanged": true,
+  "vestingReviewFinding": "Only unvested portion may be forfeited; corrected proposal independently accepted before application.",
+  "lineEndingQualification": "Inherited mixed CRLF/loneLF counts preserved exactly; initial overstrict prewrite assertion corrected before source mutation, see preapply-check.json."
+}

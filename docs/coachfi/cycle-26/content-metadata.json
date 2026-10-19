@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "cycle": 26,
+  "module": null,
+  "version": "poland-compound-gap-pl-en-v1-c26-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 1,
+  "language_versions": 2,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 30,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "existing_question_ids": [
+      "poland-compound-gap"
+    ],
+    "englishOperation": "Replace exactly one existing quiz record; retain ID C30 and category Financial Literacy.",
+    "PLOperation": "Insert one NEW own plQuestionOverrides property; zero existed before. New category Wiedza finansowa is explicitly part of the PL copy, not a scoring/data field.",
+    "noRoutingChange": "No lesson, stage, topic or default pool added. Actual canonical Review reachability only.",
+    "protected": "All other question records, answer keys, rewards, categories, seven other locale overrides, stageLessons, localizedQuiz, challenge c15, SRS and save helpers."
+  },
+  "sources": [
+    {
+      "id": "oecd-poland-2022",
+      "publisher": "OECD",
+      "title": "Financial Literacy in Poland: Relevance, evidence and provision",
+      "publication_year": 2022,
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/09/financial-literacy-in-poland_b03b02c0/f5f2adc3-en.pdf",
+      "checked_date": "2026-10-15",
+      "location": "Printed p.40 (PDF index39), section2.3.1 and Table2.2; introductory summary p.7.",
+      "primary_read": "Fresh public PDF text and Table2.2 screenshot; no account or real user data.",
+      "bounded_findings": "The report describes a representative sample of1000 people aged18–79 and pre-COVID data for the2020 survey. Table2.2 labels36.5% as correct understanding of BOTH simple and compound interest. Knowledge, behaviour and attitudes are separately measured.",
+      "limits": "This is not a matched exact33% statistic for an unspecified year/item/population. These observations do not establish that every historical use of33% is false, or prove direct causation of debt or pension outcomes."
+    },
+    {
+      "id": "oecd-infe-2023",
+      "publisher": "OECD/INFE",
+      "title": "OECD/INFE2023 International Survey of Adult Financial Literacy",
+      "publication_year": 2023,
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2023/12/oecd-infe-2023-international-survey-of-adult-financial-literacy_8ce94e2c/56003a32-en.pdf",
+      "checked_date": "2026-10-15",
+      "location": "Printed pp.19–20, Figure2.4 notes; pp.55–56, Figure4.5 notes.",
+      "primary_read": "Fresh public PDF relevant method/results sections; no account, SDK, session or paid call.",
+      "bounded_findings": "The report distinguishes individual simple/compound items from joint scoring. Financial well-being comparisons use regression and are described as associations, with other individual characteristics considered.",
+      "limits": "A descriptive percentage or association alone is not a causal identification design. This is an evidence-review inference from the reported method, not a quotation or a claim that no causal research exists."
+    }
+  ],
+  "claim_review": {
+    "old_number": "UNVERIFIED_AS_EXACTLY_MATCHED: current copy lacks source year, population, item wording and scoring. The located2022 table is36.5% joint correctness, not a source for exact33%.",
+    "old_causality": "UNSUPPORTED_BY_THE_LOCATED_DESCRIPTIVE_EVIDENCE: directly causing debt spirals and low pension savings is stronger than these findings establish.",
+    "not_claimed": "We do not call33% universally false and do not claim financial knowledge has no relevance to choices or outcomes.",
+    "resolution": "Teach how to interpret the survey measure without publishing a replacement percentage or deterministic outcome claim."
+  },
+  "questions": [
+    {
+      "id": "poland-compound-gap",
+      "correctAnswer": "C",
+      "reward": 30,
+      "learning_goal": "Distinguish a scoped financial-knowledge survey result from financial behaviour, individual outcomes and causal proof.",
+      "copy": {
+        "pl": {
+          "id": "poland-compound-gap",
+          "question": "Co można wywnioskować z odsetka poprawnych odpowiedzi w badaniu wiedzy o procencie składanym w Polsce?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Każda osoba z błędną odpowiedzią wpadnie w długi"
+            },
+            {
+              "id": "B",
+              "text": "Sama wiedza gwarantuje wysoką emeryturę"
+            },
+            {
+              "id": "C",
+              "text": "To wynik określonych pytań, próby, roku i punktowania"
+            },
+            {
+              "id": "D",
+              "text": "Ten odsetek opisuje wszystkie zachowania finansowe"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Sprawdź rok, badaną populację, treść pytań i sposób punktowania. Wynik wiedzy nie jest tym samym co zachowanie ani sytuacja finansowa. Sama zależność statystyczna nie dowodzi, że brak tej wiedzy bezpośrednio powoduje długi lub niskie oszczędności emerytalne.",
+          "retryMessage": "Sprawdź rok, badaną populację, treść pytań i sposób punktowania. Wynik wiedzy nie jest tym samym co zachowanie ani sytuacja finansowa. Sama zależność statystyczna nie dowodzi, że brak tej wiedzy bezpośrednio powoduje długi lub niskie oszczędności emerytalne.",
+          "category": "Wiedza finansowa"
+        },
+        "en": {
+          "id": "poland-compound-gap",
+          "question": "What can a survey percentage of correct answers about compound interest in Poland tell us?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Everyone answering incorrectly will fall into debt"
+            },
+            {
+              "id": "B",
+              "text": "Knowledge alone guarantees a high pension"
+            },
+            {
+              "id": "C",
+              "text": "It is a result of specific questions, sample, year and scoring"
+            },
+            {
+              "id": "D",
+              "text": "That percentage describes all financial behaviour"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Check the year, surveyed population, questions and scoring method. A knowledge result is not the same as behaviour or financial circumstances. A statistical association alone does not prove that lacking this knowledge directly causes debt or low retirement savings. +30 local points.",
+          "retryMessage": "Check the year, surveyed population, questions and scoring method. A knowledge result is not the same as behaviour or financial circumstances. A statistical association alone does not prove that lacking this knowledge directly causes debt or low retirement savings.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Błędna odpowiedź nie przesądza o przyszłym zadłużeniu każdej osoby. Opis wiedzy nie identyfikuje sam przyczyny długów ani losu jednostki.",
+          "en": "An incorrect answer does not determine that every person will become indebted. A knowledge measure alone identifies neither a cause of debt nor an individual outcome."
+        },
+        "B": {
+          "pl": "Wiedza sama nie gwarantuje kwoty emerytury. Dochody, sytuacja życiowa i inne warunki również mają znaczenie; ten wynik ich nie mierzy.",
+          "en": "Knowledge alone does not guarantee a pension amount. Income, life circumstances and other conditions also matter; this result does not measure them."
+        },
+        "D": {
+          "pl": "Odsetek poprawnych odpowiedzi dotyczy wskazanych zadań i punktowania. Nie jest kompletną miarą wszystkich zachowań finansowych.",
+          "en": "A correct-answer percentage concerns the stated tasks and scoring. It is not a complete measure of all financial behaviour."
+        }
+      },
+      "numeric_assumptions": {
+        "new_published_percentage": null,
+        "currency": null,
+        "units": "Survey-item correctness, scoped to the defined population/year/questions/scoring; no monetary calculation or forecast.",
+        "data_collection": false,
+        "source_numbers_used_only_in_review": true
+      }
+    }
+  ],
+  "voice_checks": {
+    "format": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\" \")",
+    "maximum": 308,
+    "cases": [
+      {
+        "id": "poland-compound-gap",
+        "locale": "pl",
+        "text": "Co można wywnioskować z odsetka poprawnych odpowiedzi w badaniu wiedzy o procencie składanym w Polsce? A. Każda osoba z błędną odpowiedzią wpadnie w długi B. Sama wiedza gwarantuje wysoką emeryturę C. To wynik określonych pytań, próby, roku i punktowania D. Ten odsetek opisuje wszystkie zachowania finansowe",
+        "utf16_length": 308,
+        "question_length": 102,
+        "explanation_length": 258,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-compound-gap",
+        "locale": "en",
+        "text": "What can a survey percentage of correct answers about compound interest in Poland tell us? A. Everyone answering incorrectly will fall into debt B. Knowledge alone guarantees a high pension C. It is a result of specific questions, sample, year and scoring D. That percentage describes all financial behaviour",
+        "utf16_length": 308,
+        "question_length": 90,
+        "explanation_length": 265,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Draft only; no author acceptance of implementation or learning effectiveness.",
+    "No new mandatory action, investment, pension, debt or product recommendation.",
+    "Historical SRS remains unchanged and does not demonstrate understanding of changed words.",
+    "Challenge c15 and nearby statistical/causal claims remain outside this one-ID scope.",
+    "English remains language for adults in Poland, with no imported market or tax policy."
+  ]
+}

@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {spawnSync} from 'node:child_process';
+import {fingerprintRuntime} from '../cycle-38/runtime-fingerprint.mjs';
+const dir='evidence/cycle-55/',mode=process.argv[2];assert(['baseline','acceptance','typecheck'].includes(mode));assert(!fs.existsSync(dir+mode+'-run.json'),'Preserve one-shot evidence');
+const repo=fs.realpathSync(process.cwd()),require=createRequire(path.join(repo,'package.json'));
+const fresh=['tests/cycle55-onboarding.test.ts'];
+const selected=fresh,beforeCapture=JSON.parse(fs.readFileSync(dir+'before.json','utf8')),paths=[...beforeCapture.inputs.map(x=>x.path),...fresh,'tests/e2e/cycle55-onboarding.spec.ts','playwright.cycle55.config.ts'];
+const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),pins=()=>paths.map(path=>({path,sha256:hash(path)})),before=pins(),runtimeBefore=fingerprintRuntime(repo,'6.1.4'),env={...process.env};
+for(const n of Object.keys(env))if(/SUPABASE|CDP_|SOLANA|ANTHROPIC|OPENAI|OPENROUTER|ELEVENLABS|UPSTASH|COACHFI_DEV_DB|NODE_AUTH_TOKEN|NPM_TOKEN/.test(n))env[n]='';delete env.NODE_OPTIONS;delete env.NODE_PATH;env.NEXT_TELEMETRY_DISABLED='1';
+const args=mode==='typecheck'?[require.resolve('typescript/bin/tsc'),'--noEmit','--incremental','false']:[path.join(path.dirname(require.resolve('vitest/package.json')),'vitest.mjs'),'run',...selected,'--maxWorkers=1','--reporter=verbose','--reporter=json','--outputFile='+dir+mode+'-tests.json'];
+const startedAt=new Date().toISOString(),r=spawnSync(process.execPath,args,{cwd:repo,env,encoding:'utf8',shell:false,windowsHide:true,maxBuffer:14*1024*1024}),after=pins(),runtimeAfter=fingerprintRuntime(repo,'6.1.4'),drift=before.filter((p,i)=>p.sha256!==after[i].sha256),runtimeEqual=JSON.stringify(runtimeBefore)===JSON.stringify(runtimeAfter),exitCode=r.status===0&&(!runtimeEqual||drift.length)?1:r.status;
+fs.writeFileSync(dir+mode+'-run.json',JSON.stringify({cycle:55,mode,startedAt,completedAt:new Date().toISOString(),childExitCode:r.status,exitCode,selectedTests:mode==='typecheck'?[]:selected,before,after,drift,runtimeBefore,runtimeAfter,runtimeEqual,stdout:r.stdout??'',stderr:r.stderr??'',error:r.error?.message??null,environment:'Local existing installed dependency runtime. Synthetic fixture-owned storage/real owner handles and actual Onboarding with explicit lifecycle/context/Radix tree adapters; native focus is Chrome-only; no native hydration/animation, real browser data, real provider, cloud sync or production. Not clean-install, native hydration, full accessibility or legal-compliance acceptance.'},null,2)+'\n');
+console.log(JSON.stringify({mode,exitCode,inputs:before.length,drift:drift.length,runtimeEqual,error:r.error?.message??null}));process.exitCode=exitCode??1;

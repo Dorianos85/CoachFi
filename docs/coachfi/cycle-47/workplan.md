@@ -1,0 +1,11 @@
+# C47 — dwie nieużywane zależności
+
+17.10.2026. Dorośli, Polska, PL/EN. B10 ma pierwszeństwo. Root jest autorem dokładnego usunięcia dwóch deklaracji SDK; zmiana nie aktywuje zewnętrznego AI. Zależności używane przez provider, CDP i wygenerowany widget pozostają poza tą poprawką. Nie jest to zamknięcie podatności ani gotowość produkcyjna.
+
+Root: package.json, package-lock.json, sześć narzędzi evidence/cycle-47, surowe wyniki, raport i rejestry. c47_dependencies: niezależna inwentaryzacja, peer narzędzi przed wykonaniem, źródła i końcowego wyniku; wyłącznie własne dependency-inventory, tool-review i source-review JSON/MD. c47_curriculum: inwentaryzacja pozostałych pytań oraz niezależny peer narzędzi walidacji, wyników i ledgeru; wyłącznie własne remaining-adult-inventory i validation-review JSON/MD. Root niezależnie recenzuje inwentaryzację curriculum; jej autor nie przyjmuje własnego wyniku. Root+2, bez duplikowania testów.
+
+Kryteria: brak użycia dwóch SDK w sprawdzonym kodzie, usunięcie dokładnie dwóch root dependencies i ośmiu wyłącznych lock entries, zero zmiany pozostałych wpisów, zachowanie CRLF oraz 542 pozostałych inputów C46 i historycznych receipts. Kandydat ma pochodzić z pojedynczego izolowanego npm uninstall --package-lock-only --offline --ignore-scripts --no-audit, z nowymi pustymi config/cache. Gdy eksperyment nie daje dokładnej delty, nie stosować go automatycznie.
+
+Walidacja: jeden retest 36 istniejących przypadków lokalnego chatu, hardOFF API i lokalnego głosu, TypeScript bez emisji i jeden build w sprawdzonej kopii TEMP. Dotychczasowe node_modules są współdzielone; usunięte SDK mogą nadal być extraneous. Nie deklarować clean install, audytu nowych podatności, wywołań rzeczywistych providerów, przeglądarkowego głosu lub staging PASS. Brak nowego browser testu jest świadomym zakresem tej zmiany bez modyfikacji interfejsu.
+
+Warunek przyjęcia: niezależne źródła/tools/wyniki/ledger review i retest findings, brak otwartych findings tej delty. Dwie uwagi narzędziowe i doprecyzowanie słownictwa eksperymentu muszą zostać zamknięte przed jego uruchomieniem. Pozostałe B10 residuals i bramki staging pozostają otwarte. Bez stagingu nowych zmian w Git, commit, push, deploy, płatnych wywołań, sekretów i danych rzeczywistych.

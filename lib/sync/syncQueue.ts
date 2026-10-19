@@ -1,8 +1,7 @@
-// Lightweight bridge between synchronous localStorage writers (lib/*, context/*)
-// and the cloud sync layer. Keeps the existing localStorage-first code intact:
-// modules just call `notifyCloud(...)` after writing locally. When a user is
-// signed in, AuthContext registers a pusher that mirrors the change to Supabase.
-// When signed out (or on the server), it is a no-op.
+import { AUTOMATIC_ACCOUNT_WRITES_ENABLED } from "@/lib/sync/local-sync-state";
+
+// Local writers retain this bridge, but automatic account writes are disabled
+// until an acknowledged reconciliation/idempotency contract exists.
 
 export type SyncEntity =
   | "profile" // name / goal / setupDone / avatar / voice / mode / onboarding
@@ -24,14 +23,14 @@ type Pusher = (entity: SyncEntity, payload?: unknown) => void;
 
 let pusher: Pusher | null = null;
 
-/** AuthContext calls this with a real pusher on sign-in, and null on sign-out. */
+/** Compatibility bridge: hard-off keeps the pusher null, including on sign-in. */
 export function registerCloudPusher(next: Pusher | null): void {
-  pusher = next;
+  pusher = AUTOMATIC_ACCOUNT_WRITES_ENABLED ? next : null;
 }
 
 /** Called by localStorage writers after a successful local write. */
 export function notifyCloud(entity: SyncEntity, payload?: unknown): void {
-  if (typeof window === "undefined") return;
+  if (!AUTOMATIC_ACCOUNT_WRITES_ENABLED || typeof window === "undefined") return;
   try {
     pusher?.(entity, payload);
   } catch {

@@ -1,4 +1,5 @@
 "use client";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -12,7 +13,8 @@ import { TokenRewardCard } from "@/components/TokenRewardCard";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
-import { addTokens, getTokenBalance } from "@/lib/tokens";
+import { addTokens, canAwardTokens, getTokenBalance } from "@/lib/tokens";
+import type { PersonalStorageHandle } from "@/lib/product-storage";
 import { getDisplayName, getUser } from "@/lib/user";
 
 type QuizUiCopy = {
@@ -108,7 +110,7 @@ function ChallengeBanner({
   score: string;
   copy: QuizUiCopy;
 }) {
-  const decodedFrom = decodeURIComponent(from);
+  const decodedFrom = from;
 
   return (
     <div className="mb-6 flex items-center gap-4 rounded-2xl border border-primary/20 bg-primary/10 p-5 shadow-soft">
@@ -129,7 +131,21 @@ function ChallengeBanner({
   );
 }
 
+function readQuizTokenBalance(storage: PersonalStorageHandle): number | null {
+  try {
+    if (!storage.isCurrent()) return null;
+    const raw = storage.getItem("coachfi-tokens");
+    if (!storage.isCurrent()) return null;
+    const snapshot: PersonalStorageHandle = { ...storage,
+      getItem: key => key === "coachfi-tokens" ? raw : storage.getItem(key) };
+    if (!canAwardTokens(0, snapshot)) return null;
+    const balance = getTokenBalance(snapshot);
+    return storage.isCurrent() ? balance : null;
+  } catch { return null; }
+}
+
 function QuizPageContent() {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const copy = pickLocalized(QUIZ_UI, locale);
   const { markActive } = useStreak();
@@ -138,38 +154,78 @@ function QuizPageContent() {
   const challengeScore = searchParams.get("score");
   const startQuestionId = searchParams.get("challenge") ?? undefined;
 
-  const [tokenBalance, setTokenBalance] = useState(() => getTokenBalance());
+  const [tokenBalance, setTokenBalance] = useState<number | null>(() => readQuizTokenBalance(storage));
+  const [tokenBalanceUnavailable, setTokenBalanceUnavailable] = useState(tokenBalance === null);
   const [solved, setSolved] = useState(false);
   const [quizDone, setQuizDone] = useState(false);
   const [myScore, setMyScore] = useState(0);
 
-  function handleReward(amount: number) {
-    const next = addTokens(amount);
-    setTokenBalance(next);
-    setSolved(true);
+  function persistQuizReward(amount: number, target: PersonalStorageHandle): number {
+    if (!storage.isCurrent() || !target.isCurrent()) throw new Error("Quiz reward session changed");
+    const next = addTokens(amount, undefined, undefined, target);
+    if (!storage.isCurrent() || !target.isCurrent()) throw new Error("Quiz reward session changed");
+    return next;
+  }
+
+  function recordQuizActivity(target: PersonalStorageHandle) {
+    if (!storage.isCurrent() || !target.isCurrent()) return;
     markActive();
   }
 
+  function publishQuizReward(balance: number) {
+    if (!storage.isCurrent()) return;
+    setTokenBalance(balance);
+    setTokenBalanceUnavailable(false);
+    setSolved(true);
+  }
+
+  function handleReward(amount: number) {
+    if (!storage.isCurrent()) return;
+    const next = persistQuizReward(amount, storage);
+    if (!storage.isCurrent()) return;
+    recordQuizActivity(storage);
+    if (!storage.isCurrent()) return;
+    publishQuizReward(next);
+  }
+
   function handleComplete(correctCount: number, totalCount: number) {
+    if (!storage.isCurrent()) return;
     const pts = Math.round((correctCount / totalCount) * 100);
     setMyScore(pts);
     setQuizDone(true);
   }
 
-  const myName = getDisplayName(getUser());
+  function handlePersistenceIssue() {
+    if (!storage.isCurrent()) return;
+    const balance = readQuizTokenBalance(storage);
+    if (!storage.isCurrent()) return;
+    if (balance !== null) setTokenBalance(balance);
+    setTokenBalanceUnavailable(balance === null);
+    setSolved(false);
+    setQuizDone(false);
+    // A write may have completed before its normal notification failed. Refresh
+    // readers without replaying the reward or claiming that all fields saved.
+    try { window.dispatchEvent(new Event("coachfi-tokens")); } catch { /* Keep the save alert visible. */ }
+  }
+
+  const myName = getDisplayName(getUser(storage));
+  const shareQuery = new URLSearchParams({ from: myName, score: String(myScore) }).toString();
   const shareUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/quiz?from=${encodeURIComponent(myName)}&score=${myScore}`
-      : `/quiz?from=${encodeURIComponent(myName)}&score=${myScore}`;
+      ? `${window.location.origin}/quiz?${shareQuery}`
+      : `/quiz?${shareQuery}`;
   const shareText = copy.share(myScore);
+  const scopeDescription = locale === "pl"
+    ? "Sprawdź rozumienie pojęć finansowych i zbieraj punkty za poprawne odpowiedzi."
+    : "Check your understanding of financial concepts and earn points for correct answers.";
 
   return (
     <section aria-labelledby="quiz-title">
       <SectionHeader
         eyebrow={t.quiz.eyebrow}
         title={t.quiz.title}
-        description={t.quiz.description}
-        readText={t.quiz.readText}
+        description={scopeDescription}
+        readText={`${t.quiz.title}. ${scopeDescription}`}
       />
 
       {challengeFrom && challengeScore && (
@@ -180,7 +236,9 @@ function QuizPageContent() {
         <div className="grid gap-5">
           <QuizCard
             onReward={handleReward}
+            rewardPersistence={{ award: persistQuizReward, activity: recordQuizActivity, confirmed: publishQuizReward }}
             onComplete={handleComplete}
+            onPersistenceIssue={handlePersistenceIssue}
             startQuestionId={startQuestionId}
             topic={searchParams.get("topic") ?? undefined}
           />
@@ -197,7 +255,12 @@ function QuizPageContent() {
         </div>
 
         <div className="grid gap-5">
-          <TokenRewardCard balance={tokenBalance} status={solved ? t.quiz.checkKnowledge : t.rewards.tokens} />
+          {tokenBalanceUnavailable && <p role="status" data-testid="quiz-balance-unavailable" className="rounded-2xl bg-warning/20 p-4 text-sm font-bold text-text">
+            {tokenBalance === null
+              ? locale === "pl" ? "Nie udało się odczytać salda punktów. Sprawdź dane lokalne w Ustawieniach." : "Your points balance could not be read. Check your local data in Settings."
+              : locale === "pl" ? "Aktualne saldo punktów jest niedostępne. Pokazujemy ostatnio odczytane saldo." : "Your current points balance is unavailable. The last balance read is shown."}
+          </p>}
+          {tokenBalance !== null && <TokenRewardCard balance={tokenBalance} status={solved ? t.quiz.checkKnowledge : t.rewards.tokens} />}
           <Leaderboard userScore={42} />
         </div>
       </div>
