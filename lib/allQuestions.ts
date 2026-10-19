@@ -2,6 +2,7 @@ import { quizQuestions } from "@/data/quizQuestions";
 import { challengeQuestions } from "@/data/challengeQuestions";
 import type { Locale } from "@/lib/i18n";
 import { challengeOverrides } from "@/lib/localizedChallenge";
+import { deckOverrides } from "@/lib/localizedDeck";
 import { getQuizQuestions } from "@/lib/localizedQuiz";
 
 export interface UnifiedQuestion {
@@ -1751,7 +1752,10 @@ function localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQu
   if (challengeOverride) return { ...question, ...challengeOverride };
 
   const quizOverride = getQuizQuestions(locale).find((item) => item.id === question.id);
-  if (!quizOverride) return question;
+  if (!quizOverride) {
+    const deckOverride = deckOverrides[locale]?.[question.id];
+    return deckOverride ? { ...question, ...deckOverride } : question;
+  }
 
   return {
     ...question,

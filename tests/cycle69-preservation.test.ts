@@ -4,7 +4,8 @@ import { afterAll, describe, expect, it } from "vitest";
 import { quizQuestions, type QuizQuestion } from "@/data/quizQuestions";
 import { getAllQuestions, type UnifiedQuestion } from "@/lib/allQuestions";
 import type { Locale } from "@/lib/i18n";
-import { projectC53C54Source, projectC53C54EnglishRecords, projectC53C54UnifiedRecords } from "./cycle69-legacy-preservation";
+import { projectC53C54Source, projectC53C54EnglishRecords, projectC53C54UnifiedRecords,
+  projectReleaseMainSource, projectReleaseMainUnifiedRecords } from "./cycle69-legacy-preservation";
 
 const IDS = ["us-401k-match", "tax-advantaged-wrapper"];
 const LOCALES: Locale[] = ["en", "pl", "es", "fr", "zh", "ja", "hi", "pt-BR", "tr"];
@@ -44,7 +45,7 @@ describe("C69 strict historical preservation admission, no financial or release 
   });
   it("projects PLEN and inherited views while leaving independent ESFR targets and 80 non-targets literal", () => {
     for (const locale of LOCALES) {
-      const current = getAllQuestions(locale), before = JSON.stringify(current), restored = projectC53C54UnifiedRecords(current, locale);
+      const current = projectReleaseMainUnifiedRecords(getAllQuestions(locale), locale), before = JSON.stringify(current), restored = projectC53C54UnifiedRecords(current, locale);
       observations.push({ group: "canonical", variant: locale });
       expect(restored).toHaveLength(82); expect(restored.map(({ id, correctAnswer, reward }) => ({ id, correctAnswer, reward }))).toEqual(current.map(({ id, correctAnswer, reward }) => ({ id, correctAnswer, reward })));
       for (const id of IDS) expect(target(restored, id)).toEqual(target(archive.non_target.unifiedQuestions[locale], id));
@@ -57,7 +58,7 @@ describe("C69 strict historical preservation admission, no financial or release 
     expect(projectC53C54EnglishRecords(english)).toEqual(english);
     for (const id of IDS) expect(target(projectC53C54EnglishRecords(english), id)).toBe(target(english, id));
     for (const locale of LOCALES) {
-      const records = getAllQuestions(locale).map(row => IDS.includes(row.id) ? clone(target(archive.non_target.unifiedQuestions[locale], row.id)) : row);
+      const records = projectReleaseMainUnifiedRecords(getAllQuestions(locale), locale).map(row => IDS.includes(row.id) ? clone(target(archive.non_target.unifiedQuestions[locale], row.id)) : row);
       expect(projectC53C54UnifiedRecords(records, locale)).toEqual(records);
     }
     observations.push({ group: "archived", variant: "old records remain admitted" });
@@ -113,7 +114,7 @@ describe("C69 strict historical preservation admission, no financial or release 
   it("admits the exact accepted C53 intermediate source and independent old/current target combinations", () => {
     const patch = JSON.parse(read("evidence/cycle-54/source-change.json")) as { sources: Array<{ path: string; beforeSHA256: string }>; changes: Array<{ path: string; oldSpan: string; newSpan: string }> };
     for (const path of ["data/quizQuestions.ts", "lib/allQuestions.ts"]) {
-      let intermediate = read(path); for (const change of patch.changes.filter(row => row.path === path)) intermediate = intermediate.replace(change.newSpan, () => change.oldSpan);
+      let intermediate = projectReleaseMainSource(path, read(path)); for (const change of patch.changes.filter(row => row.path === path)) intermediate = intermediate.replace(change.newSpan, () => change.oldSpan);
       expect(hash(intermediate)).toBe(patch.sources.find(row => row.path === path)!.beforeSHA256);
       expect(projectC53C54Source(path, intermediate)).toBe(projectC53C54Source(path, read(path)));
     }

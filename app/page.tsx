@@ -9,7 +9,6 @@ import {
   Calculator,
   ChartNoAxesCombined,
   CheckCircle2,
-  CircleDollarSign,
   CreditCard,
   Landmark,
   Mic,
@@ -39,6 +38,17 @@ import { isRouteEnabled } from "@/lib/product-scope";
 import { formatCurrency, formatNumber, LOCALE_INTL } from "@/lib/utils";
 
 type DashboardCopy = (typeof dashboardCopy)["en"];
+
+const simulatorDisclosure: LocalizedMap<{ assumptions: string; loan: string }> = {
+  pl: {
+    assumptions: "Przykładowy scenariusz w PLN: stała nominalna stopa 5,5% rocznie, kapitalizacja miesięczna i wpłaty na koniec miesiąca. Bez opłat, podatku i inflacji. To nie jest prognoza ani gwarancja zysku.",
+    loan: "Nie obliczamy tu oszczędności z nadpłaty kredytu. Wymagają one salda, oprocentowania, harmonogramu i warunków opłat danego kredytu.",
+  },
+  en: {
+    assumptions: "Illustrative PLN scenario: a fixed nominal annual rate of 5.5%, monthly compounding and end-of-month contributions. Excludes fees, tax and inflation. This is not a forecast or guaranteed return.",
+    loan: "Loan-overpayment savings are not calculated here. They require the loan balance, interest rate, payment schedule and fee terms.",
+  },
+};
 
 // The dashboard ships with illustrative figures. Until the user runs the free
 // Health Check we must label them clearly as an example — never as their data.
@@ -368,7 +378,7 @@ export default function Page() {
       <FinanceRoute copy={copy} fmt={fmt} />
 
       <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.15fr)_420px]">
-        <DecisionSimulator copy={copy} fmt={fmt} />
+        <DecisionSimulator copy={copy} fmt={fmt} locale={locale} />
 
         <div className="grid gap-6">
           <section className="rounded-lg border border-primary/10 bg-white/90 p-5 shadow-soft">
@@ -557,10 +567,10 @@ function RouteStep({
   );
 }
 
-function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: number) => string }) {
+function DecisionSimulator({ copy, fmt, locale }: { copy: DashboardCopy; fmt: (value: number) => string; locale: import("@/lib/i18n").Locale }) {
+  const disclosure = pickLocalized(simulatorDisclosure, locale);
   const [monthlySaving, setMonthlySaving] = useState(900);
   const [years, setYears] = useState(15);
-  const [overpayment, setOverpayment] = useState(400);
 
   const simulation = useMemo(() => {
     const monthlyExpenses = mockUser.monthlyExpenses;
@@ -574,7 +584,6 @@ function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: nu
         ? monthlySaving * months
         : monthlySaving * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
     const conservativeValue = monthlySaving * months;
-    const estimatedInterestSaved = overpayment * 12 * Math.min(years, 12) * 0.42;
     const chartData = Array.from({ length: years + 1 }, (_, year) => {
       const month = year * 12;
       const invested =
@@ -594,10 +603,9 @@ function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: nu
       monthsToEmergency,
       futureValue,
       conservativeValue,
-      estimatedInterestSaved,
       chartData,
     };
-  }, [copy.simulator, monthlySaving, overpayment, years]);
+  }, [copy.simulator, monthlySaving, years]);
 
   return (
     <section className="rounded-lg border border-primary/10 bg-white/90 p-5 shadow-soft" aria-labelledby="sim-title">
@@ -636,33 +644,21 @@ function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: nu
             formatted={copy.simulator.yearsValue(years)}
             onChange={setYears}
           />
-          <SliderControl
-            id="overpayment"
-            label={copy.simulator.overpayment}
-            value={overpayment}
-            min={0}
-            max={2000}
-            step={50}
-            formatted={fmt(overpayment)}
-            onChange={setOverpayment}
-          />
+          <p className="text-sm leading-6 text-muted">{disclosure.loan}</p>
         </div>
 
         <div className="grid gap-5">
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <ResultTile
               icon={ShieldCheck}
               label={copy.simulator.results.emergency}
               value={copy.simulator.results.months(simulation.monthsToEmergency)}
             />
             <ResultTile icon={TrendingUp} label={copy.simulator.results.growth} value={fmt(simulation.futureValue)} />
-            <ResultTile
-              icon={CircleDollarSign}
-              label={copy.simulator.results.overpayment}
-              value={fmt(simulation.estimatedInterestSaved)}
-            />
+
           </div>
 
+          <p className="text-sm leading-6 text-muted">{disclosure.assumptions}</p>
           <GrowthChart data={simulation.chartData} labels={copy.simulator} />
         </div>
       </div>

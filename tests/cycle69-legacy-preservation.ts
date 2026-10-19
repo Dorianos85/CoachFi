@@ -132,6 +132,78 @@ for (const locale of ["zh", "ja", "hi", "pt-BR", "tr"] as const) for (const id o
 for (const pair of [...english.values(), ...canonical.values()]) for (const record of [pair.before, pair.after]) {
   shape(record, "explanation" in record ? UNIFIED_KEYS : QUIZ_KEYS); check(record.correctAnswer === "B" && record.reward === 30, "two target scoring");
 }
+
+// The merged main adds one pinned deck fallback. This test-only inverse keeps
+// the original C69/C37 historical oracles; it never admits arbitrary locale copy.
+type ReleaseAdmission = {
+  schema: number;
+  source: { path: string; historicalSHA256: string; currentSHA256: string;
+    inverse: Array<{ current: string; historical: string }> };
+  sourcePins: Array<{ path: string; sha256: string }>;
+  locales: Array<{ locale: Locale; projectedIds: string[]; deckRecordsSHA256: string }>;
+};
+const release = artifact<ReleaseAdmission>("tests/release-pr19-preservation-admission.json",
+  "f64626fc12165ce59f7ee33ce14c724feaf2eb5b97012d724719f84909e82ff2");
+check(release.schema === 1 && release.source.path === "lib/allQuestions.ts" && release.source.inverse.length === 2, "incoming source identity");
+check(isDeepStrictEqual(release.locales.map(row => row.locale), ["es", "fr", "zh", "ja", "hi", "pt-BR", "tr"]), "incoming locale identity/order");
+for (const pin of release.sourcePins) pinnedText(pin.path, pin.sha256);
+const deckPin = release.sourcePins.find(row => row.path === "lib/localizedDeck.ts")!;
+const deckTree = ts.createSourceFile(deckPin.path, pinnedText(deckPin.path, deckPin.sha256), ts.ScriptTarget.Latest, true);
+const deckNodes: ts.ObjectLiteralExpression[] = [];
+function findDeck(node: ts.Node) {
+  if (ts.isVariableDeclaration(node) && node.name.getText(deckTree) === "deckOverrides" && node.initializer && ts.isObjectLiteralExpression(node.initializer)) deckNodes.push(node.initializer);
+  ts.forEachChild(node, findDeck);
+}
+findDeck(deckTree); check(deckNodes.length === 1, "single pinned incoming deck");
+const incomingDeck = literal(deckNodes[0]!) as Record<Locale, Record<string, Pick<UnifiedQuestion, "question" | "answers" | "explanation" | "category">>>;
+exactKeys(incomingDeck, release.locales.map(row => row.locale), "incoming deck locales");
+const archivedEnglish = newBanks.find(bank => bank.locale === "en")!;
+const englishFallback = new Map(metadata.map(meta => {
+  const row = IDS.some(id => id === meta.id) ? canonical.get("en:" + meta.id)!.after
+    : archivedEnglish.nonTargetRows.find(row => row.id === meta.id)!;
+  check(row !== undefined, "independent archived fallback " + meta.id); shape(row, UNIFIED_KEYS);
+  return [meta.id, row] as const;
+}));
+for (const locale of release.locales) {
+  const rows = incomingDeck[locale.locale];
+  check(isDeepStrictEqual(Object.keys(rows), locale.projectedIds) && new Set(locale.projectedIds).size === locale.projectedIds.length, "exact incoming ID list " + locale.locale);
+  check(hash(JSON.stringify(rows)) === locale.deckRecordsSHA256, "incoming record digest " + locale.locale);
+  for (const id of locale.projectedIds) {
+    check(englishMetadata.some(row => row.id === id), "incoming existing quiz ID");
+    exactKeys(rows[id]!, ["question", "answers", "explanation", "category"], "incoming text-only fields");
+    shape({ ...englishFallback.get(id)!, ...rows[id]! }, UNIFIED_KEYS);
+  }
+}
+
+export function projectReleaseMainSource(file: string, source: string): string {
+  if (file !== release.source.path) return source;
+  const historicalPins = patches.flatMap(patch => patch.sources.filter(row => row.path === file).flatMap(row => [row.beforeSHA256, row.afterSHA256]));
+  check([release.source.currentSHA256, ...historicalPins].includes(hash(source)), "unexpected incoming whole source bytes");
+  if (hash(source) !== release.source.currentSHA256) return source;
+  for (const operation of release.source.inverse) {
+    check(source.split(operation.current).length === 2, "single incoming inverse span");
+    source = source.replace(operation.current, () => operation.historical);
+  }
+  check(hash(source) === release.source.historicalSHA256, "whole incoming inverse source");
+  return source;
+}
+
+export function projectReleaseMainUnifiedRecords(records: readonly UnifiedQuestion[], locale: Locale): UnifiedQuestion[] {
+  check(LOCALES.includes(locale), "known incoming locale");
+  admitBank(records, metadata, locale === "pl" || locale === "en");
+  const incoming = release.locales.find(row => row.locale === locale);
+  return records.map(record => {
+    if (!incoming?.projectedIds.includes(record.id)) return record;
+    shape(record, UNIFIED_KEYS);
+    const before = englishFallback.get(record.id)!;
+    const after = { ...before, ...incomingDeck[locale][record.id]! };
+    const oldTarget = canonical.get(locale + ":" + record.id)?.before;
+    check(isDeepStrictEqual(record, before) || isDeepStrictEqual(record, after) ||
+      (oldTarget !== undefined && isDeepStrictEqual(record, oldTarget)), "unexpected incoming target copy/fields " + locale + ":" + record.id);
+    return isDeepStrictEqual(record, after) ? clone(before) : record;
+  });
+}
+
 function admitBank(records: readonly (QuizQuestion | UnifiedQuestion)[], expected: readonly Meta[], strictScoring: boolean) {
   check(Array.isArray(records) && records.length === expected.length && isDeepStrictEqual(records.map(row => row.id), expected.map(row => row.id)), "bank cardinality/ID/order");
   if (strictScoring) check(isDeepStrictEqual(records.map(({ id, correctAnswer, reward }) => ({ id, correctAnswer, reward })), expected), "bank key/reward");
@@ -146,6 +218,7 @@ export function projectC53C54EnglishRecords(records: readonly QuizQuestion[]): Q
   });
 }
 export function projectC53C54UnifiedRecords(records: readonly UnifiedQuestion[], locale: Locale): UnifiedQuestion[] {
+  records = projectReleaseMainUnifiedRecords(records, locale);
   check(LOCALES.includes(locale), "known locale"); admitBank(records, metadata, locale === "pl" || locale === "en");
   return records.map(record => {
     if (!IDS.some(id => id === record.id)) return record;
@@ -155,6 +228,7 @@ export function projectC53C54UnifiedRecords(records: readonly UnifiedQuestion[],
   });
 }
 export function projectC53C54Source(file: string, source: string): string {
+  source = projectReleaseMainSource(file, source);
   if (file !== "data/quizQuestions.ts" && file !== "lib/allQuestions.ts") return source;
   const states = patches.map(patch => { const candidates = patch.sources.filter(row => row.path === file); check(candidates.length === 1, "single source tuple"); return candidates[0]!; });
   check(states[0]!.afterSHA256 === states[1]!.beforeSHA256, "source history link");

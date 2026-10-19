@@ -201,8 +201,16 @@ describe("C38 selector compatibility with the actual Tailwind pipeline", () => {
     expect(rule).toBeDefined();
     if (!rule) throw new Error("Missing global launcher visibility rule");
     expect(requireDeclaration(rule, "visibility")).toBe("hidden");
-    expect(rule.selector.nodes).toHaveLength(2);
-    expect(pseudos(rule).filter((value) => value === ":not")).toHaveLength(3);
+    // Incoming main adds typing-only visibility for its mode-switcher dock.
+    // Admit exactly that third branch while preserving both original Mila branches.
+    const typingScope = 'body:has(input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea:focus, [contenteditable="true"]:focus)';
+    expect(rule.selector.nodes.map((selector) => selector.toString().trim())).toEqual([
+      'body:has([role="dialog"][aria-modal="true"]) .mila-launcher-dock',
+      `${typingScope} .mila-launcher-dock`,
+      `${typingScope} .mode-switcher-dock`,
+    ]);
+    expect(rule.selector.nodes).toHaveLength(3);
+    expect(pseudos(rule).filter((value) => value === ":not")).toHaveLength(6);
     expect(attributes(rule)).toEqual(expect.arrayContaining([
       { name: "role", value: "dialog" },
       { name: "aria-modal", value: "true" },

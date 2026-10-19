@@ -1642,5 +1642,27 @@
     "verification": "../../evidence/cycle-73/verification.json",
     "next": "C74: finite isolated clean-runtime verification of the updated lock in a task-owned directory, with public SRI-verified artifacts, no lifecycle scripts, production environment or credentials. Validate the fresh dependency graph and appropriate checks there; inspect remaining B10 dependency findings against current official sources. Existing-runtime C73 PASS is not clean-install/staging/production acceptance. Preserve concrete resource failures and do not poll unchanged blocks.",
     "production": "NO_GO"
+  },
+  "release_pr19_preparation": {
+    "date": "2026-10-19",
+    "scope": "Adults Poland PL/EN, seven live-audit P1 and PR19 merge conflicts",
+    "status": "LOCAL_PACKAGE_CHECKS_COMPLETE_PRODUCTION_NO_GO",
+    "originalWorkspacePreserved": true,
+    "loop": "PAUSED",
+    "report": "docs/coachfi/release-pr19/REPORT.md",
+    "independentReviews": true,
+    "liveWWW": "TLS_REDIRECT_VERIFIED_NO_APP_DEPLOY",
+    "privacy": "PARTIAL_CONTACT_AND_LEGAL_FACTS_PENDING",
+    "mail": "FREE_ONLY_USER_REGISTRATION_HANDOFF",
+    "dependencyAudit": {
+      "high": 5,
+      "moderate": 7,
+      "critical": 0,
+      "highQualification": "Five dev dependency nodes for one braces GHSA; no verified patched version or exposure closure"
+    },
+    "staging": "NOT_ACCEPTED",
+    "push": "PENDING",
+    "productionDeployment": "NOT_AUTHORIZED_IN_THIS_FIX_BATCH",
+    "build": "PASS_TEMP_TWO_FONT_MOCK_SCOPED_RUNTIME"
   }
 }

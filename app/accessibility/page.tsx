@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, ShieldAlert, Volume2 } from "lucide-react";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -11,6 +11,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
+import { getHealthCheck } from "@/lib/healthCheck";
+import { FINANCIAL_SCORE_MAX } from "@/lib/financial-score";
+import { CONSENT_CHANGED_EVENT } from "@/lib/consent";
+import type { PersonalStorageHandle } from "@/lib/product-storage";
+import { useProductStorage } from "@/lib/use-product-storage";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
 const accessibilityVoiceCopy: LocalizedMap<
@@ -151,17 +156,49 @@ const accessibilityVoiceCopy: LocalizedMap<
   },
 };
 
+const scoreReadingCopy: LocalizedMap<{ unavailable: string; result: (score: number) => string; example: string }> = {
+  pl: {
+    unavailable: "Brak dostępnego wyniku finansowego. Otwórz diagnozę finansową, aby obliczyć lub sprawdzić swój wynik.",
+    result: (score) => `Twój edukacyjny wskaźnik finansowy wynosi ${score} na ${FINANCIAL_SCORE_MAX}. To wynik lokalnej diagnozy, nie naukowa ocena ani porada finansowa.`,
+    example: "Przykładowy tekst edukacyjny, nie informacja o Twoim postępie.",
+  },
+  en: {
+    unavailable: "No financial score is available. Open the financial diagnosis to calculate or check your result.",
+    result: (score) => `Your educational financial index is ${score} out of ${FINANCIAL_SCORE_MAX}. This is a local diagnosis result, not a scientific assessment or financial advice.`,
+    example: "Example educational reading, not a statement of your progress.",
+  },
+};
+
 export default function AccessibilityPage() {
   const { locale } = useLanguage();
+  const { storage } = useProductStorage();
+  const [scoreView, setScoreView] = useState<{ storage: PersonalStorageHandle; score: number | null } | null>(null);
+  useLayoutEffect(() => {
+    let active = true;
+    const read = () => {
+      if (!active || !storage.isCurrent()) return;
+      const result = getHealthCheck(storage);
+      if (active && storage.isCurrent()) setScoreView({ storage, score: result?.score ?? null });
+    };
+    read();
+    const events = ["coachfi-health-check", "coachfi-cloud-synced", CONSENT_CHANGED_EVENT, "storage"];
+    events.forEach((event) => window.addEventListener(event, read));
+    return () => {
+      active = false;
+      events.forEach((event) => window.removeEventListener(event, read));
+    };
+  }, [storage]);
+  const score = scoreView?.storage === storage && storage.isCurrent() ? scoreView.score : null;
+  const scoreCopy = pickLocalized(scoreReadingCopy, locale);
   const copy = getLocalizedContent(locale).accessibility;
   const voiceCopy = pickLocalized(accessibilityVoiceCopy, locale);
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const voiceScripts = voiceDemoScripts[voiceLocale];
   const voiceFirstActions = [
-    { id: "financial-score", label: voiceCopy.actions[0], text: voiceScripts.financialScore },
-    { id: "inflation", label: voiceCopy.actions[1], text: voiceScripts.inflationWakeUp },
-    { id: "next-lesson", label: voiceCopy.actions[2], text: voiceScripts.milaIntro },
+    { id: "financial-score", label: voiceCopy.actions[0], text: score === null ? scoreCopy.unavailable : scoreCopy.result(score) },
+    { id: "inflation", label: voiceCopy.actions[1], text: `${scoreCopy.example} ${voiceScripts.inflationWakeUp}` },
+    { id: "next-lesson", label: voiceCopy.actions[2], text: `${scoreCopy.example} ${voiceScripts.milaIntro}` },
   ];
   const [highContrast, setHighContrast] = useState(false);
   const [textScale, setTextScale] = useState<TextScale>("normal");

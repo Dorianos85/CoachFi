@@ -1,7 +1,7 @@
 export const en = {
   lang: "en",
-  currency: "USD",
-  currencySymbol: "$",
+  currency: "PLN",
+  currencySymbol: "zł",
 
   nav: {
     home: "Home",
