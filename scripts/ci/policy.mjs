@@ -103,6 +103,37 @@ export const expectedBrowserCases = [
   { file: "dependency-design-regression.spec.ts", name: "375: preserves Coachfi design after dependency changes" },
   { file: "dependency-design-regression.spec.ts", name: "1280: preserves Coachfi design after dependency changes" },
 ];
+function browserFailureDiagnostic(result, file, rootDir) {
+  const error = object(result.error) ? result.error : Array.isArray(result.errors) && object(result.errors[0]) ? result.errors[0] : {};
+  const matchers = ["toBe", "toEqual", "toStrictEqual", "toContain", "toHaveLength", "toHaveText", "toContainText",
+    "toBeVisible", "toBeEnabled", "toBeDisabled", "toBeFocused", "toHaveURL", "toBeNull", "toHaveAttribute", "toHaveCSS", "toHaveCount", "toMatchObject",
+    "toBeGreaterThanOrEqual", "toBeLessThanOrEqual"];
+  const matcher = object(error.matcherResult) && matchers.includes(error.matcherResult.name) ? error.matcherResult.name : null;
+  const category = result.status === "timedOut" || error.name === "TimeoutError" ? "timeout"
+    : result.status === "interrupted" ? "interrupted" : result.status === "skipped" ? "skipped" : matcher ? "assertion" : "test-error";
+  const publicFile = `tests/e2e/${file}`;
+  const paths = [file, publicFile];
+  if (typeof rootDir === "string" && rootDir.length <= 4096) {
+    const base = rootDir.replaceAll("\\", "/").replace(/\/$/, "");
+    if (base.endsWith("/tests/e2e") && !base.split("/").includes("..")) paths.push(`${base}/${file}`);
+  }
+  const location = (value, source) => {
+    if (!expectedBrowserCases.some(test => test.file === file) || !object(value) || typeof value.file !== "string" ||
+        value.file.length > 4096 || !paths.includes(value.file.replaceAll("\\", "/")) ||
+        ![value.line, value.column].every(number => Number.isSafeInteger(number) && number > 0 && number <= 999999)) return null;
+    return { file: publicFile, line: value.line, column: value.column, source };
+  };
+  let found = location(error.location, "error-location");
+  // Only coordinates from exact allowlisted frames survive. Never publish arbitrary error text.
+  if (!found && typeof error.stack === "string" && error.stack.length <= 32768) {
+    for (const frame of error.stack.split(/\r?\n/, 25)) {
+      const match = /^\s+at (?:[^()\r\n]{1,160} \()?([^()\r\n]{1,4096}):([1-9]\d{0,5}):([1-9]\d{0,5})\)?$/.exec(frame);
+      if (match) found = location({ file: match[1], line: Number(match[2]), column: Number(match[3]) }, "allowlisted-stack");
+      if (found) break;
+    }
+  }
+  return { category, location: found, matcher };
+}
 export function evaluateBrowser(report) {
   assert(object(report) && Array.isArray(report.suites) && Array.isArray(report.errors) && report.errors.length === 0, "browser-report-schema-or-global-error");
   const specs = [];
@@ -113,7 +144,9 @@ export function evaluateBrowser(report) {
     assert(typeof spec.file === "string" && typeof spec.title === "string" && Array.isArray(spec.tests) && spec.tests.length === 1, "browser-spec-schema");
     const test = spec.tests[0];
     assert(test.projectName === "ci-bundled-chromium" && Array.isArray(test.results) && test.results.length === 1, "browser-project-or-retry");
-    return { file: spec.file, name: spec.title, status: test.results[0].status };
+    const result = test.results[0];
+    const value = { file: spec.file, name: spec.title, status: result.status };
+    return result.status === "passed" ? value : { ...value, diagnostic: browserFailureDiagnostic(result, spec.file, report.config?.rootDir) };
   });
   const identity = ({ file, name }) => `${file}::${name}`;
   assert.deepEqual(cases.map(identity).sort(), expectedBrowserCases.map(identity).sort(), "browser-exact-case-identities");

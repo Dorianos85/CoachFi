@@ -31,6 +31,12 @@ The build candidate is tree `84f8bbe919d7b4071e7ca03a0abc32dd86e0a3a1`, incorpor
 
 Detailed raw failures, source hashes, byte inventories and retests remain in the local workspace ledger `evidence/dependencies-ci-2026-10-20/`; that ledger is not uploaded. See the independent [review](REVIEW.md).
 
+## First hosted run and diagnostic follow-up
+
+GitHub Actions [39506002357](https://github.com/Dorianos85/CoachFi/actions/runs/39506002357) tested published head `9d45ec09fd55c0c4038ec62e7b375bf6af26f968` on Ubuntu 24.04. The separate full dependency audit passed with zero findings at every severity. Quality passed hygiene, installation, TypeScript, all **3647 unit cases in 185 files with zero skipped**, native checks and the guarded build (38 app paths). Its browser stage remained **FAIL: five passed, one failed**. The failed identity was the EN mobile adult/family route flow; both direct-family and both design cases passed.
+
+The initial public summary exposed the failing identity but omitted the source location. The follow-up adds bounded diagnostic categories, numeric source coordinates restricted to the reviewed test files, and a finite matcher name. Arbitrary error messages, stacks, attachment content and storage values remain private and are never copied to the public summary. All 20 affected CI-policy cases passed in the guarded local retest: the original 17 remain literal and three new cases cover diagnostic redaction, allowed locations and bounds. An earlier Windows cache-permission attempt collected zero cases and remains recorded. The original hosted failure is preserved. No product cause is inferred from the first run, no browser retry is added, and no assertion is weakened; the next exact-head hosted run is required after this CI change.
+
 ## Production gate
 
 Production remains **NO-GO**. The build uses explicit synthetic offline font responses, so actual font rendering is unverified. Existing optional CDP build warnings for `x402-fetch` and `@base-org/account` remain; compilation and in-memory transport tests do not prove real login. The Node guards and bounded browser interception are not an OS-wide network sandbox.

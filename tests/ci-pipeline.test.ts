@@ -157,3 +157,55 @@ describe("CI workflow trust boundary", () => {
     expect(runner).toContain('receiptRequired("hygiene")'); expect(runner).toContain('receiptRequired("install")');
   });
 });
+
+describe("CI browser failure diagnostics redact untrusted error data", () => {
+  const report = (error: Record<string, unknown>, status = "failed") => ({
+    config: { rootDir: "/runner/work/CoachFi/tests/e2e" }, errors: [],
+    suites: [{ specs: expectedBrowserCases.map((test: { file: string; name: string }, index: number) => ({
+      file: test.file, title: test.name, tests: [{ projectName: "ci-bundled-chromium",
+        results: [{ status: index === 1 ? status : "passed", error: index === 1 ? error : undefined }] }],
+    })) }],
+  });
+  it("reports only exact test coordinates and an allowlisted matcher without reading error messages", () => {
+    const error = { location: { file: "/runner/work/CoachFi/tests/e2e/adult-family-paths.spec.ts", line: 119, column: 8 },
+      matcherResult: { name: "toHaveText", expected: "PRIVATE_EXPECTED", actual: "PRIVATE_ACTUAL" },
+      get message(): never { throw new Error("Do not read arbitrary error messages"); },
+      get stack(): never { throw new Error("A valid location does not need a stack"); } };
+    const checked = evaluateBrowser(report(error));
+    expect(checked.accepted).toBe(false); expect(checked.cases).toHaveLength(6);
+    expect(checked.cases[1].diagnostic).toEqual({ category: "assertion", matcher: "toHaveText",
+      location: { file: "tests/e2e/adult-family-paths.spec.ts", line: 119, column: 8, source: "error-location" } });
+    for (const name of ["toBeFocused", "toHaveURL", "toBeNull"])
+      expect(evaluateBrowser(report({ location: error.location, matcherResult: { name } })).cases[1].diagnostic.matcher).toBe(name);
+    expect(checked.cases.filter((test: { diagnostic?: unknown }) => test.diagnostic !== undefined)).toHaveLength(1);
+    for (const value of ["PRIVATE_EXPECTED", "PRIVATE_ACTUAL", "/runner/work"]) expect(JSON.stringify(checked)).not.toContain(value);
+  });
+  it("redacts foreign paths, invalid coordinates, arbitrary matcher names and every error payload", () => {
+    const canary = "PRIVATE_DIAGNOSTIC_CANARY";
+    for (const location of [
+      { file: `/tmp/${canary}/adult-family-paths.spec.ts`, line: 10, column: 2 },
+      { file: "tests/e2e/../e2e/adult-family-paths.spec.ts", line: 10, column: 2 },
+      ...[0, -1, 1.5, 1000000, "10"].map(line => ({ file: "tests/e2e/adult-family-paths.spec.ts", line, column: 2 })),
+      { file: "tests/e2e/adult-family-paths.spec.ts", line: 10, column: 0 },
+    ]) {
+      const checked = evaluateBrowser(report({ location, message: canary, stack: canary, snippet: canary, value: canary,
+        expected: canary, received: canary, cause: { message: canary }, attachments: [{ path: canary }],
+        name: canary, matcherResult: { name: `toHaveText-${canary}`, expected: canary, actual: canary } }));
+      expect(checked.cases[1].diagnostic).toEqual({ category: "test-error", location: null, matcher: null });
+      expect(JSON.stringify(checked)).not.toContain(canary);
+    }
+  });
+  it("uses only bounded allowlisted stack coordinates and keeps timeout and skip results rejected", () => {
+    const frame = "    at Object.check (/runner/work/CoachFi/tests/e2e/adult-family-paths.spec.ts:141:17)";
+    const stack = `PRIVATE_STACK_MESSAGE\n    at helper (/private/foreign.ts:99:8)\n${frame}`;
+    const checked = evaluateBrowser(report({ stack }, "timedOut"));
+    expect(checked.accepted).toBe(false);
+    expect(checked.cases[1].diagnostic).toEqual({ category: "timeout", matcher: null,
+      location: { file: "tests/e2e/adult-family-paths.spec.ts", line: 141, column: 17, source: "allowlisted-stack" } });
+    for (const value of ["PRIVATE_STACK_MESSAGE", "/private/foreign.ts", "/runner/work"]) expect(JSON.stringify(checked)).not.toContain(value);
+    for (const boundedOut of ["x".repeat(32769) + frame, `${"    at other (/private/x.ts:1:1)\n".repeat(25)}${frame}`])
+      expect(evaluateBrowser(report({ stack: boundedOut })).cases[1].diagnostic.location).toBeNull();
+    expect(evaluateBrowser(report({}, "skipped"))).toMatchObject({ accepted: false,
+      cases: expect.arrayContaining([expect.objectContaining({ status: "skipped", diagnostic: { category: "skipped", location: null, matcher: null } })]) });
+  });
+});
