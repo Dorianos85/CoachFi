@@ -365,7 +365,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
 
 const optionKeys: OptionalConsentKey[] = ["aiCoach", "voice", "leaderboard", "blockchain"];
 
-export function ConsentManager() {
+export function ConsentManager({ deferPrompt = false }: { deferPrompt?: boolean } = {}) {
   const { storage } = useProductStorage();
   const [saveFailed, setSaveFailed] = useState(false);
   const {
@@ -380,7 +380,7 @@ export function ConsentManager() {
   } = useConsent();
   const { locale } = useLanguage();
   const copy = pickLocalized(consentCopy, locale);
-  const mustShow = loaded && !requiredAccepted;
+  const mustShow = !deferPrompt && loaded && !requiredAccepted;
   const open = settingsOpen;
   const [requiredChecked, setRequiredChecked] = useState(false);
   const [optional, setOptional] = useState(DEFAULT_OPTIONAL_CONSENTS);

@@ -73,7 +73,7 @@ beforeEach(async () => {
   };
   vi.stubGlobal("window", win); vi.stubGlobal("fetch", vi.fn(() => { throw Error("No network/provider in C20 UI baseline"); }));
   const { beginStorageOwner, captureCurrentPersonalStorage } = await import("@/lib/product-storage"); beginStorageOwner({ kind: "guest" }).publishReady(); fixture.storage = captureCurrentPersonalStorage();
-  Home = (await import("@/app/page")).default; Path = (await import("@/components/ProgressPath")).ProgressPath;
+  Home = (await import("@/app/adult/dashboard/page")).default; Path = (await import("@/components/ProgressPath")).ProgressPath;
   Card = (await import("@/components/ui/card")).Card; Progress = (await import("@/components/ui/progress")).Progress;
 });
 afterEach(() => { expect(fetch).not.toHaveBeenCalled(); resetHooks(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });

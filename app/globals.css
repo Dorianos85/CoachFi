@@ -382,6 +382,24 @@ html.text-scale-xlarge label,
   border-color: #ffffff !important;
 }
 
+/* The new learning cards use several pastel surfaces. Keep their backgrounds
+   and foregrounds paired when the existing high-contrast control is enabled. */
+.high-contrast .learning-path-surface,
+.high-contrast .learning-path-surface * {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.high-contrast .learning-path-surface[class*="bg-"],
+.high-contrast .learning-path-surface [class*="bg-"] {
+  background-color: #111827 !important;
+}
+
+.high-contrast .learning-path-surface :focus-visible {
+  outline: 2px solid #facc15 !important;
+  outline-offset: 3px;
+}
+
 .wallet-adapter-button {
   min-height: 44px !important;
   border: var(--cfx-control-border) solid var(--cf-primary-border) !important;

@@ -2,6 +2,7 @@
 
 import { CDPReactProvider } from "@coinbase/cdp-react/components/CDPReactProvider";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import { AccountSync } from "@/components/AccountSync";
 import { SignInGate } from "@/components/SignInGate";
@@ -12,10 +13,17 @@ import { VoiceProvider } from "@/context/VoiceContext";
 import { ConsentProvider } from "@/context/ConsentContext";
 import { ModeProvider } from "@/context/ModeContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LearningPathsProvider } from "@/context/LearningPathsContext";
+import { isSharedLearningShell } from "@/lib/learning-paths";
 import { setProgressVisible } from "@/lib/progress-visibility";
 import { initializeStorageOwnership } from "@/lib/product-storage";
 
 const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
+
+function AdultProgressProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return isSharedLearningShell(pathname) ? children : <StreakProvider>{children}</StreakProvider>;
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
   initializeStorageOwnership(Boolean(cdpProjectId ||
@@ -28,12 +36,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ProductScopeBoundary>
       <ConsentProvider>
         <ModeProvider>
-          <StreakProvider>
-            <VoiceProvider>
-              {cdpProjectId && <SignInGate />}
-              {children}
-            </VoiceProvider>
-          </StreakProvider>
+          <LearningPathsProvider>
+            <AdultProgressProvider>
+              <VoiceProvider>
+                {cdpProjectId && <SignInGate />}
+                {children}
+              </VoiceProvider>
+            </AdultProgressProvider>
+          </LearningPathsProvider>
         </ModeProvider>
       </ConsentProvider>
     </ProductScopeBoundary>

@@ -45,6 +45,7 @@ import { getAllQuestionIds } from "@/lib/allQuestions";
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
 import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { LearningPathNavigation } from "@/components/LearningPathNavigation";
 import { AccountButton } from "@/components/AccountButton";
 import { ModeGate } from "@/components/ModeGate";
 import { ScopeUnavailable } from "@/components/ScopeUnavailable";
@@ -66,6 +67,7 @@ import { isProgressVisible } from "@/lib/progress-visibility";
 import { requestSignIn } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
 import { isFeatureEnabled, isRouteEnabled } from "@/lib/product-scope";
+import { isPublicLearningEntry, isSharedLearningShell } from "@/lib/learning-paths";
 import { cn } from "@/lib/utils";
 
 const cdpEnabled = Boolean(process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim());
@@ -115,7 +117,7 @@ const navIcons: Record<string, LucideIcon> = {
 };
 
 const navHrefs: Record<string, string> = {
-  home: "/",
+  home: "/adult/dashboard",
   healthCheck: "/health-check",
   inflation: "/inflation",
   shopping: "/shopping",
@@ -405,6 +407,85 @@ const ACCESSIBILITY_STORAGE_KEY = "coachfi-accessibility-v1";
 const TEXT_SCALES: TextScale[] = ["normal", "large", "xlarge"];
 
 export function AppNavigation({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return isSharedLearningShell(pathname)
+    ? <SharedLearningShell>{children}</SharedLearningShell>
+    : <AdultAppNavigation>{children}</AdultAppNavigation>;
+}
+
+/** This shell never mounts adult balances, diagnosis, review badges or streak cards. */
+function SharedLearningShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const { locale } = useLanguage();
+  const { openSettings } = useConsent();
+  const { openSettings: openModeSettings } = useMode();
+  const modeTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const [highContrast, setHighContrast] = useState(false);
+  const [textScale, setTextScale] = useState<TextScale>("normal");
+  const [accessibilityLoaded, setAccessibilityLoaded] = useState(false);
+  const pl = locale === "pl";
+  const footer = pickLocalized(FOOTER_COPY, locale);
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(ACCESSIBILITY_STORAGE_KEY);
+      if (raw) {
+        const value = JSON.parse(raw) as { highContrast?: unknown; textScale?: unknown };
+        setHighContrast(value.highContrast === true);
+        if (isTextScale(value.textScale)) setTextScale(value.textScale);
+      }
+    } catch { /* Device controls remain available for this visit. */ }
+    setAccessibilityLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!accessibilityLoaded) return;
+    try { window.localStorage.setItem(ACCESSIBILITY_STORAGE_KEY, JSON.stringify({ highContrast, textScale })); }
+    catch { /* Device controls remain available when storage is blocked. */ }
+  }, [accessibilityLoaded, highContrast, textScale]);
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("text-scale-large", "text-scale-xlarge");
+    if (textScale !== "normal") root.classList.add(textScale === "large" ? "text-scale-large" : "text-scale-xlarge");
+    return () => root.classList.remove("text-scale-large", "text-scale-xlarge");
+  }, [textScale]);
+  return <div className={cn("app-shell min-h-screen bg-background text-text", highContrast && "high-contrast",
+    textScale === "large" && "text-scale-large", textScale === "xlarge" && "text-scale-xlarge")}>
+    <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-text">
+      {pl ? "Przejdź do głównej treści" : "Skip to main content"}
+    </a>
+    <header className="border-b border-border-subtle bg-surface">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+        <Link href="/" aria-label={pl ? "Strona główna Coach FI" : "Coach FI home"}
+          className="rounded-lg p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Logo size={30} /></Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <LanguageSwitcher />
+          <AccessibilityToggle compact highContrast={highContrast} textScale={textScale}
+            onToggleContrast={() => setHighContrast((value) => !value)} onTextScaleChange={setTextScale} />
+        </div>
+        <div className="w-full"><LearningPathNavigation /></div>
+      </div>
+    </header>
+    <main id="main-content" tabIndex={-1} className="mx-auto min-w-0 max-w-6xl px-4 py-6 sm:py-10">
+      {isRouteEnabled(pathname) ? children : <ScopeUnavailable />}
+    </main>
+    <footer className="border-t border-border-subtle bg-surface px-4 py-6 text-sm leading-6 text-muted">
+      <div className="mx-auto max-w-6xl space-y-3">
+        <p className="text-xs">{footer.disclaimer}</p>
+        <div className="flex flex-wrap gap-3">
+          <Link className="min-h-11 content-center font-bold text-primary underline" href="/terms">{footer.terms}</Link>
+          <Link className="min-h-11 content-center font-bold text-primary underline" href="/privacy">{footer.privacy}</Link>
+          <button type="button" className="min-h-11 rounded-lg border border-primary/20 px-3 font-bold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" onClick={openSettings}>{footer.consents}</button>
+          <button type="button" ref={modeTriggerRef} className="min-h-11 rounded-lg border border-primary/20 px-3 font-bold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" onClick={openModeSettings}>
+            {pl ? "Potwierdzenie wieku 18+" : "Age confirmation 18+"}
+          </button>
+        </div>
+      </div>
+    </footer>
+    <ModeGate returnFocusRef={modeTriggerRef} />
+    <ConsentManager deferPrompt={isPublicLearningEntry(pathname)} />
+  </div>;
+}
+
+function AdultAppNavigation({ children }: { children: React.ReactNode }) {
   const { storage } = useProductStorage();
   const modeTriggerRef = useRef<HTMLButtonElement | null>(null);
   const pathname = usePathname();
@@ -596,6 +677,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       <div className="relative mx-auto flex max-w-[1480px] gap-6 px-4 pb-28 pt-6 lg:px-6">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label={shellCopy.primaryNav}>
           <div className="glass-panel sticky top-24 rounded-card p-3">
+            <div className="mb-4"><LearningPathNavigation /></div>
             {cdpEnabled ? (
               <SignedInPlanScore
                 copy={copy}
@@ -658,6 +740,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
+          <div className="mb-5 lg:hidden"><LearningPathNavigation /></div>
           {isRouteEnabled(pathname) ? children : <ScopeUnavailable />}
         </motion.main>
       </div>
@@ -691,7 +774,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       <ModeGate returnFocusRef={modeTriggerRef} />
       <OnboardingModal
         returnFocusRef={modeTriggerRef}
-        enabled={requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
+        enabled={pathname !== "/adult" && requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
         onDone={() => { if (storage.isCurrent()) setUserName(getDisplayName(getUser(storage))); }}
       />
       {modeRecord?.mode === "adult" && <NotificationBanner />}

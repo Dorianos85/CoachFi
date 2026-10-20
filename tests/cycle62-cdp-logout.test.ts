@@ -55,7 +55,7 @@ vi.mock("@/context/ConsentContext", () => ({ useConsent: () => ({ requiredAccept
 vi.mock("@/context/ModeContext", () => ({ useMode: () => ({ loaded: true, modeRecord: { mode: "adult" }, isKidsMode: false, openSettings: () => {} }) }));
 vi.mock("@/lib/sync/syncQueue", () => ({ notifyCloud: fixture.notify }));
 vi.mock("@/lib/signInGate", () => ({ requestSignIn: fixture.signIn }));
-vi.mock("next/navigation", () => ({ usePathname: () => "/" }));
+vi.mock("next/navigation", () => ({ usePathname: () => "/adult/dashboard" }));
 vi.mock("next/link", () => ({ default: "c62-Link" }));
 vi.mock("framer-motion", () => ({ motion: { div: "c62-motion-div", main: "c62-motion-main" } }));
 // Shallow AppNavigation extraction does not execute these sibling components or shell effects.
@@ -160,8 +160,11 @@ beforeEach(async () => {
   vi.stubEnv("NEXT_PUBLIC_CDP_PROJECT_ID", "C62_SYNTHETIC_PUBLIC_SELECTOR_NOT_REAL_CONFIG"); fixture.getter.mockResolvedValue(null); fixture.sdk.mockResolvedValue(undefined);
   store = await import("@/lib/product-storage"); sync = await import("@/lib/account-sync");
   const { AppNavigation } = await import("@/components/AppNavigation");
-  // Invoke the real outer component once to obtain its actual nested function, never a copied logout handler or new product export.
-  const shell = AppNavigation({ children: null });
+  // Root is now the public selector. Follow the actual adult-shell element at
+  // the preserved dashboard route; never copy a logout handler or export it.
+  const outer = AppNavigation({ children: null });
+  if (typeof outer.type !== "function" || outer.type.name !== "AdultAppNavigation") throw Error("C62 actual adult shell unavailable");
+  const shell = (outer.type as (props: { children: null }) => ReactElement)({ children: null });
   const matches = nodes(shell).filter(node => typeof node.type === "function" && node.type.name === "HeaderAccount");
   if (matches.length !== 1) throw Error("C62 actual conditional HeaderAccount element unavailable");
   Header = matches[0].type as (props: { locale: Locale }) => unknown;

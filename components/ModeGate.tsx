@@ -2,13 +2,14 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { ShieldCheck, UserRoundCheck, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
+import { isPublicLearningEntry } from "@/lib/learning-paths";
 
 const COPY = {
   en: {
@@ -30,21 +31,29 @@ const COPY = {
 };
 
 export function ModeGate({ returnFocusRef }: { returnFocusRef?: RefObject<HTMLButtonElement | null> }) {
-  const router = useRouter();
+  const pathname = usePathname();
   const { locale } = useLanguage();
-  const copy = locale === "pl" ? COPY.pl : COPY.en;
+  const baseCopy = locale === "pl" ? COPY.pl : COPY.en;
+  const familyPath = pathname === "/family" || pathname.startsWith("/family/");
+  const copy = familyPath ? { ...baseCopy,
+    eyebrow: locale === "pl" ? "Rodzic lub opiekun prowadzi" : "A parent or guardian leads",
+    intro: locale === "pl"
+      ? "Tę ścieżkę obsługuje rodzic lub opiekun, który ukończył 18 lat. Prowadź wspólną rozmowę na fikcyjnym przykładzie."
+      : "This path is operated by a parent or guardian aged 18 or over. Lead a shared conversation using a fictional example.",
+    confirm: locale === "pl" ? "Mam ukończone 18 lat i prowadzę wspólną aktywność." : "I am at least 18 and will lead the shared activity.",
+    enter: locale === "pl" ? "Kontynuuj jako dorosły prowadzący" : "Continue as the adult leading",
+  } : baseCopy;
   const { loaded: consentLoaded, requiredAccepted } = useConsent();
   const { loaded: modeLoaded, modeRecord, settingsOpen, selectAdultMode, closeSettings } = useMode();
   const [adultChecked, setAdultChecked] = useState(false);
   const previousFocus = useRef<HTMLElement | null>(null);
-  const forcedOpen = consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
+  const forcedOpen = !isPublicLearningEntry(pathname) && consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
   const open = forcedOpen || settingsOpen;
 
   function enterAdult() {
     if (!adultChecked) return;
     selectAdultMode();
     setAdultChecked(false);
-    router.push("/");
   }
 
   return (

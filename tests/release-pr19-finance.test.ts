@@ -121,7 +121,7 @@ beforeEach(async () => {
   vi.stubGlobal("fetch", vi.fn(() => { throw Error("No network authorized in finance fixture"); }));
   fixture.translations = (await import("@/lib/i18n")).translations;
   store = await import("@/lib/product-storage");
-  Home = (await import("@/app/page")).default; Accessibility = (await import("@/app/accessibility/page")).default;
+  Home = (await import("@/app/adult/dashboard/page")).default; Accessibility = (await import("@/app/accessibility/page")).default;
   seed();
 });
 afterEach(() => {

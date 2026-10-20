@@ -534,3 +534,18 @@ C73_STATUS: ACCEPTED_LIMITED_LOCAL_DEPENDENCY_UPDATE_UNSTAGED. Actual local pars
 ## Ręczna paczka PR19 po audycie — 19.10.2026
 
 Lokalne poprawki i retesty zakończone, pojedynczy actualNextbuild z fontmockiem PASS. Aktualizacja PR19 w przygotowaniu; bez produkcyjnego deployu. SEC04 pozostaje częściowy, świeży audit5high7moderate i staging otwarte; AI/cloudwrite HARD_OFF. Pętla PAUSED. [Raport](release-pr19/REPORT.md).
+
+
+## 20.10.2026 — osobne ścieżki dorosły i rodzina (lokalnie)
+
+Founder zatwierdził lokalny MVP, bez wdrożenia. Gałąź codex/adult-family-paths od c63e46d1, izolowany CoachFi-pr19. / to wybór ścieżki, /adult i /family to osobne ćwiczenia PL/EN w PLN; dotychczasowy panel byte-exact pod /adult/dashboard. Rodzinę prowadzi dorosły, bez kont i danych dzieci. Stan RAM osobny dla segmentów i rewizji właściciela; brak nowego zapisu/sync/eksportu. AI/cloud HARD_OFF.
+
+102 różne wybrane przypadki mają wynik PASS po udokumentowanych retestach, TS0 i build local-final PASS38tras. Chrome4/4 PLEN/mobile/keyboard/progress/storage PASS. QA04 wysokiego kontrastu: zachowany FAIL1,053:1, poprawka4plików, finalbuild contrast-final PASS38tras/833pins0drift/TS0 i21próbekChromePASS≥17,7397:1. Niezależne przyjęcie audience_qa:ACCEPTED_LIMITED_LOCAL. Nie jest to gotowość produkcyjna. Pętla PAUSED; bez push/deploy, oryginalny source/CoachFi zachowany. [Aktualny raport i dowody](../../../../evidence/adult-family-2026-10-20/REPORT.md).
+
+### Korekta wyglądu `/adult` — 20.10.2026
+
+Audience_shell przywrócił istniejący jasny styl Coachfi i lawendowe tokeny tylko w app/adult/page.tsx. Audience_qa niezależnie przyjął korektę; pozostały AST bez zmian. Nowy build adult-brand PASS38tras/833pins0drift/TS0, runtime bez zmian, fontmock jawny. Celowane próbki16PASS1FAIL podczas przejścia kolorów; dokładnie failed odczyt po actual148,7ms settle PASS17,7397:1, bez zmian app/progu i bez powtarzania16greens. Poprzednie102unit/4normalflow pozostają historyczne. Obie lekcje i nierozwiązane quizy PL pokazano w IAB. Preview4 PID29912 na127.0.0.1:43191; loopPAUSED, produkcjaNO_GO, bezcommit/push/deploy. [Niezależna recenzja](../../../../evidence/adult-family-2026-10-20/adult-design/qa-review.md).
+
+### Publikacja do istniejącego PR19 — 20.10.2026
+
+Founder autoryzował commit i aktualizację istniejącego PR19 o obie ścieżki oraz zachowany design, bez produkcyjnego wdrożenia. Docelowy ref codex/p0-security-consent-export ma zachowane deploymentEnabled=false. Nowy raport przenośny z zakresem, wynikami i ograniczeniami: [adult-family/REPORT.md](adult-family/REPORT.md). Pętla pozostaje PAUSED; publikacja kodu nie zmienia produkcyjnego NO_GO.
