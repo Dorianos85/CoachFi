@@ -49,6 +49,45 @@ test("all ws instances satisfy the maintainer's patched version for their own ma
 
 test("every Browserslist instance stays on v4 and includes both advisory fixes", () => {
   const found = instances("browserslist");
+  if (found.length === 0) {
+    // Finite lock-scope admission for the reviewed TW3/autoprefixer -> TW4 migration.
+    // Absence alone is insufficient; changes to this admitted CSS shape require review.
+    const changedCss = {
+      dependencies: { "tailwind-merge": "3.6.0" },
+      devDependencies: { "@tailwindcss/postcss": "4.3.3", tailwindcss: "4.3.3", postcss: "8.5.30", "postcss-selector-parser": "7.1.6" },
+    };
+    for (const [section, declarations] of Object.entries(changedCss)) {
+      for (const [name, expected] of Object.entries(declarations)) {
+        assert.equal(manifest[section]?.[name], expected, `${name}: absence admission requires the reviewed CSS declaration.`);
+        assert.equal(lock.packages[""][section]?.[name], expected, `${name}: lock root must match the reviewed declaration.`);
+        assert.equal(lock.packages[`node_modules/${name}`]?.version, expected, `${name}: expected installed lock placement.`);
+        assert.equal(JSON.parse(readFileSync(resolve(root, "node_modules", name, "package.json"), "utf8")).version, expected,
+          `${name}: installed version must match the admitted lock.`);
+      }
+    }
+    const retired = ["browserslist", "baseline-browser-mapping", "autoprefixer"];
+    for (const name of retired) assert.equal(instances(name).length, 0, `${name}: retired lock placement remains.`);
+    for (const [path, entry] of [["package.json", manifest], ...Object.entries(lock.packages)]) {
+      assert.equal(retired.includes(entry.name), false, `${path}: aliased retired package metadata remains.`);
+      for (const section of ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"]) {
+        for (const name of retired) assert.equal(entry[section]?.[name], undefined, `${path}: ${section} still declares ${name}.`);
+        for (const range of Object.values(entry[section] ?? {})) for (const name of retired)
+          assert.equal(typeof range === "string" && (range === `npm:${name}` || range.startsWith(`npm:${name}@`)), false,
+            `${path}: ${section} still declares an alias of ${name}.`);
+      }
+      for (const section of ["bundleDependencies", "bundledDependencies"]) {
+        if (Array.isArray(entry[section])) for (const name of retired)
+          assert.equal(entry[section].includes(name), false, `${path}: ${section} still includes ${name}.`);
+      }
+    }
+    assert.equal(manifest.overrides?.browserslist, "4.28.7", "Keep the reviewed patch override for a future returning consumer.");
+    assert.equal(manifest.overrides?.["baseline-browser-mapping"], "2.11.0", "Keep the reviewed baseline patch override.");
+    for (const [path, entry] of instances("tailwindcss")) assert.equal(entry.version, "4.3.3", `${path}: only the reviewed TW4 compiler is admitted.`);
+    assert.equal(lock.packages["node_modules/@tailwindcss/postcss"].dependencies.tailwindcss, "4.3.3");
+    const postcss = readFileSync(resolve(root, "postcss.config.mjs"), "utf8").replace(/\r\n/g, "\n");
+    assert.equal(postcss, 'const config = {\n  plugins: {\n    "@tailwindcss/postcss": {}\n  }\n};\n\nexport default config;\n');
+    return;
+  }
   assert.ok(found.length > 0);
   for (const [path, entry] of found) {
     assert.equal(versionParts(entry.version)[0], 4);

@@ -1,0 +1,75 @@
+name: Coachfi CI
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: coachfi-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+env:
+  CI: "true"
+  NEXT_TELEMETRY_DISABLED: "1"
+  COACHFI_CI_EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      COACHFI_CI_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-quality
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1, official Node24 action
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Set up application Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0, official Node24 action
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Reject unsafe tracked files and secret literals
+        id: hygiene
+        run: node scripts/ci/run.mjs hygiene
+      - name: Install exact lock without lifecycle scripts
+        id: install
+        run: node scripts/ci/run.mjs install
+      - name: TypeScript
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}
+        run: node scripts/ci/run.mjs typecheck
+      - name: Complete unit include and native metadata tests
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}
+        run: node scripts/ci/run.mjs unit
+      - name: Production compilation with explicit offline font fixture
+        id: build
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}
+        run: node scripts/ci/run.mjs build
+      - name: Install reviewed Playwright Chromium distribution
+        id: browser
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' && steps.build.outcome == 'success' }}
+        run: node scripts/ci/run.mjs browser-install
+      - name: Bounded local PL and EN user flows
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' && steps.build.outcome == 'success' && steps.browser.outcome == 'success' }}
+        run: node scripts/ci/run.mjs ui
+  dependency-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      COACHFI_CI_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-audit
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Full dependency audit and separate zero-vulnerability policy
+        run: node scripts/ci/run.mjs audit

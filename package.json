@@ -44,7 +44,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "3.6.0"
   },
   "overrides": {
     "shell-quote": "1.12.0",
@@ -54,11 +54,8 @@
     "ws@8": "8.22.0",
     "browserslist": "4.28.7",
     "baseline-browser-mapping": "2.11.0",
-    "tailwindcss": {
-      "postcss-selector-parser": "7.1.6"
-    },
-    "postcss-nested": {
-      "postcss-selector-parser": "7.1.6"
+    "@solana/web3.js@^1.98.4": {
+      "jayson": "5.0.0"
     }
   },
   "devDependencies": {
@@ -66,9 +63,10 @@
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "autoprefixer": "^10.4.20",
+    "@tailwindcss/postcss": "4.3.3",
     "postcss": "8.5.30",
-    "tailwindcss": "^3.4.17",
+    "postcss-selector-parser": "7.1.6",
+    "tailwindcss": "4.3.3",
     "typescript": "^5.7.2",
     "vitest": "4.1.11"
   }

@@ -1,0 +1,18 @@
+# Preserve immutable evidence exactly as committed, including mixed line endings.
+evidence/** -text
+
+# Stable bytes for the new pinned migration fixture and three existing witnesses.
+tests/fixtures/dependency-upgrade-admission.json text eol=lf
+lib/account-sync.ts text eol=lf
+lib/product-scope.ts text eol=lf
+lib/server/api-access-scope.ts text eol=lf
+
+# Retained literal preservation inputs; do not convert their committed bytes.
+tests/release-pr19-preservation-admission.json -text
+lib/localizedDeck.ts -text
+
+# Existing whole-byte regression witnesses.
+docs/coachfi/cycle-6/content-metadata.json -text
+app/inflation/page.tsx -text
+tests/cycle15-legacy-preservation.ts -text
+tests/cycle16-legacy-preservation.ts -text

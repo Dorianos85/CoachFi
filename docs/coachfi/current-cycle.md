@@ -549,3 +549,7 @@ Audience_shell przywrócił istniejący jasny styl Coachfi i lawendowe tokeny ty
 ### Publikacja do istniejącego PR19 — 20.10.2026
 
 Founder autoryzował commit i aktualizację istniejącego PR19 o obie ścieżki oraz zachowany design, bez produkcyjnego wdrożenia. Docelowy ref codex/p0-security-consent-export ma zachowane deploymentEnabled=false. Nowy raport przenośny z zakresem, wynikami i ograniczeniami: [adult-family/REPORT.md](adult-family/REPORT.md). Pętla pozostaje PAUSED; publikacja kodu nie zmienia produkcyjnego NO_GO.
+
+## 20–21.10.2026 — zależności i CI w PR19
+
+Zastąpiono podatne łańcuchy zależności; pełny audit nowego lockfile wykazał zero znalezisk. Dodano przenośne GitHub Actions: pełny unit include, natywne testy, TypeScript, chroniony build, sześć scenariuszy Chromium i osobny audit wszystkich poziomów. Naprawiono rzeczywistą regresję kontrastu linku-przycisku po zmianie warstw CSS. Lokalny pełny unit pozostaje 3646PASS/1FAIL, z osobnym poprawionym retestem failed-case; sześć różnych UI przyjęto jako4+2, bez udawania jednego zielonego przebiegu. Nowy build PASS38tras, fontmock jawny. Końcowy commit wymaga rzeczywistej CI na Linuxie; status należy odczytać z PR, nie z tego wpisu. Szczegóły i niezależna ocena: [raport](dependencies-ci/REPORT.md), [review](dependencies-ci/REVIEW.md). Produkcja NO_GO, bez merge/deploy, loop PAUSED.

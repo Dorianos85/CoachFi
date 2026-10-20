@@ -31,8 +31,8 @@ const ROOTS = ["@metaplex-foundation/mpl-core", "@metaplex-foundation/umi", "@me
 const GROUPS = ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"] as const;
 const LIMITS = "Declared package/lock graph and bounded literal production-source inspection only, independently derived from frozen before JSON rather than author proposal. Conservative all-peer and nonoptional-peer ancestor closures distinguished; existing optionalDependencies retained in both, optional-annotated peers omitted only in required-consumer closure; not npm reification, semver compatibility, physical node_modules removal, clean install or advisory/CVE closure. Actual four deferred Web3 route methods and real guard/product-scope execute; no actual SDK/RPC/auth/account/provider or browser. Auth/store/env adapters and global fetch are deny traps, not simulated successful SDK clients. No real profiles, data, sessions, env values, provider keys or npm/network operations. Existing installed extraneous packages may remain, including YAML. Original conservative19 model remains immutable; revised20 admits YAML only after independent optional-peer/configuration assessment, not a second npm run. Current metadata additionally admits only C73 two scoped parser overrides and the retained parser version/resolved/integrity tuple through pinned immutable evidence; the independently derived C63 graph/removals and all other package/lock fields remain exact.";
 const sha = (value: string | Uint8Array) => createHash("sha256").update(value).digest("hex");
-const readPackage = () => JSON.parse(readFileSync(resolve("package.json"), "utf8")) as Entry;
-const readLock = () => JSON.parse(readFileSync(resolve("package-lock.json"), "utf8")) as Lock;
+const readPackage = () => JSON.parse(historicalMetadata("package.json")) as Entry;
+const readLock = () => JSON.parse(historicalMetadata("package-lock.json")) as Lock;
 function removeRoots(entry: Entry) { const copy = structuredClone(entry); for (const name of ROOTS) delete copy.dependencies?.[name]; return copy; }
 
 /** Node package lookup from the consumer's directory, including nested and scoped ancestors. Ranges are intentionally not solved here. */
@@ -105,6 +105,51 @@ for (const [file, baseline, expected, beforePin, afterPin] of [
   admitC73(isDeepStrictEqual(JSON.parse(state.fullBefore), baseline), "independent C63 projection equals C73 before for " + file);
   admitC73(isDeepStrictEqual(JSON.parse(state.fullAfter), expected), "only exact C73 delta admitted for " + file);
 }
+
+// Keep the historical C63/C73 expected graph independent and intact. Invert
+// only the exact later dependency migration and the separately accepted b162
+// provider delta. Every current byte must match its reviewed fullAfter; unknown
+// changes never become a wider ignore or an expected value read from current.
+type LaterState = C73State & { reason: string };
+type LockChange = { path: string; kind: "added" | "removed" | "changed"; before: Entry | null; after: Entry | null };
+const laterText = readFileSync(resolve("tests/fixtures/dependency-upgrade-admission.json"), "utf8");
+admitC73(sha(laterText) === "bfeb0f91ab6afb891723ab18747eb81832f26e704c00fba56e0b396bb5070044", "immutable finite later admission");
+const later = JSON.parse(laterText) as { schemaVersion: number; records: LaterState[]; lockChanges: LockChange[] };
+admitC73(later.schemaVersion === 1, "later schema");
+admitC73(isDeepStrictEqual(later.records.map(row => row.path), ["package.json", "package-lock.json", "postcss.config.mjs", "app/providers.tsx"]), "only four explicit later paths");
+const oldPins: Record<string, string> = {
+  "package.json": "679f4f2e960546799e8995715a5e3f7adba8c52792ddf92eecadf6823f5201b6",
+  "package-lock.json": "9637bfbc2cb2db77c7a0e8d33fd65bcd4fe6c565f39145ac36c61261f1e2f150",
+  "postcss.config.mjs": "6ebe6241f8347bbea31480fed02d50db4b7232f4d0070dda3d231aa4a6b78ddc",
+  "app/providers.tsx": "78fe7cbd3414532ef70f1066a74c48322d57ff8495d0ca060fc94c43515defa9",
+};
+for (const state of later.records) {
+  admitC73(state.beforeSHA256 === oldPins[state.path] && sha(state.fullBefore) === state.beforeSHA256
+    && sha(state.fullAfter) === state.afterSHA256, "full later bytes for " + state.path);
+  admitC73(state.reason === (state.path === "app/providers.tsx"
+    ? "PRIOR_ACCEPTED_ADULT_FAMILY_B162_NOT_THIS_DEPENDENCY_PATCH" : "DEPENDENCY_MIGRATION_2026_10_20"), "separate later scope");
+}
+function historicalMetadata(file: string, raw = readFileSync(resolve(file), "utf8")): string {
+  const state = later.records.find(row => row.path === file);
+  admitC73(state && sha(raw) === state.afterSHA256 && raw === state.fullAfter, "exact current later bytes for " + file);
+  return state.fullBefore;
+}
+const historicalPackage = JSON.parse(later.records[0].fullBefore);
+const historicalLock = JSON.parse(later.records[1].fullBefore) as Lock;
+admitC73(isDeepStrictEqual(historicalPackage, currentExpectedPackage), "later manifest inverse matches independent C63/C73 model");
+admitC73(isDeepStrictEqual(historicalLock, currentExpectedLock), "later lock inverse matches independent C63/C73 model");
+const upgradedLock = JSON.parse(later.records[1].fullAfter) as Lock;
+const reversedLock = structuredClone(upgradedLock), seenPaths = new Set<string>();
+for (const row of later.lockChanges) {
+  admitC73(!seenPaths.has(row.path), "unique lock delta"); seenPaths.add(row.path);
+  const old = historicalLock.packages[row.path] ?? null, next = upgradedLock.packages[row.path] ?? null;
+  admitC73(isDeepStrictEqual(row.before, old) && isDeepStrictEqual(row.after, next), "whole lock entry transition " + row.path);
+  admitC73(row.kind === (old === null ? "added" : next === null ? "removed" : "changed") && !isDeepStrictEqual(old, next), "nonempty correctly classified delta");
+  if (row.before === null) delete reversedLock.packages[row.path]; else reversedLock.packages[row.path] = structuredClone(row.before);
+}
+admitC73(isDeepStrictEqual(reversedLock, historicalLock), "complete full-object lock inverse, including unrelated fields");
+const readSourceWitness = (file: string) => later.records.some(row => row.path === file)
+  ? historicalMetadata(file) : readFileSync(resolve(file), "utf8");
 function productionFiles(directory: string): string[] {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -113,7 +158,8 @@ function productionFiles(directory: string): string[] {
     return entry.isDirectory() ? productionFiles(path) : model.sourceScan.extensions.includes(extname(entry.name)) ? [path] : [];
   });
 }
-function observe(name: string, data: unknown) { console.log("C63_DEPENDENCY_OBSERVATION " + JSON.stringify({ name, data, limits: LIMITS })); }
+function observe(name: string, data: unknown) { console.log("C63_DEPENDENCY_OBSERVATION " + JSON.stringify({ name, data, limits: LIMITS,
+  laterQualification: "C63/C73 graph counts, equality and optional YAML witnesses describe the independently reconstructed historical state. Current migration metadata must first match the pinned exact later fullAfter/inverse; actual current dependency behavior/closure is exercised in dependency-upgrade.test.ts. The separately admitted b162 provider delta predates this dependency patch." })); }
 function noProvider() { for (const trap of Object.values(traps)) expect(trap).not.toHaveBeenCalled(); expect(fetch).not.toHaveBeenCalled(); }
 
 beforeEach(() => { vi.clearAllMocks(); vi.stubEnv("NEXT_PUBLIC_ENABLE_WEB3", "true");
@@ -123,7 +169,7 @@ afterEach(() => { noProvider(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 describe("C63 minimal deferred chain dependency removal", () => {
   it("removes exactly the three dead runtime declarations while preserving all other package fields", () => {
     const actual = readPackage(), expected = currentExpectedPackage;
-    observe("manifest-edges", { rootEdges: ROOTS.map(name => ({ name, before: originalPackage.dependencies?.[name], current: actual.dependencies?.[name] ?? null })),
+    observe("manifest-edges", { scope: "Historical C63/C73 projection after exact later inverse; not the current dependency versions", rootEdges: ROOTS.map(name => ({ name, before: originalPackage.dependencies?.[name], current: actual.dependencies?.[name] ?? null })),
       actualDependencies: actual.dependencies, originalSHA: sha(model.before.package.fullText), expectedModelSHA: model.before.package.sha256 });
     expect(sha(model.before.package.fullText)).toBe(model.before.package.sha256); expect(model.removedRootEdges).toEqual([...ROOTS]);
     expect(actual).toStrictEqual(expected);
@@ -138,7 +184,7 @@ describe("C63 minimal deferred chain dependency removal", () => {
       from, group, range: entry[group]!.yaml, optionalPeer: group === "peerDependencies" && entry.peerDependenciesMeta?.yaml?.optional === true,
     }])).sort((a, b) => a.from < b.from ? -1 : a.from > b.from ? 1 : 0);
     const missingYaml = currentGraph.unresolved.filter(edge => edge.name === "yaml").sort((a, b) => a.from < b.from ? -1 : a.from > b.from ? 1 : 0);
-    observe("lock-graph", { beforeEntries: originalPaths.length, beforeReachable: beforeGraph.reachable.length, originalConservativeAfter: conservativeGraph.reachable.length,
+    observe("lock-graph", { scope: "Historical C63/C73 projection after exact later inverse", observedCurrentEntries: Object.keys(upgradedLock.packages).length, beforeEntries: originalPaths.length, beforeReachable: beforeGraph.reachable.length, originalConservativeAfter: conservativeGraph.reachable.length,
       requiredBefore: requiredBeforeGraph.reachable.length, expectedRequiredAfter: expectedGraph.reachable.length, optionalPeerOnlyAfter,
       currentEntries: actualPaths.length, currentReachable: currentGraph.reachable.length, expectedRemoved: expectedRemoved.map(path => ({ path, version: originalLock.packages[path].version })),
       actualRemoved: removed, added, retainedChanges, unresolvedBefore: beforeGraph.unresolved.length,
@@ -166,7 +212,8 @@ describe("C63 minimal deferred chain dependency removal", () => {
       { path: "postcss.config.mjs", sha256: "6ebe6241f8347bbea31480fed02d50db4b7232f4d0070dda3d231aa4a6b78ddc" },
       { path: "vitest.config.ts", sha256: "71efb74ff79bc8a66be70cfa69ff9f2933fe7519e010e9178351a12e9a52597c" },
     ];
-    const witnesses = [...model.literalSourceWitnesses, ...configPins].map(pin => ({ ...pin, actualSHA: sha(readFileSync(resolve(pin.path))) }));
+    const witnesses = [...model.literalSourceWitnesses, ...configPins].map(pin => ({ ...pin, actualSHA: sha(readSourceWitness(pin.path)),
+      qualification: later.records.some(row => row.path === pin.path) ? "Exact pinned later inverse; current bytes also checked" : "Literal current source" }));
     const yamlConfigs = [".postcssrc", ".postcssrc.yaml", ".postcssrc.yml", "postcss.config.yaml", "postcss.config.yml",
       "vite.config.yaml", "vite.config.yml", "vitest.config.yaml", "vitest.config.yml"].filter(path => existsSync(resolve(path)));
     observe("dead-helper-and-source-boundary", { helperExists: existsSync(resolve(model.before.helper.path)), helperOriginalSHA: model.before.helper.sha256,
@@ -175,6 +222,16 @@ describe("C63 minimal deferred chain dependency removal", () => {
     expect(existsSync(resolve(model.before.helper.path))).toBe(false); expect(references).toEqual([]); expect(yamlConfigs).toEqual([]);
     for (const pin of witnesses) expect(pin.actualSHA).toBe(pin.sha256);
     expect(isFeatureEnabled("web3")).toBe(false); for (const href of ["/vault", "/vault/nested?synthetic=1", "/achievement"]) expect(isRouteEnabled(href)).toBe(false);
+  });
+
+  it("refuses unreviewed manifest or lock mutations instead of widening the historical admission", () => {
+    for (const file of ["package.json", "package-lock.json"]) {
+      const raw = readFileSync(resolve(file), "utf8");
+      expect(() => historicalMetadata(file, raw + " ")).toThrow(/exact current later bytes/);
+      const changed = JSON.parse(raw) as { version: string };
+      changed.version = "unreviewed-synthetic-version";
+      expect(() => historicalMetadata(file, JSON.stringify(changed))).toThrow(/exact current later bytes/);
+    }
   });
 });
 

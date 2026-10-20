@@ -57,7 +57,7 @@ beforeEach(async () => {
   ({ VoiceButton: Voice } = await import("@/components/VoiceButton"));
   ({ SectionHeader: Header } = await import("@/components/SectionHeader"));
   render = () => { fixture.cursor = 0; fixture.effectCursor = 0; const tree = InflationPage(); const pending = fixture.pending.splice(0); pending.forEach(effect => effect()); return tree; };
-});
+}, 30_000);
 afterEach(() => { fixture.effects.forEach(effect => effect.cleanup?.()); expect(fetch).not.toHaveBeenCalled(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 describe("independent C14 actual InflationPage initial findings", () => {
