@@ -209,3 +209,27 @@ describe("CI browser failure diagnostics redact untrusted error data", () => {
       cases: expect.arrayContaining([expect.objectContaining({ status: "skipped", diagnostic: { category: "skipped", location: null, matcher: null } })]) });
   });
 });
+
+describe("CI browser caller diagnostics", () => {
+  it("keeps the primary helper location and only the first distinct same-file caller without foreign noise", () => {
+    const file = "/runner/work/CoachFi/tests/e2e/adult-family-paths.spec.ts";
+    const error = { location: { file, line: 57, column: 48 }, stack: [
+      "PRIVATE_STACK_MESSAGE", `    at keyboardActivate (${file}:57:48)`,
+      "    at foreign (/private/PRIVATE_FOREIGN.ts:91:6)",
+      "    at traversal (/runner/work/CoachFi/tests/e2e/../e2e/adult-family-paths.spec.ts:98:4)",
+      `    at test (${file}:123:9)`, `    at outer (${file}:150:3)`,
+    ].join("\n") };
+    const report = { config: { rootDir: "/runner/work/CoachFi/tests/e2e" }, errors: [], suites: [{
+      specs: expectedBrowserCases.map((test: { file: string; name: string }, index: number) => ({ file: test.file, title: test.name,
+        tests: [{ projectName: "ci-bundled-chromium", results: [{ status: index === 1 ? "failed" : "passed", error: index === 1 ? error : undefined }] }],
+      })),
+    }] };
+    const checked = evaluateBrowser(report);
+    expect(checked.accepted).toBe(false);
+    expect(checked.cases[1].diagnostic).toEqual({ category: "test-error", matcher: null,
+      location: { file: "tests/e2e/adult-family-paths.spec.ts", line: 57, column: 48, source: "error-location" },
+      callerLocation: { file: "tests/e2e/adult-family-paths.spec.ts", line: 123, column: 9, source: "allowlisted-stack" } });
+    for (const value of ["PRIVATE_STACK_MESSAGE", "PRIVATE_FOREIGN", "/runner/work", "150"])
+      expect(JSON.stringify(checked)).not.toContain(value);
+  });
+});

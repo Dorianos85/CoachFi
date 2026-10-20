@@ -124,15 +124,20 @@ function browserFailureDiagnostic(result, file, rootDir) {
     return { file: publicFile, line: value.line, column: value.column, source };
   };
   let found = location(error.location, "error-location");
-  // Only coordinates from exact allowlisted frames survive. Never publish arbitrary error text.
-  if (!found && typeof error.stack === "string" && error.stack.length <= 32768) {
-    for (const frame of error.stack.split(/\r?\n/, 25)) {
+  let callerLocation = null;
+  // Read JSON data only, never stack accessors. Only same-file coordinates survive.
+  const stack = Object.getOwnPropertyDescriptor(error, "stack")?.value;
+  if (typeof stack === "string" && stack.length <= 32768) {
+    for (const frame of stack.split(/\r?\n/, 25)) {
       const match = /^\s+at (?:[^()\r\n]{1,160} \()?([^()\r\n]{1,4096}):([1-9]\d{0,5}):([1-9]\d{0,5})\)?$/.exec(frame);
-      if (match) found = location({ file: match[1], line: Number(match[2]), column: Number(match[3]) }, "allowlisted-stack");
-      if (found) break;
+      const candidate = match ? location({ file: match[1], line: Number(match[2]), column: Number(match[3]) }, "allowlisted-stack") : null;
+      if (!found) found = candidate;
+      else if (candidate && candidate.file === found.file && (candidate.line !== found.line || candidate.column !== found.column)) {
+        callerLocation = candidate; break;
+      }
     }
   }
-  return { category, location: found, matcher };
+  return { category, location: found, matcher, ...(callerLocation ? { callerLocation } : {}) };
 }
 export function evaluateBrowser(report) {
   assert(object(report) && Array.isArray(report.suites) && Array.isArray(report.errors) && report.errors.length === 0, "browser-report-schema-or-global-error");
