@@ -100,6 +100,7 @@ for (const locale of ["pl", "en"] as const) test(`${locale}: real mobile routes 
     await ageDialog.getByRole("checkbox", { name: copy.age, exact: true }).check();
     await keyboardActivate(ageDialog.getByRole("button", { name: copy.enter, exact: true }), "Enter");
     await expect(page.getByRole("dialog")).toHaveCount(0); await expect(page).toHaveURL(/\/adult$/);
+    await expect(page.locator("footer").getByRole("button", { name: locale === "pl" ? "Potwierdzenie wieku 18+" : "Age confirmation 18+", exact: true })).toBeFocused();
     const baseline = await snapshot(page); observed.afterExplicitConsentAndAge = baseline;
     const consent = JSON.parse(baseline.raw["local:coachfi-consent-v1"]!);
     expect(consent.optional).toEqual({ aiCoach: false, voice: false, leaderboard: false, blockchain: false });
@@ -186,6 +187,7 @@ for (const locale of ["pl", "en"] as const) test(`${locale}: direct family entry
     await dialog.getByRole("checkbox", { name: confirm, exact: true }).check();
     await keyboardActivate(dialog.getByRole("button", { name: enter, exact: true }), "Enter");
     await expect(page.getByRole("dialog")).toHaveCount(0); await expect(page).toHaveURL(/\/family$/);
+    await expect(page.locator("footer").getByRole("button", { name: locale === "pl" ? "Potwierdzenie wieku 18+" : "Age confirmation 18+", exact: true })).toBeFocused();
     await keyboardActivate(family.getByRole("button", { name: COPY[locale].familyGoal }), "Enter");
     await progress(family.locator("progress"), 1);
     const raw = (await snapshot(page)).raw;
