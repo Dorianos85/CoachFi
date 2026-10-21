@@ -148,8 +148,32 @@ for (const row of later.lockChanges) {
   if (row.before === null) delete reversedLock.packages[row.path]; else reversedLock.packages[row.path] = structuredClone(row.before);
 }
 admitC73(isDeepStrictEqual(reversedLock, historicalLock), "complete full-object lock inverse, including unrelated fields");
-const readSourceWitness = (file: string) => later.records.some(row => row.path === file)
-  ? historicalMetadata(file) : readFileSync(resolve(file), "utf8");
+// This later route extraction is independently reviewed. Preserve the original
+// witness only after exact current route AND gate bytes pass finite admission.
+type AccountRouteAdmission = C73State & { schemaVersion: number; scope: string; commit: string;
+  gate: { path: string; sha256: string; fullText: string } };
+const accountRouteText = readFileSync(resolve("tests/fixtures/staging-account-route-admission.json"), "utf8");
+function admitAccountRoute(condition: unknown, label: string): asserts condition {
+  if (!condition) throw new Error("C63/account strict source admission: " + label);
+}
+admitAccountRoute(sha(accountRouteText) === "1dbd67f152c12fff6303dca8c09b6e3ac104f0d9e105836a2d247fe86dcd0800", "immutable account route admission");
+const accountRoute = JSON.parse(accountRouteText) as AccountRouteAdmission;
+admitAccountRoute(accountRoute.schemaVersion === 1 && accountRoute.scope === "REVIEWED_ACCOUNT_GATE_AND_EXPORT_2026_10_21"
+  && accountRoute.commit === "6aa79f7df7cb62a236b55021d331faa4d76a154a" && accountRoute.path === "app/api/account/route.ts", "exact later scope");
+admitAccountRoute(accountRoute.beforeSHA256 === "12d7e177976df007a7049e4042c4ede40a87020081b03414485899f1d6f1e33d"
+  && sha(accountRoute.fullBefore) === accountRoute.beforeSHA256
+  && model.literalSourceWitnesses.find(pin => pin.path === accountRoute.path)?.sha256 === accountRoute.beforeSHA256, "independent original route witness");
+admitAccountRoute(accountRoute.afterSHA256 === "c206801887bf7fdbbeb6b5e8c7902b4d10545c04305cef9f3e34da313c60a50e"
+  && sha(accountRoute.fullAfter) === accountRoute.afterSHA256 && accountRoute.gate.path === "lib/server/account-access.ts"
+  && accountRoute.gate.sha256 === "71b849da8f4bb5d15e9af06adef494bafe70dcddbd7a55560c74b257cb92335b"
+  && sha(accountRoute.gate.fullText) === accountRoute.gate.sha256, "reviewed route and extracted gate fingerprints");
+function historicalAccountRoute(raw = readFileSync(resolve(accountRoute.path), "utf8"), gate = readFileSync(resolve(accountRoute.gate.path), "utf8")) {
+  admitAccountRoute(raw === accountRoute.fullAfter && sha(raw) === accountRoute.afterSHA256, "exact current route bytes");
+  admitAccountRoute(gate === accountRoute.gate.fullText && sha(gate) === accountRoute.gate.sha256, "exact current gate bytes");
+  return accountRoute.fullBefore;
+}
+const readSourceWitness = (file: string) => file === accountRoute.path ? historicalAccountRoute()
+  : later.records.some(row => row.path === file) ? historicalMetadata(file) : readFileSync(resolve(file), "utf8");
 function productionFiles(directory: string): string[] {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -213,7 +237,8 @@ describe("C63 minimal deferred chain dependency removal", () => {
       { path: "vitest.config.ts", sha256: "71efb74ff79bc8a66be70cfa69ff9f2933fe7519e010e9178351a12e9a52597c" },
     ];
     const witnesses = [...model.literalSourceWitnesses, ...configPins].map(pin => ({ ...pin, actualSHA: sha(readSourceWitness(pin.path)),
-      qualification: later.records.some(row => row.path === pin.path) ? "Exact pinned later inverse; current bytes also checked" : "Literal current source" }));
+      qualification: pin.path === accountRoute.path ? "Exact reviewed account route inverse; current route and extracted gate bytes both checked"
+        : later.records.some(row => row.path === pin.path) ? "Exact pinned later inverse; current bytes also checked" : "Literal current source" }));
     const yamlConfigs = [".postcssrc", ".postcssrc.yaml", ".postcssrc.yml", "postcss.config.yaml", "postcss.config.yml",
       "vite.config.yaml", "vite.config.yml", "vitest.config.yaml", "vitest.config.yml"].filter(path => existsSync(resolve(path)));
     observe("dead-helper-and-source-boundary", { helperExists: existsSync(resolve(model.before.helper.path)), helperOriginalSHA: model.before.helper.sha256,
@@ -232,6 +257,14 @@ describe("C63 minimal deferred chain dependency removal", () => {
       changed.version = "unreviewed-synthetic-version";
       expect(() => historicalMetadata(file, JSON.stringify(changed))).toThrow(/exact current later bytes/);
     }
+  });
+
+  it("refuses any unreviewed account route or extracted gate instead of replacing the old witness", () => {
+    expect(sha(historicalAccountRoute())).toBe("12d7e177976df007a7049e4042c4ede40a87020081b03414485899f1d6f1e33d");
+    expect(() => historicalAccountRoute(accountRoute.fullAfter + " ", accountRoute.gate.fullText)).toThrow(/exact current route bytes/);
+    expect(() => historicalAccountRoute(accountRoute.fullBefore, accountRoute.gate.fullText)).toThrow(/exact current route bytes/);
+    expect(() => historicalAccountRoute(accountRoute.fullAfter, accountRoute.gate.fullText + " ")).toThrow(/exact current gate bytes/);
+    expect(() => historicalAccountRoute(accountRoute.fullAfter, "unreviewed gate")).toThrow(/exact current gate bytes/);
   });
 });
 
