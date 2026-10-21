@@ -211,19 +211,19 @@ for (const width of [375, 1280] as const) test(`${width}: preserves Coachfi desi
     await needs.click(); const familyRead = family.getByRole("button", { name: "Oznaczam materiał jako przeczytany", exact: true });
     await page.mouse.move(0, 0); observations.familySettled = await settle(page);
     const familyHeader = await record("familyHeader", family.locator("header"));
-    rgb(familyHeader.background, BASELINE.mint); expect(familyHeader.radius).toBe(BASELINE.sheetRadius);
+    rgb(familyHeader.background, BASELINE.white); expect(familyHeader.radius).toBe(BASELINE.cardRadius);
     const familyHeading = await record("familyHeading", family.getByRole("heading", { level: 1 }));
-    rgb(familyHeading.foreground, BASELINE.slateInk); expect(familyHeading.contrast).toBeGreaterThanOrEqual(4.5);
+    rgb(familyHeading.foreground, BASELINE.ink); expect(familyHeading.contrast).toBeGreaterThanOrEqual(4.5);
     const otherGoal = family.getByRole("button", { name: /^Wspólny mały cel/ });
     const familyGoalCard = await record("familyGoalCard", otherGoal);
     rgb(familyGoalCard.background, BASELINE.white); expect(familyGoalCard.radius).toBe(BASELINE.cardRadius);
     const familyPanel = await record("familyPanel", family.locator('section[aria-labelledby="family-goal-heading"]'));
-    rgb(familyPanel.background, BASELINE.white); expect(familyPanel.radius).toBe(BASELINE.sheetRadius);
+    rgb(familyPanel.background, BASELINE.white); expect(familyPanel.radius).toBe(BASELINE.cardRadius);
     await familyRead.click(); const familySubmit = family.getByRole("button", { name: "Sprawdź odpowiedź", exact: true });
     await page.mouse.move(0, 0); await settle(page);
-    // Family's submit is explicitly variant="outline" in the baseline source.
+    // The accepted family submit retains variant="outline" with a primary lavender background override.
     const familyOutline = await record("familyOutline", familySubmit);
-    rgb(familyOutline.background, BASELINE.white); rgb(familyOutline.foreground, BASELINE.ink); rgb(familyOutline.borderColor, BASELINE.ink);
+    rgb(familyOutline.background, BASELINE.lavender); rgb(familyOutline.foreground, BASELINE.ink); rgb(familyOutline.borderColor, BASELINE.ink);
     expect(familyOutline.radius).toBe(BASELINE.buttonRadius); expect(familyOutline.borderWidth).toBe("2px");
     expect(familyOutline.height).toBeGreaterThanOrEqual(44); expect(familyOutline.contrast).toBeGreaterThanOrEqual(4.5);
     await expect(family.locator('input[name="family-answer"]:checked')).toHaveCount(0); await fits(page);

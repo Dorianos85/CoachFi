@@ -28,6 +28,12 @@ Whole-file inverse comparisons preserve all non-presentation source. The later C
 
 The local validation tree includes other previously accepted, unpublished work and Next15.5.28. This design-only publication preserves PR19's existing dependency lock and CI. Its exact commit needs its own GitHub Actions result; the earlier green run at0bffa74 does not validate the new commit. No duplicate unit tests were added for reversible CSS classes.
 
+## Exact publication CI follow-up
+
+The first design commit, `ec5d681680271e3abbdf466e01aa0767daf17944`, was published to PR19. [CI39638100427](https://github.com/Dorianos85/CoachFi/actions/runs/39638100427) passed dependency audit, types, units/native checks, RAM SQL and build. Browser validation was **4 passed / 2 failed**: both failures were the375/1280 design-regression cases at the old family-header mint/sheet oracle. The approved product intentionally uses white/card20/ink and a lavender family action.
+
+The follow-up aligns only the changed family presentation expectations in `tests/e2e/dependency-design-regression.spec.ts` with that independently reviewed design. Existing token constants, case identities,375/1280 widths, readiness, RGB tolerance, contrast4.5 minimum,44px controls, focus/high-contrast, privacy and network assertions are retained. Adult/dashboard expectations and product code remain unchanged. The failed run remains a failure; source review alone does not grant the new commit a runtime PASS. Its exact-head CI result must be checked separately.
+
 Raw browser captures, build logs and full independent review remain in the workspace's `evidence/light-audience-design-2026-10-21/`; private machine details and raw journals are not published here.
 
 No merge, production deployment, remote migration, provider call, new data collection or external AI enablement is part of this update. Vercel's disabled deployment rule for the PR feature branch is preserved. Production remains NO_GO and the scheduled loop remains paused.
