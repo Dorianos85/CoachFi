@@ -7,11 +7,12 @@ import { createRequire } from "node:module";
 import { execFileSync, spawnSync } from "node:child_process";
 import { commandSucceeded, evaluateAudit, evaluateBrowser, evaluateBuildJournal, evaluateVitest, failureCategory, validateReceipt } from "./policy.mjs";
 import { startGuardedServer } from "./server.mjs";
+import { validateDatabaseLock, validateDatabaseResult, migrationFiles } from "../../tools/staging-db/policy.mjs";
 
 const root = fs.realpathSync(fileURLToPath(new URL("../../", import.meta.url)));
 assert.equal(fs.realpathSync(process.cwd()), root, "ci-root-mismatch");
 const [stage, ...extra] = process.argv.slice(2);
-assert(["hygiene", "install", "typecheck", "unit", "build", "browser-install", "ui", "audit"].includes(stage) && extra.length === 0, "ci-stage");
+assert(["hygiene", "install", "typecheck", "unit", "database", "build", "browser-install", "ui", "audit"].includes(stage) && extra.length === 0, "ci-stage");
 const runIdentity = process.env.COACHFI_CI_RUN_ID;
 assert(typeof runIdentity === "string" && /^[a-z0-9][a-z0-9-]{0,79}$/.test(runIdentity), "ci-run-identity");
 const directory = path.join(root, ".tmp/ci", runIdentity); fs.mkdirSync(directory, { recursive: true });
@@ -151,6 +152,23 @@ try {
     report.details.nativeFiles = nativeFiles;
     report.details.nativeFailures = (native.stdout ?? "").split(/\r?\n/).filter(line => /^not ok \d+ - /.test(line)).map(line => line.slice(0, 500));
     requireSuccess(native); requireSuccess(child); assert(report.details.accepted, "ci-unit-failed-or-skipped");
+  } else if (stage === "database") {
+    const childRoot = path.join(root, "tools/staging-db");
+    const childLock = fs.readFileSync(path.join(childRoot, "package-lock.json"));
+    const childManifest = fs.readFileSync(path.join(childRoot, "package.json"));
+    validateDatabaseLock(JSON.parse(childManifest), JSON.parse(childLock));
+    const childLockSHA256 = hash(childLock);
+    requireSuccess(run("database-install", [npmCli(), "ci", "--prefix", childRoot, "--ignore-scripts", "--no-audit", "--no-fund"], env));
+    const audit = run("database-audit", [npmCli(), "audit", "--prefix", childRoot, "--package-lock-only", "--include=dev", "--include=optional", "--include=peer", "--json"], { ...env, NPM_CONFIG_AUDIT: "true" });
+    report.details = { childLockSHA256, audit: evaluateAudit(JSON.parse(audit.stdout), audit) };
+    assert(report.details.audit.accepted, "ci-database-audit-open-vulnerabilities");
+    const child = run("database-check", ["tools/staging-db/check.mjs"], env, 150_000); requireSuccess(child);
+    const checked = JSON.parse(child.stdout);
+    assert(checked.status === "PASS" && checked.head === binding.actualSHA && checked.guard?.denials === 0, "ci-database-check-failed");
+    validateDatabaseResult(checked.details, migrationFiles.map(file => ({ file, sha256: hash(fs.readFileSync(path.join(root, "supabase/migrations", file))) })));
+    assert.equal(hash(fs.readFileSync(path.join(childRoot, "package-lock.json"))), childLockSHA256, "ci-database-lock-changed");
+    assert(fs.readFileSync(path.join(childRoot, "package.json")).equals(childManifest), "ci-database-manifest-changed");
+    report.details = { ...report.details, guard: checked.guard, ...checked.details };
   } else if (stage === "build") {
     const runId = crypto.randomBytes(16).toString("hex");
     const journal = path.join(root, `evidence/cycle-73/guard-build-${runId}.jsonl`); fs.writeFileSync(journal, "", { flag: "wx" });

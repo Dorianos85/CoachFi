@@ -45,6 +45,9 @@ jobs:
       - name: Complete unit include and native metadata tests
         if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}
         run: node scripts/ci/run.mjs unit
+      - name: Isolated PostgreSQL RLS and atomic deletion with synthetic owners
+        if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}
+        run: node scripts/ci/run.mjs database
       - name: Production compilation with explicit offline font fixture
         id: build
         if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' }}

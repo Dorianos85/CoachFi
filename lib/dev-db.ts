@@ -8,6 +8,7 @@ const DEFAULT_RELATIVE_PATH = join("data", "coachfi.dev.sqlite");
 export function devDbPath() {
   const configured = process.env.COACHFI_DEV_DB?.trim();
   if (!configured) return join(process.cwd(), DEFAULT_RELATIVE_PATH);
+  if (configured === ":memory:") return configured;
   return isAbsolute(configured) ? configured : join(process.cwd(), configured);
 }
 
@@ -38,13 +39,20 @@ export function getDevDb() {
   }
   if (!db) {
     const path = devDbPath();
-    mkdirSync(dirname(path), { recursive: true });
+    if (path !== ":memory:") mkdirSync(dirname(path), { recursive: true });
     const database = new DatabaseSync(path, { enableForeignKeyConstraints: true });
-    database.exec(readFileSync(join(process.cwd(), "db", "schema.sql"), "utf8"));
-    db = database;
+    try {
+      // Bootstrap/migrations may write when a local database is first opened.
+      // An initialized read must not repeatedly backfill progress or rewards.
+      database.exec(readFileSync(join(process.cwd(), "db", "schema.sql"), "utf8"));
+      ensureIdentityColumns(database);
+      ensureProgressTables(database);
+      db = database;
+    } catch (error) {
+      database.close();
+      throw error;
+    }
   }
-  ensureIdentityColumns(db);
-  ensureProgressTables(db);
   return db;
 }
 

@@ -240,7 +240,7 @@ function loadSqliteProgress(db: ReturnType<typeof getDevDb>, cdpUserId: string, 
     if (seeded.srs === undefined && seeded.learnManual === undefined && seeded.tokens === undefined && seeded.streak === undefined) {
       return null;
     }
-    saveSqliteProgress(db, cdpUserId, state ?? { version: 1 }, new Date().toISOString());
+    // Legacy snapshot fallback is a view, not permission to create progress.
     return seeded;
   }
   return {
@@ -284,7 +284,7 @@ async function loadSupabaseProgress(supabase: SupabaseClient, cdpUserId: string,
     if (seeded.srs === undefined && seeded.learnManual === undefined && seeded.tokens === undefined && seeded.streak === undefined) {
       return null;
     }
-    await saveSupabaseProgress(supabase, cdpUserId, state ?? { version: 1 }, new Date().toISOString());
+    // A read/export must not backfill missing rows or recreate deleted data.
     return seeded;
   }
   const row = data as { srs?: unknown; learn_manual?: unknown; tokens?: number | null; streak?: unknown };
@@ -520,12 +520,10 @@ async function saveSupabaseIdentity(supabase: SupabaseClient, cdpUserId: string,
 }
 
 async function deleteSupabaseAccount(supabase: SupabaseClient, cdpUserId: string) {
-  const certificateResult = await supabase.from("certificates").delete().eq("cdp_user_id", cdpUserId);
-  if (certificateResult.error) throw new Error(certificateResult.error.message);
-  const progressResult = await supabase.from("progress").delete().eq("cdp_user_id", cdpUserId);
-  if (progressResult.error) throw new Error(progressResult.error.message);
-  const stateResult = await supabase.from("account_state").delete().eq("cdp_user_id", cdpUserId);
-  if (stateResult.error) throw new Error(stateResult.error.message);
+  // The canonical accounts migration gives all three children ON DELETE
+  // CASCADE. One parent statement keeps app-row deletion atomic; separate
+  // child requests could leave a partially erased account on later failure.
+  // This does not remove an auth identity, provider sessions or backups.
   const accountResult = await supabase.from("accounts").delete().eq("cdp_user_id", cdpUserId);
   if (accountResult.error) throw new Error(accountResult.error.message);
 }
