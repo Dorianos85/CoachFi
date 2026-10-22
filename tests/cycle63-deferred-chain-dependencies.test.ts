@@ -172,7 +172,43 @@ function historicalAccountRoute(raw = readFileSync(resolve(accountRoute.path), "
   admitAccountRoute(gate === accountRoute.gate.fullText && sha(gate) === accountRoute.gate.sha256, "exact current gate bytes");
   return accountRoute.fullBefore;
 }
-const readSourceWitness = (file: string) => file === accountRoute.path ? historicalAccountRoute()
+// Finite admission for the independently reviewed initial-read deadline only.
+const deadlineText = readFileSync(resolve("tests/fixtures/account-sync-deadline-admission.json"), "utf8");
+function admitAccountDeadline(condition: unknown, label: string): asserts condition {
+  if (!condition) throw new Error("C63/deadline strict source admission: " + label);
+}
+admitAccountDeadline(sha(deadlineText) === "5389f9d25733e115d1281d3861d6a56d8ff81c1b33b8e408122957d47d12befd", "immutable deadline admission");
+const deadline = JSON.parse(deadlineText) as { schemaVersion: number; scope: string; path: string;
+  beforeSHA256: string; afterSHA256: string; fullBefore: string; changes: Array<{ before: string; after: string }> };
+admitAccountDeadline(deadline.schemaVersion === 1
+  && deadline.scope === "REVIEWED_INITIAL_ACCOUNT_READ_DEADLINE_2026_10_22"
+  && deadline.path === "lib/account-sync.ts" && deadline.changes.length === 3, "exact finite deadline scope");
+admitAccountDeadline(deadline.beforeSHA256 === "a0753a0105f28684c95fb83d73f2ccd349046250c26e07319b0e6d95efdf9317"
+  && sha(deadline.fullBefore) === deadline.beforeSHA256
+  && model.literalSourceWitnesses.find(row => row.path === deadline.path)?.sha256 === deadline.beforeSHA256,
+  "unchanged historical account witness");
+let deadlineExpected = deadline.fullBefore;
+for (const change of deadline.changes) {
+  admitAccountDeadline(change.before.length > 0 && deadlineExpected.split(change.before).length === 2,
+    "unique reviewed deadline replacement");
+  deadlineExpected = deadlineExpected.replace(change.before, change.after);
+}
+admitAccountDeadline(deadline.afterSHA256 === "5ff80296c17815be61ceb8c6aa95b8eed3c1aaafdc64292d798e79261b10422d"
+  && sha(deadlineExpected) === deadline.afterSHA256, "only the reviewed deadline delta");
+let deadlineInverse = deadlineExpected;
+for (const change of deadline.changes.toReversed()) {
+  admitAccountDeadline(change.after.length > 0 && deadlineInverse.split(change.after).length === 2,
+    "unique reviewed deadline inverse");
+  deadlineInverse = deadlineInverse.replace(change.after, change.before);
+}
+admitAccountDeadline(deadlineInverse === deadline.fullBefore && sha(deadlineInverse) === deadline.beforeSHA256,
+  "complete historical deadline inverse");
+function historicalAccountRead(raw = readFileSync(resolve(deadline.path), "utf8")): string {
+  admitAccountDeadline(raw === deadlineExpected && sha(raw) === deadline.afterSHA256, "exact current deadline bytes");
+  return deadline.fullBefore;
+}
+const readSourceWitness = (file: string) => file === deadline.path ? historicalAccountRead()
+  : file === accountRoute.path ? historicalAccountRoute()
   : later.records.some(row => row.path === file) ? historicalMetadata(file) : readFileSync(resolve(file), "utf8");
 function productionFiles(directory: string): string[] {
   if (!existsSync(directory)) return [];
@@ -237,7 +273,8 @@ describe("C63 minimal deferred chain dependency removal", () => {
       { path: "vitest.config.ts", sha256: "71efb74ff79bc8a66be70cfa69ff9f2933fe7519e010e9178351a12e9a52597c" },
     ];
     const witnesses = [...model.literalSourceWitnesses, ...configPins].map(pin => ({ ...pin, actualSHA: sha(readSourceWitness(pin.path)),
-      qualification: pin.path === accountRoute.path ? "Exact reviewed account route inverse; current route and extracted gate bytes both checked"
+      qualification: pin.path === deadline.path ? "Exact reviewed account deadline inverse; current bytes also checked"
+        : pin.path === accountRoute.path ? "Exact reviewed account route inverse; current route and extracted gate bytes both checked"
         : later.records.some(row => row.path === pin.path) ? "Exact pinned later inverse; current bytes also checked" : "Literal current source" }));
     const yamlConfigs = [".postcssrc", ".postcssrc.yaml", ".postcssrc.yml", "postcss.config.yaml", "postcss.config.yml",
       "vite.config.yaml", "vite.config.yml", "vitest.config.yaml", "vitest.config.yml"].filter(path => existsSync(resolve(path)));
@@ -247,6 +284,17 @@ describe("C63 minimal deferred chain dependency removal", () => {
     expect(existsSync(resolve(model.before.helper.path))).toBe(false); expect(references).toEqual([]); expect(yamlConfigs).toEqual([]);
     for (const pin of witnesses) expect(pin.actualSHA).toBe(pin.sha256);
     expect(isFeatureEnabled("web3")).toBe(false); for (const href of ["/vault", "/vault/nested?synthetic=1", "/achievement"]) expect(isRouteEnabled(href)).toBe(false);
+  });
+
+  it("admits only the reviewed account deadline and refuses stale, extended, extra-byte or write changes", () => {
+    expect(historicalAccountRead()).toBe(deadline.fullBefore);
+    const mutations = [deadline.fullBefore,
+      deadlineExpected.replace("30_000", "30_001"), deadlineExpected + " ",
+      deadlineExpected.replace('method: "GET"', 'method: "PUT"')];
+    for (const raw of mutations) {
+      expect(raw).not.toBe(deadlineExpected);
+      expect(() => historicalAccountRead(raw)).toThrow(/exact current deadline bytes/);
+    }
   });
 
   it("refuses unreviewed manifest or lock mutations instead of widening the historical admission", () => {
