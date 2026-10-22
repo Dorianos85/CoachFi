@@ -19,6 +19,7 @@ const COPY = {
     confirm: "I am at least 18 years old.",
     enter: "Continue as an adult",
     close: "Close age confirmation",
+    saveError: "Your 18+ declaration could not be confirmed as saved on this device. Please try again.",
   },
   pl: {
     eyebrow: "Nauka dla dorosłych",
@@ -27,6 +28,7 @@ const COPY = {
     confirm: "Mam ukończone 18 lat.",
     enter: "Kontynuuj jako osoba dorosła",
     close: "Zamknij potwierdzenie wieku",
+    saveError: "Nie udało się potwierdzić zapisu deklaracji 18+ na tym urządzeniu. Spróbuj ponownie.",
   },
 };
 
@@ -46,13 +48,23 @@ export function ModeGate({ returnFocusRef }: { returnFocusRef?: RefObject<HTMLBu
   const { loaded: consentLoaded, requiredAccepted } = useConsent();
   const { loaded: modeLoaded, modeRecord, settingsOpen, selectAdultMode, closeSettings } = useMode();
   const [adultChecked, setAdultChecked] = useState(false);
+  const [confirmationFailed, setConfirmationFailed] = useState(false);
   const previousFocus = useRef<HTMLElement | null>(null);
   const forcedOpen = !isPublicLearningEntry(pathname) && consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
   const open = forcedOpen || settingsOpen;
 
   function enterAdult() {
     if (!adultChecked) return;
-    selectAdultMode();
+    setConfirmationFailed(false);
+    try {
+      if (selectAdultMode() !== true) {
+        setConfirmationFailed(true);
+        return;
+      }
+    } catch {
+      setConfirmationFailed(true);
+      return;
+    }
     setAdultChecked(false);
   }
 
@@ -62,6 +74,7 @@ export function ModeGate({ returnFocusRef }: { returnFocusRef?: RefObject<HTMLBu
       onOpenChange={(nextOpen) => {
         if (!nextOpen && !forcedOpen) {
           setAdultChecked(false);
+          setConfirmationFailed(false);
           closeSettings();
         }
       }}
@@ -101,6 +114,7 @@ export function ModeGate({ returnFocusRef }: { returnFocusRef?: RefObject<HTMLBu
             <input type="checkbox" checked={adultChecked} onChange={(event) => setAdultChecked(event.target.checked)} className="mt-1 h-4 w-4 focus:ring-primary" />
             <span>{copy.confirm}</span>
           </label>
+          {confirmationFailed ? <p role="alert" className="mt-3 text-sm font-semibold text-text">{copy.saveError}</p> : null}
           <Button type="button" className="mt-4 w-full" disabled={!adultChecked} onClick={enterAdult}>
             <ShieldCheck className="h-4 w-4" aria-hidden="true" />
             {copy.enter}

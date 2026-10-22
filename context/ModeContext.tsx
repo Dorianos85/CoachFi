@@ -23,7 +23,7 @@ interface ModeContextValue {
   mode: CoachFiMode | null;
   isKidsMode: boolean;
   settingsOpen: boolean;
-  selectAdultMode: () => void;
+  selectAdultMode: () => boolean;
   selectKidsMode: () => void;
   resetMode: () => void;
   openSettings: () => void;
@@ -38,7 +38,7 @@ const ModeContext = createContext<ModeContextValue>({
   mode: null,
   isKidsMode: false,
   settingsOpen: false,
-  selectAdultMode: () => {},
+  selectAdultMode: () => false,
   selectKidsMode: () => {},
   resetMode: () => {},
   openSettings: () => {},
@@ -84,7 +84,7 @@ export function ModeProvider({ children }: { children: ReactNode }) {
       isKidsMode: isFeatureEnabled("kids") && modeRecord?.mode === "kids",
       settingsOpen,
       selectAdultMode: () => {
-        if (!storage.isCurrent()) return;
+        if (!storage.isCurrent()) return false;
         const now = new Date().toISOString();
         const record: ModeRecord = {
           mode: "adult",
@@ -92,11 +92,16 @@ export function ModeProvider({ children }: { children: ReactNode }) {
           adultConfirmedAt: now,
           adultAgeRequirement: 18,
         };
-        writeModeRecord(record, storage);
-        if (!storage.isCurrent()) return;
+        try {
+          writeModeRecord(record, storage);
+        } catch {
+          return false;
+        }
+        if (!storage.isCurrent()) return false;
         setModeRecord(record);
         setSettingsOpen(false);
         notifyCloud("profile");
+        return true;
       },
       selectKidsMode: () => {
         if (!storage.isCurrent() || !isFeatureEnabled("kids")) return;

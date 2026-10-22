@@ -24,8 +24,9 @@ export interface LearningSession {
 }
 interface SessionContext {
   user: SignedInAccount; getter: AccountTokenGetter; generation: number; controller: AbortController;
-  storageLease: StorageOwnerLease; syncIssue: LearningSyncIssue;
+  storageLease: StorageOwnerLease; syncIssue: LearningSyncIssue; readDeadlineAt: number;
 }
+const INITIAL_READ_TIMEOUT_MS = 30_000;
 let active: SessionContext | null = null;
 let resumable: SessionContext | null = null;
 let generation = 0;
@@ -36,20 +37,37 @@ subscribeStorageOwnership(() => {
   if (active && !active.storageLease.isCurrent()) close(active, false);
 });
 function fence(context: SessionContext) { if (!current(context)) throw new StoppedSession(); }
-/** The SDK may ignore cancellation; discard its result and release our wait immediately. */
+/** One monotonic initialization budget; a stalled read must not invalidate its owner. */
 function waitForSession<T>(context: SessionContext, factory: () => Promise<T>): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const signal = context.controller.signal;
-    const onAbort = () => { signal.removeEventListener("abort", onAbort); reject(new StoppedSession()); };
-    if (!current(context)) { reject(new StoppedSession()); return; }
-    signal.addEventListener("abort", onAbort, { once: true });
-    let pending: Promise<T>;
-    try { fence(context); pending = factory(); }
-    catch (error) { signal.removeEventListener("abort", onAbort); reject(error); return; }
-    pending.then((value) => {
+    let settled = false;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const cleanup = () => {
+      if (timer !== null) clearTimeout(timer);
+      timer = null;
       signal.removeEventListener("abort", onAbort);
-      if (current(context)) resolve(value); else reject(new StoppedSession());
-    }, (error: unknown) => { signal.removeEventListener("abort", onAbort); reject(error); });
+    };
+    const fail = (error: unknown) => {
+      if (settled) return;
+      settled = true; cleanup(); reject(error);
+    };
+    const onAbort = () => fail(new StoppedSession());
+    if (!current(context)) { reject(new StoppedSession()); return; }
+    const remaining = context.readDeadlineAt - performance.now();
+    if (remaining <= 0) { reject(new Error("Account read timed out")); return; }
+    signal.addEventListener("abort", onAbort, { once: true });
+    timer = setTimeout(() => fail(new Error("Account read timed out")), Math.ceil(remaining));
+    try {
+      fence(context);
+      factory().then((value) => {
+        if (settled) return;
+        if (!current(context)) { fail(new StoppedSession()); return; }
+        // A delayed timer callback must not let an already expired response win.
+        if (performance.now() >= context.readDeadlineAt) { fail(new Error("Account read timed out")); return; }
+        settled = true; cleanup(); resolve(value);
+      }, fail);
+    } catch (error) { fail(error); }
   });
 }
 function result(context: SessionContext, status: LearningSyncResult["status"]): LearningSyncResult {
@@ -75,7 +93,7 @@ export function startLearningSession(user: SignedInAccount, getter: AccountToken
   if (generation !== epoch || active || !storageLease.isCurrent()) return stoppedLease(user, epoch);
   const context: SessionContext = {
     user: { ...user }, getter, generation: epoch, controller: new AbortController(),
-    storageLease, syncIssue: "read-only",
+    storageLease, syncIssue: "read-only", readDeadlineAt: performance.now() + INITIAL_READ_TIMEOUT_MS,
   };
   active = context;
   setProgressVisible(false);
