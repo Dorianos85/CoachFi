@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { extname, join, relative, resolve } from "node:path";
 import { isDeepStrictEqual } from "node:util";
+import { projectDependencySecurityPatchMetadata } from "./dependency-security-patch-admission";
 import { GET as certificatesGet, POST as certificatesPost } from "@/app/api/certificates/route";
 import { POST as mintPost } from "@/app/api/mint-nft/route";
 import { GET as vaultGet } from "@/app/api/vault/route";
@@ -130,6 +131,7 @@ for (const state of later.records) {
     ? "PRIOR_ACCEPTED_ADULT_FAMILY_B162_NOT_THIS_DEPENDENCY_PATCH" : "DEPENDENCY_MIGRATION_2026_10_20"), "separate later scope");
 }
 function historicalMetadata(file: string, raw = readFileSync(resolve(file), "utf8")): string {
+  raw = projectDependencySecurityPatchMetadata(file, raw);
   const state = later.records.find(row => row.path === file);
   admitC73(state && sha(raw) === state.afterSHA256 && raw === state.fullAfter, "exact current later bytes for " + file);
   return state.fullBefore;

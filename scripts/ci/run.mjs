@@ -7,6 +7,7 @@ import { createRequire } from "node:module";
 import { execFileSync, spawnSync } from "node:child_process";
 import { commandSucceeded, evaluateAudit, evaluateBrowser, evaluateBuildJournal, evaluateVitest, failureCategory, validateReceipt } from "./policy.mjs";
 import { startGuardedServer } from "./server.mjs";
+import { browserInstallPolicy, installChromium } from "./browser-install.mjs";
 import { validateDatabaseLock, validateDatabaseResult, migrationFiles } from "../../tools/staging-db/policy.mjs";
 
 const root = fs.realpathSync(fileURLToPath(new URL("../../", import.meta.url)));
@@ -183,8 +184,20 @@ try {
     report.details.appPaths = Object.keys(routes).sort();
   } else if (stage === "browser-install") {
     receiptRequired("build");
-    requireSuccess(run("chromium", [path.join(path.dirname(require.resolve("@playwright/test/package.json")), "cli.js"), "install", "--with-deps", "chromium"], env));
-    report.details = { browser: "Playwright bundled Chromium", source: "standard installed Playwright distribution" };
+    report.details = { browser: "Playwright bundled Chromium headless shell", source: "standard locked Playwright distribution",
+      policy: browserInstallPolicy, phases: [] };
+    const installed = await installChromium({
+      cli: path.join(path.dirname(require.resolve("@playwright/test/package.json")), "cli.js"), cwd: root, env,
+      onStart: ({ phase, budgetMs }) => console.log(JSON.stringify({ event: "browser-install-phase-start", phase, budgetMs })),
+      onRaw: (label, args, result) => {
+        write(`${stage}-${label}-raw.json`, { command: ["node", ...args.map(arg => path.isAbsolute(arg) ? relative(arg) : arg)],
+          status: result.status, signal: result.signal, error: result.error, stdout: result.stdout, stderr: result.stderr });
+        raw.push({ label, result });
+      },
+      onReceipt: receipt => report.details.phases.push(receipt),
+    });
+    report.details.reason = installed.reason;
+    assert(installed.accepted, "ci-browser-install-failed");
   } else if (stage === "ui") {
     receiptRequired("build"); receiptRequired("browser-install");
     const server = startGuardedServer({ root, directory, binding, env, next: require.resolve("next/dist/bin/next") });

@@ -54,6 +54,7 @@ jobs:
         run: node scripts/ci/run.mjs build
       - name: Install reviewed Playwright Chromium distribution
         id: browser
+        timeout-minutes: 10
         if: ${{ !cancelled() && steps.hygiene.outcome == 'success' && steps.install.outcome == 'success' && steps.build.outcome == 'success' }}
         run: node scripts/ci/run.mjs browser-install
       - name: Bounded local PL and EN user flows

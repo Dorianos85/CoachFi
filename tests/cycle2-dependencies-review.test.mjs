@@ -136,12 +136,12 @@ test("Baseline Browser Mapping stays on its reviewed major and the Vitest family
     assert.ok(atLeast(entry.version, "2.11.0"), `${path}: reviewed baseline mapping fix is missing.`);
     assert.equal(JSON.parse(readFileSync(resolve(root, path, "package.json"), "utf8")).version, entry.version);
   }
-  assert.equal(manifest.devDependencies.vitest, "4.1.11");
-  assert.equal(lock.packages["node_modules/vitest"].version, "4.1.11");
+  assert.equal(manifest.devDependencies.vitest, "4.1.12");
+  assert.equal(lock.packages["node_modules/vitest"].version, "4.1.12");
   const ownFamily = Object.entries(lock.packages).filter(([path]) => /^node_modules\/@vitest\//.test(path) || /\/node_modules\/@vitest\//.test(path));
   assert.ok(ownFamily.length > 0);
   for (const [path, entry] of ownFamily) {
-    assert.equal(entry.version, "4.1.11", `${path}: a mixed Vitest implementation family remains.`);
+    assert.equal(entry.version, "4.1.12", `${path}: a mixed Vitest implementation family remains.`);
     assert.equal(JSON.parse(readFileSync(resolve(root, path, "package.json"), "utf8")).version, entry.version);
   }
 });

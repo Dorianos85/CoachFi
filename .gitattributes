@@ -16,3 +16,8 @@ docs/coachfi/cycle-6/content-metadata.json -text
 app/inflation/page.tsx -text
 tests/cycle15-legacy-preservation.ts -text
 tests/cycle16-legacy-preservation.ts -text
+
+# Exact dependency security patch metadata and finite admission receipt.
+package.json -text
+package-lock.json -text
+tests/fixtures/dependency-security-patch-admission.json text eol=lf
