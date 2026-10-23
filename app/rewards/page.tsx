@@ -29,7 +29,6 @@ import {
 } from "@/lib/certificate-cards";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
-import { createMockTransactionHash, wait } from "@/lib/solanaMock";
 import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
 import { hideSavedProgress } from "@/lib/progress-visibility";
 import { requestSignIn } from "@/lib/signInGate";
@@ -37,7 +36,7 @@ import { getTokenBalance } from "@/lib/tokens";
 import { getDisplayName, getUser } from "@/lib/user";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
-type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
+type MintStep = "idle" | "preparing" | "submitting" | "done";
 
 const phantomWalletEnabled = false;
 const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
@@ -54,6 +53,8 @@ const rewardsCopy: LocalizedMap<
     embeddedLogout: string;
     mintDescription: string;
     consentRequired: string;
+    walletUnavailable: string;
+    achievementRequired: string;
     certificateVoiceLabel: string;
     proofNote: string;
     dialogTitle: string;
@@ -79,6 +80,10 @@ const rewardsCopy: LocalizedMap<
     mintDescription: 'Zmintuj certyfikat "Saving Habit" na Solana Devnet jako dowód postępu.',
     consentRequired:
       "Zgoda blockchain jest wymagana, ponieważ adres portfela i metadane certyfikatu mogą być publiczne.",
+    walletUnavailable:
+      "Mint jest wyłączony: najpierw skonfiguruj lub połącz portfel Solana Devnet. Coach FI nie symuluje transakcji on-chain.",
+    achievementRequired:
+      'Najpierw ukończ etap „Saving Habit”. Certyfikat nie może zostać wydany przed ukończeniem nauki.',
     certificateVoiceLabel: "Odtwórz wiadomość certyfikatu",
     proofNote:
       "Certyfikaty są dowodem edukacji, a nie produktem inwestycyjnym. Nie są przeznaczone do odsprzedaży z zyskiem i oznaczają tylko osobisty etap nauki.",
@@ -90,8 +95,7 @@ const rewardsCopy: LocalizedMap<
     mintSteps: {
       idle: "",
       preparing: "Przygotowywanie metadanych...",
-      signing: "Oczekiwanie na podpis portfela...",
-      confirming: "Potwierdzanie na Devnet...",
+      submitting: "Wysyłanie i potwierdzanie na Solana Devnet...",
       done: "Certyfikat zmintowany!",
     },
     statusLabels: {
@@ -125,6 +129,10 @@ const rewardsCopy: LocalizedMap<
     mintDescription: 'Mint your "Saving Habit" certificate on Solana Devnet as proof of progress.',
     consentRequired:
       "Blockchain consent is required because wallet address and certificate metadata can become public.",
+    walletUnavailable:
+      "Minting is disabled: configure or connect a Solana Devnet wallet first. Coach FI does not simulate on-chain transactions.",
+    achievementRequired:
+      'Complete the "Saving Habit" stage first. A certificate cannot be issued before the learning milestone is complete.',
     certificateVoiceLabel: "Play certificate message",
     proofNote:
       "Certificates are proof of education, not investment products. They cannot be resold for profit and represent only your personal learning milestone.",
@@ -136,8 +144,7 @@ const rewardsCopy: LocalizedMap<
     mintSteps: {
       idle: "",
       preparing: "Preparing metadata...",
-      signing: "Waiting for wallet signature...",
-      confirming: "Confirming on Devnet...",
+      submitting: "Submitting and confirming on Solana Devnet...",
       done: "Certificate minted!",
     },
     statusLabels: {
@@ -170,6 +177,10 @@ const rewardsCopy: LocalizedMap<
     embeddedLogout: "ログアウト",
     mintDescription: '進捗の証明として、Solana Devnetで「Saving Habit」証明書をミントします。',
     consentRequired: "ウォレットアドレスと証明書メタデータが公開される可能性があるため、ブロックチェーン同意が必要です。",
+    walletUnavailable:
+      "ミントは無効です。先に Solana Devnet ウォレットを設定または接続してください。Coach FI はオンチェーン取引をシミュレーションしません。",
+    achievementRequired:
+      "先に「Saving Habit」ステージを完了してください。学習を完了する前に証明書を発行することはできません。",
     certificateVoiceLabel: "証明書メッセージを再生",
     proofNote:
       "証明書は教育の証明であり、投資商品ではありません。利益目的で再販売するものではなく、個人の学習マイルストーンを表します。",
@@ -181,8 +192,7 @@ const rewardsCopy: LocalizedMap<
     mintSteps: {
       idle: "",
       preparing: "メタデータを準備中...",
-      signing: "ウォレット署名を待機中...",
-      confirming: "Devnetで確認中...",
+      submitting: "Solana Devnet に送信し、確認しています...",
       done: "証明書をミントしました!",
     },
     statusLabels: {
@@ -495,7 +505,7 @@ export default function RewardsPage() {
   const [embeddedAddress, setEmbeddedAddress] = useState<string | null>(null);
   const [mintStep, setMintStep] = useState<MintStep>("idle");
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
-  const [mockTxHash, setMockTxHash] = useState("");
+  const [transactionHash, setTransactionHash] = useState("");
   const [mintError, setMintError] = useState("");
   const [tokenBalance, setTokenBalance] = useState(0);
   const [stageProgress, setStageProgress] = useState<StageProgress[]>([]);
@@ -542,82 +552,82 @@ export default function RewardsPage() {
       return;
     }
 
-    setMintError("");
-    setMintStep(mintImmediately ? "confirming" : "preparing");
-    if (!mintImmediately) {
-      await wait(400);
-      setMintStep("signing");
+    const savingHabitCompleted = stageProgress.some(
+      (stage) => stage.stageId === CERTIFICATE_STAGE_IDS["saving-habit"] && stage.status === "completed",
+    );
+    if (!savingHabitCompleted) {
+      setMintStep("idle");
+      setMintError(copy.achievementRequired);
+      return;
     }
 
+    setMintError("");
     const phantomAddress =
       phantomWalletEnabled && connected && publicKey ? publicKey.toBase58() : null;
     const ownerAddress = phantomAddress ?? embeddedAddress ?? (mintImmediately ? devMintRecipient : "");
 
-    if (ownerAddress) {
-      // Attempt real on-chain mint via API
-      try {
-        setMintStep("confirming");
-        const userName = getDisplayName(getUser());
-        const res = await fetch("/api/mint-nft", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CoachFI-Consent": "blockchain",
-          },
-          body: JSON.stringify({
-            recipientAddress: ownerAddress,
-            certificateName: "Saving Habit",
-            userName,
-            score: 42,
-          }),
-        });
-        const json = (await res.json()) as {
-          ok: boolean; txHash?: string; assetAddress?: string; explorerUrl?: string; fallback?: boolean; error?: string;
-        };
+    if (!ownerAddress) {
+      setMintStep("idle");
+      setMintError(copy.walletUnavailable);
+      return;
+    }
 
-        if (json.ok && json.txHash) {
-          setMockTxHash(json.txHash);
-          setMintStep("done");
-          setMintDialogOpen(true);
-          const token = await accessToken.current?.();
-          if (token) {
-            const saved = await syncCertificates(token, {
-              certificateId: "saving-habit",
-              assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
-              txHash: json.txHash,
-            });
-            if (saved) setSavedCertificates(saved);
-          }
-          return;
-        }
-        if (mintImmediately) {
-          setMintStep("idle");
-          setMintError(json.error || "Mint failed");
-          return;
-        }
-        // Server returned fallback — fall through to mock
-      } catch {
-        if (mintImmediately) {
-          setMintStep("idle");
-          setMintError("Mint request failed");
-          return;
-        }
+    setMintStep("preparing");
+    try {
+      setMintStep("submitting");
+      const userName = getDisplayName(getUser());
+      const res = await fetch("/api/mint-nft", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CoachFI-Consent": "blockchain",
+        },
+        body: JSON.stringify({
+          recipientAddress: ownerAddress,
+          certificateName: "Saving Habit",
+          userName,
+          score: 42,
+        }),
+      });
+      const json = (await res.json()) as {
+        ok: boolean;
+        txHash?: string;
+        assetAddress?: string;
+        explorerUrl?: string;
+        error?: string;
+      };
+
+      if (!res.ok || !json.ok || !json.txHash) {
+        throw new Error(json.error || "Devnet mint failed");
       }
-    }
 
-    // Fallback: simulated mint (no wallet or API not configured)
-    if (!mintImmediately) {
-      await wait(800);
-      setMintStep("confirming");
-      await wait(1000);
+      setTransactionHash(json.txHash);
+      setMintStep("done");
+      setMintDialogOpen(true);
+      const token = await accessToken.current?.();
+      if (token) {
+        const saved = await syncCertificates(token, {
+          certificateId: "saving-habit",
+          assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
+          txHash: json.txHash,
+        });
+        if (saved) setSavedCertificates(saved);
+      }
+    } catch (error) {
+      setMintStep("idle");
+      setMintError(error instanceof Error ? error.message : "Devnet mint request failed");
     }
-    const hash = createMockTransactionHash();
-    setMockTxHash(hash);
-    setMintStep("done");
-    setMintDialogOpen(true);
   }
 
   const isMinting = mintStep !== "idle" && mintStep !== "done";
+  const hasMintRecipient = Boolean(
+    (phantomWalletEnabled && connected && publicKey) ||
+      embeddedAddress ||
+      (mintImmediately && devMintRecipient),
+  );
+  const savingHabitCompleted = stageProgress.some(
+    (stage) => stage.stageId === CERTIFICATE_STAGE_IDS["saving-habit"] && stage.status === "completed",
+  );
 
   return (
     <section aria-labelledby="rewards-title">
@@ -683,6 +693,16 @@ export default function RewardsPage() {
                 {copy.consentRequired}
               </p>
             )}
+            {!hasMintRecipient && (
+              <p className="mt-3 rounded-lg border border-amber-300/60 bg-amber-50 p-3 text-xs font-semibold leading-5 text-amber-900">
+                {copy.walletUnavailable}
+              </p>
+            )}
+            {hasMintRecipient && !savingHabitCompleted && (
+              <p className="mt-3 rounded-lg border border-amber-300/60 bg-amber-50 p-3 text-xs font-semibold leading-5 text-amber-900">
+                {copy.achievementRequired}
+              </p>
+            )}
             {mintError && (
               <p className="mt-3 rounded-lg bg-destructive/10 p-3 text-xs font-semibold leading-5 text-text" role="alert">
                 {mintError}
@@ -694,7 +714,7 @@ export default function RewardsPage() {
               size="lg"
               className="mt-4 w-full"
               onClick={handleMintCertificate}
-              disabled={isMinting}
+              disabled={isMinting || !hasMintRecipient || !savingHabitCompleted}
             >
               {isMinting ? (
                 <>
@@ -723,8 +743,8 @@ export default function RewardsPage() {
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-4 overflow-hidden"
                 >
-                  {(["preparing", "signing", "confirming"] as MintStep[]).map((step, i) => {
-                    const steps: MintStep[] = ["preparing", "signing", "confirming"];
+                  {(["preparing", "submitting"] as MintStep[]).map((step) => {
+                    const steps: MintStep[] = ["preparing", "submitting"];
                     const currentIdx = steps.indexOf(mintStep);
                     const stepIdx = steps.indexOf(step);
                     const done = stepIdx < currentIdx;
@@ -805,7 +825,7 @@ export default function RewardsPage() {
           >
             <p className="text-xs font-black uppercase text-muted">{copy.transactionHash}</p>
             <p className="mt-1.5 break-all font-mono text-sm font-bold text-text">
-              {mockTxHash}
+              {transactionHash}
             </p>
           </motion.div>
 
@@ -813,7 +833,7 @@ export default function RewardsPage() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            href={`https://explorer.solana.com/tx/${mockTxHash}?cluster=devnet`}
+            href={`https://explorer.solana.com/tx/${transactionHash}?cluster=devnet`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl cf-press bg-primary px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
