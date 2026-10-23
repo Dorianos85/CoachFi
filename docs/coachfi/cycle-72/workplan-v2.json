@@ -1,0 +1,51 @@
+{
+  "cycle": "C72",
+  "at": "2026-10-19T08:01:11.375Z",
+  "before": {
+    "path": "evidence/cycle-72/before-v2.json",
+    "sha256": "8ac29684ecaa3ac7b7e36cce773f70c56099aa920ddf179dd9bdd913e47b5d62"
+  },
+  "owner": "root coordinator; no ownapproval",
+  "roles": {
+    "A": "materialize.py,runner.mjs,tool-plan.json only; no executions",
+    "validation": "compatibility-cases.cjs,compatibility-design.json,optionalcompatibility.md only; no executions; own oracles excluded",
+    "primary": "review.json/review.md source/oracle+actualreview only; no executions",
+    "root": "baseline/workplan/releases/execute afterindependentGO/report/metadata/closure"
+  },
+  "caseBudget": {
+    "distinctCases": 12,
+    "consumerCases": 4,
+    "securityCases": 8,
+    "variants": 2,
+    "maximumCaseInstances": 24,
+    "securityPerChildMemoryMiB": 128,
+    "securityDeadlineMs": 4000
+  },
+  "boundaries": {
+    "network": false,
+    "mainRuntimeWrites": false,
+    "manifestLockChanges": false,
+    "productionWrites": false,
+    "paidCalls": false,
+    "profilesSessionsSecrets": false,
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF"
+  },
+  "gates": [
+    "Pin verifiedC71artifact andinspectionmembership; safe37filefreshquarantine materialization independentlyreviewed before run.",
+    "Freeze4handderivedsemanticoracles and original8securityliteral/faithfulguardedmaps with independentprimaryGO.",
+    "Pin actualparent/childrouting, source/hashes/currentpackages/loadedmoduleclosure and freshcache; deny network; no fallbackto6.1.4 when candidate.",
+    "One finite old+candidate24instance actualrun, persist rawfacts beforeassert/boundary, no broadappgreenreruns.",
+    "Findings retest targeted only; twofinalboundedreviews + actualpostwrite. Candidate compatibility success alone never overrides major semver or closes advisories/cleaninstall/staging."
+  ],
+  "next": "After observedcompatibility decide justified nextlocaldependencyupgrade packet, preserving originalsecuritycontrols. No actualdependencychange in C72.",
+  "production": "NO_GO",
+  "supersedes": {
+    "path": "docs/coachfi/cycle-72/workplan.json",
+    "sha256": "dff144e263281dc2570f8c4dae10fccb718c28d580da7e059934a68b8b5b2db1"
+  },
+  "moduleClosure": {
+    "path": "evidence/cycle-72/module-pins.json",
+    "sha256": "ea01faa4fafdb86f302b31c4b07670a2b2bc6ec5bf79aa4ea7884a86934e3cf5"
+  }
+}

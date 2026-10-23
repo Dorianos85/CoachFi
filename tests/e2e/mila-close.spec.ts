@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
+test.skip(true, "External ConvAI is disabled in P0. Its absence is tested in p0-safety.spec.ts; these provider fixtures require a future reviewed adapter.");
+
 const WIDGET_CONFIG = {
   variant: "full", placement: "bottom-right", avatar: { type: "image", url: "/brand/mila/mila-head-neutral.svg" },
   language: "pl", mic_muting_enabled: true, transcript_enabled: true, text_input_enabled: true,

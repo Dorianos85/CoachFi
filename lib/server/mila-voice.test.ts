@@ -1,11 +1,22 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+const cdp = vi.hoisted(() => ({
+  verify: vi.fn(),
+  initialize: vi.fn(),
+}));
+vi.mock("@/lib/cdp-server", () => {
+  cdp.initialize();
+  return { cdpAuthConfigured: true, verifyCdpUser: cdp.verify };
+});
+
 const voiceConfig = {
   conversation_config: { tts: { voice_id: "mila-canonical", model_id: "eleven_turbo_v2_5", stability: 0.65, similarity_boost: 0.8, speed: 0.95 } },
 };
 
 beforeEach(() => {
   vi.resetModules();
+  cdp.verify.mockReset().mockImplementation(() => { throw new Error("Unexpected CDP call"); });
+  cdp.initialize.mockClear();
   vi.stubEnv("ELEVENLABS_API_KEY", "qa-only-not-a-real-key");
   vi.stubEnv("NEXT_PUBLIC_ELEVENLABS_AGENT_ID", "qa-mila-agent");
   vi.stubEnv("ELEVENLABS_MILA_VOICE_CONFIG", "");
@@ -64,34 +75,26 @@ describe("Mila canonical voice", () => {
     for (const value of invalid) expect(parsePinnedMilaVoice(JSON.stringify(value), config.agentId)).toBeNull();
   });
 
-  it("keeps the verified native Hope voice and model for the first and following TTS after config 404", async () => {
+  it("keeps TTS hard-off despite a configured provider and pinned voice for both languages", async () => {
     const config = pinnedConfig();
     vi.stubEnv("NEXT_PUBLIC_ELEVENLABS_AGENT_ID", config.agentId);
     vi.stubEnv("ELEVENLABS_MILA_VOICE_CONFIG", JSON.stringify(config));
-    const fetchMock = vi.fn().mockImplementation((url: string) => Promise.resolve(
-      url.includes("/convai/agents/")
-        ? Response.json({}, { status: 404 })
-        : new Response(new Uint8Array([73, 68, 51]), { headers: { "Content-Type": "audio/mpeg" } })
-    ));
+    const fetchMock = vi.fn(() => { throw new Error("Unexpected provider call"); });
     vi.stubGlobal("fetch", fetchMock);
     const { POST } = await import("../../app/api/tts/route");
     for (const locale of ["pl", "en"]) {
       const response = await POST(new Request("http://localhost:3000/api/tts", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer forged.jwt.signature" },
         body: JSON.stringify({ text: "QA speech", locale, voiceId: "other-voice", modelId: "other-model" }),
       }));
-      expect(response.status).toBe(200);
-      expect(response.headers.get("X-CoachFI-Voice-Id")).toBe(config.voiceId);
-      expect(response.headers.get("X-CoachFI-Model")).toBe(config.modelId);
+      expect(response.status).toBe(503);
+      expect((await response.json()).code).toBe("EXTERNAL_AI_DISABLED");
+      expect(response.headers.get("X-CoachFI-Voice-Id")).toBeNull();
+      expect(response.headers.get("X-CoachFI-Model")).toBeNull();
     }
-    const ttsCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes("/text-to-speech/"));
-    expect(ttsCalls).toHaveLength(2);
-    for (const [url, init] of ttsCalls) {
-      expect(url).toContain(`/text-to-speech/${config.voiceId}/`);
-      const payload = JSON.parse((init as RequestInit).body as string);
-      expect(payload.model_id).toBe(config.modelId);
-      expect(payload.voice_settings).toEqual(config.settings);
-    }
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(cdp.verify).not.toHaveBeenCalled();
+    expect(cdp.initialize).not.toHaveBeenCalled();
   });
 
   it("does not silently recover a different agent when the configured agent is inaccessible", async () => {
@@ -165,48 +168,41 @@ describe("Mila canonical voice", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it("TTS ignores client voice overrides and emits the same provider voice for two languages", async () => {
-    const fetchMock = vi.fn().mockImplementation((url: string) => {
-      if (url.includes("/convai/agents/")) return Promise.resolve(Response.json(voiceConfig));
-      return Promise.resolve(new Response(new Uint8Array([73, 68, 51]), { headers: { "Content-Type": "audio/mpeg" } }));
-    });
+  it("client voice/model overrides and a literal consent header cannot restore TTS", async () => {
+    const fetchMock = vi.fn(() => { throw new Error("Unexpected provider call"); });
     vi.stubGlobal("fetch", fetchMock);
     const { POST } = await import("../../app/api/tts/route");
     for (const locale of ["pl", "en"]) {
       const response = await POST(new Request("http://localhost:3000/api/tts", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json", "X-CoachFI-Consent": "true", "X-User-Id": "synthetic-admin" },
         body: JSON.stringify({ text: "QA speech", locale, voiceId: "other-voice", modelId: "other-model" }),
       }));
-      expect(response.status).toBe(200);
-      expect(response.headers.get("X-CoachFI-Voice-Id")).toBe("mila-canonical");
-      expect(response.headers.get("X-CoachFI-Model")).toBe("eleven_turbo_v2_5");
+      expect(response.status).toBe(503);
+      expect((await response.json()).code).toBe("EXTERNAL_AI_DISABLED");
+      expect(response.headers.get("X-CoachFI-Voice-Id")).toBeNull();
+      expect(response.headers.get("X-CoachFI-Model")).toBeNull();
     }
-    const ttsCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes("/text-to-speech/"));
-    expect(ttsCalls).toHaveLength(2);
-    for (const [url, init] of ttsCalls) {
-      expect(url).toContain("/text-to-speech/mila-canonical/");
-      const payload = JSON.parse((init as RequestInit).body as string);
-      expect(payload.model_id).toBe("eleven_turbo_v2_5");
-      expect(payload.voice_settings).toEqual({ stability: 0.65, similarity_boost: 0.8, speed: 0.95 });
-    }
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(cdp.verify).not.toHaveBeenCalled();
+    expect(cdp.initialize).not.toHaveBeenCalled();
   });
 
-  it("a rejected native model fails visibly without retrying another model", async () => {
-    const fetchMock = vi.fn()
-      .mockResolvedValueOnce(Response.json({
-        conversation_config: { tts: { voice_id: "mila-canonical", model_id: "unknown-conversation-model" } },
-      }))
-      .mockResolvedValueOnce(Response.json({ error: "unsupported model" }, { status: 422 }));
+  it("fails before provider config lookup, unsupported-model retry or CDP verification", async () => {
+    vi.stubEnv("COACHFI_EXTERNAL_AI_ENABLED", "true");
+    vi.stubEnv("COACHFI_MONTHLY_AI_BUDGET", "1000");
+    const fetchMock = vi.fn(() => { throw new Error("Unexpected provider call"); });
     vi.stubGlobal("fetch", fetchMock);
     const { POST } = await import("../../app/api/tts/route");
     const response = await POST(new Request("http://localhost:3000/api/tts", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: "QA speech", locale: "pl" }),
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer forged.jwt.signature" },
+      body: JSON.stringify({ text: "QA speech", locale: "pl", modelId: "unknown-conversation-model",
+        consent: { version: "2026-10-14", acceptedAt: new Date().toISOString(), termsAccepted: true,
+          privacyAccepted: true, optional: { voice: true, aiCoach: true, leaderboard: false, blockchain: false } } }),
     }));
-    expect(response.status).toBe(502);
-    expect(await response.json()).toEqual({ error: "Mila voice unavailable" });
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    const sent = JSON.parse((fetchMock.mock.calls[1][1] as RequestInit).body as string);
-    expect(sent.model_id).toBe("unknown-conversation-model");
+    expect(response.status).toBe(503);
+    expect((await response.json()).code).toBe("EXTERNAL_AI_DISABLED");
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(cdp.verify).not.toHaveBeenCalled();
+    expect(cdp.initialize).not.toHaveBeenCalled();
   });
 });

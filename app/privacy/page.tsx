@@ -4,6 +4,7 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { DataSafetyPanel } from "@/components/DataSafetyPanel";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { getPublicPrivacyConfig, getPrivacyContactCopy } from "@/lib/privacy-config";
 
 type PrivacyCopy = {
   eyebrow: string;
@@ -17,104 +18,106 @@ type PrivacyCopy = {
 
 const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
   en: {
-    eyebrow: "Privacy and data",
-    title: "Coach FI Privacy Policy",
-    updatedAt: "May 10, 2026",
-    notice: "This is an MVP draft and should be reviewed by a lawyer before production launch.",
-    blocks: [
+    "eyebrow": "Privacy and data",
+    "title": "Coach FI Privacy Information",
+    "updatedAt": "October 19, 2026",
+    "notice": "Information is incomplete: the controller details, verified contact, retention rules, provider arrangements and rights process still require confirmation. Do not enter real personal or financial data while these details are incomplete.",
+    "blocks": [
       {
-        title: "What data we process",
-        items: [
-          "Local data: name or nickname, goal, progress, streak, voice settings, language and consents.",
-          "Educational form data: amounts entered in the financial check are calculated in the browser.",
-          "AI data: question text and short chat history are sent to the AI provider only with consent.",
-          "Voice data: short text snippets are sent to ElevenLabs only after you click a read-aloud button.",
-          "Leaderboard data: display name, score and streak are sent to Supabase only with consent.",
-          "Blockchain data: wallet address and certificate metadata can be public and difficult to delete.",
-        ],
+        "title": "Data on this device",
+        "items": [
+          "Learning progress, profile name or nickname, goal, diagnosis answers, avatar, consents and settings can be stored in this browser. Guest data and account data use separate local scopes.",
+          "Device preferences such as language are separate from personal progress. Authentication credentials and SDK sessions are not part of the selected product export.",
+          "Browser storage is not a backup. Clearing it or losing this device can remove local progress."
+        ]
       },
       {
-        title: "Why we process data",
-        items: [
-          "To save progress and settings on this device.",
-          "To personalize Mila's educational replies.",
-          "To read answers aloud when voice is enabled.",
-          "To show leaderboard and education certificates.",
-          "To secure API endpoints, rate limits and configuration diagnostics.",
-        ],
+        "title": "Account, hosting and messages",
+        "items": [
+          "If you choose an available sign-in method, authentication data is processed by the configured account provider, such as Coinbase CDP or Supabase. This is separate from saving progress locally.",
+          "Signing in can read earlier account data from the server into an empty local account view. Automatic uploads of new learning changes are disabled in this release; a local save is not proof of a server save.",
+          "A request to the local-text chat endpoint is still sent to the Coach FI application server. Local text means no external AI model is used for that response; it does not mean that the message never leaves the device.",
+          "Loading the site and using server endpoints creates technical network requests. Hosting and account-provider log retention has not been confirmed here."
+        ]
       },
       {
-        title: "Legal basis and consents",
-        items: [
-          "Using the app requires acceptance of terms and privacy information.",
-          "External features are optional and can be enabled or disabled in consent settings.",
-          "Withdrawing consent does not affect processing that happened before withdrawal.",
-          "We do not ask for bank passwords, card numbers, national IDs or financial institution login data.",
-        ],
+        "title": "External and deferred features",
+        "items": [
+          "External AI, ElevenLabs voice, global leaderboard and blockchain actions are unavailable in the current release. Changing an optional preference does not enable these disabled services.",
+          "A browser read-aloud feature, where available, depends on the browser and operating system. We have not verified that every voice works offline or keeps all text on the device.",
+          "Before any external service is enabled, its recipients, purposes, regions, retention, contracts and any international transfers must be confirmed and reflected in this information."
+        ]
       },
       {
-        title: "Your rights",
-        items: [
-          "You can delete local app data from this device.",
-          "You can export local data stored by Coach FI.",
-          "You can change optional consents in the footer.",
-          "Production deployment must add controller details, privacy contact and GDPR request handling.",
-        ],
+        "title": "Export, deletion and choices",
+        "items": [
+          "The data controls below export a selected, sanitized set for the current local guest or account. This is not a full account export or a copy of every stored field.",
+          "Delete local data affects only the stated local product scope. It does not close the account, clear an SDK session, erase server records or delete data held by providers.",
+          "Signing in again may read earlier account data into an empty local view. Removing local data does not request deletion of those earlier records.",
+          "Changing optional preferences stops future optional work covered by that choice; it does not erase earlier processing. Acknowledging this notice is not blanket consent to every purpose."
+        ]
       },
+      {
+        "title": "Details still to be confirmed",
+        "items": [
+          "The owner has been identified, but full controller details, legal bases, retention and backup periods, processor arrangements and the rights and complaints process have not yet been confirmed.",
+          "No retention duration, processing region, complete deletion promise or GDPR compliance approval is asserted by this page. The production release must remain blocked until the missing information and procedures have been independently reviewed."
+        ]
+      }
     ],
-    providersTitle: "External providers",
-    providersText:
-      "The app can integrate with Anthropic, ElevenLabs, Supabase and Solana Devnet. Before production, confirm processing regions, data processing agreements, retention and international transfers for each provider.",
+    "providersTitle": "Providers and release limits",
+    "providersText": "The site is hosted on Vercel. Account authentication and initial account reads may use the configured Coinbase CDP or Supabase path. External AI, ElevenLabs, leaderboard and Web3 actions remain disabled. Actual account, provider, region, contract and rights workflows require separate verification; this page does not certify them."
   },
   pl: {
-    eyebrow: "Prywatność i dane",
-    title: "Polityka prywatności Coach FI",
-    updatedAt: "10 maja 2026",
-    notice: "Ten dokument jest roboczym wzorem dla MVP i powinien zostać sprawdzony przez prawnika przed produkcyjnym wdrożeniem.",
-    blocks: [
+    "eyebrow": "Prywatność i dane",
+    "title": "Informacje o prywatności Coach FI",
+    "updatedAt": "19 października 2026",
+    "notice": "Informacje są niepełne: dane administratora, potwierdzony kontakt, zasady retencji, ustalenia z dostawcami i obsługa praw wymagają potwierdzenia. Dopóki tych informacji brakuje, nie wprowadzaj rzeczywistych danych osobowych ani finansowych.",
+    "blocks": [
       {
-        title: "Jakie dane przetwarzamy",
-        items: [
-          "Dane lokalne: imię lub pseudonim, cel finansowy, postępy, seria, ustawienia głosu, język i zgody.",
-          "Dane formularzy edukacyjnych: kwoty wpisane w diagnozie finansowej są liczone w przeglądarce.",
-          "Dane AI: treść pytania i krótka historia rozmowy są wysyłane do modelu AI tylko po wyrażeniu zgody.",
-          "Dane głosowe: krótkie fragmenty tekstu są wysyłane do ElevenLabs tylko po kliknięciu przycisku odczytu.",
-          "Ranking: nazwa wyświetlana, wynik i seria są wysyłane do Supabase tylko po wyrażeniu zgody.",
-          "Blockchain: adres portfela i metadane certyfikatu mogą być publiczne i trudne do usunięcia.",
-        ],
+        "title": "Dane na tym urządzeniu",
+        "items": [
+          "Postępy nauki, imię lub pseudonim, cel, odpowiedzi diagnozy, awatar, zgody i ustawienia mogą być zapisywane w tej przeglądarce. Dane gościa i konta mają oddzielne zakresy lokalne.",
+          "Ustawienia urządzenia, np. język, są oddzielone od osobistych postępów. Poświadczenia i sesje SDK nie należą do wybranego eksportu danych produktu.",
+          "Pamięć przeglądarki nie jest kopią zapasową. Jej wyczyszczenie lub utrata urządzenia może usunąć lokalne postępy."
+        ]
       },
       {
-        title: "Po co przetwarzamy dane",
-        items: [
-          "Aby zapisać postępy i ustawienia aplikacji na tym urządzeniu.",
-          "Aby personalizować edukacyjne odpowiedzi Mili.",
-          "Aby odczytywać odpowiedzi głosowo, jeśli włączysz funkcję głosu.",
-          "Aby pokazać ranking globalny i certyfikaty edukacyjne.",
-          "Aby zapewnić bezpieczeństwo endpointów, limit zapytań i diagnostykę konfiguracji.",
-        ],
+        "title": "Konto, hosting i wiadomości",
+        "items": [
+          "Po wybraniu dostępnego logowania dane uwierzytelniania przetwarza skonfigurowany operator konta, np. Coinbase CDP lub Supabase. To inny proces niż lokalny zapis postępów.",
+          "Logowanie może pobrać wcześniejsze dane konta z serwera do pustego lokalnego widoku konta. Automatyczne wysyłanie nowych zmian nauki jest w tej wersji wyłączone; zapis lokalny nie potwierdza zapisu na serwerze.",
+          "Zapytanie do endpointu lokalnych odpowiedzi tekstowych jest nadal wysyłane do serwera aplikacji Coach FI. Lokalny tekst oznacza brak zewnętrznego modelu AI dla tej odpowiedzi, a nie brak opuszczania urządzenia przez wiadomość.",
+          "Wczytanie strony i używanie endpointów serwera tworzy techniczne żądania sieciowe. Nie potwierdzono tutaj okresów przechowywania logów hostingu ani operatorów kont."
+        ]
       },
       {
-        title: "Podstawy i zgody",
-        items: [
-          "Korzystanie z aplikacji wymaga akceptacji regulaminu i informacji o prywatności.",
-          "Funkcje zewnętrzne są opcjonalne i można je włączyć lub wyłączyć w ustawieniach zgód.",
-          "Wycofanie zgody nie wpływa na zgodność przetwarzania, które odbyło się przed jej wycofaniem.",
-          "Nie prosimy o hasła bankowe, numery kart, PESEL ani dane logowania do instytucji finansowych.",
-        ],
+        "title": "Funkcje zewnętrzne i odroczone",
+        "items": [
+          "Zewnętrzne AI, głos ElevenLabs, globalny ranking i operacje blockchain są w tej wersji niedostępne. Zmiana ustawienia opcjonalnego nie włącza tych wyłączonych usług.",
+          "Odczyt głosowy przeglądarki, jeśli dostępny, zależy od przeglądarki i systemu operacyjnego. Nie potwierdzono, że każdy głos działa offline lub zachowuje cały tekst na urządzeniu.",
+          "Przed uruchomieniem usługi zewnętrznej trzeba potwierdzić jej odbiorców, cele, regiony, retencję, umowy i ewentualne transfery międzynarodowe oraz uwzględnić je w tych informacjach."
+        ]
       },
       {
-        title: "Twoje prawa",
-        items: [
-          "Możesz usunąć lokalne dane aplikacji z tego urządzenia.",
-          "Możesz wyeksportować lokalne dane zapisane przez Coach FI.",
-          "Możesz zmienić zgody opcjonalne w stopce aplikacji.",
-          "W produkcji trzeba uzupełnić dane administratora, kontakt privacy oraz procedury obsługi żądań RODO.",
-        ],
+        "title": "Eksport, usuwanie i wybory",
+        "items": [
+          "Poniższe narzędzia eksportują wybrany, oczyszczony zestaw danych bieżącego lokalnego gościa lub konta. To nie jest pełny eksport konta ani kopia każdego zapisanego pola.",
+          "Usunięcie danych lokalnych obejmuje tylko wskazany lokalny zakres produktu. Nie zamyka konta, nie czyści sesji SDK ani nie usuwa rekordów serwera lub danych u dostawców.",
+          "Ponowne logowanie może pobrać wcześniejsze dane konta do pustego lokalnego widoku. Usunięcie danych lokalnych nie jest żądaniem usunięcia tych wcześniejszych rekordów.",
+          "Zmiana ustawień opcjonalnych zatrzymuje przyszłe działania objęte danym wyborem; nie usuwa wcześniejszego przetwarzania. Potwierdzenie zapoznania się z tym dokumentem nie oznacza zgody na każdy cel."
+        ]
       },
+      {
+        "title": "Informacje wymagające potwierdzenia",
+        "items": [
+          "Właściciel został wskazany, ale pełne dane administratora, podstawy prawne, okresy retencji i kopii zapasowych, ustalenia z podmiotami przetwarzającymi oraz obsługa praw i reklamacji nie zostały jeszcze potwierdzone.",
+          "Ta strona nie potwierdza okresu retencji, regionu przetwarzania, kompletnego usunięcia danych ani zgodności z RODO. Wydanie produkcyjne musi pozostać zablokowane do niezależnej recenzji brakujących informacji i procedur."
+        ]
+      }
     ],
-    providersTitle: "Dostawcy zewnętrzni",
-    providersText:
-      "Aplikacja może integrować się z Anthropic, ElevenLabs, Supabase i Solana Devnet. Przed wersją produkcyjną należy potwierdzić region przetwarzania, umowy powierzenia, retencję danych oraz transfery poza EOG dla każdego dostawcy.",
+    "providersTitle": "Dostawcy i ograniczenia wydania",
+    "providersText": "Strona jest hostowana w Vercel. Uwierzytelnianie i początkowy odczyt konta mogą korzystać ze skonfigurowanej ścieżki Coinbase CDP lub Supabase. Zewnętrzne AI, ElevenLabs, ranking i operacje Web3 pozostają wyłączone. Faktyczne procesy konta, dostawców, regionów, umów i obsługi praw wymagają oddzielnej weryfikacji; ta strona ich nie certyfikuje."
   },
   ja: {
     eyebrow: "プライバシーとデータ",
@@ -434,8 +437,11 @@ const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
 
 export default function PrivacyPage() {
   const { locale } = useLanguage();
-  const copy = pickLocalized(PRIVACY_COPY, locale);
-  const readText = [copy.title, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`), copy.providersTitle + ". " + copy.providersText].join(". ");
+  const legalLocale = locale === "pl" ? "pl" : "en";
+  const copy = pickLocalized(PRIVACY_COPY, legalLocale);
+  const publicDetails = getPublicPrivacyConfig();
+  const contactCopy = getPrivacyContactCopy(legalLocale);
+  const readText = [copy.title, copy.notice, contactCopy.ownerLabel + publicDetails.ownerName, publicDetails.contactEmail ?? contactCopy.pending, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`), copy.providersTitle + ". " + copy.providersText].join(". ");
 
   return (
     <section className="space-y-6" aria-labelledby="privacy-title">
@@ -445,12 +451,21 @@ export default function PrivacyPage() {
           <h1 id="privacy-title" className="text-3xl font-black text-text">
             {copy.title}
           </h1>
-          <VoiceButton text={readText} locale={locale} variant="pill" className="shrink-0" />
+          <VoiceButton text={readText} locale={legalLocale} variant="pill" className="shrink-0" />
         </div>
         <p className="mt-3 text-sm font-semibold leading-6 text-muted">
           {copy.updatedAt}. {copy.notice}
         </p>
       </div>
+
+      <section className="rounded-lg border border-primary/10 bg-white p-5 shadow-soft" aria-labelledby="privacy-contact-title">
+        <h2 id="privacy-contact-title" className="text-xl font-black text-text">{contactCopy.title}</h2>
+        <p className="mt-2 text-sm leading-6">{contactCopy.ownerLabel}{publicDetails.ownerName}</p>
+        {publicDetails.contactEmail ? (
+          <a className="mt-2 inline-block underline" href={`mailto:${publicDetails.contactEmail}`}>{publicDetails.contactEmail}</a>
+        ) : <p role="status" className="mt-2 text-sm leading-6">{contactCopy.pending}</p>}
+        {locale !== legalLocale ? <p className="mt-2 text-sm leading-6">{contactCopy.scope}</p> : null}
+      </section>
 
       <DataSafetyPanel />
 

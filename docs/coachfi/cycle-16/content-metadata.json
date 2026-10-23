@@ -1,0 +1,989 @@
+{
+  "schema_version": 1,
+  "module": "credit-rates",
+  "version": "credit-rates-pl-en-v1-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "jurisdiction": "Poland; EN is a language, not a new market",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "local_implementation_pending_independent_actual_source_review",
+  "distinct_existing_questions": 4,
+  "language_versions": 8,
+  "new_question_ids": 0,
+  "canonical_union_count_unchanged": 82,
+  "reward_total": 110,
+  "implementation_authorized": true,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "draft accepted; actual source review pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending draft review"
+    }
+  },
+  "sources": [
+    {
+      "id": "knf-rates",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/stala_czy_zmienna_stopa_oprocentowania",
+      "supports": "Variable, fixed and periodically fixed rate risk; contract, reference, margin, fees and later reset terms.",
+      "limits": "2022 source used only for general concepts. No old legal deadlines, fixed-period minimums, current benchmark/rates or product recommendation.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "uokik-rates",
+      "publisher": "UOKiK",
+      "url": "https://uokik.gov.pl/public/kalkulator-zmiany-oprocentowania/",
+      "supports": "Contract timing, reference/margin distinction and omitted fees in simulation.",
+      "limits": "No current-rate inputs, fixed reset schedule, ranking of products or legal advice copied.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "cfpb-debt",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/archive/blog/how-reduce-your-debt/",
+      "supports": "Highest-interest strategy, minimum payments and available extra funds as distinct from smallest-balance strategy.",
+      "limits": "General strategy only; no USA credit products, law, prescriptions or universal lowest-cost promise.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "cfpb-worksheet",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://files.consumerfinance.gov/f/documents/cfpb_ymyg-toolkit_reducing-debt-worksheet.pdf",
+      "supports": "Separate monthly and extra payments and order by interest rate.",
+      "limits": "No form fields, account numbers or actual debt data collected. Essentials-first is the disclosed Coachfi safety condition.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "bik-score",
+      "publisher": "Biuro Informacji Kredytowej",
+      "url": "https://www.bik.pl/dla-ciebie/ocena-punktowa-bik",
+      "supports": "Repayment history relevance, lender-specific decisions, customer score as approximation.",
+      "limits": "No factor count/ranking/weight, score thresholds, eligibility periods, paid report recommendation or account access.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "bik-capacity",
+      "publisher": "Biuro Informacji Kredytowej",
+      "url": "https://media.bik.pl/informacje-prasowe/859018/wnioskowanie-o-kredyt-a-scoring-bik",
+      "supports": "Repayment capacity considers income and expenses; scoring helps but does not replace lender decision.",
+      "limits": "2025 publication differs in factor presentation from current customer page; no model counts/weights/ranking, query windows, current rates or approval promise taught.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "sec-bond-risk",
+      "publisher": "U.S. SEC investor education",
+      "url": "https://www.sec.gov/files/ib_interestraterisk.pdf",
+      "supports": "Fixed cash-flow bond price versus required market yield and sale before maturity.",
+      "limits": "Universal valuation concept only; no USA securities/taxes/law/guarantees or copied USD example.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "sec-bonds",
+      "publisher": "SEC Investor.gov",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds",
+      "supports": "Coupon and principal, default and liquidity risks as distinct from secondary-market price.",
+      "limits": "Only universal concepts; no USA bond recommendations, legal tax rules or unconditional repayment guarantee.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page or PDF read via web by author",
+      "country_application": "PL education; EN is language only"
+    },
+    {
+      "id": "eu-oecd-adult",
+      "publisher": "European Union / OECD",
+      "url": "https://finance.ec.europa.eu/system/files/2022-01/220111-financial-competence-framework-adults_en.pdf",
+      "checked_date": "2026-10-15",
+      "access": "primary PDF read, relevant sections and numbered competencies",
+      "supports": "Design mapping only: credit cost/rate risks, conditional repayment and credit capacity, investment price and risk concepts.",
+      "limits": "Framework is a conceptual resource, not a certified curriculum or evidence that these four steps improve outcomes.",
+      "country_application": "PL adults"
+    }
+  ],
+  "steps": [
+    {
+      "question_id": "interest-rates",
+      "source_ids": [
+        "knf-rates",
+        "uokik-rates"
+      ],
+      "objective": {
+        "pl": "Odróżnij umowną aktualizację zmiennej stopy od okresu stałego oprocentowania.",
+        "en": "Distinguish contractual variable-rate resets from an agreed fixed-rate period."
+      },
+      "copy": {
+        "pl": {
+          "title": "Stopa i termin zmiany w umowie",
+          "body": "Zmienna stopa może wynikać ze wskaźnika i marży; termin aktualizacji określa umowa, nie sam dzień decyzji banku centralnego. Oprocentowanie może być stałe lub okresowo stałe. Sprawdź, jak długo obowiązuje uzgodniona stopa i jakie warunki umowy stosuje się po tym okresie; nie zamraża ona wszystkich opłat. Przykład hipotetyczny: wskaźnik 3% + marża 2 pkt proc. = 5%; przy umownej aktualizacji 4% + 2 pkt proc. = 6%. Dla stałego kapitału 1 000 zł to 60 zł prostych odsetek przez rok, bez spłat, kapitalizacji i opłat. Ćwiczenie: wskaż moment zmiany. Działanie: opcjonalnie znajdź termin aktualizacji w przykładowej umowie. Przy nieregularnym dochodzie uwzględnij możliwość wyższej raty, bez nowego kredytu. Po przerwie wróć do jednego terminu."
+        },
+        "en": {
+          "title": "The contract sets the rate reset",
+          "body": "A variable rate may use a reference rate and margin; the contract sets the reset date, not just the day of a central-bank decision. A rate can be fixed or periodically fixed. Check how long the agreed rate applies and the contractual terms after that period; it does not freeze every fee. Hypothetical example: a 3% reference rate + a 2 percentage-point margin = 5%; at the contractual reset, 4% + 2 points = 6%. On a constant PLN 1,000 principal, that is PLN 60 simple interest for one year, with no repayments, compounding or fees. Try: identify when the change applies. Action: optionally find the reset date in a sample contract. With irregular income, allow for a possible higher installment without taking new debt. After a break, return to one date."
+        }
+      },
+      "practice": {
+        "pl": "Wskaż umowną datę aktualizacji; 4% + 2 pkt proc. = 6%.",
+        "en": "Identify the contractual reset date; 4% + 2 percentage points = 6%."
+      },
+      "optional_action": {
+        "pl": "Sprawdź termin w przykładowej umowie, bez zawierania nowej.",
+        "en": "Check the date in a sample contract without entering a new one."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego terminu, bez nadrabiania.",
+        "en": "Return to one date, without catching up."
+      },
+      "irregular_income": {
+        "pl": "Zachowaj miejsce na niepewną ratę; krok nie wymaga nowego długu.",
+        "en": "Allow for an uncertain installment; the step requires no new debt."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "reference_rate_before_percent": 3,
+        "reference_rate_after_percent": 4,
+        "fixed_margin_percentage_points": 2,
+        "total_rate_before_percent": 5,
+        "total_rate_after_percent": 6,
+        "reset": "at the contractually agreed update",
+        "illustrative_principal": 1000,
+        "simple_interest_one_year_at_new_rate": 60,
+        "years": 1,
+        "principal_constant": true,
+        "repayments": 0,
+        "capitalization": false,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "hypothetical_not_current_rate": true,
+        "loan_repayment_schedule_not_calculated": true
+      }
+    },
+    {
+      "question_id": "debt-avalanche",
+      "source_ids": [
+        "cfpb-debt",
+        "cfpb-worksheet",
+        "knf-rates"
+      ],
+      "objective": {
+        "pl": "Rozdziel wymagane spłaty od dobrowolnej nadwyżki kierowanej na wyższą stopę.",
+        "en": "Separate required payments from optional extra money directed to the higher rate."
+      },
+      "copy": {
+        "pl": {
+          "title": "Lawina dopiero po potrzebach i minimum",
+          "body": "Najpierw zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty wszystkich długów. Lawina kieruje dopiero dostępną nadwyżkę na najwyższe oprocentowanie. Przykład: zostaje opcjonalne 100 zł; porównywalne długi 1 000 zł i 500 zł mają odpowiednio stałe roczne 20% i 10%, bez opłat, kar i zaległości. Lawina wybiera 20%. Osobny prosty model: 100 zł spłacone na początku roku, każde saldo co najmniej 100 zł, bez dalszych przepływów i kapitalizacji — 20 zł wobec 10 zł mniej odsetek. To nie pełny harmonogram ani gwarancja. Ćwiczenie: czy wolno zastąpić minimum innego długu? Nie. Działanie: opcjonalnie porównaj stopy i warunki nadpłaty. Przy nieregularnym dochodzie i braku nadwyżki nie musisz nadpłacać. Po przerwie wróć do jednego terminu spłaty."
+        },
+        "en": {
+          "title": "Avalanche after essentials and minimums",
+          "body": "First protect essentials and all debts' required minimum payments. Avalanche directs only available extra money to the highest interest rate. Example: an optional PLN 100 remains; comparable debts of PLN 1,000 and PLN 500 have fixed annual rates of 20% and 10%, respectively, with no fees, penalties or arrears. Avalanche chooses 20%. Separate simple model: PLN 100 repaid at the start of a year, each balance at least PLN 100, no later cash flows or compounding — PLN 20 versus PLN 10 less interest. This is not a full schedule or guarantee. Try: may this replace another debt's minimum? No. Action: optionally compare rates and prepayment terms. With irregular income and no surplus, no extra payment is required. After a break, return to one payment date."
+        }
+      },
+      "practice": {
+        "pl": "Wybierz 20%, zachowując minimum wszystkich długów.",
+        "en": "Choose 20% while preserving every debt's required minimum."
+      },
+      "optional_action": {
+        "pl": "Porównaj dwie stopy i warunki nadpłaty bez wykonywania przelewu.",
+        "en": "Compare two rates and prepayment terms without making a transfer."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego terminu spłaty; nie trzeba nadrabiać nadpłat.",
+        "en": "Return to one due date; no extra payments must be caught up."
+      },
+      "irregular_income": {
+        "pl": "Brak nadwyżki oznacza możliwość pominięcia dodatkowej spłaty.",
+        "en": "Without a surplus, an extra payment can be skipped."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "optional_extra": 100,
+        "annual_rates_percent": [
+          20,
+          10
+        ],
+        "essentials_and_all_required_minimums_already_covered": true,
+        "minimum_payments_not_replaced": true,
+        "fixed_rates": true,
+        "debts_unsecured_and_otherwise_comparable": true,
+        "fees_assumed": 0,
+        "prepayment_penalties_assumed": 0,
+        "arrears_assumed": false,
+        "new_borrowing": 0,
+        "simple_interest_comparison_years": 1,
+        "principal_difference_held_constant": 100,
+        "capitalization": false,
+        "marginal_interest_difference_high": 20,
+        "marginal_interest_difference_low": 10,
+        "marginal_interest_difference_between_options": 10,
+        "not_total_schedule_or_guaranteed_savings": true,
+        "no_extra_payment_required_when_income_insufficient": true,
+        "extra_payment_at_period_start": true,
+        "each_comparable_balance_at_least": 100,
+        "other_cash_flows_in_marginal_model": 0,
+        "marginal_example_separate_from_real_minimum_payment_schedule": true,
+        "initial_comparable_balances": [
+          1000,
+          500
+        ]
+      }
+    },
+    {
+      "question_id": "credit-score-factors",
+      "source_ids": [
+        "bik-score",
+        "bik-capacity"
+      ],
+      "objective": {
+        "pl": "Odróżnij historię spłat i scoring od zdolności kredytowej oraz decyzji banku.",
+        "en": "Distinguish repayment history and scoring from repayment capacity and a lender's decision."
+      },
+      "copy": {
+        "pl": {
+          "title": "Historia spłat to nie cała zdolność",
+          "body": "W Polsce historia terminowych spłat jest istotna dla oceny ryzyka. Scoring BIK nie jest tym samym co zdolność kredytowa: bank ocenia też dochody, wydatki i inne zobowiązania oraz podejmuje własną decyzję. Nie ma tu obietnicy zgody ani uniwersalnej wagi jednego czynnika. Przykład: ktoś płaci na czas, ale nieregularne wpływy mogą nie wystarczać na nową ratę 500 zł. Ćwiczenie: czy terminowość gwarantuje nowy kredyt? Nie. Działanie: opcjonalnie odróżnij w przykładzie historię od budżetu, bez kupowania raportu lub nowego długu. Punkty Coachfi nie są oceną BIK. Po przerwie wróć do jednego rozróżnienia."
+        },
+        "en": {
+          "title": "Repayment history is not full capacity",
+          "body": "In Poland, timely repayment history matters for credit-risk assessment. BIK scoring is not the same as repayment capacity: a lender also assesses income, expenses and other debts, then makes its own decision. This gives no approval promise or universal weight for one factor. Example: someone pays on time, but irregular income may not cover a new PLN 500 installment. Try: does timeliness guarantee a new loan? No. Action: optionally separate history from the budget in the example, without buying a report or taking new debt. Coachfi points are not a BIK score. After a break, return to one distinction."
+        }
+      },
+      "practice": {
+        "pl": "Odróżnij terminowość od możliwości pokrycia nowej raty 500 zł.",
+        "en": "Distinguish timeliness from the ability to cover a new PLN 500 installment."
+      },
+      "optional_action": {
+        "pl": "Nazwij jeden element historii i jeden element budżetu w przykładzie.",
+        "en": "Name one history item and one budget item in the example."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego rozróżnienia, bez oceny siebie punktami.",
+        "en": "Return to one distinction, without judging yourself by points."
+      },
+      "irregular_income": {
+        "pl": "Zmienny dochód należy do analizy zdolności; nie jest obietnicą lub odmową kredytu.",
+        "en": "Variable income belongs in capacity assessment; it neither promises nor denies a loan."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_new_installment": 500,
+        "income_irregular": true,
+        "no_numerical_score_or_factor_weights": true,
+        "timely_payment_is_relevant_not_sufficient_for_approval": true,
+        "creditworthiness_includes_income_and_expenses": true,
+        "coachfi_points_are_not_BIK_or_lender_score": true,
+        "no_new_debt_or_paid_report_required": true
+      }
+    },
+    {
+      "question_id": "bond-prices",
+      "source_ids": [
+        "sec-bond-risk",
+        "sec-bonds"
+      ],
+      "objective": {
+        "pl": "Oddziel cenę sprzedaży obligacji o stałych przepływach od kuponu i umownego wykupu.",
+        "en": "Separate a fixed-cash-flow bond's sale price from its coupon and contractual redemption."
+      },
+      "copy": {
+        "pl": {
+          "title": "Cena sprzedaży a umowny wykup",
+          "body": "Dla zbywalnej obligacji o stałych przepływach wyższa wymagana rentowność rynkowa oznacza niższą cenę, przy innych czynnikach bez zmian. Przykład: za rok umowa przewiduje 1 000 zł nominału + 100 zł kuponu. Bez opłat, podatku i niewypłacalności w obliczeniu: 1 100 ÷ 1,10 = 1 000 zł; przy wymaganych 20%: 1 100 ÷ 1,20 ≈ 916,67 zł. To porównanie przy tym samym roku do wykupu, nie prognoza. Ćwiczenie: czy spadł umowny nominał? Nie, cena sprzedaży. Emitent może nie zapłacić, a sprzedaż może być trudna. Działanie: opcjonalnie nazwij te dwa ryzyka. Przy nieregularnym dochodzie chroń bieżące potrzeby; nie musisz kupować obligacji. Po przerwie wróć do jednego przepływu."
+        },
+        "en": {
+          "title": "Sale price versus contractual redemption",
+          "body": "For a tradable bond with fixed cash flows, a higher required market yield means a lower price, other factors unchanged. Example: in one year the contract provides PLN 1,000 principal + a PLN 100 coupon. Excluding fees, tax and default in the calculation: 1,100 ÷ 1.10 = PLN 1,000; at a required 20%: 1,100 ÷ 1.20 ≈ PLN 916.67. This compares the same one year to maturity; it is not a forecast. Try: did contractual principal fall? No, the sale price did. The issuer may fail to pay, and selling may be difficult. Action: optionally name those two risks. With irregular income, protect current essentials; no bond purchase is required. After a break, return to one cash flow."
+        }
+      },
+      "practice": {
+        "pl": "Cena spada; nominał i kupon w tym modelu pozostają umownie stałe.",
+        "en": "The price falls; principal and coupon remain contractually fixed in this model."
+      },
+      "optional_action": {
+        "pl": "Nazwij ryzyko braku zapłaty i trudności sprzedaży w przykładzie.",
+        "en": "Name nonpayment risk and difficulty selling in the example."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego przepływu, bez obowiązku zakupu.",
+        "en": "Return to one cash flow, without any obligation to buy."
+      },
+      "irregular_income": {
+        "pl": "Chroń środki potrzebne na bieżące wydatki; zakup jest zbędny do ćwiczenia.",
+        "en": "Protect money needed for current spending; the exercise needs no purchase."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "face_value": 1000,
+        "fixed_final_coupon": 100,
+        "fixed_cash_flow_at_maturity": 1100,
+        "years_to_maturity": 1,
+        "earlier_cash_flows": 0,
+        "required_market_yield_before_percent": 10,
+        "required_market_yield_after_percent": 20,
+        "annual_discounting": true,
+        "initial_model_price": 1000,
+        "later_model_price_rounded": 916.67,
+        "formula": "price = 1100 / (1 + required annual market yield)",
+        "time_to_maturity_unchanged": true,
+        "same_fixed_contractual_cash_flows": true,
+        "credit_and_liquidity_factors_held_constant": true,
+        "default_assumed_absent_in_calculation": true,
+        "default_risk_still_exists": true,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "hypothetical_not_product_or_forecast": true,
+        "secondary_market_sale_not_face_value_change": true
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "interest-rates",
+      "correct_answer": "C",
+      "reward": 25,
+      "level": "calculate",
+      "source_ids": [
+        "knf-rates",
+        "uokik-rates"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "2% pomija wskaźnik; 2 pkt proc. to sama marża, nie całe oprocentowanie.",
+          "en": "2% omits the reference rate; 2 percentage points is the margin alone, not the full rate."
+        },
+        "B": {
+          "pl": "5% to poprzednia suma 3% + 2 pkt proc.; pytanie dotyczy już umownej aktualizacji.",
+          "en": "5% is the previous 3% + 2 percentage points; the question is after the contractual reset."
+        },
+        "D": {
+          "pl": "9% bezpodstawnie dodaje dawny i nowy wskaźnik; stara wartość jest zastępowana.",
+          "en": "9% incorrectly adds both old and new reference rates; the old value is replaced."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "interest-rates",
+          "question": "Hipotetyczny kredyt: wskaźnik 3% + marża 2 pkt proc. Przy umownej aktualizacji wskaźnik rośnie do 4%, marża bez zmian. Jakie jest nowe oprocentowanie?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "2%"
+            },
+            {
+              "id": "B",
+              "text": "5%"
+            },
+            {
+              "id": "C",
+              "text": "6%"
+            },
+            {
+              "id": "D",
+              "text": "9%"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "4% + 2 pkt proc. = 6% przy umownej aktualizacji. +25 lokalnych punktów.",
+          "retryMessage": "Nowy wskaźnik zastępuje stary: 4% + niezmieniona marża 2 pkt proc. = 6%. Termin określa umowa; sama decyzja banku centralnego nie oznacza natychmiastowej zmiany każdej raty. Oprocentowanie może być stałe lub okresowo stałe. Sprawdź uzgodniony okres i dalsze warunki umowy po jego końcu; nie oznacza to zamrożenia wszystkich opłat.",
+          "category": "Kredyt i stopy procentowe"
+        },
+        "en": {
+          "id": "interest-rates",
+          "question": "Hypothetical loan: a 3% reference rate + a 2 percentage-point margin. At the contractual reset the reference rises to 4%; the margin is unchanged. What is the new rate?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "2%"
+            },
+            {
+              "id": "B",
+              "text": "5%"
+            },
+            {
+              "id": "C",
+              "text": "6%"
+            },
+            {
+              "id": "D",
+              "text": "9%"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "4% + 2 percentage points = 6% at the contractual reset. +25 local points.",
+          "retryMessage": "The new reference replaces the old: 4% + the unchanged 2 percentage-point margin = 6%. The contract sets the timing; a central-bank decision alone does not instantly change every installment. A rate can be fixed or periodically fixed. Check the agreed period and the subsequent contractual terms when it ends; this does not freeze every fee.",
+          "category": "Credit & Rates"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "objective": {
+        "pl": "Odróżnij umowną aktualizację zmiennej stopy od okresu stałego oprocentowania.",
+        "en": "Distinguish contractual variable-rate resets from an agreed fixed-rate period."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "reference_rate_before_percent": 3,
+        "reference_rate_after_percent": 4,
+        "fixed_margin_percentage_points": 2,
+        "total_rate_before_percent": 5,
+        "total_rate_after_percent": 6,
+        "reset": "at the contractually agreed update",
+        "illustrative_principal": 1000,
+        "simple_interest_one_year_at_new_rate": 60,
+        "years": 1,
+        "principal_constant": true,
+        "repayments": 0,
+        "capitalization": false,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "hypothetical_not_current_rate": true,
+        "loan_repayment_schedule_not_calculated": true
+      },
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "debt-avalanche",
+      "correct_answer": "C",
+      "reward": 30,
+      "level": "apply",
+      "source_ids": [
+        "cfpb-debt",
+        "cfpb-worksheet",
+        "knf-rates"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Równy podział z pominięciem stóp nie jest priorytetem lawiny w opisanym modelu.",
+          "en": "Splitting equally while ignoring rates is not the avalanche priority in this model."
+        },
+        "B": {
+          "pl": "Najmniejszy dług 500 zł ma tutaj niższą stopę 10%. Wybieranie najmniejszego salda bez względu na stopę to inna strategia, nie lawina.",
+          "en": "The smallest PLN 500 debt has the lower 10% rate here. Prioritizing the smallest balance regardless of rate is another strategy, not avalanche."
+        },
+        "D": {
+          "pl": "Nadwyżka nie zastępuje wymaganej minimalnej spłaty innego długu; wszystkie minima są najpierw zabezpieczone.",
+          "en": "Extra money does not replace another debt's required minimum; all minimums must first be covered."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "debt-avalanche",
+          "question": "Po potrzebach i wymaganych minimalnych spłatach zostaje 100 zł. Dług 1 000 zł ma 20%, a 500 zł 10% rocznie; stopy stałe, brak opłat, kar i zaległości. Gdzie kieruje nadwyżkę lawina?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Po równo, ignorując stopy"
+            },
+            {
+              "id": "B",
+              "text": "Na najmniejszy dług bez względu na stopę"
+            },
+            {
+              "id": "C",
+              "text": "Na dług oprocentowany 20%"
+            },
+            {
+              "id": "D",
+              "text": "Zamiast minimum innego długu"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Lawina kieruje nadwyżkę na 20%, zachowując wszystkie minima. +30 lokalnych punktów.",
+          "retryMessage": "Po podstawowych potrzebach i wymaganych minimalnych spłatach lawina kieruje dostępne dodatkowe 100 zł na wyższą stopę 20%. Model zakłada stałe stopy, brak opłat, kar i zaległości; rzeczywiste warunki nadpłaty sprawdza się w umowie. Brak nadwyżki nie wymaga nadpłaty.",
+          "category": "Kredyt i stopy procentowe"
+        },
+        "en": {
+          "id": "debt-avalanche",
+          "question": "After essentials and required minimums, PLN 100 remains. A PLN 1,000 debt charges 20% and a PLN 500 debt 10% annually; fixed rates, no fees, penalties or arrears. Where does avalanche direct the extra?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Split equally, ignoring rates"
+            },
+            {
+              "id": "B",
+              "text": "To the smallest debt regardless of rate"
+            },
+            {
+              "id": "C",
+              "text": "To the debt charging 20%"
+            },
+            {
+              "id": "D",
+              "text": "Instead of another debt's minimum"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Avalanche directs the extra to 20% while keeping all minimums. +30 local points.",
+          "retryMessage": "After essentials and all required minimums, avalanche directs the available extra PLN 100 to the higher 20% rate. This model assumes fixed rates and no fees, penalties or arrears; actual prepayment terms depend on the contract. No extra payment is required without a surplus.",
+          "category": "Credit & Rates"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "objective": {
+        "pl": "Rozdziel wymagane spłaty od dobrowolnej nadwyżki kierowanej na wyższą stopę.",
+        "en": "Separate required payments from optional extra money directed to the higher rate."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "optional_extra": 100,
+        "annual_rates_percent": [
+          20,
+          10
+        ],
+        "essentials_and_all_required_minimums_already_covered": true,
+        "minimum_payments_not_replaced": true,
+        "fixed_rates": true,
+        "debts_unsecured_and_otherwise_comparable": true,
+        "fees_assumed": 0,
+        "prepayment_penalties_assumed": 0,
+        "arrears_assumed": false,
+        "new_borrowing": 0,
+        "simple_interest_comparison_years": 1,
+        "principal_difference_held_constant": 100,
+        "capitalization": false,
+        "marginal_interest_difference_high": 20,
+        "marginal_interest_difference_low": 10,
+        "marginal_interest_difference_between_options": 10,
+        "not_total_schedule_or_guaranteed_savings": true,
+        "no_extra_payment_required_when_income_insufficient": true,
+        "extra_payment_at_period_start": true,
+        "each_comparable_balance_at_least": 100,
+        "other_cash_flows_in_marginal_model": 0,
+        "marginal_example_separate_from_real_minimum_payment_schedule": true,
+        "initial_comparable_balances": [
+          1000,
+          500
+        ]
+      },
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "credit-score-factors",
+      "correct_answer": "B",
+      "reward": 25,
+      "level": "distinguish",
+      "source_ids": [
+        "bik-score",
+        "bik-capacity"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Wynik nie gwarantuje zgody; instytucja podejmuje własną decyzję i ocenia zdolność.",
+          "en": "A score does not guarantee approval; the institution decides and assesses repayment capacity."
+        },
+        "C": {
+          "pl": "Lokalne punkty edukacyjne Coachfi nie są scoringiem BIK ani oceną zdolności banku.",
+          "en": "Coachfi's local educational points are neither BIK scoring nor a lender's capacity assessment."
+        },
+        "D": {
+          "pl": "Dochody i wydatki są istotne dla zdolności; nie wolno utożsamiać jej z samą historią spłat.",
+          "en": "Income and expenses matter for repayment capacity; it cannot be equated with repayment history alone."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "credit-score-factors",
+          "question": "Które stwierdzenie odróżnia historię w BIK od zdolności kredytowej w Polsce?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wysoki wynik gwarantuje nowy kredyt"
+            },
+            {
+              "id": "B",
+              "text": "Terminowość jest istotna; bank bada też dochody i wydatki"
+            },
+            {
+              "id": "C",
+              "text": "Punkty Coachfi zastępują ocenę banku"
+            },
+            {
+              "id": "D",
+              "text": "Dochody nie mają znaczenia dla zdolności"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Historia spłat i zdolność to różne elementy oceny. +25 lokalnych punktów.",
+          "retryMessage": "Terminowość spłat jest istotna dla oceny ryzyka. Bank ocenia również dochody, wydatki i zobowiązania oraz podejmuje własną decyzję. Wynik BIK nie gwarantuje kredytu; punkty Coachfi nie są oceną BIK. Nie trzeba brać nowego długu ani kupować raportu, aby wykonać ćwiczenie.",
+          "category": "Kredyt i stopy procentowe"
+        },
+        "en": {
+          "id": "credit-score-factors",
+          "question": "Which statement distinguishes BIK repayment history from repayment capacity in Poland?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "A high score guarantees a new loan"
+            },
+            {
+              "id": "B",
+              "text": "Timeliness matters; a lender also assesses income and expenses"
+            },
+            {
+              "id": "C",
+              "text": "Coachfi points replace a lender's assessment"
+            },
+            {
+              "id": "D",
+              "text": "Income does not matter for repayment capacity"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Repayment history and capacity are different parts of assessment. +25 local points.",
+          "retryMessage": "Timely repayment matters for risk assessment. A lender also assesses income, expenses and debts, then makes its own decision. A BIK score does not guarantee a loan; Coachfi points are not a BIK score. No new debt or paid report is needed for the exercise.",
+          "category": "Credit & Rates"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "objective": {
+        "pl": "Odróżnij historię spłat i scoring od zdolności kredytowej oraz decyzji banku.",
+        "en": "Distinguish repayment history and scoring from repayment capacity and a lender's decision."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_new_installment": 500,
+        "income_irregular": true,
+        "no_numerical_score_or_factor_weights": true,
+        "timely_payment_is_relevant_not_sufficient_for_approval": true,
+        "creditworthiness_includes_income_and_expenses": true,
+        "coachfi_points_are_not_BIK_or_lender_score": true,
+        "no_new_debt_or_paid_report_required": true
+      },
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15"
+    },
+    {
+      "id": "bond-prices",
+      "correct_answer": "B",
+      "reward": 30,
+      "level": "apply",
+      "source_ids": [
+        "sec-bond-risk",
+        "sec-bonds"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Przy tych samych stałych przepływach i innych czynnikach wyższa wymagana rentowność oznacza niższą, nie wyższą cenę.",
+          "en": "With the same fixed cash flows and other factors, a higher required yield means a lower, not higher, price."
+        },
+        "C": {
+          "pl": "To obligacja o stałych przepływach; zmiana wymaganej rentowności nie podnosi automatycznie umownego kuponu.",
+          "en": "The cash flows are fixed; a change in required yield does not automatically raise the contractual coupon."
+        },
+        "D": {
+          "pl": "Cena sprzedaży nie jest umownym nominałem przy wykupie; wzrost rentowności sam go nie obniża. Niewypłacalność to osobne ryzyko.",
+          "en": "The sale price is not contractual principal at maturity; a yield rise alone does not reduce that principal. Default is a separate risk."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "bond-prices",
+          "question": "Przed wykupem sprzedajesz obligację o stałych przepływach. Wymagana rentowność rynkowa rośnie, inne czynniki bez zmian. Co dzieje się z ceną?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Rośnie"
+            },
+            {
+              "id": "B",
+              "text": "Spada"
+            },
+            {
+              "id": "C",
+              "text": "Kupon automatycznie rośnie"
+            },
+            {
+              "id": "D",
+              "text": "Nominał przy wykupie automatycznie maleje"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Przy stałych przepływach wyższa wymagana rentowność obniża cenę. +30 lokalnych punktów.",
+          "retryMessage": "Dla tych samych stałych przepływów wyższa wymagana rentowność oznacza niższą cenę na rynku wtórnym. Nie zmienia to automatycznie kuponu ani umownego nominału przy wykupie. Cena sprzedaży, warunki wykupu i ryzyko niewypłacalności to różne sprawy; to nie reguła dla każdej obligacji.",
+          "category": "Kredyt i stopy procentowe"
+        },
+        "en": {
+          "id": "bond-prices",
+          "question": "You sell a fixed-cash-flow bond before maturity. Its required market yield rises, other factors unchanged. What happens to its price?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "It rises"
+            },
+            {
+              "id": "B",
+              "text": "It falls"
+            },
+            {
+              "id": "C",
+              "text": "The coupon automatically rises"
+            },
+            {
+              "id": "D",
+              "text": "Principal at maturity automatically falls"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "With fixed cash flows, a higher required yield lowers the price. +30 local points.",
+          "retryMessage": "For the same fixed cash flows, a higher required yield means a lower secondary-market price. This does not automatically change the coupon or contractual principal at maturity. Sale price, redemption terms and default risk are distinct; this is not a rule for every bond.",
+          "category": "Credit & Rates"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "objective": {
+        "pl": "Oddziel cenę sprzedaży obligacji o stałych przepływach od kuponu i umownego wykupu.",
+        "en": "Separate a fixed-cash-flow bond's sale price from its coupon and contractual redemption."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "face_value": 1000,
+        "fixed_final_coupon": 100,
+        "fixed_cash_flow_at_maturity": 1100,
+        "years_to_maturity": 1,
+        "earlier_cash_flows": 0,
+        "required_market_yield_before_percent": 10,
+        "required_market_yield_after_percent": 20,
+        "annual_discounting": true,
+        "initial_model_price": 1000,
+        "later_model_price_rounded": 916.67,
+        "formula": "price = 1100 / (1 + required annual market yield)",
+        "time_to_maturity_unchanged": true,
+        "same_fixed_contractual_cash_flows": true,
+        "credit_and_liquidity_factors_held_constant": true,
+        "default_assumed_absent_in_calculation": true,
+        "default_risk_still_exists": true,
+        "fees_assumed": 0,
+        "taxes_assumed": 0,
+        "hypothetical_not_product_or_forecast": true,
+        "secondary_market_sale_not_face_value_change": true
+      },
+      "version": "credit-rates-pl-en-v1-draft",
+      "created_date": "2026-10-15"
+    }
+  ],
+  "voice_checks": {
+    "status": "draft static length calculation only, not an actual UI or audio gate",
+    "maximum": 342,
+    "cases": [
+      {
+        "id": "interest-rates",
+        "locale": "pl",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Hipotetyczny kredyt: wskaźnik 3% + marża 2 pkt proc. Przy umownej aktualizacji wskaźnik rośnie do 4%, marża bez zmian. Jakie jest nowe oprocentowanie? A. 2% B. 5% C. 6% D. 9%",
+        "utf16_length": 174,
+        "unicode_code_points": 174,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "interest-rates",
+        "locale": "en",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Hypothetical loan: a 3% reference rate + a 2 percentage-point margin. At the contractual reset the reference rises to 4%; the margin is unchanged. What is the new rate? A. 2% B. 5% C. 6% D. 9%",
+        "utf16_length": 192,
+        "unicode_code_points": 192,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "debt-avalanche",
+        "locale": "pl",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Po potrzebach i wymaganych minimalnych spłatach zostaje 100 zł. Dług 1 000 zł ma 20%, a 500 zł 10% rocznie; stopy stałe, brak opłat, kar i zaległości. Gdzie kieruje nadwyżkę lawina? A. Po równo, ignorując stopy B. Na najmniejszy dług bez względu na stopę C. Na dług oprocentowany 20% D. Zamiast minimum innego długu",
+        "utf16_length": 315,
+        "unicode_code_points": 315,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "debt-avalanche",
+        "locale": "en",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "After essentials and required minimums, PLN 100 remains. A PLN 1,000 debt charges 20% and a PLN 500 debt 10% annually; fixed rates, no fees, penalties or arrears. Where does avalanche direct the extra? A. Split equally, ignoring rates B. To the smallest debt regardless of rate C. To the debt charging 20% D. Instead of another debt's minimum",
+        "utf16_length": 342,
+        "unicode_code_points": 342,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "credit-score-factors",
+        "locale": "pl",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Które stwierdzenie odróżnia historię w BIK od zdolności kredytowej w Polsce? A. Wysoki wynik gwarantuje nowy kredyt B. Terminowość jest istotna; bank bada też dochody i wydatki C. Punkty Coachfi zastępują ocenę banku D. Dochody nie mają znaczenia dla zdolności",
+        "utf16_length": 260,
+        "unicode_code_points": 260,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "credit-score-factors",
+        "locale": "en",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Which statement distinguishes BIK repayment history from repayment capacity in Poland? A. A high score guarantees a new loan B. Timeliness matters; a lender also assesses income and expenses C. Coachfi points replace a lender's assessment D. Income does not matter for repayment capacity",
+        "utf16_length": 287,
+        "unicode_code_points": 287,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "bond-prices",
+        "locale": "pl",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "Przed wykupem sprzedajesz obligację o stałych przepływach. Wymagana rentowność rynkowa rośnie, inne czynniki bez zmian. Co dzieje się z ceną? A. Rośnie B. Spada C. Kupon automatycznie rośnie D. Nominał przy wykupie automatycznie maleje",
+        "utf16_length": 235,
+        "unicode_code_points": 235,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "bond-prices",
+        "locale": "en",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "text": "You sell a fixed-cash-flow bond before maturity. Its required market yield rises, other factors unchanged. What happens to its price? A. It rises B. It falls C. The coupon automatically rises D. Principal at maturity automatically falls",
+        "utf16_length": 236,
+        "unicode_code_points": 236,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "boundaries": [
+    "No product files, tests, legacy adapters or previous golden baselines changed by this draft",
+    "No new data, fields, persistence, products, real rates, market, paid or production action",
+    "Sources are education evidence, not proof of learning effectiveness or legal compliance",
+    "Remaining written locale blocks out of scope; inherited EN fallback is not accepted for those markets"
+  ],
+  "curriculum_mapping": {
+    "status": "author draft mapping; not measured competence or independent acceptance",
+    "framework_source": "eu-oecd-adult",
+    "steps": [
+      {
+        "id": "interest-rates",
+        "competence_ids": [
+          275,
+          291,
+          361
+        ],
+        "design_link": "contract rate/cost distinction and fixed/variable risk"
+      },
+      {
+        "id": "debt-avalanche",
+        "competence_ids": [
+          118,
+          316,
+          318
+        ],
+        "design_link": "essential spending, required repayments and optional early repayment within constraints"
+      },
+      {
+        "id": "credit-score-factors",
+        "competence_ids": [
+          272,
+          304,
+          307,
+          309
+        ],
+        "design_link": "repayment capacity, scoring and lender-specific interpretation"
+      },
+      {
+        "id": "bond-prices",
+        "competence_ids": [
+          180,
+          182,
+          185
+        ],
+        "design_link": "changing investment value, interest rates and time value of fixed cash flows"
+      }
+    ]
+  },
+  "unavailable_source_attempts": [
+    {
+      "url": "https://finance.ec.europa.eu/publications/financial-competence-framework-adults-european-union_en",
+      "date": "2026-10-15",
+      "result": "web tool internal error; actual official PDF opened separately and used"
+    }
+  ],
+  "revision_notes": [
+    {
+      "date": "2026-10-15",
+      "status": "author draft clarification from preliminary independent math feedback; not an ACCEPT",
+      "scope": "Extra payment at start, each debt balance >=100 PLN, no later flows/compounding in separate marginal comparison; actual required minimum schedule not forecast."
+    }
+  ]
+}

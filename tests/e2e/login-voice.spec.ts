@@ -15,11 +15,11 @@ async function preparePage(page: Page) {
     localStorage.clear();
     localStorage.setItem("coachfi-locale-v1", "pl");
     localStorage.setItem("coachfi-consent-v1", JSON.stringify({
-      version: "2026-05-10", acceptedAt: timestamp, termsAccepted: true, privacyAccepted: true,
+      version: "2026-10-14", acceptedAt: timestamp, termsAccepted: true, privacyAccepted: true,
       optional: { aiCoach: true, voice: true, leaderboard: false, blockchain: false },
     }));
     localStorage.setItem("coachfi-mode-v1", JSON.stringify({
-      mode: "adult", selectedAt: timestamp, adultConfirmedAt: timestamp,
+      mode: "adult", selectedAt: timestamp, adultConfirmedAt: timestamp, adultAgeRequirement: 18,
     }));
     localStorage.setItem("coachfi-user", JSON.stringify({ name: "QA", goal: "testing", setupDone: true }));
   });
@@ -93,6 +93,7 @@ for (const viewport of [{ width: 320, height: 800 }, { width: 390, height: 844 }
 }
 
 test("Mila intro and the next script use provider audio without a browser voice", async ({ page }) => {
+  test.skip(true, "External TTS is disabled in P0. Local-only voice and revocation have synthetic adapter tests.");
   await mockPlayback(page);
   const requests: Array<Record<string, unknown>> = [];
   await page.route("**/api/tts", async (route) => {
@@ -124,6 +125,7 @@ test("Mila intro and the next script use provider audio without a browser voice"
 });
 
 test("provider failure keeps readable text and retry recovers without changing to a browser voice", async ({ page }) => {
+  test.skip(true, "External TTS is disabled in P0. Local-only voice and revocation have synthetic adapter tests.");
   await mockPlayback(page);
   let providerReady = false;
   await page.route("**/api/tts", (route) => providerReady

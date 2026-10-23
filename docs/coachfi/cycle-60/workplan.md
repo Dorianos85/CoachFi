@@ -1,0 +1,11 @@
+# C60 — IncomeJarPlanner: PLN i zachowanie sumy
+
+Status: SOURCE_HYPOTHESES_BASELINE_PENDING. Dorośli, Polska, PL/EN. Active Learn renders adult planner. Source suggests EN adopts USD, income10 rounds six cards to11 while total10, and extreme finite input overflows. Actual component/native baseline required before any product mutation. Blank-to-zero handling will become an explicit invalid-state contract; not a financial loss claim.
+
+Owner c49_advisories: only components/IncomeJarPlanner.tsx, optional lib/income-allocation.ts, new source proposal/design/apply receipts. Preserve six weights/order/model copy, default5000, Kids behavior, other locale COPY and no persistence. Fixed PLN for adult PL/EN; exact-cent largest remainders, stable order ties; existing1e12 engineering amount cap, raw string distinguishing invalid from zero; two decimals for header/cards/voice. Invalid hides usable results/voice and has equivalent PL/EN feedback. Shared markup exposure qualified, no otherlocale meaning acceptance.
+
+Fixture c49_validation: new14 actualcomponent Node cases plus2 native installedChrome PL/EN cases, new config and fixture design. No eager import of nonexistent helper. Independent oracle literal weights/order and cents, real component handlers; React/voice/context adapters explicit. Native actual /learn shell on synthetic contexts, no voice call, local storage unchanged, API/external blocked. Baseline2 reuse verified C59 builtTEMP; unchanged acceptance after one fresh C60 build.
+
+Primary c49_dependency_review: independent source/math/PLEN/fixture/tools/raw review, only new JSON/Markdown. Root owns tools/execution and separately peers fixture; product author never approves own code. Fixture author may independently review product/outcomes excluding own fixture. Root plus3 specialists, disjoint files.
+
+C59 current226 directcarry; allprior evidence immutable. One baseline/unchangedacceptance Node, targetedTS and oneTEMPbuild, native2 baseline+2acceptance. No repeated green controls without changed behavior/concern. Counts remain planned until raw. No dependency polling after C50 historical deferral. Authlogout/NFT followups deferred. No gitadd/commit/push/deploy/productionwrites/migrations/historyrewrite, realprofiles/sessions/secrets/paidprovider/humancontacts. AI/cloudwrites HARD_OFF, production NO_GO.

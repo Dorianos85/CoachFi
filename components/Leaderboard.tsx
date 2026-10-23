@@ -10,6 +10,7 @@ import { useStreak } from "@/context/StreakContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
+import { isFeatureEnabled } from "@/lib/product-scope";
 
 interface Player {
   name: string;
@@ -100,6 +101,11 @@ const COPY: LocalizedMap<
 type Tab = "global" | "local";
 
 export function Leaderboard({ userScore }: { userScore: number }) {
+  if (!isFeatureEnabled("leaderboard")) return null;
+  return <EnabledLeaderboard userScore={userScore} />;
+}
+
+function EnabledLeaderboard({ userScore }: { userScore: number }) {
   const { locale, t } = useLanguage();
   const copy = pickLocalized(COPY, locale);
   const { hasOptionalConsent, openSettings } = useConsent();

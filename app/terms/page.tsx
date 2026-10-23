@@ -3,6 +3,7 @@
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { getPublicPrivacyConfig, getPrivacyContactCopy } from "@/lib/privacy-config";
 
 type LegalPageCopy = {
   eyebrow: string;
@@ -14,118 +15,106 @@ type LegalPageCopy = {
 
 const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
   en: {
-    eyebrow: "Terms",
-    title: "Coach FI Terms of Use",
-    updatedAt: "May 10, 2026",
-    notice:
-      "Draft MVP terms, not final legal advice. Before production, add administrator details, contact, jurisdiction and complaint process.",
-    blocks: [
+    "eyebrow": "Terms",
+    "title": "Coach FI Use Information",
+    "updatedAt": "October 19, 2026",
+    "notice": "The operator contact and formal terms, complaints and privacy procedures are not yet complete. This information is not approval to launch the service for real user data.",
+    "blocks": [
       {
-        title: "1. Nature of the app",
-        items: [
-          "Coach FI is an educational app for financial literacy and habit building.",
-          "The app does not provide investment, tax, legal or credit advice.",
-          "Mila AI can explain concepts, but does not replace a licensed advisor.",
-        ],
+        "title": "1. Purpose and scope",
+        "items": [
+          "Coach FI provides financial education and habit-building material for adults in Poland, in Polish and English. Language selection does not change the market.",
+          "The app does not provide individual investment, tax, legal or credit advice and does not guarantee financial outcomes."
+        ]
       },
       {
-        title: "2. User rules",
-        items: [
-          "Use the app lawfully and do not enter third-party personal data without a valid basis.",
-          "Do not enter passwords, card numbers, ID numbers or bank login data.",
-          "Educational content may include simplifications; financial decisions remain your responsibility.",
-        ],
+        "title": "2. Safe use",
+        "items": [
+          "While the missing operator and privacy information is unresolved, use examples rather than real personal or financial data.",
+          "Do not enter bank logins, passwords, payment-card details, national identifiers or other people’s personal data.",
+          "Educational examples simplify reality; check assumptions before using them in a real decision."
+        ]
       },
       {
-        title: "3. AI, voice and leaderboard",
-        items: [
-          "AI, ElevenLabs voice, global leaderboard and blockchain features require separate optional consent.",
-          "Without consent, core learning remains available through local replies and local storage.",
-          "The global leaderboard may show your display name, score and streak to other users.",
-        ],
+        "title": "3. Available and disabled features",
+        "items": [
+          "External AI, ElevenLabs voice, global leaderboard and blockchain actions are disabled in this release. Optional settings alone cannot enable them.",
+          "Local educational text can still involve a request to the Coach FI server. Browser speech, where available, depends on the browser and operating system. No universal offline or on-device processing guarantee is made."
+        ]
       },
       {
-        title: "4. Certificates",
-        items: [
-          "Certificates prove completion of educational elements; they are not investment products.",
-          "Public blockchain data can be visible, permanent and difficult to delete.",
-          "The MVP uses Solana Devnet, a test network with no guaranteed economic value.",
-        ],
+        "title": "4. Local data and accounts",
+        "items": [
+          "A local save does not confirm an account/server save. Automatic uploads of new learning changes are disabled; signing in can read earlier account data.",
+          "Selected local export and deletion do not constitute a complete account export, account closure or provider deletion. See the privacy information for the actual scope."
+        ]
       },
       {
-        title: "5. Liability",
-        items: [
-          "Coach FI is provided as an MVP and may contain bugs, interruptions or limited features.",
-          "We do not guarantee financial outcomes, profits, savings or user decisions.",
-          "Users should verify information before making financial decisions.",
-        ],
+        "title": "5. Limits and user decisions",
+        "items": [
+          "Examples and simulated points are educational and have no promised investment value. We do not promise savings, returns or a particular result.",
+          "No paid plan, purchase terms or blanket waiver of user rights is established by this page. Formal service terms and the complaints process still require review."
+        ]
       },
       {
-        title: "6. Data and privacy",
-        items: [
-          "Data processing rules are described in the Privacy Policy.",
-          "Most app data is stored locally in the browser.",
-          "Users can change optional consents and remove local app data.",
-        ],
-      },
-    ],
+        "title": "6. Operator and contact",
+        "items": [
+          "The confirmed website owner is identified below. Full controller details and a verified privacy and complaints contact are still being completed.",
+          "Do not treat a proposed mailbox name as an active contact. The production release remains blocked until the missing facts and procedures are independently reviewed."
+        ]
+      }
+    ]
   },
   pl: {
-    eyebrow: "Regulamin",
-    title: "Regulamin korzystania z Coach FI",
-    updatedAt: "10 maja 2026",
-    notice:
-      "To roboczy regulamin MVP, nie finalna opinia prawna. Przed publikacją produkcyjną uzupełnij dane administratora, kontakt, jurysdykcję i proces reklamacji.",
-    blocks: [
+    "eyebrow": "Zasady korzystania",
+    "title": "Informacje o korzystaniu z Coach FI",
+    "updatedAt": "19 października 2026",
+    "notice": "Kontakt operatora oraz formalne zasady usługi, reklamacji i prywatności nie są jeszcze kompletne. Te informacje nie są zgodą na uruchomienie usługi dla rzeczywistych danych użytkowników.",
+    "blocks": [
       {
-        title: "1. Charakter aplikacji",
-        items: [
-          "Coach FI jest aplikacją edukacji finansowej i budowania nawyków.",
-          "Aplikacja nie świadczy doradztwa inwestycyjnego, podatkowego, prawnego ani kredytowego.",
-          "Mila AI może pomagać wyjaśniać pojęcia, ale nie zastąpi licencjonowanego doradcy.",
-        ],
+        "title": "1. Cel i zakres",
+        "items": [
+          "Coach FI udostępnia edukację finansową i materiały do budowania nawyków dla dorosłych w Polsce, po polsku i angielsku. Wybór języka nie zmienia rynku.",
+          "Aplikacja nie świadczy indywidualnego doradztwa inwestycyjnego, podatkowego, prawnego ani kredytowego i nie gwarantuje wyników finansowych."
+        ]
       },
       {
-        title: "2. Zasady korzystania",
-        items: [
-          "Użytkownik korzysta z aplikacji zgodnie z prawem i nie wprowadza danych osób trzecich bez podstawy.",
-          "Nie należy wpisywać haseł, danych kart płatniczych, numerów dokumentów, PESEL ani danych bankowych.",
-          "Treści edukacyjne mogą zawierać uproszczenia i przykłady; decyzje finansowe podejmujesz samodzielnie.",
-        ],
+        "title": "2. Bezpieczne korzystanie",
+        "items": [
+          "Do czasu uzupełnienia informacji o operatorze i prywatności używaj przykładów zamiast rzeczywistych danych osobowych lub finansowych.",
+          "Nie wpisuj danych logowania do banku, haseł, danych kart płatniczych, numerów identyfikacyjnych ani danych osobowych innych osób.",
+          "Przykłady edukacyjne upraszczają rzeczywistość; sprawdź założenia przed użyciem ich w prawdziwej decyzji."
+        ]
       },
       {
-        title: "3. AI, głos i ranking",
-        items: [
-          "Funkcje AI, głosu ElevenLabs, rankingu globalnego i blockchaina wymagają osobnych zgód opcjonalnych.",
-          "Brak zgody nie blokuje podstawowej nauki; aplikacja korzysta wtedy z lokalnych odpowiedzi i lokalnego zapisu.",
-          "Ranking globalny może pokazać Twój pseudonim, wynik i serię innym użytkownikom.",
-        ],
+        "title": "3. Funkcje dostępne i wyłączone",
+        "items": [
+          "Zewnętrzne AI, głos ElevenLabs, globalny ranking i operacje blockchain są w tej wersji wyłączone. Same ustawienia opcjonalne ich nie uruchamiają.",
+          "Lokalny tekst edukacyjny może nadal wymagać żądania do serwera Coach FI. Odczyt przeglądarkowy, jeśli dostępny, zależy od przeglądarki i systemu operacyjnego. Nie gwarantujemy pełnej pracy offline ani przetwarzania wyłącznie na urządzeniu."
+        ]
       },
       {
-        title: "4. Certyfikaty",
-        items: [
-          "Certyfikaty są dowodem ukończenia elementów edukacyjnych, nie produktem inwestycyjnym.",
-          "Dane zapisane na publicznym blockchainie mogą być jawne, trwałe i trudne do usunięcia.",
-          "Wersja MVP korzysta z Solana Devnet, czyli sieci testowej, bez gwarancji wartości ekonomicznej.",
-        ],
+        "title": "4. Dane lokalne i konta",
+        "items": [
+          "Zapis lokalny nie potwierdza zapisu na koncie lub serwerze. Automatyczne wysyłanie nowych zmian nauki jest wyłączone; logowanie może pobrać wcześniejsze dane konta.",
+          "Wybrany eksport i usunięcie lokalne nie są pełnym eksportem konta, zamknięciem konta ani usunięciem danych u dostawców. Faktyczny zakres opisują informacje o prywatności."
+        ]
       },
       {
-        title: "5. Odpowiedzialność",
-        items: [
-          "Coach FI jest dostarczany jako MVP i może zawierać błędy, przerwy lub ograniczenia funkcji.",
-          "Nie gwarantujemy wyników finansowych, zysków, oszczędności ani skutków decyzji użytkownika.",
-          "Użytkownik powinien weryfikować informacje przed podjęciem decyzji finansowych.",
-        ],
+        "title": "5. Ograniczenia i decyzje użytkownika",
+        "items": [
+          "Przykłady oraz symulowane punkty mają charakter edukacyjny i nie mają obiecanej wartości inwestycyjnej. Nie obiecujemy oszczędności, zysku ani określonego rezultatu.",
+          "Ta strona nie ustanawia płatnego planu, warunków zakupu ani ogólnego zrzeczenia się praw użytkownika. Formalne zasady usługi i proces reklamacji nadal wymagają recenzji."
+        ]
       },
       {
-        title: "6. Dane i prywatność",
-        items: [
-          "Zasady przetwarzania danych opisuje Polityka prywatności.",
-          "Większość danych aplikacji jest przechowywana lokalnie w przeglądarce.",
-          "Użytkownik może zmienić zgody opcjonalne oraz usunąć lokalne dane aplikacji.",
-        ],
-      },
-    ],
+        "title": "6. Operator i kontakt",
+        "items": [
+          "Potwierdzony właściciel strony jest wskazany poniżej. Pełne dane administratora oraz potwierdzony kontakt dotyczący prywatności i reklamacji są nadal uzupełniane.",
+          "Proponowana nazwa skrzynki nie jest aktywnym kontaktem. Wydanie produkcyjne pozostaje zablokowane do niezależnej recenzji brakujących faktów i procedur."
+        ]
+      }
+    ]
   },
   ja: {
     eyebrow: "規約",
@@ -487,8 +476,11 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
 
 export default function TermsPage() {
   const { locale } = useLanguage();
-  const copy = pickLocalized(TERMS_COPY, locale);
-  const readText = [copy.title, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`)].join(". ");
+  const legalLocale = locale === "pl" ? "pl" : "en";
+  const copy = pickLocalized(TERMS_COPY, legalLocale);
+  const publicDetails = getPublicPrivacyConfig();
+  const contactCopy = getPrivacyContactCopy(legalLocale);
+  const readText = [copy.title, copy.notice, contactCopy.ownerLabel + publicDetails.ownerName, publicDetails.contactEmail ?? contactCopy.pending, ...copy.blocks.map((b) => `${b.title}. ${b.items.join(". ")}`)].join(". ");
 
   return (
     <section className="space-y-6" aria-labelledby="terms-title">
@@ -498,12 +490,21 @@ export default function TermsPage() {
           <h1 id="terms-title" className="text-3xl font-black text-text">
             {copy.title}
           </h1>
-          <VoiceButton text={readText} locale={locale} variant="pill" className="shrink-0" />
+          <VoiceButton text={readText} locale={legalLocale} variant="pill" className="shrink-0" />
         </div>
         <p className="mt-3 text-sm font-semibold leading-6 text-muted">
           {copy.updatedAt}. {copy.notice}
         </p>
       </div>
+
+      <section className="rounded-lg border border-primary/10 bg-white p-5 shadow-soft" aria-labelledby="terms-contact-title">
+        <h2 id="terms-contact-title" className="text-xl font-black text-text">{contactCopy.title}</h2>
+        <p className="mt-2 text-sm leading-6">{contactCopy.ownerLabel}{publicDetails.ownerName}</p>
+        {publicDetails.contactEmail ? (
+          <a className="mt-2 inline-block underline" href={`mailto:${publicDetails.contactEmail}`}>{publicDetails.contactEmail}</a>
+        ) : <p role="status" className="mt-2 text-sm leading-6">{contactCopy.pending}</p>}
+        {locale !== legalLocale ? <p className="mt-2 text-sm leading-6">{contactCopy.scope}</p> : null}
+      </section>
 
       <div className="grid gap-4">
         {copy.blocks.map((block) => (

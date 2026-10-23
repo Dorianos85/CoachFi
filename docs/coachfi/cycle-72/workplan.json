@@ -1,0 +1,43 @@
+{
+  "cycle": "C72",
+  "at": "2026-10-19T08:01:11.375Z",
+  "before": {
+    "path": "evidence/cycle-72/before.json",
+    "sha256": "5cd72201fa382e137b590da073c02d237ef8de21243949a28d2ca3ef7aa90f8c"
+  },
+  "owner": "root coordinator; no ownapproval",
+  "roles": {
+    "A": "materialize.py,runner.mjs,tool-plan.json only; no executions",
+    "validation": "compatibility-cases.cjs,compatibility-design.json,optionalcompatibility.md only; no executions; own oracles excluded",
+    "primary": "review.json/review.md source/oracle+actualreview only; no executions",
+    "root": "baseline/workplan/releases/execute afterindependentGO/report/metadata/closure"
+  },
+  "caseBudget": {
+    "distinctCases": 12,
+    "consumerCases": 4,
+    "securityCases": 8,
+    "variants": 2,
+    "maximumCaseInstances": 24,
+    "securityPerChildMemoryMiB": 128,
+    "securityDeadlineMs": 4000
+  },
+  "boundaries": {
+    "network": false,
+    "mainRuntimeWrites": false,
+    "manifestLockChanges": false,
+    "productionWrites": false,
+    "paidCalls": false,
+    "profilesSessionsSecrets": false,
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF"
+  },
+  "gates": [
+    "Pin verifiedC71artifact andinspectionmembership; safe37filefreshquarantine materialization independentlyreviewed before run.",
+    "Freeze4handderivedsemanticoracles and original8securityliteral/faithfulguardedmaps with independentprimaryGO.",
+    "Pin actualparent/childrouting, source/hashes/currentpackages/loadedmoduleclosure and freshcache; deny network; no fallbackto6.1.4 when candidate.",
+    "One finite old+candidate24instance actualrun, persist rawfacts beforeassert/boundary, no broadappgreenreruns.",
+    "Findings retest targeted only; twofinalboundedreviews + actualpostwrite. Candidate compatibility success alone never overrides major semver or closes advisories/cleaninstall/staging."
+  ],
+  "next": "After observedcompatibility decide justified nextlocaldependencyupgrade packet, preserving originalsecuritycontrols. No actualdependencychange in C72.",
+  "production": "NO_GO"
+}

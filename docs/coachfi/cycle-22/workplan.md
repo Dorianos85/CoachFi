@@ -1,0 +1,9 @@
+# C22 — uczciwa treść dobrowolnego logowania PL/EN
+
+15.10.2026. B28: odrębny actual baseline przed zmianą copy. C21 przyjęty lokalnie i staged, source10 literalne. Root będzie autorem components/SignInGate.tsx i rejestrów; daily_author recenzuje treść/source i ewentualnie ma wyłączny test-only adapter trzech manual title assertions w C21fixture (sześć runtimecases); daily_ui_review ma nowy actualcomponent fixture, baseline i późniejszy retest/ledgerQA; daily_data_review niezależnie przyjmuje znaczenie/zakres/politykę. Root przyjmuje fixtures i adapter po independent peer.
+
+Kandydat manualPLtitle Zaloguj się do Coach FI, body Możesz zamknąć to okno, aby wrócić do aplikacji. EN Sign in to Coach FI / You can close this window to return to the app. Dobór prezentacji wyłącznie według istniejącej closability !required dla PL/EN; wszystkie teksty required i pozostałe locale pozostają literalne. Bez nowych odczytów, required/openned values, progów, entitlement/feature/sync/account/bezpieczeństwo obietnic. Najpierw niezależny kontrakt i baseline, potem sourceGO.
+
+Wcześniejsze raw C21 i pełna fixturebefore zachowane. Jeśli manual title expectations C21 zostaną zmienione, jawnie zarejestrować dokładnie trzy sites/sześć instances oraz inverse; nie deklarować całych bodies literalnych. Wymagane flow/raw/provider/oracles i requiredcopy zachować. Źródła/fixture autorzy nie zatwierdzają siebie. Dorośli, rynek Polski, PL/EN; bez commit/push/deploy/produkcji/realnych danych/sekretów/remoteSDK/płatnych calls/AI/cloudwrites.
+
+Korekta propozycji przed baseline i source: pozostają neutralne tytuły, ale body PL Wypełnij formularz logowania. / EN Complete the sign-in form. Pierwotnego zdania o zamknięciu/powrocie nie wdrażamy, bo nie jest uniwersalnie potwierdzone przy starszym nonzero notify failure. To instrukcja pasująca do email/OTP, bez obietnicy sukcesu/powrotu/uprawnień. Independentdesign i fixture mają sprawdzać wyłącznie te końcowe cztery strings.

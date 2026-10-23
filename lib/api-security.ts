@@ -6,8 +6,36 @@ export function jsonError(message: string, status = 400) {
 }
 
 export async function readJsonWithLimit<T>(req: Request, maxBytes = 4096): Promise<T> {
-  const text = await req.text();
-  if (text.length > maxBytes) throw new Error("Payload too large");
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) throw new Error("Invalid body limit");
+  const length = req.headers.get("content-length");
+  if (length && (!/^\d+$/.test(length) || Number(length) > maxBytes)) {
+    void req.body?.cancel().catch(() => {});
+    throw new Error("Payload too large");
+  }
+  if (!req.body) throw new SyntaxError("Invalid JSON");
+  const reader = req.body.getReader();
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  let bytes = 0;
+  let text = "";
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > maxBytes) {
+        throw new Error("Payload too large");
+      }
+      text += decoder.decode(value, { stream: true });
+    }
+    text += decoder.decode();
+  } catch (error) {
+    // Release unread data on decoding/stream errors too. A cancellation failure
+    // must not hide the original size-limit decision from the caller.
+    try { await reader.cancel(); } catch { /* preserve the original error */ }
+    throw error;
+  } finally {
+    reader.releaseLock();
+  }
   return JSON.parse(text) as T;
 }
 
@@ -26,11 +54,24 @@ export function clampNumber(value: unknown, min: number, max: number) {
 }
 
 export function assertSameOrigin(req: Request) {
+  if (req.headers.get("sec-fetch-site") === "cross-site") {
+    throw new Error("Cross-origin request blocked");
+  }
   const origin = req.headers.get("origin");
   if (!origin) return;
-  const host = req.headers.get("host");
-  if (!host) throw new Error("Missing host");
-  if (new URL(origin).host !== host) throw new Error("Cross-origin request blocked");
+  try {
+    const supplied = new URL(origin);
+    const canonical = new URL(req.url);
+    if (
+      !["http:", "https:"].includes(supplied.protocol) ||
+      supplied.username || supplied.password || supplied.search || supplied.hash ||
+      supplied.pathname !== "/" || supplied.origin !== canonical.origin
+    ) {
+      throw new Error("Cross-origin request blocked");
+    }
+  } catch {
+    throw new Error("Cross-origin request blocked");
+  }
 }
 
 export function requireConsentHeader(req: Request, value: string) {
@@ -40,10 +81,13 @@ export function requireConsentHeader(req: Request, value: string) {
 }
 
 export function rateLimit(req: Request, key: string, max = 30, windowMs = DEFAULT_WINDOW_MS) {
-  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const ip = forwarded || req.headers.get("x-real-ip") || "local";
-  const bucketKey = `${key}:${ip}`;
+  // Local process load-shedding only. Never an identity, durable quota or budget.
+  // Untrusted forwarding/IP headers must not mint new buckets.
+  const bucketKey = `${key}:${req.method}`;
   const now = Date.now();
+  for (const [existingKey, existing] of buckets) {
+    if (existing.resetAt <= now) buckets.delete(existingKey);
+  }
   const bucket = buckets.get(bucketKey);
 
   if (!bucket || bucket.resetAt <= now) {

@@ -1,0 +1,624 @@
+{
+  "schema_version": 1,
+  "cycle": 32,
+  "module": null,
+  "version": "budget-quiz-pl-en-v1-c32-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 4,
+  "language_versions": 8,
+  "wrong_rationale_count": 12,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 90,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "zero-based-budget",
+      "track-before-budget",
+      "sinking-fund",
+      "impulse-pause"
+    ],
+    "keys": [
+      "B",
+      "B",
+      "B",
+      "B"
+    ],
+    "rewards": [
+      25,
+      20,
+      25,
+      20
+    ],
+    "rawEN": "Four existing QuizQuestion object replacements, retaining Budgeting category, IDs, keys and rewards.",
+    "PL": "Four existing own PL value object replacements, retaining Budżet domowy category and82 own properties.",
+    "otherLocales": "ES/FR have explicit unchanged translations. Five existing dependent EN fallback views (zh,ja,hi,pt-BR,tr) receive EN copy updates; no acceptance of those languages or new markets.",
+    "protected": "All20 challenges/c1-c20 and other58rawquiz, allstage/topic/pools/localizationfiles/writers/SRS/app/rewards/accepted historical artifacts remain literal."
+  },
+  "sources": [
+    {
+      "id": "usu-zero-based",
+      "publisher": "Utah State University Extension",
+      "title": "Budgeting Tools and Techniques (20April2021), and zero-based example (17April2025)",
+      "url": "https://extension.usu.edu/finance/faq/budgeting-tools-and-techniques",
+      "supporting_url": "https://extension.usu.edu/news/ask-an-expert-recession-proof-your-finances-one-step-at-a-time",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpages: savings/goal allocations included; each income unit assigned; adjustable systems.",
+      "bounded_use": "Household zero-based allocation concept; reserve is a planned allocation, not a demand to consume or empty an account.",
+      "limits": "No universal best method, no borrowing/credit/FICO/USlaw/account product recommendations; no guarantee of no leakage. The PLN model and needs/minimum priorities are explicit Coachfi illustrations."
+    },
+    {
+      "id": "ftc-budget",
+      "publisher": "Federal Trade Commission consumer.gov",
+      "title": "Making a Budget (August2024)",
+      "url": "https://consumer.gov/your-money/making-budget",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: written income/expense plan and savings allocation.",
+      "bounded_use": "A plan may allocate savings; compare and revise spending with available resources.",
+      "limits": "No transfer of US programme or credit law, no mandatory income averaging method, no universal zero-consumption rule."
+    },
+    {
+      "id": "cfpb-tracker",
+      "publisher": "CFPB",
+      "title": "Your Money, Your Goals: Spending tracker companion",
+      "url": "https://files.consumerfinance.gov/f/documents/cfpb_ymyg_disabilities_spending-tracker.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official PDF page1: day/week/two weeks/month and comfortable tracking methods.",
+      "bounded_use": "Adaptable observation period/method; optional own records for household patterns.",
+      "limits": "No universal 30-day prerequisite, no new app data collection or document upload, no causal claim that most people find hidden leakage."
+    },
+    {
+      "id": "cfpb-savings-plan",
+      "publisher": "CFPB",
+      "title": "Savings Plan Tool (2018)",
+      "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_savings_plan_tool_2018-11_ADA.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official PDF pages1–2: goal amount divided by available periods.",
+      "bounded_use": "Simple equal-period arithmetic adapted to an explicit hypothetical optional PLN purchase.",
+      "limits": "No guarantee of meeting a goal or avoiding debt. No interest/fees/pricechange in this model; required obligations never deferred by this optional exercise."
+    },
+    {
+      "id": "cfpb-emergency",
+      "publisher": "CFPB",
+      "title": "An essential guide to building an emergency fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: unexpected expenses and situation-dependent savings, including fluctuating income.",
+      "bounded_use": "Contrast known planned costs with unexpected shocks; flexible goals when resources vary.",
+      "limits": "No fixed reserve threshold, guarantee, product advice, account signup, US tax or legal rules."
+    },
+    {
+      "id": "moneyhelper-pause",
+      "publisher": "Money and Pensions Service / MoneyHelper",
+      "title": "The psychology of spending: how to break free from pressure to buy (updated1July2026)",
+      "url": "https://www.moneyhelper.org.uk/en/blog/everyday-money/the-psychology-of-spending",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: pause before non-essential spending and review needs/priorities.",
+      "bounded_use": "An optional educational pause/reflection exercise for non-urgent wants.",
+      "limits": "The page’s24-hour suggestion is not taught as a universal requirement or validated effective duration. No claim that most purchases disappear, no causal effect size or promised savings; urgent essentials protected."
+    }
+  ],
+  "questions": [
+    {
+      "id": "zero-based-budget",
+      "reward": 25,
+      "goal": {
+        "pl": "Odróżnić zero nieprzypisanych środków w planie od pustego konta.",
+        "en": "Distinguish zero unallocated money in a plan from an empty account."
+      },
+      "sources": [
+        "usu-zero-based",
+        "ftc-budget"
+      ],
+      "copy": {
+        "pl": {
+          "id": "zero-based-budget",
+          "question": "Co oznacza „zero” w budżecie od zera?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Trzeba wydać wszystko i opróżnić konto"
+            },
+            {
+              "id": "B",
+              "text": "Każda dostępna złotówka ma cel w planie, także rezerwa"
+            },
+            {
+              "id": "C",
+              "text": "Oszczędności muszą wynosić zero"
+            },
+            {
+              "id": "D",
+              "text": "Wolno używać wyłącznie gotówki"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "To metoda planowania, nie nakaz wydania wszystkiego ani wyzerowania konta. Hipotetycznie: 1000 zł = 800 zł podstawowych potrzeb + 100 zł wymaganych minimalnych spłat + 100 zł dobrowolnej rezerwy; nieprzypisane: 0 zł. Spłaty policzono raz. Przy zmiennym dochodzie aktualizuj plan; bez nadwyżki nie ma obowiązku odkładania. Plan nie gwarantuje braku nieprzewidzianych wydatków.",
+          "retryMessage": "To metoda planowania, nie nakaz wydania wszystkiego ani wyzerowania konta. Hipotetycznie: 1000 zł = 800 zł podstawowych potrzeb + 100 zł wymaganych minimalnych spłat + 100 zł dobrowolnej rezerwy; nieprzypisane: 0 zł. Spłaty policzono raz. Przy zmiennym dochodzie aktualizuj plan; bez nadwyżki nie ma obowiązku odkładania. Plan nie gwarantuje braku nieprzewidzianych wydatków.",
+          "category": "Budżet domowy"
+        },
+        "en": {
+          "id": "zero-based-budget",
+          "question": "What does “zero” mean in zero-based budgeting?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "You must spend everything and empty the account"
+            },
+            {
+              "id": "B",
+              "text": "Every available unit has a purpose in the plan, including reserves"
+            },
+            {
+              "id": "C",
+              "text": "Savings must equal zero"
+            },
+            {
+              "id": "D",
+              "text": "Only cash may be used"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "This is a planning method, not a requirement to spend everything or empty an account. Hypothetically: PLN 1000 = 800 for essential needs + 100 for required minimum repayments + 100 for a voluntary reserve; unallocated: PLN 0. Repayments are counted once. Update the plan when income varies; no surplus means no duty to save. The plan does not guarantee freedom from unexpected expenses.",
+          "retryMessage": "This is a planning method, not a requirement to spend everything or empty an account. Hypothetically: PLN 1000 = 800 for essential needs + 100 for required minimum repayments + 100 for a voluntary reserve; unallocated: PLN 0. Repayments are counted once. Update the plan when income varies; no surplus means no duty to save. The plan does not guarantee freedom from unexpected expenses.",
+          "category": "Budgeting"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Zero dotyczy nieprzypisanej kwoty w planie; przydział do rezerwy nie wymaga wydania ani wypłaty pieniędzy.",
+          "en": "Zero refers to unallocated money in the plan; assigning reserves does not require spending or withdrawing it."
+        },
+        "C": {
+          "pl": "Rezerwa lub oszczędności mogą mieć przydział w planie i dodatnie saldo.",
+          "en": "Reserves or savings can have a planned allocation and a positive balance."
+        },
+        "D": {
+          "pl": "To sposób planowania przydziałów, a nie ograniczenie do gotówki.",
+          "en": "This is a way to plan allocations, not a cash-only restriction."
+        }
+      },
+      "number_model": {
+        "kind": "hypothetical-PLN-allocation",
+        "assumptions": [
+          "Same illustrative period; PLN1000 available, not a national income estimate.",
+          "PLN800 essential needs excludes the separately counted PLN100 required minimum repayments.",
+          "PLN100 voluntary reserve is an allocation, not required consumption; no surplus never creates a savings obligation."
+        ],
+        "inputs": {
+          "availablePLN": 1000,
+          "essentialNeedsPLN": 800,
+          "requiredMinimumRepaymentsPLN": 100,
+          "voluntaryReservePLN": 100
+        },
+        "expression": "1000-(800+100+100)",
+        "result": {
+          "unallocatedPLN": 0
+        }
+      },
+      "habit_action": {
+        "pl": "Jeśli chcesz, przypisz jedną dostępną kwotę do celu. W trudnym okresie wróć do potrzeb i spłat; zmień plan bez presji.",
+        "en": "If you wish, assign one available amount to a purpose. In a difficult period return to needs and repayments; revise the plan without pressure."
+      },
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "budget-quiz-pl-en-v1-c32-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "questionLength": 37,
+          "wholeQuestionABCD": "Co oznacza „zero” w budżecie od zera? A. Trzeba wydać wszystko i opróżnić konto B. Każda dostępna złotówka ma cel w planie, także rezerwa C. Oszczędności muszą wynosić zero D. Wolno używać wyłącznie gotówki",
+          "wholeQuestionABCDLength": 206,
+          "conservativeWholeQuestionABCDLength": 210,
+          "successLength": 375,
+          "retryLength": 375
+        },
+        "en": {
+          "questionLength": 46,
+          "wholeQuestionABCD": "What does “zero” mean in zero-based budgeting? A. You must spend everything and empty the account B. Every available unit has a purpose in the plan, including reserves C. Savings must equal zero D. Only cash may be used",
+          "wholeQuestionABCDLength": 219,
+          "conservativeWholeQuestionABCDLength": 223,
+          "successLength": 386,
+          "retryLength": 386
+        }
+      }
+    },
+    {
+      "id": "track-before-budget",
+      "reward": 20,
+      "goal": {
+        "pl": "Wybrać dobrowolny, wykonalny sposób poznania wydatków bez uniwersalnego progu 30 dni.",
+        "en": "Choose a voluntary, manageable way to understand spending without a universal 30-day threshold."
+      },
+      "sources": [
+        "cfpb-tracker"
+      ],
+      "copy": {
+        "pl": {
+          "id": "track-before-budget",
+          "question": "Co może pomóc poznać wydatki przed ułożeniem lub zmianą budżetu?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Najpierw przez 30 dni wstrzymaj pilne podstawowe zakupy"
+            },
+            {
+              "id": "B",
+              "text": "Dobrowolnie przejrzyj własne wydatki przez dogodny okres i wybraną metodą"
+            },
+            {
+              "id": "C",
+              "text": "Każda osoba musi najpierw zebrać dokładnie 30 dni danych"
+            },
+            {
+              "id": "D",
+              "text": "Pożycz pieniądze zamiast sprawdzić wydatki"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "Możesz zacząć od dnia lub tygodnia własnych notatek, a potem rozszerzyć okres; 30 dni nie jest obowiązkowym warunkiem. Uwzględnij też rzadsze rachunki i zmienny dochód. Nie odkładaj pilnych podstawowych potrzeb ani wymaganych minimalnych spłat na czas obserwacji. Wybierz wygodną metodę i wróć do niej, gdy możesz; nie trzeba przekazywać danych aplikacji.",
+          "retryMessage": "Możesz zacząć od dnia lub tygodnia własnych notatek, a potem rozszerzyć okres; 30 dni nie jest obowiązkowym warunkiem. Uwzględnij też rzadsze rachunki i zmienny dochód. Nie odkładaj pilnych podstawowych potrzeb ani wymaganych minimalnych spłat na czas obserwacji. Wybierz wygodną metodę i wróć do niej, gdy możesz; nie trzeba przekazywać danych aplikacji.",
+          "category": "Budżet domowy"
+        },
+        "en": {
+          "id": "track-before-budget",
+          "question": "What can help you understand spending before making or revising a budget?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "First postpone urgent essential purchases for 30 days"
+            },
+            {
+              "id": "B",
+              "text": "Optionally review your own spending over a suitable period using a method you choose"
+            },
+            {
+              "id": "C",
+              "text": "Everyone must first collect exactly 30 days of data"
+            },
+            {
+              "id": "D",
+              "text": "Borrow money instead of checking spending"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "You can start with a day or week of your own notes and extend the period; 30 days is not a mandatory prerequisite. Include less frequent bills and variable income too. Do not postpone urgent essential needs or required minimum repayments while observing. Choose a manageable method and return when you can; you do not need to share data with the app.",
+          "retryMessage": "You can start with a day or week of your own notes and extend the period; 30 days is not a mandatory prerequisite. Include less frequent bills and variable income too. Do not postpone urgent essential needs or required minimum repayments while observing. Choose a manageable method and return when you can; you do not need to share data with the app.",
+          "category": "Budgeting"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Obserwacja nie uzasadnia odkładania pilnych podstawowych zakupów.",
+          "en": "Observation does not justify delaying urgent essential purchases."
+        },
+        "C": {
+          "pl": "Okres można dopasować; dokładnie 30 dni nie jest uniwersalnym warunkiem rozpoczęcia planu.",
+          "en": "The period can be adapted; exactly 30 days is not a universal condition for starting a plan."
+        },
+        "D": {
+          "pl": "Pożyczka nie zastępuje informacji o wydatkach i tworzy dodatkowe zobowiązanie.",
+          "en": "Borrowing does not replace spending information and creates another obligation."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "A day or week is an optional example, not a validated minimum or guaranteed effect."
+        ]
+      },
+      "habit_action": {
+        "pl": "Opcjonalnie zanotuj jeden wydatek w wybrany sposób. Jeśli przerwiesz, wróć od następnego dogodnego dnia, bez nadrabiania wszystkiego.",
+        "en": "Optionally note one expense in a way you choose. After a break, return on a convenient day without having to catch up on everything."
+      },
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "budget-quiz-pl-en-v1-c32-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "questionLength": 64,
+          "wholeQuestionABCD": "Co może pomóc poznać wydatki przed ułożeniem lub zmianą budżetu? A. Najpierw przez 30 dni wstrzymaj pilne podstawowe zakupy B. Dobrowolnie przejrzyj własne wydatki przez dogodny okres i wybraną metodą C. Każda osoba musi najpierw zebrać dokładnie 30 dni danych D. Pożycz pieniądze zamiast sprawdzić wydatki",
+          "wholeQuestionABCDLength": 306,
+          "conservativeWholeQuestionABCDLength": 310,
+          "successLength": 355,
+          "retryLength": 355
+        },
+        "en": {
+          "questionLength": 73,
+          "wholeQuestionABCD": "What can help you understand spending before making or revising a budget? A. First postpone urgent essential purchases for 30 days B. Optionally review your own spending over a suitable period using a method you choose C. Everyone must first collect exactly 30 days of data D. Borrow money instead of checking spending",
+          "wholeQuestionABCDLength": 318,
+          "conservativeWholeQuestionABCDLength": 322,
+          "successLength": 350,
+          "retryLength": 350
+        }
+      }
+    },
+    {
+      "id": "sinking-fund",
+      "reward": 25,
+      "goal": {
+        "pl": "Rozróżnić planowany koszt od nagłego zdarzenia i policzyć dobrowolną wpłatę w jawnym modelu.",
+        "en": "Distinguish a planned cost from an emergency and calculate a voluntary contribution in an explicit model."
+      },
+      "sources": [
+        "cfpb-savings-plan",
+        "cfpb-emergency"
+      ],
+      "copy": {
+        "pl": {
+          "id": "sinking-fund",
+          "question": "Na dobrowolny zakup za 600 zł za 6 miesięcy masz odłożone 0 zł. Ile wynosi 6 równych wpłat przed zakupem, pomijając odsetki i opłaty?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "600 zł co miesiąc"
+            },
+            {
+              "id": "B",
+              "text": "100 zł co miesiąc na ten planowany cel"
+            },
+            {
+              "id": "C",
+              "text": "0 zł, bo rezerwa gwarantuje pokrycie każdego kosztu"
+            },
+            {
+              "id": "D",
+              "text": "Pożyczka zawsze zastępuje taki plan"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "600 ÷ 6 = 100 zł miesięcznie w tym hipotetycznym planie. Fundusz celowy służy znanemu przyszłemu kosztowi; rezerwa awaryjna dotyczy nieoczekiwanych zdarzeń. Wpłaty są dobrowolne, po podstawowych potrzebach i wymaganych minimalnych spłatach. Bez nadwyżki zmień cel lub odłóż ten dobrowolny zakup; przy zmiennym dochodzie aktualizuj plan. Nie ma gwarancji uniknięcia długu.",
+          "retryMessage": "600 ÷ 6 = 100 zł miesięcznie w tym hipotetycznym planie. Fundusz celowy służy znanemu przyszłemu kosztowi; rezerwa awaryjna dotyczy nieoczekiwanych zdarzeń. Wpłaty są dobrowolne, po podstawowych potrzebach i wymaganych minimalnych spłatach. Bez nadwyżki zmień cel lub odłóż ten dobrowolny zakup; przy zmiennym dochodzie aktualizuj plan. Nie ma gwarancji uniknięcia długu.",
+          "category": "Budżet domowy"
+        },
+        "en": {
+          "id": "sinking-fund",
+          "question": "You have PLN 0 saved for an optional PLN 600 purchase in 6 months. What are 6 equal monthly contributions before purchase, ignoring interest and fees?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 600 each month"
+            },
+            {
+              "id": "B",
+              "text": "PLN 100 each month for this planned goal"
+            },
+            {
+              "id": "C",
+              "text": "PLN 0, because reserves guarantee every cost is covered"
+            },
+            {
+              "id": "D",
+              "text": "Borrowing always replaces such a plan"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "600 ÷ 6 = PLN 100 monthly in this hypothetical plan. A sinking fund is for a known future cost; emergency reserves cover unexpected events. Contributions are voluntary, after essential needs and required minimum repayments. With no surplus, change the goal or postpone this optional purchase; update the plan when income varies. There is no guarantee of avoiding debt.",
+          "retryMessage": "600 ÷ 6 = PLN 100 monthly in this hypothetical plan. A sinking fund is for a known future cost; emergency reserves cover unexpected events. Contributions are voluntary, after essential needs and required minimum repayments. With no surplus, change the goal or postpone this optional purchase; update the plan when income varies. There is no guarantee of avoiding debt.",
+          "category": "Budgeting"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Sześć wpłat po 600 zł dałoby 3600 zł, a założony cel to 600 zł.",
+          "en": "Six contributions of PLN 600 would total PLN 3600, while the stated goal is PLN 600."
+        },
+        "C": {
+          "pl": "Przy odłożonych 0 zł nie ma środków na zakup; żadna rezerwa nie gwarantuje pokrycia wszystkich kosztów.",
+          "en": "With PLN 0 saved, the purchase is not funded; no reserve guarantees coverage of every cost."
+        },
+        "D": {
+          "pl": "Pożyczka to odrębne zobowiązanie z warunkami i kosztami, nie uniwersalny zamiennik planu oszczędzania.",
+          "en": "Borrowing is a separate obligation with terms and costs, not a universal replacement for a savings plan."
+        }
+      },
+      "number_model": {
+        "kind": "hypothetical-PLN-planned-purchase",
+        "assumptions": [
+          "Optional purchase in6months, starting allocated savingsPLN0.",
+          "Six equal monthly contributions all occur before purchase.",
+          "Interest and fees are ignored; no price change is modelled.",
+          "Contributions are optional and only from surplus after essential needs and required minimum repayments counted once.",
+          "If surplus is insufficient, the optional purchase/goal can be deferred or changed; this is not permission to delay contractual or statutory obligations."
+        ],
+        "inputs": {
+          "goalPLN": 600,
+          "alreadyAllocatedPLN": 0,
+          "equalMonthlyContributions": 6,
+          "interestPLN": 0,
+          "feesPLN": 0
+        },
+        "expression": "(600-0)/6",
+        "result": {
+          "monthlyContributionPLN": 100
+        }
+      },
+      "habit_action": {
+        "pl": "Jeśli chcesz, wybierz mały planowany cel i sprawdź kwotę oraz termin. Przy braku nadwyżki przerwij dobrowolne wpłaty i wróć, gdy sytuacja pozwoli.",
+        "en": "If you wish, choose a small planned goal and check its amount and timing. With no surplus, pause voluntary contributions and return when circumstances allow."
+      },
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "budget-quiz-pl-en-v1-c32-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "questionLength": 133,
+          "wholeQuestionABCD": "Na dobrowolny zakup za 600 zł za 6 miesięcy masz odłożone 0 zł. Ile wynosi 6 równych wpłat przed zakupem, pomijając odsetki i opłaty? A. 600 zł co miesiąc B. 100 zł co miesiąc na ten planowany cel C. 0 zł, bo rezerwa gwarantuje pokrycie każdego kosztu D. Pożyczka zawsze zastępuje taki plan",
+          "wholeQuestionABCDLength": 290,
+          "conservativeWholeQuestionABCDLength": 294,
+          "successLength": 371,
+          "retryLength": 371
+        },
+        "en": {
+          "questionLength": 150,
+          "wholeQuestionABCD": "You have PLN 0 saved for an optional PLN 600 purchase in 6 months. What are 6 equal monthly contributions before purchase, ignoring interest and fees? A. PLN 600 each month B. PLN 100 each month for this planned goal C. PLN 0, because reserves guarantee every cost is covered D. Borrowing always replaces such a plan",
+          "wholeQuestionABCDLength": 316,
+          "conservativeWholeQuestionABCDLength": 320,
+          "successLength": 368,
+          "retryLength": 368
+        }
+      }
+    },
+    {
+      "id": "impulse-pause",
+      "reward": 20,
+      "goal": {
+        "pl": "Potraktować pauzę jako dobrowolną pomoc w decyzji o niepilnym zakupie, bez obietnicy efektu.",
+        "en": "Treat a pause as an optional decision aid for a non-urgent purchase without promising an effect."
+      },
+      "sources": [
+        "moneyhelper-pause"
+      ],
+      "copy": {
+        "pl": {
+          "id": "impulse-pause",
+          "question": "Co możesz opcjonalnie zrobić przed niepilnym, niekoniecznym zakupem?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Zawsze kup natychmiast, a koszt sprawdź później"
+            },
+            {
+              "id": "B",
+              "text": "Zrobić wybraną pauzę i sprawdzić potrzebę, cenę oraz plan"
+            },
+            {
+              "id": "C",
+              "text": "Odkładać także pilne podstawowe zakupy"
+            },
+            {
+              "id": "D",
+              "text": "Uznać, że każda pauza gwarantuje oszczędność"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "Możesz zrobić pauzę i wrócić do decyzji w dogodnym czasie. To opcja, nie obowiązkowe 24 godziny ani gwarancja oszczędności lub zmiany chęci zakupu. Nie odkładaj pilnych podstawowych potrzeb ani wymaganych minimalnych spłat. Po przerwie spokojnie sprawdź cenę, dostępne środki i priorytety; możesz zmienić decyzję bez presji.",
+          "retryMessage": "Możesz zrobić pauzę i wrócić do decyzji w dogodnym czasie. To opcja, nie obowiązkowe 24 godziny ani gwarancja oszczędności lub zmiany chęci zakupu. Nie odkładaj pilnych podstawowych potrzeb ani wymaganych minimalnych spłat. Po przerwie spokojnie sprawdź cenę, dostępne środki i priorytety; możesz zmienić decyzję bez presji.",
+          "category": "Budżet domowy"
+        },
+        "en": {
+          "id": "impulse-pause",
+          "question": "What could you optionally do before a non-urgent, non-essential purchase?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Always buy immediately and check the cost later"
+            },
+            {
+              "id": "B",
+              "text": "Take a pause you choose and check the need, price and plan"
+            },
+            {
+              "id": "C",
+              "text": "Postpone urgent essential purchases too"
+            },
+            {
+              "id": "D",
+              "text": "Assume every pause guarantees savings"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "You can pause and return to the decision at a suitable time. This is an option, not a mandatory 24 hours or a guarantee of savings or a change in desire to buy. Do not postpone urgent essential needs or required minimum repayments. After a break, calmly check the price, available money and priorities; you can revise the decision without pressure.",
+          "retryMessage": "You can pause and return to the decision at a suitable time. This is an option, not a mandatory 24 hours or a guarantee of savings or a change in desire to buy. Do not postpone urgent essential needs or required minimum repayments. After a break, calmly check the price, available money and priorities; you can revise the decision without pressure.",
+          "category": "Budgeting"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Zakup przed sprawdzeniem kosztu nie daje czasu na ocenę, czy mieści się w planie.",
+          "en": "Buying before checking the cost gives no time to assess whether it fits the plan."
+        },
+        "C": {
+          "pl": "Dobrowolna pauza przy niepilnych zachciankach nie oznacza odraczania pilnych podstawowych potrzeb.",
+          "en": "An optional pause for non-urgent wants does not mean delaying urgent essential needs."
+        },
+        "D": {
+          "pl": "Pauza nie gwarantuje oszczędności ani wygaśnięcia impulsu; efekt zależy od sytuacji.",
+          "en": "A pause does not guarantee savings or that an urge will fade; effects depend on circumstances."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "No fixed waiting period, effect size or research guarantee is taught."
+        ]
+      },
+      "habit_action": {
+        "pl": "Przy najbliższym niepilnym zakupie możesz wybrać chwilę namysłu. Jeśli kupisz od razu, wróć spokojnie do planu przy następnej okazji.",
+        "en": "For your next non-urgent purchase you may choose a moment to reflect. If you buy immediately, return calmly to the plan at the next opportunity."
+      },
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "budget-quiz-pl-en-v1-c32-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "questionLength": 68,
+          "wholeQuestionABCD": "Co możesz opcjonalnie zrobić przed niepilnym, niekoniecznym zakupem? A. Zawsze kup natychmiast, a koszt sprawdź później B. Zrobić wybraną pauzę i sprawdzić potrzebę, cenę oraz plan C. Odkładać także pilne podstawowe zakupy D. Uznać, że każda pauza gwarantuje oszczędność",
+          "wholeQuestionABCDLength": 270,
+          "conservativeWholeQuestionABCDLength": 274,
+          "successLength": 324,
+          "retryLength": 324
+        },
+        "en": {
+          "questionLength": 73,
+          "wholeQuestionABCD": "What could you optionally do before a non-urgent, non-essential purchase? A. Always buy immediately and check the cost later B. Take a pause you choose and check the need, price and plan C. Postpone urgent essential purchases too D. Assume every pause guarantees savings",
+          "wholeQuestionABCDLength": 270,
+          "conservativeWholeQuestionABCDLength": 274,
+          "successLength": 348,
+          "retryLength": 348
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-32/content-author-inventory.json",
+    "sha256": "7294143ae9858e9c7a66ca4a15075bfecd9885c25c94e01635eaf39ad3548ea2"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "test_runs": 0,
+    "helper_writes": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

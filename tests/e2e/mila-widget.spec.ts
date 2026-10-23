@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+test.skip(true, "External ConvAI is disabled in P0. Its absence is tested in p0-safety.spec.ts; these provider fixtures require a future reviewed adapter.");
+
 const LABELS = { en: "Start conversation", pl: "Rozpocznij rozmowę", ja: "会話を始める" } as const;
 const CHAT_LABELS = { en: "Start text chat", pl: "Rozpocznij czat", ja: "チャットを始める" } as const;
 type TestLocale = keyof typeof LABELS;

@@ -1,0 +1,9 @@
+# C47 — niezależny peer narzędzi
+
+17.10.2026, c47_dependencies. **CHANGES_REQUESTED_BEFORE_EXPERIMENT**. Bootstrap potwierdza wcześniejsze hashe i indeks bez odczytu profili; eksperyment izoluje package/lock w TEMP, ma pusty config/cache, npm lock-only/offline/ignore-scripts i ograniczenie50s. Kandydat wymaga dokładnej semantycznej delty dwóch korzeni i ośmiu wpisów bez innych zmian.
+
+Przed pierwszym uruchomieniem root ma zachować raw child receipt przed odczytem/parse manifestów (C47-DEP-TOOLS-01), usunąć NODE_OPTIONS/NODE_PATH z env dziecka (02) i zawęzić słowo network-disabled do faktycznego żądania npm --offline (NOTE01). Po zmianie potrzebny niezależny statyczny retest; obecnie brak GO. Recenzent nie uruchamiał npm/test/build ani nie zmieniał narzędzi/autorskich źródeł. Pełne piny i findings w [JSON](../../../evidence/cycle-47/tool-review.json).
+
+Retest statyczny: **GO_FOR_ONE_ISOLATED_OFFLINE_EXPERIMENT**, wszystkie3uwagi zamknięte. Raw child receipt zapisuje się przed czytaniem/parse candidate i ma osobny one-shot guard; NODE_OPTIONS/NODE_PATH usunięte; scope jawnie odróżnia npm offline od izolacji OS. Bootstrap pozostaje literalny. Pierwotne findings i hashe zachowane w historii JSON. GO obejmuje wyłącznie jeden bootstrap i jeden eksperyment; nie zatwierdza zastosowania kandydatów w repo ani automatycznych powtórzeń.
+
+Peer aplikacji kandydata: **GO_FOR_ONE_BOUNDED_MANIFEST_APPLICATION**. Child0 i pusty stderr potwierdzono z raw receipt. Niezależne porównanie bajtów potwierdza wyłącznie dwie linie deklaracji i osiem całych bloków lock, z zachowaniem CRLF.544wejścia,118historycznych ścieżek i8receipts zgodne przed mutacją.642entries po650przed,22rootdeps po24; brak pozostawionych odwołań do8usuniętych. Apply tool pinuje kandydatów i cały runtime poza uzasadnionym nowym lockSHA. Dwa zapisy manifestów nie są transakcją atomową; pełne oryginały zachowane. Testy/TS/build/finalaccept pending.

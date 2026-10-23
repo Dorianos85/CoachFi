@@ -1,8 +1,9 @@
 "use client";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Brain, CheckCircle2, XCircle } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { VoiceButton } from "@/components/VoiceButton";
@@ -10,8 +11,9 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
 import { getAllQuestionIds, getAllQuestions, getQuestionById } from "@/lib/allQuestions";
-import { getDueIds, getCardById, intervalLabel, masteryLevel, recordAnswer, calculateNext } from "@/lib/srs";
+import { getDueIds, intervalLabel, masteryLevel, recordAnswer } from "@/lib/srs";
 import type { SRSCard } from "@/lib/srs";
+import { createReviewSaveController, readReviewCards, type ReviewSaveTicket } from "@/lib/review-save";
 import { cn } from "@/lib/utils";
 
 // Confetti particle
@@ -288,6 +290,7 @@ function formatReviewInterval(card: SRSCard, locale: string): string {
 }
 
 export default function ReviewPage() {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
   const { markActive } = useStreak();
   const copy = getReviewCopy(locale);
@@ -299,52 +302,143 @@ export default function ReviewPage() {
   const [results, setResults] = useState<{ id: string; correct: boolean }[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [sessionDone, setSessionDone] = useState(false);
+  const [saveController] = useState(createReviewSaveController);
+  const [saveTicket, setSaveTicket] = useState<ReviewSaveTicket | null>(null);
+  const [session, setSession] = useState(0);
+  const [cards, setCards] = useState<SRSCard[]>([]);
+  const [savedCard, setSavedCard] = useState<SRSCard | null>(null);
+  const [loadIssue, setLoadIssue] = useState(false);
+  const [saveIssue, setSaveIssue] = useState<"retryable" | "uncertain" | null>(null);
+  const persistenceCopy = locale === "pl" ? {
+    read: "Nie udało się odczytać danych powtórek. Nie zmieniono zapisanych danych. Spróbuj ponownie.",
+    retryable: "Odpowiedź nie została zapisana. Sprawdź dostęp do danych i spróbuj ponownie.",
+    uncertain: "Nie udało się potwierdzić zapisu odpowiedzi. Ta sesja jest zablokowana, aby nie powtórzyć zapisu. Odśwież stronę i ponownie odczytaj dane lokalne.",
+    retry: "Spróbuj ponownie",
+  } : {
+    read: "Review data could not be read. Saved data was not changed. Try again.",
+    retryable: "The answer was not saved. Check data access and try again.",
+    uncertain: "The answer save could not be confirmed. This session is blocked to avoid repeating the write. Reload the page to read local data again.",
+    retry: "Try again",
+  };
+  const persistenceIssue = saveController.issue(storage) ?? saveIssue;
 
-  useEffect(() => {
-    const ids = getDueIds(getAllQuestionIds(locale));
-    setDueIds(ids);
+  useLayoutEffect(() => {
+    // Retire handlers before reading a new language, owner or explicit session.
+    saveController.retire();
+    setSaveTicket(null);
+    setSaveIssue(saveController.issue(storage));
+    setLoadIssue(false);
+    setDueIds([]);
+    setCards([]);
     setCurrentIndex(0);
     setSelected(null);
     setRevealed(false);
+    setSavedCard(null);
     setResults([]);
-    if (ids.length === 0) setSessionDone(true);
-    else setSessionDone(false);
-  }, [locale]);
+    setShowConfetti(false);
+    setSessionDone(false);
+    if (saveController.issue(storage)) return () => { saveController.retire(); };
+    try {
+      const snapshot = readReviewCards(storage);
+      const raw = JSON.stringify(snapshot);
+      // The due calculation reads this validated snapshot, never a second unchecked read.
+      const ids = getDueIds(getAllQuestionIds(locale), { ...storage,
+        getItem: key => key === "coachfi-srs" ? raw : storage.getItem(key) });
+      if (!storage.isCurrent()) return;
+      const ticket = saveController.begin(storage, { locale, questionId: ids[0] ?? "review-complete", session });
+      setSaveTicket(ticket);
+      setCards(snapshot);
+      setDueIds(ids);
+      setSessionDone(ids.length === 0);
+    } catch {
+      if (storage.isCurrent()) {
+        setSaveTicket(saveController.begin(storage, { locale, questionId: "review-read-retry", session }));
+        setLoadIssue(true);
+      }
+    }
+    return () => { saveController.retire(); };
+  }, [locale, storage, session, saveController]);
 
   const currentQuestion = useMemo(
     () => (dueIds[currentIndex] ? getQuestionById(dueIds[currentIndex], locale) : null),
     [dueIds, currentIndex, locale]
   );
 
-  const srsCard = currentQuestion ? getCardById(currentQuestion.id) : undefined;
+  const srsCard = currentQuestion ? cards.find(card => card.id === currentQuestion.id) : undefined;
   const level = srsCard ? masteryLevel(srsCard) : 0;
 
-  const handleReveal = useCallback(() => {
-    if (!selected || !currentQuestion) return;
-    setRevealed(true);
+  function handleReveal() {
+    if (!saveTicket || !saveController.current(saveTicket, storage)) return;
+    if (saveController.issue(storage)) { setSaveIssue("uncertain"); return; }
+    if (!selected || !currentQuestion || revealed || !saveController.isOpen(saveTicket, storage)) return;
     const correct = selected === currentQuestion.correctAnswer;
-    recordAnswer(currentQuestion.id, correct);
+    const acknowledgement: { card?: SRSCard } = {};
+    const result = saveController.run(saveTicket, storage, traced => {
+      acknowledgement.card = recordAnswer(currentQuestion.id, correct, traced);
+    }, correct ? () => markActive() : undefined);
+    if (result.status === "uncertain") {
+      if (storage.isCurrent()) setSaveIssue("uncertain");
+      return;
+    }
+    if (result.status === "ignored" || result.status === "stopped" || !saveController.current(saveTicket, storage)) return;
+    const updated = acknowledgement.card;
+    if (result.status !== "saved" || !updated) { setSaveIssue("retryable"); return; }
+    // Replace the ticket synchronously before publishing feedback or enabling Next.
+    const nextTicket = saveController.begin(storage, { locale, questionId: currentQuestion.id, session });
+    setSaveTicket(nextTicket);
+    setSaveIssue(null);
+    setSavedCard(updated);
+    setCards(previous => [...previous.filter(card => card.id !== updated.id), updated]);
+    setRevealed(true);
     setResults((r) => [...r, { id: currentQuestion.id, correct }]);
-    if (correct) markActive();
-  }, [selected, currentQuestion, markActive]);
+  }
 
   function handleNext() {
+    if (!saveTicket || !saveController.current(saveTicket, storage) || !revealed) return;
+    if (saveController.issue(storage)) { setSaveIssue("uncertain"); return; }
+    if (persistenceIssue) return;
+    saveController.retire(saveTicket);
     if (currentIndex + 1 >= dueIds.length) {
-      const correctCount = results.filter((r) => r.correct).length + (selected === currentQuestion?.correctAnswer ? 0 : 0);
+      const completeTicket = saveController.begin(storage, { locale, questionId: "review-complete", session });
+      setSaveTicket(completeTicket);
       const allCorrect = results.every((r) => r.correct);
       if (allCorrect) setShowConfetti(true);
       setSessionDone(true);
-      setTimeout(() => setShowConfetti(false), 2400);
+      setTimeout(() => { if (saveController.current(completeTicket, storage)) setShowConfetti(false); }, 2400);
     } else {
+      setSaveTicket(saveController.begin(storage, { locale, questionId: dueIds[currentIndex + 1], session }));
       setCurrentIndex((i) => i + 1);
       setSelected(null);
       setRevealed(false);
+      setSavedCard(null);
     }
+  }
+
+  function handleRestart() {
+    if (!saveTicket || !saveController.current(saveTicket, storage) || saveController.issue(storage)) return;
+    saveController.retire(saveTicket);
+    setSession(value => value + 1);
   }
 
   const correct = results.filter((r) => r.correct).length;
   const total = results.length;
   const progress = dueIds.length > 0 ? (currentIndex / dueIds.length) * 100 : 0;
+
+  if (loadIssue || persistenceIssue === "uncertain") {
+    return (
+      <section aria-labelledby="review-title">
+        <SectionHeader eyebrow={copy.eyebrow} title={copy.title} description="" readText={copy.readText} />
+        <div className="mx-auto max-w-xl rounded-2xl border border-attention/30 bg-warning/30 p-5">
+          <p role="alert" data-testid={persistenceIssue === "uncertain" ? "review-save-alert" : "review-load-alert"} className="font-bold text-text">{persistenceIssue === "uncertain" ? persistenceCopy.uncertain : persistenceCopy.read}</p>
+          {loadIssue && persistenceIssue !== "uncertain" && <Button className="mt-4" onClick={() => {
+            if (!saveTicket || !saveController.current(saveTicket, storage) || saveController.issue(storage)) return;
+            saveController.retire(saveTicket);
+            setSession(value => value + 1);
+          }}>{persistenceCopy.retry}</Button>}
+        </div>
+      </section>
+    );
+  }
 
   // ── All caught up ──
   if (dueIds.length === 0 && sessionDone) {
@@ -401,7 +495,7 @@ export default function ReviewPage() {
               })}
             </div>
 
-            <Button size="lg" className="mt-6 w-full" onClick={() => { setSessionDone(false); setCurrentIndex(0); setResults([]); setSelected(null); setRevealed(false); const ids = getDueIds(getAllQuestionIds(locale)); setDueIds(ids); }}>
+            <Button data-testid="review-restart" size="lg" className="mt-6 w-full" onClick={handleRestart}>
               {copy.reviewAgain}
             </Button>
           </motion.div>
@@ -445,6 +539,7 @@ export default function ReviewPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -32 }}
             transition={{ duration: 0.25 }}
+            data-testid="review-card"
             className="rounded-3xl bg-white p-6 shadow-soft"
           >
             {/* Header */}
@@ -464,7 +559,7 @@ export default function ReviewPage() {
             </div>
 
             <div className="flex items-start gap-2">
-              <p className="flex-1 text-lg font-black leading-7 text-text">{currentQuestion.question}</p>
+              <p data-testid="review-question" className="flex-1 text-lg font-black leading-7 text-text">{currentQuestion.question}</p>
               <VoiceButton text={currentQuestion.question} variant="icon" label="Przeczytaj pytanie" className="mt-0.5 shrink-0" />
             </div>
 
@@ -477,9 +572,15 @@ export default function ReviewPage() {
                 return (
                   <motion.button
                     key={answer.id}
+                    data-testid={`review-answer-${answer.id}`}
                     type="button"
                     whileTap={!revealed ? { scale: 0.98 } : {}}
-                    onClick={() => !revealed && setSelected(answer.id)}
+                    disabled={revealed}
+                    onClick={() => {
+                      if (!saveTicket || !saveController.current(saveTicket, storage)) return;
+                      if (saveController.issue(storage)) { setSaveIssue("uncertain"); return; }
+                      if (!revealed && saveController.isOpen(saveTicket, storage)) setSelected(answer.id);
+                    }}
                     className={cn(
                       "w-full rounded-xl border-2 px-4 py-3 text-left text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
                       !revealed && !isSelected && "border-primary/10 bg-white text-text hover:border-primary/30 hover:bg-primary/3",
@@ -515,9 +616,9 @@ export default function ReviewPage() {
                       <p className="mt-1.5 flex-1 leading-6 text-muted">{currentQuestion.explanation}</p>
                       <VoiceButton text={currentQuestion.explanation} variant="icon" label="Przeczytaj wyjaśnienie" className="mt-1.5 shrink-0" />
                     </div>
-                    {srsCard && (
-                      <p className="mt-2 text-xs font-black text-muted/70">
-                        {copy.nextReview} {formatReviewInterval(calculateNextForDisplay(srsCard, isCorrect), locale)}
+                    {savedCard && (
+                      <p data-testid="review-saved-date" className="mt-2 text-xs font-black text-muted/70">
+                        {copy.nextReview} {savedCard.nextReview}
                       </p>
                     )}
                   </div>
@@ -525,13 +626,14 @@ export default function ReviewPage() {
               )}
             </AnimatePresence>
 
+            {persistenceIssue === "retryable" && <p role="alert" data-testid="review-save-alert" className="mt-4 font-bold text-text">{persistenceCopy.retryable}</p>}
             <div className="mt-5 flex gap-3">
               {!revealed ? (
-                <Button size="lg" className="w-full" disabled={!selected} onClick={handleReveal}>
+                <Button data-testid="review-check" size="lg" className="w-full" disabled={!selected} onClick={handleReveal}>
                   {copy.checkAnswer}
                 </Button>
               ) : (
-                <Button size="lg" className="w-full" onClick={handleNext}>
+                <Button data-testid="review-next" size="lg" className="w-full" onClick={handleNext}>
                   {currentIndex + 1 >= dueIds.length ? copy.finishSession : `${copy.next} →`}
                 </Button>
               )}
@@ -541,9 +643,4 @@ export default function ReviewPage() {
       </div>
     </section>
   );
-}
-
-// display-only helper — does not persist
-function calculateNextForDisplay(card: Parameters<typeof calculateNext>[0], correct: boolean) {
-  return calculateNext(card, correct);
 }

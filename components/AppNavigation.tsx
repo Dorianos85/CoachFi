@@ -1,4 +1,5 @@
 "use client";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import { motion } from "framer-motion";
 import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut } from "@coinbase/cdp-hooks";
@@ -31,19 +32,23 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { getUser, getDisplayName } from "@/lib/user";
 import { getHealthCheck } from "@/lib/healthCheck";
+import { FINANCIAL_SCORE_MAX } from "@/lib/financial-score";
+import { CONSENT_CHANGED_EVENT } from "@/lib/consent";
 import { getDueCount } from "@/lib/srs";
+import { readReviewCards } from "@/lib/review-save";
 import { getAllQuestionIds } from "@/lib/allQuestions";
 
 import { AccessibilityToggle, type TextScale } from "@/components/AccessibilityToggle";
 import { ConsentManager } from "@/components/ConsentManager";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { LearningPathNavigation } from "@/components/LearningPathNavigation";
 import { AccountButton } from "@/components/AccountButton";
 import { ModeGate } from "@/components/ModeGate";
-import { ModeSwitcherBar } from "@/components/ModeSwitcherBar";
+import { ScopeUnavailable } from "@/components/ScopeUnavailable";
 
 import { Logo } from "@/components/Logo";
 
@@ -54,12 +59,15 @@ import { Badge } from "@/components/ui/badge";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
-import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
+import { endLearningSession } from "@/lib/account-sync";
+import { getStorageOwnershipSnapshot, subscribeStorageOwnership } from "@/lib/product-storage";
 import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
-import { hideSavedProgress, isProgressVisible } from "@/lib/progress-visibility";
+import { isProgressVisible } from "@/lib/progress-visibility";
 import { requestSignIn } from "@/lib/signInGate";
 import { getTokenBalance } from "@/lib/tokens";
+import { isFeatureEnabled, isRouteEnabled } from "@/lib/product-scope";
+import { isPublicLearningEntry, isSharedLearningShell } from "@/lib/learning-paths";
 import { cn } from "@/lib/utils";
 
 const cdpEnabled = Boolean(process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim());
@@ -74,6 +82,19 @@ const ACCOUNT_COPY: LocalizedMap<{ signIn: string; signOut: string }> = {
   hi: { signIn: "साइन इन करें", signOut: "साइन आउट करें" },
   "pt-BR": { signIn: "Entrar", signOut: "Sair" },
   tr: { signIn: "Giriş yap", signOut: "Çıkış yap" },
+};
+
+const HEADER_LOGOUT_COPY: LocalizedMap<{ pending: string; error: string; retry: string }> = {
+  en: {
+    pending: "Signing out...",
+    error: "Sign-out could not be completed. Try again.",
+    retry: "Retry sign-out",
+  },
+  pl: {
+    pending: "Trwa wylogowywanie...",
+    error: "Nie udało się zakończyć wylogowania. Spróbuj ponownie.",
+    retry: "Spróbuj wylogować ponownie",
+  },
 };
 
 const navIcons: Record<string, LucideIcon> = {
@@ -96,7 +117,7 @@ const navIcons: Record<string, LucideIcon> = {
 };
 
 const navHrefs: Record<string, string> = {
-  home: "/",
+  home: "/adult/dashboard",
   healthCheck: "/health-check",
   inflation: "/inflation",
   shopping: "/shopping",
@@ -387,6 +408,87 @@ const TEXT_SCALES: TextScale[] = ["normal", "large", "xlarge"];
 
 export function AppNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  return isSharedLearningShell(pathname)
+    ? <SharedLearningShell>{children}</SharedLearningShell>
+    : <AdultAppNavigation>{children}</AdultAppNavigation>;
+}
+
+/** This shell never mounts adult balances, diagnosis, review badges or streak cards. */
+function SharedLearningShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const { locale } = useLanguage();
+  const { openSettings } = useConsent();
+  const { openSettings: openModeSettings } = useMode();
+  const modeTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const [highContrast, setHighContrast] = useState(false);
+  const [textScale, setTextScale] = useState<TextScale>("normal");
+  const [accessibilityLoaded, setAccessibilityLoaded] = useState(false);
+  const pl = locale === "pl";
+  const footer = pickLocalized(FOOTER_COPY, locale);
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(ACCESSIBILITY_STORAGE_KEY);
+      if (raw) {
+        const value = JSON.parse(raw) as { highContrast?: unknown; textScale?: unknown };
+        setHighContrast(value.highContrast === true);
+        if (isTextScale(value.textScale)) setTextScale(value.textScale);
+      }
+    } catch { /* Device controls remain available for this visit. */ }
+    setAccessibilityLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (!accessibilityLoaded) return;
+    try { window.localStorage.setItem(ACCESSIBILITY_STORAGE_KEY, JSON.stringify({ highContrast, textScale })); }
+    catch { /* Device controls remain available when storage is blocked. */ }
+  }, [accessibilityLoaded, highContrast, textScale]);
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("text-scale-large", "text-scale-xlarge");
+    if (textScale !== "normal") root.classList.add(textScale === "large" ? "text-scale-large" : "text-scale-xlarge");
+    return () => root.classList.remove("text-scale-large", "text-scale-xlarge");
+  }, [textScale]);
+  return <div className={cn("app-shell min-h-screen bg-background text-text", highContrast && "high-contrast",
+    textScale === "large" && "text-scale-large", textScale === "xlarge" && "text-scale-xlarge")}>
+    <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-text">
+      {pl ? "Przejdź do głównej treści" : "Skip to main content"}
+    </a>
+    <header className="border-b border-border-subtle bg-surface">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+        <Link href="/" aria-label={pl ? "Strona główna Coach FI" : "Coach FI home"}
+          className="rounded-lg p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"><Logo size={30} /></Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <LanguageSwitcher />
+          <AccessibilityToggle compact highContrast={highContrast} textScale={textScale}
+            onToggleContrast={() => setHighContrast((value) => !value)} onTextScaleChange={setTextScale} />
+        </div>
+        <div className="w-full"><LearningPathNavigation /></div>
+      </div>
+    </header>
+    <main id="main-content" tabIndex={-1} className="mx-auto min-w-0 max-w-6xl px-4 py-6 sm:py-10">
+      {isRouteEnabled(pathname) ? children : <ScopeUnavailable />}
+    </main>
+    <footer className="border-t border-border-subtle bg-surface px-4 py-6 text-sm leading-6 text-muted">
+      <div className="mx-auto max-w-6xl space-y-3">
+        <p className="text-xs">{footer.disclaimer}</p>
+        <div className="flex flex-wrap gap-3">
+          <Link className="min-h-11 content-center font-bold text-primary underline" href="/terms">{footer.terms}</Link>
+          <Link className="min-h-11 content-center font-bold text-primary underline" href="/privacy">{footer.privacy}</Link>
+          <button type="button" className="min-h-11 rounded-lg border border-primary/20 px-3 font-bold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" onClick={openSettings}>{footer.consents}</button>
+          <button type="button" ref={modeTriggerRef} className="min-h-11 rounded-lg border border-primary/20 px-3 font-bold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" onClick={openModeSettings}>
+            {pl ? "Potwierdzenie wieku 18+" : "Age confirmation 18+"}
+          </button>
+        </div>
+      </div>
+    </footer>
+    <ModeGate returnFocusRef={modeTriggerRef} />
+    <ConsentManager deferPrompt={isPublicLearningEntry(pathname)} />
+  </div>;
+}
+
+function AdultAppNavigation({ children }: { children: React.ReactNode }) {
+  const { storage } = useProductStorage();
+  const modeTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const pathname = usePathname();
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
   const shellCopy = pickLocalized(SHELL_COPY, locale);
@@ -434,18 +536,33 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
   }, [accessibilityLoaded, highContrast, textScale]);
 
   useEffect(() => {
-    const user = getUser();
+    if (!storage.isCurrent()) return;
+    const user = getUser(storage);
     setUserName(getDisplayName(user));
-    setReviewDue(isProgressVisible() ? getDueCount(getAllQuestionIds(locale)) : 0);
-    setTokenBalance(getTokenBalance());
-    setHealthScore(getHealthCheck()?.score ?? null);
+    const updateReviewDue = () => {
+      if (!isProgressVisible()) { if (storage.isCurrent()) setReviewDue(0); return; }
+      try {
+        const raw = JSON.stringify(readReviewCards(storage));
+        const due = getDueCount(getAllQuestionIds(locale), { ...storage,
+          getItem: key => key === "coachfi-srs" ? raw : storage.getItem(key) });
+        if (storage.isCurrent()) setReviewDue(due);
+      } catch {
+        // The optional badge must not prevent Review from explaining a read error.
+        if (storage.isCurrent()) setReviewDue(0);
+      }
+    };
+    updateReviewDue();
+    setTokenBalance(getTokenBalance(storage));
+    setHealthScore(getHealthCheck(storage)?.score ?? null);
     const onStorage = () => {
-      setUserName(getDisplayName(getUser()));
-      setTokenBalance(getTokenBalance());
-      setReviewDue(isProgressVisible() ? getDueCount(getAllQuestionIds(locale)) : 0);
-      setHealthScore(getHealthCheck()?.score ?? null);
+      if (!storage.isCurrent()) return;
+      setUserName(getDisplayName(getUser(storage)));
+      setTokenBalance(getTokenBalance(storage));
+      updateReviewDue();
+      setHealthScore(getHealthCheck(storage)?.score ?? null);
     };
     window.addEventListener("coachfi-health-check", onStorage);
+    window.addEventListener(CONSENT_CHANGED_EVENT, onStorage);
     window.addEventListener("storage", onStorage);
     window.addEventListener("coachfi-user", onStorage);
     window.addEventListener("coachfi-tokens", onStorage);
@@ -458,8 +575,9 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       window.removeEventListener("coachfi-cloud-synced", onStorage);
       window.removeEventListener("coachfi-learning", onStorage);
       window.removeEventListener("coachfi-health-check", onStorage);
+      window.removeEventListener(CONSENT_CHANGED_EVENT, onStorage);
     };
-  }, [locale]);
+  }, [locale, storage]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -484,8 +602,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       icon: navIcons[key],
     };
   };
-  const navGroups = isKidsMode ? KIDS_NAV_GROUPS : NAV_GROUPS;
-  const mobileNavKeys: NavKey[] = isKidsMode ? ["kids"] : ["home", "healthCheck", "challenge", "coach", "kids"];
+  const navGroups = (isKidsMode ? KIDS_NAV_GROUPS : NAV_GROUPS)
+    .map((group) => ({ ...group, keys: group.keys.filter((key) => isRouteEnabled(navHrefs[key])) }))
+    .filter((group) => group.keys.length > 0);
+  const mobileNavKeys: NavKey[] = ["home", "healthCheck", "learn", "coach"];
   const mobileNavItems = mobileNavKeys.map(getNavItem);
 
   return (
@@ -557,6 +677,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       <div className="relative mx-auto flex max-w-[1480px] gap-6 px-4 pb-28 pt-6 lg:px-6">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label={shellCopy.primaryNav}>
           <div className="glass-panel sticky top-24 rounded-card p-3">
+            <div className="mb-4"><LearningPathNavigation /></div>
             {cdpEnabled ? (
               <SignedInPlanScore
                 copy={copy}
@@ -619,12 +740,13 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
-          {children}
+          <div className="mb-5 lg:hidden"><LearningPathNavigation /></div>
+          {isRouteEnabled(pathname) ? children : <ScopeUnavailable />}
         </motion.main>
       </div>
 
       <nav
-        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-card border border-border-subtle bg-surface p-2 shadow-soft lg:hidden"
+        className="fixed bottom-3 left-3 right-3 z-40 rounded-card border border-border-subtle bg-surface p-2 shadow-soft lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
         <div
@@ -649,11 +771,11 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         </div>
       </nav>
 
-      <ModeGate />
-      <ModeSwitcherBar highContrast={highContrast} />
+      <ModeGate returnFocusRef={modeTriggerRef} />
       <OnboardingModal
-        enabled={requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
-        onDone={() => setUserName(getDisplayName(getUser()))}
+        returnFocusRef={modeTriggerRef}
+        enabled={pathname !== "/adult" && requiredAccepted && modeLoaded && modeRecord?.mode === "adult"}
+        onDone={() => { if (storage.isCurrent()) setUserName(getDisplayName(getUser(storage))); }}
       />
       {modeRecord?.mode === "adult" && <NotificationBanner />}
       <ConsentManager />
@@ -664,16 +786,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
 
           {/* Partner badges */}
           <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="https://elevenlabs.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border-2 border-primary-border bg-white px-3 py-1.5 text-[11px] font-black text-text transition hover:bg-primary/10"
-            >
-              <Volume2 className="h-3 w-3" aria-hidden="true" />
-              Powered by ElevenLabs
-            </a>
-            <a
+            {isFeatureEnabled("web3") && <a
               href="https://solana.com"
               target="_blank"
               rel="noopener noreferrer"
@@ -683,7 +796,7 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 <path d="M64.6 237.9a11 11 0 0 1 7.8-3.2h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4l62.7-62.7zm0-164.7A11 11 0 0 1 72.4 70h317.4c4.9 0 7.4 5.9 3.9 9.4l-62.7 62.7a11 11 0 0 1-7.8 3.2H5.8c-4.9 0-7.4-5.9-3.9-9.4L64.6 73.2zM330 3.2A11 11 0 0 0 322.2 0H4.8C-.1 0-2.6 5.9.9 9.4l62.7 62.7a11 11 0 0 0 7.8 3.2h317.4c4.9 0 7.4-5.9 3.9-9.4L330 3.2z" fill="currentColor"/>
               </svg>
               Powered by Solana
-            </a>
+            </a>}
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -704,9 +817,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={openModeSettings}
+              ref={modeTriggerRef}
               className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface px-3 py-1.5 font-bold text-grape transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-[length:var(--cfx-ring-width)] focus-visible:ring-focus"
             >
-              <Baby className="h-3.5 w-3.5" aria-hidden="true" />
+              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
               {shellCopy.changeMode}
             </button>
             <Badge variant="muted">
@@ -731,6 +845,10 @@ function PlanScoreCard({
   healthScore: number | null;
   demoBadge: string;
 }) {
+  const { locale } = useLanguage();
+  const scoreMax = healthScore === null ? 100 : FINANCIAL_SCORE_MAX;
+  const milestones = healthScore === null ? scoreMilestones : [25, 50, 75, FINANCIAL_SCORE_MAX];
+  const scoreLabel = healthScore === null ? copy.scoreLabel : locale === "pl" ? "Lokalny indeks edukacyjny" : "Local educational index";
   return (
     <div className="mb-4 rounded-lg bg-primary p-4 text-on-primary shadow-glow">
       <div className="flex items-center justify-between gap-3">
@@ -738,30 +856,30 @@ function PlanScoreCard({
         <ShieldCheck className="h-5 w-5" aria-hidden="true" />
       </div>
       <div className="mt-3 flex items-center gap-2">
-        <p className="text-4xl font-black leading-none">{planScore}</p>
+        <p className="text-4xl font-black leading-none">{planScore}<span className="text-lg">/{scoreMax}</span></p>
         {healthScore === null && (
           <span className="rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide">
             {demoBadge}
           </span>
         )}
       </div>
-      <p className="mt-1 text-sm font-bold text-on-primary/80">{copy.scoreLabel}</p>
+      <p className="mt-1 text-sm font-bold text-on-primary/80">{scoreLabel}</p>
 
       <div className="mt-4">
         <div
           className="relative h-3 rounded-full bg-white/70"
           role="progressbar"
-          aria-label={copy.scoreLabel}
+          aria-label={scoreLabel}
           aria-valuemin={0}
-          aria-valuemax={100}
+          aria-valuemax={scoreMax}
           aria-valuenow={planScore}
         >
           <div
             className="h-full rounded-full bg-accent shadow-[0_0_18px_rgba(247,223,166,0.65)]"
-            style={{ width: `${planScore}%` }}
+            style={{ width: `${(planScore / scoreMax) * 100}%` }}
 
           />
-          {scoreMilestones.map((milestone) => {
+          {milestones.map((milestone) => {
             const reached = planScore >= milestone;
             return (
               <span
@@ -772,16 +890,16 @@ function PlanScoreCard({
                     ? "border-on-primary bg-accent text-text"
                     : "border-on-primary/60 bg-white text-on-primary/85"
                 )}
-                style={{ left: `${milestone}%` }}
+                style={{ left: `${(milestone / scoreMax) * 100}%` }}
                 aria-hidden="true"
               >
-                {milestone === 100 ? "*" : ""}
+                {milestone === scoreMax ? "*" : ""}
               </span>
             );
           })}
         </div>
         <div className="mt-2 grid grid-cols-4 text-[10px] font-black text-on-primary/80">
-          {scoreMilestones.map((milestone) => (
+          {milestones.map((milestone) => (
             <span key={milestone} className="text-center">
               {milestone}
             </span>
@@ -827,22 +945,100 @@ function HeaderProgress({ tokenBalance, tokenUnit }: { tokenBalance: number; tok
 }
 
 function HeaderAccount({ locale }: { locale: Locale }) {
+  const { storage } = useProductStorage();
   const { isInitialized } = useIsInitialized();
   const { isSignedIn } = useIsSignedIn();
   const { signOut } = useSignOut();
   const { getAccessToken } = useGetAccessToken();
   const copy = ACCOUNT_COPY[locale] ?? ACCOUNT_COPY.en;
+  const logoutCopy = pickLocalized(HEADER_LOGOUT_COPY, locale);
+  const [logoutStatus, setLogoutStatus] = useState<"idle" | "pending" | "error">("idle");
+  type LogoutAttempt = {
+    mount: object;
+    guest: ReturnType<typeof getStorageOwnershipSnapshot> | null;
+    pending: boolean;
+  };
+  const lifecycle = useRef<object | null>(null);
+  const logoutAttempt = useRef<LogoutAttempt | null>(null);
+
+  useEffect(() => {
+    const generation = {};
+    lifecycle.current = generation;
+    const unsubscribe = subscribeStorageOwnership(() => {
+      if (lifecycle.current !== generation) return;
+      const attempt = logoutAttempt.current;
+      // The synchronous detach publishes its guest before we capture it.
+      if (!attempt?.guest || getStorageOwnershipSnapshot() === attempt.guest) return;
+      logoutAttempt.current = null;
+      setLogoutStatus("idle");
+    });
+    return () => {
+      if (lifecycle.current === generation) {
+        lifecycle.current = null;
+        logoutAttempt.current = null;
+      }
+      unsubscribe();
+    };
+  }, []);
+
+  async function handleSignOut() {
+    const mount = lifecycle.current;
+    if (!mount || logoutAttempt.current?.pending || !storage.isCurrent()) return;
+    const attempt: LogoutAttempt = { mount, guest: null, pending: true };
+    logoutAttempt.current = attempt;
+    setLogoutStatus("pending");
+    const finish = (status: "idle" | "error") => {
+      if (lifecycle.current !== mount || logoutAttempt.current !== attempt) return;
+      if (!attempt.guest || getStorageOwnershipSnapshot() !== attempt.guest) {
+        logoutAttempt.current = null;
+        setLogoutStatus("idle");
+        return;
+      }
+      attempt.pending = false;
+      if (status === "idle") logoutAttempt.current = null;
+      setLogoutStatus(status);
+    };
+    try {
+      const detached = endLearningSession(undefined, storage);
+      const guest = getStorageOwnershipSnapshot();
+      if (guest.status === "ready" && guest.owner?.kind === "guest") attempt.guest = guest;
+      await detached;
+      if (lifecycle.current !== mount || logoutAttempt.current !== attempt ||
+        !attempt.guest || getStorageOwnershipSnapshot() !== attempt.guest) {
+        finish("idle");
+        return;
+      }
+      await signOut();
+      finish("idle");
+    } catch {
+      finish("error");
+    }
+  }
+
+  if (logoutStatus === "pending" || logoutStatus === "error") {
+    return (
+      <div className="flex max-w-xs flex-col items-start gap-2">
+        {logoutStatus === "error" ? (
+          <p role="alert" className="text-sm font-bold text-attention">{logoutCopy.error}</p>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => void handleSignOut()}
+          disabled={logoutStatus === "pending"}
+          aria-busy={logoutStatus === "pending" || undefined}
+          className="shrink-0 rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-black text-text transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-60"
+        >
+          {logoutStatus === "pending" ? <span role="status">{logoutCopy.pending}</span> : logoutCopy.retry}
+        </button>
+      </div>
+    );
+  }
 
   if (isSignedIn) {
     return (
       <button
         type="button"
-        onClick={() => {
-          hideSavedProgress();
-          void clearSignedInName(getAccessToken)
-            .then(() => endLearningSession())
-            .finally(() => signOut());
-        }}
+        onClick={() => void handleSignOut()}
         className="shrink-0 whitespace-nowrap rounded-lg border border-primary/15 bg-white px-3 py-2 text-sm font-black text-text transition hover:border-destructive/40 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
         {copy.signOut}
@@ -854,7 +1050,7 @@ function HeaderAccount({ locale }: { locale: Locale }) {
     <button
       type="button"
       disabled={!isInitialized}
-      onClick={() => requestSignIn()}
+      onClick={() => { if (storage.isCurrent()) requestSignIn(); }}
       className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-button cf-press bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-60"
     >
       {!isInitialized ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Sparkles, UserRoundCheck } from "lucide-react";
+import { Baby, UserRoundCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useMode, type CoachFiMode } from "@/context/ModeContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { nextBarState, type BarScrollState } from "@/lib/scrollVisibility";
+import { isFeatureEnabled } from "@/lib/product-scope";
 
 const COPY: LocalizedMap<{ group: string; option: string; kids: string; teen: string; adult: string }> = {
   en: { group: "Choose mode", option: "{label} mode", kids: "Kids", teen: "Teen", adult: "Adult" },
@@ -25,7 +26,6 @@ const COPY: LocalizedMap<{ group: string; option: string; kids: string; teen: st
 
 const OPTIONS: Array<{ mode: CoachFiMode; icon: LucideIcon; home: string }> = [
   { mode: "kids", icon: Baby, home: "/kids" },
-  { mode: "teen", icon: Sparkles, home: "/" },
   { mode: "adult", icon: UserRoundCheck, home: "/" },
 ];
 
@@ -42,7 +42,7 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
   const pathname = usePathname();
   const { locale } = useLanguage();
   const copy = pickLocalized(COPY, locale);
-  const { selectAdultMode, selectTeenMode, selectKidsMode } = useMode();
+  const { selectAdultMode, selectKidsMode } = useMode();
   const [visible, setVisible] = useState(true);
   const dockRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,7 +52,6 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
   function choose(next: CoachFiMode, home: string) {
     if (next === mode) return;
     if (next === "kids") selectKidsMode();
-    else if (next === "teen") selectTeenMode();
     else selectAdultMode();
     router.push(home);
   }
@@ -67,10 +66,10 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
         role="group"
         aria-label={copy.group}
         data-theme={highContrast || mode === "adult" ? undefined : mode}
-        className="mode-switcher pointer-events-auto grid w-full max-w-md grid-cols-3 gap-1 p-1 lg:w-[26rem]"
+        className="mode-switcher pointer-events-auto grid w-full max-w-md grid-cols-1 gap-1 p-1 lg:w-[26rem]"
         onFocus={() => setVisible(true)}
       >
-        {OPTIONS.map((option) => {
+        {OPTIONS.filter((option) => option.mode === "adult" || isFeatureEnabled("kids")).map((option) => {
           const label = copy[option.mode];
           const active = option.mode === mode;
           return (

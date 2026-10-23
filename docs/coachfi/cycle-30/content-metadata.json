@@ -1,0 +1,725 @@
+{
+  "schema_version": 1,
+  "cycle": 30,
+  "module": null,
+  "version": "challenge-evidence-pl-en-v1-c30-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 5,
+  "language_versions": 10,
+  "wrong_rationale_count": 15,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 250,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/challengeQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "c16",
+      "c17",
+      "c18",
+      "c19",
+      "c20"
+    ],
+    "keys": [
+      "D",
+      "B",
+      "C",
+      "B",
+      "C"
+    ],
+    "rawEN": "5 existing objects; raw category absent, Deep Dive inherited canonical only.",
+    "PL": "5 NEW own properties, absent before. Override count71→76, category Wyzwanie; bank IDs remain82.",
+    "protected": "All acceptedc1–c15 source bytes,62quiz, seven explicit target translations each, app/rotation/utilitywriters/SRS/reward/stage/topic/defaultpools literal."
+  },
+  "sources": [
+    {
+      "id": "oecd-poland-2022",
+      "publisher": "OECD",
+      "title": "Financial Literacy in Poland: Relevance, evidence and provision (2022)",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/09/financial-literacy-in-poland_b03b02c0/f5f2adc3-en.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh primary full PDF relevant text sections read; pages16/40/41/44 (printed).",
+      "bounded_use": "Historical context and distinctions among survey measures. Not a current population estimate or causal model.",
+      "limits": "The report contains historical13/21,26.9% and trust references; they are not declared universally false. No percentage or national score is taught as current in the new copy."
+    },
+    {
+      "id": "oecd-toolkit-2022",
+      "publisher": "OECD",
+      "title": "OECD/INFE Toolkit for Measuring Financial Literacy and Financial Inclusion2022",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2022/03/oecd-infe-toolkit-for-measuring-financial-literacy-and-financial-inclusion-2022_54dba970/cbc4114f-en.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official PDF, scoring guidance printed page46 read.",
+      "bounded_use": "Historical method change: overall score0..20, with rescaled attitudes; comparability requires attention to questionnaire/scoring versions.",
+      "limits": "Not the newest Toolkit; included to prevent presenting hypothetical21 as a current OECD scale. No copied scoring system or new user score."
+    },
+    {
+      "id": "oecd-toolkit-2026",
+      "publisher": "OECD",
+      "title": "OECD/INFE Toolkit for Measuring Financial Literacy, Inclusion and Well-Being2026",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2026/01/oecd-infe-toolkit-for-measuring-financial-literacy-inclusion-and-well-being-2026_6e8d9566/92f2d439-en.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official PDF, methods and attitude items QS1 plus AnnexA printed pages27/53 read.",
+      "bounded_use": "Sampling, question wording and measurement versions matter; stated attitudes and other measures are distinct.",
+      "limits": "Own educational wording is not an OECD questionnaire, endorsement or validated Coachfi score. No new population estimate or data collection."
+    },
+    {
+      "id": "cfpb-emergency",
+      "publisher": "CFPB",
+      "title": "An essential guide to building an emergency fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh public primary guide sections definition/size/variableincome/access read.",
+      "bounded_use": "A separate accessible emergency reserve can have a situation-based goal and small start. Own PLN cash-flow exercise.",
+      "limits": "Essential needs and required minimum repayments first is explicit Coachfi framing; no compulsorysaving, universalmonthtarget, product/return/coverageguarantee or US law imported."
+    },
+    {
+      "id": "cfpb-wellbeing",
+      "publisher": "CFPB",
+      "title": "Explore Financial Well-being Findings",
+      "url": "https://www.consumerfinance.gov/consumer-tools/educator-tools/financial-well-being-resources/explore-findings/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh primary framework page and factors section read.",
+      "bounded_use": "Financial well-being includes obligations, shocks, goals and choices; some contributing factors are beyond personal control.",
+      "limits": "No quantified causal effect, psychological treatment promise, UScomparison/validatedCoachfiscore or new personal data."
+    }
+  ],
+  "questions": [
+    {
+      "id": "c16",
+      "correctAnswer": "D",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-evidence-pl-en-v1-c30-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Compare survey measurements without converting declared trust into a safety or wealth certificate.",
+      "copy": {
+        "pl": {
+          "id": "c16",
+          "question": "Która lista jest najpełniejsza przy porównywaniu ankiet o zaufaniu do instytucji finansowych?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Tylko nagłówek publikacji"
+            },
+            {
+              "id": "B",
+              "text": "Tylko rok, bez informacji o próbie"
+            },
+            {
+              "id": "C",
+              "text": "Liczba polubień publikacji"
+            },
+            {
+              "id": "D",
+              "text": "Rok, próba, treść pytania i metoda pomiaru"
+            }
+          ],
+          "correctAnswer": "D",
+          "explanation": "Sprawdź, kogo i kiedy badano, o co pytano oraz jak liczono wynik. Różne pytania lub próby ograniczają porównywalność. Deklarowane zaufanie nie jest certyfikatem bezpieczeństwa konkretnej instytucji ani dowodem wpływu na majątek.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c16",
+          "question": "Which checklist is most complete when comparing surveys of trust in financial institutions?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Only the publication headline"
+            },
+            {
+              "id": "B",
+              "text": "Only the year, without sample information"
+            },
+            {
+              "id": "C",
+              "text": "The number of likes on the publication"
+            },
+            {
+              "id": "D",
+              "text": "Year, sample, question wording and measurement method"
+            }
+          ],
+          "correctAnswer": "D",
+          "explanation": "Check who was surveyed, when, what was asked and how the result was calculated. Different questions or samples limit comparability. Declared trust is not a certificate that a particular institution is safe or proof of an effect on wealth.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Nagłówek nie zastępuje opisu próby, pytania ani metody.",
+          "en": "A headline does not replace the sample, question or method description."
+        },
+        "B": {
+          "pl": "Rok jest przydatny, ale sama data nie wystarcza do rzetelnego porównania różnych pytań i prób.",
+          "en": "The year is useful, but a date alone cannot establish comparability across questions and samples."
+        },
+        "C": {
+          "pl": "Popularność publikacji nie wyjaśnia, jak i kogo badano.",
+          "en": "Publication popularity does not explain how or whom researchers surveyed."
+        }
+      },
+      "source_ids": [
+        "oecd-poland-2022",
+        "oecd-toolkit-2026"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "new_population_percentage": null,
+        "trust_not_safety_or_wealth_effect": true,
+        "compare_year_sample_item_method": true
+      }
+    },
+    {
+      "id": "c17",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-evidence-pl-en-v1-c30-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Interpret a hypothetical score gap as points, not financial outcomes or a current OECD scale.",
+      "copy": {
+        "pl": {
+          "id": "c17",
+          "question": "Ćwiczenie: w wymyślonej skali 0–21 pkt uzyskano 13 pkt. Co oznacza różnica do maksimum?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "8 utraconych szans na zysk"
+            },
+            {
+              "id": "B",
+              "text": "8 punktów według przyjętego klucza, nie diagnozę majątku"
+            },
+            {
+              "id": "C",
+              "text": "8 miesięcy bez pieniędzy"
+            },
+            {
+              "id": "D",
+              "text": "8 osób bez konta"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "21 − 13 = 8 punktów w tym ćwiczeniu. To wymyślona skala, nie aktualna skala OECD; punkty nie oznaczają liczby pytań. Same punkty nie dowodzą zachowania, zadłużenia, odporności ani przyczyn problemów. Wynik badania wymaga roku, próby, pytań i klucza; wersje pomiaru mogą się różnić.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c17",
+          "question": "Exercise: a made-up 0–21-point scale gives a score of 13. What does the gap to the maximum mean?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "8 lost opportunities for profit"
+            },
+            {
+              "id": "B",
+              "text": "8 points under the chosen scoring key, not a wealth diagnosis"
+            },
+            {
+              "id": "C",
+              "text": "8 months without money"
+            },
+            {
+              "id": "D",
+              "text": "8 people without an account"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "21 − 13 = 8 points in this exercise. This made-up scale is not the current OECD scale; points are not a count of questions. Points alone prove neither behaviour, debt, resilience nor the causes of difficulties. Survey results need a year, sample, questions and scoring key; measurement versions can differ.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Punktów nie przelicza się automatycznie na utracone okazje ani zysk.",
+          "en": "Points do not automatically translate into lost opportunities or profit."
+        },
+        "C": {
+          "pl": "Jednostką ćwiczenia są punkty, nie miesiące utrzymania.",
+          "en": "The exercise uses points, not months of living expenses."
+        },
+        "D": {
+          "pl": "Różnica punktowa nie określa liczby osób ani posiadania konta.",
+          "en": "The point gap is not a count of people or account ownership."
+        }
+      },
+      "source_ids": [
+        "oecd-poland-2022",
+        "oecd-toolkit-2022",
+        "oecd-toolkit-2026"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "made_up_point_scale": true,
+        "minimum": 0,
+        "maximum": 21,
+        "score": 13,
+        "gap": 8,
+        "units": "points",
+        "not_current_OECD_scale": true,
+        "not_question_count": true,
+        "no_population_or_causal_outcome_claim": true
+      }
+    },
+    {
+      "id": "c18",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-evidence-pl-en-v1-c30-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Choose an affordable voluntary action without promising stress elimination or blaming financial circumstances.",
+      "copy": {
+        "pl": {
+          "id": "c18",
+          "question": "Ćwiczenie: w tym miesiącu po podstawowych potrzebach i wymaganych minimalnych spłatach zostaje 50 zł. Który krok jest dobrowolny i mieści się w tej kwocie?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Pożyczyć 100 zł, by koniecznie odłożyć 100"
+            },
+            {
+              "id": "B",
+              "text": "Pominąć wymaganą spłatę"
+            },
+            {
+              "id": "C",
+              "text": "Wybrać 10 zł na rezerwę i zostawić 40 zł"
+            },
+            {
+              "id": "D",
+              "text": "Założyć, że mały przelew usunie cały stres"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "50 − 10 = 40 zł w tym samym miesiącu; podstawy i wymagane spłaty uwzględniono już raz. Mały krok jest opcją, nie obowiązkiem ani gwarancją braku stresu. Gdy nie ma nadwyżki, wstrzymaj wpłatę; nie pożyczaj na oszczędzanie. Przy zmiennym dochodzie wróć do planu i dostosuj kwotę.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c18",
+          "question": "Exercise: this month, PLN 50 remains after essential needs and required minimum repayments. Which step is voluntary and fits within that amount?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Borrow PLN 100 to make a compulsory saving of 100"
+            },
+            {
+              "id": "B",
+              "text": "Skip a required repayment"
+            },
+            {
+              "id": "C",
+              "text": "Choose PLN 10 for a reserve and leave PLN 40"
+            },
+            {
+              "id": "D",
+              "text": "Assume a small transfer will remove all stress"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "50 − 10 = PLN 40 in the same month; essentials and required repayments were already counted once. A small step is an option, not a duty or a guarantee of no stress. Without a surplus, pause contributions; do not borrow to save. When income varies, return to the plan and adjust the amount.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Cel oszczędzania nie uzasadnia wymuszania nowego długu ani obowiązkowej wpłaty.",
+          "en": "A savings goal does not justify forcing new debt or a compulsory contribution."
+        },
+        "B": {
+          "pl": "Wymaganych spłat nie pomija się, aby wykonać dobrowolny przelew na rezerwę.",
+          "en": "Required repayments are not skipped to make an optional reserve transfer."
+        },
+        "D": {
+          "pl": "Jedna czynność nie gwarantuje zniknięcia stresu ani kontroli nad wszystkimi okolicznościami.",
+          "en": "One action guarantees neither the removal of stress nor control over all circumstances."
+        }
+      },
+      "source_ids": [
+        "cfpb-emergency",
+        "cfpb-wellbeing"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "same month",
+        "hypothetical": true,
+        "surplus_after_essential_needs_and_required_minimum_repayments": 50,
+        "optional_transfer": 10,
+        "remainder": 40,
+        "required_minimum_repayments_already_counted_once": true,
+        "no_surplus_pause": true,
+        "irregular_income_adjust": true,
+        "no_borrowing_to_save": true,
+        "no_guaranteed_psychological_or_financial_effect": true
+      }
+    },
+    {
+      "id": "c19",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-evidence-pl-en-v1-c30-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Recognize an emergency reserve and adapt a voluntary target to circumstances.",
+      "copy": {
+        "pl": {
+          "id": "c19",
+          "question": "Który termin oznacza środki odłożone na nagłe, nieplanowane wydatki?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Pensja za bieżącą pracę"
+            },
+            {
+              "id": "B",
+              "text": "Poduszka finansowa"
+            },
+            {
+              "id": "C",
+              "text": "Wymagana pożyczka na oszczędzanie"
+            },
+            {
+              "id": "D",
+              "text": "Pewny zysk z inwestycji"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Poduszka to oddzielona rezerwa na nagłe wydatki. Cel dopasuj do sytuacji; mały start jest dobrowolny, bez jednego obowiązkowego progu. Najpierw podstawowe potrzeby i wymagane minimalne spłaty; bez nadwyżki wstrzymaj wpłatę. Sprawdź dostępność i ryzyko; rezerwa nie pokryje automatycznie każdego zdarzenia.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c19",
+          "question": "Which Polish term means money set aside for unexpected, unplanned expenses?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Pay for current work"
+            },
+            {
+              "id": "B",
+              "text": "Poduszka finansowa (emergency reserve)"
+            },
+            {
+              "id": "C",
+              "text": "A required loan to fund savings"
+            },
+            {
+              "id": "D",
+              "text": "A certain investment profit"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "An emergency reserve is kept separately for unexpected expenses. Adapt the goal to your circumstances; a small start is voluntary, with no single mandatory threshold. First protect essential needs and required minimum repayments; without a surplus, pause contributions. Check access and risk; a reserve cannot automatically cover every event.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Pensja to wpływ za pracę, nie nazwa środków wydzielonych na nagłe wydatki.",
+          "en": "Pay is income from work, not the name for funds earmarked for emergencies."
+        },
+        "C": {
+          "pl": "Rezerwa nie oznacza obowiązku zaciągania pożyczki; wpłaty zależą od dostępnej nadwyżki.",
+          "en": "A reserve does not require taking a loan; contributions depend on an available surplus."
+        },
+        "D": {
+          "pl": "Cel rezerwy nie oznacza pewnego zysku z inwestycji ani pokrycia każdego ryzyka.",
+          "en": "A reserve goal means neither a certain investment profit nor coverage of every risk."
+        }
+      },
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "personal_optional_goal": true,
+        "no_universal_month_threshold": true,
+        "small_start_voluntary_after_essentials_and_required_minimum_repayments": true,
+        "no_surplus_pause": true,
+        "access_and_risk_need_check": true,
+        "no_blanket_event_or_yield_guarantee": true
+      }
+    },
+    {
+      "id": "c20",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-evidence-pl-en-v1-c30-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Distinguish stated financial attitudes from knowledge, actual behaviour and financial circumstances.",
+      "copy": {
+        "pl": {
+          "id": "c20",
+          "question": "Co w ankiecie opisują postawy wobec pieniędzy?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Liczbę posiadanych produktów"
+            },
+            {
+              "id": "B",
+              "text": "Poziom dochodu i stan majątku"
+            },
+            {
+              "id": "C",
+              "text": "Deklarowane nastawienie do wydawania, oszczędzania i przyszłości"
+            },
+            {
+              "id": "D",
+              "text": "Gwarantowaną zdolność spłaty"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "To deklarowane opinie, np. o wydawaniu dziś i oszczędzaniu na przyszłość. Nie są testem wiedzy ani pełnym pomiarem zachowania lub sytuacji finansowej. Same deklaracje nie dowodzą przyczyny trudności ani przyszłego wyniku. Możliwości zależą też od dochodu i koniecznych kosztów; nie oceniaj osoby.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c20",
+          "question": "What do attitudes towards money describe in a survey?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "The number of products owned"
+            },
+            {
+              "id": "B",
+              "text": "Income level and wealth"
+            },
+            {
+              "id": "C",
+              "text": "Stated views on spending, saving and the future"
+            },
+            {
+              "id": "D",
+              "text": "Guaranteed repayment capacity"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "These are stated views, such as spending today versus saving for the future. They are not a knowledge test or a full measure of behaviour or financial circumstances. Stated views alone prove neither the cause of difficulties nor a future outcome. Income and essential costs also shape possibilities; avoid judging the person.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Liczba produktów dotyczy ich posiadania, nie deklarowanych opinii.",
+          "en": "Product counts measure ownership, not stated views."
+        },
+        "B": {
+          "pl": "Dochód i majątek opisują zasoby, a nie same postawy; nie należy ich utożsamiać.",
+          "en": "Income and wealth describe resources, not attitudes alone; they are distinct measures."
+        },
+        "D": {
+          "pl": "Zdolności spłaty nie gwarantuje deklarowane nastawienie; wymaga ona uwzględnienia rzeczywistych środków i zobowiązań.",
+          "en": "Stated attitudes guarantee no repayment capacity, which requires considering actual resources and obligations."
+        }
+      },
+      "source_ids": [
+        "oecd-toolkit-2026",
+        "cfpb-wellbeing"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "new_population_percentage": null,
+        "stated_attitudes_separate_from_knowledge_behaviour_resources": true,
+        "no_causal_or_future_outcome_guarantee": true,
+        "no_culture_or_person_judgment": true
+      }
+    }
+  ],
+  "old_claim_assessment": {
+    "c16": "OECD2022 printedp16 reports about15% as ofFebruary2022 and6% in2021, with differing wording/context. This is not evidence of a fall from2022 to2021 or a current estimate. Replace decontextualized comparison; do not label both historical figures false.",
+    "c17": "Report contains historical13/21. Its gap is not a demonstrated count of lost opportunities or financial outcomes. New21-point scale is explicitly made-up, not currentOECD or21questions.",
+    "c18": "Historical46.2% appears in reportp44. The specific psychological-defense/required mindset causal narrative is not established by that survey item. Newscenario is optional and promises no stress effect.",
+    "c19": "Existing term is correct; new feedback qualifies personal goal/access/risk and required obligations. No zero-risk statement was reproduced as baseline.",
+    "c20": "Historical26.9% and46.9% are reported under that survey method. Newcopy removes stale proportion and cultural diagnosis; current attitude examples do not prove behaviour/resources/causality."
+  },
+  "voice_checks": {
+    "actualQuestionFormat": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\". \")",
+    "actualFeedbackFormat": "actual correctBanner or wrongBanner + \". \" + explanation",
+    "bannerSource": "Actual pure i18n translations captured in content-author-inventory.json",
+    "maximum": 404,
+    "cases": [
+      {
+        "id": "c16",
+        "locale": "pl",
+        "question_text": "Która lista jest najpełniejsza przy porównywaniu ankiet o zaufaniu do instytucji finansowych?. A. Tylko nagłówek publikacji. B. Tylko rok, bez informacji o próbie. C. Liczba polubień publikacji. D. Rok, próba, treść pytania i metoda pomiaru",
+        "question_length": 240,
+        "explanation_length": 228,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Sprawdź, kogo i kiedy badano, o co pytano oraz jak liczono wynik. Różne pytania lub próby ograniczają porównywalność. Deklarowane zaufanie nie jest certyfikatem bezpieczeństwa konkretnej instytucji ani dowodem wpływu na majątek.",
+        "correct_feedback_length": 261,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Sprawdź, kogo i kiedy badano, o co pytano oraz jak liczono wynik. Różne pytania lub próby ograniczają porównywalność. Deklarowane zaufanie nie jest certyfikatem bezpieczeństwa konkretnej instytucji ani dowodem wpływu na majątek.",
+        "wrong_feedback_length": 285,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c16",
+        "locale": "en",
+        "question_text": "Which checklist is most complete when comparing surveys of trust in financial institutions?. A. Only the publication headline. B. Only the year, without sample information. C. The number of likes on the publication. D. Year, sample, question wording and measurement method",
+        "question_length": 272,
+        "explanation_length": 238,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. Check who was surveyed, when, what was asked and how the result was calculated. Different questions or samples limit comparability. Declared trust is not a certificate that a particular institution is safe or proof of an effect on wealth.",
+        "correct_feedback_length": 272,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. Check who was surveyed, when, what was asked and how the result was calculated. Different questions or samples limit comparability. Declared trust is not a certificate that a particular institution is safe or proof of an effect on wealth.",
+        "wrong_feedback_length": 300,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c17",
+        "locale": "pl",
+        "question_text": "Ćwiczenie: w wymyślonej skali 0–21 pkt uzyskano 13 pkt. Co oznacza różnica do maksimum?. A. 8 utraconych szans na zysk. B. 8 punktów według przyjętego klucza, nie diagnozę majątku. C. 8 miesięcy bez pieniędzy. D. 8 osób bez konta",
+        "question_length": 229,
+        "explanation_length": 281,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. 21 − 13 = 8 punktów w tym ćwiczeniu. To wymyślona skala, nie aktualna skala OECD; punkty nie oznaczają liczby pytań. Same punkty nie dowodzą zachowania, zadłużenia, odporności ani przyczyn problemów. Wynik badania wymaga roku, próby, pytań i klucza; wersje pomiaru mogą się różnić.",
+        "correct_feedback_length": 314,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. 21 − 13 = 8 punktów w tym ćwiczeniu. To wymyślona skala, nie aktualna skala OECD; punkty nie oznaczają liczby pytań. Same punkty nie dowodzą zachowania, zadłużenia, odporności ani przyczyn problemów. Wynik badania wymaga roku, próby, pytań i klucza; wersje pomiaru mogą się różnić.",
+        "wrong_feedback_length": 338,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c17",
+        "locale": "en",
+        "question_text": "Exercise: a made-up 0–21-point scale gives a score of 13. What does the gap to the maximum mean?. A. 8 lost opportunities for profit. B. 8 points under the chosen scoring key, not a wealth diagnosis. C. 8 months without money. D. 8 people without an account",
+        "question_length": 257,
+        "explanation_length": 306,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. 21 − 13 = 8 points in this exercise. This made-up scale is not the current OECD scale; points are not a count of questions. Points alone prove neither behaviour, debt, resilience nor the causes of difficulties. Survey results need a year, sample, questions and scoring key; measurement versions can differ.",
+        "correct_feedback_length": 340,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. 21 − 13 = 8 points in this exercise. This made-up scale is not the current OECD scale; points are not a count of questions. Points alone prove neither behaviour, debt, resilience nor the causes of difficulties. Survey results need a year, sample, questions and scoring key; measurement versions can differ.",
+        "wrong_feedback_length": 368,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c18",
+        "locale": "pl",
+        "question_text": "Ćwiczenie: w tym miesiącu po podstawowych potrzebach i wymaganych minimalnych spłatach zostaje 50 zł. Który krok jest dobrowolny i mieści się w tej kwocie?. A. Pożyczyć 100 zł, by koniecznie odłożyć 100. B. Pominąć wymaganą spłatę. C. Wybrać 10 zł na rezerwę i zostawić 40 zł. D. Założyć, że mały przelew usunie cały stres",
+        "question_length": 322,
+        "explanation_length": 277,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. 50 − 10 = 40 zł w tym samym miesiącu; podstawy i wymagane spłaty uwzględniono już raz. Mały krok jest opcją, nie obowiązkiem ani gwarancją braku stresu. Gdy nie ma nadwyżki, wstrzymaj wpłatę; nie pożyczaj na oszczędzanie. Przy zmiennym dochodzie wróć do planu i dostosuj kwotę.",
+        "correct_feedback_length": 310,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. 50 − 10 = 40 zł w tym samym miesiącu; podstawy i wymagane spłaty uwzględniono już raz. Mały krok jest opcją, nie obowiązkiem ani gwarancją braku stresu. Gdy nie ma nadwyżki, wstrzymaj wpłatę; nie pożyczaj na oszczędzanie. Przy zmiennym dochodzie wróć do planu i dostosuj kwotę.",
+        "wrong_feedback_length": 334,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c18",
+        "locale": "en",
+        "question_text": "Exercise: this month, PLN 50 remains after essential needs and required minimum repayments. Which step is voluntary and fits within that amount?. A. Borrow PLN 100 to make a compulsory saving of 100. B. Skip a required repayment. C. Choose PLN 10 for a reserve and leave PLN 40. D. Assume a small transfer will remove all stress",
+        "question_length": 328,
+        "explanation_length": 289,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. 50 − 10 = PLN 40 in the same month; essentials and required repayments were already counted once. A small step is an option, not a duty or a guarantee of no stress. Without a surplus, pause contributions; do not borrow to save. When income varies, return to the plan and adjust the amount.",
+        "correct_feedback_length": 323,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. 50 − 10 = PLN 40 in the same month; essentials and required repayments were already counted once. A small step is an option, not a duty or a guarantee of no stress. Without a surplus, pause contributions; do not borrow to save. When income varies, return to the plan and adjust the amount.",
+        "wrong_feedback_length": 351,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c19",
+        "locale": "pl",
+        "question_text": "Który termin oznacza środki odłożone na nagłe, nieplanowane wydatki?. A. Pensja za bieżącą pracę. B. Poduszka finansowa. C. Wymagana pożyczka na oszczędzanie. D. Pewny zysk z inwestycji",
+        "question_length": 185,
+        "explanation_length": 305,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Poduszka to oddzielona rezerwa na nagłe wydatki. Cel dopasuj do sytuacji; mały start jest dobrowolny, bez jednego obowiązkowego progu. Najpierw podstawowe potrzeby i wymagane minimalne spłaty; bez nadwyżki wstrzymaj wpłatę. Sprawdź dostępność i ryzyko; rezerwa nie pokryje automatycznie każdego zdarzenia.",
+        "correct_feedback_length": 338,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Poduszka to oddzielona rezerwa na nagłe wydatki. Cel dopasuj do sytuacji; mały start jest dobrowolny, bez jednego obowiązkowego progu. Najpierw podstawowe potrzeby i wymagane minimalne spłaty; bez nadwyżki wstrzymaj wpłatę. Sprawdź dostępność i ryzyko; rezerwa nie pokryje automatycznie każdego zdarzenia.",
+        "wrong_feedback_length": 362,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c19",
+        "locale": "en",
+        "question_text": "Which Polish term means money set aside for unexpected, unplanned expenses?. A. Pay for current work. B. Poduszka finansowa (emergency reserve). C. A required loan to fund savings. D. A certain investment profit",
+        "question_length": 211,
+        "explanation_length": 342,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. An emergency reserve is kept separately for unexpected expenses. Adapt the goal to your circumstances; a small start is voluntary, with no single mandatory threshold. First protect essential needs and required minimum repayments; without a surplus, pause contributions. Check access and risk; a reserve cannot automatically cover every event.",
+        "correct_feedback_length": 376,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. An emergency reserve is kept separately for unexpected expenses. Adapt the goal to your circumstances; a small start is voluntary, with no single mandatory threshold. First protect essential needs and required minimum repayments; without a surplus, pause contributions. Check access and risk; a reserve cannot automatically cover every event.",
+        "wrong_feedback_length": 404,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c20",
+        "locale": "pl",
+        "question_text": "Co w ankiecie opisują postawy wobec pieniędzy?. A. Liczbę posiadanych produktów. B. Poziom dochodu i stan majątku. C. Deklarowane nastawienie do wydawania, oszczędzania i przyszłości. D. Gwarantowaną zdolność spłaty",
+        "question_length": 215,
+        "explanation_length": 296,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. To deklarowane opinie, np. o wydawaniu dziś i oszczędzaniu na przyszłość. Nie są testem wiedzy ani pełnym pomiarem zachowania lub sytuacji finansowej. Same deklaracje nie dowodzą przyczyny trudności ani przyszłego wyniku. Możliwości zależą też od dochodu i koniecznych kosztów; nie oceniaj osoby.",
+        "correct_feedback_length": 329,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. To deklarowane opinie, np. o wydawaniu dziś i oszczędzaniu na przyszłość. Nie są testem wiedzy ani pełnym pomiarem zachowania lub sytuacji finansowej. Same deklaracje nie dowodzą przyczyny trudności ani przyszłego wyniku. Możliwości zależą też od dochodu i koniecznych kosztów; nie oceniaj osoby.",
+        "wrong_feedback_length": 353,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c20",
+        "locale": "en",
+        "question_text": "What do attitudes towards money describe in a survey?. A. The number of products owned. B. Income level and wealth. C. Stated views on spending, saving and the future. D. Guaranteed repayment capacity",
+        "question_length": 200,
+        "explanation_length": 325,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. These are stated views, such as spending today versus saving for the future. They are not a knowledge test or a full measure of behaviour or financial circumstances. Stated views alone prove neither the cause of difficulties nor a future outcome. Income and essential costs also shape possibilities; avoid judging the person.",
+        "correct_feedback_length": 359,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. These are stated views, such as spending today versus saving for the future. They are not a knowledge test or a full measure of behaviour or financial circumstances. Stated views alone prove neither the cause of difficulties nor a future outcome. Income and essential costs also shape possibilities; avoid judging the person.",
+        "wrong_feedback_length": 387,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Draft only; author does not approve product/finance. Actualbaseline and rootGO required before source writes.",
+    "No new population percentage, current national score, empirical effect size, strategy or product/legal guarantee.",
+    "Hypothetical21-point scale and PLN50−10=40 are own teaching exercises, not OECD scoring or real user assessment.",
+    "No compulsorysaving/borrowing, guaranteed stress removal, validatedCoachfiscore, new data, market or lesson.",
+    "Seven explicit translations per target remain source-literal and outside new PLEN acceptance.",
+    "One PDF screenshot request returned InternalError; relevant primary text was retrieved and read, not inferred from the failed image request."
+  ]
+}

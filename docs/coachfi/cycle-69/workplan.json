@@ -1,0 +1,32 @@
+{
+  "cycle": 69,
+  "at": "2026-10-19T05:54:26.998Z",
+  "scope": "Finite25historicalfixturefailures+epochparsernegativegate",
+  "owners": {
+    "contentProposal": "/root/c49_advisories",
+    "uiProposalAndTools": "/root",
+    "independentPrimary": "/root/c49_dependency_review",
+    "parserIndependentCaseData": "/root/c49_validation"
+  },
+  "disjointFiles": true,
+  "baseline": {
+    "files": 7,
+    "listed": 179,
+    "passed": 154,
+    "failed": 25,
+    "skipped": 0
+  },
+  "gates": [
+    "Independentexactproposal/oraclereview beforeapply",
+    "Pureparsernegativecases+replayoldC68journal, noapprerun",
+    "Thenonefocused179+newguardcases, oneTS, andjustifiedfreshnormalinventoryafterchangedfixtures/newsetup",
+    "Twofinalboundedreviews/metadata/postwrite; fullsuiteonlyPASSifactualrawallpass"
+  ],
+  "boundaries": {
+    "production": "NO_GO",
+    "AI": "HARD_OFF",
+    "cloudWrites": "HARD_OFF",
+    "noPushDeployAddCommit": true,
+    "dependencyC50Deferral": "UNCHANGED_NO_POLL"
+  }
+}

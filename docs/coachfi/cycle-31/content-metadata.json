@@ -1,0 +1,869 @@
+{
+  "schema_version": 1,
+  "cycle": 31,
+  "module": null,
+  "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 6,
+  "language_versions": 12,
+  "wrong_rationale_count": 18,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 170,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "poland-trust-institutions",
+      "poland-oecd-score",
+      "poland-ppk-participation",
+      "financial-wellbeing-components",
+      "financial-resilience",
+      "debt-spiral-cause"
+    ],
+    "keys": [
+      "D",
+      "B",
+      "C",
+      "B",
+      "C",
+      "B"
+    ],
+    "rewards": [
+      25,
+      25,
+      30,
+      25,
+      30,
+      35
+    ],
+    "rawEN": "Six existing complete QuizQuestionobjects, categoryFinancialLiteracy retained; bothsuccessMessage/retryMessage updated.",
+    "PL": "Six NEW own properties,76→82, localizedcategoryEdukacja finansowa. Canonicalexplanation derives from retryMessage; PLproperty containsquestion/answers/explanation/categoryonly.",
+    "otherLocales": "Allsix targetIDs currently fallbackEN in the other seven views too. Root explicitly accepted propagation of updatedENfallback without accepting those locales or newmarkets; explicitlocalizationfiles stay literal.",
+    "protected": "All20challenge/c1–c20, other56rawquiz, stage/topic/plain/defaultpools/app/save/writers/SRS/rewards/previousproofs/helpers literal."
+  },
+  "sources": [
+    {
+      "id": "oecd-poland-2022",
+      "publisher": "OECD",
+      "title": "Financial Literacy in Poland: Relevance, evidence and provision (2022)",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/09/financial-literacy-in-poland_b03b02c0/f5f2adc3-en.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official PDF relevant historical trust/score/PPK sections read, printedpages16/19/40–41.",
+      "bounded_use": "Historical numbers have scoped questions/populations/dates; no new current national percentage is taught.",
+      "limits": "Historical15/6 and13/21 are not labelled universally false. Report47% refers to PPK in firms250+ inMarch2022, not a mergedPPK/PPE/currentwholepopulation measure; no knowledge-causation inference."
+    },
+    {
+      "id": "oecd-toolkit-2026",
+      "publisher": "OECD",
+      "title": "OECD/INFE Toolkit for Measuring Financial Literacy, Inclusion and Well-Being2026",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2026/01/oecd-infe-toolkit-for-measuring-financial-literacy-inclusion-and-well-being-2026_6e8d9566/92f2d439-en.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Current official2026 toolkit methods and item/scoring distinctions freshly considered alongside C30primary retrieval on the same date.",
+      "bounded_use": "A score depends on its instrument/questions/scoring and is not a money amount or causal diagnosis.",
+      "limits": "No questionnaire reproduction, currentnationalresult, OECDendorsement or validatedCoachfiscore."
+    },
+    {
+      "id": "pfr-ppk-ppe",
+      "publisher": "PFR Portal PPK",
+      "title": "Czym PPK różni się od PPE? (19February2024)",
+      "url": "https://www.mojeppk.pl/aktualnosci/ppk_ppe_roznice_0224.html",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official primary fullarticle read; publicationdate19February2024 distinguished from2026 related links.",
+      "bounded_use": "PPK and PPE are distinct arrangements; statistics must identify the relevant programme.",
+      "limits": "No contribution/withdrawal/tax/eligibility/legal rules or presentparticipationpercentage copied. No enrolment/product advice."
+    },
+    {
+      "id": "cfpb-wellbeing",
+      "publisher": "CFPB",
+      "title": "Explore Financial Well-being Findings",
+      "url": "https://www.consumerfinance.gov/consumer-tools/educator-tools/financial-well-being-resources/explore-findings/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh primary page framework/factors section read.",
+      "bounded_use": "Day-to-day control, shock capacity, goals and choice include subjective and contextual aspects.",
+      "limits": "Not a universal closedthree-itemformula, guarantee or Coachfi validation. No USpopulation/legal rule or new personal data."
+    },
+    {
+      "id": "cfpb-emergency",
+      "publisher": "CFPB",
+      "title": "An essential guide to building an emergency fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-16",
+      "access": "Fresh primary guide definition/size/shock/interestandfees sections read.",
+      "bounded_use": "Resources, income shocks and borrowing costs are relevant; voluntary situation-based reserves may help.",
+      "limits": "Own conditionalPLN debt arithmetic; no actualrate/productrecommendation/USlaw or guaranteed financial outcome. Essentials/minimumrepaymentsfirst is Coachfi framing."
+    },
+    {
+      "id": "mf-ksef",
+      "publisher": "Ministerstwo Finansów / officialgov.pl",
+      "title": "Krajowa Strategia Edukacji Finansowej. Polityka na rzecz rozwijania kompetencji finansowych",
+      "url": "https://www.gov.pl/attachment/b8f96481-1240-4916-912b-65d7115dc718",
+      "checked_date": "2026-10-16",
+      "access": "Fresh officialPDF relevant framework and resources/context sections;50pages,2024–2030framework.",
+      "bounded_use": "Resilience/wellbeing need wider social/economic/financial context; choices alone do not explain all outcomes.",
+      "limits": "No claim that Coachfi implements or is endorsed by the nationalstrategy; no new entitlement/productrule or guaranteed interventioneffect."
+    }
+  ],
+  "questions": [
+    {
+      "id": "poland-trust-institutions",
+      "correctAnswer": "D",
+      "reward": 25,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Distinguish stated survey trust from evidence about a particular institution and its products.",
+      "copy": {
+        "pl": {
+          "id": "poland-trust-institutions",
+          "question": "Czy odsetek deklarowanego zaufania w ankiecie potwierdza bezpieczeństwo konkretnej instytucji?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Tak, jeśli ma dużo klientów"
+            },
+            {
+              "id": "B",
+              "text": "Tak, każdy większy odsetek oznacza brak ryzyka"
+            },
+            {
+              "id": "C",
+              "text": "Tak, jeśli wynik jest starszy"
+            },
+            {
+              "id": "D",
+              "text": "Nie; ankieta nie zastępuje sprawdzenia konkretnej instytucji"
+            }
+          ],
+          "correctAnswer": "D",
+          "reward": 25,
+          "successMessage": "Sprawdź datę, próbę i dokładną treść pytania, np. czy dotyczy instytucji czy ich pracowników. Deklarowane zaufanie nie certyfikuje bezpieczeństwa konkretnej instytucji lub produktu. Sam odsetek nie dowodzi też przyczyny oszczędności ani majątku.",
+          "retryMessage": "Sprawdź datę, próbę i dokładną treść pytania, np. czy dotyczy instytucji czy ich pracowników. Deklarowane zaufanie nie certyfikuje bezpieczeństwa konkretnej instytucji lub produktu. Sam odsetek nie dowodzi też przyczyny oszczędności ani majątku.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "poland-trust-institutions",
+          "question": "Does a survey percentage of stated trust establish that a particular institution is safe?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Yes, if it has many customers"
+            },
+            {
+              "id": "B",
+              "text": "Yes, every higher percentage means no risk"
+            },
+            {
+              "id": "C",
+              "text": "Yes, if the result is older"
+            },
+            {
+              "id": "D",
+              "text": "No; a survey does not replace checking the institution"
+            }
+          ],
+          "correctAnswer": "D",
+          "reward": 25,
+          "successMessage": "Check the date, sample and exact wording, including whether the question concerns institutions or their employees. Stated trust does not certify a particular institution or product as safe. A percentage alone also does not prove a cause of savings or wealth.",
+          "retryMessage": "Check the date, sample and exact wording, including whether the question concerns institutions or their employees. Stated trust does not certify a particular institution or product as safe. A percentage alone also does not prove a cause of savings or wealth.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Liczba klientów nie wynika z odsetka zaufania i sama nie dowodzi braku ryzyka.",
+          "en": "A trust percentage does not establish customer numbers, which alone do not prove absence of risk."
+        },
+        "B": {
+          "pl": "Większy odsetek deklaracji nie usuwa ryzyka konkretnego produktu lub instytucji.",
+          "en": "A higher share of stated views does not remove a product’s or institution’s risks."
+        },
+        "C": {
+          "pl": "Starsza data nie czyni wyniku certyfikatem bezpieczeństwa; trzeba sprawdzić aktualny kontekst.",
+          "en": "An older date does not turn a result into a safety certificate; current context still matters."
+        }
+      },
+      "source_ids": [
+        "oecd-poland-2022"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "new_population_percentage": null,
+        "year_sample_item_wording_required": true,
+        "trust_not_product_safety_or_wealth_cause": true
+      }
+    },
+    {
+      "id": "poland-oecd-score",
+      "correctAnswer": "B",
+      "reward": 25,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Interpret a survey score gap without inventing lost savings, behaviour or individual blame.",
+      "copy": {
+        "pl": {
+          "id": "poland-oecd-score",
+          "question": "Jak interpretować różnicę do maksimum wyniku w badaniu kompetencji finansowych?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Jako pewną kwotę straconych oszczędności"
+            },
+            {
+              "id": "B",
+              "text": "Jako różnicę punktów zależną od pytań i klucza"
+            },
+            {
+              "id": "C",
+              "text": "Jako przyszłą stopę zwrotu"
+            },
+            {
+              "id": "D",
+              "text": "Jako dowód winy badanej osoby"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Sprawdź rok, próbę, wersję narzędzia i klucz punktowania. Historyczny wynik nie opisuje automatycznie obecnej populacji. Różnica punktów nie mierzy kwoty utraconego majątku i sama nie dowodzi zachowania ani przyczyn problemów finansowych.",
+          "retryMessage": "Sprawdź rok, próbę, wersję narzędzia i klucz punktowania. Historyczny wynik nie opisuje automatycznie obecnej populacji. Różnica punktów nie mierzy kwoty utraconego majątku i sama nie dowodzi zachowania ani przyczyn problemów finansowych.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "poland-oecd-score",
+          "question": "How should a gap to the maximum financial-literacy survey score be interpreted?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "As a certain amount of lost savings"
+            },
+            {
+              "id": "B",
+              "text": "As a point gap dependent on questions and scoring"
+            },
+            {
+              "id": "C",
+              "text": "As a future investment return"
+            },
+            {
+              "id": "D",
+              "text": "As proof that the respondent is to blame"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Check the year, sample, instrument version and scoring key. A historical result does not automatically describe the current population. A point gap does not measure lost wealth and alone proves neither behaviour nor causes of financial difficulties.",
+          "retryMessage": "Check the year, sample, instrument version and scoring key. A historical result does not automatically describe the current population. A point gap does not measure lost wealth and alone proves neither behaviour nor causes of financial difficulties.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Nie ma automatycznego przelicznika punktów na stracone oszczędności.",
+          "en": "There is no automatic conversion from points to lost savings."
+        },
+        "C": {
+          "pl": "Punktacja badania nie jest prognozą stopy zwrotu z inwestycji.",
+          "en": "A survey score is not a forecast of investment returns."
+        },
+        "D": {
+          "pl": "Punktacja nie identyfikuje sama przyczyn trudności ani osobistej winy.",
+          "en": "Scoring alone identifies neither the causes of difficulties nor personal blame."
+        }
+      },
+      "source_ids": [
+        "oecd-poland-2022",
+        "oecd-toolkit-2026"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "new_national_score": null,
+        "no_points_to_money_conversion": true,
+        "year_sample_instrument_scoring_required": true,
+        "no_causal_or_individual_blame_claim": true
+      }
+    },
+    {
+      "id": "poland-ppk-participation",
+      "correctAnswer": "C",
+      "reward": 30,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Keep PPK and PPE statistics separate and contextualize their denominators without diagnosing knowledge.",
+      "copy": {
+        "pl": {
+          "id": "poland-ppk-participation",
+          "question": "Co ustalić przed porównaniem odsetków uczestnictwa w PPK i PPE?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Tylko najwyższy odsetek"
+            },
+            {
+              "id": "B",
+              "text": "Że obie nazwy oznaczają ten sam program"
+            },
+            {
+              "id": "C",
+              "text": "Osobno program, datę i grupę, dla której liczono odsetek"
+            },
+            {
+              "id": "D",
+              "text": "Że brak udziału dowodzi braku wiedzy"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "PPK i PPE to odrębne rozwiązania. Ustal program, datę oraz badaną grupę i mianownik; nie łącz odsetków bez określonej metody. Sama statystyka uczestnictwa nie wyjaśnia powodów decyzji ani nie dowodzi, że jej przyczyną jest brak wiedzy o procencie składanym.",
+          "retryMessage": "PPK i PPE to odrębne rozwiązania. Ustal program, datę oraz badaną grupę i mianownik; nie łącz odsetków bez określonej metody. Sama statystyka uczestnictwa nie wyjaśnia powodów decyzji ani nie dowodzi, że jej przyczyną jest brak wiedzy o procencie składanym.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "poland-ppk-participation",
+          "question": "What should be established before comparing PPK and PPE participation percentages?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Only the highest percentage"
+            },
+            {
+              "id": "B",
+              "text": "That both names mean the same programme"
+            },
+            {
+              "id": "C",
+              "text": "The separate programme, date and group used for each percentage"
+            },
+            {
+              "id": "D",
+              "text": "That non-participation proves a lack of knowledge"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "PPK and PPE are separate arrangements. Identify the programme, date, surveyed group and denominator; do not combine percentages without a stated method. Participation statistics alone explain neither why people decide nor whether a lack of compound-interest knowledge caused that decision.",
+          "retryMessage": "PPK and PPE are separate arrangements. Identify the programme, date, surveyed group and denominator; do not combine percentages without a stated method. Participation statistics alone explain neither why people decide nor whether a lack of compound-interest knowledge caused that decision.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Sam najwyższy odsetek pomija program, datę i mianownik; nie daje porównywalności.",
+          "en": "The highest percentage alone omits the programme, date and denominator, so does not establish comparability."
+        },
+        "B": {
+          "pl": "PPK i PPE są odrębne; nazwy nie są zamienne.",
+          "en": "PPK and PPE are distinct; their names are not interchangeable."
+        },
+        "D": {
+          "pl": "Brak udziału nie jest testem wiedzy ani dowodem jednej przyczyny decyzji.",
+          "en": "Non-participation is neither a knowledge test nor proof of a single reason for the decision."
+        }
+      },
+      "source_ids": [
+        "oecd-poland-2022",
+        "pfr-ppk-ppe"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "new_participation_percentage": null,
+        "distinct_programmes_PPK_PPE": true,
+        "programme_date_population_denominator_required": true,
+        "no_eligibility_tax_rate_or_enrolment_advice": true,
+        "no_knowledge_causes_participation_claim": true
+      }
+    },
+    {
+      "id": "financial-wellbeing-components",
+      "correctAnswer": "B",
+      "reward": 25,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Describe the breadth of financial well-being, including freedom of choice and circumstances beyond personal control.",
+      "copy": {
+        "pl": {
+          "id": "financial-wellbeing-components",
+          "question": "Który zestaw najpełniej oddaje dobrostan finansowy w ujęciu CFPB?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Tylko wysokość dochodu"
+            },
+            {
+              "id": "B",
+              "text": "Codzienne finanse, odporność na wstrząsy, cele i swoboda wyboru"
+            },
+            {
+              "id": "C",
+              "text": "Sam wynik quizu finansowego"
+            },
+            {
+              "id": "D",
+              "text": "Liczba posiadanych produktów"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Ujęcie CFPB obejmuje poczucie kontroli nad bieżącymi finansami, możliwość radzenia sobie ze wstrząsami, realizację celów i swobodę wyborów. To rama opisu, nie gwarancja po opanowaniu trzech zadań. Znaczenie mają też zasoby, otoczenie i własne odczucia; nie wszystko zależy od decyzji osoby.",
+          "retryMessage": "Ujęcie CFPB obejmuje poczucie kontroli nad bieżącymi finansami, możliwość radzenia sobie ze wstrząsami, realizację celów i swobodę wyborów. To rama opisu, nie gwarancja po opanowaniu trzech zadań. Znaczenie mają też zasoby, otoczenie i własne odczucia; nie wszystko zależy od decyzji osoby.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "financial-wellbeing-components",
+          "question": "Which set most fully describes financial well-being in the CFPB framework?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Only income level"
+            },
+            {
+              "id": "B",
+              "text": "Day-to-day finances, shock absorption, goals and freedom of choice"
+            },
+            {
+              "id": "C",
+              "text": "Only a financial quiz score"
+            },
+            {
+              "id": "D",
+              "text": "The number of financial products owned"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "The CFPB framework covers a sense of control over current finances, capacity to handle shocks, progress towards goals and freedom of choice. It is a descriptive framework, not a guarantee after mastering three tasks. Resources, circumstances and personal perceptions also matter; not everything depends on individual choices.",
+          "retryMessage": "The CFPB framework covers a sense of control over current finances, capacity to handle shocks, progress towards goals and freedom of choice. It is a descriptive framework, not a guarantee after mastering three tasks. Resources, circumstances and personal perceptions also matter; not everything depends on individual choices.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Dochód ma znaczenie, ale sam nie obejmuje wszystkich wskazanych wymiarów i odczuć.",
+          "en": "Income matters, but alone does not cover all of these dimensions and perceptions."
+        },
+        "C": {
+          "pl": "Quiz mierzy określone odpowiedzi, a nie cały dobrostan finansowy.",
+          "en": "A quiz measures particular answers, not overall financial well-being."
+        },
+        "D": {
+          "pl": "Liczba produktów nie opisuje sama zobowiązań, odporności, celów ani swobody wyboru.",
+          "en": "Product counts alone describe neither obligations, shock capacity, goals nor freedom of choice."
+        }
+      },
+      "source_ids": [
+        "cfpb-wellbeing",
+        "mf-ksef"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "framework_not_universal_three_component_formula": true,
+        "freedom_of_choice_explicit": true,
+        "no_mastery_guarantee": true,
+        "resources_context_subjective_factors_matter": true,
+        "no_new_validated_score_or_personal_data": true
+      }
+    },
+    {
+      "id": "financial-resilience",
+      "correctAnswer": "C",
+      "reward": 30,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Recognize shock coping and recovery capacity while acknowledging resources, support and limits.",
+      "copy": {
+        "pl": {
+          "id": "financial-resilience",
+          "question": "Co najlepiej opisuje odporność finansową?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Gwarantowana milionowa kwota oszczędności"
+            },
+            {
+              "id": "B",
+              "text": "Bezwzględny brak każdego długu"
+            },
+            {
+              "id": "C",
+              "text": "Zdolność radzenia sobie ze szokiem finansowym i odbudowy sytuacji"
+            },
+            {
+              "id": "D",
+              "text": "Sama obecność polisy"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Znaczenie mają dochód, zasoby, zobowiązania, dostępna pomoc i skala szoku, nie tylko wiedza lub nastawienie. Rezerwa może pomóc, ale nie gwarantuje pokrycia każdego wydatku. Wpłaty wybieraj dobrowolnie po podstawowych potrzebach i wymaganych minimalnych spłatach; bez nadwyżki wstrzymaj wpłatę.",
+          "retryMessage": "Znaczenie mają dochód, zasoby, zobowiązania, dostępna pomoc i skala szoku, nie tylko wiedza lub nastawienie. Rezerwa może pomóc, ale nie gwarantuje pokrycia każdego wydatku. Wpłaty wybieraj dobrowolnie po podstawowych potrzebach i wymaganych minimalnych spłatach; bez nadwyżki wstrzymaj wpłatę.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "financial-resilience",
+          "question": "What best describes financial resilience?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "A guaranteed million in savings"
+            },
+            {
+              "id": "B",
+              "text": "An absolute absence of any debt"
+            },
+            {
+              "id": "C",
+              "text": "The capacity to handle a financial shock and rebuild one’s situation"
+            },
+            {
+              "id": "D",
+              "text": "Merely having an insurance policy"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 30,
+          "successMessage": "Income, resources, obligations, available support and the size of a shock matter, not just knowledge or mindset. A reserve may help but guarantees no coverage of every expense. Choose contributions voluntarily after essential needs and required minimum repayments; without a surplus, pause contributions.",
+          "retryMessage": "Income, resources, obligations, available support and the size of a shock matter, not just knowledge or mindset. A reserve may help but guarantees no coverage of every expense. Choose contributions voluntarily after essential needs and required minimum repayments; without a surplus, pause contributions.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Nie ma jednego uniwersalnego progu majątku definiującego odporność każdej osoby.",
+          "en": "No single universal wealth threshold defines every person’s resilience."
+        },
+        "B": {
+          "pl": "Sam brak długu nie pokazuje zasobów, dochodu, wsparcia ani skali możliwego szoku.",
+          "en": "Absence of debt alone shows neither resources, income, support nor the scale of a possible shock."
+        },
+        "D": {
+          "pl": "Polisa może mieć zakres, koszty i wyłączenia; jej posiadanie nie jest całym obrazem odporności.",
+          "en": "A policy can have scope, costs and exclusions; merely holding one is not the whole picture of resilience."
+        }
+      },
+      "source_ids": [
+        "mf-ksef",
+        "cfpb-emergency"
+      ],
+      "calculation_assumptions": {
+        "currency": null,
+        "no_universal_wealth_threshold": true,
+        "resources_income_support_obligations_and_shock_size_matter": true,
+        "optional_reserve_after_essential_needs_and_required_minimum_repayments": true,
+        "no_surplus_pause": true,
+        "no_blanket_shock_coverage_guarantee": true
+      }
+    },
+    {
+      "id": "debt-spiral-cause",
+      "correctAnswer": "B",
+      "reward": 35,
+      "country": "PL",
+      "version": "quiz-evidence-context-pl-en-v1-c31-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-16",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Calculate a conditional debt balance without diagnosing a single cause of over-indebtedness or personal blame.",
+      "copy": {
+        "pl": {
+          "id": "debt-spiral-cause",
+          "question": "Ćwiczenie: dług 1000 zł, stałe hipotetyczne 10% za okres dopisywane do długu. Przez 2 okresy brak spłat, opłat i nowego długu. Ile wynosi saldo?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "1000 zł"
+            },
+            {
+              "id": "B",
+              "text": "1210 zł"
+            },
+            {
+              "id": "C",
+              "text": "1200 zł"
+            },
+            {
+              "id": "D",
+              "text": "2000 zł"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 35,
+          "successMessage": "1000 × 1,10 × 1,10 = 1210 zł. To założony model, nie oferta ani reguła każdej umowy. Realny koszt zależy od warunków i spłat. W zadłużeniu rolę mogą mieć też utrata dochodu, nagłe koszty i opłaty. Quiz nie ustala przyczyny problemów ani winy osoby.",
+          "retryMessage": "1000 × 1,10 × 1,10 = 1210 zł. To założony model, nie oferta ani reguła każdej umowy. Realny koszt zależy od warunków i spłat. W zadłużeniu rolę mogą mieć też utrata dochodu, nagłe koszty i opłaty. Quiz nie ustala przyczyny problemów ani winy osoby.",
+          "category": "Edukacja finansowa"
+        },
+        "en": {
+          "id": "debt-spiral-cause",
+          "question": "Exercise: PLN 1000 debt, a hypothetical fixed 10% per period added to the debt. For 2 periods there are no repayments, fees or new borrowing. What is the balance?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 1000"
+            },
+            {
+              "id": "B",
+              "text": "PLN 1210"
+            },
+            {
+              "id": "C",
+              "text": "PLN 1200"
+            },
+            {
+              "id": "D",
+              "text": "PLN 2000"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 35,
+          "successMessage": "1000 × 1.10 × 1.10 = PLN 1210. This is an assumed model, not an offer or a rule for every contract. Actual cost depends on terms and repayments. Debt difficulties can also involve lost income, unexpected costs and fees. A quiz establishes neither the cause of difficulties nor a person’s blame.",
+          "retryMessage": "1000 × 1.10 × 1.10 = PLN 1210. This is an assumed model, not an offer or a rule for every contract. Actual cost depends on terms and repayments. Debt difficulties can also involve lost income, unexpected costs and fees. A quiz establishes neither the cause of difficulties nor a person’s blame.",
+          "category": "Financial Literacy"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "1000 zł pomija obie założone kapitalizacje odsetek.",
+          "en": "PLN 1000 omits both assumed interest-capitalisation periods."
+        },
+        "C": {
+          "pl": "1200 zł odpowiadałoby odsetkom prostym; drugi okres obejmuje tu także pierwsze odsetki.",
+          "en": "PLN 1200 would use simple interest; here the second period also applies to the first period’s interest."
+        },
+        "D": {
+          "pl": "Założone dwa okresy po 10% nie podwajają długu.",
+          "en": "The assumed two periods at 10% do not double the debt."
+        }
+      },
+      "source_ids": [
+        "cfpb-emergency",
+        "mf-ksef"
+      ],
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "hypothetical": true,
+        "starting_debt": 1000,
+        "constant_rate_percent_per_period": 10,
+        "periods": 2,
+        "interest_added_each_period": true,
+        "repayments": 0,
+        "fees": 0,
+        "new_borrowing": 0,
+        "first_period_balance": 1100,
+        "second_period_balance": 1210,
+        "simple_interest_counterexample": 1200,
+        "not_current_rate_or_contract_rule": true,
+        "no_quiz_based_cause_or_blame": true
+      }
+    }
+  ],
+  "claim_review": {
+    "historicalNumbers": "OECD2022 contains historical15/6trust and13/21score. Those figures are not labelled false; unqualified currentpopulation and lostwealth/cause claims are removed.",
+    "PPK": "Historicalabout47% is matched to PPK/firms250+/March2022, not PPE/currentaggregate. Newcopy teaches programme/date/group/denominator, no newrate/statistic.",
+    "wellbeing": "Original three-component guarantee is replaced by a contextual framework including freedomofchoice; neither a quiz nor a checklist ensures outcomes.",
+    "resilience": "Resources/income/support remain relevant, not only preparation/mindset and not a fixedwealththreshold.",
+    "debt": "Conditionalcompoundingillustration does not establish the single main cause of realdebt. Income shocks, costs and circumstances can matter; no personalblame."
+  },
+  "voice_checks": {
+    "method": "ActualQuizCard join(\" \") wholequestionABCD, plus conservativejoin(\". \"); actualReview separatequestion andcanonicalretry explanation. No syntheticDailybanner used for theseQuizIDs.",
+    "maximum": 325,
+    "cases": [
+      {
+        "id": "poland-trust-institutions",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Czy odsetek deklarowanego zaufania w ankiecie potwierdza bezpieczeństwo konkretnej instytucji? A. Tak, jeśli ma dużo klientów B. Tak, każdy większy odsetek oznacza brak ryzyka C. Tak, jeśli wynik jest starszy D. Nie; ankieta nie zastępuje sprawdzenia konkretnej instytucji",
+        "actualQuizCardQuestionLength": 272,
+        "conservativeQuestionLength": 276,
+        "actualReviewQuestionLength": 94,
+        "canonicalExplanationLength": 245,
+        "successMessageLength": 245,
+        "retryMessageLength": 245,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-trust-institutions",
+        "locale": "en",
+        "actualQuizCardQuestionText": "Does a survey percentage of stated trust establish that a particular institution is safe? A. Yes, if it has many customers B. Yes, every higher percentage means no risk C. Yes, if the result is older D. No; a survey does not replace checking the institution",
+        "actualQuizCardQuestionLength": 257,
+        "conservativeQuestionLength": 261,
+        "actualReviewQuestionLength": 89,
+        "canonicalExplanationLength": 258,
+        "successMessageLength": 258,
+        "retryMessageLength": 258,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-oecd-score",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Jak interpretować różnicę do maksimum wyniku w badaniu kompetencji finansowych? A. Jako pewną kwotę straconych oszczędności B. Jako różnicę punktów zależną od pytań i klucza C. Jako przyszłą stopę zwrotu D. Jako dowód winy badanej osoby",
+        "actualQuizCardQuestionLength": 236,
+        "conservativeQuestionLength": 240,
+        "actualReviewQuestionLength": 79,
+        "canonicalExplanationLength": 238,
+        "successMessageLength": 238,
+        "retryMessageLength": 238,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-oecd-score",
+        "locale": "en",
+        "actualQuizCardQuestionText": "How should a gap to the maximum financial-literacy survey score be interpreted? A. As a certain amount of lost savings B. As a point gap dependent on questions and scoring C. As a future investment return D. As proof that the respondent is to blame",
+        "actualQuizCardQuestionLength": 248,
+        "conservativeQuestionLength": 252,
+        "actualReviewQuestionLength": 79,
+        "canonicalExplanationLength": 249,
+        "successMessageLength": 249,
+        "retryMessageLength": 249,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-ppk-participation",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Co ustalić przed porównaniem odsetków uczestnictwa w PPK i PPE? A. Tylko najwyższy odsetek B. Że obie nazwy oznaczają ten sam program C. Osobno program, datę i grupę, dla której liczono odsetek D. Że brak udziału dowodzi braku wiedzy",
+        "actualQuizCardQuestionLength": 233,
+        "conservativeQuestionLength": 237,
+        "actualReviewQuestionLength": 63,
+        "canonicalExplanationLength": 257,
+        "successMessageLength": 257,
+        "retryMessageLength": 257,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "poland-ppk-participation",
+        "locale": "en",
+        "actualQuizCardQuestionText": "What should be established before comparing PPK and PPE participation percentages? A. Only the highest percentage B. That both names mean the same programme C. The separate programme, date and group used for each percentage D. That non-participation proves a lack of knowledge",
+        "actualQuizCardQuestionLength": 276,
+        "conservativeQuestionLength": 280,
+        "actualReviewQuestionLength": 82,
+        "canonicalExplanationLength": 289,
+        "successMessageLength": 289,
+        "retryMessageLength": 289,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "financial-wellbeing-components",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Który zestaw najpełniej oddaje dobrostan finansowy w ujęciu CFPB? A. Tylko wysokość dochodu B. Codzienne finanse, odporność na wstrząsy, cele i swoboda wyboru C. Sam wynik quizu finansowego D. Liczba posiadanych produktów",
+        "actualQuizCardQuestionLength": 221,
+        "conservativeQuestionLength": 225,
+        "actualReviewQuestionLength": 65,
+        "canonicalExplanationLength": 290,
+        "successMessageLength": 290,
+        "retryMessageLength": 290,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "financial-wellbeing-components",
+        "locale": "en",
+        "actualQuizCardQuestionText": "Which set most fully describes financial well-being in the CFPB framework? A. Only income level B. Day-to-day finances, shock absorption, goals and freedom of choice C. Only a financial quiz score D. The number of financial products owned",
+        "actualQuizCardQuestionLength": 238,
+        "conservativeQuestionLength": 242,
+        "actualReviewQuestionLength": 74,
+        "canonicalExplanationLength": 325,
+        "successMessageLength": 325,
+        "retryMessageLength": 325,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "financial-resilience",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Co najlepiej opisuje odporność finansową? A. Gwarantowana milionowa kwota oszczędności B. Bezwzględny brak każdego długu C. Zdolność radzenia sobie ze szokiem finansowym i odbudowy sytuacji D. Sama obecność polisy",
+        "actualQuizCardQuestionLength": 213,
+        "conservativeQuestionLength": 217,
+        "actualReviewQuestionLength": 41,
+        "canonicalExplanationLength": 294,
+        "successMessageLength": 294,
+        "retryMessageLength": 294,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "financial-resilience",
+        "locale": "en",
+        "actualQuizCardQuestionText": "What best describes financial resilience? A. A guaranteed million in savings B. An absolute absence of any debt C. The capacity to handle a financial shock and rebuild one’s situation D. Merely having an insurance policy",
+        "actualQuizCardQuestionLength": 220,
+        "conservativeQuestionLength": 224,
+        "actualReviewQuestionLength": 41,
+        "canonicalExplanationLength": 304,
+        "successMessageLength": 304,
+        "retryMessageLength": 304,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "debt-spiral-cause",
+        "locale": "pl",
+        "actualQuizCardQuestionText": "Ćwiczenie: dług 1000 zł, stałe hipotetyczne 10% za okres dopisywane do długu. Przez 2 okresy brak spłat, opłat i nowego długu. Ile wynosi saldo? A. 1000 zł B. 1210 zł C. 1200 zł D. 2000 zł",
+        "actualQuizCardQuestionLength": 188,
+        "conservativeQuestionLength": 192,
+        "actualReviewQuestionLength": 144,
+        "canonicalExplanationLength": 248,
+        "successMessageLength": 248,
+        "retryMessageLength": 248,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "debt-spiral-cause",
+        "locale": "en",
+        "actualQuizCardQuestionText": "Exercise: PLN 1000 debt, a hypothetical fixed 10% per period added to the debt. For 2 periods there are no repayments, fees or new borrowing. What is the balance? A. PLN 1000 B. PLN 1210 C. PLN 1200 D. PLN 2000",
+        "actualQuizCardQuestionLength": 210,
+        "conservativeQuestionLength": 214,
+        "actualReviewQuestionLength": 162,
+        "canonicalExplanationLength": 294,
+        "successMessageLength": 294,
+        "retryMessageLength": 294,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Draft only, not source/runtime acceptance. Independentfinance plus freshbaseline and ROOTGO required before sourcewrites.",
+    "Review recordsSRS without directly awarding170; rewards remainbankmetadata. ActualQuizCard not newly reachable through an inventedtopic/defaultpool.",
+    "No legal/accountstrategy/rates/currentnationalpercentages, causalinterventioneffects, newuserfields, market or validatedscore.",
+    "ExistingENfallbackcopy effects other7canonicalviews are explicit, with no newotherlocaleacceptance.",
+    "Source/helper/fixtures untouched by thisdraft; authorruntime0."
+  ]
+}

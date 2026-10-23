@@ -13,7 +13,7 @@ import {
   PiggyBank,
   ShieldCheck,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,12 +21,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/LanguageContext";
 import {
-  getAllStageProgress,
   markStageStarted,
   type StageProgress,
   type StageStatus,
 } from "@/lib/learningProgress";
 import { getLocalizedContent } from "@/lib/localizedContent";
+import { isFeatureEnabled } from "@/lib/product-scope";
+import { useProductStorage } from "@/lib/use-product-storage";
+import { readStageProgress } from "@/lib/learning-progress-read";
 
 const STAGE_ICONS = [Brain, Banknote, ChartLine, CreditCard, PiggyBank, Landmark, ShieldCheck, HeartHandshake];
 
@@ -60,16 +62,42 @@ function statusBadgeVariant(status: StageStatus) {
 }
 
 export function ProgressPath() {
+  const { storage } = useProductStorage();
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
-  const [progress, setProgress] = useState<StageProgress[]>([]);
+  const [progress, setProgress] = useState<StageProgress[] | null>(null);
+  const [readIssue, setReadIssue] = useState<"read" | "start" | null>(null);
+  const [readVersion, setReadVersion] = useState(0);
+  const [readScope, setReadScope] = useState<{ active: boolean; issue: boolean } | null>(null);
 
-  useEffect(() => {
-    const refresh = () => setProgress(getAllStageProgress());
+  useLayoutEffect(() => {
+    const view = { active: true, issue: false };
+    const current = () => view.active && storage.isCurrent();
+    setReadScope(view);
+    const refresh = () => {
+      if (!current()) return;
+      try {
+        const next = readStageProgress(storage);
+        if (!current()) return;
+        view.issue = false;
+        setProgress(next);
+        setReadIssue(null);
+      } catch {
+        if (!current()) return;
+        view.issue = true;
+        setProgress(null);
+        setReadIssue("read");
+      }
+    };
     refresh();
     window.addEventListener("coachfi-learning", refresh);
-    return () => window.removeEventListener("coachfi-learning", refresh);
-  }, []);
+    window.addEventListener("storage", refresh);
+    return () => {
+      view.active = false;
+      window.removeEventListener("coachfi-learning", refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, [locale, storage, readVersion]);
 
   function getLabel(status: StageStatus): string {
     if (status === "completed") return t.learn.statusCompleted;
@@ -78,13 +106,44 @@ export function ProgressPath() {
     return t.learn.statusLocked;
   }
 
-  function handleStart(stageId: string) {
-    markStageStarted(stageId);
-    setProgress(getAllStageProgress());
+  function handleStart(event: { preventDefault(): void }, stageId: string) {
+    const current = () => readScope?.active && storage.isCurrent();
+    if (!current() || readScope?.issue) { event.preventDefault(); return; }
+    let startAttempted = false;
+    try {
+      readStageProgress(storage);
+      if (!current()) { event.preventDefault(); return; }
+      startAttempted = true;
+      markStageStarted(stageId, storage);
+      const next = readStageProgress(storage);
+      if (!current()) { event.preventDefault(); return; }
+      setProgress(next);
+      setReadIssue(null);
+    } catch {
+      event.preventDefault();
+      if (!current()) return;
+      readScope!.issue = true;
+      setProgress(null);
+      setReadIssue(startAttempted ? "start" : "read");
+    }
   }
 
+  if (readIssue) {
+    return <div role="alert" data-testid="path-progress-alert" className="rounded-lg bg-warning/20 p-4 text-sm font-bold">
+      <p>{readIssue === "start"
+        ? locale === "pl" ? "Nie udało się potwierdzić rozpoczęcia lekcji. Dane lokalne mogły zostać zapisane częściowo. Odczytaj je ponownie przed kontynuacją." : "Starting the lesson could not be confirmed. Local data may have been partially saved. Read it again before continuing."
+        : locale === "pl" ? "Nie udało się odczytać postępu nauki. Spróbuj odczytać dane ponownie." : "Learning progress could not be read. Try reading your data again."}</p>
+      <Button type="button" data-testid="path-progress-retry" variant="outline" className="mt-3" onClick={() => {
+        if (!readScope?.active || !readScope.issue || !storage.isCurrent()) return;
+        readScope.active = false;
+        setReadVersion(value => value + 1);
+      }}>{locale === "pl" ? "Spróbuj ponownie" : "Try again"}</Button>
+    </div>;
+  }
+  if (!progress) return <p role="status" data-testid="path-progress-loading">{locale === "pl" ? "Odczytywanie postępu nauki…" : "Reading learning progress…"}</p>;
+
   return (
-    <div className="grid gap-4 xl:grid-cols-2">
+    <div data-testid="path-progress-grid" className="grid gap-4 xl:grid-cols-2">
       {STAGE_DATA.map((stage, index) => {
         const p = progress[index];
         const status: StageStatus = p?.status ?? (index === 0 ? "current" : "locked");
@@ -103,6 +162,7 @@ export function ProgressPath() {
         return (
           <motion.div
             key={stage.id}
+            data-testid={"progress-stage-" + stage.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.06 }}
@@ -163,12 +223,12 @@ export function ProgressPath() {
                           {stage.reward} {t.common.tokenUnit}
                         </p>
                       </div>
-                      <div className={`rounded-lg px-3 py-2.5 ${completed ? "bg-success/10" : "bg-accent/15"}`}>
+                      {isFeatureEnabled("web3") && <div className={`rounded-lg px-3 py-2.5 ${completed ? "bg-success/10" : "bg-accent/15"}`}>
                         <p className="text-xs font-black uppercase text-muted">{t.learn.nftStatus}</p>
                         <p className={`mt-0.5 font-black ${completed ? "text-success" : "text-muted"}`}>
                           {completed ? nft : locked ? t.rewards.locked : nft}
                         </p>
-                      </div>
+                      </div>}
                     </div>
 
                     {!locked && (
@@ -181,7 +241,7 @@ export function ProgressPath() {
                             {t.learn.statusCompleted} - {t.learn.continueLesson} -&gt;
                           </Link>
                         ) : (
-                          <Button asChild size="sm" className="w-full" onClick={() => handleStart(stage.id)}>
+                          <Button asChild size="sm" className="w-full" onClick={(event) => handleStart(event, stage.id)}>
                             <Link href={link}>
                               {pct > 0 ? t.learn.continueLesson : t.learn.startLesson} -&gt;
                             </Link>

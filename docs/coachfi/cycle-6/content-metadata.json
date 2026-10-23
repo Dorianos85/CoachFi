@@ -1,0 +1,283 @@
+{
+  "module_id": "money-mindset",
+  "version": "money-mindset-pl-en-2026-10-14-v2",
+  "status": "reviewed_limited_local_release_pending",
+  "review_date": "2026-10-14",
+  "market_country": "PL",
+  "jurisdiction": "general_financial_concepts_no_legal_or_product_rules",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "curriculum_pilot",
+  "author_roles": [
+    "curriculum",
+    "quiz_quality",
+    "localization"
+  ],
+  "reviewers": {
+    "financial": {
+      "name": "architecture_audit",
+      "status": "accepted_limited_local",
+      "report": "docs/coachfi/cycle-6/financial-review.md",
+      "evidence": "evidence/cycle-6/financial-review.json"
+    },
+    "frontend_localization": {
+      "name": "ux_audit",
+      "status": "accepted_limited_local",
+      "report": "docs/coachfi/cycle-6/ui-review.md",
+      "evidence": "evidence/cycle-6/review-final.json"
+    }
+  },
+  "distinct_existing_questions": 3,
+  "language_versions": 6,
+  "new_question_ids": 0,
+  "lesson_step_count_per_locale": 3,
+  "correct_keys_and_rewards_changed": false,
+  "source_registry": "evidence/cycle-6/content-sources.json",
+  "questions": [
+    {
+      "id": "net-worth",
+      "lesson_step": 1,
+      "level": "beginner",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "type": "single_choice_definition",
+      "objective": {
+        "pl": "Odróżnić wartość netto od dochodu i dostępnej gotówki oraz rozpoznać ograniczenie tej miary.",
+        "en": "Distinguish net worth from income and available cash, and recognize the measure's limits."
+      },
+      "correct_answer": "B",
+      "reward": 25,
+      "source_ids": [
+        "SEC-NET-WORTH",
+        "CFPB-WELLBEING",
+        "EU-OECD-ADULT-2022"
+      ],
+      "competence_mapping": {
+        "framework": "EU/OECD adult 2022",
+        "topics": [
+          "2.2 Managing income and expenditure",
+          "2.3 Saving"
+        ],
+        "competence_ids": [
+          130,
+          155
+        ],
+        "mapping_is_author_design": true
+      },
+      "correct_rationale": {
+        "pl": "Wartość netto to różnica między wartością aktywów i zobowiązań na ten sam dzień; nie mierzy sama dostępności środków na rachunki.",
+        "en": "Net worth subtracts liabilities from the value of assets on the same date; it does not by itself measure cash available for bills."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Pensja netto jest dochodem za okres, a nie bilansem aktywów i zobowiązań.",
+          "en": "After-tax salary is income over a period, not an assets-and-liabilities balance."
+        },
+        "C": {
+          "pl": "Gotówka w portfelu to tylko część aktywów; nie uwzględnia pozostałych aktywów ani zobowiązań.",
+          "en": "Wallet cash is only part of the assets; it omits other assets and all liabilities."
+        },
+        "D": {
+          "pl": "Ocena kredytowa nie jest wynikiem odejmowania zobowiązań od aktywów.",
+          "en": "A credit score is not the result of subtracting liabilities from assets."
+        }
+      },
+      "calculation_assumptions": {
+        "published_example": true,
+        "currency": "PLN",
+        "same_valuation_date": true,
+        "assets": 5000,
+        "liabilities": 2000,
+        "expected_net_worth": 3000,
+        "formula": "assets - liabilities",
+        "rounding": "none: integer PLN example",
+        "assumed_complete_liabilities": true,
+        "limits": "Hypothetical simple balance, not a property valuation, liquidity calculation, personal score or validated financial health measure"
+      },
+      "version": "money-mindset-pl-en-2026-10-14-v2",
+      "status": "reviewed_limited_local_release_pending",
+      "review_date": "2026-10-14",
+      "author": "curriculum_pilot",
+      "reviewer": "architecture_audit"
+    },
+    {
+      "id": "lifestyle-inflation",
+      "lesson_step": 2,
+      "level": "beginner",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "type": "single_choice_definition",
+      "objective": {
+        "pl": "Rozpoznać dobrowolny wzrost wydatków uznaniowych wraz z dochodem i odróżnić go od cen oraz koniecznych potrzeb.",
+        "en": "Identify voluntary growth in discretionary spending as income rises, and distinguish it from prices and essential needs."
+      },
+      "correct_answer": "C",
+      "reward": 25,
+      "source_ids": [
+        "FIDELITY-LIFESTYLE-TERM",
+        "EU-OECD-ADULT-2022",
+        "NBP-PRICE-STABILITY",
+        "CFPB-SAVINGS-RULE"
+      ],
+      "competence_mapping": {
+        "framework": "EU/OECD adult 2022",
+        "topics": [
+          "2.1 Budgeting",
+          "2.2 Managing income and expenditure"
+        ],
+        "competence_ids": [
+          118,
+          123,
+          132,
+          139
+        ],
+        "mapping_is_author_design": true
+      },
+      "correct_rationale": {
+        "pl": "Termin odnosi się do wyboru wyższego standardu życia, a nie do każdego wzrostu wydatków. Nie wymaga, aby oszczędności były niezmienne.",
+        "en": "The term concerns choosing a higher standard of living, not every increase in spending. Savings need not remain unchanged."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Zmiana płacy minimalnej opisuje regułę płacową, nie dobrowolną zmianę wydatków gospodarstwa.",
+          "en": "A minimum-wage change describes a wage policy, not a household's voluntary spending change."
+        },
+        "B": {
+          "pl": "Wzrost cen względem płac dotyczy cen i siły nabywczej; nie oznacza wyboru większych wydatków uznaniowych.",
+          "en": "Prices rising relative to wages concerns prices and purchasing power; it does not establish a discretionary spending choice."
+        },
+        "D": {
+          "pl": "Ubarwianie CV nie definiuje zachowania finansowego związanego ze standardem życia.",
+          "en": "Embellishing a resume does not define financial behaviour related to living standards."
+        }
+      },
+      "calculation_assumptions": {
+        "published_example": false,
+        "numerical_calculation": "none",
+        "limits": "No claim that every raise is fully spent, that savings must stay flat, or that essential spending is a voluntary lifestyle upgrade"
+      },
+      "version": "money-mindset-pl-en-2026-10-14-v2",
+      "status": "reviewed_limited_local_release_pending",
+      "review_date": "2026-10-14",
+      "author": "curriculum_pilot",
+      "reviewer": "architecture_audit"
+    },
+    {
+      "id": "pay-yourself-first",
+      "lesson_step": 3,
+      "level": "beginner",
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "type": "single_choice_safe_planning_definition",
+      "objective": {
+        "pl": "Zaplanować dobrowolne oszczędności wyłącznie z dostępnej nadwyżki, chroniąc potrzeby i wymagane minimalne spłaty także przy nieregularnym dochodzie.",
+        "en": "Plan optional savings only from available surplus, protecting essentials and required minimum payments, including with irregular income."
+      },
+      "correct_answer": "B",
+      "reward": 20,
+      "source_ids": [
+        "EU-OECD-ADULT-2022",
+        "CFPB-EMERGENCY-GUIDE",
+        "CFPB-PRIORITIZE-BILLS",
+        "CFPB-SAVINGS-RULE",
+        "MONEYHELPER-SAVINGS"
+      ],
+      "competence_mapping": {
+        "framework": "EU/OECD adult 2022",
+        "topics": [
+          "2.1 Budgeting",
+          "2.2 Managing income and expenditure",
+          "2.3 Saving"
+        ],
+        "competence_ids": [
+          118,
+          123,
+          139,
+          143,
+          148,
+          151
+        ],
+        "mapping_is_author_design": true
+      },
+      "correct_rationale": {
+        "pl": "Plan uwzględnia potrzeby i zobowiązania przed ustaleniem dostępnej nadwyżki. Odkładanie przed wydatkami uznaniowymi nie oznacza pomijania czynszu, jedzenia lub minimalnych spłat.",
+        "en": "The plan accounts for essentials and obligations before determining available surplus. Saving before discretionary spending does not mean skipping rent, food or minimum payments."
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Wydawanie na przyjemności przed rachunkami nie jest planowaniem oszczędności i może ograniczyć środki na potrzeby.",
+          "en": "Spending on treats before bills is not savings planning and can reduce money available for essentials."
+        },
+        "C": {
+          "pl": "Podwyżka zmienia dochód; nie wyznacza dostępnej nadwyżki ani kwoty oszczędności.",
+          "en": "A raise changes income; it does not determine available surplus or the savings amount."
+        },
+        "D": {
+          "pl": "Luksusy przed jedzeniem odwracają priorytet podstawowych potrzeb. To nie jest bezpieczna interpretacja tej zasady.",
+          "en": "Luxuries before groceries reverse the priority of basic needs. This is not a safe interpretation of the principle."
+        }
+      },
+      "calculation_assumptions": {
+        "published_example": false,
+        "numerical_calculation": "none in live question",
+        "available_surplus": "money remaining after reserving essentials and required obligations over the planning period",
+        "automatic_transfer": "optional, only with stable inflows and checked balance",
+        "zero_surplus": "no transfer required; no blame",
+        "irregular_income": "review after each inflow, no fixed automatic amount required"
+      },
+      "version": "money-mindset-pl-en-2026-10-14-v2",
+      "status": "reviewed_limited_local_release_pending",
+      "review_date": "2026-10-14",
+      "author": "curriculum_pilot",
+      "reviewer": "architecture_audit"
+    }
+  ],
+  "review_scenarios_not_additional_quiz_items": [
+    {
+      "id": "zero_surplus",
+      "income_available": 900,
+      "essentials_reserved": 800,
+      "minimum_payments_reserved": 100,
+      "available_surplus": 0,
+      "chosen_transfer": 0,
+      "currency": "PLN"
+    },
+    {
+      "id": "positive_surplus_optional_part",
+      "income_available": 1200,
+      "essentials_reserved": 900,
+      "minimum_payments_reserved": 100,
+      "available_surplus": 200,
+      "chosen_transfer": 50,
+      "currency": "PLN"
+    },
+    {
+      "id": "essentials_shortfall_no_transfer",
+      "income_available": 900,
+      "essentials_reserved": 950,
+      "minimum_payments_reserved": 0,
+      "available_surplus": 0,
+      "chosen_transfer": 0,
+      "currency": "PLN"
+    }
+  ],
+  "limits": [
+    "No legal/product/tax advice for Poland inferred from UK/USA sources",
+    "No scientific validation or user comprehension claim",
+    "No transfer automation implemented",
+    "Other locales and other modules not reviewed or changed",
+    "Independent financial and UI source reviews accepted locally; release is not approved",
+    "Local review is not deployment, user comprehension validation or full-bank approval"
+  ]
+}

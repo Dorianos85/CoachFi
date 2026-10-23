@@ -1,0 +1,15 @@
+# Cykl2 — lokalna diagnoza i wybrany eksport
+
+Autor: koordynator. Recenzent: architecture_audit. Repo lokalne, dotychczasowa gałąź; bez kont, sekretów, DB/provider calls lub deploy. Kontrakt wzoru i jego wersję określa niezależnie recenzowany moduł autora curriculum_pilot.
+
+`lib/data-export.ts` zachowuje dokładną allowlistę. Dla schema2 odbudowuje wejścia modelu wyłącznie z pięciu znanych kwot, czterech booleans i istniejącego celu, którego tekst jest potrzebny do odtworzenia starego składnika; free text celu nie jest eksportowany. Normalizer przelicza wynik zamiast ufać zapisanym score/breakdown. Eksportuje tylko znane numery, stałą wersję/skale i jawne grupy/ratios. Nie kopiuje dowolnych komponentów/grup/answers. Unknown schema/formula, nieprawidłowe kwoty lub daty pomija. Poprzedni wybrany eksport legacy pozostaje oddzielny bez etykiety migracji.
+
+`lib/sync/cloudSync.ts` bezwarunkowo odrzuca `healthCheck` przed dostępem do DB lub payload. Usunięto wcześniejszy raw financial insert. Nawet stare zdarzenie w kolejce nie wysyła odpowiedzi. `syncOnLogin` tej warstwy nie zawiera reconciliacji health; CDP `sanitizeAccountSnapshot` nadal pomija health przy persistHealth=false. Samo usunięcie notifyCloud z nowego save nie wystarczałoby do zamknięcia starszej drogi, dlatego blokada jest w odbiorcy.
+
+Targeted run koordynatora na Vitest4.1.11: `lib/data-export-v2.test.ts`, `lib/data-export.test.ts`, `lib/sync/cloudSync.test.ts` — **20/20 PASS**. Jedynie dane syntetyczne; mock DB rzuca dla dowolnego `from`, a health events mają zero takich wywołań. Export cases obejmują podsunięte score/groups/credentials, nested session, free text, unsupported version, wrongboolean, malformed number, zerowe mianowniki i zachowanie legacy. Kolejne zbiorcze testy i opinia recenzenta zostaną zapisane osobno.
+
+Granica: to nadal wybrany eksport lokalny, bez pełnego konta/delecji/retencji u dostawców. Nie dodano w nim free-text identity ani tokenów. Nie zweryfikowano RLS lub skuteczności wycofania danych już zapisanych z wcześniejszego wydania.
+
+Poprawka po recenzji waluty: nowy zapis ma źródło local_diagnosis i walutęPLN, starsze dane bez jednostki są oznaczone legacy_unspecified, bez FX lub powtórnego oznaczenia jakoPLN. Eksport przekazuje currency do strict normalizer i kopiuje tylko jego enum; nie kopiuje dowolnego tekstu waluty. Wybrany częściowy eksport legacy również otrzymuje jawny marker legacy_unspecified, bez deklaracji pełnej migracji. Nowe testy odrzucają brak/wrong/credential-like currency oraz niedopasowanie source i markeru. Końcowy retest po tej zmianie zastępuje wcześniejszy20PASS.
+
+Osobny finding do następnego zadania: w odczytanym AuthContext per-entity debounce timers nie są czyszczone na zmianie/wylogowaniu, a async syncOnLogin może zakończyć się po zmianie sesji. To kodowa droga do późnych operacji/hydration; nie wykonano cross-user próby i nie twierdzimy, że konta są izolowane. Dla tego problemu potrzebne są osobne epoch/cancellation testy i staging; obecna paczka blokuje tylko wysyłkę diagnozy.

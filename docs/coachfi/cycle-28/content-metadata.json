@@ -1,0 +1,877 @@
+{
+  "schema_version": 1,
+  "cycle": 28,
+  "module": null,
+  "version": "challenge-foundations-pl-en-v1-c28-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 6,
+  "language_versions": 12,
+  "wrong_rationale_count": 18,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 300,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/challengeQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "c1",
+      "c2",
+      "c3",
+      "c4",
+      "c5",
+      "c6"
+    ],
+    "keys": [
+      "B",
+      "C",
+      "B",
+      "C",
+      "D",
+      "B"
+    ],
+    "rawEN": "Six existing objects, category absent; Deep Dive inherited canonical only.",
+    "PL": "Six existing value objects; category Wyzwanie retained for all; ownPL count71unchanged.",
+    "protected": "Other14challenge including acceptedc15, all62quiz, seven other explicit translations per target, stage/topic/defaultpool/SRS/save policies/rotation/utilities remain literal."
+  },
+  "sources": [
+    {
+      "id": "cfpb-budget",
+      "publisher": "CFPB",
+      "title": "My spending rule to live by",
+      "url": "https://files.consumerfinance.gov/f/documents/cfpb_worksheet_my-spending-rule-to-live-by.pdf",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "50needs/20savings+debt/30wants is a guideline adaptable to circumstances.",
+      "limits": "No household payment counted twice; essentials/minima-first and no-surplus pause are explicit Coachfi safety framing, not a universal saving mandate or US law."
+    },
+    {
+      "id": "sec-compound",
+      "publisher": "SEC / Investor.gov",
+      "title": "What is compound interest?",
+      "url": "https://www.investor.gov/additional-resources/information/youth/teachers-classroom-resources/what-compound-interest",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "Retained interest can earn interest in a stated constant-rate mathematical model.",
+      "limits": "Own hypothetical PLN scale/assumptions. No Einstein attribution, forecast, compulsory investment or US account policy."
+    },
+    {
+      "id": "sec-diversify",
+      "publisher": "SEC / Investor.gov",
+      "title": "Diversify Your Investments",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/diversify-your-investments",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "Spreading investments can reduce concentration; diversification does not guarantee against market losses.",
+      "limits": "No allocation advice or quantified risk reduction."
+    },
+    {
+      "id": "cfpb-debt",
+      "publisher": "CFPB",
+      "title": "Debt action plan tool",
+      "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_debt-action-plan_tool_2018-11.pdf",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "Available extra money can target highest interest after every required minimum.",
+      "limits": "No US legal rule, product, exact payoff saving or unconditional total-cost optimization; essentials/arrears/fees boundaries are explicit."
+    },
+    {
+      "id": "ecb-real",
+      "publisher": "ECB",
+      "title": "Nominal and real interest rates",
+      "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me/html/nominal_and_real_interest_rates.en.html",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "Real return concerns purchasing power after price changes; the explainer presents subtraction.",
+      "limits": "The exact same-period gross-factor ratio is Coachfi own derivation, not a verbatim formula attributed to this page. No euro-area inflation target/current rate imported."
+    },
+    {
+      "id": "author-ratio",
+      "publisher": "Coachfi mathematical derivation",
+      "title": "Same-period purchasing-power ratio",
+      "checked_date": "2026-10-15",
+      "access": "Algebraic assumptions in metadata, not an external source or empirical result.",
+      "bounded_use": "Nominal final amount divided by same-period price factor, then compared with starting purchasing power.",
+      "limits": "Independent financial reviewer must verify the arithmetic; author does not approve own calculation."
+    },
+    {
+      "id": "sec-index",
+      "publisher": "SEC / Investor.gov",
+      "title": "Index Funds",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-4",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "Index funds aim to track an index, incur costs and risk; not all have lower costs than active funds.",
+      "limits": "No provider, product or historical outperformance claim."
+    },
+    {
+      "id": "sec-etf",
+      "publisher": "SEC Office of Investor Education and Advocacy",
+      "title": "Updated Investor Bulletin: ETFs",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24",
+      "checked_date": "2026-10-15",
+      "access": "Fresh primary public fullpage/PDF relevant content read; no accounts/calculator submissions or paid calls.",
+      "bounded_use": "ETFs may be index-based or actively managed; costs and risks need review.",
+      "limits": "Use universal strategy/structure distinction only; no US registration/tax/legal rule imported."
+    }
+  ],
+  "questions": [
+    {
+      "id": "c1",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Treat a budget rule as an adaptable guide, not a compulsory saving order.",
+      "source_ids": [
+        "cfpb-budget"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c1",
+          "question": "Jak rozumieć 50/30/20 jako elastyczną wskazówkę dla dochodu netto?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "50% oszczędności, 30% potrzeby, 20% zachcianki"
+            },
+            {
+              "id": "B",
+              "text": "50% potrzeby, 30% zachcianki, 20% oszczędności i spłaty długu"
+            },
+            {
+              "id": "C",
+              "text": "Zawsze oszczędzać 20%, nawet kosztem podstawowych rachunków"
+            },
+            {
+              "id": "D",
+              "text": "Pożyczać, aby koniecznie odłożyć 20%"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "50/30/20 to orientacyjny podział dochodu netto, który można zmienić. Najpierw zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty; nie licz tej samej spłaty dwukrotnie. Przy zmiennym dochodzie dostosuj kwoty. Bez nadwyżki nie wymuszaj oszczędzania 20%.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c1",
+          "question": "How should 50/30/20 be understood as a flexible guide for take-home income?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "50% savings, 30% needs, 20% wants"
+            },
+            {
+              "id": "B",
+              "text": "50% needs, 30% wants, 20% savings and debt payments"
+            },
+            {
+              "id": "C",
+              "text": "Always save 20%, even at the expense of essential bills"
+            },
+            {
+              "id": "D",
+              "text": "Borrow in order to save exactly 20%"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "50/30/20 is an illustrative split of take-home income that can be adapted. First protect essential needs and required minimum repayments; do not count the same payment twice. Adjust amounts when income varies. Without a surplus, do not force 20% saving.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Zamienia proporcje potrzeb i oszczędności; nie jest to wskazany układ 50/30/20.",
+          "en": "This swaps the needs and savings proportions, so it is not the stated 50/30/20 arrangement."
+        },
+        "C": {
+          "pl": "Wskazówka nie wymaga oszczędzania kosztem podstawowych potrzeb lub wymaganych minimów.",
+          "en": "The guide does not require saving at the expense of essentials or required minimums."
+        },
+        "D": {
+          "pl": "Zaciąganie nowego długu nie jest warunkiem tej elastycznej wskazówki.",
+          "en": "Taking new debt is not a condition of this flexible guide."
+        }
+      },
+      "calculation_assumptions": {
+        "net_income_basis": true,
+        "percentages": [
+          50,
+          30,
+          20
+        ],
+        "sum_percent": 100,
+        "guide_not_mandate": true,
+        "not_same_payment_in_two_buckets": true,
+        "variable_income_adjustment": true,
+        "no_surplus_saving_not_required": true,
+        "no_numeric_household_example": true
+      }
+    },
+    {
+      "id": "c2",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Recognize retained-interest compounding in an explicitly conditional model.",
+      "source_ids": [
+        "sec-compound"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c2",
+          "question": "Model: 1 000 zł, stałe hipotetyczne 5% rocznie, kapitalizacja roczna, odsetki zostają. Bez dopłat, wypłat, opłat i podatku; inflacja pominięta. Ile nominalnie po 2 latach?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "1 000 zł"
+            },
+            {
+              "id": "B",
+              "text": "1 100 zł"
+            },
+            {
+              "id": "C",
+              "text": "1 102,50 zł"
+            },
+            {
+              "id": "D",
+              "text": "2 000 zł"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Procent składany nalicza odsetki także od zatrzymanych wcześniejszych odsetek. W modelu 1 000 × 1,05 × 1,05 = 1 102,50 zł. Dodatni wynik zależy od założonych 5%, nie samego czasu. To hipotetyczny rachunek, bez gwarancji rzeczywistego zysku; inwestycje mogą tracić.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c2",
+          "question": "Model: PLN 1,000, a constant hypothetical 5% a year, annual compounding, interest retained. No contributions, withdrawals, fees or tax; inflation ignored. Nominal balance after 2 years?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 1,000"
+            },
+            {
+              "id": "B",
+              "text": "PLN 1,100"
+            },
+            {
+              "id": "C",
+              "text": "PLN 1,102.50"
+            },
+            {
+              "id": "D",
+              "text": "PLN 2,000"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Compounding adds interest on retained earlier interest. In the model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. The positive result depends on the assumed 5%, not time alone. This is a hypothetical calculation, with no guarantee of actual gains; investments can lose value.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Przy podanej dodatniej stopie i zatrzymanych odsetkach model zwiększa saldo, zamiast zostawiać je bez zmian.",
+          "en": "The stated positive rate and retained interest increase the model balance rather than leave it unchanged."
+        },
+        "B": {
+          "pl": "1 100 zł pomija 2,50 zł odsetek od pierwszych odsetek; odpowiada dwóm naliczeniom tylko od kapitału początkowego.",
+          "en": "PLN 1,100 omits PLN 2.50 of interest on the first interest payment; it applies interest only to initial principal twice."
+        },
+        "D": {
+          "pl": "Dwa lata przy założonych 5% nie podwajają kwoty; taki wynik nie wynika z modelu.",
+          "en": "Two years at the assumed 5% do not double the amount; the model does not imply that result."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "initial": 1000,
+        "annual_nominal_percent": 5,
+        "annual_compounding": true,
+        "constant_hypothetical_rate": true,
+        "retained_interest": true,
+        "years": 2,
+        "contributions": 0,
+        "withdrawals": 0,
+        "fees": 0,
+        "tax": 0,
+        "inflation_ignored": true,
+        "year_one": 1050,
+        "year_two": 1102.5,
+        "interest_on_interest": 2.5,
+        "guaranteed_real_world_gain": false
+      }
+    },
+    {
+      "id": "c3",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Distinguish less concentration from protection against every loss.",
+      "source_ids": [
+        "sec-diversify"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c3",
+          "question": "Co opisuje dywersyfikację i jej ograniczenie?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wszystko w jedną silną spółkę"
+            },
+            {
+              "id": "B",
+              "text": "Różne aktywa mogą ograniczyć koncentrację; straty nadal są możliwe"
+            },
+            {
+              "id": "C",
+              "text": "Jedna obligacja usuwa każde ryzyko"
+            },
+            {
+              "id": "D",
+              "text": "Częste transakcje gwarantują ochronę przed spadkiem"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Dywersyfikacja rozkłada ekspozycję na różne aktywa i może ograniczać ryzyko koncentracji. Nie usuwa ryzyka rynkowego ani nie gwarantuje uniknięcia strat. Różne nazwy funduszy mogą kryć podobne aktywa; sprawdź skład, ryzyko i koszty. Zakup nie jest wymagany.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c3",
+          "question": "Which statement describes diversification and its limit?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Everything in one strong company"
+            },
+            {
+              "id": "B",
+              "text": "Different assets can reduce concentration; losses remain possible"
+            },
+            {
+              "id": "C",
+              "text": "One bond removes every risk"
+            },
+            {
+              "id": "D",
+              "text": "Frequent trades guarantee protection from a decline"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Diversification spreads exposure across different assets and can reduce concentration risk. It does not remove market risk or guarantee avoiding losses. Different fund names may hide similar holdings; check holdings, risk and costs. No purchase is required.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Jedna spółka oznacza koncentrację, niezależnie od opinii o jej sile.",
+          "en": "One company is concentration, regardless of its perceived strength."
+        },
+        "C": {
+          "pl": "Jedna obligacja nie usuwa wszystkich rodzajów ryzyka, w tym ryzyka emitenta.",
+          "en": "One bond does not remove all risks, including issuer risk."
+        },
+        "D": {
+          "pl": "Sama częstotliwość transakcji nie daje gwarancji ochrony i może generować koszty.",
+          "en": "Trading frequency alone guarantees no protection and may create costs."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": null,
+        "numeric_forecast": false,
+        "market_loss_possible": true,
+        "no_purchase_required": true
+      }
+    },
+    {
+      "id": "c4",
+      "correctAnswer": "C",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Apply optional highest-rate overpayment only after essentials and all required minimums.",
+      "source_ids": [
+        "cfpb-debt"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c4",
+          "question": "Jak działa lawina długu, gdy podstawowe potrzeby i wszystkie wymagane minimalne spłaty są zabezpieczone?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Finansuje każdą nadpłatę nową pożyczką"
+            },
+            {
+              "id": "B",
+              "text": "Zawsze zaczyna od najmniejszego salda"
+            },
+            {
+              "id": "C",
+              "text": "Kieruje dostępną nadpłatę na dług o najwyższym oprocentowaniu"
+            },
+            {
+              "id": "D",
+              "text": "Pomija wymagane raty innych długów"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "Lawina kieruje dostępną nadpłatę na najwyższe oprocentowanie po podstawowych potrzebach i minimach wszystkich długów. Przy stałych stopach i braku dodatkowych opłat może ograniczać odsetki. Sprawdź opłaty i skutki zaległości; bez nadwyżki nie wymuszaj nadpłaty. Nie gwarantuje najniższego łącznego kosztu w każdych warunkach.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c4",
+          "question": "How does a debt avalanche work once essentials and all required minimum repayments are covered?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Finances every extra payment with a new loan"
+            },
+            {
+              "id": "B",
+              "text": "Always starts with the smallest balance"
+            },
+            {
+              "id": "C",
+              "text": "Puts an available extra payment toward the highest-rate debt"
+            },
+            {
+              "id": "D",
+              "text": "Skips required payments on other debts"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "An avalanche puts available extra money toward the highest rate after essentials and every debt minimum. With fixed rates and no extra fees, it can reduce interest. Check fees and consequences of arrears; without a surplus, do not force an extra payment. It does not guarantee the lowest total cost under all conditions.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Nowy dług nie definiuje lawiny ani nie jest wymagany do nadpłaty.",
+          "en": "New borrowing neither defines an avalanche nor is required for an extra payment."
+        },
+        "B": {
+          "pl": "Kolejność według najmniejszego salda opisuje kulę śnieżną, a nie priorytet najwyższej stopy.",
+          "en": "Ordering by smallest balance describes a snowball, not highest-rate priority."
+        },
+        "D": {
+          "pl": "Strategia nie upoważnia do pomijania wymaganych minimów pozostałych długów.",
+          "en": "The strategy does not permit skipping other debts’ required minimums."
+        }
+      },
+      "calculation_assumptions": {
+        "no_numeric_payoff_projection": true,
+        "essentials_and_all_minimums_before_extra": true,
+        "extra_optional_from_surplus": true,
+        "interest_comparison_conditional_on_fixed_rates_and_no_extra_fees": true,
+        "no_universal_total_cost_guarantee": true,
+        "arrears_and_contract_costs_need_separate_review": true
+      }
+    },
+    {
+      "id": "c5",
+      "correctAnswer": "D",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Compute same-period purchasing-power return and distinguish the subtraction approximation.",
+      "source_ids": [
+        "ecb-real",
+        "author-ratio"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c5",
+          "question": "Hipotetycznie: nominalnie +2% i inflacja 5% za ten sam rok, bez opłat i podatku. Jaka jest realna stopa zwrotu po zaokrągleniu?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "+7%"
+            },
+            {
+              "id": "B",
+              "text": "+2%"
+            },
+            {
+              "id": "C",
+              "text": "0%"
+            },
+            {
+              "id": "D",
+              "text": "Około −2,86%"
+            }
+          ],
+          "correctAnswer": "D",
+          "explanation": "Dokładna relacja to (1,02 ÷1,05 −1) × 100% ≈ −2,86%. Odejmowanie 2% −5% =−3% jest przybliżeniem. Początkowe 1 000 zł daje nominalnie 1 020 zł, czyli około 971,43 zł w cenach początkowych. Model zakłada ten sam rok, brak opłat i podatku; nie opisuje bieżącej oferty.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c5",
+          "question": "Hypothetical: nominal return +2% and inflation 5% over the same year, no fees or tax. What is the rounded real return?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "+7%"
+            },
+            {
+              "id": "B",
+              "text": "+2%"
+            },
+            {
+              "id": "C",
+              "text": "0%"
+            },
+            {
+              "id": "D",
+              "text": "About −2.86%"
+            }
+          ],
+          "correctAnswer": "D",
+          "explanation": "The exact relation is (1.02 ÷1.05 −1) × 100% ≈ −2.86%. Subtracting 2% −5% =−3% is an approximation. Initial PLN 1,000 becomes nominal PLN 1,020, or about PLN 971.43 in initial prices. The model uses the same year and no fees or tax; it is not a current offer.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Dodanie inflacji do zwrotu nie mierzy siły nabywczej; wyższe ceny nie są dodatkowym zyskiem.",
+          "en": "Adding inflation to return does not measure purchasing power; higher prices are not an extra gain."
+        },
+        "B": {
+          "pl": "2% to stopa nominalna przed uwzględnieniem wzrostu cen.",
+          "en": "2% is the nominal rate before adjusting for rising prices."
+        },
+        "C": {
+          "pl": "Przy cenach rosnących szybciej niż saldo siła nabywcza nie pozostaje bez zmian.",
+          "en": "When prices rise faster than the balance, purchasing power does not stay unchanged."
+        }
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "period": "Same one year",
+        "nominal_rate_percent": 2,
+        "inflation_percent": 5,
+        "fees": 0,
+        "tax": 0,
+        "initial": 1000,
+        "nominal_final": 1020,
+        "initial_price_value_exact": "1020/1.05",
+        "initial_price_value_rounded": 971.43,
+        "real_return_exact_fraction": "-1/35",
+        "real_return_percent_rounded": -2.86,
+        "subtraction_approx_percent": -3,
+        "author_derived_ratio": true,
+        "no_current_rate": true
+      }
+    },
+    {
+      "id": "c6",
+      "correctAnswer": "B",
+      "reward": 50,
+      "country": "PL",
+      "version": "challenge-foundations-pl-en-v1-c28-draft",
+      "author": "daily_author",
+      "created_date": "2026-10-15",
+      "reviewer": "daily_data_review",
+      "learning_goal": "Separate index tracking from ETF structure, costs and performance promises.",
+      "source_ids": [
+        "sec-index",
+        "sec-etf"
+      ],
+      "copy": {
+        "pl": {
+          "id": "c6",
+          "question": "Które stwierdzenie o funduszach jest poprawne?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Każdy ETF zawsze śledzi indeks"
+            },
+            {
+              "id": "B",
+              "text": "Fundusz indeksowy śledzi indeks; ETF może być indeksowy lub aktywny"
+            },
+            {
+              "id": "C",
+              "text": "Każdy fundusz indeksowy jest najtańszy"
+            },
+            {
+              "id": "D",
+              "text": "Każdy ETF gwarantuje wynik lepszy od rynku"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "Fundusz indeksowy ma na celu śledzenie indeksu. ETF to forma funduszu notowanego na giełdzie; może być indeksowy lub aktywny. Żadna z tych nazw nie gwarantuje niskich kosztów, przewagi nad rynkiem ani braku strat. Sprawdź cel, skład, ryzyko i wszystkie koszty. Nie musisz inwestować.",
+          "reward": 50,
+          "category": "Wyzwanie"
+        },
+        "en": {
+          "id": "c6",
+          "question": "Which statement about funds is correct?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Every ETF always tracks an index"
+            },
+            {
+              "id": "B",
+              "text": "An index fund tracks an index; an ETF can be indexed or active"
+            },
+            {
+              "id": "C",
+              "text": "Every index fund is the cheapest"
+            },
+            {
+              "id": "D",
+              "text": "Every ETF guarantees beating the market"
+            }
+          ],
+          "correctAnswer": "B",
+          "explanation": "An index fund aims to track an index. An ETF is an exchange-traded fund structure; it can be indexed or active. Neither label guarantees low costs, beating the market or avoiding losses. Check the objective, holdings, risk and all costs. You do not have to invest.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Aktywnie zarządzany ETF nie musi odtwarzać składu indeksu; ETF nie oznacza automatycznie indeksowania.",
+          "en": "An actively managed ETF need not replicate an index; ETF does not automatically mean indexing."
+        },
+        "C": {
+          "pl": "Koszty zależą od konkretnego funduszu i transakcji; sama nazwa nie ustala rankingu kosztów.",
+          "en": "Costs depend on the particular fund and transactions; the label does not rank costs."
+        },
+        "D": {
+          "pl": "Forma ETF nie gwarantuje wyniku lepszego od rynku ani uniknięcia strat.",
+          "en": "The ETF structure guarantees neither market outperformance nor freedom from losses."
+        }
+      },
+      "calculation_assumptions": {
+        "numeric_forecast": false,
+        "no_product_recommendation": true,
+        "ETF_can_be_active_or_indexed": true,
+        "compare_actual_costs": true,
+        "loss_possible": true
+      }
+    }
+  ],
+  "voice_checks": {
+    "actualQuestionFormat": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\". \")",
+    "actualFeedbackFormat": "actual correctBanner or wrongBanner + \". \" + explanation",
+    "bannerSource": "Actual pure i18n translations captured in content-author-inventory.json",
+    "maximum": 382,
+    "cases": [
+      {
+        "id": "c1",
+        "locale": "pl",
+        "question_text": "Jak rozumieć 50/30/20 jako elastyczną wskazówkę dla dochodu netto?. A. 50% oszczędności, 30% potrzeby, 20% zachcianki. B. 50% potrzeby, 30% zachcianki, 20% oszczędności i spłaty długu. C. Zawsze oszczędzać 20%, nawet kosztem podstawowych rachunków. D. Pożyczać, aby koniecznie odłożyć 20%",
+        "question_length": 288,
+        "explanation_length": 259,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. 50/30/20 to orientacyjny podział dochodu netto, który można zmienić. Najpierw zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty; nie licz tej samej spłaty dwukrotnie. Przy zmiennym dochodzie dostosuj kwoty. Bez nadwyżki nie wymuszaj oszczędzania 20%.",
+        "correct_feedback_length": 292,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. 50/30/20 to orientacyjny podział dochodu netto, który można zmienić. Najpierw zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty; nie licz tej samej spłaty dwukrotnie. Przy zmiennym dochodzie dostosuj kwoty. Bez nadwyżki nie wymuszaj oszczędzania 20%.",
+        "wrong_feedback_length": 316,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c1",
+        "locale": "en",
+        "question_text": "How should 50/30/20 be understood as a flexible guide for take-home income?. A. 50% savings, 30% needs, 20% wants. B. 50% needs, 30% wants, 20% savings and debt payments. C. Always save 20%, even at the expense of essential bills. D. Borrow in order to save exactly 20%",
+        "question_length": 269,
+        "explanation_length": 253,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. 50/30/20 is an illustrative split of take-home income that can be adapted. First protect essential needs and required minimum repayments; do not count the same payment twice. Adjust amounts when income varies. Without a surplus, do not force 20% saving.",
+        "correct_feedback_length": 287,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. 50/30/20 is an illustrative split of take-home income that can be adapted. First protect essential needs and required minimum repayments; do not count the same payment twice. Adjust amounts when income varies. Without a surplus, do not force 20% saving.",
+        "wrong_feedback_length": 315,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c2",
+        "locale": "pl",
+        "question_text": "Model: 1 000 zł, stałe hipotetyczne 5% rocznie, kapitalizacja roczna, odsetki zostają. Bez dopłat, wypłat, opłat i podatku; inflacja pominięta. Ile nominalnie po 2 latach?. A. 1 000 zł. B. 1 100 zł. C. 1 102,50 zł. D. 2 000 zł",
+        "question_length": 226,
+        "explanation_length": 264,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Procent składany nalicza odsetki także od zatrzymanych wcześniejszych odsetek. W modelu 1 000 × 1,05 × 1,05 = 1 102,50 zł. Dodatni wynik zależy od założonych 5%, nie samego czasu. To hipotetyczny rachunek, bez gwarancji rzeczywistego zysku; inwestycje mogą tracić.",
+        "correct_feedback_length": 297,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Procent składany nalicza odsetki także od zatrzymanych wcześniejszych odsetek. W modelu 1 000 × 1,05 × 1,05 = 1 102,50 zł. Dodatni wynik zależy od założonych 5%, nie samego czasu. To hipotetyczny rachunek, bez gwarancji rzeczywistego zysku; inwestycje mogą tracić.",
+        "wrong_feedback_length": 321,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c2",
+        "locale": "en",
+        "question_text": "Model: PLN 1,000, a constant hypothetical 5% a year, annual compounding, interest retained. No contributions, withdrawals, fees or tax; inflation ignored. Nominal balance after 2 years?. A. PLN 1,000. B. PLN 1,100. C. PLN 1,102.50. D. PLN 2,000",
+        "question_length": 244,
+        "explanation_length": 267,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. Compounding adds interest on retained earlier interest. In the model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. The positive result depends on the assumed 5%, not time alone. This is a hypothetical calculation, with no guarantee of actual gains; investments can lose value.",
+        "correct_feedback_length": 301,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. Compounding adds interest on retained earlier interest. In the model, 1,000 × 1.05 × 1.05 = PLN 1,102.50. The positive result depends on the assumed 5%, not time alone. This is a hypothetical calculation, with no guarantee of actual gains; investments can lose value.",
+        "wrong_feedback_length": 329,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c3",
+        "locale": "pl",
+        "question_text": "Co opisuje dywersyfikację i jej ograniczenie?. A. Wszystko w jedną silną spółkę. B. Różne aktywa mogą ograniczyć koncentrację; straty nadal są możliwe. C. Jedna obligacja usuwa każde ryzyko. D. Częste transakcje gwarantują ochronę przed spadkiem",
+        "question_length": 245,
+        "explanation_length": 257,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Dywersyfikacja rozkłada ekspozycję na różne aktywa i może ograniczać ryzyko koncentracji. Nie usuwa ryzyka rynkowego ani nie gwarantuje uniknięcia strat. Różne nazwy funduszy mogą kryć podobne aktywa; sprawdź skład, ryzyko i koszty. Zakup nie jest wymagany.",
+        "correct_feedback_length": 290,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Dywersyfikacja rozkłada ekspozycję na różne aktywa i może ograniczać ryzyko koncentracji. Nie usuwa ryzyka rynkowego ani nie gwarantuje uniknięcia strat. Różne nazwy funduszy mogą kryć podobne aktywa; sprawdź skład, ryzyko i koszty. Zakup nie jest wymagany.",
+        "wrong_feedback_length": 314,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c3",
+        "locale": "en",
+        "question_text": "Which statement describes diversification and its limit?. A. Everything in one strong company. B. Different assets can reduce concentration; losses remain possible. C. One bond removes every risk. D. Frequent trades guarantee protection from a decline",
+        "question_length": 251,
+        "explanation_length": 257,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. Diversification spreads exposure across different assets and can reduce concentration risk. It does not remove market risk or guarantee avoiding losses. Different fund names may hide similar holdings; check holdings, risk and costs. No purchase is required.",
+        "correct_feedback_length": 291,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. Diversification spreads exposure across different assets and can reduce concentration risk. It does not remove market risk or guarantee avoiding losses. Different fund names may hide similar holdings; check holdings, risk and costs. No purchase is required.",
+        "wrong_feedback_length": 319,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c4",
+        "locale": "pl",
+        "question_text": "Jak działa lawina długu, gdy podstawowe potrzeby i wszystkie wymagane minimalne spłaty są zabezpieczone?. A. Finansuje każdą nadpłatę nową pożyczką. B. Zawsze zaczyna od najmniejszego salda. C. Kieruje dostępną nadpłatę na dług o najwyższym oprocentowaniu. D. Pomija wymagane raty innych długów",
+        "question_length": 294,
+        "explanation_length": 325,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Lawina kieruje dostępną nadpłatę na najwyższe oprocentowanie po podstawowych potrzebach i minimach wszystkich długów. Przy stałych stopach i braku dodatkowych opłat może ograniczać odsetki. Sprawdź opłaty i skutki zaległości; bez nadwyżki nie wymuszaj nadpłaty. Nie gwarantuje najniższego łącznego kosztu w każdych warunkach.",
+        "correct_feedback_length": 358,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Lawina kieruje dostępną nadpłatę na najwyższe oprocentowanie po podstawowych potrzebach i minimach wszystkich długów. Przy stałych stopach i braku dodatkowych opłat może ograniczać odsetki. Sprawdź opłaty i skutki zaległości; bez nadwyżki nie wymuszaj nadpłaty. Nie gwarantuje najniższego łącznego kosztu w każdych warunkach.",
+        "wrong_feedback_length": 382,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c4",
+        "locale": "en",
+        "question_text": "How does a debt avalanche work once essentials and all required minimum repayments are covered?. A. Finances every extra payment with a new loan. B. Always starts with the smallest balance. C. Puts an available extra payment toward the highest-rate debt. D. Skips required payments on other debts",
+        "question_length": 296,
+        "explanation_length": 320,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. An avalanche puts available extra money toward the highest rate after essentials and every debt minimum. With fixed rates and no extra fees, it can reduce interest. Check fees and consequences of arrears; without a surplus, do not force an extra payment. It does not guarantee the lowest total cost under all conditions.",
+        "correct_feedback_length": 354,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. An avalanche puts available extra money toward the highest rate after essentials and every debt minimum. With fixed rates and no extra fees, it can reduce interest. Check fees and consequences of arrears; without a surplus, do not force an extra payment. It does not guarantee the lowest total cost under all conditions.",
+        "wrong_feedback_length": 382,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c5",
+        "locale": "pl",
+        "question_text": "Hipotetycznie: nominalnie +2% i inflacja 5% za ten sam rok, bez opłat i podatku. Jaka jest realna stopa zwrotu po zaokrągleniu?. A. +7%. B. +2%. C. 0%. D. Około −2,86%",
+        "question_length": 167,
+        "explanation_length": 265,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Dokładna relacja to (1,02 ÷1,05 −1) × 100% ≈ −2,86%. Odejmowanie 2% −5% =−3% jest przybliżeniem. Początkowe 1 000 zł daje nominalnie 1 020 zł, czyli około 971,43 zł w cenach początkowych. Model zakłada ten sam rok, brak opłat i podatku; nie opisuje bieżącej oferty.",
+        "correct_feedback_length": 298,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Dokładna relacja to (1,02 ÷1,05 −1) × 100% ≈ −2,86%. Odejmowanie 2% −5% =−3% jest przybliżeniem. Początkowe 1 000 zł daje nominalnie 1 020 zł, czyli około 971,43 zł w cenach początkowych. Model zakłada ten sam rok, brak opłat i podatku; nie opisuje bieżącej oferty.",
+        "wrong_feedback_length": 322,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c5",
+        "locale": "en",
+        "question_text": "Hypothetical: nominal return +2% and inflation 5% over the same year, no fees or tax. What is the rounded real return?. A. +7%. B. +2%. C. 0%. D. About −2.86%",
+        "question_length": 158,
+        "explanation_length": 259,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. The exact relation is (1.02 ÷1.05 −1) × 100% ≈ −2.86%. Subtracting 2% −5% =−3% is an approximation. Initial PLN 1,000 becomes nominal PLN 1,020, or about PLN 971.43 in initial prices. The model uses the same year and no fees or tax; it is not a current offer.",
+        "correct_feedback_length": 293,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. The exact relation is (1.02 ÷1.05 −1) × 100% ≈ −2.86%. Subtracting 2% −5% =−3% is an approximation. Initial PLN 1,000 becomes nominal PLN 1,020, or about PLN 971.43 in initial prices. The model uses the same year and no fees or tax; it is not a current offer.",
+        "wrong_feedback_length": 321,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c6",
+        "locale": "pl",
+        "question_text": "Które stwierdzenie o funduszach jest poprawne?. A. Każdy ETF zawsze śledzi indeks. B. Fundusz indeksowy śledzi indeks; ETF może być indeksowy lub aktywny. C. Każdy fundusz indeksowy jest najtańszy. D. Każdy ETF gwarantuje wynik lepszy od rynku",
+        "question_length": 243,
+        "explanation_length": 283,
+        "correct_feedback_text": "Poprawnie! Zdobywasz 50 punktów. Fundusz indeksowy ma na celu śledzenie indeksu. ETF to forma funduszu notowanego na giełdzie; może być indeksowy lub aktywny. Żadna z tych nazw nie gwarantuje niskich kosztów, przewagi nad rynkiem ani braku strat. Sprawdź cel, skład, ryzyko i wszystkie koszty. Nie musisz inwestować.",
+        "correct_feedback_length": 316,
+        "wrong_feedback_text": "Nie tym razem - przeczytaj wyjaśnienie i spróbuj jutro.. Fundusz indeksowy ma na celu śledzenie indeksu. ETF to forma funduszu notowanego na giełdzie; może być indeksowy lub aktywny. Żadna z tych nazw nie gwarantuje niskich kosztów, przewagi nad rynkiem ani braku strat. Sprawdź cel, skład, ryzyko i wszystkie koszty. Nie musisz inwestować.",
+        "wrong_feedback_length": 340,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c6",
+        "locale": "en",
+        "question_text": "Which statement about funds is correct?. A. Every ETF always tracks an index. B. An index fund tracks an index; an ETF can be indexed or active. C. Every index fund is the cheapest. D. Every ETF guarantees beating the market",
+        "question_length": 224,
+        "explanation_length": 264,
+        "correct_feedback_text": "Correct! You earned 50 points 🎉. An index fund aims to track an index. An ETF is an exchange-traded fund structure; it can be indexed or active. Neither label guarantees low costs, beating the market or avoiding losses. Check the objective, holdings, risk and all costs. You do not have to invest.",
+        "correct_feedback_length": 298,
+        "wrong_feedback_text": "Not this time — read the explanation and try again tomorrow.. An index fund aims to track an index. An ETF is an exchange-traded fund structure; it can be indexed or active. Neither label guarantees low costs, beating the market or avoiding losses. Check the objective, holdings, risk and all costs. You do not have to invest.",
+        "wrong_feedback_length": 326,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Author draft only; independent finance/PLEN review and rootbaseline/GO precede source edits.",
+    "No compulsory saving/extra repayment/investment; essentials and required minima protected.",
+    "No new legal/market/product/current-rate claim or replacement statistic.",
+    "Historical answers remain SRS history, not proof of understanding changed questions.",
+    "Seven explicit other-language target translations remain outside PLEN content acceptance.",
+    "No Einstein quotation; no universal cheapest/outperform or loss guarantee."
+  ]
+}

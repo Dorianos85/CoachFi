@@ -1,0 +1,14 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {spawnSync} from 'node:child_process';import {fingerprintRuntime} from '../cycle-38/runtime-fingerprint.mjs';
+const dir='evidence/cycle-58/',repo=fs.realpathSync(process.cwd()),hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+for(const name of ['typecheck-mode-child.json','typecheck-mode-run.json'])assert(!fs.existsSync(dir+name),'Preserve original '+name);
+const f=JSON.parse(fs.readFileSync(dir+'source-freeze-mode.json')),capture=JSON.parse(fs.readFileSync(dir+'before.json'));
+for(const p of [...f.fingerprints,...f.toolFingerprints,...f.previousSourceTools])assert.equal(hash(p.path),p.sha256,p.path);
+const paths=[...new Set([...capture.inputs.map(p=>p.path),'tests/e2e/cycle58-consent-dialog.spec.ts','playwright.cycle58.config.ts'])],pins=()=>paths.map(path=>({path,sha256:hash(path)}));
+const before=pins(),runtimeBefore=fingerprintRuntime(repo,'6.1.4');assert.deepEqual(runtimeBefore,capture.runtime);
+const env={...process.env};for(const n of Object.keys(env))if(/SUPABASE|CDP_|SOLANA|ANTHROPIC|OPENAI|OPENROUTER|ELEVENLABS|UPSTASH|COACHFI_DEV_DB|NODE_AUTH_TOKEN|NPM_TOKEN/.test(n))env[n]='';delete env.NODE_OPTIONS;delete env.NODE_PATH;env.NEXT_TELEMETRY_DISABLED='1';
+const require=createRequire(path.join(repo,'package.json')),args=[require.resolve('typescript/bin/tsc'),'--noEmit','--incremental','false'],startedAt=new Date().toISOString();
+const r=spawnSync(process.execPath,args,{cwd:repo,env,encoding:'utf8',shell:false,windowsHide:true,maxBuffer:16*1024*1024});
+const childPath=dir+'typecheck-mode-child.json';fs.writeFileSync(childPath,JSON.stringify({cycle:58,startedAt,completedAt:new Date().toISOString(),args,childExitCode:r.status,stdout:r.stdout??'',stderr:r.stderr??'',error:r.error?.message??null},null,2)+'\n',{flag:'wx'});
+const after=pins(),drift=before.filter((p,i)=>p.sha256!==after[i].sha256),runtimeAfter=fingerprintRuntime(repo,'6.1.4'),runtimeEqual=JSON.stringify(runtimeBefore)===JSON.stringify(runtimeAfter),exitCode=r.status===0&&!r.error&&!drift.length&&runtimeEqual?0:1;
+const result={cycle:58,status:exitCode===0?'PASS':'FAIL',startedAt,completedAt:new Date().toISOString(),childReceipt:{path:childPath,sha256:hash(childPath)},childExitCode:r.status,exitCode,before,after,drift,runtimeBefore,runtimeAfter,runtimeEqual,stdout:r.stdout??'',stderr:r.stderr??'',error:r.error?.message??null,environment:'Local noEmit/incrementalfalse compiler with existing dependencies; no product execution, provider calls or real data.'};
+fs.writeFileSync(dir+'typecheck-mode-run.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:result.status,exitCode,inputs:before.length,drift:drift.length,runtimeEqual}));process.exitCode=exitCode;

@@ -3,119 +3,223 @@ import type { Locale } from "@/lib/i18n";
 
 const en: QuizQuestion[] = [
   {
-    id: "inflation-basics",
-    question: "What does inflation mean?",
-    answers: [
-      { id: "A", text: "Money buys more over time" },
-      { id: "B", text: "Money loses purchasing power over time" },
-      { id: "C", text: "Banks give out free money" },
-      { id: "D", text: "Prices always go down" },
+    "id": "inflation-basics",
+    "question": "The same weighted basket costs PLN 1,000, then PLN 1,050. What does this illustration show?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Every price must rise by 5%"
+      },
+      {
+        "id": "B",
+        "text": "Basket prices rise 5%; the same cash buys less"
+      },
+      {
+        "id": "C",
+        "text": "All household costs rise by exactly 5%"
+      },
+      {
+        "id": "D",
+        "text": "One higher price alone proves general inflation"
+      }
     ],
-    correctAnswer: "B",
-    reward: 25,
-    successMessage: "Inflation is the silent enemy of unmanaged cash. +25 points!",
-    retryMessage: "Inflation means money loses purchasing power. The same amount buys less over time.",
-    category: "Inflation",
+    "correctAnswer": "B",
+    "reward": 25,
+    "successMessage": "The basket rises 5%; each price and household can differ. +25 local points.",
+    "retryMessage": "Inflation concerns a broad weighted basket, not one price. Here (1,050 ÷ 1,000 − 1) × 100% = 5%; the same cash buys less of that basket. Different households have different spending baskets.",
+    "category": "Inflation"
   },
   {
-    id: "emergency-fund",
-    question: "How many months of expenses should an emergency fund cover?",
-    answers: [
-      { id: "A", text: "1 week" },
-      { id: "B", text: "1 month" },
-      { id: "C", text: "3 to 6 months" },
-      { id: "D", text: "10 years" },
+    "id": "emergency-fund",
+    "question": "In this example you choose 3 months at PLN 2,000 of essential costs (required debt minimums included once). What is the goal with constant costs?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "PLN 2,000"
+      },
+      {
+        "id": "B",
+        "text": "PLN 4,000"
+      },
+      {
+        "id": "C",
+        "text": "PLN 6,000"
+      },
+      {
+        "id": "D",
+        "text": "PLN 12,000"
+      }
     ],
-    correctAnswer: "C",
-    reward: 25,
-    successMessage: "3 to 6 months is a safe cushion for job loss or unexpected expenses. +25 points!",
-    retryMessage: "A practical emergency fund usually covers 3 to 6 months of essential expenses.",
-    category: "Emergency Fund",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "Chosen goal: 3 × 2,000 = PLN 6,000. An example, not a required threshold. +25 local points.",
+    "retryMessage": "3 × PLN 2,000 = PLN 6,000 under the stated constant costs, with debt minimums already included once. Reserve size depends on circumstances; 3–6 months can be an indicative choice without guaranteed protection. This gives no completion date or transfer obligation.",
+    "category": "Emergency Fund"
   },
   {
-    id: "saving-habit",
-    question: "Which saving habit is most effective?",
-    answers: [
-      { id: "A", text: "Save whatever is left at the end of the month" },
-      { id: "B", text: "Save only when you earn more" },
-      { id: "C", text: "Transfer a fixed amount automatically after your paycheck arrives" },
-      { id: "D", text: "Keep everything as cash at home" },
+    "id": "saving-habit",
+    "question": "Which transfer is safe when income varies?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Save a fixed amount even if bills are unpaid"
+      },
+      {
+        "id": "B",
+        "text": "Borrow money to keep saving every month"
+      },
+      {
+        "id": "C",
+        "text": "Choose an affordable amount after essentials and minimum payments"
+      },
+      {
+        "id": "D",
+        "text": "Transfer all income before checking upcoming bills"
+      }
     ],
-    correctAnswer: "C",
-    reward: 25,
-    successMessage: "Automatic saving after payday is the strongest habit. +25 points!",
-    retryMessage: "The most effective habit is an automatic transfer right after income arrives.",
-    category: "Saving Habit",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "An optional transfer uses affordable surplus after essentials and required minimum payments. +25 local points.",
+    "retryMessage": "Reserve essentials and required minimum payments first. Then choose an optional transfer from available surplus. Recheck its amount and timing when income varies; pause when there is no surplus.",
+    "category": "Saving Habit"
   },
   {
-    id: "interest-rates",
-    question: "What happens to a variable-rate loan when interest rates rise?",
-    answers: [
-      { id: "A", text: "Monthly payments go down" },
-      { id: "B", text: "Nothing changes" },
-      { id: "C", text: "Monthly payments usually go up" },
-      { id: "D", text: "The loan disappears" },
+    "id": "interest-rates",
+    "question": "Hypothetical loan: a 3% reference rate + a 2 percentage-point margin. At the contractual reset the reference rises to 4%; the margin is unchanged. What is the new rate?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "2%"
+      },
+      {
+        "id": "B",
+        "text": "5%"
+      },
+      {
+        "id": "C",
+        "text": "6%"
+      },
+      {
+        "id": "D",
+        "text": "9%"
+      }
     ],
-    correctAnswer: "C",
-    reward: 25,
-    successMessage: "Variable-rate loans usually become more expensive when rates rise. +25 points!",
-    retryMessage: "Variable-rate loans are linked to market rates, so payments can rise.",
-    category: "Credit",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "4% + 2 percentage points = 6% at the contractual reset. +25 local points.",
+    "retryMessage": "The new reference replaces the old: 4% + the unchanged 2 percentage-point margin = 6%. The contract sets the timing; a central-bank decision alone does not instantly change every installment. A rate can be fixed or periodically fixed. Check the agreed period and the subsequent contractual terms when it ends; this does not freeze every fee.",
+    "category": "Credit & Rates"
   },
 ];
 
 const pl: QuizQuestion[] = [
   {
-    ...en[0],
-    question: "Co oznacza inflacja?",
-    answers: [
-      { id: "A", text: "Pieniądze kupują więcej z czasem" },
-      { id: "B", text: "Pieniądze tracą siłę nabywczą z czasem" },
-      { id: "C", text: "Banki rozdają darmowe pieniądze" },
-      { id: "D", text: "Ceny zawsze spadają" },
+    "id": "inflation-basics",
+    "question": "Ten sam ważony koszyk kosztuje 1 000 zł, potem 1 050 zł. Co pokazuje ten przykład?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Każda cena musi wzrosnąć o 5%"
+      },
+      {
+        "id": "B",
+        "text": "Koszyk drożeje o 5%; ta sama gotówka kupuje mniej"
+      },
+      {
+        "id": "C",
+        "text": "Koszty każdego gospodarstwa rosną dokładnie o 5%"
+      },
+      {
+        "id": "D",
+        "text": "Jedna wyższa cena dowodzi ogólnej inflacji"
+      }
     ],
-    successMessage: "Inflacja to cichy przeciwnik gotówki bez planu. +25 punktów!",
-    retryMessage: "Inflacja oznacza, że ta sama kwota kupuje z czasem mniej.",
-    category: "Inflacja",
+    "correctAnswer": "B",
+    "reward": 25,
+    "successMessage": "Koszyk drożeje o 5%; pojedyncze ceny i koszyki gospodarstw mogą się różnić. +25 lokalnych punktów.",
+    "retryMessage": "Inflacja dotyczy ogólnego wzrostu cen ważonego koszyka, nie jednej ceny. Tutaj (1 050 ÷ 1 000 − 1) × 100% = 5%; ta sama gotówka kupuje mniej tego koszyka. Gospodarstwa mają różne koszyki wydatków.",
+    "category": "Inflacja"
   },
   {
-    ...en[1],
-    question: "Ile miesięcy wydatków powinien obejmować fundusz awaryjny?",
-    answers: [
-      { id: "A", text: "1 tydzień" },
-      { id: "B", text: "1 miesiąc" },
-      { id: "C", text: "3 do 6 miesięcy" },
-      { id: "D", text: "10 lat" },
+    "id": "emergency-fund",
+    "question": "W przykładzie wybierasz 3 miesiące po 2 000 zł niezbędnych kosztów (w tym wymagane minimum długu, liczone raz). Ile wynosi cel przy stałych kosztach?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "2 000 zł"
+      },
+      {
+        "id": "B",
+        "text": "4 000 zł"
+      },
+      {
+        "id": "C",
+        "text": "6 000 zł"
+      },
+      {
+        "id": "D",
+        "text": "12 000 zł"
+      }
     ],
-    successMessage: "3 do 6 miesięcy to rozsądna poduszka na utratę dochodu lub nagłe koszty. +25 punktów!",
-    retryMessage: "Fundusz awaryjny powinien zwykle pokrywać 3 do 6 miesięcy podstawowych wydatków.",
-    category: "Fundusz awaryjny",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "Wybrany cel: 3 × 2 000 = 6 000 zł. To przykład, nie obowiązkowy próg. +25 lokalnych punktów.",
+    "retryMessage": "3 × 2 000 zł = 6 000 zł przy podanych stałych kosztach, z minimum długu już uwzględnionym raz. Wielkość rezerwy zależy od sytuacji; 3–6 miesięcy można wybrać orientacyjnie, bez gwarancji ochrony. To nie termin zebrania kwoty ani obowiązek przelewu.",
+    "category": "Fundusz awaryjny"
   },
   {
-    ...en[2],
-    question: "Który nawyk oszczędzania jest najskuteczniejszy?",
-    answers: [
-      { id: "A", text: "Odkładać to, co zostanie na koniec miesiąca" },
-      { id: "B", text: "Oszczędzać tylko wtedy, gdy zarabiasz więcej" },
-      { id: "C", text: "Automatycznie przelewać stałą kwotę po wypłacie" },
-      { id: "D", text: "Trzymać wszystko w gotówce w domu" },
+    "id": "saving-habit",
+    "question": "Który przelew jest bezpieczny przy zmiennym dochodzie?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "Odkładać stałą kwotę mimo nieopłaconych rachunków"
+      },
+      {
+        "id": "B",
+        "text": "Pożyczać pieniądze, aby oszczędzać co miesiąc"
+      },
+      {
+        "id": "C",
+        "text": "Wybrać dostępną kwotę po potrzebach i minimalnych spłatach"
+      },
+      {
+        "id": "D",
+        "text": "Przelać cały dochód przed sprawdzeniem przyszłych rachunków"
+      }
     ],
-    successMessage: "Automatyczne oszczędzanie po wypłacie to najmocniejszy nawyk. +25 punktów!",
-    retryMessage: "Najskuteczniejszy jest automatyczny przelew zaraz po wpływie dochodu.",
-    category: "Nawyk oszczędzania",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "Opcjonalny przelew korzysta z dostępnej nadwyżki po potrzebach i wymaganych minimalnych spłatach. +25 punktów lokalnych.",
+    "retryMessage": "Najpierw zabezpiecz potrzeby i wymagane minimalne spłaty. Następnie wybierz opcjonalny przelew z dostępnej nadwyżki. Przy zmiennym dochodzie sprawdzaj kwotę i termin; bez nadwyżki wstrzymaj przelew.",
+    "category": "Nawyk oszczędzania"
   },
   {
-    ...en[3],
-    question: "Co zwykle dzieje się z kredytem o zmiennej stopie, gdy stopy procentowe rosną?",
-    answers: [
-      { id: "A", text: "Rata spada" },
-      { id: "B", text: "Nic się nie zmienia" },
-      { id: "C", text: "Rata zwykle rośnie" },
-      { id: "D", text: "Kredyt znika" },
+    "id": "interest-rates",
+    "question": "Hipotetyczny kredyt: wskaźnik 3% + marża 2 pkt proc. Przy umownej aktualizacji wskaźnik rośnie do 4%, marża bez zmian. Jakie jest nowe oprocentowanie?",
+    "answers": [
+      {
+        "id": "A",
+        "text": "2%"
+      },
+      {
+        "id": "B",
+        "text": "5%"
+      },
+      {
+        "id": "C",
+        "text": "6%"
+      },
+      {
+        "id": "D",
+        "text": "9%"
+      }
     ],
-    successMessage: "Kredyt o zmiennej stopie zwykle robi się droższy, gdy stopy rosną. +25 punktów!",
-    retryMessage: "Kredyty zmienne są powiązane ze stopami rynkowymi, więc rata może wzrosnąć.",
-    category: "Kredyt",
+    "correctAnswer": "C",
+    "reward": 25,
+    "successMessage": "4% + 2 pkt proc. = 6% przy umownej aktualizacji. +25 lokalnych punktów.",
+    "retryMessage": "Nowy wskaźnik zastępuje stary: 4% + niezmieniona marża 2 pkt proc. = 6%. Termin określa umowa; sama decyzja banku centralnego nie oznacza natychmiastowej zmiany każdej raty. Oprocentowanie może być stałe lub okresowo stałe. Sprawdź uzgodniony okres i dalsze warunki umowy po jego końcu; nie oznacza to zamrożenia wszystkich opłat.",
+    "category": "Kredyt i stopy procentowe"
   },
 ];
 

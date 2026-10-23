@@ -1,0 +1,517 @@
+{
+  "schema_version": 1,
+  "cycle": 36,
+  "module": null,
+  "version": "retirement-tax-ppk-pl-en-v1-c36-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 3,
+  "language_versions": 6,
+  "wrong_rationale_count": 9,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_per_language": 0,
+  "reward_total": 90,
+  "canonical_union_count_unchanged": 82,
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "ike-vs-ikze",
+      "ppk-employer-match",
+      "ppk-state-bonus"
+    ],
+    "keys": [
+      "B",
+      "B",
+      "B"
+    ],
+    "rewards": [
+      35,
+      30,
+      25
+    ],
+    "rawEN": "ThreeexistingENobjects;Retirementcategory retained.",
+    "PL": "ThreeexistingPLvalueinitializers;Emeryturacategory/82properties retained.",
+    "otherLocales": "ES/FRthreeexplicittranslations literal;fiveothercanonicalviews existingENfallbackeffect without acceptingnewmarkets/locales.",
+    "protected": "Other59rawquiz,all20challenges,explicitlocalization/stage/topic/pools/app/writers/SRS and acceptedcopy/proofs literal."
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "ike-ikze-law",
+      "publisher": "Sejm RP / ELI",
+      "title": "Ustawa o IKE i IKZE — current U dated2026-02-05,30pages",
+      "url": "https://eli.gov.pl/api/acts/DU/2004/1205/text/U/D20041205Lj.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Official full PDF accessed; Articles2/13a/34/34a read. Based on Dz.U.2026poz91.",
+      "bounded_use": "Qualifying saverwithdrawal and earlyreturn distinct; IKZE65/atleast5calendarcontributionyears; statutory IKEconditions.",
+      "limits": "No exhaustive beneficiarydeath/transfer rules, individualaccount decision, annualcap recommendation or newproduct."
+    },
+    {
+      "id": "pit-law",
+      "publisher": "Sejm RP / ELI",
+      "title": "Ustawa PIT — current U dated2026-09-16,432pages",
+      "url": "https://eli.gov.pl/api/acts/DU/1991/350/text/U/D19910350Lj.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Full officialPDF accessible; relevant Art20,21(1)(58a),26(1)(2b),30(1)(14)/30(3), employerincome/exemption context read. Not a claim every432pages independentlyaudited.",
+      "bounded_use": "IKEconditionalexemption, IKZEannualdeduction and10% of withdrawalamount without deductingcosts; earlyreturnordinaryPIT; possibleincomeexemptions.",
+      "limits": "No newtaxrates/thresholds/netpayquote/personaltaxadvice; future2027OKI amendment identified outside scope, not activated."
+    },
+    {
+      "id": "tax-ikze",
+      "publisher": "Ministerstwo Finansów / podatki.gov.pl",
+      "title": "Ulga na IKZE PIT — updated6October2026",
+      "url": "https://www.podatki.gov.pl/ulgi-i-odliczenia/ulga-na-ikze-pit",
+      "checked_date": "2026-10-16",
+      "access": "Official fullpage via officialULGIlink read; initial guessed /ulgi/ulga-na-ikze/ unavailable, not evidence of productfailure.",
+      "bounded_use": "Annualreturn deduction from applicableincome/revenue within limit; insufficientbaseunusedamount cannotcarryforward; not a universalguaranteedrefund.",
+      "limits": "No currentannualcap includedinproduct or calculationofindividualrelief."
+    },
+    {
+      "id": "gov-ikze",
+      "publisher": "MRPiPS / gov.pl",
+      "title": "Co trzeba wiedzieć o IKZE — modified1September2023, freshlycrosscheckedwithcurrentlaws",
+      "url": "https://www.gov.pl/web/rodzina/roczny-limit-wplat-na-ikze",
+      "checked_date": "2026-10-16",
+      "access": "Full relevantsections read: withdrawalqualifications,10% andearlyreturnPITscale. Historicalannualcapmentions not reused.",
+      "bounded_use": "Readablecrosscheck of saverwithdrawal versusreturn.",
+      "limits": "Not treated as currentannualcap or entire2026law."
+    },
+    {
+      "id": "ppk-law",
+      "publisher": "Sejm RP / ELI",
+      "title": "Ustawa PPK — current U dated2026-07-29,114pages",
+      "url": "https://eli.gov.pl/api/acts/DU/2018/2215/text/U/D20182215Lj.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Official fullPDF accessed; Art2 remunerationbase,26/27 rates andconditionalreduction,31/32statepaymentconditions/33oneannualpayment and97context read. Current U includes Dz.U.2026poz192,989.",
+      "bounded_use": "Preservedcorrect1.5/2.5/2percent,250/240 andconditionalreceipts; hypotheticaloneperiodonly.",
+      "limits": "Not simply Feb2026t.j.192, no currentminimumsalary or exacteligibilitythreshold/netpaycalculation. No newPPKactivation/strategy."
+    },
+    {
+      "id": "ppk-base",
+      "publisher": "PFR Portal PPK",
+      "title": "Wpłaty do PPK nalicza się od całego wynagrodzenia uczestnika —19July2023",
+      "url": "https://www.mojeppk.pl/aktualnosci/wplaty-do-ppk-nalicza-sie-od-calego-wynagrodzenia.html",
+      "checked_date": "2026-10-16",
+      "access": "Full officialpage read andcrosscheckedagainstcurrentArt2/26/27.",
+      "bounded_use": "Statutoryremunerationbase differsfromallgrosscash/netpay; contributionfundingsources.",
+      "limits": "No realpayroll/account or employerrecommendation."
+    },
+    {
+      "id": "ppk-tax",
+      "publisher": "PFR Portal PPK",
+      "title": "Jaki podatek zapłaci pracownik od wpłaty pracodawcy?",
+      "url": "https://www.mojeppk.pl/faq/pracownik/podatki-i-skladki-zus_jaki-podatek-zaplaci-pracownik-od-wplaty-pracodawcy.html",
+      "supporting_url": "https://www.mojeppk.pl/pliki/repozytorium-plikow/materialy-do-pobrania/pdf/Podatki.pdf",
+      "checked_date": "2026-10-16",
+      "access": "OfficialFAQfulltext read; officialindexedtaxguidePIT0exceptions checked withcurrentPITcontext. FAQrates not copied as universalactualtax.",
+      "bounded_use": "Employerpayments are PITincome, possibleexemptions mean not alwayssamenettaxcost; no freeprofit claim.",
+      "limits": "No PITbracket/threshold taught or netpayquoted; possibleexemptions not exhaustive."
+    },
+    {
+      "id": "ppk-state",
+      "publisher": "PFR Portal PPK",
+      "title": "Czy trzeba spełnić jakieś warunki, aby otrzymać dopłaty od państwa?",
+      "url": "https://www.mojeppk.pl/faq/pracodawca/doplaty-od-panstwa_czy-trzeba-spelnic-jakies-watunki-aby-otrzymac-doplaty-od-panstwa.html",
+      "checked_date": "2026-10-16",
+      "access": "Full officialFAQ read;3monthwelcome,annualeligiblelevel/reducedcontributions/exclusions crosscheckedcurrentArt31/32/97.",
+      "bounded_use": "250once/240annualconditional, accountaloneinsufficient; after60withdrawalexclusion.",
+      "limits": "No currentyearthreshold or allconditionsin500characters; no statepaymentasfixedinvestmentreturn."
+    }
+  ],
+  "questions": [
+    {
+      "id": "ike-vs-ikze",
+      "objective": {
+        "pl": "Rozróżnić warunkowe zwolnienie IKE, ograniczone odliczenie IKZE i kwalifikującą wypłatę wobec wcześniejszego zwrotu.",
+        "en": "Distinguish conditional IKE exemption, limited IKZE deduction and a qualifying withdrawal from an early return."
+      },
+      "source_ids": [
+        "ike-ikze-law",
+        "pit-law",
+        "tax-ikze",
+        "gov-ikze"
+      ],
+      "copy": {
+        "pl": {
+          "id": "ike-vs-ikze",
+          "question": "Jaka jest kluczowa różnica podatkowa między IKE a IKZE?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Są identyczne pod każdym względem"
+            },
+            {
+              "id": "B",
+              "text": "IKE: zwolnienie z podatku od zysków przy wypłacie na warunkach; IKZE: możliwe odliczenie wpłat i 10% całej kwalifikującej wypłaty"
+            },
+            {
+              "id": "C",
+              "text": "Oba są opodatkowane 19% co roku"
+            },
+            {
+              "id": "D",
+              "text": "Żadne nie daje korzyści podatkowej"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 35,
+          "successMessage": "IKE nie daje odliczenia wpłat; zwolnienie z podatku od zysków wymaga ustawowych warunków wypłaty. Wpłaty IKZE można odliczyć w zeznaniu rocznym od dochodu lub przychodu, w rocznym limicie; korzyść zależy od sytuacji podatkowej. Dla oszczędzającego wypłata IKZE wymaga 65 lat i wpłat w co najmniej 5 latach kalendarzowych; 10% dotyczy całej wypłaty, nie tylko zysku. Wcześniejszy zwrot IKZE podlega skali PIT. To nie gwarancja zysku.",
+          "retryMessage": "IKE nie daje odliczenia wpłat; zwolnienie z podatku od zysków wymaga ustawowych warunków wypłaty. Wpłaty IKZE można odliczyć w zeznaniu rocznym od dochodu lub przychodu, w rocznym limicie; korzyść zależy od sytuacji podatkowej. Dla oszczędzającego wypłata IKZE wymaga 65 lat i wpłat w co najmniej 5 latach kalendarzowych; 10% dotyczy całej wypłaty, nie tylko zysku. Wcześniejszy zwrot IKZE podlega skali PIT. To nie gwarancja zysku.",
+          "category": "Emerytura"
+        },
+        "en": {
+          "id": "ike-vs-ikze",
+          "question": "What's the key tax difference between Poland's IKE and IKZE accounts?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "They are identical in every way"
+            },
+            {
+              "id": "B",
+              "text": "IKE: gains tax exemption on qualifying withdrawal; IKZE: possible contribution deduction and 10% tax on the whole qualifying withdrawal"
+            },
+            {
+              "id": "C",
+              "text": "Both are taxed at 19% every year"
+            },
+            {
+              "id": "D",
+              "text": "Neither offers any tax benefit"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 35,
+          "successMessage": "IKE contributions are not deductible; gains tax exemption needs statutory withdrawal conditions. IKZE payments may be deducted in the annual tax return, within the annual limit, from income or revenue; relief depends on the tax situation. For the saver, a qualifying IKZE withdrawal requires age 65 and contributions in at least 5 calendar years; 10% applies to the whole withdrawal, not just gains. An early IKZE return is taxed on the PIT scale. Neither account guarantees profit.",
+          "retryMessage": "IKE contributions are not deductible; gains tax exemption needs statutory withdrawal conditions. IKZE payments may be deducted in the annual tax return, within the annual limit, from income or revenue; relief depends on the tax situation. For the saver, a qualifying IKZE withdrawal requires age 65 and contributions in at least 5 calendar years; 10% applies to the whole withdrawal, not just gains. An early IKZE return is taxed on the PIT scale. Neither account guarantees profit.",
+          "category": "Retirement"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "IKE i IKZE nie są identyczne: różnią się odliczeniem wpłat i zasadami opodatkowania wypłaty lub zwrotu.",
+          "en": "IKE and IKZE differ in contribution deductions and the tax treatment of withdrawals or returns."
+        },
+        "C": {
+          "pl": "Nie jest prawdą, że oba konta są obowiązkowo opodatkowane 19% co roku; istotne są rodzaj konta i ustawowe warunki wypłaty.",
+          "en": "The accounts are not both necessarily taxed at 19% every year; the account type and statutory withdrawal conditions matter."
+        },
+        "D": {
+          "pl": "Istnieją warunkowe preferencje podatkowe, lecz ich rzeczywista wartość nie jest uniwersalnym zwrotem dla każdej osoby.",
+          "en": "Conditional tax advantages exist, but their actual value is not a universal refund for every person."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Adult saver in Poland; qualifying saverwithdrawal distinguished from earlyreturn; beneficiarydeath/transfer/rateschedules not taught as sameoperation.",
+          "No currentannualcontributioncap, netrefundquote, recommendation or guarantee that all contributions reduce tax; annualdeduction depends on applicable taxable income/revenue and statutory limits."
+        ]
+      },
+      "preserved": "Original stems and A/C/D options, B key/35reward and Retirement/Emerytura categories retained. B and feedback qualify existing10%.",
+      "correct_answer": "B",
+      "reward": 35,
+      "country": "PL",
+      "units": "PLN contributions on hypotheticalstatutorybase;percenttax/ratesqualified,no netpay/returnforecast",
+      "author": "daily_author",
+      "version": "retirement-tax-ppk-pl-en-v1-c36-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaka jest kluczowa różnica podatkowa między IKE a IKZE? A. Są identyczne pod każdym względem B. IKE: zwolnienie z podatku od zysków przy wypłacie na warunkach; IKZE: możliwe odliczenie wpłat i 10% całej kwalifikującej wypłaty C. Oba są opodatkowane 19% co roku D. Żadne nie daje korzyści podatkowej",
+          "wholeQuestionABCDLength": 298,
+          "conservativeWholeQuestionABCDLength": 302,
+          "successLength": 432,
+          "retryLength": 432
+        },
+        "en": {
+          "wholeQuestionABCD": "What's the key tax difference between Poland's IKE and IKZE accounts? A. They are identical in every way B. IKE: gains tax exemption on qualifying withdrawal; IKZE: possible contribution deduction and 10% tax on the whole qualifying withdrawal C. Both are taxed at 19% every year D. Neither offers any tax benefit",
+          "wholeQuestionABCDLength": 313,
+          "conservativeWholeQuestionABCDLength": 317,
+          "successLength": 482,
+          "retryLength": 482
+        }
+      }
+    },
+    {
+      "id": "ppk-employer-match",
+      "objective": {
+        "pl": "Policzyć wpłaty od ustawowej podstawy PPK, odróżniając je od pensji netto i gwarancji zysku.",
+        "en": "Calculate contributions on the statutory PPK base, distinguishing them from net pay and guaranteed profit."
+      },
+      "source_ids": [
+        "ppk-law",
+        "ppk-base",
+        "ppk-tax"
+      ],
+      "copy": {
+        "pl": {
+          "id": "ppk-employer-match",
+          "question": "Ile wynoszą wpłaty pracodawcy do PPK, naliczane od ustawowej podstawy wynagrodzenia?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Nic — płaci tylko pracownik"
+            },
+            {
+              "id": "B",
+              "text": "Podstawowe 1,5% podstawy PPK plus dobrowolnie do 2,5% dodatkowo"
+            },
+            {
+              "id": "C",
+              "text": "Stałe 100 zł niezależnie od pensji"
+            },
+            {
+              "id": "D",
+              "text": "10% pensji"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Podstawowa wpłata pracodawcy to 1,5% ustawowej podstawy PPK, dodatkowa do 2,5%. Przykład za jeden okres, podstawa 6000 zł: 2% pracownika = 120 zł, 1,5% pracodawcy = 90 zł; opcjonalne 2,5% = 150 zł, razem pracodawca maks. 240 zł. Przyjmujemy pełne 2% pracownika; obniżenie jest możliwe na warunkach. To nie pensja netto: wpłata pracodawcy jest przychodem PIT, z możliwymi zwolnieniami. Kwoty wpłat nie są gwarancją zysku.",
+          "retryMessage": "Podstawowa wpłata pracodawcy to 1,5% ustawowej podstawy PPK, dodatkowa do 2,5%. Przykład za jeden okres, podstawa 6000 zł: 2% pracownika = 120 zł, 1,5% pracodawcy = 90 zł; opcjonalne 2,5% = 150 zł, razem pracodawca maks. 240 zł. Przyjmujemy pełne 2% pracownika; obniżenie jest możliwe na warunkach. To nie pensja netto: wpłata pracodawcy jest przychodem PIT, z możliwymi zwolnieniami. Kwoty wpłat nie są gwarancją zysku.",
+          "category": "Emerytura"
+        },
+        "en": {
+          "id": "ppk-employer-match",
+          "question": "What are the employer's PPK contribution rates on the statutory remuneration base?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Nothing — only the employee pays"
+            },
+            {
+              "id": "B",
+              "text": "Basic 1.5% of the PPK base plus an optional additional contribution up to 2.5%"
+            },
+            {
+              "id": "C",
+              "text": "A flat 100 PLN regardless of salary"
+            },
+            {
+              "id": "D",
+              "text": "10% of salary"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Employer rates are 1.5% basic plus up to 2.5% additional, on the statutory PPK base. One-period example, PLN 6,000 base: employee 2% = 120; employer 1.5% = 90; optional 2.5% = 150, maximum employer total = 240. Assume the full employee 2%; a reduction is possible under conditions. These are contributions, not net pay: employer payments are PIT income, with possible exemptions. Contributions do not guarantee profit.",
+          "retryMessage": "Employer rates are 1.5% basic plus up to 2.5% additional, on the statutory PPK base. One-period example, PLN 6,000 base: employee 2% = 120; employer 1.5% = 90; optional 2.5% = 150, maximum employer total = 240. Assume the full employee 2%; a reduction is possible under conditions. These are contributions, not net pay: employer payments are PIT income, with possible exemptions. Contributions do not guarantee profit.",
+          "category": "Retirement"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "W opisanym uczestnictwie pracodawca finansuje wpłatę podstawową 1,5%; nie finansuje jej wyłącznie pracownik.",
+          "en": "For the participation described, the employer finances a basic1.5% contribution; funding is not solely from the employee."
+        },
+        "C": {
+          "pl": "Wpłata jest procentem ustawowej podstawy, a nie uniwersalną stałą kwotą100PLN niezależnie od wynagrodzenia.",
+          "en": "The contribution is a percentage of the statutory base, not a universal flat PLN100 regardless of remuneration."
+        },
+        "D": {
+          "pl": "Podstawowe1,5% i fakultatywne dodatkowe do2,5% dają najwyżej4% finansowane przez pracodawcę, nie10%.",
+          "en": "Basic1.5% and optional additional up to2.5% give a maximum employer-funded4%, not10%."
+        }
+      },
+      "number_model": {
+        "kind": "hypothetical-one-period-PPK-contributions-not-net-pay",
+        "assumptions": [
+          "One hypothetical period with statutory PPK remunerationbase already determined as PLN6000, not a currentminimumsalary or realpayroll.",
+          "Full employee basic2% is assumed, without employeeadditionalpayment; statutory conditional reduction acknowledged but no currentthreshold taught.",
+          "Employerbasic1.5%; optionaladditional2.5% only if declared at thatmaximum; no claim all employers pay it.",
+          "Amounts are contribution calculations only, not netpay, PITcalculation, investmentgain, laterpayout, fixedreturn or allinfinancialcost.",
+          "No otherpayrollchanges/netdeductions/investmentgrowth/fees/taxes calculated. Employerfunding is PITincome with statutory exemptions possible."
+        ],
+        "inputs": {
+          "basePLN": 6000,
+          "employeeBasicPercent": 2,
+          "employerBasicPercent": 1.5,
+          "employerOptionalAdditionalPercent": 2.5
+        },
+        "expressions": [
+          "6000*0.02=120",
+          "6000*0.015=90",
+          "6000*0.025=150",
+          "90+150=240"
+        ],
+        "result": {
+          "employeeBasicPLN": 120,
+          "employerBasicPLN": 90,
+          "employerOptionalAdditionalPLN": 150,
+          "employerMaximumTotalPLN": 240
+        }
+      },
+      "preserved": "Original A/C/D options, B key/30reward/categories and correct1.5%+optional2.5% retained; stem/base and feedback clarify actual payroll meaning.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "PLN contributions on hypotheticalstatutorybase;percenttax/ratesqualified,no netpay/returnforecast",
+      "author": "daily_author",
+      "version": "retirement-tax-ppk-pl-en-v1-c36-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Ile wynoszą wpłaty pracodawcy do PPK, naliczane od ustawowej podstawy wynagrodzenia? A. Nic — płaci tylko pracownik B. Podstawowe 1,5% podstawy PPK plus dobrowolnie do 2,5% dodatkowo C. Stałe 100 zł niezależnie od pensji D. 10% pensji",
+          "wholeQuestionABCDLength": 234,
+          "conservativeWholeQuestionABCDLength": 238,
+          "successLength": 420,
+          "retryLength": 420
+        },
+        "en": {
+          "wholeQuestionABCD": "What are the employer's PPK contribution rates on the statutory remuneration base? A. Nothing — only the employee pays B. Basic 1.5% of the PPK base plus an optional additional contribution up to 2.5% C. A flat 100 PLN regardless of salary D. 10% of salary",
+          "wholeQuestionABCDLength": 256,
+          "conservativeWholeQuestionABCDLength": 260,
+          "successLength": 418,
+          "retryLength": 418
+        }
+      }
+    },
+    {
+      "id": "ppk-state-bonus",
+      "objective": {
+        "pl": "Zachować250/240PLN i rozpoznać ustawowe warunki zamiast gwarantowanego corocznego wyniku.",
+        "en": "Retain PLN250/240 and recognise statutory conditions instead of a guaranteed annual return."
+      },
+      "source_ids": [
+        "ppk-law",
+        "ppk-state"
+      ],
+      "copy": {
+        "pl": {
+          "id": "ppk-state-bonus",
+          "question": "Jakie dopłaty państwowe przewiduje PPK po spełnieniu warunków?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Żadnych"
+            },
+            {
+              "id": "B",
+              "text": "Jednorazowe 250 zł i roczne 240 zł po spełnieniu warunków"
+            },
+            {
+              "id": "C",
+              "text": "Jednorazowo 50 000 zł"
+            },
+            {
+              "id": "D",
+              "text": "Darmowe akcje pracodawcy"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "250 zł to jednorazowa wpłata powitalna: co najmniej 3 pełne miesiące uczestnictwa i wpłaty podstawowe uczestnika za co najmniej 3 miesiące. Dopłata roczna 240 zł wymaga ustawowego poziomu wpłat; obniżona wpłata pracownika ma odrębne warunki. Samo konto nie wystarcza; po rozpoczęciu wypłat po 60. roku życia dopłata roczna nie przysługuje. Dopłaty nie są stopą zwrotu ani gwarancją zysku.",
+          "retryMessage": "250 zł to jednorazowa wpłata powitalna: co najmniej 3 pełne miesiące uczestnictwa i wpłaty podstawowe uczestnika za co najmniej 3 miesiące. Dopłata roczna 240 zł wymaga ustawowego poziomu wpłat; obniżona wpłata pracownika ma odrębne warunki. Samo konto nie wystarcza; po rozpoczęciu wypłat po 60. roku życia dopłata roczna nie przysługuje. Dopłaty nie są stopą zwrotu ani gwarancją zysku.",
+          "category": "Emerytura"
+        },
+        "en": {
+          "id": "ppk-state-bonus",
+          "question": "What state payments does PPK provide after the eligibility conditions are met?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "No state support at all"
+            },
+            {
+              "id": "B",
+              "text": "One-off PLN250 and annual PLN240 after meeting the conditions"
+            },
+            {
+              "id": "C",
+              "text": "A 50,000 PLN lump sum"
+            },
+            {
+              "id": "D",
+              "text": "Free shares in the employer"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "PLN250 is a one-off welcome payment: at least 3 full calendar months of participation and employee basic contributions for at least 3 months. The PLN240 annual payment requires the statutory contribution level; reduced employee payments have separate conditions. An account alone is insufficient; annual payments stop once withdrawals after age 60 begin. State payments are not a rate of return or a profit guarantee.",
+          "retryMessage": "PLN250 is a one-off welcome payment: at least 3 full calendar months of participation and employee basic contributions for at least 3 months. The PLN240 annual payment requires the statutory contribution level; reduced employee payments have separate conditions. An account alone is insufficient; annual payments stop once withdrawals after age 60 begin. State payments are not a rate of return or a profit guarantee.",
+          "category": "Retirement"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Ustawa przewiduje wpłatę powitalną i dopłatę roczną, lecz po spełnieniu warunków; odpowiedź nie może pomijać tego wsparcia.",
+          "en": "The law provides welcome and annual payments after conditions are met; the answer cannot deny this support."
+        },
+        "C": {
+          "pl": "Nie ma opisanego uniwersalnego państwowego zasilenia50000PLN; właściwe kwoty to250 i240PLN na warunkach.",
+          "en": "There is no universal PLN50000 statepayment described here; the relevant conditional amounts are PLN250 and240."
+        },
+        "D": {
+          "pl": "Wpłata powitalna i dopłata roczna są kwotami przekazywanymi do PPK, nie darmowymi akcjami pracodawcy.",
+          "en": "The welcome and annual payments are amounts paid into PPK, not free shares in the employer."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Amounts are statutory conditional payments, not currentinvestmentyield or a promise of automatic annualreceipt.",
+          "Welcomeonce with qualifyingparticipation/contributionmonths; annualpayment with eligiblelevel and additionalconditions/exclusions; no currentyearthreshold calculated.",
+          "No participantrecommendation, guaranteedreturn or realaccount eligibilitydecision."
+        ]
+      },
+      "preserved": "Original A/C/D options, B key/25reward/categories and correct250/240 amounts retained, with eligibility and once/annual distinctions.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "PLN contributions on hypotheticalstatutorybase;percenttax/ratesqualified,no netpay/returnforecast",
+      "author": "daily_author",
+      "version": "retirement-tax-ppk-pl-en-v1-c36-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jakie dopłaty państwowe przewiduje PPK po spełnieniu warunków? A. Żadnych B. Jednorazowe 250 zł i roczne 240 zł po spełnieniu warunków C. Jednorazowo 50 000 zł D. Darmowe akcje pracodawcy",
+          "wholeQuestionABCDLength": 187,
+          "conservativeWholeQuestionABCDLength": 191,
+          "successLength": 388,
+          "retryLength": 388
+        },
+        "en": {
+          "wholeQuestionABCD": "What state payments does PPK provide after the eligibility conditions are met? A. No state support at all B. One-off PLN250 and annual PLN240 after meeting the conditions C. A 50,000 PLN lump sum D. Free shares in the employer",
+          "wholeQuestionABCDLength": 226,
+          "conservativeWholeQuestionABCDLength": 230,
+          "successLength": 417,
+          "retryLength": 417
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-36/content-author-inventory.json",
+    "sha256": "398bff11d9f062c9ce4ee7905b75defc2235c7d060efe98910ae12463f6a0dd8"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "helper_writes": 0,
+    "test_runs": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

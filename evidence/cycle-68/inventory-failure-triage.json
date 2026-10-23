@@ -1,0 +1,664 @@
+{
+  "cycle": 68,
+  "atUtc": "2026-10-19T05:30:57.8553029Z",
+  "author": "c49_advisories",
+  "status": "SOURCE_ONLY_TRIAGE_COMPLETE_NOT_FAILURE_CLOSURE",
+  "scope": "Exactly 25 failed assertion records from the existing C68 broad inventory; no application, fixture, tool or content mutation; no execution.",
+  "inventory": {
+    "artifact": {
+      "path": "evidence/cycle-68/inventory-tests.json",
+      "sha256": "3c67336e43590dbab5db0bc4f46b9cee20a38207d5663f95189e4c68b1b62be5"
+    },
+    "files": 172,
+    "cases": 3524,
+    "passed": 3499,
+    "failed": 25,
+    "pending": 0,
+    "failedFiles": 7,
+    "rawFailuresRetained": true,
+    "journalAdmission": "Separate parent/source-safety review; not assessed or accepted here."
+  },
+  "summary": {
+    "contentHistoricalProjectionFailures": 21,
+    "contentFiles": 6,
+    "streakExplicitlySupersededContractFailures": 4,
+    "streakFiles": 1,
+    "newApplicationDefectsConfirmedInThisRead": 0,
+    "runtimeResolutionVerifiedHere": 0,
+    "overallSuitePass": false,
+    "releaseAcceptance": false
+  },
+  "fileCounts": [
+    {
+      "file": "tests/cycle11-saving-author.test.ts",
+      "passed": 23,
+      "failed": 3,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "passed": 30,
+      "failed": 5,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle16-credit-author.test.ts",
+      "passed": 36,
+      "failed": 5,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "passed": 38,
+      "failed": 5,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle42-streak-reader-ui.test.ts",
+      "passed": 2,
+      "failed": 4,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle6-mindset-author.test.ts",
+      "passed": 15,
+      "failed": 2,
+      "pending": 0
+    },
+    {
+      "file": "tests/cycle6-quiz-review.test.ts",
+      "passed": 10,
+      "failed": 1,
+      "pending": 0
+    }
+  ],
+  "families": [
+    {
+      "id": "C37_C53_C54_CONTENT_PROJECTION",
+      "failedRecords": 21,
+      "files": 6,
+      "finding": "Historical preservation adapters stop at C37. They restore approved C37 and earlier target records, but do not restore later accepted us-401k-match C53 and tax-advantaged-wrapper C54 changes before old non-target snapshots/hash checks.",
+      "evidence": [
+        "All six failing content files import restorePreC15/16/17/23 projections from tests/cycle37-legacy-preservation.ts; that module imports cycle36, targets only insurance-purpose/risk-return/speculative-allocation, and delegates older projections. It contains no C53/C54 projection.",
+        "Current data/quizQuestions.ts and lib/allQuestions.ts exactly match accepted C54 after hashes. In-memory exact unique reversal of the five C54 and seven C53 recorded spans reproduces both historical pre-C53 hashes; no source was changed.",
+        "C53 and C54 reports/receipts accept those two existing IDs only with stable IDs/order/keys/rewards and other objects. The failing records are preservation/source hashes, not financial semantic assertions for those modules.",
+        "cycle6-quiz-review reaches its 55-record deep equality after both length checks; its preceding nine plain-pool checks execute before that failure. Later assertions after the first failure are not deemed verified."
+      ],
+      "sourceLocations": [
+        "tests/cycle37-legacy-preservation.ts:7",
+        "tests/cycle37-legacy-preservation.ts:10",
+        "tests/cycle37-legacy-preservation.ts:176",
+        "tests/cycle11-saving-author.test.ts:77",
+        "tests/cycle15-inflation-author.test.ts:85",
+        "tests/cycle16-credit-author.test.ts:86",
+        "tests/cycle17-emergency-author.test.ts:84",
+        "tests/cycle6-mindset-author.test.ts:203",
+        "tests/cycle6-quiz-review.test.ts:154"
+      ],
+      "exactSourceInverseProofs": [
+        {
+          "path": "data/quizQuestions.ts",
+          "currentSHA256": "0598c4015bdb1f06de531e4b1b998aec990190dd12bc2707ea0d81309092e41c",
+          "currentMatchesC54After": true,
+          "inMemoryInverseOnly": true,
+          "stages": [
+            {
+              "cycle": 54,
+              "exactUniqueSpanCount": 3,
+              "wholeInverseSHA256": "44d2bad55f835b610cee342de9b2d5f8a1beed41d5b2285f59cb9caad7e977ce",
+              "matchesArchivedBefore": true
+            },
+            {
+              "cycle": 53,
+              "exactUniqueSpanCount": 4,
+              "wholeInverseSHA256": "1d78f25ea02b6d11a514614cd593d56c8f72e32bc5bc59d86689065829d7ddfe",
+              "matchesArchivedBefore": true
+            }
+          ]
+        },
+        {
+          "path": "lib/allQuestions.ts",
+          "currentSHA256": "bb6d2ad892963a768e36aad1934836af6fec1b70029ff6c9c8a52c4ed92de817",
+          "currentMatchesC54After": true,
+          "inMemoryInverseOnly": true,
+          "stages": [
+            {
+              "cycle": 54,
+              "exactUniqueSpanCount": 2,
+              "wholeInverseSHA256": "ed84b6d63e1c7ff5ea18b7d85395f9138abd9a1adf0594c6db986552e7573ad9",
+              "matchesArchivedBefore": true
+            },
+            {
+              "cycle": 53,
+              "exactUniqueSpanCount": 3,
+              "wholeInverseSHA256": "f1a7e9849409e1efc7e1211d6585a31ca317f720a68b9fb5e470f4fdf8443343",
+              "matchesArchivedBefore": true
+            }
+          ]
+        }
+      ],
+      "limit": "The existing TS projection/AST/runtime tests were not executed by this reviewer, and no corrected projection has been run. Exact sufficiency for all 21 failures remains to be independently proposed and tested; no snapshot regeneration or blanket exclusion is authorized."
+    },
+    {
+      "id": "C42_C45_STREAK_DISPLAY",
+      "failedRecords": 4,
+      "files": 1,
+      "finding": "C42 null/array PLEN UI expectations require an available zero label. C45 explicitly superseded exactly these four bad-cache zero-display oracles with loading/available/unavailable; current raw labels are the accepted unavailable copy.",
+      "evidence": [
+        "C42 CASES lines80-81 map stored string null and [] to EMPTY, and assertBadge line132 expects zeroAria. The broad run actually observes PL Seria nauki jest niedostępna / EN Learning streak unavailable.",
+        "C45 REPORT explicitly states that four historical bad-cache zero-display C42 oracles are intentionally superseded and immutable, not a new green UI claim.",
+        "lib/streak.ts:77 distinguishes physically absent key null from JSON null/array at line80; getStreak keeps legacy zero fallback at line50. Active provider uses readStreakState at line42 and badge unavailable branch at lines100-111.",
+        "Current lib/streak.ts and StreakContext exactly equal C45 fullAfter. Current StreakBadge equals C46 fullAfter, whose fullBefore equals C45 fullAfter; C46 only changes the 66-day copy. No newer streak application mutation was found in these bytes."
+      ],
+      "sourceLocations": [
+        "tests/cycle42-streak-reader-ui.test.ts:80",
+        "tests/cycle42-streak-reader-ui.test.ts:132",
+        "lib/streak.ts:50",
+        "lib/streak.ts:77",
+        "context/StreakContext.tsx:42",
+        "components/StreakBadge.tsx:100",
+        "docs/coachfi/cycle-45/REPORT.md:13"
+      ],
+      "exactAcceptedSourceProofs": [
+        {
+          "path": "lib/streak.ts",
+          "currentSHA256": "537fde93efd5d1e5c7ba5cf5647510c37cf074b79ef099f3f5585996399d1f8d",
+          "equalsAcceptedFullAfter": "C45"
+        },
+        {
+          "path": "context/StreakContext.tsx",
+          "currentSHA256": "9d1342efc6906f6afcdff832f064c603bc94f4d9350545dac0d9dc3e9258138f",
+          "equalsAcceptedFullAfter": "C45"
+        },
+        {
+          "path": "components/StreakBadge.tsx",
+          "currentSHA256": "0ab588bba40ee408e02206b84fd3aec6f0fda0f9afb072231576e14c3d626cf5",
+          "equalsAcceptedFullAfter": "C46",
+          "C46BeforeEqualsC45After": true
+        }
+      ],
+      "limit": "This is a confirmed historical UI contract mismatch, not authorization to remove read-only/listener/healthy assertions or change current application behavior. Runtime acceptance of a proposed normative reconciliation remains pending."
+    }
+  ],
+  "failedAssertions": [
+    {
+      "ordinal": 1,
+      "file": "tests/cycle11-saving-author.test.ts",
+      "title": "B06 saving-habit author content checks, no independent acceptance claim preserves all non-target semantic records across seven modules/nine locales and canonical question banks",
+      "rawStatus": "failed",
+      "assertionLine": 77,
+      "failureHeadline": "AssertionError: expected { stageLessons: { …(7) }, …(3) } to deeply equal { stageLessons: { …(7) }, …(3) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_non_target_semantic_snapshot",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 2,
+      "file": "tests/cycle11-saving-author.test.ts",
+      "title": "B06 saving-habit author content checks, no independent acceptance claim preserves every byte outside allowed AST regions of 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 81,
+      "failureHeadline": "AssertionError: expected '9852ad2f9f7295dfd1396b3b475fd67683ca4…' to be '7fe88af8d55197bfa151c7a92aafbcce85ca0…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 3,
+      "file": "tests/cycle11-saving-author.test.ts",
+      "title": "B06 saving-habit author content checks, no independent acceptance claim preserves every byte outside allowed AST regions of 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 81,
+      "failureHeadline": "AssertionError: expected 'a1c7db11e28130453d111036c82a6d30df39a…' to be 'f02b3991ff4b32a8613581989eefd360ecec5…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 4,
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "title": "C15 inflation content author checks; independent acceptance remains separate preserves all non-target semantics across seven stages and nine locale banks",
+      "rawStatus": "failed",
+      "assertionLine": 85,
+      "failureHeadline": "AssertionError: expected { stageLessons: { …(7) }, …(3) } to deeply equal { stageLessons: { …(7) }, …(3) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_non_target_semantic_snapshot",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 5,
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "title": "C15 inflation content author checks; independent acceptance remains separate preserves every byte outside authorized AST spans of 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 89,
+      "failureHeadline": "AssertionError: expected '55f4920b64de804cfe2f62d60ec9bceadead8…' to be 'a60bde4202e25d4d4bcbe4467dce7dc07f999…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 6,
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "title": "C15 inflation content author checks; independent acceptance remains separate preserves every byte outside authorized AST spans of 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 89,
+      "failureHeadline": "AssertionError: expected '269f7d2d507fb0f7d540c365157b3080c5d64…' to be '86b3f60af42c8d8253c92ca57028270442f8a…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 7,
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "title": "C15 inflation content author checks; independent acceptance remains separate legacy source restoration exactly reproduces pre-C15 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 93,
+      "failureHeadline": "AssertionError: expected '1d6618d1391844766aee63ecab0821e187e42…' to be '094fe8d39af1e3c364276fc7fbe618939f3ac…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 8,
+      "file": "tests/cycle15-inflation-author.test.ts",
+      "title": "C15 inflation content author checks; independent acceptance remains separate legacy source restoration exactly reproduces pre-C15 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 93,
+      "failureHeadline": "AssertionError: expected '82515260547a9a5c5fd6cf22776a952f4ee00…' to be '24dd3b6ddd4b189c5840d44011980e0e8b654…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 9,
+      "file": "tests/cycle16-credit-author.test.ts",
+      "title": "C16 credit content author checks; independent acceptance is separate preserves complete runtime non-targets across all stages and nine locale banks",
+      "rawStatus": "failed",
+      "assertionLine": 86,
+      "failureHeadline": "AssertionError: expected { stageLessons: { …(7) }, …(3) } to deeply equal { stageLessons: { …(7) }, …(3) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_non_target_semantic_snapshot",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 10,
+      "file": "tests/cycle16-credit-author.test.ts",
+      "title": "C16 credit content author checks; independent acceptance is separate preserves every byte outside exactly authorized credit spans in 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 89,
+      "failureHeadline": "AssertionError: expected { count: 4, …(1) } to deeply equal { count: 4, …(1) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 11,
+      "file": "tests/cycle16-credit-author.test.ts",
+      "title": "C16 credit content author checks; independent acceptance is separate preserves every byte outside exactly authorized credit spans in 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 89,
+      "failureHeadline": "AssertionError: expected { count: 4, …(1) } to deeply equal { count: 4, …(1) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 12,
+      "file": "tests/cycle16-credit-author.test.ts",
+      "title": "C16 credit content author checks; independent acceptance is separate restores exact pre-C16 source bytes for 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 92,
+      "failureHeadline": "AssertionError: expected 'a9ac37995a7dc59269fc34857caa6f9769da3…' to be 'ea607b316b78682a8ff64ca35a69b2a667b59…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 13,
+      "file": "tests/cycle16-credit-author.test.ts",
+      "title": "C16 credit content author checks; independent acceptance is separate restores exact pre-C16 source bytes for 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 92,
+      "failureHeadline": "AssertionError: expected '3f933c9c8bfe8b2345d99fe7ace3224ee0e86…' to be 'adc66911dbfc02a2b09f6cea3ebed53c56432…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 14,
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "title": "C17 emergency content author checks; independent acceptance remains separate preserves all runtime non-targets across seven lesson modules and nine locale banks",
+      "rawStatus": "failed",
+      "assertionLine": 84,
+      "failureHeadline": "AssertionError: expected { stageLessons: { …(7) }, …(3) } to deeply equal { stageLessons: { …(7) }, …(3) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_non_target_semantic_snapshot",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 15,
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "title": "C17 emergency content author checks; independent acceptance remains separate preserves every byte outside2/3/3/2approved emergency spans in 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 87,
+      "failureHeadline": "AssertionError: expected { regions: 3, …(1) } to deeply equal { regions: 3, …(1) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 16,
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "title": "C17 emergency content author checks; independent acceptance remains separate preserves every byte outside2/3/3/2approved emergency spans in 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 87,
+      "failureHeadline": "AssertionError: expected { regions: 3, …(1) } to deeply equal { regions: 3, …(1) }",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 17,
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "title": "C17 emergency content author checks; independent acceptance remains separate restores exact pre-C17 source for 'data/quizQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 90,
+      "failureHeadline": "AssertionError: expected 'e27228728da31a4185c8b7c71685a85c212df…' to be 'e235466a41038a8ef6142ed95544f3fd1abc1…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 18,
+      "file": "tests/cycle17-emergency-author.test.ts",
+      "title": "C17 emergency content author checks; independent acceptance remains separate restores exact pre-C17 source for 'lib/allQuestions.ts'",
+      "rawStatus": "failed",
+      "assertionLine": 90,
+      "failureHeadline": "AssertionError: expected 'db7a3b61e65f62c7f8a5aeffe8b1350bc32b1…' to be 'feaa6f77b463884e672c21334743f033574ad…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_whole_source_restoration",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 19,
+      "file": "tests/cycle42-streak-reader-ui.test.ts",
+      "title": "C42 actual StreakProvider and actual StreakBadge display admission pl stored JSON null has safe legacy display with no mutation and real refresh cleanup",
+      "rawStatus": "failed",
+      "assertionLine": 132,
+      "failureHeadline": "AssertionError: expected [ 'Seria nauki jest niedostępna' ] to deeply equal [ '0 dni serii' ]",
+      "family": "C42_C45_STREAK_DISPLAY",
+      "assertionKind": "superseded_zero_display_contract",
+      "classification": "historical_contract_mismatch_confirmed_by_C45_scope",
+      "confidence": "checked_source_and_explicit_accepted_scope",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 20,
+      "file": "tests/cycle42-streak-reader-ui.test.ts",
+      "title": "C42 actual StreakProvider and actual StreakBadge display admission en stored JSON null has safe legacy display with no mutation and real refresh cleanup",
+      "rawStatus": "failed",
+      "assertionLine": 132,
+      "failureHeadline": "AssertionError: expected [ 'Learning streak unavailable' ] to deeply equal [ '0 day streak' ]",
+      "family": "C42_C45_STREAK_DISPLAY",
+      "assertionKind": "superseded_zero_display_contract",
+      "classification": "historical_contract_mismatch_confirmed_by_C45_scope",
+      "confidence": "checked_source_and_explicit_accepted_scope",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 21,
+      "file": "tests/cycle42-streak-reader-ui.test.ts",
+      "title": "C42 actual StreakProvider and actual StreakBadge display admission pl stored JSON array has safe legacy display with no mutation and real refresh cleanup",
+      "rawStatus": "failed",
+      "assertionLine": 132,
+      "failureHeadline": "AssertionError: expected [ 'Seria nauki jest niedostępna' ] to deeply equal [ '0 dni serii' ]",
+      "family": "C42_C45_STREAK_DISPLAY",
+      "assertionKind": "superseded_zero_display_contract",
+      "classification": "historical_contract_mismatch_confirmed_by_C45_scope",
+      "confidence": "checked_source_and_explicit_accepted_scope",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 22,
+      "file": "tests/cycle42-streak-reader-ui.test.ts",
+      "title": "C42 actual StreakProvider and actual StreakBadge display admission en stored JSON array has safe legacy display with no mutation and real refresh cleanup",
+      "rawStatus": "failed",
+      "assertionLine": 132,
+      "failureHeadline": "AssertionError: expected [ 'Learning streak unavailable' ] to deeply equal [ '0 day streak' ]",
+      "family": "C42_C45_STREAK_DISPLAY",
+      "assertionKind": "superseded_zero_display_contract",
+      "classification": "historical_contract_mismatch_confirmed_by_C45_scope",
+      "confidence": "checked_source_and_explicit_accepted_scope",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 23,
+      "file": "tests/cycle6-mindset-author.test.ts",
+      "title": "B06 first module content author checks (no accounts/network/UI claims) data/quizQuestions.ts preserves all source outside the authorized locale/three-record blocks",
+      "rawStatus": "failed",
+      "assertionLine": 215,
+      "failureHeadline": "AssertionError: expected '5e701f09d682b3f6680f9068f472caaba05fa…' to be '3d9775063f8dc4f55e255bde6af71d19dfb33…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 24,
+      "file": "tests/cycle6-mindset-author.test.ts",
+      "title": "B06 first module content author checks (no accounts/network/UI claims) lib/allQuestions.ts preserves all source outside the authorized locale/three-record blocks",
+      "rawStatus": "failed",
+      "assertionLine": 215,
+      "failureHeadline": "AssertionError: expected 'a6d3f3467d9fe724bca80cb1cc22aae64ee81…' to be '53371ada6797aa06838a77bbad7a0505b11b2…' // Object.is equality",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_masked_source_hash",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    },
+    {
+      "ordinal": 25,
+      "file": "tests/cycle6-quiz-review.test.ts",
+      "title": "independent B06 mindset localization and lifecycle acceptance nine plain pools outside C11 PL/EN saving, 55 non-mindset/non-saving English records and seven other lesson locales remain unchanged",
+      "rawStatus": "failed",
+      "assertionLine": 156,
+      "failureHeadline": "AssertionError: expected [ …(55) ] to deeply equal [ …(55) ]",
+      "family": "C37_C53_C54_CONTENT_PROJECTION",
+      "assertionKind": "historical_non_target_semantic_snapshot",
+      "classification": "source_supported_historical_snapshot_projection_gap",
+      "confidence": "probable_cause_from_source_chain_and_exact_accepted_source_pins",
+      "applicationDefectConfirmed": false,
+      "resolutionStatus": "RAW_FAIL_RETAINED_NO_FIX_OR_RETEST_IN_THIS_TRIAGE"
+    }
+  ],
+  "corroboratingCurrentInventoryWitnesses": [
+    {
+      "file": "tests/cycle45-streak-availability-ui.test.ts",
+      "passed": 16,
+      "failed": 0,
+      "source": "same immutable inventory-tests.json; not a new run"
+    },
+    {
+      "file": "tests/cycle53-us-match-financial.test.ts",
+      "passed": 7,
+      "failed": 0,
+      "source": "same immutable inventory-tests.json; not a new run"
+    },
+    {
+      "file": "tests/cycle54-comparative-financial.test.ts",
+      "passed": 5,
+      "failed": 0,
+      "source": "same immutable inventory-tests.json; not a new run"
+    }
+  ],
+  "proposedNextScope": {
+    "priority": 1,
+    "cycle": "C69 candidate, subject to root selection",
+    "type": "Finite historical fixture contract reconciliation; no application/content changes",
+    "target": "Exactly these two families / 25 failed assertions, with original full texts, source hashes, raw FAIL and accepted C45/C46/C53/C54 receipts preserved.",
+    "contentPlan": "New strict preservation layer may project only the two later accepted IDs and exact approved C53/C54 fields to their archived old values before invoking unchanged C37 chain. Verify exact current-or-archived targets, unknown-field visibility, key/reward/answer order, no blanket masking and strict rejection of unexpected current copy. Keep all unrelated semantic/hash oracles literal.",
+    "streakPlan": "Reconcile only four explicit malformed-cache UI expectations with C45 status semantics, preserving physically absent-key available-zero controls, healthy-three, same raw bytes, no mutation, listener cleanup and legacy getter fallback assertions. Do not reinterpret malformed storage as empty history.",
+    "gates": [
+      "Separate literal full-before/after proposal with minimal inverse maps and independent source/oracle peer before edits.",
+      "The existing broad raw is the actual failing baseline; root decides a bounded targeted verification after approved edits, not an automatic rerun here.",
+      "If a strict projection or normative UI case still fails, retain it as unresolved and inspect that precise record before any application change.",
+      "Broad local inventory and duplicate-PID durable-journal admission remain separate release gates; no 3499 or 25 count is a staging/production PASS."
+    ],
+    "alternative": "If root chooses a smaller packet, the four C42 UI contract cases form the smallest explicit accepted-contract subset, followed by the 21 shared content projection assertions."
+  },
+  "excluded": [
+    "No approval of own C68 adapter/tools implementation.",
+    "No duplicate-PID journal safety/admission review.",
+    "No new route/model/content scout or financial copy changes.",
+    "No rerun, TS/compiler/build/browser/npm/provider/network/profile/env/secret inspection.",
+    "No mutation or supersession of next-scope-triage.json, old fixtures, raw inventory, old receipts, source, Git index or metadata.",
+    "No B06/global content closure, B10/C50 polling, clean-install/real-auth/durable-rights/staging/production acceptance."
+  ],
+  "references": [
+    {
+      "path": "evidence/cycle-68/inventory-tests.json",
+      "sha256": "3c67336e43590dbab5db0bc4f46b9cee20a38207d5663f95189e4c68b1b62be5"
+    },
+    {
+      "path": "evidence/cycle-68/next-scope-triage.json",
+      "sha256": "e0e29be0daa1181955ca70cc900115ed351e1565c289a61c7f841f5322031638"
+    },
+    {
+      "path": "tests/cycle6-mindset-author.test.ts",
+      "sha256": "ff8b6835ac7ef284d5ef9ca0f9f3ab0137e4aee631d22e02ce198d52dbb25cd7"
+    },
+    {
+      "path": "tests/cycle6-quiz-review.test.ts",
+      "sha256": "3b52c1f35552590b1be343b4dff486abb2c6417d75d9cd7791973be9b63b69b8"
+    },
+    {
+      "path": "tests/cycle11-saving-author.test.ts",
+      "sha256": "eee684d5d94e33f1f515b84719b84707dcad962e528a27b90163a9e93a5ba814"
+    },
+    {
+      "path": "tests/cycle15-inflation-author.test.ts",
+      "sha256": "e2de7c403521215ad86bfe47245b0c2bcb9aebbaf97112993bf59ed2d5f22eec"
+    },
+    {
+      "path": "tests/cycle16-credit-author.test.ts",
+      "sha256": "e152bfcde41affcc5f394e9ed600a08a920bcbf8db986d31c14a1528f284bca7"
+    },
+    {
+      "path": "tests/cycle17-emergency-author.test.ts",
+      "sha256": "d8e67a63d48af475657fca0202ae7c75558e27fdd11bbb7194f1d8f115b3ebfe"
+    },
+    {
+      "path": "tests/cycle37-legacy-preservation.ts",
+      "sha256": "5338ab8a37976d62c0a1df1564194c080d9934ccfe8fdb78e5027dd98ff43f19"
+    },
+    {
+      "path": "tests/cycle42-streak-reader-ui.test.ts",
+      "sha256": "fa56a4daf1fd63485e3a6d41688056b876ae0d056eddb8532699e6e6d73a3a42"
+    },
+    {
+      "path": "tests/cycle45-streak-availability-ui.test.ts",
+      "sha256": "8bb19ee49a088016472d6f042a88b0ee16c19a40e5ebd550ed01571295ac45ed"
+    },
+    {
+      "path": "evidence/cycle-45/source-change.json",
+      "sha256": "00f9c4aef537e793176c36fd3671cdd2bc6967e750791944ab75f4674db32736"
+    },
+    {
+      "path": "docs/coachfi/cycle-45/REPORT.md",
+      "sha256": "eacecd89d65cb98039048b64c98acfd85cf346746b58ec5f43dc19c2482427cb"
+    },
+    {
+      "path": "evidence/cycle-46/source-change.json",
+      "sha256": "f989e003587e75c19f3f64df8c484f7bbda24793b5dba513768016c840468bca"
+    },
+    {
+      "path": "evidence/cycle-46/final-local.json",
+      "sha256": "914dee83de7f33f18b5cda53bc65752455ae5fa5e19c88fcd8c7b3c008da3b03"
+    },
+    {
+      "path": "evidence/cycle-53/source-change.json",
+      "sha256": "3cbf4b6cbdaaac64d774619314769ec51df275bb094b7a816eeb0d2f4693c894"
+    },
+    {
+      "path": "evidence/cycle-53/final-local.json",
+      "sha256": "dbbc3c96cf647da8e07388b0f4f84fc5444527635df343679408c4b780987385"
+    },
+    {
+      "path": "docs/coachfi/cycle-53/REPORT.md",
+      "sha256": "84d365eae1ea8f79cf9779e099b0ef59aa119c14dd44d8c78899520cb105eb01"
+    },
+    {
+      "path": "evidence/cycle-54/source-change.json",
+      "sha256": "53a6c2108ed8bcb10852b3710b1be6d53d1bec53a6bb778c152cde935d96a8a2"
+    },
+    {
+      "path": "evidence/cycle-54/final-local.json",
+      "sha256": "0e8a910936a5e393bf0625e2aea8b92e158b813201aec07d516c2bd97d30392f"
+    },
+    {
+      "path": "docs/coachfi/cycle-54/REPORT.md",
+      "sha256": "88262e8c167f69f7af2ba438d2a4f5fe69dbad5c52af83f0fdd82aa10e479783"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# C51 — niezależna recenzja pięciu narzędzi
+
+18.10.2026, c49_dependency_review; autor: root. **STATIC_TOOLS_GO_PENDING_INDEPENDENT_FIXTURE_AND_CONFIG_PEER; 0 otwartych findings.** Odczytano bootstrap, run-check, prepare-snapshot, build-snapshot i browser-check oraz dwa zachowane helpery. Sprawdzono wyłącznie treść i hashe; bez kompilatora, syntaxcheckera, wykonywania narzędzi/testów/npm/buildu/przeglądarki. [Dokładne piny i warunki](../../../evidence/cycle-51/tool-review.json).
+
+Bootstrap sprawdza poprzednie C50 piny i 546 inputów, zachowuje pełne before avatara, 11 preserve boundaries i 12 receipts C39–50. Niezależny odczyt: 142 wcześniejsze tuples, 141 unikalnych paths, brak avatara w prior pins, 0 mismatch. Runner obejmuje cztery one-shot tryby; baseline/acceptance tylko nowe fixture, legacy tylko dotknięty C4 personal suite, TS raz. Dodatkowe Node/e2e/config dają oczekiwane 549 pins przed/po. Raw status/stdout/stderr i JSON testów zachowują failures; brak automatycznych retestów.
+
+Dzieci używają absolute Node/CLI bez shell; testy i browser mają windowsHide. Provider/auth zmienne są blank, NODE_OPTIONS/NODE_PATH usunięte, telemetry off. Nie ma npm/install/migration/deploy lub jawnych provider calls. Kontrole faktycznych efektów wykonywanego kodu należą do odrębnie recenzowanych fixtures.
+
+Snapshot dodaje nowe unit/e2e/config, whitelistuje własny config i zachowuje fixture C50. Real paths/symlinks, repo/TEMP i forbidden env/profile/database/log/har sprawdzane przed odczytem zawartości; hashe kopii weryfikowane. Build ma preflight current/copy i postflight z pominięciem tylko generowanego next-env.d.ts, waliduje junction i .next. Parser runtime witness pozostaje 6.1.4, 37 plików i dwóch consumers.
+
+Browser helper wymaga PASS dokładnie tej samej zbudowanej TEMP kopii, hashowej zgodności repo/kopii i parser runtime. Odmawia użycia portu zajętego przez inny serwer. Uruchamia wyłącznie własny Playwright config; raw JSON kieruje do C51 evidence. Po wykonaniu ma maksymalnie pięć sekund kontroli zwolnienia portu i zwraca FAIL bez potwierdzonego cleanup. One-shot guard chroni oba browser receipts.
+
+GO jest warunkowe: root musi niezależnie zrecenzować Node fixture oraz browser spec/config przed wykonaniem. Osobny peer ma potwierdzić workers 1, retries 0, pojedynczy Chrome, ephemeral contexts, dokładny localhost port i asercje API/external block, storage writes/page errors. Ta recenzja narzędzi nie zatwierdza nieodczytanych testów lub implementacji, ani nie stanowi wyniku wykonania. Brak clean install, pełnego fingerprintu node_modules, realnych sesji/Auth, audio, cloud rights, stagingu, produkcji lub advisory closure.

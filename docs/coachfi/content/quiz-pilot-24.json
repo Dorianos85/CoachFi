@@ -1,0 +1,2921 @@
+{
+  "schema_version": "1.0",
+  "bank_id": "coachfi_adult_PL_EN_pilot_24",
+  "version": "0.1.1",
+  "created_on": "2026-10-14",
+  "status": "draft_for_review",
+  "origin": "new_material_not_inventory_or_approved_application_bank",
+  "intended_launch_market": "Poland",
+  "audience": "adults",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "count_distinct_items": 24,
+  "count_language_renderings": 48,
+  "reviewer": "architecture_audit",
+  "scope_note": {
+    "pl": "Nowe materiały do niezależnej recenzji. Nie wdrożono ich w aplikacji. Nie zawierają pytań o konkretne podatki, świadczenia lub przepisy. Status draft obowiązuje wszystkie pozycje.",
+    "en": "New material for independent review. Not deployed to the application. No items about specific taxes, benefits or regulations. Draft status applies to every item."
+  },
+  "assessment_note": {
+    "pl": "Wynik dotyczy tych zadań i nie jest oceną majątku, zachowania, odporności ani dobrostanu finansowego. Próg zaliczenia i etykiety trudności są robocze do pilota.",
+    "en": "A result concerns these tasks and does not rate wealth, behavior, resilience or financial well-being. Passing thresholds and difficulty labels are provisional for the pilot."
+  },
+  "delivery_requirements": {
+    "numeric_input": "Accept locale decimal comma/dot, trim spaces, validate finite value, retain original item_id and language; no credit for blank or invalid number.",
+    "choice_input": "Stable option IDs in both languages; order may be randomized with correct ID preserved.",
+    "feedback": "Explain reasoning and every selected incorrect answer; no shame, mandatory payment, investment action or streak penalty.",
+    "retention": "Before opening feedback, offer retrieval and then a later equivalent transfer item; proposed intervals require user testing.",
+    "numeric_scoring": "After valid locale parsing, monetary responses use expected rounded amount and absolute tolerance 0.005 PLN, excluding adjacent 0.01 PLN values. Full-month items require exact integer. Implementation and boundary tests pending."
+  },
+  "questions": [
+    {
+      "id": "CF-BUD-01",
+      "objective": {
+        "pl": "Rozpoznać dane potrzebne do planowania przepływu pieniędzy.",
+        "en": "Identify the data needed to plan cash flow."
+      },
+      "domain": "budget_cashflow",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Co trzeba zapisać, aby sprawdzić, czy wystarczy pieniędzy do następnego wpływu?",
+        "en": "What should you record to check whether your money will last until the next income arrives?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Tylko łączną sumę wpływów z całego roku.",
+            "en": "Only total income for the whole year."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Dostępne saldo oraz kwoty i daty wpływów i wydatków.",
+            "en": "The available balance and the amounts and dates of income and expenses."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Tylko wydatki, które sprawiają przyjemność.",
+            "en": "Only spending on enjoyable things."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Tylko procent dochodu przeznaczany na oszczędności.",
+            "en": "Only the percentage of income saved."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "B"
+      },
+      "rationale": {
+        "pl": "Kalendarz kwot z saldem początkowym pozwala prześledzić, kiedy środki są dostępne na płatności.",
+        "en": "Amounts on a calendar, with an opening balance, let you trace when money is available for payments."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Suma roczna nie pokazuje wydatków i momentów, w których saldo może być zbyt niskie.",
+              "en": "An annual total does not show expenses or when the balance may be too low."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Potrzebne są również koszty niezbędne i zobowiązania; wybiórcza lista zaniża odpływy.",
+              "en": "Essential costs and commitments also matter; a selective list understates outflows."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Procent oszczędzania nie określa terminów płatności ani kwot dostępnych przed wpływem.",
+              "en": "A savings percentage does not establish due dates or money available before income arrives."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-CASHFLOW",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_cash_flow_budget_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-BUD-02",
+      "objective": {
+        "pl": "Rozpoznać różnicę między nadwyżką miesiąca a dostępnością środków w terminie.",
+        "en": "Distinguish a monthly surplus from money available on a due date."
+      },
+      "domain": "budget_cashflow",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Dochód Oli przekracza jej wydatki w całym miesiącu. Mimo to opłata za mieszkanie przypada przed wypłatą, gdy na koncie jest za mało środków. Co najlepiej wyjaśnia problem?",
+        "en": "Ola's income exceeds her expenses over the whole month. Yet her housing payment is due before payday, when her account has insufficient funds. What best explains the problem?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Miesięczna nadwyżka gwarantuje pieniądze w każdym dniu.",
+            "en": "A monthly surplus guarantees enough money every day."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Każdy dodatkowy wpływ powinien od razu zostać wydany.",
+            "en": "Every extra payment received should be spent immediately."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Trzeba sprawdzić kalendarz salda; problemem jest termin wpływu wobec płatności.",
+            "en": "She should check the balance calendar; the issue is income timing relative to the payment."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Wystarczy zmienić nazwę kategorii wydatku.",
+            "en": "Renaming the expense category is enough."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "C"
+      },
+      "rationale": {
+        "pl": "Bilans miesiąca ukrywa przejściowy brak gotówki. Kalendarz ujawnia lukę; ewentualne przesunięcie płatności wymaga sprawdzenia możliwości i warunków.",
+        "en": "A monthly total can hide a temporary cash shortage. A calendar reveals the gap; moving a payment requires checking whether it is possible and under what terms."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Wydatki mogą przypadać wcześniej niż wpływy, mimo dodatniego bilansu miesiąca.",
+              "en": "Expenses can occur before income despite a positive monthly total."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Wydanie wpływu nie rozwiązuje luki w terminach i może ją zwiększyć.",
+              "en": "Spending income immediately does not solve a timing gap and may worsen it."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Nazwa kategorii nie zmienia kwoty ani daty płatności.",
+              "en": "The category name does not change the amount or due date."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-BILL-CALENDAR",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_bill_calendar_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-BUD-03",
+      "objective": {
+        "pl": "Wyliczyć największą lukę płynności w kolejnych przepływach.",
+        "en": "Calculate the largest liquidity gap across a sequence of cash flows."
+      },
+      "domain": "budget_cashflow",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "Masz 400 PLN dostępnych na początku miesiąca. W dniu 5 płacisz 650 PLN, w dniu 15 wpływa 1000 PLN, a w dniu 20 płacisz 500 PLN. Brak innych przepływów i kosztów. Ile dodatkowych środków trzeba mieć już na początku, aby saldo nigdy nie spadło poniżej zera? Podaj PLN.",
+        "en": "You have PLN 400 available at the start of the month. You pay PLN 650 on day 5, receive PLN 1000 on day 15, and pay PLN 500 on day 20. There are no other cash flows or costs. How much additional money is needed at the start so that the balance never falls below zero? Enter PLN."
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 250,
+        "unit": "PLN",
+        "absolute_tolerance": 0.005
+      },
+      "rationale": {
+        "pl": "Bez dodatkowych środków salda wynoszą 400, −250, 750 i 250 PLN. Najniższe saldo to −250 PLN, więc początkowe zwiększenie o 250 PLN usuwa lukę.",
+        "en": "Without extra money, the balances are PLN 400, −250, 750 and 250. The lowest is −250, so adding PLN 250 at the start removes the gap."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "0 PLN, bo końcowe saldo jest dodatnie.",
+              "en": "PLN 0 because the final balance is positive."
+            },
+            "explanation": {
+              "pl": "Końcowe saldo nie usuwa niedoboru przed dniem 15.",
+              "en": "A positive final balance does not remove the shortage before day 15."
+            }
+          },
+          {
+            "error": {
+              "pl": "650 PLN, czyli cały pierwszy rachunek.",
+              "en": "PLN 650, the whole first bill."
+            },
+            "explanation": {
+              "pl": "Pomija już dostępne 400 PLN; brakuje różnicy 250 PLN.",
+              "en": "This ignores PLN 400 already available; the missing difference is PLN 250."
+            }
+          },
+          {
+            "error": {
+              "pl": "1150 PLN, suma wydatków.",
+              "en": "PLN 1150, the total spending."
+            },
+            "explanation": {
+              "pl": "Nie uwzględnia salda początkowego i późniejszego wpływu.",
+              "en": "This ignores the opening balance and later income."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "CFPB-CASHFLOW",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_cash_flow_budget_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "opening_balance": 400,
+          "outflow_day_5": 650,
+          "inflow_day_15": 1000,
+          "outflow_day_20": 500,
+          "currency": "PLN"
+        },
+        "formula": "max(0, -min(400, 400-650, 400-650+1000, 400-650+1000-500))",
+        "expected_value": 250,
+        "rounding": "0.01 PLN",
+        "conditions": [
+          "Flows occur in the stated order.",
+          "No overdraft, fees, borrowing, or other available funds.",
+          "Asked for extra starting cash, not final balance."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SAV-01",
+      "objective": {
+        "pl": "Odróżnić nieplanowany wydatek od przewidywalnego celu oszczędzania.",
+        "en": "Distinguish an unexpected expense from a predictable savings goal."
+      },
+      "domain": "saving_emergency",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Która sytuacja jest przykładem użycia rezerwy na nieprzewidziane wydatki?",
+        "en": "Which situation is an example of using a reserve for unexpected expenses?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Zakup zaplanowanych od dawna wakacji.",
+            "en": "Buying a holiday planned long ago."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Coroczna opłata o znanej kwocie i terminie.",
+            "en": "An annual charge with a known amount and date."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Zakup promocji, która kończy się dzisiaj.",
+            "en": "Buying a sale offer that ends today."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Nagła naprawa urządzenia koniecznego do codziennego funkcjonowania.",
+            "en": "An unexpected repair of a device essential to daily life."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "D"
+      },
+      "rationale": {
+        "pl": "Rezerwa dotyczy nieplanowanych potrzeb. Znane rachunki i cele warto uwzględniać wcześniej, aby nie zużywały tej samej puli.",
+        "en": "A reserve covers unplanned needs. Known bills and goals can be planned in advance so they do not consume the same pool."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Znany wcześniej wydatek można ujmować w osobnym planie oszczędzania.",
+              "en": "A known expense can be covered by a separate savings plan."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Powtarzalny koszt jest przewidywalny, nawet jeśli płaci się go tylko raz w roku.",
+              "en": "A recurring cost is predictable even when paid only once a year."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Presja terminu oferty nie czyni zakupu niezbędnym zdarzeniem awaryjnym.",
+              "en": "A sale deadline does not make a purchase an essential emergency."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-EMERGENCY",
+          "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SAV-02",
+      "objective": {
+        "pl": "Dostosować krok oszczędzania do ograniczeń przepływu i podstawowych potrzeb.",
+        "en": "Adapt a savings step to cash-flow constraints and essential needs."
+      },
+      "domain": "saving_emergency",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Po opłaceniu podstawowych potrzeb Pat nie ma w tym miesiącu wolnych pieniędzy. Stały przelew na oszczędności spowodowałby niedobór na żywność. Jaki następny krok najlepiej odpowiada tej sytuacji?",
+        "en": "After covering essential needs, Pat has no spare money this month. A fixed savings transfer would leave too little for food. Which next step best fits this situation?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Zrezygnować teraz z tego przelewu i sprawdzić przepływy oraz możliwe wsparcie; cel i kwotę dopasować do sytuacji.",
+            "en": "Skip that transfer for now and review cash flow and possible support; adapt the goal and amount to the situation."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Wykonać przelew mimo niedoboru, żeby nie stracić serii dni.",
+            "en": "Make the transfer despite the shortage to preserve a streak."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Wziąć dowolną pożyczkę tylko po to, aby podnieść saldo oszczędności.",
+            "en": "Take any loan solely to increase the savings balance."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Uznać, że nie można uczyć się finansów bez wolnych pieniędzy.",
+            "en": "Assume financial learning is impossible without spare money."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "A"
+      },
+      "rationale": {
+        "pl": "Działanie ma pasować do realnych warunków. Brak możliwości odkładania nie jest porażką wiedzy; dostępność wsparcia trzeba sprawdzić lokalnie.",
+        "en": "An action should fit real conditions. Being unable to save is not a failure of knowledge; support availability must be checked locally."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Seria nie jest ważniejsza niż podstawowe potrzeby; taki przelew może wywołać koszty lub dług.",
+              "en": "A streak does not take priority over essential needs; the transfer could create costs or debt."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Zwiększa to zobowiązania; wyższe saldo nie musi oznaczać większej odporności.",
+              "en": "This adds liabilities; a higher savings balance does not necessarily mean greater resilience."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Można ćwiczyć planowanie i identyfikowanie ograniczeń bez wpłacania pieniędzy.",
+              "en": "Planning and identifying constraints can be practised without depositing money."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-EMERGENCY",
+          "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/"
+        },
+        {
+          "id": "COM-B-2011",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3096582/"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SAV-03",
+      "objective": {
+        "pl": "Wyliczyć czas dojścia do jawnie założonego celu rezerwy.",
+        "en": "Calculate the time needed to reach an explicitly assumed reserve target."
+      },
+      "domain": "saving_emergency",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "W tym ćwiczeniu celem jest rezerwa równa 3 miesiącom podstawowych wydatków po 600 PLN miesięcznie. Masz 900 PLN i odkładasz 150 PLN na koniec każdego miesiąca. Brak odsetek, podatków, opłat i wypłat. Po ilu pełnych miesiącach osiągniesz cel? To cel przykładu, nie reguła dla wszystkich.",
+        "en": "In this exercise, the target reserve equals 3 months of essential expenses of PLN 600 per month. You have PLN 900 and add PLN 150 at the end of each month. There is no interest, tax, fee or withdrawal. After how many full months will you reach the target? This is the example's target, not a rule for everyone."
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 6,
+        "unit": "months",
+        "absolute_tolerance": 0
+      },
+      "rationale": {
+        "pl": "Cel wynosi 3 × 600 = 1800 PLN. Brakuje 900 PLN. Przy 150 PLN miesięcznie potrzeba 900 / 150 = 6 miesięcy.",
+        "en": "The target is 3 × 600 = PLN 1800. The gap is PLN 900. At PLN 150 per month, 900 / 150 = 6 months are needed."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "12 miesięcy.",
+              "en": "12 months."
+            },
+            "explanation": {
+              "pl": "1800 / 150 pomija początkowe 900 PLN.",
+              "en": "1800 / 150 ignores the initial PLN 900."
+            }
+          },
+          {
+            "error": {
+              "pl": "3 miesiące.",
+              "en": "3 months."
+            },
+            "explanation": {
+              "pl": "Liczba miesięcy pokrywanych przez rezerwę nie jest czasem jej budowania.",
+              "en": "The months covered by the reserve are not the time needed to build it."
+            }
+          },
+          {
+            "error": {
+              "pl": "Mniej niż 6 miesięcy dzięki gwarantowanym odsetkom.",
+              "en": "Fewer than 6 months because of guaranteed interest."
+            },
+            "explanation": {
+              "pl": "W przykładzie założono brak odsetek; nie wolno dopisywać wyniku inwestycji.",
+              "en": "This example assumes no interest; an investment outcome must not be added."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "CFPB-SAVINGS-PLAN",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_savings_plan_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "monthly_essential_expenses": 600,
+          "target_months": 3,
+          "initial_reserve": 900,
+          "monthly_contribution": 150,
+          "currency": "PLN"
+        },
+        "formula": "ceil(max(0, 3*600 - 900)/150)",
+        "expected_value": 6,
+        "rounding": "ceil to whole months",
+        "conditions": [
+          "Contribution at each month end.",
+          "Target of 3 months chosen only for this example.",
+          "Zero interest, tax, fees, withdrawals and price changes."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-CRD-01",
+      "objective": {
+        "pl": "Rozróżnić odsetki od wszystkich kosztów pożyczki.",
+        "en": "Distinguish interest from all loan costs."
+      },
+      "domain": "credit_interest_cost",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Które stwierdzenie o porównywaniu pożyczek jest poprawne?",
+        "en": "Which statement about comparing loans is correct?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Samo oprocentowanie zawsze pokazuje wszystkie koszty.",
+            "en": "The interest rate alone always shows every cost."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Oprócz odsetek trzeba sprawdzić opłaty, sumę spłat i harmonogram.",
+            "en": "Besides interest, check fees, total repayments and the payment schedule."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Najniższa rata zawsze oznacza najniższy łączny koszt.",
+            "en": "The lowest instalment always means the lowest total cost."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Nie trzeba sprawdzać zdolności do spłat, jeśli rata jest stała.",
+            "en": "Repayment capacity need not be checked when the instalment is fixed."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "B"
+      },
+      "rationale": {
+        "pl": "Koszt obejmuje więcej niż jedną liczbę. Trzeba też ocenić, czy płatności zmieszczą się w przepływach; pytanie nie definiuje prawnego wskaźnika RRSO.",
+        "en": "Cost involves more than one number. Also assess whether payments fit cash flow; this item does not define the legal APR/RRSO measure."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Pożyczka może mieć opłaty poza odsetkami.",
+              "en": "A loan can have fees in addition to interest."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Niższa rata może wynikać z dłuższego okresu spłat lub pomijanych opłat.",
+              "en": "A lower instalment can result from a longer repayment term or excluded fees."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Stałość raty nie zapewnia wystarczającego dochodu i środków w terminie.",
+              "en": "A fixed instalment does not ensure enough income or money on the due date."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-INTEREST",
+          "url": "https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-CRD-02",
+      "objective": {
+        "pl": "Porównać całkowite płatności w dwóch jawnie opisanych ofertach.",
+        "en": "Compare total payments in two explicitly described offers."
+      },
+      "domain": "credit_interest_cost",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Dwie przykładowe pożyczki wypłacają po 1000 PLN i kończą się po 12 miesiącach. A: 12 rat po 100 PLN i osobno 200 PLN opłaty na początku. B: 12 rat po 110 PLN bez innych opłat. Raty obejmują wszystkie odsetki i kapitał; brak innych kosztów i wcześniejszej spłaty. Która ma niższą łączną sumę płatności?",
+        "en": "Two example loans each pay out PLN 1000 and end after 12 months. A: 12 instalments of PLN 100 plus a separate PLN 200 fee at the start. B: 12 instalments of PLN 110 with no other fees. Instalments include all interest and principal; there are no other costs or early repayments. Which has the lower total payment?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "A, bo pojedyncza rata jest niższa.",
+            "en": "A, because each instalment is lower."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Obie mają taką samą sumę płatności.",
+            "en": "Both have the same total payment."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "B, o 80 PLN mniej.",
+            "en": "B, by PLN 80."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "A, bo opłaty nigdy nie liczą się do wydatków.",
+            "en": "A, because fees never count as spending."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "C"
+      },
+      "rationale": {
+        "pl": "A: 12 × 100 + 200 = 1400 PLN. B: 12 × 110 = 1320 PLN. Różnica to 80 PLN. To porównanie sum płatności przy podanych warunkach, bez oceny pozostałych cech produktu.",
+        "en": "A: 12 × 100 + 200 = PLN 1400. B: 12 × 110 = PLN 1320. The difference is PLN 80. This compares payment totals under the stated terms without judging other product features."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Pomija osobną opłatę 200 PLN.",
+              "en": "This ignores the separate PLN 200 fee."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Suma A wynosi 1400 PLN, a B 1320 PLN.",
+              "en": "A totals PLN 1400 and B PLN 1320."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Opłata jest faktyczną płatnością i należy ją dodać.",
+              "en": "A fee is an actual payment and must be added."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-DEBT-LOG",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_debt_log_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "principal_each": 1000,
+          "A_instalments": 12,
+          "A_instalment": 100,
+          "A_separate_upfront_fee": 200,
+          "B_instalments": 12,
+          "B_instalment": 110,
+          "currency": "PLN"
+        },
+        "formula": "(12*100+200) - (12*110)",
+        "expected_value": 80,
+        "rounding": "exact PLN",
+        "conditions": [
+          "Same amount actually paid to borrower; fee A paid separately.",
+          "All principal and interest included in instalments.",
+          "No further charges or early payment; comparison is nominal payment total, not APR or suitability."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-CRD-03",
+      "objective": {
+        "pl": "Obliczyć odsetki naliczane od malejącego salda.",
+        "en": "Calculate interest on a declining principal balance."
+      },
+      "domain": "credit_interest_cost",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "Przykładowy dług wynosi 1200 PLN. Odsetki wynoszą 1% salda kapitału na początku każdego miesiąca. Na końcu pierwszego miesiąca płacisz 112 PLN: najpierw pokrywasz odsetki, reszta zmniejsza kapitał. Brak innych opłat. Ile wyniosą łączne odsetki naliczone za pierwsze dwa miesiące, przed drugą płatnością? Podaj PLN.",
+        "en": "An example debt has PLN 1200 principal. Interest is 1% of the principal balance at the start of each month. At the end of month 1 you pay PLN 112: interest is paid first and the rest reduces principal. There are no other fees. What is the total interest charged for the first two months, before the second payment? Enter PLN."
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 23,
+        "unit": "PLN",
+        "absolute_tolerance": 0.005
+      },
+      "rationale": {
+        "pl": "Pierwsze odsetki to 12 PLN. Z płatności 112 PLN kapitał zmniejsza się o 100 PLN do 1100 PLN. Drugie odsetki to 11 PLN. Łącznie 23 PLN.",
+        "en": "First-month interest is PLN 12. Of the PLN 112 payment, PLN 100 reduces principal to PLN 1100. Second-month interest is PLN 11. Total interest is PLN 23."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "24 PLN.",
+              "en": "PLN 24."
+            },
+            "explanation": {
+              "pl": "Naliczono oba miesiące od 1200 PLN, pomijając spłatę kapitału.",
+              "en": "Both months were charged on PLN 1200, ignoring principal repayment."
+            }
+          },
+          {
+            "error": {
+              "pl": "22,88 PLN.",
+              "en": "PLN 22.88."
+            },
+            "explanation": {
+              "pl": "Odjęto całą ratę od kapitału; 12 PLN z raty pokrywa odsetki.",
+              "en": "The whole payment was subtracted from principal; PLN 12 pays interest."
+            }
+          },
+          {
+            "error": {
+              "pl": "11 PLN.",
+              "en": "PLN 11."
+            },
+            "explanation": {
+              "pl": "To tylko drugi miesiąc; pytanie prosi o sumę dwóch miesięcy.",
+              "en": "That is month 2 only; the item asks for both months."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "CFPB-DEBT-LOG",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_debt_log_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "initial_principal": 1200,
+          "monthly_rate": 0.01,
+          "first_payment": 112,
+          "currency": "PLN"
+        },
+        "formula": "1200*0.01 + (1200 - (112 - 1200*0.01))*0.01",
+        "expected_value": 23,
+        "rounding": "0.01 PLN",
+        "conditions": [
+          "Interest on opening principal each month.",
+          "First payment applied to interest before principal.",
+          "No fees, late charges, daily accrual or capitalization of unpaid interest.",
+          "1% is a hypothetical monthly rate, not annual APR/RRSO."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INF-01",
+      "objective": {
+        "pl": "Wyjaśnić zmianę siły nabywczej przy wzroście ceny koszyka.",
+        "en": "Explain purchasing-power change when a basket's price rises."
+      },
+      "domain": "inflation_purchasing_power",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Cena tego samego koszyka zakupów rośnie, a liczba PLN, którą masz, pozostaje taka sama. Co dzieje się z siłą nabywczą tej kwoty wobec tego koszyka?",
+        "en": "The price of the same shopping basket rises while the amount of PLN you hold stays unchanged. What happens to that amount's purchasing power for this basket?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Rośnie, bo ceny są wyższe.",
+            "en": "It increases because prices are higher."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Zawsze jest stała, jeśli kwota nominalna się nie zmienia.",
+            "en": "It always stays constant when the nominal amount does not change."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Nie da się jej porównać przy tym samym koszyku.",
+            "en": "It cannot be compared using the same basket."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Spada: ta sama kwota kupuje mniej tego koszyka.",
+            "en": "It falls: the same amount buys less of that basket."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "D"
+      },
+      "rationale": {
+        "pl": "Siła nabywcza dotyczy tego, ile można kupić za pieniądze. Wzrost ceny identycznego koszyka obniża siłę nabywczą niezmienionej kwoty.",
+        "en": "Purchasing power concerns how much money can buy. A price increase for an identical basket reduces the purchasing power of an unchanged amount."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Wyższe ceny oznaczają, że ta sama kwota kupuje mniej koszyka.",
+              "en": "Higher prices mean the same amount buys less of the basket."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Kwota nominalna i ilość dóbr, którą można kupić, to różne wielkości.",
+              "en": "The nominal amount and quantity of goods it can buy are different measures."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Ten sam koszyk pozwala porównać, ile kosztował wcześniej i teraz.",
+              "en": "The same basket allows comparison of its old and new cost."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "ECB-INFLATION",
+          "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INF-02",
+      "objective": {
+        "pl": "Rozróżnić wzrost dochodu nominalnego od realnego.",
+        "en": "Distinguish nominal income growth from real growth."
+      },
+      "domain": "inflation_purchasing_power",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "W przykładowym roku dochód Jo rośnie o 2%, a cena niezmienionego koszyka wydatków Jo o 5%. Pomijamy inne zmiany. Który opis jest poprawny?",
+        "en": "In an example year, Jo's income rises by 2% and the price of Jo's unchanged spending basket rises by 5%. Ignore other changes. Which description is correct?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Dochód nominalny wzrósł, lecz pozwala kupić mniej tego koszyka.",
+            "en": "Nominal income increased, but it can buy less of that basket."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Dochód realny wzrósł o 7%.",
+            "en": "Real income increased by 7%."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Dochód nominalny spadł o 3%.",
+            "en": "Nominal income fell by 3%."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Siła nabywcza musi wzrosnąć, gdy dochód w PLN rośnie.",
+            "en": "Purchasing power must increase whenever PLN income rises."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "A"
+      },
+      "rationale": {
+        "pl": "Relacja po zmianie wynosi 1,02 / 1,05 ≈ 0,9714 poprzedniej siły nabywczej. Nie należy utożsamiać tego przykładowego koszyka z inflacją każdego gospodarstwa.",
+        "en": "The new ratio is 1.02 / 1.05 ≈ 0.9714 of previous purchasing power. This example basket should not be equated with every household's inflation."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Nie dodaje się wzrostu cen do dochodu jako wzrostu siły nabywczej.",
+              "en": "Price growth is not added to income as a purchasing-power gain."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Dochód w pieniądzu wzrósł o 2%; spada jego siła nabywcza względem koszyka.",
+              "en": "Money income rose by 2%; its purchasing power relative to the basket falls."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Wzrost cen koszyka jest szybszy niż wzrost dochodu.",
+              "en": "The basket's price rises faster than income."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "ECB-INFLATION",
+          "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "income_growth": 0.02,
+          "basket_price_growth": 0.05
+        },
+        "formula": "(1.02/1.05)-1",
+        "expected_value": -0.02857142857142858,
+        "rounding": "approximation only in rationale",
+        "conditions": [
+          "Same basket and no other changes.",
+          "Hypothetical rates, not current Polish inflation."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INF-03",
+      "objective": {
+        "pl": "Przeliczyć kwotę nominalną na siłę nabywczą w cenach początku okresu.",
+        "en": "Convert a nominal balance to purchasing power at beginning-period prices."
+      },
+      "domain": "inflation_purchasing_power",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "1000 PLN rośnie w przykładowym roku o 4% do 1040 PLN, bez podatków i opłat. Cena niezmienionego koszyka rośnie o 6%. Ile PLN w cenach początku roku odpowiada sile nabywczej końcowego salda? Podaj do dwóch miejsc po przecinku. To założenia ćwiczenia, nie prognoza.",
+        "en": "PLN 1000 grows by 4% to PLN 1040 in an example year, with no taxes or fees. The price of an unchanged basket rises by 6%. How many PLN at beginning-of-year prices represent the end balance's purchasing power? Enter two decimal places. These are exercise assumptions, not a forecast."
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 981.13,
+        "unit": "PLN_at_start_year_prices",
+        "absolute_tolerance": 0.005
+      },
+      "rationale": {
+        "pl": "Kwotę końcową dzielimy przez indeks cen: 1040 / 1,06 = 981,132… PLN w cenach początkowych. Wynik nominalny wzrósł, ale siła nabywcza spadła.",
+        "en": "Divide the end balance by the price index: 1040 / 1.06 = PLN 981.132… at initial prices. The nominal balance grew but purchasing power fell."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "1040 PLN.",
+              "en": "PLN 1040."
+            },
+            "explanation": {
+              "pl": "To saldo nominalne; nie uwzględnia wzrostu cen.",
+              "en": "That is the nominal balance; it ignores price growth."
+            }
+          },
+          {
+            "error": {
+              "pl": "980 PLN.",
+              "en": "PLN 980."
+            },
+            "explanation": {
+              "pl": "Odjęcie 6% od 4% jest przybliżeniem; dokładne przeliczenie wymaga ilorazu 1,04 / 1,06.",
+              "en": "Subtracting 6% from 4% is an approximation; exact conversion requires 1.04 / 1.06."
+            }
+          },
+          {
+            "error": {
+              "pl": "1102,40 PLN.",
+              "en": "PLN 1102.40."
+            },
+            "explanation": {
+              "pl": "Pomnożenie przez 1,06 podnosi kwotę zamiast sprowadzać ją do cen początkowych.",
+              "en": "Multiplying by 1.06 raises the amount instead of converting it to initial prices."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "ECB-INFLATION",
+          "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "initial_balance": 1000,
+          "nominal_growth": 0.04,
+          "basket_price_growth": 0.06,
+          "currency": "PLN"
+        },
+        "formula": "1000*(1+0.04)/(1+0.06)",
+        "expected_value": 981.132075471698,
+        "rounding": "round final result to 2 decimal places",
+        "conditions": [
+          "Growth and prices refer to the same year.",
+          "No taxes, fees, contributions or withdrawals.",
+          "Hypothetical 4% and 6%; result is purchasing power, not account balance."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INV-01",
+      "objective": {
+        "pl": "Rozpoznać korzyść i granice dywersyfikacji.",
+        "en": "Recognize diversification's benefit and limits."
+      },
+      "domain": "risk_diversification_investing",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Co najlepiej opisuje dywersyfikację inwestycji?",
+        "en": "Which statement best describes investment diversification?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Zakup jednej spółki poprzez kilka kont usuwa ryzyko tej spółki.",
+            "en": "Buying one company through several accounts removes that company's risk."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Rozłożenie środków między różne inwestycje może ograniczyć koncentrację, ale nie wyklucza strat.",
+            "en": "Spreading money across different investments can reduce concentration but does not rule out losses."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Każdy portfel wielu aktywów ma gwarantowany zysk.",
+            "en": "Every portfolio with multiple assets has a guaranteed profit."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Dywersyfikacja oznacza częste kupowanie tego, co ostatnio najbardziej wzrosło.",
+            "en": "Diversification means frequently buying whatever rose most recently."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "B"
+      },
+      "rationale": {
+        "pl": "Różne ekspozycje mogą zmniejszać zależność od pojedynczego aktywa. Nadal pozostają ryzyka rynku i straty; liczba pozycji nie mówi sama w sobie, jak bardzo są podobne.",
+        "en": "Different exposures can reduce dependence on one asset. Market risk and losses remain; the number of holdings alone does not show how similar they are."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Różne konta nie zmieniają koncentracji w jednym przedsiębiorstwie.",
+              "en": "Different accounts do not change concentration in one business."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Wiele aktywów może tracić wartość jednocześnie.",
+              "en": "Several assets can lose value at the same time."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "To kierowanie się ostatnim wynikiem; nie musi zmniejszać koncentracji.",
+              "en": "That follows recent performance; it need not reduce concentration."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "SEC-DIVERSIFICATION",
+          "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INV-02",
+      "objective": {
+        "pl": "Powiązać termin potrzeby pieniędzy z dostępnością i ryzykiem ich wartości.",
+        "en": "Connect a spending deadline to money's availability and value risk."
+      },
+      "domain": "risk_diversification_investing",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Sam potrzebuje całych 2000 PLN na podstawowy rachunek za 2 miesiące i nie może pokryć straty. Rozważa przeniesienie tej kwoty do inwestycji, której wartość mocno się waha. Które rozumowanie najlepiej uwzględnia tę potrzebę?",
+        "en": "Sam needs all PLN 2000 for an essential bill in 2 months and cannot absorb a loss. Sam is considering moving it to an investment whose value fluctuates greatly. Which reasoning best accounts for that need?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Dwa miesiące gwarantują odzyskanie każdej straty.",
+            "en": "Two months guarantee recovery from any loss."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Wysoki historyczny zysk zapewnia bezpieczną zapłatę rachunku.",
+            "en": "A high historical return ensures the bill can be paid safely."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Krótki termin i brak zdolności poniesienia straty przemawiają za sprawdzeniem stabilności kwoty i dostępu na czas.",
+            "en": "The short deadline and inability to absorb losses call for checking amount stability and timely access."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Każde saldo w aplikacji można od razu wypłacić bez ograniczeń.",
+            "en": "Every app balance can be withdrawn immediately without restrictions."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "C"
+      },
+      "rationale": {
+        "pl": "Środki na bliski niezbędny wydatek mają inny cel niż długoterminowy kapitał. Trzeba sprawdzić wahania wartości, dostęp i warunki wybranego rozwiązania.",
+        "en": "Money for a near-term essential expense serves a different goal from long-term capital. Check value fluctuations, access and the terms of the chosen arrangement."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Rynek nie zapewnia powrotu do wymaganej kwoty w określonym terminie.",
+              "en": "Markets do not ensure recovery to the required amount by a deadline."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Wyniki z przeszłości nie gwarantują kwoty dostępnej za dwa miesiące.",
+              "en": "Past returns do not guarantee the amount available in two months."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Dostępność, terminy i warunki wypłaty trzeba sprawdzić.",
+              "en": "Access, timing and withdrawal conditions must be checked."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "SEC-DIVERSIFICATION",
+          "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-INV-03",
+      "objective": {
+        "pl": "Obliczyć wartość portfela przy różnych zmianach dwóch części.",
+        "en": "Calculate portfolio value when two parts change differently."
+      },
+      "domain": "risk_diversification_investing",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "Portfel ma początkowo 1000 PLN: początkowo 60% w części A i 40% w części B. W jednym okresie A traci 20%, a B zyskuje 5%. Brak wpłat, wypłat, transakcji lub przesuwania środków między A i B w trakcie okresu, opłat i podatków. Ile PLN jest wart portfel na końcu?",
+        "en": "A portfolio initially holds PLN 1000: 60% in part A and 40% in part B. Over one period A loses 20% and B gains 5%. There are no contributions, withdrawals, changes to holdings during the period, fees or taxes. What is its end value in PLN?"
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 900,
+        "unit": "PLN",
+        "absolute_tolerance": 0.005
+      },
+      "rationale": {
+        "pl": "A: 600 × 0,80 = 480 PLN. B: 400 × 1,05 = 420 PLN. Suma 900 PLN oznacza stratę 10%. Dodatni wynik jednej części nie zapewnia dodatniego wyniku całości.",
+        "en": "A: 600 × 0.80 = PLN 480. B: 400 × 1.05 = PLN 420. A total of PLN 900 means a 10% loss. A positive result in one part does not ensure a positive overall result."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "925 PLN.",
+              "en": "PLN 925."
+            },
+            "explanation": {
+              "pl": "Zwykła średnia −20% i +5% daje −7,5%, ale części mają różne udziały.",
+              "en": "The simple average of −20% and +5% is −7.5%, but the parts have unequal weights."
+            }
+          },
+          {
+            "error": {
+              "pl": "850 PLN.",
+              "en": "PLN 850."
+            },
+            "explanation": {
+              "pl": "Dodanie procentów pomija udziały obu części w portfelu.",
+              "en": "Adding the percentages ignores the parts' portfolio weights."
+            }
+          },
+          {
+            "error": {
+              "pl": "1050 PLN.",
+              "en": "PLN 1050."
+            },
+            "explanation": {
+              "pl": "Uwzględnia tylko zysk B i pomija stratę A.",
+              "en": "This considers only B's gain and ignores A's loss."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "SEC-DIVERSIFICATION",
+          "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "initial_value": 1000,
+          "A_weight": 0.6,
+          "A_return": -0.2,
+          "B_weight": 0.4,
+          "B_return": 0.05,
+          "currency": "PLN"
+        },
+        "formula": "1000*(0.6*(1-0.2)+0.4*(1+0.05))",
+        "expected_value": 900,
+        "rounding": "0.01 PLN",
+        "conditions": [
+          "Weights are initial proportions, not final weights.",
+          "No rebalancing, tax, fees, contributions or withdrawals.",
+          "Hypothetical returns, no prediction of actual assets."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RET-01",
+      "objective": {
+        "pl": "Rozpoznać dane wejściowe do planowania wydatków i dochodów w przyszłości.",
+        "en": "Identify inputs for planning future expenses and income."
+      },
+      "domain": "retirement_longterm",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Od jakich informacji warto rozpocząć plan finansowy na czas po zakończeniu pracy?",
+        "en": "What information is useful when starting a financial plan for life after work?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Wyłącznie od obiecanego przez reklamę zysku.",
+            "en": "Only a return promised in an advertisement."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Tylko od kwoty oszczędności znajomego.",
+            "en": "Only a friend's savings balance."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Od założenia, że ceny i sytuacja nigdy się nie zmienią.",
+            "en": "From the assumption that prices and circumstances never change."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Od własnych przewidywanych kosztów, zasobów, horyzontu i dochodów sprawdzonych w właściwych źródłach.",
+            "en": "From your expected expenses, resources, time horizon and income checked against relevant sources."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "D"
+      },
+      "rationale": {
+        "pl": "Plan łączy przyszłe potrzeby z możliwymi zasobami. Kwoty emerytur, warunki i podatki wymagają źródeł konkretnego kraju; nie ustalamy ich w tym pytaniu.",
+        "en": "A plan connects future needs with possible resources. Pension amounts, conditions and taxes require sources for the specific country; this item does not set them."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Obietnica nie zastępuje kosztów, zasobów ani sprawdzenia źródeł.",
+              "en": "A promise does not replace expenses, resources or source verification."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Potrzeby, zasoby i horyzont znajomego mogą się różnić.",
+              "en": "A friend's needs, resources and time horizon can differ."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Plan powinien ujawniać niepewność i być aktualizowany.",
+              "en": "A plan should make uncertainty explicit and be updated."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-LIFE-EVENTS",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_events-purchases_tool_2018-11.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RET-02",
+      "objective": {
+        "pl": "Rozpoznać niepewność długoterminowej projekcji i potrzebę scenariuszy.",
+        "en": "Recognize uncertainty in a long-term projection and the need for scenarios."
+      },
+      "domain": "retirement_longterm",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Kalkulator pokazuje, że przy założonym stałym wzroście 5% plan Lee osiągnie cel za 20 lat. Wpłaty i stopa są założeniami, bez gwarancji. Jaki wniosek jest najbardziej uzasadniony?",
+        "en": "A calculator shows Lee's plan reaching a goal in 20 years under assumed constant 5% growth. Contributions and the rate are assumptions, with no guarantee. Which conclusion is best justified?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Sprawdzić niższy wzrost, koszty i ceny oraz aktualizować plan, zanim uzna się cel za osiągalny.",
+            "en": "Check lower growth, costs and prices, and update the plan before treating the goal as achievable."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Wynik potwierdza gwarantowany zysk 5% w każdym roku.",
+            "en": "The result confirms a guaranteed 5% return every year."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Podnieść w kalkulatorze stopę do 15%, aby rozwiązać brak pieniędzy.",
+            "en": "Raise the calculator's rate to 15% to solve a money shortfall."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Nie wracać do planu przez 20 lat.",
+            "en": "Never revisit the plan for 20 years."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "A"
+      },
+      "rationale": {
+        "pl": "Projekcja jest scenariuszem warunkowym. Porównanie wariantów i kosztów oraz regularny przegląd pozwalają wykryć, od czego zależy wynik.",
+        "en": "A projection is a conditional scenario. Comparing variants and costs, and reviewing it periodically, can reveal what the result depends on."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Kalkulator wykonuje obliczenie na założeniach, nie gwarantuje ich spełnienia.",
+              "en": "A calculator computes assumptions; it does not guarantee them."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Zmiana liczby nie tworzy zasobów i może ukryć ryzyko.",
+              "en": "Changing a number does not create resources and may hide risk."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Dochody, wydatki i warunki mogą się zmieniać; założenia wymagają przeglądu.",
+              "en": "Income, expenses and conditions can change; assumptions need review."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "SEC-COMPOUND",
+          "url": "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator"
+        },
+        {
+          "id": "CFPB-LIFE-EVENTS",
+          "url": "https://files.consumerfinance.gov/f/documents/cfpb_your-money-your-goals_events-purchases_tool_2018-11.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RET-03",
+      "objective": {
+        "pl": "Obliczyć kapitalizację z wpłatami na końcu okresu.",
+        "en": "Calculate compounding with end-of-period contributions."
+      },
+      "domain": "retirement_longterm",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "Zaczynasz z 0 PLN. Wpłacasz 1000 PLN na końcu każdego z 3 lat. W ćwiczeniu saldo z początku każdego roku rośnie o 5% w tym roku, po czym dodawana jest wpłata; brak podatków, opłat i wypłat. Ile wynosi saldo zaraz po trzeciej wpłacie? Podaj PLN do dwóch miejsc. 5% to założenie, nie obietnica.",
+        "en": "You start with PLN 0. You contribute PLN 1000 at the end of each of 3 years. In this exercise, the opening balance grows by 5% during each year and the contribution is then added; there are no taxes, fees or withdrawals. What is the balance immediately after the third contribution? Enter PLN to two decimal places. 5% is an assumption, not a promise."
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 3152.5,
+        "unit": "PLN",
+        "absolute_tolerance": 0.005
+      },
+      "rationale": {
+        "pl": "Po roku 1: 1000 PLN. Po roku 2: 1000 × 1,05 + 1000 = 2050 PLN. Po roku 3: 2050 × 1,05 + 1000 = 3152,50 PLN. Wpłaty to 3000 PLN; hipotetyczny wzrost to 152,50 PLN.",
+        "en": "After year 1: PLN 1000. After year 2: 1000 × 1.05 + 1000 = PLN 2050. After year 3: 2050 × 1.05 + 1000 = PLN 3152.50. Contributions total PLN 3000; hypothetical growth is PLN 152.50."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "3000 PLN.",
+              "en": "PLN 3000."
+            },
+            "explanation": {
+              "pl": "To suma wpłat bez założonego wzrostu dwóch wcześniejszych wpłat.",
+              "en": "That is total contributions without assumed growth on the two earlier payments."
+            }
+          },
+          {
+            "error": {
+              "pl": "3310,13 PLN.",
+              "en": "PLN 3310.13."
+            },
+            "explanation": {
+              "pl": "Ten wynik odpowiada wpłatom na początku lat, a nie na końcu.",
+              "en": "That result corresponds to beginning-of-year contributions, not year-end payments."
+            }
+          },
+          {
+            "error": {
+              "pl": "3472,88 PLN.",
+              "en": "PLN 3472.88."
+            },
+            "explanation": {
+              "pl": "3000 × 1,05³ zakłada całą kwotę dostępną od początku trzech lat.",
+              "en": "3000 × 1.05³ assumes all money was available at the beginning of all three years."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "SEC-COMPOUND",
+          "url": "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "initial_balance": 0,
+          "annual_contribution": 1000,
+          "annual_growth": 0.05,
+          "years": 3,
+          "currency": "PLN"
+        },
+        "formula": "1000*(1.05**2)+1000*1.05+1000",
+        "expected_value": 3152.5,
+        "rounding": "round final result to 2 decimal places",
+        "conditions": [
+          "Each contribution occurs at year end, after growth.",
+          "Annual compounding.",
+          "Constant hypothetical 5%, no costs, tax or inflation adjustment.",
+          "Result is nominal scenario balance, not forecast or retirement sufficiency."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RES-01",
+      "objective": {
+        "pl": "Rozpoznać podstawowe elementy planu na przerwę w dochodzie.",
+        "en": "Identify basic elements of a plan for interrupted income."
+      },
+      "domain": "income_household_resilience",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "Co powinno znaleźć się w podstawowym planie gospodarstwa domowego na przerwę w dochodzie?",
+        "en": "What belongs in a basic household plan for an income interruption?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Tylko cel inwestycyjny odległy o 30 lat.",
+            "en": "Only an investment goal 30 years away."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Niezbędne koszty i ich daty, dostępne środki oraz kontakty i działania do sprawdzenia.",
+            "en": "Essential costs and their dates, available funds, and contacts and actions to check."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Hasła bankowe wszystkich osób zapisane w publicznym dokumencie.",
+            "en": "Everyone's bank passwords in a public document."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Założenie, że nowy dochód pojawi się dokładnie w dniu utraty starego.",
+            "en": "Assuming new income will arrive exactly when old income stops."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "B"
+      },
+      "rationale": {
+        "pl": "Jawne podstawowe koszty, daty i dostępne zasoby pozwalają zobaczyć lukę. Kontakty i możliwe działania warto sprawdzić z wyprzedzeniem; ich wynik nie jest gwarantowany.",
+        "en": "Explicit essential costs, dates and available resources reveal a gap. Contacts and possible actions can be checked in advance; their outcomes are not guaranteed."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Odległy cel nie określa sposobu pokrycia najbliższych potrzeb.",
+              "en": "A distant goal does not establish how immediate needs will be covered."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Plan nie wymaga ujawniania haseł; to ryzyko bezpieczeństwa.",
+              "en": "A plan does not require exposing passwords; that is a security risk."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Plan oparty na niepotwierdzonym terminie może nie pokryć przerwy.",
+              "en": "A plan based on an unconfirmed date may not cover the gap."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-ADJUST-CASHFLOW",
+          "url": "https://files.consumerfinance.gov/f/documents/cfbp_your-money-your-goals_adjust_cash_flow_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RES-02",
+      "objective": {
+        "pl": "Zauważyć wspólne źródło ryzyka w dochodach gospodarstwa.",
+        "en": "Notice a shared risk source in household income."
+      },
+      "domain": "income_household_resilience",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Dwie osoby w gospodarstwie mają oddzielne pensje, ale obie pracują w tej samej małej firmie. Co warto uwzględnić w planie na utratę dochodu?",
+        "en": "Two household members receive separate salaries, but both work for the same small company. What should their income-loss plan consider?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Dwie pensje eliminują możliwość jednoczesnego spadku dochodu.",
+            "en": "Two salaries eliminate the possibility of a simultaneous income fall."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Same oddzielne rachunki bankowe usuwają ryzyko źródła dochodu.",
+            "en": "Separate bank accounts alone remove income-source risk."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Kłopoty wspólnego pracodawcy mogą dotknąć oba dochody; trzeba sprawdzić scenariusz ich jednoczesnego spadku.",
+            "en": "Trouble at their shared employer may affect both incomes; test a scenario in which both decline."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Nie można zaplanować żadnego działania bez przewidywania daty kryzysu.",
+            "en": "No action can be planned without predicting the date of a crisis."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "C"
+      },
+      "rationale": {
+        "pl": "Liczba wypłat nie mówi sama w sobie, czy ryzyka są niezależne. Scenariusz wspólnego spadku wpływów pomaga ocenić rezerwę i możliwe działania bez prognozowania kryzysu.",
+        "en": "The number of paychecks alone does not establish independence of risks. A joint income-drop scenario helps assess reserves and possible actions without forecasting a crisis."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Jeden problem pracodawcy może dotknąć obie pensje.",
+              "en": "One employer's difficulty can affect both salaries."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Rachunek przechowuje pieniądze; nie zmienia zależności od pracodawcy.",
+              "en": "An account holds money; it does not change dependence on the employer."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Można przygotować scenariusze i kontakty bez przewidywania wydarzeń.",
+              "en": "Scenarios and contacts can be prepared without predicting events."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CFPB-ADJUST-CASHFLOW",
+          "url": "https://files.consumerfinance.gov/f/documents/cfbp_your-money-your-goals_adjust_cash_flow_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-RES-03",
+      "objective": {
+        "pl": "Obliczyć czas pokrywania miesięcznej luki po jednorazowym wydatku.",
+        "en": "Calculate how long a reserve covers a monthly gap after a one-off expense."
+      },
+      "domain": "income_household_resilience",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "numeric_response",
+      "prompt": {
+        "pl": "Po spadku dochodu masz 1800 PLN wpływów miesięcznie i 2200 PLN podstawowych wydatków miesięcznie. Rezerwa wynosi 1600 PLN, ale od razu płacisz z niej dodatkowo 400 PLN za nagłą naprawę. Od następnego miesiąca co miesiąc pokrywasz różnicę z rezerwy. Kwoty są stałe; brak odsetek, opłat i innych zmian. Przez ile pełnych miesięcy pozostała rezerwa pokryje tę różnicę?",
+        "en": "After an income fall, you receive PLN 1800 per month and have PLN 2200 of essential monthly expenses. Your reserve is PLN 1600, but you immediately pay an additional PLN 400 from it for an unexpected repair. Starting next month, you cover the monthly gap from the reserve. Amounts are constant, with no interest, fees or other changes. For how many full months will the remaining reserve cover the gap?"
+      },
+      "options": [],
+      "correct_answer": {
+        "value": 3,
+        "unit": "months",
+        "absolute_tolerance": 0
+      },
+      "rationale": {
+        "pl": "Po naprawie zostaje 1200 PLN. Miesięczna luka to 2200 − 1800 = 400 PLN. 1200 / 400 = 3 pełne miesiące. To czas pokrywania różnicy, nie całych wydatków.",
+        "en": "After the repair, PLN 1200 remains. The monthly gap is 2200 − 1800 = PLN 400. 1200 / 400 = 3 full months. This covers the gap, not all expenses."
+      },
+      "explanations": {
+        "incorrect_options": [],
+        "common_errors": [
+          {
+            "error": {
+              "pl": "4 miesiące.",
+              "en": "4 months."
+            },
+            "explanation": {
+              "pl": "1600 / 400 pomija jednorazową naprawę.",
+              "en": "1600 / 400 ignores the one-off repair."
+            }
+          },
+          {
+            "error": {
+              "pl": "Mniej niż 1 miesiąc, bo 1200 / 2200.",
+              "en": "Less than 1 month because 1200 / 2200."
+            },
+            "explanation": {
+              "pl": "Dochód 1800 PLN nadal wpływa; rezerwa pokrywa tylko różnicę.",
+              "en": "PLN 1800 income still arrives; the reserve covers only the gap."
+            }
+          },
+          {
+            "error": {
+              "pl": "Brak końca, bo dochód nadal istnieje.",
+              "en": "No limit because income still exists."
+            },
+            "explanation": {
+              "pl": "Dochód jest niższy od wydatków, więc rezerwa maleje co miesiąc.",
+              "en": "Income is lower than expenses, so the reserve falls every month."
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "CFPB-ADJUST-CASHFLOW",
+          "url": "https://files.consumerfinance.gov/f/documents/cfbp_your-money-your-goals_adjust_cash_flow_tool_2018-11_ADA.pdf"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": {
+        "inputs": {
+          "monthly_income": 1800,
+          "monthly_essential_expenses": 2200,
+          "initial_reserve": 1600,
+          "immediate_extra_repair": 400,
+          "currency": "PLN"
+        },
+        "formula": "floor((1600-400)/(2200-1800))",
+        "expected_value": 3,
+        "rounding": "floor to full months",
+        "conditions": [
+          "Repair is additional to listed monthly expenses and happens before month 1.",
+          "Same income and expenses every month; draw gap at each month end.",
+          "Zero interest, tax, fees or additional shocks.",
+          "Scenario estimates reserve duration; does not guarantee recovery of income."
+        ]
+      },
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SEC-01",
+      "objective": {
+        "pl": "Wybrać niezależną weryfikację pilnej wiadomości finansowej.",
+        "en": "Choose independent verification of an urgent financial message."
+      },
+      "domain": "fraud_digital_safety",
+      "level": "basic",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "multiple_choice",
+      "prompt": {
+        "pl": "SMS podszywający się pod bank twierdzi, że konto zostanie zablokowane, i każe zalogować się przez link. Jak najbezpieczniej sprawdzić sytuację?",
+        "en": "An SMS claiming to be from a bank says your account will be blocked and asks you to log in through a link. What is the safest way to check the situation?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Użyć linku, bo widnieje w nim nazwa banku.",
+            "en": "Use the link because it contains the bank's name."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Odpisać hasło, żeby szybciej wyjaśnić sprawę.",
+            "en": "Reply with your password to resolve it faster."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Zadzwonić na numer podany wyłącznie w tym SMS-ie.",
+            "en": "Call the number supplied only in that SMS."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Otworzyć znaną oficjalną aplikację lub samodzielnie znaleźć wcześniej znany oficjalny kontakt banku.",
+            "en": "Open the known official app or independently use a previously known official bank contact."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "D"
+      },
+      "rationale": {
+        "pl": "Weryfikacja niezależnym kanałem ogranicza zależność od treści podejrzanej wiadomości. Presja czasu i wygląd nadawcy nie potwierdzają autentyczności.",
+        "en": "Verification through an independent channel reduces reliance on a suspicious message. Urgency and the sender's appearance do not establish authenticity."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Nazwa banku może pojawić się w fałszywym adresie.",
+              "en": "A bank's name can appear in a fake address."
+            }
+          },
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Hasła nie należy przekazywać nadawcy wiadomości.",
+              "en": "A password should not be sent to a message sender."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Wiadomość może zawierać numer oszusta; to ten sam niesprawdzony kanał.",
+              "en": "The message can contain a scammer's number; it remains the same unverified channel."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CERT-PHISHING",
+          "url": "https://wiedza.cert.pl/bezpieczenstwo-osobiste/rozpoznanie-phishingu/"
+        },
+        {
+          "id": "NIST-PHISHING",
+          "url": "https://www.nist.gov/itl/smallbusinesscyber/guidance-topic/phishing"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SEC-02",
+      "objective": {
+        "pl": "Wybrać ochronę konta bez traktowania 2FA jako pełnej gwarancji.",
+        "en": "Choose account protection without treating 2FA as a complete guarantee."
+      },
+      "domain": "fraud_digital_safety",
+      "level": "intermediate",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Rin używa jednego hasła do poczty i kilku serwisów finansowych. Jeden serwis ujawnił dane logowania. Który zestaw działań najlepiej ograniczy ryzyko dla pozostałych kont?",
+        "en": "Rin uses one password for email and several financial services. One service has exposed login data. Which set of actions best reduces risk to the remaining accounts?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Zmienić współdzielone hasło na odrębne silne hasła, włączyć dostępne 2FA i bezpiecznie zabezpieczyć odzyskiwanie dostępu.",
+            "en": "Replace the reused password with distinct strong passwords, enable available 2FA and secure account recovery."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Zmienić tylko jedno hasło, pozostawiając to samo w pozostałych serwisach.",
+            "en": "Change only one password and keep the same one in the other services."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Przekazać kody 2FA każdemu, kto twierdzi, że jest pracownikiem wsparcia.",
+            "en": "Share 2FA codes with anyone claiming to work in support."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Uznać, że 2FA usuwa potrzebę ostrożności wobec linków i próśb o kod.",
+            "en": "Assume 2FA removes the need for caution about links and code requests."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "A"
+      },
+      "rationale": {
+        "pl": "Odrębne hasła ograniczają skutki ponownego użycia ujawnionych danych. 2FA dodaje ochronę, ale nie wolno przekazywać kodów ani zaniedbywać bezpiecznego odzyskiwania.",
+        "en": "Distinct passwords limit the reuse of exposed credentials. 2FA adds protection, but codes must not be shared and secure recovery still matters."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "B",
+            "explanation": {
+              "pl": "Ujawnione hasło może nadal działać na innych kontach.",
+              "en": "The exposed password may still work on other accounts."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "Podszywający się rozmówca może użyć kodu do przejęcia dostępu.",
+              "en": "An impersonator can use a code to take over access."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Drugi składnik może zostać wyłudzony; ostrożność nadal jest potrzebna.",
+              "en": "A second factor can be phished; caution remains necessary."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CERT-2FA",
+          "url": "https://cert.pl/2etapy/"
+        },
+        {
+          "id": "CERT-PHISHING",
+          "url": "https://wiedza.cert.pl/bezpieczenstwo-osobiste/rozpoznanie-phishingu/"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    },
+    {
+      "id": "CF-SEC-03",
+      "objective": {
+        "pl": "Wybrać pilną reakcję po ujawnieniu danych finansowych bez obiecywania odzyskania środków.",
+        "en": "Choose an urgent response after exposing financial credentials without promising recovery."
+      },
+      "domain": "fraud_digital_safety",
+      "level": "advanced",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "jurisdiction": "general",
+      "launch_market": "PL",
+      "jurisdiction_note": {
+        "pl": "Zasada ogólna lub hipotetyczny przykład w PLN. EN jest tłumaczeniem dla rynku Polska; pytanie nie określa podatków, świadczeń ani praw konsumenta.",
+        "en": "General principle or hypothetical PLN example. EN is a translation for the Poland market; this item does not define taxes, benefits or consumer rights."
+      },
+      "type": "situational_choice",
+      "prompt": {
+        "pl": "Na stronie z linku w wiadomości wpisano hasło bankowe i kod jednorazowy. Potem okazało się, że strona była fałszywa. Który opis następnego kroku jest najbardziej odpowiedni?",
+        "en": "A bank password and one-time code were entered on a page linked from a message. The page then turned out to be fake. Which description of the next step is most appropriate?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "pl": "Poczekać kilka dni, bo kod jednorazowy oznacza brak ryzyka.",
+            "en": "Wait a few days because a one-time code means there is no risk."
+          }
+        },
+        {
+          "id": "B",
+          "text": {
+            "pl": "Pilnie skontaktować się z bankiem oficjalnym niezależnym kanałem, zgłosić ujawnione dane i zabezpieczyć dostęp według jego instrukcji.",
+            "en": "Urgently contact the bank through an independent official channel, report the exposed credentials and secure access according to its instructions."
+          }
+        },
+        {
+          "id": "C",
+          "text": {
+            "pl": "Zapłacić osobie z tej samej wiadomości za gwarantowane odzyskanie pieniędzy.",
+            "en": "Pay a person from the same message for guaranteed recovery of money."
+          }
+        },
+        {
+          "id": "D",
+          "text": {
+            "pl": "Zmienić tylko hasło w niezwiązanym sklepie i uznać sprawę za zamkniętą.",
+            "en": "Change only an unrelated shop password and consider the matter closed."
+          }
+        }
+      ],
+      "correct_answer": {
+        "option_id": "B"
+      },
+      "rationale": {
+        "pl": "Ujawnienie hasła i kodu wymaga pilnej reakcji. Oficjalny bank może wskazać blokadę dostępu i dalsze działania; samo zgłoszenie nie gwarantuje odzyskania pieniędzy ani określonego wyniku prawnego.",
+        "en": "Exposing a password and code requires an urgent response. The official bank can advise on blocking access and next actions; reporting alone guarantees neither recovery nor a particular legal outcome."
+      },
+      "explanations": {
+        "incorrect_options": [
+          {
+            "option_id": "A",
+            "explanation": {
+              "pl": "Kod mógł zostać użyty od razu; oczekiwanie opóźnia reakcję.",
+              "en": "The code may have been used immediately; waiting delays response."
+            }
+          },
+          {
+            "option_id": "C",
+            "explanation": {
+              "pl": "To ponownie niesprawdzony kontakt; gwarancja odzyskania może być kolejnym oszustwem.",
+              "en": "This is another unverified contact; a recovery guarantee may be a further scam."
+            }
+          },
+          {
+            "option_id": "D",
+            "explanation": {
+              "pl": "Nie zabezpiecza to ujawnionego dostępu bankowego ani możliwych operacji.",
+              "en": "This does not secure exposed bank access or possible transactions."
+            }
+          }
+        ],
+        "common_errors": []
+      },
+      "sources": [
+        {
+          "id": "CERT-PHISHING",
+          "url": "https://wiedza.cert.pl/bezpieczenstwo-osobiste/rozpoznanie-phishingu/"
+        }
+      ],
+      "review_date": "2026-10-14",
+      "calculation_assumptions": null,
+      "version": "0.1.1",
+      "status": "draft_for_review",
+      "author_role": "7. Architekt edukacji / 8. Projektant quizów",
+      "reviewer": "architecture_audit",
+      "reviewer_status": "accepted_limited",
+      "review_requirements": [
+        "independent_financial_and_calculation_review",
+        "independent_PL_EN_localization_review",
+        "user_comprehension_pilot"
+      ],
+      "provenance": "new_pilot_not_existing_beta_content",
+      "review_scope": [
+        "answer_key",
+        "rationale",
+        "PL_EN_equivalence",
+        "calculation_if_present"
+      ],
+      "review_pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_pilot"
+      ],
+      "review_reference": "docs/coachfi/reviews/quiz-review.md (0.1.1 re-review, 2026-10-14)"
+    }
+  ],
+  "independent_review_reference": "docs/coachfi/reviews/quiz-review.md: version0.1.1 accepted within calculations and PL/EN; source refresh, UI/scoring and users pending. Status draft_for_review, no publication.",
+  "reviewers": [
+    {
+      "id": "architecture_audit",
+      "role": "3. Independent financial and PL/EN reviewer",
+      "review_date": "2026-10-14",
+      "scope": [
+        "answer_keys",
+        "nine_calculations",
+        "PL_EN_equivalence"
+      ],
+      "result": "accepted_limited",
+      "reviewed_version": "0.1.1",
+      "evidence": "docs/coachfi/reviews/quiz-review.md",
+      "pending": [
+        "independent_source_refresh",
+        "implementation_parser_scoring_tests",
+        "user_comprehension_retention_pilot"
+      ]
+    }
+  ]
+}

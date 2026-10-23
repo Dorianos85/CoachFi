@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-20",
+  "scope": "Adult and parent-led family paths, Poland PL/EN; existing Coachfi design",
+  "decision": "ACCEPTED_LIMITED_LOCAL",
+  "production": "NO_GO_NO_DEPLOY",
+  "baseCommit": "c63e46d1ed101721043ed17da28fe9bca6ef2a36",
+  "independentReviewer": "audience_qa",
+  "unitEvidence": {
+    "distinctAcceptedCases": 102,
+    "newCases": 29,
+    "regressions": 73,
+    "initialExecutedPass": 85,
+    "initialExecutedFail": 17,
+    "qualification": "Union after exact-case and adapted-wrapper retests; original failures retained. Not a fresh all-green full suite."
+  },
+  "normalBrowser": {
+    "build": "local-final",
+    "scenariosPassed": 4,
+    "retries": 0,
+    "languages": ["pl", "en"],
+    "pageApiRequests": 0,
+    "pageExternalRequests": 0,
+    "pageErrors": 0
+  },
+  "highContrastCorrection": {
+    "build": "contrast-final",
+    "initialFailedRatio": 1.0534,
+    "acceptedSamples": 21,
+    "minimumAcceptedRatio": 17.7397
+  },
+  "latestBuild": {
+    "label": "adult-brand",
+    "status": "PASS",
+    "appPaths": 38,
+    "sourceInputs": 833,
+    "sourceDrift": 0,
+    "inputManifestSha256": "b4a452bbc07934c6d9e67ceb8cbdab450e55d33fbe8ab70c599b16ffaf9b6163",
+    "typecheck": "PASS_IN_BUILD",
+    "runtime": "UNCHANGED_SCOPED_PREPARED_RUNTIME",
+    "fonts": "TWO_EXPLICIT_LOCAL_MOCKS",
+    "guardRows": 50,
+    "closedGuardContexts": 25,
+    "guardDenials": 0
+  },
+  "adultDesign": {
+    "source": "app/adult/page.tsx",
+    "sourceSha256": "03850ad1ddd0dad8aae041413cf1b67c7c4fc469a824fe63b6de6d3eef5e3459",
+    "logicAstEqualAfterStyleExclusion": true,
+    "normalSamplesPassed": 12,
+    "normalMinimumRatio": 6.4648,
+    "initialSamplesPass": 16,
+    "initialSamplesFail": 1,
+    "exactFailedSampleRetestPass": 1,
+    "unchangedThreshold": 4.5,
+    "actualAnimationSettleMs": 148.7,
+    "retestRatio": 17.7397,
+    "viewportFitChecksPassed": 3,
+    "qualification": "17 distinct samples accepted across two readings. No repeat of 16 green samples, previous 102 cases or four normal full-flow scenarios."
+  },
+  "previousDashboard": {
+    "path": "app/adult/dashboard/page.tsx",
+    "source": "app/page.tsx at baseCommit",
+    "byteExact": true,
+    "sha256": "b8534927119af0b0435338834ac29efeb14b2f880fb79919c95f874ed2e8f8e6"
+  },
+  "limitations": ["RAM-only new progress", "No real fonts", "No real Auth/RLS or two-account staging", "No full WCAG or screen reader acceptance", "Existing dependency/privacy gates remain open", "No production deployment"]
+}

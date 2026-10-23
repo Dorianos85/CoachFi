@@ -1,0 +1,27 @@
+# Cykl 5 — B15: zachowanie danych konta i uczciwy tryb odczytu
+
+14.10.2026. Status: **PRZYJĘTY LOKALNIE — LIMITED ACCEPT**. Gałąź `codex/p0-security-consent-export`, bazowy SHA `86226ddc2c672b3d3d88869ebd8c5f6a5a59c19b`. Istniejące zmiany zachowane. Bez commit/push/deploy, produkcyjnych zapisów/migracji, rzeczywistych kont/sesji/profili/sekretów ani płatnych wywołań. Autorzy nie akceptują własnego kodu.
+
+## Problem i wynik zmiany
+
+Baseline odtworzył utratę niepotwierdzonych postępów po cold resume, nadpisanie nowszego remote stanu przez starszy lokalny i utratę własnego profilu Supabase. Trwały marker był zapisywany, lecz nie odczytywany; cloud push errors nie dawały trwałego sygnału niepotwierdzonego zapisu. Baseline PASS oznacza reprodukcję ryzyka, nie gotowość poprawki.
+
+Przyjęta minimalna poprawka zachowuje dokładne istniejące bytes w przestrzeni właściciela. Dowolny REV lub istniejący mirrored cache (4 learning keys CDP / 10 Supabase) zatrzymuje ponowne pobieranie i hydration. Nie importuje guest lub innego UID. Pusta mirrored przestrzeń może pobrać dane, z jawnym statusem read-only/localOnly; ten status nie jest potwierdzeniem zapisu. Nowy zapis albo usunięcie mirrored pola najpierw utrwala `local-unconfirmed-v1` w istniejącym REV; wcześniejszych markerów nie zastępuje. Quota markeru blokuje główną mutację. Retained hydration handle traci obejście markera po ready. Brak journal payloadów, automatycznego replay/ack/clear lub migracji danych.
+
+Automatyczne learning PUT/create/clearName CDP i Supabase upsert/insert/pusher są wyłączone. API GET nie zapisuje już tożsamości. API PUT odpowiada503 po auth/same-origin/expectedUID checks, zanim odczyta body lub wywoła store; bez atomowej kontroli wersji nie wolno nadpisywać konta. Explicit DELETE pozostaje osobnym, uwierzytelnionym endpointem. Lokalne export/delete nie oznaczają usunięcia wszystkich danych konta u dostawcy.
+
+Komunikaty PL/EN w boundary, logowaniu i kontroli danych jasno oddzielają lokalne zmiany od potwierdzenia konta. Zmiana metadanych nie zmienia rewizji lub publicznych handles i nie resetuje formularza. Pozostałe legacy locale nie były przedmiotem zatwierdzonej recenzji językowej tego cyklu.
+
+## Dowody i recenzja
+
+[Plan i przydział plików](workplan.md), [autor CDP](cdp-analysis.md), [autor cloud](cloud-analysis.md), [niezależna recenzja](integrity-review.md). Raw baseline i retests są w `evidence/cycle-5/`; nie sumować subsetów do aggregate. Końcowy niezależny run **78/78 PASS** w10plikach:28 nowych +50 B13/B14 regresji. LIMITED ACCEPT dotyczy lokalnego fail-closed/read-only, nie CAS/produkcji. Własne targeted autora CDP59+7, późniejszy status24, cloud66 i roota27 PASS są oddzielnie oznaczone; niezmienionych przypadków nie powtarzano osobno. Dwa nowe PL/EN boundary cases obejmuje końcowe aggregate.
+
+Końcowe aggregate **606/606 PASS w 50 plikach**, zero pominięć; standalone typecheck exit0. E2E **22/22 PASS**, zero failed/skipped/flaky, 171649,852 ms; świeży Chrome, lokalne ścieżki PL/EN guest/safety/diagnosis/delete/reload, zewnętrzne żądania przeglądarki blokowane. Nie testowano realnego logowania kont/RLS. Serwer port43191 zamknięty. Build **34/34 PASS, exit0**. Kopia TEMP poza OneDrive `coachfi-cycle5-verify-oYY1VL`: 286 wejść, 285 porównań po buildzie (generowany next-env.d.ts pominięty), 0 rozbieżności. Bieżące 285 wejść zgadzają się z manifestem; 30 niezależnych fingerprints ma 0 mismatch. Istniejące zależności przez junction, bez instalacji/env/profili/real DB. Dwa skrypty mają osobną statyczną recenzję architecture_audit; finding o symlinku i exclusion poprawiony, 16 pure diagnostic cases PASS. Node syntax checks obu skryptów exit0. Końcowy guard indeksu: 645 tracked, 343 text, 1 large skip, 0 findings; scoped staged diffcheck0. Księgowość statusów nie zmieniła aplikacji. [Verification](../../../evidence/cycle-5/verification.json) rozdziela dowody roota i recenzenta. Narzędzia i moki nie dowodzą działania produkcji.
+
+Pierwsze wspólne gates dały600/600 i typecheck0, lecz końcowy review wykrył nieuczciwy status CDP: empty-cache failed GET/no-token/config:false otrzymywał read-only. Autor zmienił status na unavailable (24 targetedPASS); fresh udany odczyt/null pozostaje read-only, protected cache unconfirmed. Root zachował przed-finding aggregate/manifest i przerwał E2E bez końcowego JSON; to INTERRUPTED, nie PASS. Końcowe gates wymagają nowego source freeze i niezależnego negative retestu.
+
+## Ograniczenia i następne zadanie
+
+Nie ma implementacji atomowego cloud reconciliation/CAS, wielokartowego/wielourządzeniowego konflikt resolution, trwałego acknowledged journal/replay lub exactly-once append. Istniejący cloud cache bez znanego ack traktujemy konserwatywnie; po cold resume nie jest aktualizowany automatycznie. Partial hydration/deletion nie mają atomic rollback. Logical namespace nie daje ochrony przed arbitralnym skryptem z dostępem do storage. Real accounts, RLS, staging, pełny eksport/usunięcie i proces incydentu pozostają osobnymi bramkami. Zewnętrzne AI/health upload/Kids/Web3/afiliacja pozostają wyłączone; lockfile bez zmiany, nie powtarzano audit. Produkcja **NO-GO**.
+
+Następne wykonalne zadanie: B06 lokalne treści PL/EN, najpierw mapowanie i wybrane błędy finansowe/quizowe z niezależną recenzją. B16 rejestruje warunki przywrócenia cloud writes: osobny kontrakt serwera i testy, nie zmiana flagi. Staging/operacje pozostają pending i nie blokują niezależnych lokalnych treści. Pętla pozostaje aktywna; nie powtarzać zakończonych gates bez zmiany lub konkretnej obawy.

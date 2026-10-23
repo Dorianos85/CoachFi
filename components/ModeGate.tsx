@@ -1,259 +1,126 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { Baby, ShieldCheck, UserRoundCheck, X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
+import * as Dialog from "@radix-ui/react-dialog";
+import { ShieldCheck, UserRoundCheck, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
+import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
-import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { isPublicLearningEntry } from "@/lib/learning-paths";
 
-const COPY: LocalizedMap<{
-  eyebrow: string;
-  title: string;
-  intro: string;
-  adultTitle: string;
-  adultBody: string;
-  adultConfirm: string;
-  adultButton: string;
-  kidsTitle: string;
-  kidsBody: string;
-  kidsButton: string;
-  close: string;
-}> = {
+const COPY = {
   en: {
-    eyebrow: "Choose mode",
-    title: "Who is using Coach FI?",
-    intro: "Coach FI separates adult learning from Kids Mode so children do not see wallets, leaderboards or free-form AI coaching.",
-    adultTitle: "Adult Mode",
-    adultBody: "Full financial education, Mila AI Coach, daily challenges, coins, rewards and optional certificates.",
-    adultConfirm: "I am an adult or I am using the app as a responsible guardian.",
-    adultButton: "Enter Adult Mode",
-    kidsTitle: "Kids Mode",
-    kidsBody: "Safe lessons, stars, saving jar and predefined voice narration. No wallet, no public leaderboard and no free-form AI advice.",
-    kidsButton: "Enter Kids Mode",
-    close: "Close mode selector",
+    eyebrow: "Adult learning",
+    title: "Welcome to Coach FI",
+    intro: "This release is for people aged 18 and over. Learn with short lessons, quizzes and small daily actions.",
+    confirm: "I am at least 18 years old.",
+    enter: "Continue as an adult",
+    close: "Close age confirmation",
+    saveError: "Your 18+ declaration could not be confirmed as saved on this device. Please try again.",
   },
   pl: {
-    eyebrow: "Wybór trybu",
-    title: "Kto korzysta z Coach FI?",
-    intro: "Coach FI oddziela naukę dorosłych od Kids Mode, żeby dziecko nie widziało portfela, rankingów ani swobodnego coachingu AI.",
-    adultTitle: "Tryb dorosły",
-    adultBody: "Pełna edukacja finansowa, Mila AI Coach, wyzwania dnia, coiny, nagrody i opcjonalne certyfikaty.",
-    adultConfirm: "Mam 18 lat lub korzystam z aplikacji jako odpowiedzialny opiekun.",
-    adultButton: "Wejdź w tryb dorosły",
-    kidsTitle: "Kids Mode",
-    kidsBody: "Bezpieczne lekcje, gwiazdki, słoik oszczędzania i gotowe narracje głosowe. Bez portfela, publicznego rankingu i swobodnych porad AI.",
-    kidsButton: "Wejdź w Kids Mode",
-    close: "Zamknij wybór trybu",
-  },
-  ja: {
-    eyebrow: "Mode",
-    title: "Who is using Coach FI?",
-    intro: "Kids Mode is separated from adult learning.",
-    adultTitle: "Adult Mode",
-    adultBody: "Full financial education, Mila AI Coach, daily challenges, coins, rewards and optional certificates.",
-    adultConfirm: "I am an adult or responsible guardian.",
-    adultButton: "Enter Adult Mode",
-    kidsTitle: "Kids Mode",
-    kidsBody: "Safe lessons with stars and predefined voice narration. No wallet, leaderboard or free-form AI advice.",
-    kidsButton: "Enter Kids Mode",
-    close: "Close mode selector",
-  },
-  es: {
-    eyebrow: "Elige el modo",
-    title: "¿Quién usa Coach FI?",
-    intro: "Coach FI separa el aprendizaje de adultos del Modo niños para que los niños no vean monederos, clasificaciones ni coaching de IA libre.",
-    adultTitle: "Modo adulto",
-    adultBody: "Educación financiera completa, Coach IA Mila, retos diarios, monedas, recompensas y certificados opcionales.",
-    adultConfirm: "Soy una persona adulta o uso la app como tutor responsable.",
-    adultButton: "Entrar en Modo adulto",
-    kidsTitle: "Modo niños",
-    kidsBody: "Lecciones seguras, estrellas, hucha y narración de voz predefinida. Sin monedero, sin clasificación pública y sin consejos de IA libres.",
-    kidsButton: "Entrar en Modo niños",
-    close: "Cerrar el selector de modo",
-  },
-  fr: {
-    eyebrow: "Choisir le mode",
-    title: "Qui utilise Coach FI ?",
-    intro: "Coach FI sépare l'apprentissage des adultes du Mode enfants afin que les enfants ne voient ni portefeuilles, ni classements, ni coaching IA libre.",
-    adultTitle: "Mode adulte",
-    adultBody: "Éducation financière complète, Coach IA Mila, défis du jour, pièces, récompenses et certificats facultatifs.",
-    adultConfirm: "Je suis majeur ou j'utilise l'application en tant que tuteur responsable.",
-    adultButton: "Entrer en Mode adulte",
-    kidsTitle: "Mode enfants",
-    kidsBody: "Leçons sûres, étoiles, tirelire et narration vocale prédéfinie. Pas de portefeuille, pas de classement public et pas de conseils IA libres.",
-    kidsButton: "Entrer en Mode enfants",
-    close: "Fermer le sélecteur de mode",
-  },
-  zh: {
-    eyebrow: "选择模式",
-    title: "谁在使用 Coach FI？",
-    intro: "Coach FI 将成人学习与儿童模式分开，让孩子看不到钱包、排行榜或自由形式的 AI 辅导。",
-    adultTitle: "成人模式",
-    adultBody: "完整的财商教育、Mila AI 教练、每日挑战、金币、奖励和可选证书。",
-    adultConfirm: "我是成年人，或以负责任的监护人身份使用本应用。",
-    adultButton: "进入成人模式",
-    kidsTitle: "儿童模式",
-    kidsBody: "安全的课程、星星、存钱罐和预设的语音讲解。没有钱包、没有公开排行榜，也没有自由形式的 AI 建议。",
-    kidsButton: "进入儿童模式",
-    close: "关闭模式选择",
-  },
-  hi: {
-    eyebrow: "मोड चुनें",
-    title: "Coach FI कौन इस्तेमाल कर रहा है?",
-    intro: "Coach FI वयस्कों की सीख को किड्स मोड से अलग रखता है ताकि बच्चे वॉलेट, लीडरबोर्ड या खुली AI कोचिंग न देखें।",
-    adultTitle: "वयस्क मोड",
-    adultBody: "पूरी वित्तीय शिक्षा, Mila AI कोच, दैनिक चुनौतियां, सिक्के, इनाम और वैकल्पिक सर्टिफ़िकेट।",
-    adultConfirm: "मैं वयस्क हूं या ज़िम्मेदार अभिभावक के रूप में ऐप का उपयोग कर रहा/रही हूं।",
-    adultButton: "वयस्क मोड में जाएं",
-    kidsTitle: "किड्स मोड",
-    kidsBody: "सुरक्षित पाठ, स्टार, गुल्लक और पहले से तय आवाज़ में वर्णन। न वॉलेट, न सार्वजनिक लीडरबोर्ड, न खुली AI सलाह।",
-    kidsButton: "किड्स मोड में जाएं",
-    close: "मोड चयन बंद करें",
-  },
-  "pt-BR": {
-    eyebrow: "Escolha o modo",
-    title: "Quem está usando o Coach FI?",
-    intro: "O Coach FI separa o aprendizado dos adultos do Modo infantil para que as crianças não vejam carteiras, rankings nem coaching de IA livre.",
-    adultTitle: "Modo adulto",
-    adultBody: "Educação financeira completa, Coach IA Mila, desafios diários, moedas, recompensas e certificados opcionais.",
-    adultConfirm: "Sou adulto ou uso o app como responsável.",
-    adultButton: "Entrar no Modo adulto",
-    kidsTitle: "Modo infantil",
-    kidsBody: "Aulas seguras, estrelas, cofrinho e narração de voz predefinida. Sem carteira, sem ranking público e sem conselhos de IA livres.",
-    kidsButton: "Entrar no Modo infantil",
-    close: "Fechar o seletor de modo",
-  },
-  tr: {
-    eyebrow: "Modu seç",
-    title: "Coach FI'ı kim kullanıyor?",
-    intro: "Coach FI, çocukların cüzdanları, sıralamaları veya serbest AI koçluğunu görmemesi için yetişkin öğrenimini Çocuk Modu'ndan ayırır.",
-    adultTitle: "Yetişkin modu",
-    adultBody: "Eksiksiz finansal eğitim, Mila AI Koç, günlük görevler, madeni paralar, ödüller ve isteğe bağlı sertifikalar.",
-    adultConfirm: "Yetişkinim veya uygulamayı sorumlu bir veli olarak kullanıyorum.",
-    adultButton: "Yetişkin moduna gir",
-    kidsTitle: "Çocuk modu",
-    kidsBody: "Güvenli dersler, yıldızlar, kumbara ve önceden hazırlanmış sesli anlatım. Cüzdan yok, herkese açık sıralama yok, serbest AI tavsiyesi yok.",
-    kidsButton: "Çocuk moduna gir",
-    close: "Mod seçiciyi kapat",
+    eyebrow: "Nauka dla dorosłych",
+    title: "Witaj w Coach FI",
+    intro: "Ta wersja jest przeznaczona dla osób, które ukończyły 18 lat. Ucz się przez krótkie lekcje, quizy i małe codzienne działania.",
+    confirm: "Mam ukończone 18 lat.",
+    enter: "Kontynuuj jako osoba dorosła",
+    close: "Zamknij potwierdzenie wieku",
+    saveError: "Nie udało się potwierdzić zapisu deklaracji 18+ na tym urządzeniu. Spróbuj ponownie.",
   },
 };
 
-export function ModeGate() {
-  const router = useRouter();
+export function ModeGate({ returnFocusRef }: { returnFocusRef?: RefObject<HTMLButtonElement | null> }) {
+  const pathname = usePathname();
   const { locale } = useLanguage();
-  const copy = pickLocalized(COPY, locale);
+  const baseCopy = locale === "pl" ? COPY.pl : COPY.en;
+  const familyPath = pathname === "/family" || pathname.startsWith("/family/");
+  const copy = familyPath ? { ...baseCopy,
+    eyebrow: locale === "pl" ? "Rodzic lub opiekun prowadzi" : "A parent or guardian leads",
+    intro: locale === "pl"
+      ? "Tę ścieżkę obsługuje rodzic lub opiekun, który ukończył 18 lat. Prowadź wspólną rozmowę na fikcyjnym przykładzie."
+      : "This path is operated by a parent or guardian aged 18 or over. Lead a shared conversation using a fictional example.",
+    confirm: locale === "pl" ? "Mam ukończone 18 lat i prowadzę wspólną aktywność." : "I am at least 18 and will lead the shared activity.",
+    enter: locale === "pl" ? "Kontynuuj jako dorosły prowadzący" : "Continue as the adult leading",
+  } : baseCopy;
   const { loaded: consentLoaded, requiredAccepted } = useConsent();
-  const {
-    loaded: modeLoaded,
-    modeRecord,
-    settingsOpen,
-    selectAdultMode,
-    selectKidsMode,
-    closeSettings,
-  } = useMode();
+  const { loaded: modeLoaded, modeRecord, settingsOpen, selectAdultMode, closeSettings } = useMode();
   const [adultChecked, setAdultChecked] = useState(false);
-
-  const forcedOpen = consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
+  const [confirmationFailed, setConfirmationFailed] = useState(false);
+  const previousFocus = useRef<HTMLElement | null>(null);
+  const forcedOpen = !isPublicLearningEntry(pathname) && consentLoaded && requiredAccepted && modeLoaded && !modeRecord;
   const open = forcedOpen || settingsOpen;
 
   function enterAdult() {
     if (!adultChecked) return;
-    selectAdultMode();
-    router.push("/");
-  }
-
-  function enterKids() {
-    selectKidsMode();
-    router.push("/kids");
-  }
-
-  function close() {
-    if (forcedOpen) return;
-    closeSettings();
+    setConfirmationFailed(false);
+    try {
+      if (selectAdultMode() !== true) {
+        setConfirmationFailed(true);
+        return;
+      }
+    } catch {
+      setConfirmationFailed(true);
+      return;
+    }
+    setAdultChecked(false);
   }
 
   return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-[85] flex items-center justify-center p-3 sm:p-4">
-          <motion.div
-            className="absolute inset-0 bg-slate-950/58 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          />
-          <motion.section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mode-gate-title"
-            className="relative z-10 flex max-h-[calc(100vh-1.5rem)] w-full max-w-4xl flex-col overflow-hidden rounded-lg border border-primary/15 bg-white text-text shadow-2xl"
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.98 }}
-            transition={{ duration: 0.18 }}
-          >
-            {!forcedOpen && (
-              <button
-                type="button"
-                onClick={close}
-                className="absolute right-4 top-4 z-10 rounded-lg p-2 text-muted transition hover:bg-primary/10 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                aria-label={copy.close}
-              >
-                <X className="h-5 w-5" aria-hidden="true" />
-              </button>
-            )}
-
-            <div className="shrink-0 border-b border-primary/10 p-5 pr-14">
-              <p className="text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
-              <h2 id="mode-gate-title" className="mt-1 text-2xl font-black leading-tight text-text">
-                {copy.title}
-              </h2>
-              <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-muted">{copy.intro}</p>
-            </div>
-
-            {/* Extra bottom space below lg keeps the last button clear of the fixed mobile nav. */}
-            <div className="grid min-h-0 gap-4 overflow-y-auto p-5 pb-28 md:grid-cols-2 lg:pb-5">
-              <div className="rounded-lg border border-primary/10 bg-primary/5 p-5">
-                <span className="grid h-12 w-12 place-items-center rounded-lg bg-primary text-on-primary">
-                  <UserRoundCheck className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h3 className="mt-4 text-xl font-black text-text">{copy.adultTitle}</h3>
-                <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.adultBody}</p>
-                <label className="mt-5 flex items-start gap-3 rounded-lg border border-primary/15 bg-white p-3 text-sm font-bold leading-6">
-                  <input
-                    type="checkbox"
-                    checked={adultChecked}
-                    onChange={(event) => setAdultChecked(event.target.checked)}
-                    className="mt-1 h-4 w-4 rounded border-primary/30 text-primary focus:ring-primary"
-                  />
-                  <span>{copy.adultConfirm}</span>
-                </label>
-                <Button type="button" className="mt-4 w-full" disabled={!adultChecked} onClick={enterAdult}>
-                  <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                  {copy.adultButton}
-                </Button>
-              </div>
-
-              <div className="rounded-lg border border-amber-200 bg-amber-50 p-5">
-                <span className="grid h-12 w-12 place-items-center rounded-lg bg-amber-300 text-text">
-                  <Baby className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h3 className="mt-4 text-xl font-black text-text">{copy.kidsTitle}</h3>
-                <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.kidsBody}</p>
-                <Button type="button" variant="accent" className="mt-5 w-full" onClick={enterKids}>
-                  <Baby className="h-4 w-4" aria-hidden="true" />
-                  {copy.kidsButton}
-                </Button>
-              </div>
-            </div>
-          </motion.section>
-        </div>
-      )}
-    </AnimatePresence>
+    <Dialog.Root
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen && !forcedOpen) {
+          setAdultChecked(false);
+          setConfirmationFailed(false);
+          closeSettings();
+        }
+      }}
+    >
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[1200] bg-slate-950/58 backdrop-blur-sm" />
+        <Dialog.Content
+          aria-modal="true"
+          className="fixed left-1/2 top-1/2 z-[1201] max-h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border border-primary/15 bg-white p-5 text-text shadow-2xl focus:outline-none"
+          onEscapeKeyDown={(event) => { if (forcedOpen) event.preventDefault(); }}
+          onInteractOutside={(event) => { if (forcedOpen) event.preventDefault(); }}
+          onOpenAutoFocus={() => {
+            previousFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+          }}
+          onCloseAutoFocus={(event) => {
+            if (document.querySelector('[role="dialog"][data-state="open"]')) {
+              event.preventDefault();
+              return;
+            }
+            const target = returnFocusRef?.current ?? previousFocus.current;
+            if (target?.isConnected) {
+              event.preventDefault();
+              target.focus();
+            }
+          }}
+        >
+          {!forcedOpen && (
+            <Dialog.Close className="absolute right-4 top-4 rounded-lg p-2 text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label={copy.close}>
+              <X className="h-5 w-5" aria-hidden="true" />
+            </Dialog.Close>
+          )}
+          <p className="pr-10 text-xs font-black uppercase text-primary">{copy.eyebrow}</p>
+          <Dialog.Title className="mt-1 pr-10 text-2xl font-black leading-tight">{copy.title}</Dialog.Title>
+          <Dialog.Description className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.intro}</Dialog.Description>
+          <UserRoundCheck className="mt-5 h-8 w-8 text-primary" aria-hidden="true" />
+          <label className="mt-5 flex items-start gap-3 rounded-lg border border-primary/15 p-3 text-sm font-bold leading-6">
+            <input type="checkbox" checked={adultChecked} onChange={(event) => setAdultChecked(event.target.checked)} className="mt-1 h-4 w-4 focus:ring-primary" />
+            <span>{copy.confirm}</span>
+          </label>
+          {confirmationFailed ? <p role="alert" className="mt-3 text-sm font-semibold text-text">{copy.saveError}</p> : null}
+          <Button type="button" className="mt-4 w-full" disabled={!adultChecked} onClick={enterAdult}>
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+            {copy.enter}
+          </Button>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

@@ -1,0 +1,602 @@
+{
+  "schema_version": 1,
+  "cycle": 33,
+  "module": null,
+  "version": "investing-foundations-pl-en-v1-c33-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 4,
+  "language_versions": 8,
+  "wrong_rationale_count": 12,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_per_language": 0,
+  "reward_total": 110,
+  "canonical_union_count_unchanged": 82,
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "asset-allocation",
+      "rebalancing",
+      "fees-ter",
+      "invest-prerequisites"
+    ],
+    "keys": [
+      "B",
+      "B",
+      "B",
+      "B"
+    ],
+    "rewards": [
+      25,
+      25,
+      30,
+      30
+    ],
+    "rawEN": "Four existing rawENobjects, Long-Term Investing category retained.",
+    "PL": "Four existing PLvalueinitializerobjects, Długoterminowe inwestowanie category retained;82properties unchanged.",
+    "otherLocales": "ES/FR explicit4translations remain literal;five existing ENfallback views change withENsource without accepting newlocale/markets.",
+    "protected": "Other58rawquiz, all20challenge, explicitlocalization/stage/topic/pools/app/writers/SRS and previouslyacceptedcopy literal."
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "sec-allocation",
+      "publisher": "SEC Investor.gov",
+      "title": "Asset Allocation and Diversification",
+      "url": "https://www.investor.gov/introduction-investing/getting-started/asset-allocation",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage sections on asset types, timeframe, risk tolerance and rebalancing.",
+      "bounded_use": "Definitions and context-dependent mix; no universal optimum or precise majority attribution.",
+      "limits": "General education forPL/PLN; no US accounts, providers, investment advice or allocation percentages taught."
+    },
+    {
+      "id": "sec-rebalancing",
+      "publisher": "SEC Investor.gov",
+      "title": "Beginners’ Guide to Asset Allocation, Diversification, and Rebalancing",
+      "url": "https://www.investor.gov/additional-resources/general-resources/publications-research/info-sheets/beginners-guide-asset",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official relevant rebalancing section: holdings/newcontributions, transactionfees/taxconsiderations.",
+      "bounded_use": "Restoring proportions and considering costs; no constant-risk guarantee or trade instruction.",
+      "limits": "No US tax rule, rate, universal tradingfrequency, threshold or realtransaction."
+    },
+    {
+      "id": "sec-fees",
+      "publisher": "SEC Investor.gov",
+      "title": "How Fees and Expenses Affect Your Investment Portfolio – Investor Bulletin (23July2025)",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/updated",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: ongoing and transaction fees, asset deductions and additionalcosts.",
+      "bounded_use": "Fees reduce money left invested; transparent ownPLN illustration.",
+      "limits": "No copiedUSDprojection, assumedrealproductTERcalculation, accountrecommendation or claim lowestcostguaranteesbestreturn."
+    },
+    {
+      "id": "knf-costs",
+      "publisher": "UKNF Wybieram fundusze",
+      "title": "Kluczowe informacje — koszty",
+      "url": "https://wybieramfundusze.knf.gov.pl/kluczowe-informacje",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage lines34–49: TER differs fromKIDimpactmetrics, entry/exit/ongoing/othercosts, lowercostnotalwaysbetter.",
+      "bounded_use": "Check metric scope and possible transaction/othercosts in documents; no conflation ofTERwithallcosts.",
+      "limits": "No providercomparison, currentfees, legalobligationor taxrate. Hypothetical1%/0.2% amounts are not productquotations."
+    },
+    {
+      "id": "knf-conscious",
+      "publisher": "UKNF",
+      "title": "Inwestuj świadomie! (updated18August2026)",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/inwestuj_swiadomie?articleId=70530&p_id=18",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: possible losses, only money notneededfordailylife, awarenessofrisk.",
+      "bounded_use": "Protect funds for needs and consider capacity forloss; no investmentpressure.",
+      "limits": "No endorsementofproducts, universalreserveamount or promise ofprotectionfromanycrisis."
+    },
+    {
+      "id": "cfpb-emergency",
+      "publisher": "CFPB",
+      "title": "An essential guide to building an emergency fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "checked_date": "2026-10-16",
+      "access": "Freshsame-day official fullpage read inC32: situation-dependent reserves, irregularincome and flexibility.",
+      "bounded_use": "Reserve preparation adapted to circumstances; optionalinvestment/no-surplus boundary isCoachfi educational guard.",
+      "limits": "No fixedmonththreshold, USbenefit/taxlaw, productor guaranteedoutcome."
+    }
+  ],
+  "questions": [
+    {
+      "id": "asset-allocation",
+      "goal": {
+        "pl": "Zachować definicję podziału aktywów, bez uniwersalnego przypisania większości ryzyka i zwrotu.",
+        "en": "Retain the allocation definition without a universal attribution of most risk and return."
+      },
+      "source_ids": [
+        "sec-allocation",
+        "knf-conscious"
+      ],
+      "copy": {
+        "pl": {
+          "id": "asset-allocation",
+          "question": "Co oznacza alokacja aktywów?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wybór jednej zwycięskiej akcji"
+            },
+            {
+              "id": "B",
+              "text": "Podział inwestycji między akcje, obligacje i gotówkę"
+            },
+            {
+              "id": "C",
+              "text": "Pożyczanie pieniędzy na inwestycje"
+            },
+            {
+              "id": "D",
+              "text": "Trzymanie wszystkiego na rachunku bieżącym"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Długoterminowe inwestowanie",
+          "reward": 25,
+          "successMessage": "Alokacja to podział między rodzaje aktywów, np. akcje, obligacje i gotówkę. Dobór zależy od celu, czasu i możliwości poniesienia straty. Taki podział wpływa na ryzyko i możliwy wynik, ale nie gwarantuje zysku ani ochrony przed stratą; nie ma jednego właściwego zestawu proporcji dla każdego.",
+          "retryMessage": "Alokacja to podział między rodzaje aktywów, np. akcje, obligacje i gotówkę. Dobór zależy od celu, czasu i możliwości poniesienia straty. Taki podział wpływa na ryzyko i możliwy wynik, ale nie gwarantuje zysku ani ochrony przed stratą; nie ma jednego właściwego zestawu proporcji dla każdego."
+        },
+        "en": {
+          "id": "asset-allocation",
+          "question": "What does 'asset allocation' mean?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Picking one winning stock"
+            },
+            {
+              "id": "B",
+              "text": "How you split investments among stocks, bonds and cash"
+            },
+            {
+              "id": "C",
+              "text": "Borrowing money to invest"
+            },
+            {
+              "id": "D",
+              "text": "Keeping everything in a checking account"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Allocation divides investments among asset types, such as stocks, bonds and cash. The mix depends on the goal, timeframe and ability to bear a loss. It affects risk and potential results, but does not guarantee a profit or protection from losses; there is no single right mix for everyone.",
+          "retryMessage": "Allocation divides investments among asset types, such as stocks, bonds and cash. The mix depends on the goal, timeframe and ability to bear a loss. It affects risk and potential results, but does not guarantee a profit or protection from losses; there is no single right mix for everyone.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Wybór pojedynczej akcji nie definiuje podziału portfela między rodzaje aktywów i nie zapewnia zwycięskiego wyniku.",
+          "en": "Choosing one stock does not define a portfolio split across asset types or ensure a winning result."
+        },
+        "C": {
+          "pl": "Pożyczka jest źródłem finansowania i zobowiązaniem, a nie definicją alokacji aktywów.",
+          "en": "Borrowing is a funding source and a liability, not the definition of asset allocation."
+        },
+        "D": {
+          "pl": "Całość na jednym rachunku to konkretne ulokowanie pieniędzy, a nie ogólna definicja podziału między rodzaje aktywów.",
+          "en": "Keeping everything in one account is a particular placement of money, not the general definition of splitting investments among asset types."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "No recommended allocation percentages, performance attribution percentage or return forecast."
+        ]
+      },
+      "preserved": "Original PL/EN question and all four options retained literally; only feedback qualification.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "investing-foundations-pl-en-v1-c33-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Co oznacza alokacja aktywów? A. Wybór jednej zwycięskiej akcji B. Podział inwestycji między akcje, obligacje i gotówkę C. Pożyczanie pieniędzy na inwestycje D. Trzymanie wszystkiego na rachunku bieżącym",
+          "wholeQuestionABCDLength": 202,
+          "conservativeWholeQuestionABCDLength": 206,
+          "successLength": 291,
+          "retryLength": 291
+        },
+        "en": {
+          "wholeQuestionABCD": "What does 'asset allocation' mean? A. Picking one winning stock B. How you split investments among stocks, bonds and cash C. Borrowing money to invest D. Keeping everything in a checking account",
+          "wholeQuestionABCDLength": 194,
+          "conservativeWholeQuestionABCDLength": 198,
+          "successLength": 289,
+          "retryLength": 289
+        }
+      }
+    },
+    {
+      "id": "rebalancing",
+      "goal": {
+        "pl": "Zachować przywracanie docelowych proporcji, bez obietnicy stałego ryzyka lub zysku.",
+        "en": "Retain restoring target proportions without promising constant risk or profit."
+      },
+      "source_ids": [
+        "sec-allocation",
+        "sec-rebalancing"
+      ],
+      "copy": {
+        "pl": {
+          "id": "rebalancing",
+          "question": "Czym jest rebalancing portfela?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Sprzedażą wszystkiego, gdy rynek spada"
+            },
+            {
+              "id": "B",
+              "text": "Okresowym przywracaniem docelowych proporcji portfela"
+            },
+            {
+              "id": "C",
+              "text": "Dokupowaniem tylko najlepszej akcji"
+            },
+            {
+              "id": "D",
+              "text": "Codziennym sprawdzaniem salda"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Długoterminowe inwestowanie",
+          "reward": 25,
+          "successMessage": "Rebalancing przywraca docelowe proporcje portfela. Można korygować skład lub kierunek nowych wpłat; nie musi oznaczać sprzedaży wszystkiego. Przed działaniem uwzględnij koszty, możliwe podatki i aktualność celu. Nie gwarantuje stałego poziomu ryzyka, zysku ani uniknięcia straty; to nie nakaz transakcji przy każdej zmianie ceny.",
+          "retryMessage": "Rebalancing przywraca docelowe proporcje portfela. Można korygować skład lub kierunek nowych wpłat; nie musi oznaczać sprzedaży wszystkiego. Przed działaniem uwzględnij koszty, możliwe podatki i aktualność celu. Nie gwarantuje stałego poziomu ryzyka, zysku ani uniknięcia straty; to nie nakaz transakcji przy każdej zmianie ceny."
+        },
+        "en": {
+          "id": "rebalancing",
+          "question": "What is portfolio 'rebalancing'?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Selling everything when markets fall"
+            },
+            {
+              "id": "B",
+              "text": "Periodically adjusting holdings back to your target mix"
+            },
+            {
+              "id": "C",
+              "text": "Adding only the best-performing stock"
+            },
+            {
+              "id": "D",
+              "text": "Checking your balance every day"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Rebalancing restores the target portfolio mix. Holdings or the direction of new contributions can be adjusted; it need not mean selling everything. Before acting, consider costs, possible taxes and whether the goal still fits. It does not guarantee constant risk, profit or freedom from loss; it is not an instruction to trade after every price change.",
+          "retryMessage": "Rebalancing restores the target portfolio mix. Holdings or the direction of new contributions can be adjusted; it need not mean selling everything. Before acting, consider costs, possible taxes and whether the goal still fits. It does not guarantee constant risk, profit or freedom from loss; it is not an instruction to trade after every price change.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Sprzedaż wszystkiego po spadku nie jest definicją powrotu do docelowych proporcji.",
+          "en": "Selling everything after a market fall is not the definition of returning to target proportions."
+        },
+        "C": {
+          "pl": "Dokupowanie tylko jednej najlepszej dotychczas akcji nie musi przywracać docelowego podziału.",
+          "en": "Adding only one previously best-performing stock need not restore the target mix."
+        },
+        "D": {
+          "pl": "Samo sprawdzanie salda nie zmienia proporcji; obserwacja nie jest rebalancingiem.",
+          "en": "Checking a balance alone does not change proportions; observation is not rebalancing."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "No universal trading frequency, threshold, prescribed trade or tax rule."
+        ]
+      },
+      "preserved": "Original PL/EN question and all four options retained literally; only feedback qualification.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "investing-foundations-pl-en-v1-c33-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Czym jest rebalancing portfela? A. Sprzedażą wszystkiego, gdy rynek spada B. Okresowym przywracaniem docelowych proporcji portfela C. Dokupowaniem tylko najlepszej akcji D. Codziennym sprawdzaniem salda",
+          "wholeQuestionABCDLength": 202,
+          "conservativeWholeQuestionABCDLength": 206,
+          "successLength": 329,
+          "retryLength": 329
+        },
+        "en": {
+          "wholeQuestionABCD": "What is portfolio 'rebalancing'? A. Selling everything when markets fall B. Periodically adjusting holdings back to your target mix C. Adding only the best-performing stock D. Checking your balance every day",
+          "wholeQuestionABCDLength": 207,
+          "conservativeWholeQuestionABCDLength": 211,
+          "successLength": 352,
+          "retryLength": 352
+        }
+      }
+    },
+    {
+      "id": "fees-ter",
+      "goal": {
+        "pl": "Pokazać jawny wpływ kosztu i odróżnić TER od wszystkich możliwych kosztów i wyniku.",
+        "en": "Show an explicit fee effect and distinguish TER from all possible costs and performance."
+      },
+      "source_ids": [
+        "sec-fees",
+        "knf-costs"
+      ],
+      "copy": {
+        "pl": {
+          "id": "fees-ter",
+          "question": "Dlaczego warto uwzględniać opłaty bieżące przy inwestowaniu?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Nie są — opłaty są pomijalne"
+            },
+            {
+              "id": "B",
+              "text": "Pomniejszają kapitał i mogą obniżać długoterminowy wynik"
+            },
+            {
+              "id": "C",
+              "text": "Wyższe opłaty zawsze oznaczają wyższe zyski"
+            },
+            {
+              "id": "D",
+              "text": "Opłaty są zwracane na emeryturze"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Długoterminowe inwestowanie",
+          "reward": 30,
+          "successMessage": "TER to wskaźnik kosztów funduszu; zakres sprawdź w dokumentach. Uproszczenie, nie metoda naliczania TER: 1000 zł przed jednorazową opłatą na koniec roku; wynik brutto 0%, bez wpłat, wypłat, innych kosztów, podatku i inflacji. 1% tej bazy to 10 zł, zostaje 990 zł; 0,2% to 2 zł, zostaje 998 zł. TER nie obejmuje wszystkich możliwych kosztów; sprawdź dokumenty i opłaty transakcyjne. Niższy koszt nie gwarantuje zysku.",
+          "retryMessage": "TER to wskaźnik kosztów funduszu; zakres sprawdź w dokumentach. Uproszczenie, nie metoda naliczania TER: 1000 zł przed jednorazową opłatą na koniec roku; wynik brutto 0%, bez wpłat, wypłat, innych kosztów, podatku i inflacji. 1% tej bazy to 10 zł, zostaje 990 zł; 0,2% to 2 zł, zostaje 998 zł. TER nie obejmuje wszystkich możliwych kosztów; sprawdź dokumenty i opłaty transakcyjne. Niższy koszt nie gwarantuje zysku."
+        },
+        "en": {
+          "id": "fees-ter",
+          "question": "Why consider ongoing fees when investing?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "They don't — fees are negligible"
+            },
+            {
+              "id": "B",
+              "text": "They reduce the amount invested and can lower long-term results"
+            },
+            {
+              "id": "C",
+              "text": "Higher fees always mean higher returns"
+            },
+            {
+              "id": "D",
+              "text": "Fees are refunded at retirement"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "TER is a fund expense ratio; check its scope in the documents. A simplification, not the TER charging method: PLN 1000 before one year-end charge; gross return 0%, no contributions, withdrawals, other costs, tax or inflation. 1% of this base is PLN 10, leaving 990; 0.2% is PLN 2, leaving 998. TER does not cover all possible costs; check documents and transaction fees. A lower cost does not guarantee a profit.",
+          "retryMessage": "TER is a fund expense ratio; check its scope in the documents. A simplification, not the TER charging method: PLN 1000 before one year-end charge; gross return 0%, no contributions, withdrawals, other costs, tax or inflation. 1% of this base is PLN 10, leaving 990; 0.2% is PLN 2, leaving 998. TER does not cover all possible costs; check documents and transaction fees. A lower cost does not guarantee a profit.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Opłata pomniejsza kwotę pozostającą w inwestycji; nawet mały procent nie jest zawsze pomijalny.",
+          "en": "A fee reduces the amount left invested; even a small percentage is not always negligible."
+        },
+        "C": {
+          "pl": "Wyższa opłata nie gwarantuje wyższego wyniku; znaczenie mają także ryzyko, strategia i inne koszty.",
+          "en": "A higher fee does not guarantee higher performance; risk, strategy and other costs also matter."
+        },
+        "D": {
+          "pl": "Nie ma ogólnej zasady zwrotu opłat inwestycyjnych po przejściu na emeryturę.",
+          "en": "There is no general rule refunding investment fees at retirement."
+        }
+      },
+      "number_model": {
+        "kind": "hypothetical-PLN-one-year-fee",
+        "assumptions": [
+          "Both examples use the same PLN1000 base immediately before a single year-end charge.",
+          "Gross return is0%; no contributions, withdrawals, other costs, tax or inflation.",
+          "Illustrative charging convention, not exact TER/average-NAV calculation or a real product quotation.",
+          "The only modelled difference is a1% versus0.2% charge on that fixed base; lower fees do not guarantee real investment profits."
+        ],
+        "inputs": {
+          "basePLN": 1000,
+          "periodYears": 1,
+          "grossReturnPercent": 0,
+          "feePercentFirst": 1,
+          "feePercentSecond": 0.2
+        },
+        "expressions": [
+          "1000*0.01=10;1000-10=990",
+          "1000*0.002=2;1000-2=998"
+        ],
+        "result": {
+          "chargeFirstPLN": 10,
+          "chargeSecondPLN": 2,
+          "balanceFirstPLN": 990,
+          "balanceSecondPLN": 998
+        }
+      },
+      "preserved": "Original A/C/D options, keyB/reward30/category retained; question and correct option clarified with explicit feedback model.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "investing-foundations-pl-en-v1-c33-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Dlaczego warto uwzględniać opłaty bieżące przy inwestowaniu? A. Nie są — opłaty są pomijalne B. Pomniejszają kapitał i mogą obniżać długoterminowy wynik C. Wyższe opłaty zawsze oznaczają wyższe zyski D. Opłaty są zwracane na emeryturze",
+          "wholeQuestionABCDLength": 235,
+          "conservativeWholeQuestionABCDLength": 239,
+          "successLength": 416,
+          "retryLength": 416
+        },
+        "en": {
+          "wholeQuestionABCD": "Why consider ongoing fees when investing? A. They don't — fees are negligible B. They reduce the amount invested and can lower long-term results C. Higher fees always mean higher returns D. Fees are refunded at retirement",
+          "wholeQuestionABCDLength": 221,
+          "conservativeWholeQuestionABCDLength": 225,
+          "successLength": 412,
+          "retryLength": 412
+        }
+      }
+    },
+    {
+      "id": "invest-prerequisites",
+      "goal": {
+        "pl": "Zachować przygotowanie rezerwy i ocenę drogiego długu bez obietnicy bezpieczeństwa lub presji na inwestowanie.",
+        "en": "Retain reserves and assessing expensive debt without promising protection or pressuring investment."
+      },
+      "source_ids": [
+        "knf-conscious",
+        "cfpb-emergency"
+      ],
+      "copy": {
+        "pl": {
+          "id": "invest-prerequisites",
+          "question": "Co warto mieć ZANIM zainwestujesz w zmienne aktywa?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Gorący typ giełdowy"
+            },
+            {
+              "id": "B",
+              "text": "Fundusz awaryjny i opanowane drogie długi"
+            },
+            {
+              "id": "C",
+              "text": "Wymaksowaną kartę kredytową"
+            },
+            {
+              "id": "D",
+              "text": "Nic — inwestuj wszystko od razu"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Długoterminowe inwestowanie",
+          "reward": 30,
+          "successMessage": "Przed decyzją zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty; oceń rezerwę oraz koszt drogiego długu. Środki potrzebne na te cele nie powinny być narażane na silne wahania. Inwestowanie jest dobrowolne; przy braku nadwyżki lub zmiennym dochodzie można je odłożyć. Te przygotowania nie gwarantują zysku ani uniknięcia sprzedaży w niekorzystnym momencie.",
+          "retryMessage": "Przed decyzją zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty; oceń rezerwę oraz koszt drogiego długu. Środki potrzebne na te cele nie powinny być narażane na silne wahania. Inwestowanie jest dobrowolne; przy braku nadwyżki lub zmiennym dochodzie można je odłożyć. Te przygotowania nie gwarantują zysku ani uniknięcia sprzedaży w niekorzystnym momencie."
+        },
+        "en": {
+          "id": "invest-prerequisites",
+          "question": "What should you generally have in place BEFORE investing in volatile assets?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "A hot stock tip"
+            },
+            {
+              "id": "B",
+              "text": "An emergency fund and high-interest debt under control"
+            },
+            {
+              "id": "C",
+              "text": "A maxed-out credit card"
+            },
+            {
+              "id": "D",
+              "text": "Nothing — invest everything immediately"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Before deciding, protect essential needs and required minimum repayments; assess reserves and the cost of expensive debt. Money needed for these purposes should not face large fluctuations. Investing is voluntary; with no surplus or variable income, it can be postponed. These preparations do not guarantee a profit or prevent a sale at an unfavourable time.",
+          "retryMessage": "Before deciding, protect essential needs and required minimum repayments; assess reserves and the cost of expensive debt. Money needed for these purposes should not face large fluctuations. Investing is voluntary; with no surplus or variable income, it can be postponed. These preparations do not guarantee a profit or prevent a sale at an unfavourable time.",
+          "category": "Long-Term Investing"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Typ giełdowy nie zastępuje oceny budżetu, rezerwy, zadłużenia ani ryzyka.",
+          "en": "A stock tip does not replace assessing the budget, reserves, debt and risk."
+        },
+        "C": {
+          "pl": "Wyczerpanie limitu kredytowego tworzy zobowiązanie; nie jest zabezpieczeniem przed ryzykiem inwestycji.",
+          "en": "A maxed-out credit limit creates a liability; it is not protection against investment risk."
+        },
+        "D": {
+          "pl": "Zainwestowanie wszystkich środków może narazić pieniądze potrzebne na podstawowe potrzeby i wymagane spłaty.",
+          "en": "Investing all available money can put essential needs and required repayments at risk."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "No mandatory reserve size, universal debt-clearing threshold, investment obligation or guarantee against forced selling."
+        ]
+      },
+      "preserved": "Original PL/EN question and all four options retained literally; only feedback qualification.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "PLN where numerical",
+      "author": "daily_author",
+      "version": "investing-foundations-pl-en-v1-c33-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Co warto mieć ZANIM zainwestujesz w zmienne aktywa? A. Gorący typ giełdowy B. Fundusz awaryjny i opanowane drogie długi C. Wymaksowaną kartę kredytową D. Nic — inwestuj wszystko od razu",
+          "wholeQuestionABCDLength": 185,
+          "conservativeWholeQuestionABCDLength": 189,
+          "successLength": 364,
+          "retryLength": 364
+        },
+        "en": {
+          "wholeQuestionABCD": "What should you generally have in place BEFORE investing in volatile assets? A. A hot stock tip B. An emergency fund and high-interest debt under control C. A maxed-out credit card D. Nothing — invest everything immediately",
+          "wholeQuestionABCDLength": 223,
+          "conservativeWholeQuestionABCDLength": 227,
+          "successLength": 358,
+          "retryLength": 358
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-33/content-author-inventory.json",
+    "sha256": "08c3b0e749c90dd01a5f8d2f3d9feb851879e156f83bd6d88d00cb4d3e19a564"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "helper_writes": 0,
+    "test_runs": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

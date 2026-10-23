@@ -1,0 +1,833 @@
+{
+  "schema_version": 1,
+  "cycle": 34,
+  "module": null,
+  "version": "macro-basics-pl-en-v1-c34-draft",
+  "created_date": "2026-10-16",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 6,
+  "language_versions": 12,
+  "wrong_rationale_count": 18,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "lesson_steps_per_language": 0,
+  "reward_total": 165,
+  "canonical_union_count_unchanged": 82,
+  "scope": {
+    "productFiles": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "ids": [
+      "nbp-inflation-target",
+      "inflation-target-why",
+      "monetary-policy-tool",
+      "rates-and-borrowing",
+      "gdp-definition",
+      "deflation-risk"
+    ],
+    "keys": [
+      "B",
+      "B",
+      "B",
+      "B",
+      "B",
+      "B"
+    ],
+    "rewards": [
+      30,
+      30,
+      25,
+      25,
+      25,
+      30
+    ],
+    "rawEN": "Six existing ENobjects, Macroeconomics category retained; correct definitions preserved with bounded qualifications.",
+    "PL": "Six existing PLvalueinitializer replacements, Makroekonomia/82properties retained.",
+    "otherLocales": "ES/FR have allsix explicit unchanged translations;five otherlocale views depend on ENfallback and change without accepting those locales or newmarkets.",
+    "protected": "Other56rawquiz, all20challenges/c1–c20, explicitlocalization/stage/topic/pools/app/writers/SRS and acceptedhistoricalcopy/proofs literal."
+  },
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "sources": [
+    {
+      "id": "nbp-2026",
+      "publisher": "RPP/NBP; official Monitor Polski via ELI",
+      "title": "Założenia polityki pieniężnej na rok2026, uchwała7/2025",
+      "url": "https://eli.gov.pl/api/acts/MP/2025/1013/text/O/M20251013.pdf",
+      "original_url": "https://nbp.pl/wp-content/uploads/2025/09/Zalozenia-Polityki-Pienieznej-na-rok-2026.pdf",
+      "checked_date": "2026-10-16",
+      "access": "Fresh full official ELI PDF: printed3/5 target/CPI/since2004/mediumterm,6lags+uncertainty,7policytools. DirectNBP403 preserved as accesslimit, not a source contradiction.",
+      "bounded_use": "Existing2.5%target/±1pp, annualCPI and mainrateinstrument with lags and uncertainty.",
+      "limits": "No currentinflation, policy-rate level, forecast, lendingoffer, legaladvice or claim everymonth/everyprice meets target."
+    },
+    {
+      "id": "ecb-target",
+      "publisher": "ECB",
+      "title": "Two per cent inflation target",
+      "url": "https://www.ecb.europa.eu/mopo/strategy/pricestab/html/index.en.html",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: mediumterm objective and margin againstdeflation; ECBfocus is euroarea.",
+      "bounded_use": "General rationale for a smallpositive target and pricelevel/rate distinction.",
+      "limits": "ECB2% is not substituted for NBP2.5%; no guarantee ofgrowth, everyprice stability or futureoutcome."
+    },
+    {
+      "id": "ecb-transmission",
+      "publisher": "ECB",
+      "title": "Transmission mechanism of monetary policy",
+      "url": "https://www.ecb.europa.eu/mopo/intro/transmission/html/index.en.html",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: long/variable/uncertain lags, indirect lending/depositrate effects and demandchannels.",
+      "bounded_use": "Conditional typical mechanism; broad contractdependent repricing distinction without legalrules.",
+      "limits": "No exactlag, loaninstalment calculation, futureinterestforecast, adviceor promise ofidenticaleffects for everyhousehold."
+    },
+    {
+      "id": "gus-gdp",
+      "publisher": "GUS",
+      "title": "Słownik pojęć: Produkt krajowy brutto (364)",
+      "url": "https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/364%2Cpojecie.html",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official indexedfull definition and threeapproaches read; directHTML open unavailable. Same definition also found in officialGUS methodology page.",
+      "bounded_use": "Finalproduction/valueadded plus producttaxes less subsidies, not adding intermediategoods twice.",
+      "limits": "No GDPnumber/growthforecast; not personalincome or a completewellbeingmeasure. Indexedaccesslimit explicit."
+    },
+    {
+      "id": "eurostat-gdp",
+      "publisher": "Eurostat",
+      "title": "European statistics learning hub: Gross domestic product",
+      "url": "https://ec.europa.eu/eurostat/web/european-statistics-learning-hub/statistics-for-beginners/gross-domestic-product",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: goods/services forfinaluse, period, intermediateinputs notcountedagain.",
+      "bounded_use": "Beginner finaluse/timeperiod explanation alongsideGUS productionapproach.",
+      "limits": "No claim GDPcoversallcarework/wellbeing/distribution or measurescitizensbankbalances."
+    },
+    {
+      "id": "eurostat-beyond",
+      "publisher": "Eurostat",
+      "title": "Beyond GDP: measuring progress, true wealth, and well-being (2013)",
+      "url": "https://ec.europa.eu/eurostat/documents/4031688/5930868/KS-03-13-608-EN.PDF/83c9c5ab-2b76-4b76-a4ab-406afe031f60",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official indexedleaflet: complementGDP withhouseholdeconomy/qualityoflife/environment.",
+      "bounded_use": "GDP alone is not a complete wellbeing or distribution measure.",
+      "limits": "Historical methodological education, not currentcountryranking/statistic or a newCoachfiwellbeingscore."
+    },
+    {
+      "id": "ecb-deflation",
+      "publisher": "ECB",
+      "title": "Careful with (the “d”) words! (25November2008)",
+      "url": "https://www.ecb.europa.eu/press/key/date/2008/html/sp081125.en.html",
+      "checked_date": "2026-10-16",
+      "access": "Fresh official fullpage: persistentgeneralpricelevel decline, postponement and unchangednominaldebt realburden mechanism.",
+      "bounded_use": "Possible mechanisms and distinctionfromindividualdiscount/disinflation.",
+      "limits": "Historical explanation, not a currentforecast or olderECBtargetdefinition. No inevitablecrisis or instructiontodelay urgentessentials/requiredrepayments."
+    }
+  ],
+  "questions": [
+    {
+      "id": "nbp-inflation-target",
+      "objective": {
+        "pl": "Odróżnić średniokresowy cel CPI od wyniku i prognozy oraz procenty od punktów procentowych.",
+        "en": "Distinguish the medium-term CPI target from outcomes and forecasts, and percentages from percentage points."
+      },
+      "source_ids": [
+        "nbp-2026"
+      ],
+      "copy": {
+        "pl": {
+          "id": "nbp-inflation-target",
+          "question": "Jaki cel inflacyjny realizuje Narodowy Bank Polski od 2004 roku?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "0% — ceny nigdy nie powinny rosnąć"
+            },
+            {
+              "id": "B",
+              "text": "2,5% z pasmem odchyleń ±1 punkt procentowy"
+            },
+            {
+              "id": "C",
+              "text": "5%, aby zachęcać do wydawania"
+            },
+            {
+              "id": "D",
+              "text": "Taki, jaki co roku ustali rząd"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 30,
+          "successMessage": "Od 2004 r. cel NBP wynosi 2,5% rocznej zmiany CPI w średnim okresie, z symetrycznym odchyleniem ±1 punkt procentowy (granice: 1,5% i 3,5%). To cel, nie bieżąca inflacja, prognoza ani gwarancja wyniku w każdym miesiącu. CPI dotyczy koszyka cen, nie identycznej zmiany każdej ceny. Przedział nie oznacza oprocentowania kredytu ani lokaty.",
+          "retryMessage": "Od 2004 r. cel NBP wynosi 2,5% rocznej zmiany CPI w średnim okresie, z symetrycznym odchyleniem ±1 punkt procentowy (granice: 1,5% i 3,5%). To cel, nie bieżąca inflacja, prognoza ani gwarancja wyniku w każdym miesiącu. CPI dotyczy koszyka cen, nie identycznej zmiany każdej ceny. Przedział nie oznacza oprocentowania kredytu ani lokaty."
+        },
+        "en": {
+          "id": "nbp-inflation-target",
+          "question": "What inflation rate has the National Bank of Poland (NBP) targeted since 2004?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "0% — prices should never rise"
+            },
+            {
+              "id": "B",
+              "text": "2.5% with a ±1 percentage point band"
+            },
+            {
+              "id": "C",
+              "text": "5% to encourage spending"
+            },
+            {
+              "id": "D",
+              "text": "Whatever the government sets each year"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "Since 2004, NBP has targeted a 2.5% annual CPI change over the medium term, with a symmetric ±1 percentage point deviation band (edges: 1.5% and 3.5%). This is a target, not current inflation, a forecast or a guaranteed monthly outcome. CPI concerns a basket of prices, not the same change in every price. The band is not a loan or deposit interest rate.",
+          "retryMessage": "Since 2004, NBP has targeted a 2.5% annual CPI change over the medium term, with a symmetric ±1 percentage point deviation band (edges: 1.5% and 3.5%). This is a target, not current inflation, a forecast or a guaranteed monthly outcome. CPI concerns a basket of prices, not the same change in every price. The band is not a loan or deposit interest rate.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Zweryfikowany cel NBP jest dodatni i wynosi 2,5%, a nie 0%; nie jest nakazem utrzymania każdej ceny bez zmiany.",
+          "en": "The verified NBP target is positive at 2.5%, not0%; it does not require every individual price to remain unchanged."
+        },
+        "C": {
+          "pl": "5% nie jest opisanym celem NBP; nie myl przykładowej wartości z oficjalnym celem.",
+          "en": "5% is not the stated NBP target; do not confuse an example value with the official target."
+        },
+        "D": {
+          "pl": "Cel określa strategia polityki pieniężnej RPP/NBP, a nie dowolny coroczny wybór rządu.",
+          "en": "The target is set in the MPC/NBP monetary policy strategy, not by an arbitrary annual government choice."
+        }
+      },
+      "number_model": {
+        "kind": "percentage-point-band-not-forecast",
+        "assumptions": [
+          "Target2.5% and symmetric deviation1percentagepoint are taken from the official2026 strategy, not current inflation or an investment return.",
+          "Subtract/add percentagepoints from a percentage rate."
+        ],
+        "inputs": {
+          "targetPercent": 2.5,
+          "deviationPercentagePoints": 1
+        },
+        "expressions": [
+          "2.5-1=1.5%",
+          "2.5+1=3.5%"
+        ],
+        "result": {
+          "lowerEdgePercent": 1.5,
+          "upperEdgePercent": 3.5
+        }
+      },
+      "preserved": "Original PL/EN question and allfour options retained literally.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jaki cel inflacyjny realizuje Narodowy Bank Polski od 2004 roku? A. 0% — ceny nigdy nie powinny rosnąć B. 2,5% z pasmem odchyleń ±1 punkt procentowy C. 5%, aby zachęcać do wydawania D. Taki, jaki co roku ustali rząd",
+          "wholeQuestionABCDLength": 215,
+          "conservativeWholeQuestionABCDLength": 219,
+          "successLength": 336,
+          "retryLength": 336
+        },
+        "en": {
+          "wholeQuestionABCD": "What inflation rate has the National Bank of Poland (NBP) targeted since 2004? A. 0% — prices should never rise B. 2.5% with a ±1 percentage point band C. 5% to encourage spending D. Whatever the government sets each year",
+          "wholeQuestionABCDLength": 221,
+          "conservativeWholeQuestionABCDLength": 225,
+          "successLength": 354,
+          "retryLength": 354
+        }
+      }
+    },
+    {
+      "id": "inflation-target-why",
+      "objective": {
+        "pl": "Wyjaśnić margines wobec deflacji bez obietnicy jej wyeliminowania lub stałych cen.",
+        "en": "Explain a margin against deflation without promising its elimination or fixed prices."
+      },
+      "source_ids": [
+        "ecb-target"
+      ],
+      "copy": {
+        "pl": {
+          "id": "inflation-target-why",
+          "question": "Po co bank centralny wybiera niewielki dodatni cel inflacyjny?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Aby waluta szybciej traciła wartość"
+            },
+            {
+              "id": "B",
+              "text": "Daje margines wobec ryzyka deflacji i może ułatwiać stabilizację cen"
+            },
+            {
+              "id": "C",
+              "text": "Bo wyższe ceny są zawsze dobre"
+            },
+            {
+              "id": "D",
+              "text": "Tylko po to, by zwiększyć wpływy z podatków"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 30,
+          "successMessage": "Niewielki dodatni cel daje margines wobec ryzyka deflacji i może ułatwiać działanie polityki pieniężnej. Nie gwarantuje wzrostu gospodarki ani przewidywalności każdej ceny. Cel dotyczy tempa zmiany ogólnego poziomu cen; dodatnia inflacja oznacza, że ten poziom nadal rośnie. Konkretne cele różnią się między bankami centralnymi.",
+          "retryMessage": "Niewielki dodatni cel daje margines wobec ryzyka deflacji i może ułatwiać działanie polityki pieniężnej. Nie gwarantuje wzrostu gospodarki ani przewidywalności każdej ceny. Cel dotyczy tempa zmiany ogólnego poziomu cen; dodatnia inflacja oznacza, że ten poziom nadal rośnie. Konkretne cele różnią się między bankami centralnymi."
+        },
+        "en": {
+          "id": "inflation-target-why",
+          "question": "Why might a central bank choose a small positive inflation target?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "To make the currency worthless faster"
+            },
+            {
+              "id": "B",
+              "text": "It provides a margin against deflation risk and can aid price stability"
+            },
+            {
+              "id": "C",
+              "text": "Because higher prices are always good"
+            },
+            {
+              "id": "D",
+              "text": "To increase government tax revenue only"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "A small positive target provides a margin against deflation risk and can help monetary policy operate. It does not guarantee economic growth or predictability of every price. The target concerns the rate of change in the general price level; positive inflation means that level is still rising. Specific targets differ across central banks.",
+          "retryMessage": "A small positive target provides a margin against deflation risk and can help monetary policy operate. It does not guarantee economic growth or predictability of every price. The target concerns the rate of change in the general price level; positive inflation means that level is still rising. Specific targets differ across central banks.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Celem jest stabilność cen, a nie przyspieszanie utraty wartości pieniądza.",
+          "en": "The aim is price stability, not accelerating the loss of money’s value."
+        },
+        "C": {
+          "pl": "Wyższe ceny nie są zawsze korzystne; znaczenie mają tempo zmian, dochody i sytuacja gospodarstwa.",
+          "en": "Higher prices are not always beneficial; the pace of change, income and household circumstances matter."
+        },
+        "D": {
+          "pl": "Wyłączny cel fiskalny nie wyjaśnia średniokresowego celu stabilności cen.",
+          "en": "A purely fiscal aim does not explain a medium-term price stability objective."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "ECB reasoning is general monetary education; its2% euroarea target is not substituted for Poland’s NBP2.5% target."
+        ]
+      },
+      "preserved": "Original A/C/D options retained; stem removes a universal2–2.5% range andB qualifies the mechanism.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Po co bank centralny wybiera niewielki dodatni cel inflacyjny? A. Aby waluta szybciej traciła wartość B. Daje margines wobec ryzyka deflacji i może ułatwiać stabilizację cen C. Bo wyższe ceny są zawsze dobre D. Tylko po to, by zwiększyć wpływy z podatków",
+          "wholeQuestionABCDLength": 254,
+          "conservativeWholeQuestionABCDLength": 258,
+          "successLength": 328,
+          "retryLength": 328
+        },
+        "en": {
+          "wholeQuestionABCD": "Why might a central bank choose a small positive inflation target? A. To make the currency worthless faster B. It provides a margin against deflation risk and can aid price stability C. Because higher prices are always good D. To increase government tax revenue only",
+          "wholeQuestionABCDLength": 266,
+          "conservativeWholeQuestionABCDLength": 270,
+          "successLength": 340,
+          "retryLength": 340
+        }
+      }
+    },
+    {
+      "id": "monetary-policy-tool",
+      "objective": {
+        "pl": "Zachować stopy jako podstawowe narzędzie, bez utożsamiania ich z pełnym i natychmiastowym ustalaniem cen.",
+        "en": "Retain policy rates as the main tool without treating them as full and immediate price setting."
+      },
+      "source_ids": [
+        "nbp-2026",
+        "ecb-transmission"
+      ],
+      "copy": {
+        "pl": {
+          "id": "monetary-policy-tool",
+          "question": "Jakie jest główne narzędzie banku centralnego do sterowania inflacją?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Drukowanie banknotów dla obywateli"
+            },
+            {
+              "id": "B",
+              "text": "Ustalanie referencyjnych stóp procentowych"
+            },
+            {
+              "id": "C",
+              "text": "Ustalanie ceny chleba"
+            },
+            {
+              "id": "D",
+              "text": "Zakaz importu"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 25,
+          "successMessage": "Stopy procentowe są podstawowym narzędziem NBP, ale nie jedynym: służą też operacje otwartego rynku i inne instrumenty. Oddziałują na warunki finansowania, popyt i inflację z opóźnieniem oraz niepewną siłą. NBP nie ustala w ten sposób każdej ceny ani oprocentowania każdej umowy; warunki ofert banków mogą się różnić.",
+          "retryMessage": "Stopy procentowe są podstawowym narzędziem NBP, ale nie jedynym: służą też operacje otwartego rynku i inne instrumenty. Oddziałują na warunki finansowania, popyt i inflację z opóźnieniem oraz niepewną siłą. NBP nie ustala w ten sposób każdej ceny ani oprocentowania każdej umowy; warunki ofert banków mogą się różnić."
+        },
+        "en": {
+          "id": "monetary-policy-tool",
+          "question": "What is a central bank's main tool for steering inflation?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Printing more banknotes for citizens"
+            },
+            {
+              "id": "B",
+              "text": "Setting benchmark interest rates"
+            },
+            {
+              "id": "C",
+              "text": "Fixing the price of bread"
+            },
+            {
+              "id": "D",
+              "text": "Banning imports"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Policy interest rates are NBP’s main tool, but not its only one: open market operations and other instruments also play a role. They influence financing conditions, demand and inflation with lags and uncertain strength. NBP does not thereby set every price or the interest rate of every contract; banks’ offers can differ.",
+          "retryMessage": "Policy interest rates are NBP’s main tool, but not its only one: open market operations and other instruments also play a role. They influence financing conditions, demand and inflation with lags and uncertain strength. NBP does not thereby set every price or the interest rate of every contract; banks’ offers can differ.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Samo drukowanie banknotów dla ludzi nie opisuje podstawowego narzędzia stóp procentowych.",
+          "en": "Printing banknotes for people does not describe the main interest-rate instrument."
+        },
+        "C": {
+          "pl": "Polityka stóp oddziałuje pośrednio na gospodarkę; nie oznacza ustalania ceny chleba.",
+          "en": "Rate policy influences the economy indirectly; it does not mean setting bread prices."
+        },
+        "D": {
+          "pl": "Zakaz importu jest narzędziem polityki handlowej, a nie wskazanym podstawowym instrumentem NBP.",
+          "en": "An import ban is a trade policy tool, not the stated main NBP instrument."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "No current policy-rate value, forecast, lag length guarantee or commercial lending rate is taught."
+        ]
+      },
+      "preserved": "Original PL/EN question and allfour options retained literally.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Jakie jest główne narzędzie banku centralnego do sterowania inflacją? A. Drukowanie banknotów dla obywateli B. Ustalanie referencyjnych stóp procentowych C. Ustalanie ceny chleba D. Zakaz importu",
+          "wholeQuestionABCDLength": 195,
+          "conservativeWholeQuestionABCDLength": 199,
+          "successLength": 317,
+          "retryLength": 317
+        },
+        "en": {
+          "wholeQuestionABCD": "What is a central bank's main tool for steering inflation? A. Printing more banknotes for citizens B. Setting benchmark interest rates C. Fixing the price of bread D. Banning imports",
+          "wholeQuestionABCDLength": 182,
+          "conservativeWholeQuestionABCDLength": 186,
+          "successLength": 322,
+          "retryLength": 322
+        }
+      }
+    },
+    {
+      "id": "rates-and-borrowing",
+      "objective": {
+        "pl": "Odróżnić typowy kanał stóp od automatycznej zmiany każdej raty lub spadku poziomu cen.",
+        "en": "Distinguish the typical rate channel from an automatic change to every payment or a fall in the price level."
+      },
+      "source_ids": [
+        "ecb-transmission",
+        "nbp-2026"
+      ],
+      "copy": {
+        "pl": {
+          "id": "rates-and-borrowing",
+          "question": "Co zwykle dzieje się, gdy bank centralny podnosi stopy procentowe?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Kredyt tanieje i wydatki rosną"
+            },
+            {
+              "id": "B",
+              "text": "Kredyt może drożeć, osłabiając popyt i presję inflacyjną"
+            },
+            {
+              "id": "C",
+              "text": "Nic się nie zmienia dla gospodarstw domowych"
+            },
+            {
+              "id": "D",
+              "text": "Konta oszczędnościowe zawsze płacą 0%"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 25,
+          "successMessage": "Wyższe stopy mogą podnosić koszt nowego lub zmiennie oprocentowanego kredytu, osłabiając popyt i presję inflacyjną; wpływ jest opóźniony i niepewny. Warunki oraz terminy zmiany oprocentowania zależą od umowy; uzgodniony okres stałej stopy nie musi reagować od razu. Wolniejsza dodatnia inflacja oznacza wolniejszy wzrost cen, a nie ich spadek. To nie prognoza rat ani decyzja o kredycie.",
+          "retryMessage": "Wyższe stopy mogą podnosić koszt nowego lub zmiennie oprocentowanego kredytu, osłabiając popyt i presję inflacyjną; wpływ jest opóźniony i niepewny. Warunki oraz terminy zmiany oprocentowania zależą od umowy; uzgodniony okres stałej stopy nie musi reagować od razu. Wolniejsza dodatnia inflacja oznacza wolniejszy wzrost cen, a nie ich spadek. To nie prognoza rat ani decyzja o kredycie."
+        },
+        "en": {
+          "id": "rates-and-borrowing",
+          "question": "When a central bank raises interest rates, what typically happens?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Borrowing gets cheaper and spending jumps"
+            },
+            {
+              "id": "B",
+              "text": "Borrowing can become more expensive, weakening demand and inflation pressure"
+            },
+            {
+              "id": "C",
+              "text": "Nothing changes for households"
+            },
+            {
+              "id": "D",
+              "text": "Savings accounts always pay 0%"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "Higher rates can raise the cost of new or variable-rate borrowing, weakening demand and inflation pressure; effects are delayed and uncertain. Repricing terms and timing depend on the contract; an agreed fixed-rate period need not reprice immediately. Slower positive inflation means prices rise more slowly, not that they fall. This is not a payment forecast or a borrowing decision.",
+          "retryMessage": "Higher rates can raise the cost of new or variable-rate borrowing, weakening demand and inflation pressure; effects are delayed and uncertain. Repricing terms and timing depend on the contract; an agreed fixed-rate period need not reprice immediately. Slower positive inflation means prices rise more slowly, not that they fall. This is not a payment forecast or a borrowing decision.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "To odwrotność opisanego typowego kanału: podwyżka stóp może ograniczać, a nie pobudzać popyt kredytem.",
+          "en": "This reverses the typical channel described: higher rates can restrain rather than stimulate borrowing-led demand."
+        },
+        "C": {
+          "pl": "Warunki kredytu i oszczędzania mogą się zmieniać, choć nie jednakowo i nie od razu dla wszystkich.",
+          "en": "Borrowing and saving conditions can change, though not equally or immediately for everyone."
+        },
+        "D": {
+          "pl": "Nie ma zasady, że rachunki oszczędnościowe zawsze mają oprocentowanie 0%.",
+          "en": "There is no rule that savings accounts always pay0% interest."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Only conditional macro mechanism and broad contract-dependent repricing; no legal rule, rate forecast, repayment calculation or recommendation."
+        ]
+      },
+      "preserved": "Original PL/EN stem and A/C/D retained;B qualifies the typical mechanism.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Co zwykle dzieje się, gdy bank centralny podnosi stopy procentowe? A. Kredyt tanieje i wydatki rosną B. Kredyt może drożeć, osłabiając popyt i presję inflacyjną C. Nic się nie zmienia dla gospodarstw domowych D. Konta oszczędnościowe zawsze płacą 0%",
+          "wholeQuestionABCDLength": 249,
+          "conservativeWholeQuestionABCDLength": 253,
+          "successLength": 387,
+          "retryLength": 387
+        },
+        "en": {
+          "wholeQuestionABCD": "When a central bank raises interest rates, what typically happens? A. Borrowing gets cheaper and spending jumps B. Borrowing can become more expensive, weakening demand and inflation pressure C. Nothing changes for households D. Savings accounts always pay 0%",
+          "wholeQuestionABCDLength": 259,
+          "conservativeWholeQuestionABCDLength": 263,
+          "successLength": 384,
+          "retryLength": 384
+        }
+      }
+    },
+    {
+      "id": "gdp-definition",
+      "objective": {
+        "pl": "Doprecyzować finalną produkcję w okresie i unikać podwójnego liczenia lub utożsamienia PKB z dobrostanem.",
+        "en": "Clarify final production over a period and avoid double counting or equating GDP with wellbeing."
+      },
+      "source_ids": [
+        "gus-gdp",
+        "eurostat-gdp",
+        "eurostat-beyond"
+      ],
+      "copy": {
+        "pl": {
+          "id": "gdp-definition",
+          "question": "Co mierzy PKB (Produkt Krajowy Brutto)?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Łączne oszczędności obywateli"
+            },
+            {
+              "id": "B",
+              "text": "Wartość dóbr i usług finalnych wytworzonych w gospodarce w danym okresie"
+            },
+            {
+              "id": "C",
+              "text": "Ilość gotówki w obiegu"
+            },
+            {
+              "id": "D",
+              "text": "Dług publiczny"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 25,
+          "successMessage": "PKB opisuje wartość produkcji finalnej w gospodarce w danym okresie. W ujęciu produkcyjnym GUS sumuje wartość dodaną brutto i podatki od produktów pomniejszone o dotacje; dóbr pośrednich nie dodaje się drugi raz do wartości dóbr finalnych. PKB nie jest sumą oszczędności, osobistym dochodem ani pełną miarą dobrostanu lub podziału dochodów.",
+          "retryMessage": "PKB opisuje wartość produkcji finalnej w gospodarce w danym okresie. W ujęciu produkcyjnym GUS sumuje wartość dodaną brutto i podatki od produktów pomniejszone o dotacje; dóbr pośrednich nie dodaje się drugi raz do wartości dóbr finalnych. PKB nie jest sumą oszczędności, osobistym dochodem ani pełną miarą dobrostanu lub podziału dochodów."
+        },
+        "en": {
+          "id": "gdp-definition",
+          "question": "What does GDP (Gross Domestic Product) measure?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "The total savings of all citizens"
+            },
+            {
+              "id": "B",
+              "text": "The value of final goods and services produced in an economy over a period"
+            },
+            {
+              "id": "C",
+              "text": "The amount of cash in circulation"
+            },
+            {
+              "id": "D",
+              "text": "The national debt"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 25,
+          "successMessage": "GDP describes the value of final production in an economy over a period. In GUS’s production approach, gross value added plus taxes on products less subsidies are counted; intermediate goods are not added again to final output. GDP is not total savings, personal income or a complete measure of wellbeing or income distribution.",
+          "retryMessage": "GDP describes the value of final production in an economy over a period. In GUS’s production approach, gross value added plus taxes on products less subsidies are counted; intermediate goods are not added again to final output. GDP is not total savings, personal income or a complete measure of wellbeing or income distribution.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Oszczędności to zasób środków, a PKB opisuje produkcję za okres, nie sumę sald obywateli.",
+          "en": "Savings are a stock of funds; GDP describes production over a period, not the sum of citizens’ balances."
+        },
+        "C": {
+          "pl": "Gotówka w obiegu jest zasobem pieniądza, a nie wartością produkcji finalnej za okres.",
+          "en": "Cash in circulation is a stock of money, not the value of final production over a period."
+        },
+        "D": {
+          "pl": "Dług publiczny to stan zobowiązań, a nie produkcja finalna w danym okresie.",
+          "en": "National debt is a stock of liabilities, not final production during a period."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Simplified final-use definition alongside GUS value-added approach, no GDP level/growth statistic or personal score."
+        ]
+      },
+      "preserved": "Original PL/EN stem and A/C/D retained;B adds final-use and timeperiod qualifiers.",
+      "correct_answer": "B",
+      "reward": 25,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Co mierzy PKB (Produkt Krajowy Brutto)? A. Łączne oszczędności obywateli B. Wartość dóbr i usług finalnych wytworzonych w gospodarce w danym okresie C. Ilość gotówki w obiegu D. Dług publiczny",
+          "wholeQuestionABCDLength": 192,
+          "conservativeWholeQuestionABCDLength": 196,
+          "successLength": 340,
+          "retryLength": 340
+        },
+        "en": {
+          "wholeQuestionABCD": "What does GDP (Gross Domestic Product) measure? A. The total savings of all citizens B. The value of final goods and services produced in an economy over a period C. The amount of cash in circulation D. The national debt",
+          "wholeQuestionABCDLength": 220,
+          "conservativeWholeQuestionABCDLength": 224,
+          "successLength": 328,
+          "retryLength": 328
+        }
+      }
+    },
+    {
+      "id": "deflation-risk",
+      "objective": {
+        "pl": "Rozpoznać ryzyko trwałego spadku ogólnego poziomu cen bez nieuchronnej spirali lub zakazu pilnych zakupów.",
+        "en": "Recognise risks of a persistent fall in the general price level without an inevitable spiral or delaying urgent purchases."
+      },
+      "source_ids": [
+        "ecb-deflation",
+        "ecb-target"
+      ],
+      "copy": {
+        "pl": {
+          "id": "deflation-risk",
+          "question": "Dlaczego utrzymujący się spadek ogólnego poziomu cen (deflacja) może być groźny?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Wszyscy się bogacą i nie ma żadnych minusów"
+            },
+            {
+              "id": "B",
+              "text": "Może opóźniać część zakupów, osłabiać popyt i zwiększać realny ciężar długów"
+            },
+            {
+              "id": "C",
+              "text": "Zawsze podnosi pensje"
+            },
+            {
+              "id": "D",
+              "text": "Nie ma wpływu na gospodarkę"
+            }
+          ],
+          "correctAnswer": "B",
+          "category": "Makroekonomia",
+          "reward": 30,
+          "successMessage": "Utrzymujący się spadek ogólnego poziomu cen może skłaniać do odkładania części zakupów, osłabiać popyt i zwiększać realny ciężar niezmienionego nominalnie długu. To możliwe mechanizmy, nie nieuchronna spirala w każdej sytuacji. Pojedyncza promocja ani wolniejsza dodatnia inflacja nie oznaczają deflacji. Nie jest to zachęta do odraczania pilnych podstawowych potrzeb lub wymaganych spłat.",
+          "retryMessage": "Utrzymujący się spadek ogólnego poziomu cen może skłaniać do odkładania części zakupów, osłabiać popyt i zwiększać realny ciężar niezmienionego nominalnie długu. To możliwe mechanizmy, nie nieuchronna spirala w każdej sytuacji. Pojedyncza promocja ani wolniejsza dodatnia inflacja nie oznaczają deflacji. Nie jest to zachęta do odraczania pilnych podstawowych potrzeb lub wymaganych spłat."
+        },
+        "en": {
+          "id": "deflation-risk",
+          "question": "Why can a persistent fall in the general price level (deflation) be harmful?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "It makes everyone richer with no downside"
+            },
+            {
+              "id": "B",
+              "text": "It can delay some purchases, weaken demand and raise the real debt burden"
+            },
+            {
+              "id": "C",
+              "text": "It always boosts wages"
+            },
+            {
+              "id": "D",
+              "text": "It has no effect on the economy"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 30,
+          "successMessage": "A persistent fall in the general price level can delay some purchases, weaken demand and increase the real burden of unchanged nominal debt. These are possible mechanisms, not an inevitable spiral in every situation. A single discount or slower positive inflation does not mean deflation. This is not a reason to postpone urgent essential needs or required repayments.",
+          "retryMessage": "A persistent fall in the general price level can delay some purchases, weaken demand and increase the real burden of unchanged nominal debt. These are possible mechanisms, not an inevitable spiral in every situation. A single discount or slower positive inflation does not mean deflation. This is not a reason to postpone urgent essential needs or required repayments.",
+          "category": "Macroeconomics"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Spadek cen nie oznacza korzyści bez kosztów dla każdego; dochody, zatrudnienie i zadłużenie także mają znaczenie.",
+          "en": "Falling prices do not mean cost-free benefits for everyone; income, employment and debt also matter."
+        },
+        "C": {
+          "pl": "Deflacja nie gwarantuje wzrostu płac; przebieg wynagrodzeń zależy od innych warunków.",
+          "en": "Deflation does not guarantee higher wages; wage developments depend on other conditions."
+        },
+        "D": {
+          "pl": "Trwałe spadki ogólnego poziomu cen mogą wpływać na popyt i realny ciężar długu.",
+          "en": "Persistent declines in the general price level can affect demand and the real debt burden."
+        }
+      },
+      "number_model": {
+        "kind": "none",
+        "assumptions": [
+          "Real-debt statement holds nominal debt unchanged; no individual repayment calculation or claim every price/wage falls."
+        ]
+      },
+      "preserved": "Original A/C/D retained;stem clarifies broad pricelevel andB states conditional mechanisms.",
+      "correct_answer": "B",
+      "reward": 30,
+      "country": "PL",
+      "units": "Percent and percentagepoints only; no current marketrates.",
+      "author": "daily_author",
+      "version": "macro-basics-pl-en-v1-c34-draft",
+      "checked_date": "2026-10-16",
+      "voice": {
+        "pl": {
+          "wholeQuestionABCD": "Dlaczego utrzymujący się spadek ogólnego poziomu cen (deflacja) może być groźny? A. Wszyscy się bogacą i nie ma żadnych minusów B. Może opóźniać część zakupów, osłabiać popyt i zwiększać realny ciężar długów C. Zawsze podnosi pensje D. Nie ma wpływu na gospodarkę",
+          "wholeQuestionABCDLength": 263,
+          "conservativeWholeQuestionABCDLength": 267,
+          "successLength": 389,
+          "retryLength": 389
+        },
+        "en": {
+          "wholeQuestionABCD": "Why can a persistent fall in the general price level (deflation) be harmful? A. It makes everyone richer with no downside B. It can delay some purchases, weaken demand and raise the real debt burden C. It always boosts wages D. It has no effect on the economy",
+          "wholeQuestionABCDLength": 259,
+          "conservativeWholeQuestionABCDLength": 263,
+          "successLength": 368,
+          "retryLength": 368
+        }
+      }
+    }
+  ],
+  "inventory": {
+    "path": "evidence/cycle-34/content-author-inventory.json",
+    "sha256": "4faf835b552ced4f19228c011478ed72604bda1bf1187015446a54d180337c1a"
+  },
+  "boundaries": {
+    "product_writes": 0,
+    "helper_writes": 0,
+    "test_runs": 0,
+    "no_new_data": true,
+    "no_provider_calls": true,
+    "no_production": true
+  },
+  "independent_review_required": true
+}

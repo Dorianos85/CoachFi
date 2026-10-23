@@ -231,7 +231,9 @@
 
 html { font-family: var(--cf-font-sans); color: var(--cf-text); background: var(--cf-bg); }
 body { font-size: 1rem; line-height: 1.5; }
-a { color: var(--cf-grape); }
+@layer base {
+  a { color: var(--cf-grape); }
+}
 .cf-num, [data-num] { font-variant-numeric: tabular-nums; }
 :focus-visible { outline: 3px solid var(--cf-focus); outline-offset: 2px; }
 .cf-btn-primary { background: var(--cf-primary); color: var(--cf-on-primary); border: 2px solid var(--cf-primary-border); border-radius: var(--cf-radius-button); box-shadow: var(--cf-shadow-press); min-height: var(--cf-target-default); font-weight: 800; transition: transform var(--cf-motion-micro), box-shadow var(--cf-motion-micro); }

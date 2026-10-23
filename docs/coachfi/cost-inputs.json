@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-14",
+  "currency": "USD",
+  "status": "planning_assumptions_not_provider_quotes",
+  "market": "Poland, PL/EN",
+  "budget_cap": null,
+  "gross_monthly_price": 5,
+  "tax_sensitivities": [0, 0.20, 0.23],
+  "tax_caveat": "Sensitivity only; seller status, VAT treatment, currency and settlement require accountant. 23% is not a determination for this product.",
+  "payment_percent_assumption": 0.029,
+  "payment_fixed_assumption": 0.30,
+  "payment_caveat": "Synthetic planning inputs, not a Stripe or other provider quote; local currency, VAT on fees, Billing, FX, refunds and disputes may add cost.",
+  "input_price_per_million_assumption": 1,
+  "output_price_per_million_assumption": 4,
+  "input_tokens_per_reply": 1500,
+  "output_tokens_per_reply": 500,
+  "ai_caveat": "Synthetic token prices, provider/model not selected or confirmed. Includes growing context only if it fits this average. Voice, embeddings, tools and retries excluded and must be budgeted before activation.",
+  "support_hourly_cost_assumption": 12,
+  "scenarios": [
+    {"name":"light", "free_replies":5, "premium_replies":30, "free_support_minutes":0.25, "premium_support_minutes":1, "free_variable_infra":0.02, "premium_variable_infra":0.05, "fixed_monthly":50},
+    {"name":"typical", "free_replies":20, "premium_replies":200, "free_support_minutes":0.5, "premium_support_minutes":3, "free_variable_infra":0.05, "premium_variable_infra":0.10, "fixed_monthly":100},
+    {"name":"heavy", "free_replies":50, "premium_replies":1200, "free_support_minutes":2, "premium_support_minutes":10, "free_variable_infra":0.10, "premium_variable_infra":0.20, "fixed_monthly":200}
+  ],
+  "population_cases": [
+    {"active_users":100, "paid_share":0.05},
+    {"active_users":1000, "paid_share":0.10},
+    {"active_users":5000, "paid_share":0.15}
+  ],
+  "exclusions": ["development and coordinator labor", "legal/accounting", "acquisition", "voice", "one-off migrations", "refunds/chargebacks/FX", "profit/income taxes"]
+}

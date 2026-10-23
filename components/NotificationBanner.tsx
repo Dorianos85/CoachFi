@@ -8,6 +8,7 @@ import { requestPermission } from "@/lib/notifications";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 const COPY: LocalizedMap<{ aria: string; dismiss: string; title: string; body: string; enable: string; later: string }> = {
   en: {
@@ -85,6 +86,7 @@ const COPY: LocalizedMap<{ aria: string; dismiss: string; title: string; body: s
 };
 
 export function NotificationBanner() {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
   const copy = pickLocalized(COPY, locale);
   const [visible, setVisible] = useState(false);
@@ -95,17 +97,20 @@ export function NotificationBanner() {
       Notification.permission !== "default" ||
       sessionStorage.getItem("coachfi-notif-dismissed")
     ) return;
-    const timer = setTimeout(() => setVisible(true), 4000);
+    const timer = setTimeout(() => { if (storage.isCurrent()) setVisible(true); }, 4000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [storage]);
 
   function dismiss() {
+    if (!storage.isCurrent()) return;
     sessionStorage.setItem("coachfi-notif-dismissed", "1");
     setVisible(false);
   }
 
   async function enable() {
+    if (!storage.isCurrent()) return;
     await requestPermission();
+    if (!storage.isCurrent()) return;
     dismiss();
   }
 

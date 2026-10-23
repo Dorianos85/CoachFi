@@ -1,0 +1,62 @@
+{
+  "cycle": "C70",
+  "at": "2026-10-19T06:45:00.002Z",
+  "scope": "Finite exact-current-lock artifact/resource availability gate after C69 accepted green. No application, dependency, lock, runtime or product changes.",
+  "baseline": {
+    "path": "evidence/cycle-70/before.json",
+    "sha256": "5d17c6bb8f8d80c595091205cc84916fb526ec675d7c4b39d9c5ce6853bf9b40"
+  },
+  "problem": "C63 lock removed20nodes while installed20trees remained. Existing-runtime green does not establish clean install. C69 triage admits finite resource gate, not another app rerun.",
+  "owners": [
+    {
+      "owner": "root",
+      "files": [
+        "evidence/cycle-70/registry-probe.mjs",
+        "evidence/cycle-70/registry-probe-design.json",
+        "evidence/cycle-70/registry-probe-release.json",
+        "evidence/cycle-70/registry-probe-run.json",
+        "evidence/cycle-70/registry-probe-attempt.json",
+        "evidence/cycle-70/verification.json",
+        "docs/coachfi/cycle-70/REPORT.md",
+        "C70metadata/finalclosure/pointer"
+      ],
+      "reviewer": "primary + bounded validation peer; separate actualpostwrite validation later"
+    },
+    {
+      "owner": "c49_advisories",
+      "files": [
+        "evidence/cycle-70/artifact-plan.json",
+        "docs/coachfi/cycle-70/artifact-plan.md"
+      ],
+      "reviewer": "c49_dependency_review"
+    },
+    {
+      "owner": "c49_validation",
+      "files": [
+        "evidence/cycle-70/lock-oracle.json",
+        "evidence/cycle-70/tool-safety-review.json"
+      ],
+      "reviewer": "c49_dependency_review for ownoracle; cannot approve ownoracle"
+    },
+    {
+      "owner": "c49_dependency_review",
+      "files": [
+        "evidence/cycle-70/review.json",
+        "docs/coachfi/cycle-70/review.md"
+      ],
+      "reviewer": "independent of all probe/plan/oracle authors"
+    }
+  ],
+  "criteria": [
+    "Exact607placement/491archive mapping with SRI/provenance.",
+    "Known task-owned archive availability explicitly qualified; no globalcache/profile/env/npmrc reads.",
+    "At most1fixedpubliccurrentlockGET only after independentstaticpeer; actualadmission and failure recorded.",
+    "No completearchivecoverage, cleaninstall, CVE orproductionPASS from reachability/metadata/singlearchive.",
+    "Preserve308/614/p13r31sdk15/runtime/HEADbranchindex and previousacceptedC69.",
+    "No new app tests/build/TS/browser/install without changedsource/newcounterexample.",
+    "If no verifiedresources, endloop/reportpreciseresources; no polling or imagined codefix."
+  ],
+  "production": "NO_GO",
+  "AI": "HARD_OFF",
+  "cloudWrites": "HARD_OFF"
+}

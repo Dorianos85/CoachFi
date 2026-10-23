@@ -1,0 +1,1629 @@
+{
+  "date": "2026-10-15T13:42:43.852Z",
+  "cycle": 23,
+  "task": "B06 emergency-first-milestone",
+  "branch": "codex/p0-security-consent-export",
+  "head": "86226ddc2c672b3d3d88869ebd8c5f6a5a59c19b",
+  "inputs": [
+    {
+      "path": "app/accessibility/page.tsx",
+      "sha256": "b0821f11fc7b8cfcdabf6b68afe1393a613cafb68449e0b45d96d0da0afa426e"
+    },
+    {
+      "path": "app/achievement/layout.tsx",
+      "sha256": "f13342de7792e364332912f303c63f6b0cf2c79b0b78b250d32fdc867d173f04"
+    },
+    {
+      "path": "app/achievement/page.tsx",
+      "sha256": "dd5ddcf5bda940f605da449404afb30d5f2de7d4aa84aa5f4a8a6994b6c13443"
+    },
+    {
+      "path": "app/api/account/route.ts",
+      "sha256": "12d7e177976df007a7049e4042c4ede40a87020081b03414485899f1d6f1e33d"
+    },
+    {
+      "path": "app/api/certificates/route.ts",
+      "sha256": "03a345ff3ff128beab72d21dba4aef3503f7eea643e71bde6d885e7372f6b92b"
+    },
+    {
+      "path": "app/api/chat/route.ts",
+      "sha256": "25e87d467ca1b25db92bd0d95f08d1b4b008f897528eed00f246676c238c300f"
+    },
+    {
+      "path": "app/api/leaderboard/route.ts",
+      "sha256": "cd403cc1de73e276bc75610656660e51d26c32c110f0b2d982a6bb4586ca03f2"
+    },
+    {
+      "path": "app/api/mila-token/route.ts",
+      "sha256": "8368f9299026091300e57a48e1e2f0d4b4f3d741a3bb655a88670845f1b4cd85"
+    },
+    {
+      "path": "app/api/mint-nft/route.ts",
+      "sha256": "b75a0054c4cbf7796f0bafe8dd39a1efdd2cf8fb7ab789e442220d479e427375"
+    },
+    {
+      "path": "app/api/status/route.ts",
+      "sha256": "b8b9b584a33165a778fc0162a86abf14059b9efea8502e6f295f1f505d2b182c"
+    },
+    {
+      "path": "app/api/tts/route.ts",
+      "sha256": "87086c4193891c7ca87154300dc47af12b47651038fecb5bb763806dfe15ee31"
+    },
+    {
+      "path": "app/api/vault/route.ts",
+      "sha256": "f84f26ec98b080ddef56b2675b2d5ee0c93b3c4391dfc83396cdaf6e6aa1630c"
+    },
+    {
+      "path": "app/avatar/page.tsx",
+      "sha256": "16123fc94958edaa8cd14ccad77e44585d09ab4edf8d72df547aff1a1c5cfe5a"
+    },
+    {
+      "path": "app/cards/page.tsx",
+      "sha256": "fe1577b7629f96100d05eae4ccf344ec314a04fe5662593dd4946d53717a4ec2"
+    },
+    {
+      "path": "app/challenge/page.tsx",
+      "sha256": "3aef2bd53d05320f4a76089ebcfd530ba87a1163a3cebd2bdf78c2f134989532"
+    },
+    {
+      "path": "app/coach/page.tsx",
+      "sha256": "7a700383529bba2efba2e2097c97bba043a2c9971634fca8b39d10d006134f6c"
+    },
+    {
+      "path": "app/crisis/page.tsx",
+      "sha256": "b845cb4b41de04fcdacf1b12855ea8f38bfe56dc3899088cef7ad1a34d8056e8"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "34cb032a88542706193471abfad14903aba551c7b4b0dcba3128df7ab841c573"
+    },
+    {
+      "path": "app/health-check/page.tsx",
+      "sha256": "336a7a260f4fa7e5e3888ec85ebc3f8a4b594ae5fe2ec7142a53b153e6bcb7ff"
+    },
+    {
+      "path": "app/inflation/page.tsx",
+      "sha256": "efda31a46a6c99c927e31c5440531372545d7b36e066483d79463e201fdc23d2"
+    },
+    {
+      "path": "app/kids/page.tsx",
+      "sha256": "5dde5d73ad9fe1a39138dfa60e0a0bbef8c3b20345ac4e3ced8d94deb1e88945"
+    },
+    {
+      "path": "app/layout.tsx",
+      "sha256": "061abc784bcc1468f1974cfb7fe0d33775f940e6928931c21155997a6a3f4c32"
+    },
+    {
+      "path": "app/learn/[stage]/page.tsx",
+      "sha256": "7502813a50def0dd53c301a9d229e57b9f935908aff4e63616937ce19f946ede"
+    },
+    {
+      "path": "app/learn/money-mindset/page.tsx",
+      "sha256": "db80ba2a968889694951adfd5e957294ae5a77e5c06324c0b02ebde444fcf578"
+    },
+    {
+      "path": "app/learn/page.tsx",
+      "sha256": "7facd3c6197db049d7b374d649b6365938390f6997073db7115677faba2284b1"
+    },
+    {
+      "path": "app/manifest.ts",
+      "sha256": "2dffef055de18270ea78a3bed06f419430c9db1165d657ecbd25029f7ba53b5b"
+    },
+    {
+      "path": "app/nft-metadata/[certificateName]/route.ts",
+      "sha256": "e7ad8d3f3b1747400cf21606a8be1ad69321bee79391e32dc62f90d09c93e59b"
+    },
+    {
+      "path": "app/page.tsx",
+      "sha256": "c3842f571e03a812622ddf5d03df6b3a001f880bb15aefa8b41df96953e75ff3"
+    },
+    {
+      "path": "app/partner/page.tsx",
+      "sha256": "5dde5d73ad9fe1a39138dfa60e0a0bbef8c3b20345ac4e3ced8d94deb1e88945"
+    },
+    {
+      "path": "app/privacy/page.tsx",
+      "sha256": "519efcc09fa73ac54632be23daef96ab59dd1653182ee6244335ab2d59b313ce"
+    },
+    {
+      "path": "app/providers.tsx",
+      "sha256": "78fe7cbd3414532ef70f1066a74c48322d57ff8495d0ca060fc94c43515defa9"
+    },
+    {
+      "path": "app/quiz/layout.tsx",
+      "sha256": "f40c83093c093b8167b6769ece8f5c9d0beefd2ee6a1e2ad31882e4e1f056fbb"
+    },
+    {
+      "path": "app/quiz/page.tsx",
+      "sha256": "1f40652b638f2664c82dd5c28a9bb3ef27c13ca13e43fcfa4301ddcfb45a9554"
+    },
+    {
+      "path": "app/review/page.tsx",
+      "sha256": "e6560ae16d804b277c78f75010e145740e25da7e9fe3be596180c4d6d8d1b039"
+    },
+    {
+      "path": "app/rewards/page.tsx",
+      "sha256": "30a48c42e7eed650372af1413b0130897c128abd073922ec9b97cc841d72554c"
+    },
+    {
+      "path": "app/shopping/page.tsx",
+      "sha256": "2ce1be044bee48511ef0ecc3c942acc71a7e6a907daed1847ac98cc111a3c73e"
+    },
+    {
+      "path": "app/terms/page.tsx",
+      "sha256": "e7c2b06bdcb6a3a697cbf85f6bff6c372d1b95cbedf6586f697021f50df8f2a5"
+    },
+    {
+      "path": "app/vault/page.tsx",
+      "sha256": "5dde5d73ad9fe1a39138dfa60e0a0bbef8c3b20345ac4e3ced8d94deb1e88945"
+    },
+    {
+      "path": "app/voice-demo/page.tsx",
+      "sha256": "f88d4f1126de3b50062e70d374023dee61f075af68dd1df623d919a2d94e1c0b"
+    },
+    {
+      "path": "components/AccessibilityToggle.tsx",
+      "sha256": "99cb90cf3d0361665a96eddc95c701596bf8f31b660120a647add1fa40c00d06"
+    },
+    {
+      "path": "components/AccountButton.tsx",
+      "sha256": "6bfd6c600b20c0d7837ecd5686dfe95a3022fe1d07ad58b3da71aa3dc79d3cfe"
+    },
+    {
+      "path": "components/AccountSync.tsx",
+      "sha256": "0897040c73ef00c9cb8b5c2b29ef3804d1a6a7ada51b5d09554e96755615fae2"
+    },
+    {
+      "path": "components/AppNavigation.tsx",
+      "sha256": "80f233b870e6aa308bbca63da196993d6ac68a0fcf38030cd503aa4abd48d44e"
+    },
+    {
+      "path": "components/AvatarDisplay.tsx",
+      "sha256": "67e273144a700de0d2920f49adcdf65ec69fc71c268ace1db7f2cba4c74ae929"
+    },
+    {
+      "path": "components/ConsentManager.tsx",
+      "sha256": "7fab4123e6d81c8c87ce018a5650af45ddb3b84907bb3ff285a950449fa0f403"
+    },
+    {
+      "path": "components/DataSafetyPanel.tsx",
+      "sha256": "b12ba3e75f4528ef438f30d55a3b98f9ab515688bbe71bf422a7968716e33bf6"
+    },
+    {
+      "path": "components/FamilyActionPlan.tsx",
+      "sha256": "451acc908c68ab5acbe2af0de7b3176878b4304e2a771c79a751353e3e699944"
+    },
+    {
+      "path": "components/FinancialScoreCard.tsx",
+      "sha256": "46e9bbae1d4e394c19589d91635d1d60d8bc661097b2ef6ac02fdbbabdf31d85"
+    },
+    {
+      "path": "components/FlagIcon.tsx",
+      "sha256": "803df1b4bb6b72ce2854f52a230c12c5a8503a4d8ecbb4d16ff29d78e236b09c"
+    },
+    {
+      "path": "components/IncomeJarPlanner.tsx",
+      "sha256": "d9dc96bba4c8f7e621a212b718da3fa34f7a1dfbca325078aee590d6d04f5455"
+    },
+    {
+      "path": "components/InflationChart.tsx",
+      "sha256": "828d742363c5ffda279d20d63ee54ef37891113d444a1e69b274d14c97c3c7e8"
+    },
+    {
+      "path": "components/LanguageSwitcher.tsx",
+      "sha256": "16634660b0a9ee27e049d9869750f30638054c93e384d3c8f597ded078202196"
+    },
+    {
+      "path": "components/Leaderboard.tsx",
+      "sha256": "3f89fc9945a47868fdc6c948a064f5bb2c1fd3fc93d4ebc51c71b82b8189c416"
+    },
+    {
+      "path": "components/Logo.tsx",
+      "sha256": "28bf751c25e22fd9454206f8b74f86f536eacf522c1f91dbe266aa7d51053f33"
+    },
+    {
+      "path": "components/MilaAvatar.tsx",
+      "sha256": "7ace27e76185aaeb53d0916083b262301e049b7a1fa872da2d433ef3dc67a238"
+    },
+    {
+      "path": "components/MilaVoiceAgent.tsx",
+      "sha256": "5221c445aa407982e08761d1990d9b6611343f22d0767bdd1a2ee42204b44490"
+    },
+    {
+      "path": "components/ModeGate.tsx",
+      "sha256": "45153a3335b69c9db90f7df077d6241bdc09b6464ed4cbb90bd83a7fafead48c"
+    },
+    {
+      "path": "components/NFTCertificateCard.tsx",
+      "sha256": "013a071ffe36d1af3b5239c95c02412abbfe7712df5d93e4b5c5d1d37bacc997"
+    },
+    {
+      "path": "components/NotificationBanner.tsx",
+      "sha256": "62100715532b1199debea9c49af2efa8be256b614a45a9feef19108fbf224567"
+    },
+    {
+      "path": "components/OnboardingModal.tsx",
+      "sha256": "e13fd8fa529e1894e83297793d1d8ef4e0b64dc51bf5723dbf2e4ce9ac33a97c"
+    },
+    {
+      "path": "components/ProductScopeBoundary.tsx",
+      "sha256": "17957d9ae0e900c9e167887ea319fa389fa8a2d514a3c838085a2989ccdb69e6"
+    },
+    {
+      "path": "components/ProgressPath.tsx",
+      "sha256": "1fb810625eb5d8ef0508bbe31abd1010658312a9abdf660a41d508691e55aab4"
+    },
+    {
+      "path": "components/QuizCard.tsx",
+      "sha256": "8d1088c4d267372bc4cefcc1db50bd20577a38a07ea5762451000ebefe4486fa"
+    },
+    {
+      "path": "components/ScopeUnavailable.tsx",
+      "sha256": "4b0a51d60d2984ea27bebe56ae5dcb928bf97f4baad0979150af6512af462ba3"
+    },
+    {
+      "path": "components/SectionHeader.tsx",
+      "sha256": "63abbe9317a4a75a309547118b30219dff8aad075b1eb3fef47bd3a132b505b5"
+    },
+    {
+      "path": "components/ShareScoreCard.tsx",
+      "sha256": "9886f7af3eb50f368794a72e9bbc20e94f92f6d99e9939157c509f9e298a3330"
+    },
+    {
+      "path": "components/SignInGate.tsx",
+      "sha256": "51c42405b81ea9addba0ddce2662c7830a418851ee403926d9995c438e09db88"
+    },
+    {
+      "path": "components/SocialShare.tsx",
+      "sha256": "263d0cfaf9518f88c2eba158936b0cff5bbe7e2a7f8665f2d9a024376e9e3d30"
+    },
+    {
+      "path": "components/StreakBadge.tsx",
+      "sha256": "473aa261e28233d153b7e7cd7845606d87cf447bb6e71ec362348b3310639f74"
+    },
+    {
+      "path": "components/TokenRewardCard.tsx",
+      "sha256": "260c7b2c079eb800e8ec226b2e6862052612f3fe6f2e8a05b2014c14fa80fc65"
+    },
+    {
+      "path": "components/VoiceButton.tsx",
+      "sha256": "d4da80ce7e310a08caa70ad748d51cc6a30821c6e538af47dda174a9a6ac91d0"
+    },
+    {
+      "path": "components/YieldVault.tsx",
+      "sha256": "b069362fd44fff1716348814a2fa2c9046b4b9a15525b6728d9f1b0c53573994"
+    },
+    {
+      "path": "components/read-aloud-button.tsx",
+      "sha256": "6a5dd962dd740827dc1efe7d3341dad7da363483fe5d0b4bb134d83ca8a73395"
+    },
+    {
+      "path": "components/ui/badge.tsx",
+      "sha256": "9ee9e29ec43ca6f3e1b3babe885890bfc0d7e9552432b8bbda4cbe2e8f16d464"
+    },
+    {
+      "path": "components/ui/button.tsx",
+      "sha256": "5ec5639bd097a5d5eb75667f45d860ae4c62bea6adb12f62b1b1a53b1cfbb97e"
+    },
+    {
+      "path": "components/ui/card.tsx",
+      "sha256": "b4e9b79c6386ceea3f9f3091c372ec870f684439187f93404efcc95e0d3ce141"
+    },
+    {
+      "path": "components/ui/dialog.tsx",
+      "sha256": "3aecbe12ebac1755569878b30d6effec0cfc77a6e0989a6caed7ad37cd4ece78"
+    },
+    {
+      "path": "components/ui/progress.tsx",
+      "sha256": "7ae160b8c4f2a458aef704f564ed9b76424e9a4028385a84af8ac7d6f54823be"
+    },
+    {
+      "path": "context/AuthContext.tsx",
+      "sha256": "e0c419b241e4edb3cd5aa31b95716be882042a939909d16f78ce02880601af96"
+    },
+    {
+      "path": "context/ConsentContext.tsx",
+      "sha256": "ad1a013039c9ec053b710f7fc939d671e8f7256734f9a842360d11bc49ad5f40"
+    },
+    {
+      "path": "context/LanguageContext.tsx",
+      "sha256": "5ab31310af8d6ea05f1db5ee7fdf41c86a1da3921860bf77635a32a4c9b8d893"
+    },
+    {
+      "path": "context/ModeContext.tsx",
+      "sha256": "4e1e47f74ef87ecad71771ddba94788ea320ffe4b721db89f1a52e9d78d46bb6"
+    },
+    {
+      "path": "context/StreakContext.tsx",
+      "sha256": "18daafdcb3e2f019fbaf5b6a00cbc85786ffed4b7b2904c743dda6f0a88d63d9"
+    },
+    {
+      "path": "context/VoiceContext.tsx",
+      "sha256": "f7ab04e48896652abf50d413e736167255fd70f6f4c5abe704f110d3450839a7"
+    },
+    {
+      "path": "data/certificates.ts",
+      "sha256": "0e93b3254760dc851f1a14caf3b2d5816cd87282b45a8a0153bb150c3d55fa3d"
+    },
+    {
+      "path": "data/challengeQuestions.ts",
+      "sha256": "0e7d6e98818f2337a1a214c63318ac60ff009743aeaac5f6416afb8964fcf5ce"
+    },
+    {
+      "path": "data/knowledgeBase.md",
+      "sha256": "8e5652b40727d2c622ba944e88280590cfee0bb1a32eb9dda2287ce61b0c60d0"
+    },
+    {
+      "path": "data/lessons.ts",
+      "sha256": "1c994172154dc16dab475ff94e390cbf82128b3cf1161ddb6712370d785019f0"
+    },
+    {
+      "path": "data/mockUser.ts",
+      "sha256": "1661acf117f76b22271189ba69c0832373ccaea2ff38008af6bbef225f22408e"
+    },
+    {
+      "path": "data/moneyMindsetLesson.ts",
+      "sha256": "85ebe88bbfe5888d9b5ecd8e167c2f867da82ea5809570ad02c65347c1684884"
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "sha256": "3362f9efdf55a6dc5008643d0daa03f7af5efb6079745b666c63d9078cd19f50"
+    },
+    {
+      "path": "data/stageLessons.ts",
+      "sha256": "e9a7140b3f45e4561cd565c8abf0a8d6264985c8a8117a3347c8f465dab92c3e"
+    },
+    {
+      "path": "data/storyCards.ts",
+      "sha256": "3c0ac93336f6b7d8f5a8f66ec8692e7b9ada0e147edf31589c6d8abfa955d425"
+    },
+    {
+      "path": "data/userOpinions.ts",
+      "sha256": "88b01c61119a86c25f30bb4b445274fc1aa341ff478c59b1ef65cbf1e79c8240"
+    },
+    {
+      "path": "db/schema.sql",
+      "sha256": "eff6d50bba7a3a1b08a77c4fce277de253a22aece36c5455ff3090c00493ff18"
+    },
+    {
+      "path": "docs/coachfi/cycle-11/content-metadata.json",
+      "sha256": "266fcbd37fbd7fea956a195d2086bc563543bd5ba9d3b5ac3a77f09f2b0d4327"
+    },
+    {
+      "path": "docs/coachfi/cycle-15/content-metadata.json",
+      "sha256": "5b9eb43e12c4a4f9cba33dc2f347a9a51d156fb4c246adc11b075647133f06b1"
+    },
+    {
+      "path": "docs/coachfi/cycle-16/content-metadata.json",
+      "sha256": "26a5ddcfb9f3541609dc734999210d436d67391ad3c0885dea408049034900ca"
+    },
+    {
+      "path": "docs/coachfi/cycle-17/content-metadata.json",
+      "sha256": "2a9059e2681e91193d2902d0bb570b6891932c03f87b9097f94eef57e8c5d0d8"
+    },
+    {
+      "path": "docs/coachfi/cycle-6/content-metadata.json",
+      "sha256": "7d556c8009ceb8f14c356dc75f7ff93bca663def19e00041775a51ff324bd4fa"
+    },
+    {
+      "path": "evidence/cycle-15/content-author-before-source.json",
+      "sha256": "0aa31a3fc3fff243df1868c02c37a2cce165adee1c163d67e238c76b0770546c"
+    },
+    {
+      "path": "evidence/cycle-15/content-author-non-target-baseline.json",
+      "sha256": "72601434c7cac887eb69f29288e8b5148ccd437c1cc32549b3cb3702ef8f7572"
+    },
+    {
+      "path": "evidence/cycle-16/content-author-before-source.json",
+      "sha256": "be1f179d9bdf52161e4456f80a6caaddd0ee80510b2c011ee651a62a0ad6cda3"
+    },
+    {
+      "path": "evidence/cycle-16/content-author-non-target-baseline.json",
+      "sha256": "5c7bacbc7e1e2318004dcb917f6ab1ce6299fbf567079c9df2cea9634cc7bcdc"
+    },
+    {
+      "path": "evidence/cycle-17/content-author-before-source.json",
+      "sha256": "a4d0e78d3d57ef76901fab69f264316e46693df3fb7731acc3cbdebfc17f1eb7"
+    },
+    {
+      "path": "evidence/cycle-17/content-author-non-target-baseline.json",
+      "sha256": "fcd81f4b2e2348d732122edc4152d34419c2fdb1781ab6902f17201754c04f16"
+    },
+    {
+      "path": "evidence/cycle-6/review-baseline-non-target.json",
+      "sha256": "e43b0dd097be8bd1fd7809f329969d9434356b635541ab3603734be5ca118dfc"
+    },
+    {
+      "path": "lib/account-session.ts",
+      "sha256": "0ff2e052ebe8a97e3112440da108670c0a645ccc7f670d75b8abd86575395bc1"
+    },
+    {
+      "path": "lib/account-snapshot.ts",
+      "sha256": "8fca52aeab3f7cab3f59ddf8b996c92f0341b4b0470e52f20f8b41f3d11c4b1a"
+    },
+    {
+      "path": "lib/account-store.ts",
+      "sha256": "ec6afb60cfb38e9c855cc6ead383564f33f1fa4ceaefbfa86a00a03eb6baff8d"
+    },
+    {
+      "path": "lib/account-sync.ts",
+      "sha256": "a0753a0105f28684c95fb83d73f2ccd349046250c26e07319b0e6d95efdf9317"
+    },
+    {
+      "path": "lib/accountGates.ts",
+      "sha256": "6e7301a0e9b63111c242e47b694fc559f599b2bfddfb6ead0fd6fb8fdb691163"
+    },
+    {
+      "path": "lib/agent-time-save.ts",
+      "sha256": "86a6d213671a165d309dc87c14761dc7b887d5526197a9d373c779af3a6a7bfc"
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "sha256": "cf0d75a04f050da9464a1452f71653cf669c2a8c7bf432949caed30bb2f99e7f"
+    },
+    {
+      "path": "lib/api-security.test.ts",
+      "sha256": "3c993a8eff9f80e8c7fe1a0d3d04b365da5ec0d28f0530f8ecff1ba6564ce6e8"
+    },
+    {
+      "path": "lib/api-security.ts",
+      "sha256": "46abf280a693be37f3faa6e7e84400924b5637e6ac837a9c21fa7c3cc0817b63"
+    },
+    {
+      "path": "lib/avatar.ts",
+      "sha256": "fab5e7aeb4eccb119d70ce944ed39620c3685346da4cacced188402a37b80655"
+    },
+    {
+      "path": "lib/cdp-server.ts",
+      "sha256": "c62c6f628c46a86c726afb22998499bf695c856092caba4d05295f511681a902"
+    },
+    {
+      "path": "lib/certificate-cards.ts",
+      "sha256": "4193856da6ee81344e9518727eb9eb17a711f8613bfa2d851de02246ea2eab72"
+    },
+    {
+      "path": "lib/certificate-chain.ts",
+      "sha256": "eb0484f297b5197cac5b331d98c1a01465ff3f5ea2a10e81e72eeb2a37b410b7"
+    },
+    {
+      "path": "lib/certificate-compare.ts",
+      "sha256": "31e0ee7a2320752a57735d790ee68e559fb8bf648e8163773656f3c7647c4cda"
+    },
+    {
+      "path": "lib/challenge-save.ts",
+      "sha256": "aeecdae883c3b9348689c846e505bbabb5f2342fac50c3b9a39e32987562f16d"
+    },
+    {
+      "path": "lib/client/api-credentials.test.ts",
+      "sha256": "6af2388783396451041e7401dec444b9033942218b2c5f8874023f48888d0dcb"
+    },
+    {
+      "path": "lib/client/api-credentials.ts",
+      "sha256": "bb453a8cd6ca7452fca6d4ac8287957b7cf4939ad234b9b70574b343c1b85e83"
+    },
+    {
+      "path": "lib/client/local-voice.ts",
+      "sha256": "88057434ca020d426aeb873cf422190088818a729893bb8a753d0252ae21345e"
+    },
+    {
+      "path": "lib/consent.test.ts",
+      "sha256": "39049d018a0cf15e23df48e24061b967aa04210415d9c31092e2c79c2b77b851"
+    },
+    {
+      "path": "lib/consent.ts",
+      "sha256": "baac88fee8842bae66722403500eb521d805c7b48d13c941d7d429b0aff9f14d"
+    },
+    {
+      "path": "lib/crisis-action-save.ts",
+      "sha256": "fbdc78935951dd14548083d9648a93a3e7ca84b783a618a666d532276f4e25f1"
+    },
+    {
+      "path": "lib/crisisCopy.ts",
+      "sha256": "91389316dee05a6b77493e4c0cd22e7c998572dbb334549116a002bc356229d9"
+    },
+    {
+      "path": "lib/cssColor.ts",
+      "sha256": "f23ad583dd13190c7457234637024788b48d3f9eae02ad345d9c7c6c1cc098a2"
+    },
+    {
+      "path": "lib/dashboardCopy.ts",
+      "sha256": "0606e3cefdb6bfd9c0e98b92fa15d3c3cbd159176483ae189ac33271c0867acd"
+    },
+    {
+      "path": "lib/data-export-v2.test.ts",
+      "sha256": "0a60c41b741fea3006a61f931034a81e5a9f2af27092f2405936b2bda22660ff"
+    },
+    {
+      "path": "lib/data-export.test.ts",
+      "sha256": "27be7671c977c175dbe0a0b877173b25c5232b88f1f61967a2f6d2ac3b25a91c"
+    },
+    {
+      "path": "lib/data-export.ts",
+      "sha256": "98267df4f36bf76056b4c62092d15fbe2adcb78c941d45ce5503d622a6f48b8b"
+    },
+    {
+      "path": "lib/database.types.ts",
+      "sha256": "194546c98d628f61d1825eb08e78198509a6d2abefec422c764bb6f4e84636ed"
+    },
+    {
+      "path": "lib/dev-db.ts",
+      "sha256": "7afad1b7fab85fbfbd8d3d3b81f264f282c49e1b88d00fbf94d9f33719e551ce"
+    },
+    {
+      "path": "lib/financial-score.test.ts",
+      "sha256": "e4ea2ec1262647c15c8992246960e9baa7ae0ed59eec9f53a6f2bf89abfeb51b"
+    },
+    {
+      "path": "lib/financial-score.ts",
+      "sha256": "b88f62395e24eb0865731095cb3d31d2bd1ec526d8c5039e8e5933272bdbcdf7"
+    },
+    {
+      "path": "lib/healthCheck.test.ts",
+      "sha256": "c7b225498b17d74dec97ae8ed711052828593dc6865f5b7a1f63cffaa3cf6de0"
+    },
+    {
+      "path": "lib/healthCheck.ts",
+      "sha256": "63417fca67b571edbbf0cc2383856c37113f2538ca938b4dd6605e5422b604af"
+    },
+    {
+      "path": "lib/i18n/en.ts",
+      "sha256": "ce9a75a0cd397e414cb38358c7d7736d93e677e4c854a799ed65fc7f45f290d8"
+    },
+    {
+      "path": "lib/i18n/es.ts",
+      "sha256": "ca51a7ac2f6956ca9e7fb90b85e8d4516aca06ab4d1c71e03f8833cc0217f365"
+    },
+    {
+      "path": "lib/i18n/index.ts",
+      "sha256": "74c55770359de4a70a4cce5204f6260bfdbd0a17cbe7b0dcb86e7a3302c90c79"
+    },
+    {
+      "path": "lib/i18n/mila-launcher.test.ts",
+      "sha256": "46f1026073c0def0d34c8d8d21b6ef1a0668ed28cda1e3894069d74eb015ebde"
+    },
+    {
+      "path": "lib/i18n/pl.ts",
+      "sha256": "b39eada48bb9c5bb6cbb520d9eeb2aa04c4066fcf5baf0d0f271989b1fa10768"
+    },
+    {
+      "path": "lib/inflation-copy.ts",
+      "sha256": "8840bd8b0f38c032b39d071befea97163f9cb328cd136520ce2782f655eb2248"
+    },
+    {
+      "path": "lib/inflation.ts",
+      "sha256": "4d84006fb2646cbad3016fcaabef56ac2cb478badcc41a466030a711f8eee736"
+    },
+    {
+      "path": "lib/learning-progress-read.ts",
+      "sha256": "981d84b5628d9153501c81b24f3ccb4ccd943bdd6b254e9da3cddf373e7bef27"
+    },
+    {
+      "path": "lib/learning-state.ts",
+      "sha256": "e1db98ab0d64d0725c51424dc66f5eace0cb3a0b1a30904a6f75a610ce9c24d4"
+    },
+    {
+      "path": "lib/learningProgress.ts",
+      "sha256": "1c4cdbd47be3d1446bb0184bf8a22985c2351b9f3d52310626cd6f94ed0985da"
+    },
+    {
+      "path": "lib/lesson-step-save.ts",
+      "sha256": "40a35607aa02069d47068520618909e6a4b380f39560efa703434b224454a70f"
+    },
+    {
+      "path": "lib/localizedChallenge.ts",
+      "sha256": "64db48b0272a1052b820de81404336dcafd4fc5e4da7e0eeca7be58f476f6d94"
+    },
+    {
+      "path": "lib/localizedContent.ts",
+      "sha256": "c058002255fdb8787c5c948c0d82075522725e23d643f88d92b734f9e2c50493"
+    },
+    {
+      "path": "lib/localizedQuiz.ts",
+      "sha256": "a85a1173d681bae61dc4836298c32b4254ea547e2e945b152d44cd7e0c5e9588"
+    },
+    {
+      "path": "lib/mila-polish-name.test.ts",
+      "sha256": "59c0120c19d403b7f7dda7a26b7536b9bb63fa09f58dcddce554fc1df4941301"
+    },
+    {
+      "path": "lib/mila-voice.ts",
+      "sha256": "159327dbb5d23adc8f33d83b58b003dba53ed4063c490afb6f21a9530e4493a1"
+    },
+    {
+      "path": "lib/notifications.ts",
+      "sha256": "f128798f90b74e39c2fa82024bf02b90c75e37d4bd90d7037e0b97bc01e83a2f"
+    },
+    {
+      "path": "lib/numerology.ts",
+      "sha256": "db20083db77b1eb4369f2dca034c98151a59fe3a97b87e4a59358df3d278579f"
+    },
+    {
+      "path": "lib/product-scope.ts",
+      "sha256": "9807eaed79e150ac6a4c464a76d695b1b75250af4cea28f307c6f5853826278a"
+    },
+    {
+      "path": "lib/product-storage.ts",
+      "sha256": "f78ae4230e4d28f175667acdb28d0d8e4c495bea86fda5b844190440ce79f687"
+    },
+    {
+      "path": "lib/progress-visibility.ts",
+      "sha256": "73aaf24942c83fdc5ba2464b94c591b034d3faed0fc0e20f5c2bf93e7a62a085"
+    },
+    {
+      "path": "lib/quiz-learning-save.ts",
+      "sha256": "635db2ba3cdf7b45bea964992a18f9602a940361ac246f064781fb1868a96aff"
+    },
+    {
+      "path": "lib/quiz-save.ts",
+      "sha256": "9f680d1c13230b457ad2b8bbb869bb6d36938f93bbc77c4be10e4a59f5a663e3"
+    },
+    {
+      "path": "lib/quiz-topic.ts",
+      "sha256": "594f3fa0c27ccc850d4ef51a978797d07544aeadeb703b87971fa5129880d406"
+    },
+    {
+      "path": "lib/review-save.ts",
+      "sha256": "f007bba886cfad6afe66c0c47fc4503945c1d8d76a86e0ceac58ed40b11ba709"
+    },
+    {
+      "path": "lib/server-env.ts",
+      "sha256": "9479ecfc9b6ae3990de4e36e83f41c0e9ba973a90933056b2f590988af996570"
+    },
+    {
+      "path": "lib/server/api-access-policy.ts",
+      "sha256": "aa03e3df86b2e606eb4d1a0cab072de3a355173f7b938c51ca2b56c7d834e00b"
+    },
+    {
+      "path": "lib/server/api-access-scope.test.ts",
+      "sha256": "465c23a784e3eb7e0fee0179c9bccd7641345cd58f6fd45e3a3a05d2e2d0f58f"
+    },
+    {
+      "path": "lib/server/api-access-scope.ts",
+      "sha256": "76146e4dbf0b0f0f1ab0640037362ce11fbbe7d7b8bb0c5dfad7102d647992c9"
+    },
+    {
+      "path": "lib/server/api-access.ts",
+      "sha256": "fcc31671ad27dd4b842b7e0d2dc422130cf2f021a801534ce03fc69b49f8bdfa"
+    },
+    {
+      "path": "lib/server/mila-voice.test.ts",
+      "sha256": "f383e3340c068b816909bc5c09ae8f6c83912e2ebb37f9a307f8cfdd8e35b898"
+    },
+    {
+      "path": "lib/server/mila-voice.ts",
+      "sha256": "f8d94d26003529bed2e42f4e1adf5ab2ceb68f995e0c7feac877633283da6e52"
+    },
+    {
+      "path": "lib/signInGate.ts",
+      "sha256": "b5f5474c5034c092373c6a009ce1db18ef714d0fa44ddbdab7dcc749a6464c97"
+    },
+    {
+      "path": "lib/solanaMock.ts",
+      "sha256": "4f511624331b55771023a7d4ecf5cf5c287ea072d91445044e2d819a27a4a631"
+    },
+    {
+      "path": "lib/srs.test.ts",
+      "sha256": "1eab78d9aee713590fc887ef1ed180c2b25ff2f97fcc22e9a9235ac399292894"
+    },
+    {
+      "path": "lib/srs.ts",
+      "sha256": "622163d90006a6aead3f3632c8a18aaa3945064bfb4405b88ae2391b5f4818e6"
+    },
+    {
+      "path": "lib/streak.test.ts",
+      "sha256": "074538356103f4eecadc7fee8e3263658c196d2bfca9d358dac8f8b9727c7112"
+    },
+    {
+      "path": "lib/streak.ts",
+      "sha256": "36af295afd55746a744d191da1b4f55bee6fd552b97e99830e8714ceb95f564e"
+    },
+    {
+      "path": "lib/supabase/client.ts",
+      "sha256": "ac4e4d803fbc1a5017371707435910200240b8147de64fab11a7b266b2112efb"
+    },
+    {
+      "path": "lib/supabase/server.ts",
+      "sha256": "2cee6045410a60ce67c5c5a27ce764e4d839722db1c59d408f0eba2e274f72f0"
+    },
+    {
+      "path": "lib/sync/cloudSync.test.ts",
+      "sha256": "0a8e2b993c213f0a9f047914648912eabef08f32a2239451e27cfea0b065480e"
+    },
+    {
+      "path": "lib/sync/cloudSync.ts",
+      "sha256": "129afc14604c7c0ceb6865f7b0940197995b0f81d7f2bf0a407f0383502ea256"
+    },
+    {
+      "path": "lib/sync/local-sync-state.ts",
+      "sha256": "88b0b184ac51c3e183b90e59742747d10866c215728ac78f61b8f55ca768a56b"
+    },
+    {
+      "path": "lib/sync/session-sync.ts",
+      "sha256": "f6cf26c9c459bed35d24f7e2b435b1834d3036e951889b3bd8c7bd6650ee6b01"
+    },
+    {
+      "path": "lib/sync/syncQueue.ts",
+      "sha256": "3a57bbba4a939f8b7928f112596a89d654630a940c1fe2c3951ad5a1f294258e"
+    },
+    {
+      "path": "lib/tester-limit.ts",
+      "sha256": "2167d9a18dac20906f5266c61f97dc6fc6b678d76405defafd4adf342f4877e1"
+    },
+    {
+      "path": "lib/tokens.ts",
+      "sha256": "b81f83f47769a5cc139b024d5aa5e3de679181081a4004240e9a4ae0dc53623a"
+    },
+    {
+      "path": "lib/use-product-storage.ts",
+      "sha256": "a2ef404000e936af198e071a42b1962ed2b14d1b3395e56a80b40dcd65a39f62"
+    },
+    {
+      "path": "lib/user.ts",
+      "sha256": "8a4d425256fc85324e9ff465f7d4d371144e0873ebefb181685bae8e39af9b62"
+    },
+    {
+      "path": "lib/utils.ts",
+      "sha256": "cfcfd9d5302fb19877590faec8aa5f51c691cc18c235db6fdb1c3cbaa4da6505"
+    },
+    {
+      "path": "lib/vault.ts",
+      "sha256": "0cf2072633984091c000de4cec14d3483640d5967114ec733d336a66c1179a20"
+    },
+    {
+      "path": "lib/voiceDemoScripts.ts",
+      "sha256": "ae06ace53a3bb57c6b3c55d40b443fca8ed9bdfe0b7355f9cf75fc0a2cc79a0b"
+    },
+    {
+      "path": "next-env.d.ts",
+      "sha256": "f4e8976c19fc926644d72610bf1058bd6bf52add97e46a02bc0b912a751625c0"
+    },
+    {
+      "path": "next.config.mjs",
+      "sha256": "533c02af73e575fda77be2803b71bd9826545cb4019d8bc856fc98ebfbb66784"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "d810ad909d72a02a6bdb06d12e15f250256ac54f138a8aba919e5681ac6fc5f5"
+    },
+    {
+      "path": "package.json",
+      "sha256": "bc94bb86fe2ba2ddf90039b08683145279e31d8925623e577d6c481856c8ef8a"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "1a2559175eb4ac7d6b6ac60bcddcb204f56825806b97202f224f43612dd81e6b"
+    },
+    {
+      "path": "playwright.cycle10.config.ts",
+      "sha256": "b09f7a31cdc4b4aa47257c07e51e2ba7f3fec1684825bf575f9739fd12fc45b2"
+    },
+    {
+      "path": "playwright.cycle11.config.ts",
+      "sha256": "a2f1ec4946bd8619b4f09a2caea0089b4212877181359ec17de5cd53ccd017f6"
+    },
+    {
+      "path": "playwright.cycle12.config.ts",
+      "sha256": "12546840e2af5f89878baa838a37d4b6aa4f7bf67e44a1f47ea7863af659f36c"
+    },
+    {
+      "path": "playwright.cycle13.config.ts",
+      "sha256": "10af7ad68d440ad9dd478a0c6bd272f6b9a8627678fe421f1eef80c9d7386e6d"
+    },
+    {
+      "path": "playwright.cycle14.config.ts",
+      "sha256": "f517fd33cd8de166787ead209a01c8f4d3000596fe9138afc1e8c358ce9534c4"
+    },
+    {
+      "path": "playwright.cycle15.config.ts",
+      "sha256": "b329e9964b428ebda72955952b2dfbb950121c4e77a8fd0d850e02a1d10daaa9"
+    },
+    {
+      "path": "playwright.cycle16.config.ts",
+      "sha256": "630b8c68e677c00bfacba1bd5f04e630ff0827a438cd9324249b5b422fbab564"
+    },
+    {
+      "path": "playwright.cycle17.config.ts",
+      "sha256": "a6fc9ec72ed71610ebb3c946349ba4448e2f9ce069c7f822df3b1d024dce631d"
+    },
+    {
+      "path": "playwright.cycle18.config.ts",
+      "sha256": "6025d48a844867e25670caee5795651d376d888cb7eeb312c7cb79a018473d28"
+    },
+    {
+      "path": "playwright.cycle19.config.ts",
+      "sha256": "0c3890b7491b5310367364bab84cf4bde85f7ebb0c663b4822a364969e2298ae"
+    },
+    {
+      "path": "playwright.cycle2.config.ts",
+      "sha256": "6dc25facfa4c083f5a655346a7802c90fd2d5447c183092d9f5fb675a7c43d35"
+    },
+    {
+      "path": "playwright.cycle20.config.ts",
+      "sha256": "70cbf701aece3ab81325b69ef71cfbc7f397af7568cacbcd0c1853191bbecaab"
+    },
+    {
+      "path": "playwright.cycle4.config.ts",
+      "sha256": "c0a488b7bc237da936fa709dc5624a7878635097ebec6210a76a83f44ed396bb"
+    },
+    {
+      "path": "playwright.cycle5.config.ts",
+      "sha256": "6771662ab33c3ef061b93cac44849441aa4ebcd1574323e10d205a2c58167870"
+    },
+    {
+      "path": "playwright.cycle6.config.ts",
+      "sha256": "e57b61fc1d6c0689b8217769bc5e0dc259e4877f26dff2839b2ec40b5b5045d9"
+    },
+    {
+      "path": "playwright.cycle7.config.ts",
+      "sha256": "8586d45d23ed3364855667edb725f345e7ed9c44b6bb3d21bb1a0e8117dca27f"
+    },
+    {
+      "path": "playwright.cycle8.config.ts",
+      "sha256": "74b2a1a654ee55c5abffe401c067da86682b235b1daff7786dd8cdf9ab8682c9"
+    },
+    {
+      "path": "playwright.cycle9.config.ts",
+      "sha256": "59e6984d8267779d75e9485afbf341256f4ffa6230bc3da34c50711da1568e89"
+    },
+    {
+      "path": "playwright.p0.config.ts",
+      "sha256": "9fdfcffec3949073aa8febc7de082865ed850f4ea460bd26dacb03266b5647b0"
+    },
+    {
+      "path": "postcss.config.mjs",
+      "sha256": "6ebe6241f8347bbea31480fed02d50db4b7232f4d0070dda3d231aa4a6b78ddc"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-1024.png",
+      "sha256": "602335671988bb21341a469aab547a4e8a92030e7ebb8b450cbe81dec5e7f806"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-180.png",
+      "sha256": "441e0f21075535a13b8a225088fe430e4088274a8325aff3b5b8fe46caa3296e"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-512.png",
+      "sha256": "d54f56a46f7ddce51aada281258f88815c61f837438f30ebc15bf086c037727d"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-fullbleed.svg",
+      "sha256": "3b703f9225c0938202ccf957a600d210d1796f6d4f7c1017439ed0817aee8e59"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-maskable-192.png",
+      "sha256": "1cf787b0679e41075de9b4c26f97409923b5c8238d8474524428c8b2d4eb6b2a"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-maskable-512.png",
+      "sha256": "4f68d4fefbc848a339a41b5521ed7ddabe4666495dd0a2f9934e410151d0d587"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult-store-1024.png",
+      "sha256": "b18cad7bb64e353b842de6ee1abdd97e93d535f109001a5fab9878ccc1b9f28d"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-adult.svg",
+      "sha256": "0f06f9e4da4acda0da355aabe2e858d477e2f70a730de19fc528dd6f026c1c26"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-teen-1024.png",
+      "sha256": "602335671988bb21341a469aab547a4e8a92030e7ebb8b450cbe81dec5e7f806"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-teen-180.png",
+      "sha256": "441e0f21075535a13b8a225088fe430e4088274a8325aff3b5b8fe46caa3296e"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-teen-fullbleed.svg",
+      "sha256": "5f66df7a40649796fae7b86b06cf4b649b7143ce583dd741a10380982ac71288"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-teen-store-1024.png",
+      "sha256": "b18cad7bb64e353b842de6ee1abdd97e93d535f109001a5fab9878ccc1b9f28d"
+    },
+    {
+      "path": "public/brand/app-icons/app-icon-teen.svg",
+      "sha256": "6dda10c8faeefa7bc19309d16a71466ba22c8627a3b78bcbaf5ab3d9fbdd8a7c"
+    },
+    {
+      "path": "public/brand/app-icons/favicon-16.png",
+      "sha256": "2d6f79b34835344e2de24fe58699203459a37b8489bc8f8164d07319ee3bcd5e"
+    },
+    {
+      "path": "public/brand/app-icons/favicon-180.png",
+      "sha256": "441e0f21075535a13b8a225088fe430e4088274a8325aff3b5b8fe46caa3296e"
+    },
+    {
+      "path": "public/brand/app-icons/favicon-32.png",
+      "sha256": "f03f6b27fb28ea491af2b4899557ae3e6eb1906b9d0faad4a7c7f860f3dae2b6"
+    },
+    {
+      "path": "public/brand/app-icons/favicon.svg",
+      "sha256": "825771314c72c2681bfc0360753024eeea0b043d1a11ae9e153a614061eebe4f"
+    },
+    {
+      "path": "public/brand/logo/coachfi-fi-book-dark.svg",
+      "sha256": "ecf7fe8ec91f7e7cf4b8408f2395f1923fcc9c8124964564410c9f608396b1d8"
+    },
+    {
+      "path": "public/brand/logo/coachfi-fi-book-mono.svg",
+      "sha256": "be3662eee7e2f51224d0b330010e65855c68ed222fe2437c2f2a2fd23435f9e7"
+    },
+    {
+      "path": "public/brand/logo/coachfi-fi-book-teen.svg",
+      "sha256": "63df3105533cf9cb2643db3e3c351e43d3b97b0045e38c97453fc7ce1a9bfa5b"
+    },
+    {
+      "path": "public/brand/logo/coachfi-fi-book.svg",
+      "sha256": "718bfa7a9b75b93da83f578cdc896de41800e404d5952d843c9fe6d76f9d0d64"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol-book.svg",
+      "sha256": "3b1f04cb286ea9462ed4e3ff73a67cbaa6607dfdfb2596fa8fd3b5f088ae9f47"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol-cap-book.svg",
+      "sha256": "ee8d15d022c171326aca317980cd3b1724c8433f75094806558d8bd2111a6fe4"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol-high-contrast.svg",
+      "sha256": "ed5f6a9806edc41cd0f81305093ce5ee10b5501090a2d28bf6e7875b4a7181f2"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol-mono.svg",
+      "sha256": "87312e8ac0984999001db126bef5bdfc63af4250d91c2533c71a724e7aeee2b2"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol-small.svg",
+      "sha256": "2f8c9fcb4838c2667ef06e1b3dac8973919dbd85c0a97466e1194b49feae53d7"
+    },
+    {
+      "path": "public/brand/logo/coachfi-symbol.svg",
+      "sha256": "ddc62da720b72321c3e616798f25f79f5dbe8465aed2d59e67106b8e81009fb3"
+    },
+    {
+      "path": "public/brand/mila/mila-happy.svg",
+      "sha256": "96e4946ac1fae50f518c3bbe70e719d69802b6141677957383b37baeb56901a9"
+    },
+    {
+      "path": "public/brand/mila/mila-head-happy.svg",
+      "sha256": "c3160d78d5eb3753e9d4fc4e04aaf7408dfba5e804c9c18120b58ca69ab183fe"
+    },
+    {
+      "path": "public/brand/mila/mila-head-listen.svg",
+      "sha256": "0704865232c70b022fe0c2d209dafacee625dddba06194ab74d8727a2d63e978"
+    },
+    {
+      "path": "public/brand/mila/mila-head-neutral.svg",
+      "sha256": "9fb4d80b42f51363a39155d8b84faddb081b7b8acaea828716d18750f991389a"
+    },
+    {
+      "path": "public/brand/mila/mila-head-sleep.svg",
+      "sha256": "c3881a27c868084bc801ce0c67d2b36435bb93c9b7758b70cb1f09e16509f617"
+    },
+    {
+      "path": "public/brand/mila/mila-head-talk.svg",
+      "sha256": "6de861df3246100054ff2390fb45ce8d57242d7d77faa8c598917037a17caf1f"
+    },
+    {
+      "path": "public/brand/mila/mila-head-think.svg",
+      "sha256": "132867ea940aedc82640945c8261c7eb26ab7f2d06f8112523671508456a176a"
+    },
+    {
+      "path": "public/brand/mila/mila-talk.svg",
+      "sha256": "4386c5a94d70532e97affe073a3d406c13f416e7f622206b07ff73d753d946b2"
+    },
+    {
+      "path": "public/coach-fi-avatar.svg",
+      "sha256": "f08caa875b19da63822ea04d87bd743720050a7237293618dea869af68cbdf6a"
+    },
+    {
+      "path": "public/elevenlabs-worklets/audioConcatProcessor.js",
+      "sha256": "43b7dcd0eba825fc9603b580dac4254d1bbd7d1976a9b473558983323bbbafa5"
+    },
+    {
+      "path": "public/elevenlabs-worklets/rawAudioProcessor.js",
+      "sha256": "ad68b6621066b5c1ecdaa6e5a75026e8f9d9989a4ab9efd0b8b44ec799100fe6"
+    },
+    {
+      "path": "public/elevenlabs/convai-widget.js",
+      "sha256": "7c98864ea36a19f9ae52400bb9c589495713505d4fd8aca20be63e1e4b2a5541"
+    },
+    {
+      "path": "public/icon-192.png",
+      "sha256": "1cf787b0679e41075de9b4c26f97409923b5c8238d8474524428c8b2d4eb6b2a"
+    },
+    {
+      "path": "public/icon-512.png",
+      "sha256": "ff54eea80d583c1fdcba67a75d213a84b47d52b88a38b3339bf7e5929609f363"
+    },
+    {
+      "path": "public/sw.js",
+      "sha256": "a1cf780c21aeb7db2e31ca56e0e792e5f5b780f199e9a7591a30718fadd0da37"
+    },
+    {
+      "path": "scripts/backtest.mjs",
+      "sha256": "27c651f43191b6a17937eda0b447bb1d2e33c10344b7421ad29ca6133a2af3a8"
+    },
+    {
+      "path": "scripts/build-coachfi-theme.mjs",
+      "sha256": "f3a8d3a05f35e6f2cefb650f03cad50b19a824df45935c1c3b621a1760f434d2"
+    },
+    {
+      "path": "scripts/check-api-config.mjs",
+      "sha256": "13c3af90a33cb5cd6728d4e02bc9908362b09d785fa53320082f8afdbe8c138b"
+    },
+    {
+      "path": "scripts/check-certificate-compare.mjs",
+      "sha256": "960547ed7495967ceb8ccfca71eb623f95dfddbff5dedf9d0cef2a49aab6d00e"
+    },
+    {
+      "path": "scripts/check-repo-hygiene.mjs",
+      "sha256": "3f9d0fcb365273f96a8c82f136ff78a43b5749d996bfee9b2e106e179fff0497"
+    },
+    {
+      "path": "scripts/format-mila-vendor-adapter.mjs",
+      "sha256": "1b7898f98dbdd9089aeff9cfe520f54bb15f93109650a58e7dd37d1690e2d39b"
+    },
+    {
+      "path": "scripts/seed-codes.mjs",
+      "sha256": "f94e31b03dd2c33a0a470084193233f98c26ed2bc34d8c745fd7bbd2807d4b23"
+    },
+    {
+      "path": "scripts/start-p0-test-server.mjs",
+      "sha256": "cb6554372b6a2606df60d80bff4b3e3e9e5cc20d2fbcd79db021b56d3076266a"
+    },
+    {
+      "path": "scripts/supabase-migrate.mjs",
+      "sha256": "17e83896aa93a9da7e7d42fd8ace103ea6940a29b473fda56388f4a90d160e75"
+    },
+    {
+      "path": "styles/coachfi/aliases.css",
+      "sha256": "d7b2ef7bd01c646b7def420604d43e8af75983cb1b836d3d60ccda797fbaf93a"
+    },
+    {
+      "path": "styles/coachfi/channels.css",
+      "sha256": "ddbb701a87d68c3a4a70c1e4d327dbf390b3b2ebcc9f9b445ded62e908d97e5f"
+    },
+    {
+      "path": "styles/coachfi/tailwind.preset.cjs",
+      "sha256": "7e55822404365fcb62ca621a10b225bd52df9f871fb836da73f18028cca9564f"
+    },
+    {
+      "path": "styles/coachfi/tokens.css",
+      "sha256": "3fd1f948f6e09addb6374c07863c42aa41744bc034e5969fe825a061afd2dc59"
+    },
+    {
+      "path": "tailwind.config.ts",
+      "sha256": "a3320b3c50e80ff9fdd04c6966408e8c7d8d4776b18e8880a54c2f28797e7aaa"
+    },
+    {
+      "path": "tests/consent-voice.test.ts",
+      "sha256": "36d197fb4cb4527e61f0657e6cfe67a65513c40d98274e987dad06c5daf4893a"
+    },
+    {
+      "path": "tests/cycle-2-status.test.ts",
+      "sha256": "10167f645eb3dea22e22b73ec43a994ba4365c357106339d8a7e23dfd0c5ef1b"
+    },
+    {
+      "path": "tests/cycle10-crisis-author.test.ts",
+      "sha256": "9f7a833d082b53776713908d01033c54738062327526f1fefda3b1578062eef4"
+    },
+    {
+      "path": "tests/cycle10-crisis-review.test.ts",
+      "sha256": "3478acfbdd3bbc9468dcc69fb8d0aee98c15a10c057d16bc1505f9af39250b6b"
+    },
+    {
+      "path": "tests/cycle10-crisis-ui-review.test.ts",
+      "sha256": "8ed8cbafd7c1ba104d8bacb6bc75b6062813db14807eef70189a540b9cae4879"
+    },
+    {
+      "path": "tests/cycle11-saving-author.test.ts",
+      "sha256": "77c709238b08cd0cd7bace9afc001f977632ffc94209a32addc83a8542eca92f"
+    },
+    {
+      "path": "tests/cycle11-saving-financial-review.test.ts",
+      "sha256": "9d2bfa075840c2e6fce8ee7cd0ea5afda6a7031ff1c13e248704e46ac5e7f6b9"
+    },
+    {
+      "path": "tests/cycle11-saving-topic-author.test.ts",
+      "sha256": "3e77c9f92ec848aba53ac1893f7ef9421d338783d0f5e59c96537a90c94f4aff"
+    },
+    {
+      "path": "tests/cycle11-saving-ui-review.test.ts",
+      "sha256": "3aab2d90925e43dd254ef990bbb8e22d9b343d1962ac4f90198cc8e0903f027b"
+    },
+    {
+      "path": "tests/cycle12-lesson-step-author.test.ts",
+      "sha256": "4318e1e227fc0e576884c9b0aa5917faf732e0431df8ed35c6173f254f22b893"
+    },
+    {
+      "path": "tests/cycle12-lesson-step-data-review.test.ts",
+      "sha256": "0d1723cedb3c4ec16bad96e813aba32cb3acfc7c354f23c480c26e09a91f1f3d"
+    },
+    {
+      "path": "tests/cycle12-lesson-step-ui-review.test.ts",
+      "sha256": "28ad8288ad66fd160edbd0f814e3b44aac3875c7336ff1a01a00033bf03c96b6"
+    },
+    {
+      "path": "tests/cycle13-agent-time-author.test.ts",
+      "sha256": "dfcaf3a0e6c45df195a3537c4d52bd72c5f35cfeaadaa0c6207de23acb8c93a2"
+    },
+    {
+      "path": "tests/cycle13-agent-time-data-review.test.ts",
+      "sha256": "b4f8d2775504477d76783fbaa4ddb50c0d63603a76ce1d000710af7871a2e5cb"
+    },
+    {
+      "path": "tests/cycle13-agent-time-ui-review.test.ts",
+      "sha256": "c0b830438a357f2794a3f5677866f6548994b3f4429676bc069ab04070de5ae3"
+    },
+    {
+      "path": "tests/cycle14-inflation-author.test.ts",
+      "sha256": "9063528beb93589e2f012b198e7c3ce8194ed941029ab5f06bfe06c5f14a0ffd"
+    },
+    {
+      "path": "tests/cycle14-inflation-financial-review.test.ts",
+      "sha256": "e052f8281b3d3033a48d360c272fd54c0c28da3a9a3aa78382b671c105f9d676"
+    },
+    {
+      "path": "tests/cycle14-inflation-ui-review.test.ts",
+      "sha256": "e0e2a47aa6325b1e71affb226ff61116660956ef82cab08c4b4502b9f4ff8d12"
+    },
+    {
+      "path": "tests/cycle15-inflation-author.test.ts",
+      "sha256": "0e279a782d0e3a008d4393270129674408ce9cdf683a8062dd009c6e934ad1a9"
+    },
+    {
+      "path": "tests/cycle15-inflation-financial-review.test.ts",
+      "sha256": "c5a991a04bcce183e6b041faf708af65ce1652c1a7fd2132478ac48e819a54ff"
+    },
+    {
+      "path": "tests/cycle15-inflation-topic-author.test.ts",
+      "sha256": "1bdb67a5afe5a2fa8fb1191da557be0866a9f30f1fdd3cec9c4e617bd4e76509"
+    },
+    {
+      "path": "tests/cycle15-inflation-ui-review.test.ts",
+      "sha256": "3945afa98e326e52496f0a317fbb99e26ab63361bc74199a2320a1993b62b8c4"
+    },
+    {
+      "path": "tests/cycle15-legacy-preservation.ts",
+      "sha256": "e553e7b8627bf349a4b5ec40a3bb6c480e71a6485e16845b06d816cb6847646b"
+    },
+    {
+      "path": "tests/cycle16-credit-author.test.ts",
+      "sha256": "2c5de1e328925d302311ec068c3e2e10f74cee56ce38e377244f39c86b43aa68"
+    },
+    {
+      "path": "tests/cycle16-credit-financial-review.test.ts",
+      "sha256": "d8d4c3f18dfdac1efd4e53a0ff0a973fe1e3b672946f845ef0cd01ef32a55373"
+    },
+    {
+      "path": "tests/cycle16-credit-topic-author.test.ts",
+      "sha256": "ef1caddf913368ecf08fa7b6704a97bb5f6390c19fe6ddf9913265b64ad86b66"
+    },
+    {
+      "path": "tests/cycle16-credit-ui-review.test.ts",
+      "sha256": "645de28e6ed65b74cb5607465a4a93d6e407ba7fe4d1d498f2b29bb0cf7bec72"
+    },
+    {
+      "path": "tests/cycle16-legacy-preservation.ts",
+      "sha256": "67593ecf091a49528f56ebdbad18c9fb3dcfc5c0751d90bbb2c7d28e459c45c5"
+    },
+    {
+      "path": "tests/cycle17-emergency-author.test.ts",
+      "sha256": "c63df1f0ca4f4908ecad3918ba0885a441630c1d7423f03abab0b76656a4a07c"
+    },
+    {
+      "path": "tests/cycle17-emergency-financial-review.test.ts",
+      "sha256": "d804e9847dac0caad49cc3a519e2005082256788c77f48e8663afdc723e588fe"
+    },
+    {
+      "path": "tests/cycle17-emergency-topic-author.test.ts",
+      "sha256": "452aeda8db03a7e2ea6a06861ef00ed1876bec2f0a2e4fecbe2cc72c24ea08d9"
+    },
+    {
+      "path": "tests/cycle17-emergency-ui-review.test.ts",
+      "sha256": "76b5cecc6f8beeb819a66a1477d475e27f6e3c1c4b59777fc1da5e3ae34a2da2"
+    },
+    {
+      "path": "tests/cycle17-legacy-preservation.ts",
+      "sha256": "cf087f1f437b2d596b2e552090f9000160ce38b43ff3864c2b447e12d528f23f"
+    },
+    {
+      "path": "tests/cycle18-milestone-financial-review.baseline.ts",
+      "sha256": "544257e5d43ebff3e0ee7f0e18200a8475a930f45885336332ed2a69b1bda8ea"
+    },
+    {
+      "path": "tests/cycle18-milestone-ui-review.test.ts",
+      "sha256": "158ce2aad3bbe157cc14d3127bf50979b4de17436f0c85bef7bd8f52247634ba"
+    },
+    {
+      "path": "tests/cycle18-review-data-review.test.ts",
+      "sha256": "e4e9c9df4a4fefd04188df25a0c028573e8f5dc9e183bb42450dc29c5adc99c9"
+    },
+    {
+      "path": "tests/cycle18-review-save-author.test.ts",
+      "sha256": "665ebba6c4c244caf8733ac6b8c3ce2ed2854ac2a4b675628aff7769414f3add"
+    },
+    {
+      "path": "tests/cycle19-quiz-data-review.test.ts",
+      "sha256": "5438383f9fa8cefa8a1b136a1f3195c1d288f8699dc48130651c650963f5ea14"
+    },
+    {
+      "path": "tests/cycle19-quiz-save-author.test.ts",
+      "sha256": "14ba867c28b8f51483a628c0b11258323d1b974473639ad8e1a50e212ac7cdd5"
+    },
+    {
+      "path": "tests/cycle19-quiz-ui-review.test.ts",
+      "sha256": "23ebeefeeff938de7f680dbce7dc9e644a88f8819d500000910226d3d0e80bca"
+    },
+    {
+      "path": "tests/cycle2-dependencies-review.test.mjs",
+      "sha256": "7221bf912e51e806bd3e990f19be6f0dc75213870cc18c2425f07d66ede7f3a9"
+    },
+    {
+      "path": "tests/cycle2-health-data-review.test.ts",
+      "sha256": "111c697f06497811d1c3c6843d1cda128025208a523823bf6555e081445a7cf2"
+    },
+    {
+      "path": "tests/cycle2-health-independent-review.test.ts",
+      "sha256": "7d8472e1d34742b48714f1cdc0ad5008234ff5151b8c40fcf23b4ebd30f0a820"
+    },
+    {
+      "path": "tests/cycle20-progress-aria-root.test.ts",
+      "sha256": "f078739edf51f993ca6d26103a303afbc655fd2187491b37c9de0950fcf012c6"
+    },
+    {
+      "path": "tests/cycle20-progress-data-baseline.baseline.ts",
+      "sha256": "67caadd874de1600f3272268a1ec622907221452df03115607bb0609411051a4"
+    },
+    {
+      "path": "tests/cycle20-progress-data-review.test.ts",
+      "sha256": "7c82133cffbb4b04b4e5a2f50551895e4fa1eade7ab1e273592b94da59454dfa"
+    },
+    {
+      "path": "tests/cycle20-progress-read-author.test.ts",
+      "sha256": "799c4398a304bd727938099f0042bcb5f38f65f1b0483dcf9b2e05ab22047392"
+    },
+    {
+      "path": "tests/cycle20-progress-ui-review.test.ts",
+      "sha256": "dfc82cc9cf33fd16b1ba4f7e820a2a0f666aaddd332f4688e714603d40e7f608"
+    },
+    {
+      "path": "tests/cycle21-signin-data-baseline.test.ts",
+      "sha256": "5fb3e65d65bce2c6c31b399804951bb2a44344e77ecad52cd8b6b5a89a868c3f"
+    },
+    {
+      "path": "tests/cycle21-signin-ui-baseline.test.ts",
+      "sha256": "6f81e0411892482904fbbd2ef2267a52ce1acc427d6ac4b6c7c3ff9b00761782"
+    },
+    {
+      "path": "tests/cycle22-signin-copy-ui-review.test.ts",
+      "sha256": "9c4a57c12b3c48fbfbed91d872dd93385ab0816f171d2a1a546b6e5fe8c22f5d"
+    },
+    {
+      "path": "tests/cycle3-account-api.test.ts",
+      "sha256": "cfb8b3a05b0a1b808a20799bb688e82f59c67a14f35402fb6988f27697849294"
+    },
+    {
+      "path": "tests/cycle3-account-author.test.ts",
+      "sha256": "56b2d034d0fc9e93a6431c468012846d0b0c11d6a21d43f943481a6a360698ff"
+    },
+    {
+      "path": "tests/cycle3-account-component-review.test.ts",
+      "sha256": "3cfcf002e95a7e9a827c7ddb39af5fb34f202d4ae87d5d1b331994218502cf82"
+    },
+    {
+      "path": "tests/cycle3-account-review.test.ts",
+      "sha256": "d4541a5fbf9a5028062b6ec101d44007af3bed8f7a7d243e5c7452ca392799a6"
+    },
+    {
+      "path": "tests/cycle3-auth-provider-review.test.ts",
+      "sha256": "916e34ce6b1de3a863a58484ea557990f8cc822b14e03be80a26647bf17bb201"
+    },
+    {
+      "path": "tests/cycle3-cloud-review.test.ts",
+      "sha256": "f47c16bfc13379245f0309de0b0794ed78185861c107cdc071ab011798b8ee08"
+    },
+    {
+      "path": "tests/cycle3-provider-selection.test.ts",
+      "sha256": "b7f05a797c3136f277af5558d916b3c06915649daae7c29d755bec888b1676c2"
+    },
+    {
+      "path": "tests/cycle3-sdk-review.test.ts",
+      "sha256": "6e21ff8060f607e37f01079bc238414dfc7b51abacf35b5a1c35d59a0f084a68"
+    },
+    {
+      "path": "tests/cycle3-session-review.test.ts",
+      "sha256": "e58366b7f6d7269ba575cc743aedfe3b133734e74f42ce8116add565d0d9c9a1"
+    },
+    {
+      "path": "tests/cycle3-supabase-author.test.ts",
+      "sha256": "8d15837df9cdb3b084256fbdcf31eae57b55f85452b91011d905946f52634a8f"
+    },
+    {
+      "path": "tests/cycle4-adapter-review.test.ts",
+      "sha256": "1eebadf4fed0605474f3ffad75d22df8b6237dd431baf2836223c293d0b5a615"
+    },
+    {
+      "path": "tests/cycle4-boundary-author.test.ts",
+      "sha256": "7d1a958662d97f68c3c66db046646cf4a2b9c7bb9c7623864e84f41d7bbde140"
+    },
+    {
+      "path": "tests/cycle4-coach-review.test.ts",
+      "sha256": "4bd1c2225a08c3e23d06b3f21ba3824d2addba58429bc70dffe5c35c1b9fe385"
+    },
+    {
+      "path": "tests/cycle4-export-author.test.ts",
+      "sha256": "126299323e25455e652e553fdfc24afd5824f96ac86ce16b8a1216c3596704f1"
+    },
+    {
+      "path": "tests/cycle4-export-review.test.ts",
+      "sha256": "592a40275d301a77b5f8ac0f73f293d4c5423331f986855e60c4d4e70c64f5b5"
+    },
+    {
+      "path": "tests/cycle4-health-draft-author.test.ts",
+      "sha256": "4243505b7b7a02e9e7892bcb7f424aa83121bc51634da6dae24abc32cac3b54d"
+    },
+    {
+      "path": "tests/cycle4-health-effects-review.test.ts",
+      "sha256": "b575593700bca1943d4656ddc340ec03ed3e62a2c34fcc93530e555c6ba89ec0"
+    },
+    {
+      "path": "tests/cycle4-personal-author.test.ts",
+      "sha256": "b7526c472538153e3ae6aee7c5b5fc0c2d0038270b3adb7c8275c84ee2bfb01c"
+    },
+    {
+      "path": "tests/cycle4-personal-review.test.ts",
+      "sha256": "d8215b12331c10917bea63fbfec6706411e2d9d1d5c9dc2fd1b26121d85c9a1a"
+    },
+    {
+      "path": "tests/cycle4-provenance-review.test.ts",
+      "sha256": "3be886c1d1cff209ec5108e05185b8ebb13623194dba9db9511d6fc1759aae16"
+    },
+    {
+      "path": "tests/cycle4-root-ui-review.test.ts",
+      "sha256": "d3e7ffe0462227dc88c84bad220970777e03ec98e0f7c297d0743512c4722575"
+    },
+    {
+      "path": "tests/cycle4-storage-author.test.ts",
+      "sha256": "691f7df854a0af81995fc69065d55ba887fb959ea94de2b8dc56bc3dd46dbc4c"
+    },
+    {
+      "path": "tests/cycle4-sync-author.test.ts",
+      "sha256": "709d68cd6c73b2f5142a78b7edcbd004eefc45a0976d7a10f2ba058a35c7819f"
+    },
+    {
+      "path": "tests/cycle5-api-review.test.ts",
+      "sha256": "38c8a0ec18df8be5ccd1c972b16289bd6d81e410d7087d823b20c656064cfe0b"
+    },
+    {
+      "path": "tests/cycle5-cdp-author.test.ts",
+      "sha256": "696178f79a174da11d12f447dde1e156821e0dee980a17781385ca20dc6c4fb0"
+    },
+    {
+      "path": "tests/cycle5-cloud-author.test.ts",
+      "sha256": "d092088f005be8c91a1b6addeabf67c8a28c20783444982acb3434fe75625680"
+    },
+    {
+      "path": "tests/cycle5-integrity-review.test.ts",
+      "sha256": "c72f707c7c79a61c66d03c36f56669d7000c3900e11fe8d68c04e629e1d335aa"
+    },
+    {
+      "path": "tests/cycle5-storage-author.test.ts",
+      "sha256": "f9846b75df7f407ab481bfba852fbe7261db3f3ab9981d92a3ea9f1e65780d2a"
+    },
+    {
+      "path": "tests/cycle6-financial-review.test.ts",
+      "sha256": "b6131ed0e58ffe93f473aef63e313d65e001b4715a9b9577dae5bcda1e2fbf9b"
+    },
+    {
+      "path": "tests/cycle6-mindset-author.test.ts",
+      "sha256": "fbaa0771afaf2b43821095d54a8f6bb43ad28bbdc96893c08a67a4a4da35070a"
+    },
+    {
+      "path": "tests/cycle6-quiz-review.test.ts",
+      "sha256": "dab39201388bca017f4051a168857874ae616ee9f4d024ce79dd884e2d9ce314"
+    },
+    {
+      "path": "tests/cycle6-topic-author.test.ts",
+      "sha256": "bb2715b8951a4cdade48ea1755431a70e0343f56e2f4c563df950fa26cd9e4aa"
+    },
+    {
+      "path": "tests/cycle7-quiz-author.test.ts",
+      "sha256": "e18b7d5919d1d6ccb12d10b1806ea2adfa5e6dba1022c463bcda67a45756173f"
+    },
+    {
+      "path": "tests/cycle7-quiz-review.test.ts",
+      "sha256": "c8c72eaef16783216adbcd7d7989c73915fd7b6bbeb0fba25ccd21b8283f53fe"
+    },
+    {
+      "path": "tests/cycle7-token-review.test.ts",
+      "sha256": "cfa0ba17c5d65c52914f6818aa8c91329de351694de877fd67cc9436afd6938a"
+    },
+    {
+      "path": "tests/cycle7-tokens-author.test.ts",
+      "sha256": "0c703b1985c1bf98063701252f63a900de6e9509afadcc8f004570b9f19502da"
+    },
+    {
+      "path": "tests/cycle8-quiz-review.test.ts",
+      "sha256": "70c34c2cc91417f213b04c00fd9bc172efc481802774ec324f2f776247fe26b4"
+    },
+    {
+      "path": "tests/cycle8-save-author.test.ts",
+      "sha256": "56f6f54bf65dd8d0f25e5408ca0e927474a19bddda3fb8441a1cf3698fa568c0"
+    },
+    {
+      "path": "tests/cycle8-save-review.test.ts",
+      "sha256": "a2fe2bc990da2643e1bdb96d63d169207119fd6523b8748e1b0f55e082f743a2"
+    },
+    {
+      "path": "tests/cycle9-challenge-author.test.ts",
+      "sha256": "ea028bbed8418f3220fa9edf508ef0414946240dab2a022292a14baf9e3e4232"
+    },
+    {
+      "path": "tests/cycle9-challenge-review.test.ts",
+      "sha256": "83d4da8717b95407dd04649161bca09faf3d89c0f20965edb9cc69ecab620e84"
+    },
+    {
+      "path": "tests/cycle9-challenge-ui-review.test.ts",
+      "sha256": "628ff39ba92b208772d3104028f645cbd498cd6e603a967ad53f4673442a12ab"
+    },
+    {
+      "path": "tests/e2e/agent-time-integrity.spec.ts",
+      "sha256": "b5ed211af037628c85bf85cd304bad491cef2fcc2db8bcbc533344381242b783"
+    },
+    {
+      "path": "tests/e2e/challenge-save-failure.spec.ts",
+      "sha256": "b2fa26de8ab8d060135424fa61f884dcc9e4e8dfcf1b281f03a5e2ef2a44f749"
+    },
+    {
+      "path": "tests/e2e/core-loop.spec.ts",
+      "sha256": "f2b197534b7eab9b8a721e6d2096eabd50eefd7d489beaa819a15d7385a02c47"
+    },
+    {
+      "path": "tests/e2e/credit-content.spec.ts",
+      "sha256": "ffccb5405dfa0e2f6d779ad9f89b3240bb6a276b87a3ac797e9b16833139f7b0"
+    },
+    {
+      "path": "tests/e2e/crisis-save-failure.spec.ts",
+      "sha256": "77456dba490759a37dd326679b3527bd525569f8166409f11907831a3d9b3c8e"
+    },
+    {
+      "path": "tests/e2e/emergency-content.spec.ts",
+      "sha256": "39e0819dbf4b7ef1c9b9c4d12febff90c491d6ad663a9292a10517bfd8e58781"
+    },
+    {
+      "path": "tests/e2e/health-funnel.spec.ts",
+      "sha256": "9eed1ed9ec369c19bae78f4e445b8025008a7d633568a26ae3a17f79cd0a4343"
+    },
+    {
+      "path": "tests/e2e/health-integrity.spec.ts",
+      "sha256": "d22d46611c00f62d91113fa76832b6a39fedee2858684fa3bd20b3228773f99e"
+    },
+    {
+      "path": "tests/e2e/inflation-calculator-integrity.spec.ts",
+      "sha256": "01e8ced3693c45106a699a460d5af7464ee850f62edb6117d3cdce77663c3e52"
+    },
+    {
+      "path": "tests/e2e/inflation-content.spec.ts",
+      "sha256": "790b4ad25f1f138e12810636c4c6a5c1822cdaa0582038b74dc1837c36303161"
+    },
+    {
+      "path": "tests/e2e/kids-entry.spec.ts",
+      "sha256": "7b12f19686c77a205ac2426a9eb06ed5ba62c5eb5fd5fd71f6f29532ad367a03"
+    },
+    {
+      "path": "tests/e2e/lesson-step-integrity.spec.ts",
+      "sha256": "ab701427cf082e2fd41474ab6417490160767a7de24a466912893614ffed7681"
+    },
+    {
+      "path": "tests/e2e/login-voice.spec.ts",
+      "sha256": "583958bc8bc989b238a085e0557678e84e2d3a02c422e693a5edc73533d48ec7"
+    },
+    {
+      "path": "tests/e2e/mila-close.spec.ts",
+      "sha256": "9c330c550a94304cc7349a0eb7bc0a6394a74a6e427a072e825f62ebbef59eb4"
+    },
+    {
+      "path": "tests/e2e/mila-widget.spec.ts",
+      "sha256": "6ae27a8175f5a5dbb8a30512ba53ceaf297b11654db062658ebfe0380b452899"
+    },
+    {
+      "path": "tests/e2e/mindset-content.spec.ts",
+      "sha256": "d6341a8f9ebaad6c8e008bc9929e4decf0a8955f55e5fd26b94ac412db3f55f8"
+    },
+    {
+      "path": "tests/e2e/p0-safety.spec.ts",
+      "sha256": "a0714f60b48bf06b63d263fcf4723f7db6a24edbec6eebb0b9e32f11cd1840c1"
+    },
+    {
+      "path": "tests/e2e/progress-read-integrity.spec.ts",
+      "sha256": "4f61a1092911b8e7a5825e582b6ae12e03e453f49489f7a68d66d98621afd3c3"
+    },
+    {
+      "path": "tests/e2e/quiz-save-failure.spec.ts",
+      "sha256": "004debaf148fd086a06185f9e9e8320a4291fcfdf337ab0716d1da29029529bd"
+    },
+    {
+      "path": "tests/e2e/quiz-save-integrity.spec.ts",
+      "sha256": "210260b592510975d8b3ef40eb0b9f741d7850db5a1a9a4f3b94367dfcedfb58"
+    },
+    {
+      "path": "tests/e2e/review-save-integrity.spec.ts",
+      "sha256": "622b44982d6e5549991b21c8a75a4458267597f5165b939c3c082b963fa67046"
+    },
+    {
+      "path": "tests/e2e/saving-content.spec.ts",
+      "sha256": "280eea904c1b9a73a55745445306e439b20b5e652a2f46c7b7be8d9f4c766f59"
+    },
+    {
+      "path": "tests/e2e/storage-provenance.spec.ts",
+      "sha256": "59cd80086a8007ec8079eaffd002d00d078874abf5b24fb349e7b3ffd5c85d38"
+    },
+    {
+      "path": "tests/e2e/token-integrity.spec.ts",
+      "sha256": "fa1504ad3e6d3bbcf240421e6241915d7734edf28a7cf45df7c0f4fe998210d8"
+    },
+    {
+      "path": "tests/e2e/ui-controls.spec.ts",
+      "sha256": "e17719b5dfcdf99a6500fc27385ab91fd894e3d13cd33c2ece053a2f03e8512b"
+    },
+    {
+      "path": "tests/p0-api-access.test.ts",
+      "sha256": "49f686d10597802d1182b8a76bc4e45935e1ddbf4dd96ba86c73d4427934a674"
+    },
+    {
+      "path": "tests/p0-api-independent-review.test.ts",
+      "sha256": "4878d67db0ca91c29ed2e4b4fe4c5feeb9a22a3f9368afe763393d2b7a400704"
+    },
+    {
+      "path": "tests/p0-client-independent-review.test.ts",
+      "sha256": "bbb5ed5fcc9300fc7635deff21e42d764abf43e00e3eef0852bb52fbdb5346ea"
+    },
+    {
+      "path": "tests/product-scope.test.ts",
+      "sha256": "263a06c4932e84466ffbb8f9cbee9a223e7efc0188978b73d25bc8379ea054ce"
+    },
+    {
+      "path": "tests/repo-hygiene.test.mjs",
+      "sha256": "28dba92e2637a13127e989ffc3786bccd9a924b812bf06c503f74427f8768897"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "b116ffb823af88f4186299de38cdfa9ed12e4f0ab6d0c9b667a360200a9439ff"
+    },
+    {
+      "path": "vitest.config.ts",
+      "sha256": "71efb74ff79bc8a66be70cfa69ff9f2933fe7519e010e9178351a12e9a52597c"
+    }
+  ],
+  "targets": [
+    {
+      "path": "data/quizQuestions.ts",
+      "sha256": "3362f9efdf55a6dc5008643d0daa03f7af5efb6079745b666c63d9078cd19f50",
+      "before": "export interface QuizQuestion {\r\n  id: string;\r\n  question: string;\r\n  answers: { id: string; text: string }[];\r\n  correctAnswer: string;\r\n  reward: number;\r\n  successMessage: string;\r\n  retryMessage: string;\r\n  category: string;\r\n}\r\n\r\nexport const quizQuestions: QuizQuestion[] = [\r\n  // ── Foundations ──────────────────────────────────────────────────────────\r\n  {\n    \"id\": \"inflation-basics\",\n    \"question\": \"The same weighted basket costs PLN 1,000, then PLN 1,050. What does this illustration show?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Every price must rise by 5%\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Basket prices rise 5%; the same cash buys less\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"All household costs rise by exactly 5%\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"One higher price alone proves general inflation\"\n      }\n    ],\n    \"correctAnswer\": \"B\",\n    \"reward\": 25,\n    \"successMessage\": \"The basket rises 5%; each price and household can differ. +25 local points.\",\n    \"retryMessage\": \"Inflation concerns a broad weighted basket, not one price. Here (1,050 ÷ 1,000 − 1) × 100% = 5%; the same cash buys less of that basket. Different households have different spending baskets.\",\n    \"category\": \"Inflation\"\n  },\r\n  {\r\n    \"id\": \"emergency-fund\",\r\n    \"question\": \"In this example you choose 3 months at PLN 2,000 of essential costs (required debt minimums included once). What is the goal with constant costs?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"PLN 2,000\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"PLN 4,000\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"PLN 6,000\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"PLN 12,000\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"C\",\r\n    \"reward\": 25,\r\n    \"successMessage\": \"Chosen goal: 3 × 2,000 = PLN 6,000. An example, not a required threshold. +25 local points.\",\r\n    \"retryMessage\": \"3 × PLN 2,000 = PLN 6,000 under the stated constant costs, with debt minimums already included once. Reserve size depends on circumstances; 3–6 months can be an indicative choice without guaranteed protection. This gives no completion date or transfer obligation.\",\r\n    \"category\": \"Emergency Fund\"\r\n  },\r\n  {\n    \"id\": \"saving-habit\",\n    \"question\": \"Which transfer is safe when income varies?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Save a fixed amount even if bills are unpaid\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Borrow money to keep saving every month\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"Choose an affordable amount after essentials and minimum payments\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Transfer all income before checking upcoming bills\"\n      }\n    ],\n    \"correctAnswer\": \"C\",\n    \"reward\": 25,\n    \"successMessage\": \"An optional transfer uses affordable surplus after essentials and required minimum payments. +25 local points.\",\n    \"retryMessage\": \"Reserve essentials and required minimum payments first. Then choose an optional transfer from available surplus. Recheck its amount and timing when income varies; pause when there is no surplus.\",\n    \"category\": \"Saving Habit\"\n  },\r\n  {\r\n    \"id\": \"interest-rates\",\r\n    \"question\": \"Hypothetical loan: a 3% reference rate + a 2 percentage-point margin. At the contractual reset the reference rises to 4%; the margin is unchanged. What is the new rate?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"2%\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"5%\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"6%\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"9%\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"C\",\r\n    \"reward\": 25,\r\n    \"successMessage\": \"4% + 2 percentage points = 6% at the contractual reset. +25 local points.\",\r\n    \"retryMessage\": \"The new reference replaces the old: 4% + the unchanged 2 percentage-point margin = 6%. The contract sets the timing; a central-bank decision alone does not instantly change every installment. A rate can be fixed or periodically fixed. Check the agreed period and the subsequent contractual terms when it ends; this does not freeze every fee.\",\r\n    \"category\": \"Credit & Rates\"\r\n  },\r\n\r\n  // ── Money Mindset ─────────────────────────────────────────────────────────\r\n  {\r\n    id: \"net-worth\",\r\n    question: \"What is 'net worth'?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Your monthly salary after tax\" },\r\n      { id: \"B\", text: \"Total assets minus total liabilities\" },\r\n      { id: \"C\", text: \"How much cash you have in your wallet\" },\r\n      { id: \"D\", text: \"Your credit score\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Net worth = assets minus liabilities at the same date. It describes a financial position, not your value as a person or whether cash is available for this month's bills. +25 points!\",\r\n    retryMessage: \"Net worth is assets minus liabilities at the same date. Income is a flow; cash and credit scores are different measures. Net worth alone does not describe liquidity or your value as a person.\",\r\n    category: \"Money Mindset\",\r\n  },\r\n  {\r\n    id: \"lifestyle-inflation\",\r\n    question: \"What is 'lifestyle inflation'?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Government increasing minimum wage\" },\r\n      { id: \"B\", text: \"Prices rising faster than salaries\" },\r\n      { id: \"C\", text: \"Choosing more discretionary spending as your income rises\" },\r\n      { id: \"D\", text: \"Inflating your lifestyle on your resume\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 25,\r\n    successMessage: \"Lifestyle inflation concerns choices about a higher standard of living. Higher prices or necessary costs are different. If there is a surplus after needs and commitments, you can choose to save part of it. +25 points!\",\r\n    retryMessage: \"Lifestyle inflation is a voluntary rise in discretionary spending as income grows. It is different from price inflation or necessary expenses, and it does not mean every raise is fully spent.\",\r\n    category: \"Money Mindset\",\r\n  },\r\n  {\r\n    id: \"pay-yourself-first\",\r\n    question: \"What does 'pay yourself first' mean?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Spend on yourself before paying bills\" },\r\n      { id: \"B\", text: \"Plan affordable savings after reserving money for essentials and required minimum payments\" },\r\n      { id: \"C\", text: \"Increase your own salary first\" },\r\n      { id: \"D\", text: \"Buy luxury items before groceries\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 20,\r\n    successMessage: \"Plan savings from available surplus after protecting essentials and required minimum payments. With irregular income, review each payment; with no surplus, skip the transfer. +20 points!\",\r\n    retryMessage: \"First reserve money for essentials and required minimum payments, then choose savings from available surplus before discretionary spending. A transfer is optional; no surplus means no transfer, without blame.\",\r\n    category: \"Money Mindset\",\r\n  },\r\n\r\n  // ── Saving Habit ──────────────────────────────────────────────────────────\r\n  {\n    \"id\": \"budget-50-30-20\",\n    \"question\": \"With PLN 4,000 take-home income, what is the illustrative 20% bucket?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"PLN 1,200\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"PLN 800\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"PLN 2,000\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"PLN 4,000\"\n      }\n    ],\n    \"correctAnswer\": \"B\",\n    \"reward\": 25,\n    \"successMessage\": \"20% of PLN 4,000 is PLN 800. The percentages are a flexible guide. +25 local points.\",\n    \"retryMessage\": \"4,000 × 20% = PLN 800. In this example, required minimum debt payments are included once in needs; the 20% bucket is savings and extra debt repayment. This is our illustration convention, not a compulsory split.\",\n    \"category\": \"Saving Habit\"\n  },\r\n  {\n    \"id\": \"high-yield-savings\",\n    \"question\": \"Which checklist is most complete when comparing savings accounts in Poland?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Only the advertised interest rate\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Rates and conditions, fees, access, and deposit protection\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"Whether the account guarantees an inflation-beating return\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Whether your deposit is automatically invested in stocks\"\n      }\n    ],\n    \"correctAnswer\": \"B\",\n    \"reward\": 20,\n    \"successMessage\": \"Compare actual conditions and costs, not just the advertised rate. +20 local points.\",\n    \"retryMessage\": \"Check the rate and its duration, qualifying conditions, fees, withdrawal access, and the applicable deposit guarantee scheme. A deposit account is not a stock investment; inflation can still reduce purchasing power.\",\n    \"category\": \"Saving Habit\"\n  },\r\n  {\n    \"id\": \"dca\",\n    \"question\": \"You invest PLN 100 twice, at PLN 10 then PLN 20 per unit. What do you buy?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"10 units both times\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"5 units then 10 units\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"10 units then 5 units\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"A guaranteed profit\"\n      }\n    ],\n    \"correctAnswer\": \"C\",\n    \"reward\": 30,\n    \"successMessage\": \"The same PLN 100 buys 10 units, then 5 units. DCA can still lose money. +30 local points.\",\n    \"retryMessage\": \"100 ÷ 10 = 10 units; 100 ÷ 20 = 5 units. DCA uses equal amounts at regular intervals, not equal unit counts. At PLN 8 per unit, all 15 units are worth PLN 120 against PLN 200 invested: a PLN 80 loss, ignoring fees and taxes.\",\n    \"category\": \"Saving Habit\"\n  },\r\n\r\n  // ── Inflation ─────────────────────────────────────────────────────────────\r\n  {\n    \"id\": \"real-return\",\n    \"question\": \"For one year, assumed nominal return is 2% and inflation 5%, with no fees, tax or cash flows. What is real return?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"+7%\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"+2%\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"0%\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Approximately −2.86%\"\n      }\n    ],\n    \"correctAnswer\": \"D\",\n    \"reward\": 30,\n    \"successMessage\": \"(1.02 ÷ 1.05 − 1) × 100% ≈ −2.86%. +30 local points.\",\n    \"retryMessage\": \"PLN 1,000 becomes PLN 1,020 nominally, but 1,020 ÷ 1.05 ≈ PLN 971.43 in starting prices. Real return is approximately −2.86%; 2% − 5% = −3% is only a subtraction estimate, with fees/tax and cash flows excluded.\",\n    \"category\": \"Inflation\"\n  },\r\n  {\n    \"id\": \"rule-of-72\",\n    \"question\": \"Assume a fixed 6% nominal rate, annual compounding and no fees, tax or cash flows. What does Rule of 72 estimate?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"432 years, a guaranteed result\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"About 12 years to double, without a guarantee\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"0.08 years, a guaranteed result\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Exactly 12 years even if rates change\"\n      }\n    ],\n    \"correctAnswer\": \"B\",\n    \"reward\": 30,\n    \"successMessage\": \"72 ÷ 6 ≈ 12 years is an estimate under the stated assumptions. +30 local points.\",\n    \"retryMessage\": \"Rule of 72 estimates nominal doubling: 72 ÷ a positive annual percentage rate. At an assumed fixed 6% with annual compounding/reinvestment and no cash flows, fees or tax, this is about 12 years. It is not an exact result, forecast or guarantee; inflation is excluded here.\",\n    \"category\": \"Inflation\"\n  },\r\n  {\n    \"id\": \"inflation-hedge\",\n    \"question\": \"Someone says an investment will always beat inflation. Which response is justified?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Treat good past returns as a guarantee\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Invest essential bill money to avoid inflation\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"Check loss risk, costs and access; gains are not guaranteed\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"A long holding period removes all loss risk\"\n      }\n    ],\n    \"correctAnswer\": \"C\",\n    \"reward\": 25,\n    \"successMessage\": \"Assess risk, costs and access before trusting a promise. +25 local points.\",\n    \"retryMessage\": \"No investment automatically guarantees beating inflation. Check possible loss, costs and access to money. Past results and a long holding period are not guarantees. Protect essentials and required minimum repayments; postponing investment is an option when income varies.\",\n    \"category\": \"Inflation\"\n  },\r\n\r\n  // ── Credit & Rates ────────────────────────────────────────────────────────\r\n  {\r\n    \"id\": \"debt-avalanche\",\r\n    \"question\": \"After essentials and required minimums, PLN 100 remains. A PLN 1,000 debt charges 20% and a PLN 500 debt 10% annually; fixed rates, no fees, penalties or arrears. Where does avalanche direct the extra?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Split equally, ignoring rates\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"To the smallest debt regardless of rate\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"To the debt charging 20%\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Instead of another debt's minimum\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"C\",\r\n    \"reward\": 30,\r\n    \"successMessage\": \"Avalanche directs the extra to 20% while keeping all minimums. +30 local points.\",\r\n    \"retryMessage\": \"After essentials and all required minimums, avalanche directs the available extra PLN 100 to the higher 20% rate. This model assumes fixed rates and no fees, penalties or arrears; actual prepayment terms depend on the contract. No extra payment is required without a surplus.\",\r\n    \"category\": \"Credit & Rates\"\r\n  },\r\n  {\r\n    \"id\": \"credit-score-factors\",\r\n    \"question\": \"Which statement distinguishes BIK repayment history from repayment capacity in Poland?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"A high score guarantees a new loan\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Timeliness matters; a lender also assesses income and expenses\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Coachfi points replace a lender's assessment\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Income does not matter for repayment capacity\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"B\",\r\n    \"reward\": 25,\r\n    \"successMessage\": \"Repayment history and capacity are different parts of assessment. +25 local points.\",\r\n    \"retryMessage\": \"Timely repayment matters for risk assessment. A lender also assesses income, expenses and debts, then makes its own decision. A BIK score does not guarantee a loan; Coachfi points are not a BIK score. No new debt or paid report is needed for the exercise.\",\r\n    \"category\": \"Credit & Rates\"\r\n  },\r\n  {\r\n    \"id\": \"bond-prices\",\r\n    \"question\": \"You sell a fixed-cash-flow bond before maturity. Its required market yield rises, other factors unchanged. What happens to its price?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"It rises\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"It falls\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"The coupon automatically rises\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Principal at maturity automatically falls\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"B\",\r\n    \"reward\": 30,\r\n    \"successMessage\": \"With fixed cash flows, a higher required yield lowers the price. +30 local points.\",\r\n    \"retryMessage\": \"For the same fixed cash flows, a higher required yield means a lower secondary-market price. This does not automatically change the coupon or contractual principal at maturity. Sale price, redemption terms and default risk are distinct; this is not a rule for every bond.\",\r\n    \"category\": \"Credit & Rates\"\r\n  },\r\n\r\n  // ── Emergency Fund ────────────────────────────────────────────────────────\r\n  {\r\n    \"id\": \"emergency-fund-characteristics\",\r\n    \"question\": \"Which decision conflicts with a readily accessible reserve with low volatility?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Check access timing\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Check fees and protection scope\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Put the entire reserve in volatile shares\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Distinguish reserves from planned spending\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"C\",\r\n    \"reward\": 25,\r\n    \"successMessage\": \"Changing share prices may reduce the reserve just when needed. +25 local points.\",\r\n    \"retryMessage\": \"An entire reserve in volatile shares may lose value when needed. Check access, fees and terms; lower risk does not mean no losses or costs. Deposit protection depends on the institution and product, and does not cover every investment. This is not a provider choice.\",\r\n    \"category\": \"Emergency Fund\"\r\n  },\r\n  {\r\n    \"id\": \"emergency-fund-start\",\r\n    \"question\": \"Example: PLN 1,000 income, PLN 900 essentials, PLN 80 required minimums, no other costs or fees. Which small start fits these conditions?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Transfer PLN 100 from a PLN 20 surplus\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Optionally save PLN 10, leaving PLN 10\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Borrow to save\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Treat one month of costs as a required first threshold\"\r\n      }\r\n    ],\r\n    \"correctAnswer\": \"B\",\r\n    \"reward\": 20,\r\n    \"successMessage\": \"Surplus is PLN 20; PLN 10 is an optional choice, not a duty. +20 local points.\",\r\n    \"retryMessage\": \"1,000 − 900 − 80 = PLN 20. An optional PLN 10 fits the surplus and leaves PLN 10; no transfer is required. At PLN 980 income, surplus is PLN 0. One month of expenses is not a required first goal; without funds, pause the transfer and do not borrow to save.\",\r\n    \"category\": \"Emergency Fund\"\r\n  },\r\n\r\n  // ── Long-Term Investing ───────────────────────────────────────────────────\r\n  {\r\n    id: \"compound-interest\",\r\n    question: \"What is compound interest?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Interest paid only on the original amount\" },\r\n      { id: \"B\", text: \"A bank fee for early withdrawal\" },\r\n      { id: \"C\", text: \"Interest earned on both principal and previously earned interest\" },\r\n      { id: \"D\", text: \"Interest you pay on credit cards only\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 30,\r\n    successMessage: \"Compound interest = earning interest on your interest. Over time it creates exponential growth. +30 points!\",\r\n    retryMessage: \"Compound interest: you earn interest on your interest — creates exponential growth over time.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"diversification\",\r\n    question: \"What does 'diversification' mean in investing?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Putting all your money in one strong stock\" },\r\n      { id: \"B\", text: \"Spreading investments across different assets to reduce risk\" },\r\n      { id: \"C\", text: \"Investing only in government bonds\" },\r\n      { id: \"D\", text: \"Changing your portfolio every week\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Don't put all your eggs in one basket. Diversification reduces the risk of one bad investment ruining your portfolio. +25 points!\",\r\n    retryMessage: \"Diversification = spreading money across different assets to reduce risk.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"index-fund\",\r\n    question: \"Which type of fund tracks a market index automatically with low fees?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Hedge fund\" },\r\n      { id: \"B\", text: \"Index fund / ETF\" },\r\n      { id: \"C\", text: \"Venture capital fund\" },\r\n      { id: \"D\", text: \"Pension fund\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Index funds and ETFs passively track a market index with very low fees. Historically beat most actively managed funds. +25 points!\",\r\n    retryMessage: \"Index funds / ETFs passively track an index (like S&P 500) with low fees.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"etf-definition\",\r\n    question: \"What is an ETF?\",\r\n    answers: [\r\n      { id: \"A\", text: \"A savings account with higher interest\" },\r\n      { id: \"B\", text: \"An electronic transfer fee\" },\r\n      { id: \"C\", text: \"Exchange-Traded Fund — a basket of assets traded like a stock\" },\r\n      { id: \"D\", text: \"A government emergency fund\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 25,\r\n    successMessage: \"ETF = basket of assets (stocks, bonds, commodities) tradeable like a single stock. Combines diversification with flexibility. +25 points!\",\r\n    retryMessage: \"ETF = Exchange-Traded Fund. A basket of assets you can buy/sell like a single stock.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"time-in-market\",\r\n    question: \"Studies show that for long-term investors, which strategy tends to outperform?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Timing the market (buy low, sell high perfectly)\" },\r\n      { id: \"B\", text: \"Staying invested consistently over time ('time in the market')\" },\r\n      { id: \"C\", text: \"Selling when the market drops 10%\" },\r\n      { id: \"D\", text: \"Investing only in gold\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"'Time in the market beats timing the market' — missing just 10 best days in 20 years can cut returns in half. +30 points!\",\r\n    retryMessage: \"Time in market beats timing the market. Consistent, patient investing outperforms most active strategies.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n\r\n  // ── Retirement ────────────────────────────────────────────────────────────\r\n  {\r\n    id: \"retirement-purpose\",\r\n    question: \"What is the primary purpose of a retirement account?\",\r\n    answers: [\r\n      { id: \"A\", text: \"To pay for vacations\" },\r\n      { id: \"B\", text: \"To replace income when you stop working, using decades of compounding\" },\r\n      { id: \"C\", text: \"To speculate on high-risk assets\" },\r\n      { id: \"D\", text: \"To store emergency cash\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Retirement accounts leverage decades of compounding. Starting at 25 vs 35 can mean 2× the final balance. +25 points!\",\r\n    retryMessage: \"Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.\",\r\n    category: \"Retirement\",\r\n  },\r\n  {\r\n    id: \"retirement-early-start\",\r\n    question: \"If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?\",\r\n    answers: [\r\n      { id: \"A\", text: \"~$96,000\" },\r\n      { id: \"B\", text: \"~$240,000\" },\r\n      { id: \"C\", text: \"~$525,000\" },\r\n      { id: \"D\", text: \"~$1,200,000\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 35,\r\n    successMessage: \"~$525,000 from just $200/month! That's 40 years of compounding. Starting at 45 would require ~$800/month for the same result. +35 points!\",\r\n    retryMessage: \"40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.\",\r\n    category: \"Retirement\",\r\n  },\r\n\r\n  // ── Poland & Financial Literacy (OECD/INFE) ──────────────────────────────\r\n  {\r\n    id: \"poland-compound-gap\",\r\n    question: \"According to OECD data, what percentage of Poles correctly understand how compound interest works?\",\r\n    answers: [\r\n      { id: \"A\", text: \"About 75%\" },\r\n      { id: \"B\", text: \"About 50%\" },\r\n      { id: \"C\", text: \"About 33%\" },\r\n      { id: \"D\", text: \"About 10%\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 30,\r\n    successMessage: \"Only ~1 in 3 Poles understands compound interest. This gap leads directly to debt spirals and low pension savings. +30 points!\",\r\n    retryMessage: \"Only ~33% of Poles correctly understand compound interest — the OECD data confirms this critical knowledge gap.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"poland-trust-institutions\",\r\n    question: \"In 2022, what percentage of Poles trusted financial institutions for savings and investments?\",\r\n    answers: [\r\n      { id: \"A\", text: \"65%\" },\r\n      { id: \"B\", text: \"40%\" },\r\n      { id: \"C\", text: \"28%\" },\r\n      { id: \"D\", text: \"15%\" },\r\n    ],\r\n    correctAnswer: \"D\",\r\n    reward: 25,\r\n    successMessage: \"Only 15% of Poles trusted financial institutions in 2022 — and it bottomed at just 6% in 2021. Trust is the biggest barrier. +25 points!\",\r\n    retryMessage: \"Only 15% of Poles trusted financial institutions in 2022. The 2021 low was just 6% — a profound trust deficit.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"poland-oecd-score\",\r\n    question: \"What did Poland score on the OECD Financial Competency index?\",\r\n    answers: [\r\n      { id: \"A\", text: \"19 out of 21\" },\r\n      { id: \"B\", text: \"13 out of 21\" },\r\n      { id: \"C\", text: \"7 out of 21\" },\r\n      { id: \"D\", text: \"21 out of 21\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Poland scored 13/21 — middle of the pack. The missing 8 points represent lost wealth opportunities for millions of people. +25 points!\",\r\n    retryMessage: \"Poland scored 13/21 on the OECD Financial Competency index. The gap to maximum represents real lost savings.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"poland-ppk-participation\",\r\n    question: \"What percentage of employees in large Polish firms participate in the voluntary PPK/PPE pension scheme?\",\r\n    answers: [\r\n      { id: \"A\", text: \"85%\" },\r\n      { id: \"B\", text: \"68%\" },\r\n      { id: \"C\", text: \"47%\" },\r\n      { id: \"D\", text: \"12%\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 30,\r\n    successMessage: \"Only 47% participate in PPK/PPE — largely because people don't understand compound interest and long-term benefit. +30 points!\",\r\n    retryMessage: \"Only 47% of employees in large Polish firms use voluntary PPK/PPE schemes — a direct consequence of compound interest illiteracy.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"financial-wellbeing-components\",\r\n    question: \"Financial well-being is measured by three components. Which set is correct?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Income, spending, borrowing\" },\r\n      { id: \"B\", text: \"Control, safety net, future goals\" },\r\n      { id: \"C\", text: \"Savings rate, credit score, net worth\" },\r\n      { id: \"D\", text: \"Insurance, pension, property\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Control (daily expenses), Safety Net (emergency cushion), Future Goals (retirement). Master all three to achieve real financial well-being. +25 points!\",\r\n    retryMessage: \"Financial well-being = Control over daily expenses + Safety Net (poduszka finansowa) + Future Goals like retirement.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"financial-resilience\",\r\n    question: \"How is 'financial resilience' defined by Poland's National Financial Education Strategy?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Having over $1 million saved\" },\r\n      { id: \"B\", text: \"Never borrowing any money\" },\r\n      { id: \"C\", text: \"The ability to absorb financial shocks and recover from a difficult material situation\" },\r\n      { id: \"D\", text: \"Owning property and having no debt\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 30,\r\n    successMessage: \"Financial resilience = surviving shocks and bouncing back. It's not about wealth — it's about preparedness. +30 points!\",\r\n    retryMessage: \"Resilience = ability to deal with adverse financial shocks and recover. It's about preparedness, not wealth level.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n  {\r\n    id: \"debt-spiral-cause\",\r\n    question: \"What is the primary financial literacy gap that leads to 'debt spirals'?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Not knowing how to use a credit card\" },\r\n      { id: \"B\", text: \"Not understanding compound interest — debt grows faster than expected\" },\r\n      { id: \"C\", text: \"Not having a bank account\" },\r\n      { id: \"D\", text: \"Spending too much on food\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 35,\r\n    successMessage: \"Debt spirals happen when people don't realize how fast interest compounds on their loans — the debt grows faster than they can pay. +35 points!\",\r\n    retryMessage: \"Debt spirals are caused by not understanding compound interest — people underestimate how fast unpaid interest accumulates.\",\r\n    category: \"Financial Literacy\",\r\n  },\r\n\r\n  // ── Family Financial Plan ─────────────────────────────────────────────────\r\n  {\r\n    id: \"insurance-purpose\",\r\n    question: \"What is the main purpose of life insurance?\",\r\n    answers: [\r\n      { id: \"A\", text: \"To get rich when someone dies\" },\r\n      { id: \"B\", text: \"To replace income for dependents if the primary earner dies\" },\r\n      { id: \"C\", text: \"To save on taxes\" },\r\n      { id: \"D\", text: \"To invest in the stock market safely\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Life insurance = income protection for your dependents. If you have people depending on your earnings, you need it. +25 points!\",\r\n    retryMessage: \"Life insurance protects dependents by replacing the primary earner's income if they die prematurely.\",\r\n    category: \"Family Financial Plan\",\r\n  },\r\n  {\r\n    id: \"joint-finances\",\r\n    question: \"What is the recommended approach to finances for couples?\",\r\n    answers: [\r\n      { id: \"A\", text: \"One partner handles all finances, the other doesn't need to know\" },\r\n      { id: \"B\", text: \"Both partners should understand the full financial picture and plan together\" },\r\n      { id: \"C\", text: \"Keep all finances 100% separate — never share anything\" },\r\n      { id: \"D\", text: \"Whoever earns more controls all decisions\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 20,\r\n    successMessage: \"Both partners understanding the full financial picture reduces conflict and improves outcomes. +20 points!\",\r\n    retryMessage: \"Financial transparency and joint planning between partners leads to better decisions and fewer conflicts.\",\r\n    category: \"Family Financial Plan\",\r\n  },\r\n  {\r\n    id: \"teaching-kids-money\",\r\n    question: \"What is the most effective way to teach kids about money?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Give them pocket money with no conditions\" },\r\n      { id: \"B\", text: \"Let them observe — never discuss money with children\" },\r\n      { id: \"C\", text: \"Give pocket money with saving rules (e.g. save 20%, spend 60%, give 20%)\" },\r\n      { id: \"D\", text: \"Wait until they're 18 to discuss finances\" },\r\n    ],\r\n    correctAnswer: \"C\",\r\n    reward: 20,\r\n    successMessage: \"Pocket money with rules teaches budgeting through real decisions. Mistakes with small amounts are cheap lessons. +20 points!\",\r\n    retryMessage: \"Pocket money with saving/spending rules gives kids real financial decisions at low cost.\",\r\n    category: \"Family Financial Plan\",\r\n  },\r\n\r\n  // ── Macroeconomics (NBP / IMF / Federal Reserve) ─────────────────────────\r\n  {\r\n    id: \"nbp-inflation-target\",\r\n    question: \"What inflation rate has the National Bank of Poland (NBP) targeted since 2004?\",\r\n    answers: [\r\n      { id: \"A\", text: \"0% — prices should never rise\" },\r\n      { id: \"B\", text: \"2.5% with a ±1 percentage point band\" },\r\n      { id: \"C\", text: \"5% to encourage spending\" },\r\n      { id: \"D\", text: \"Whatever the government sets each year\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"NBP targets 2.5% inflation with a symmetric ±1pp band — a medium-term goal for price stability. +30 tokens!\",\r\n    retryMessage: \"Since 2004 the NBP's target is 2.5% (±1 percentage point), measured by the annual change in the CPI.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n  {\r\n    id: \"inflation-target-why\",\r\n    question: \"Why do central banks aim for low, positive inflation (~2–2.5%) instead of 0%?\",\r\n    answers: [\r\n      { id: \"A\", text: \"To make the currency worthless faster\" },\r\n      { id: \"B\", text: \"A small, stable buffer supports growth and avoids dangerous deflation\" },\r\n      { id: \"C\", text: \"Because higher prices are always good\" },\r\n      { id: \"D\", text: \"To increase government tax revenue only\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"A small positive target keeps a safety margin away from deflation while keeping prices predictable. +30 tokens!\",\r\n    retryMessage: \"A low, stable target avoids deflation (which can stall an economy) and keeps inflation predictable.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n  {\r\n    id: \"monetary-policy-tool\",\r\n    question: \"What is a central bank's main tool for steering inflation?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Printing more banknotes for citizens\" },\r\n      { id: \"B\", text: \"Setting benchmark interest rates\" },\r\n      { id: \"C\", text: \"Fixing the price of bread\" },\r\n      { id: \"D\", text: \"Banning imports\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"By moving benchmark rates, central banks change the cost of borrowing across the whole economy. +25 tokens!\",\r\n    retryMessage: \"Central banks mainly use benchmark interest rates to influence borrowing, demand and ultimately inflation.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n  {\r\n    id: \"rates-and-borrowing\",\r\n    question: \"When a central bank raises interest rates, what typically happens?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Borrowing gets cheaper and spending jumps\" },\r\n      { id: \"B\", text: \"Borrowing gets more expensive, cooling demand and inflation\" },\r\n      { id: \"C\", text: \"Nothing changes for households\" },\r\n      { id: \"D\", text: \"Savings accounts always pay 0%\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Higher rates make loans pricier, so households and firms borrow and spend less — easing inflation. +25 tokens!\",\r\n    retryMessage: \"Rate hikes raise the cost of borrowing, which cools spending and helps bring inflation down.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n  {\r\n    id: \"gdp-definition\",\r\n    question: \"What does GDP (Gross Domestic Product) measure?\",\r\n    answers: [\r\n      { id: \"A\", text: \"The total savings of all citizens\" },\r\n      { id: \"B\", text: \"The value of all goods and services produced in an economy\" },\r\n      { id: \"C\", text: \"The amount of cash in circulation\" },\r\n      { id: \"D\", text: \"The national debt\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"GDP is the total value of goods and services an economy produces — the broadest gauge of activity. +25 tokens!\",\r\n    retryMessage: \"GDP = the total market value of goods and services produced in a country over a period.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n  {\r\n    id: \"deflation-risk\",\r\n    question: \"Why is persistent deflation (falling prices) considered dangerous?\",\r\n    answers: [\r\n      { id: \"A\", text: \"It makes everyone richer with no downside\" },\r\n      { id: \"B\", text: \"People delay purchases, demand drops, and debts get harder to repay\" },\r\n      { id: \"C\", text: \"It always boosts wages\" },\r\n      { id: \"D\", text: \"It has no effect on the economy\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"If prices keep falling, people postpone buying, demand shrinks, and real debt burdens rise — a harmful spiral. +30 tokens!\",\r\n    retryMessage: \"Deflation pushes people to delay spending and makes existing debt heavier in real terms — a dangerous loop.\",\r\n    category: \"Macroeconomics\",\r\n  },\r\n\r\n  // ── Household Budgeting (CFPB / OECD) ─────────────────────────────────────\r\n  {\r\n    id: \"zero-based-budget\",\r\n    question: \"What is 'zero-based budgeting'?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Spending until your account hits zero\" },\r\n      { id: \"B\", text: \"Giving every unit of income a job so income − all allocations = 0\" },\r\n      { id: \"C\", text: \"Having zero savings\" },\r\n      { id: \"D\", text: \"Only budgeting in cash\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Zero-based budgeting assigns every złoty a purpose — including savings — so nothing leaks unplanned. +25 tokens!\",\r\n    retryMessage: \"Zero-based budgeting = assign every unit of income a job (spending, saving, debt) until the plan balances to zero.\",\r\n    category: \"Budgeting\",\r\n  },\r\n  {\r\n    id: \"track-before-budget\",\r\n    question: \"What's the recommended first step before building a household budget?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Cancel every subscription immediately\" },\r\n      { id: \"B\", text: \"Track your actual spending for about 30 days\" },\r\n      { id: \"C\", text: \"Take out a loan to cover gaps\" },\r\n      { id: \"D\", text: \"Guess your expenses from memory\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 20,\r\n    successMessage: \"Tracking real spending for ~30 days reveals where money actually goes — most people find hidden leakage. +20 tokens!\",\r\n    retryMessage: \"Track spending for ~30 days first. You can't manage what you don't measure.\",\r\n    category: \"Budgeting\",\r\n  },\r\n  {\r\n    id: \"sinking-fund\",\r\n    question: \"What is a 'sinking fund' in household budgeting?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Money you expect to lose\" },\r\n      { id: \"B\", text: \"Cash set aside gradually for a known future expense\" },\r\n      { id: \"C\", text: \"A type of risky investment\" },\r\n      { id: \"D\", text: \"An overdraft on your account\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Sinking funds spread big known costs (car service, holidays, taxes) into small monthly amounts — no debt needed. +25 tokens!\",\r\n    retryMessage: \"A sinking fund = saving a little each month for a planned future cost, so it doesn't become a shock.\",\r\n    category: \"Budgeting\",\r\n  },\r\n  {\r\n    id: \"impulse-pause\",\r\n    question: \"What's an effective tactic against impulse spending?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Buy now and decide later if you needed it\" },\r\n      { id: \"B\", text: \"Use a waiting period (e.g. 24–72h, or 30 days for big buys) before non-essentials\" },\r\n      { id: \"C\", text: \"Always shop when stressed\" },\r\n      { id: \"D\", text: \"Remove all prices so you don't notice\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 20,\r\n    successMessage: \"A built-in pause lets the urge fade and the rational decision win. Most impulse buys don't survive the wait. +20 tokens!\",\r\n    retryMessage: \"Add a waiting period before non-essential purchases — the pause defeats most impulse spending.\",\r\n    category: \"Budgeting\",\r\n  },\r\n\r\n  // ── Saving & Deposit Safety (CFPB / BFG) ─────────────────────────────────\r\n  {\r\n    id: \"emergency-first-milestone\",\r\n    question: \"What's a realistic FIRST emergency-savings milestone if 3–6 months feels far away?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Don't bother until you can save 6 months at once\" },\r\n      { id: \"B\", text: \"One month of essential expenses\" },\r\n      { id: \"C\", text: \"Two years of expenses\" },\r\n      { id: \"D\", text: \"Exactly your annual salary\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Even one month of expenses sharply cuts the risk of falling behind on bills. Start small, then build to 3–6 months. +25 tokens!\",\r\n    retryMessage: \"Aim for one month of essentials first — research shows even a small buffer dramatically reduces delinquency.\",\r\n    category: \"Emergency Fund\",\r\n  },\r\n  {\r\n    id: \"bfg-guarantee\",\r\n    question: \"In Poland, up to what amount are bank deposits guaranteed by the BFG?\",\r\n    answers: [\r\n      { id: \"A\", text: \"There is no deposit guarantee\" },\r\n      { id: \"B\", text: \"The PLN equivalent of €100,000 per depositor, per bank\" },\r\n      { id: \"C\", text: \"Exactly 10,000 PLN total\" },\r\n      { id: \"D\", text: \"Unlimited, always 100%\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"The BFG guarantees deposits up to the PLN equivalent of €100,000 per person per bank — paid out in złoty. +30 tokens!\",\r\n    retryMessage: \"Poland's BFG guarantees deposits up to the PLN equivalent of €100,000 per depositor in each bank.\",\r\n    category: \"Saving Habit\",\r\n  },\r\n\r\n  // ── Long-Term Investing (SEC / Investor.gov / FINRA) ─────────────────────\r\n  {\r\n    id: \"asset-allocation\",\r\n    question: \"What does 'asset allocation' mean?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Picking one winning stock\" },\r\n      { id: \"B\", text: \"How you split investments among stocks, bonds and cash\" },\r\n      { id: \"C\", text: \"Borrowing money to invest\" },\r\n      { id: \"D\", text: \"Keeping everything in a checking account\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Asset allocation — your mix of stocks/bonds/cash — drives most of your long-run risk and return. +25 tokens!\",\r\n    retryMessage: \"Asset allocation = how you divide money across asset types (stocks, bonds, cash) to match your goals and risk.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"rebalancing\",\r\n    question: \"What is portfolio 'rebalancing'?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Selling everything when markets fall\" },\r\n      { id: \"B\", text: \"Periodically adjusting holdings back to your target mix\" },\r\n      { id: \"C\", text: \"Adding only the best-performing stock\" },\r\n      { id: \"D\", text: \"Checking your balance every day\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Rebalancing trims what grew too big and tops up what shrank — keeping your risk where you intended. +25 tokens!\",\r\n    retryMessage: \"Rebalancing = restoring your target stock/bond/cash mix periodically, so risk doesn't drift.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"fees-ter\",\r\n    question: \"Why do low ongoing fees (TER) matter so much for long-term investing?\",\r\n    answers: [\r\n      { id: \"A\", text: \"They don't — fees are negligible\" },\r\n      { id: \"B\", text: \"Fees compound against you and quietly erode decades of returns\" },\r\n      { id: \"C\", text: \"Higher fees always mean higher returns\" },\r\n      { id: \"D\", text: \"Fees are refunded at retirement\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"A 1% fee vs 0.2% can cost a large chunk of your final pot over 30 years — costs compound just like returns. +30 tokens!\",\r\n    retryMessage: \"Fees compound against you. Over decades, even ~1% per year can erode a big share of your returns.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"risk-return\",\r\n    question: \"What is the general relationship between risk and expected return?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Higher expected returns generally come with higher risk\" },\r\n      { id: \"B\", text: \"High returns are guaranteed with zero risk\" },\r\n      { id: \"C\", text: \"Risk and return are unrelated\" },\r\n      { id: \"D\", text: \"Lower risk always means higher return\" },\r\n    ],\r\n    correctAnswer: \"A\",\r\n    reward: 25,\r\n    successMessage: \"There's no free lunch: chasing higher expected returns means accepting more ups and downs along the way. +25 tokens!\",\r\n    retryMessage: \"Higher potential return generally requires taking on more risk. Be sceptical of 'high return, no risk' offers.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"invest-prerequisites\",\r\n    question: \"What should you generally have in place BEFORE investing in volatile assets?\",\r\n    answers: [\r\n      { id: \"A\", text: \"A hot stock tip\" },\r\n      { id: \"B\", text: \"An emergency fund and high-interest debt under control\" },\r\n      { id: \"C\", text: \"A maxed-out credit card\" },\r\n      { id: \"D\", text: \"Nothing — invest everything immediately\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"Foundations first: an emergency fund and tamed high-interest debt protect you from being forced to sell at a bad time. +30 tokens!\",\r\n    retryMessage: \"Before volatile investing: build an emergency fund and clear high-interest debt — that's your foundation.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n  {\r\n    id: \"speculative-allocation\",\r\n    question: \"How should beginners treat highly speculative assets like crypto?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Put all savings in for maximum gains\" },\r\n      { id: \"B\", text: \"Limit to a small share you could afford to lose entirely\" },\r\n      { id: \"C\", text: \"Borrow money to buy more\" },\r\n      { id: \"D\", text: \"Treat it as a safe emergency fund\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"Speculative assets are volatile — cap them at a small slice and never use money you can't afford to lose. +25 tokens!\",\r\n    retryMessage: \"Keep speculative assets to a small portion of your portfolio, and only money you can afford to lose completely.\",\r\n    category: \"Long-Term Investing\",\r\n  },\r\n\r\n  // ── Retirement in Poland (IKE / IKZE / PPK) ──────────────────────────────\r\n  {\r\n    id: \"ike-vs-ikze\",\r\n    question: \"What's the key tax difference between Poland's IKE and IKZE accounts?\",\r\n    answers: [\r\n      { id: \"A\", text: \"They are identical in every way\" },\r\n      { id: \"B\", text: \"IKE: tax-free gains on a qualifying withdrawal; IKZE: deduct contributions now, pay a 10% flat tax on withdrawal\" },\r\n      { id: \"C\", text: \"Both are taxed at 19% every year\" },\r\n      { id: \"D\", text: \"Neither offers any tax benefit\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 35,\r\n    successMessage: \"IKE rewards you later (tax-free gains); IKZE rewards you now (deduction), with a 10% flat tax at withdrawal. +35 tokens!\",\r\n    retryMessage: \"IKE = tax-free growth on qualifying withdrawal. IKZE = deduct contributions today, 10% flat tax when you withdraw.\",\r\n    category: \"Retirement\",\r\n  },\r\n  {\r\n    id: \"ppk-employer-match\",\r\n    question: \"In Poland's PPK, what does the employer add on top of the employee's 2% basic contribution?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nothing — only the employee pays\" },\r\n      { id: \"B\", text: \"A basic 1.5% of salary (plus an optional extra up to 2.5%)\" },\r\n      { id: \"C\", text: \"A flat 100 PLN regardless of salary\" },\r\n      { id: \"D\", text: \"10% of salary\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"The employer adds a basic 1.5% of your salary (optionally more) — essentially free money toward retirement. +30 tokens!\",\r\n    retryMessage: \"PPK: employee 2% basic, employer adds 1.5% basic (up to +2.5% extra). The employer match is free retirement money.\",\r\n    category: \"Retirement\",\r\n  },\r\n  {\r\n    id: \"ppk-state-bonus\",\r\n    question: \"What state incentives does Poland's PPK give participants?\",\r\n    answers: [\r\n      { id: \"A\", text: \"No state support at all\" },\r\n      { id: \"B\", text: \"A 250 PLN welcome payment and a 240 PLN annual bonus\" },\r\n      { id: \"C\", text: \"A 50,000 PLN lump sum\" },\r\n      { id: \"D\", text: \"Free shares in the employer\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"The state adds a 250 PLN welcome payment plus 240 PLN each year — extra return on your PPK savings. +25 tokens!\",\r\n    retryMessage: \"PPK state support: a one-off 250 PLN welcome payment and a 240 PLN annual bonus for participants.\",\r\n    category: \"Retirement\",\r\n  },\r\n\r\n  // ── Global Markets (FDIC / EU DGS / FSCS / NISA / 401k) ──────────────────\r\n  {\r\n    id: \"deposit-guarantee-scope\",\r\n    question: \"What do deposit guarantee schemes (BFG, FDIC, EU DGS, FGC) actually protect?\",\r\n    answers: [\r\n      { id: \"A\", text: \"All investments including stocks and crypto\" },\r\n      { id: \"B\", text: \"Bank deposits — not stocks, funds, pensions or crypto\" },\r\n      { id: \"C\", text: \"Only cash kept at home\" },\r\n      { id: \"D\", text: \"Your salary if you lose your job\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"Deposit guarantees cover money in bank accounts/deposits — investments and crypto are NOT covered. +30 tokens!\",\r\n    retryMessage: \"These schemes protect bank deposits only. Stocks, funds, pensions and crypto fall outside them.\",\r\n    category: \"Global Markets\",\r\n  },\r\n  {\r\n    id: \"fdic-coverage\",\r\n    question: \"In the United States, how much does the FDIC insure per depositor, per bank?\",\r\n    answers: [\r\n      { id: \"A\", text: \"$1,000\" },\r\n      { id: \"B\", text: \"$250,000 (per ownership category)\" },\r\n      { id: \"C\", text: \"Unlimited\" },\r\n      { id: \"D\", text: \"There is no deposit insurance in the US\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"The FDIC insures $250,000 per depositor, per bank, per ownership category. +25 tokens!\",\r\n    retryMessage: \"US FDIC coverage is $250,000 per depositor, per insured bank, for each ownership category.\",\r\n    category: \"Global Markets\",\r\n  },\r\n  {\r\n    id: \"eu-dgs\",\r\n    question: \"Across the EU (incl. Poland, Spain, France), bank deposits are guaranteed up to…\",\r\n    answers: [\r\n      { id: \"A\", text: \"€1,000 per country\" },\r\n      { id: \"B\", text: \"€100,000 per depositor, per bank (or local-currency equivalent)\" },\r\n      { id: \"C\", text: \"€1,000,000 always\" },\r\n      { id: \"D\", text: \"Nothing is guaranteed in the EU\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 25,\r\n    successMessage: \"EU deposit protection is harmonised at €100,000 per depositor, per bank. +25 tokens!\",\r\n    retryMessage: \"EU rules harmonise deposit protection at €100,000 per depositor, per bank.\",\r\n    category: \"Global Markets\",\r\n  },\r\n  {\r\n    id: \"us-401k-match\",\r\n    question: \"With a US 401(k) that offers an employer match, what's the smartest first move?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Skip it — matches are a trick\" },\r\n      { id: \"B\", text: \"Contribute at least enough to get the full employer match (free money)\" },\r\n      { id: \"C\", text: \"Only contribute after age 60\" },\r\n      { id: \"D\", text: \"Put it all into a single company stock\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"An employer match is an instant 100% return on those contributions — always capture the full match first. +30 tokens!\",\r\n    retryMessage: \"Always contribute enough to capture the full employer match — it's free money you can't get any other way.\",\r\n    category: \"Global Markets\",\r\n  },\r\n  {\r\n    id: \"tax-advantaged-wrapper\",\r\n    question: \"What do a UK ISA, a Japanese NISA and a Polish IKE have in common?\",\r\n    answers: [\r\n      { id: \"A\", text: \"They guarantee a fixed 10% return\" },\r\n      { id: \"B\", text: \"They are tax-advantaged accounts that shelter investment growth\" },\r\n      { id: \"C\", text: \"They are types of credit card\" },\r\n      { id: \"D\", text: \"They are only for millionaires\" },\r\n    ],\r\n    correctAnswer: \"B\",\r\n    reward: 30,\r\n    successMessage: \"ISA, NISA and IKE are all tax-advantaged wrappers — they let qualifying investments grow without the usual tax drag. +30 tokens!\",\r\n    retryMessage: \"ISA (UK), NISA (Japan) and IKE (Poland) are tax-advantaged accounts that shelter investment gains.\",\r\n    category: \"Global Markets\",\r\n  },\r\n  {\r\n    id: \"rbi-inflation-target\",\r\n    question: \"What inflation target does India's central bank (RBI) aim for?\",\r\n    answers: [\r\n      { id: \"A\", text: \"4% with a ±2 percentage point tolerance band\" },\r\n      { id: \"B\", text: \"0%\" },\r\n      { id: \"C\", text: \"15%\" },\r\n      { id: \"D\", text: \"It has no target\" },\r\n    ],\r\n    correctAnswer: \"A\",\r\n    reward: 25,\r\n    successMessage: \"The RBI targets 4% inflation with a ±2pp band (2–6%), retained through 2026–2031. +25 tokens!\",\r\n    retryMessage: \"India's RBI targets 4% inflation with a tolerance band of ±2 percentage points (2–6%).\",\r\n    category: \"Global Markets\",\r\n  },\r\n];\r\n"
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "sha256": "cf0d75a04f050da9464a1452f71653cf669c2a8c7bf432949caed30bb2f99e7f",
+      "before": "import { quizQuestions } from \"@/data/quizQuestions\";\r\nimport { challengeQuestions } from \"@/data/challengeQuestions\";\r\nimport type { Locale } from \"@/lib/i18n\";\r\nimport { challengeOverrides } from \"@/lib/localizedChallenge\";\r\nimport { getQuizQuestions } from \"@/lib/localizedQuiz\";\r\n\r\nexport interface UnifiedQuestion {\r\n  id: string;\r\n  question: string;\r\n  answers: { id: string; text: string }[];\r\n  correctAnswer: string;\r\n  explanation: string;\r\n  category: string;\r\n  reward: number;\r\n}\r\n\r\ntype QuestionOverride = Pick<UnifiedQuestion, \"question\" | \"answers\" | \"explanation\" | \"category\">;\r\n\r\nconst fromQuiz: UnifiedQuestion[] = quizQuestions.map((q) => ({\r\n  id: q.id,\r\n  question: q.question,\r\n  answers: q.answers,\r\n  correctAnswer: q.correctAnswer,\r\n  explanation: q.retryMessage,\r\n  category: q.category,\r\n  reward: q.reward,\r\n}));\r\n\r\nconst fromChallenge: UnifiedQuestion[] = challengeQuestions.map((q) => ({\r\n  id: q.id,\r\n  question: q.question,\r\n  answers: q.answers,\r\n  correctAnswer: q.correctAnswer,\r\n  explanation: q.explanation,\r\n  category: \"Deep Dive\",\r\n  reward: q.reward,\r\n}));\r\n\r\nexport const allQuestions: UnifiedQuestion[] = [...fromQuiz, ...fromChallenge];\r\n\r\nexport const allQuestionIds: string[] = allQuestions.map((q) => q.id);\r\n\r\nconst plQuestionOverrides: Record<string, QuestionOverride> = {\r\n  \"inflation-basics\": {\n    \"question\": \"Ten sam ważony koszyk kosztuje 1 000 zł, potem 1 050 zł. Co pokazuje ten przykład?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Każda cena musi wzrosnąć o 5%\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Koszyk drożeje o 5%; ta sama gotówka kupuje mniej\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"Koszty każdego gospodarstwa rosną dokładnie o 5%\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Jedna wyższa cena dowodzi ogólnej inflacji\"\n      }\n    ],\n    \"explanation\": \"Inflacja dotyczy ogólnego wzrostu cen ważonego koszyka, nie jednej ceny. Tutaj (1 050 ÷ 1 000 − 1) × 100% = 5%; ta sama gotówka kupuje mniej tego koszyka. Gospodarstwa mają różne koszyki wydatków.\",\n    \"category\": \"Inflacja\"\n  },\r\n  \"emergency-fund\": {\r\n    \"question\": \"W przykładzie wybierasz 3 miesiące po 2 000 zł niezbędnych kosztów (w tym wymagane minimum długu, liczone raz). Ile wynosi cel przy stałych kosztach?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"2 000 zł\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"4 000 zł\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"6 000 zł\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"12 000 zł\"\r\n      }\r\n    ],\r\n    \"explanation\": \"3 × 2 000 zł = 6 000 zł przy podanych stałych kosztach, z minimum długu już uwzględnionym raz. Wielkość rezerwy zależy od sytuacji; 3–6 miesięcy można wybrać orientacyjnie, bez gwarancji ochrony. To nie termin zebrania kwoty ani obowiązek przelewu.\",\r\n    \"category\": \"Fundusz awaryjny\"\r\n  },\r\n  \"saving-habit\": {\n  \"question\": \"Który przelew jest bezpieczny przy zmiennym dochodzie?\",\n  \"answers\": [\n    {\n      \"id\": \"A\",\n      \"text\": \"Odkładać stałą kwotę mimo nieopłaconych rachunków\"\n    },\n    {\n      \"id\": \"B\",\n      \"text\": \"Pożyczać pieniądze, aby oszczędzać co miesiąc\"\n    },\n    {\n      \"id\": \"C\",\n      \"text\": \"Wybrać dostępną kwotę po potrzebach i minimalnych spłatach\"\n    },\n    {\n      \"id\": \"D\",\n      \"text\": \"Przelać cały dochód przed sprawdzeniem przyszłych rachunków\"\n    }\n  ],\n  \"explanation\": \"Najpierw zabezpiecz potrzeby i wymagane minimalne spłaty. Następnie wybierz opcjonalny przelew z dostępnej nadwyżki. Przy zmiennym dochodzie sprawdzaj kwotę i termin; bez nadwyżki wstrzymaj przelew.\",\n  \"category\": \"Nawyk oszczędzania\"\n},\r\n  \"interest-rates\": {\r\n    \"question\": \"Hipotetyczny kredyt: wskaźnik 3% + marża 2 pkt proc. Przy umownej aktualizacji wskaźnik rośnie do 4%, marża bez zmian. Jakie jest nowe oprocentowanie?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"2%\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"5%\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"6%\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"9%\"\r\n      }\r\n    ],\r\n    \"explanation\": \"Nowy wskaźnik zastępuje stary: 4% + niezmieniona marża 2 pkt proc. = 6%. Termin określa umowa; sama decyzja banku centralnego nie oznacza natychmiastowej zmiany każdej raty. Oprocentowanie może być stałe lub okresowo stałe. Sprawdź uzgodniony okres i dalsze warunki umowy po jego końcu; nie oznacza to zamrożenia wszystkich opłat.\",\r\n    \"category\": \"Kredyt i stopy procentowe\"\r\n  },\r\n  \"net-worth\": {\r\n    question: \"Co oznacza wartość netto?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Miesięczna pensja po podatku\" },\r\n      { id: \"B\", text: \"Aktywa minus zobowiązania\" },\r\n      { id: \"C\", text: \"Gotówka w portfelu\" },\r\n      { id: \"D\", text: \"Ocena kredytowa\" },\r\n    ],\r\n    explanation: \"Wartość netto to aktywa minus zobowiązania na ten sam dzień. Dochód jest przepływem, a gotówka i ocena kredytowa to inne miary. Sama wartość netto nie opisuje płynności ani wartości człowieka.\",\r\n    category: \"Nastawienie do pieniędzy\",\r\n  },\r\n  \"lifestyle-inflation\": {\r\n    question: \"Co oznacza inflacja stylu życia?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Podnoszenie płacy minimalnej przez państwo\" },\r\n      { id: \"B\", text: \"Ceny rosną szybciej niż pensje\" },\r\n      { id: \"C\", text: \"Dobrowolne zwiększanie wydatków na standard życia wraz ze wzrostem dochodu\" },\r\n      { id: \"D\", text: \"Ubarwianie swojego CV\" },\r\n    ],\r\n    explanation: \"Inflacja stylu życia to dobrowolny wzrost wydatków uznaniowych wraz z dochodem. To co innego niż wzrost cen lub konieczne wydatki i nie oznacza, że każda podwyżka jest wydawana w całości.\",\r\n    category: \"Nastawienie do pieniędzy\",\r\n  },\r\n  \"pay-yourself-first\": {\r\n    question: \"Co oznacza zasada zapłać najpierw sobie?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Najpierw wydawać na przyjemności\" },\r\n      { id: \"B\", text: \"Planować oszczędności z nadwyżki po zabezpieczeniu potrzeb i wymaganych minimalnych spłat\" },\r\n      { id: \"C\", text: \"Najpierw podnieść sobie pensję\" },\r\n      { id: \"D\", text: \"Kupić luksusowe rzeczy przed zakupami spożywczymi\" },\r\n    ],\r\n    explanation: \"Najpierw zabezpiecz potrzeby i wymagane minimalne spłaty, potem wybierz oszczędności z dostępnej nadwyżki przed wydatkami uznaniowymi. Przelew jest opcjonalny; brak nadwyżki oznacza brak przelewu, bez poczucia winy.\",\r\n    category: \"Nastawienie do pieniędzy\",\r\n  },\r\n  \"budget-50-30-20\": {\n  \"question\": \"Przy dochodzie 4 000 zł na rękę ile wynosi przykładowa część 20%?\",\n  \"answers\": [\n    {\n      \"id\": \"A\",\n      \"text\": \"1 200 zł\"\n    },\n    {\n      \"id\": \"B\",\n      \"text\": \"800 zł\"\n    },\n    {\n      \"id\": \"C\",\n      \"text\": \"2 000 zł\"\n    },\n    {\n      \"id\": \"D\",\n      \"text\": \"4 000 zł\"\n    }\n  ],\n  \"explanation\": \"4 000 × 20% = 800 zł. W tym przykładzie wymagane minimalne spłaty długu liczymy raz w potrzebach; część 20% obejmuje oszczędności i dodatkowe spłaty. To konwencja naszego przykładu, nie obowiązkowy podział.\",\n  \"category\": \"Nawyk oszczędzania\"\n},\r\n  \"high-yield-savings\": {\n  \"question\": \"Która lista jest najpełniejsza przy porównywaniu kont oszczędnościowych w Polsce?\",\n  \"answers\": [\n    {\n      \"id\": \"A\",\n      \"text\": \"Tylko reklamowane oprocentowanie\"\n    },\n    {\n      \"id\": \"B\",\n      \"text\": \"Oprocentowanie i warunki, opłaty, dostęp i ochronę depozytów\"\n    },\n    {\n      \"id\": \"C\",\n      \"text\": \"Czy konto gwarantuje wynik powyżej inflacji\"\n    },\n    {\n      \"id\": \"D\",\n      \"text\": \"Czy wpłata jest automatycznie inwestowana w akcje\"\n    }\n  ],\n  \"explanation\": \"Sprawdź oprocentowanie i czas jego obowiązywania, warunki, opłaty, dostęp do wypłat oraz właściwy system gwarantowania depozytów. Konto depozytowe to nie inwestycja w akcje; inflacja nadal może obniżać siłę nabywczą.\",\n  \"category\": \"Nawyk oszczędzania\"\n},\r\n  dca: {\n  \"question\": \"Wpłacasz dwa razy po 100 zł, przy cenach 10 zł i 20 zł za jednostkę. Ile kupujesz?\",\n  \"answers\": [\n    {\n      \"id\": \"A\",\n      \"text\": \"Za każdym razem 10 jednostek\"\n    },\n    {\n      \"id\": \"B\",\n      \"text\": \"Najpierw 5, potem 10 jednostek\"\n    },\n    {\n      \"id\": \"C\",\n      \"text\": \"Najpierw 10, potem 5 jednostek\"\n    },\n    {\n      \"id\": \"D\",\n      \"text\": \"Gwarantowany zysk\"\n    }\n  ],\n  \"explanation\": \"100 ÷ 10 = 10 jednostek; 100 ÷ 20 = 5 jednostek. DCA oznacza równe kwoty w regularnych odstępach, nie równą liczbę jednostek. Przy cenie 8 zł wszystkie 15 jednostek są warte 120 zł wobec wpłat 200 zł: strata 80 zł, bez opłat i podatków.\",\n  \"category\": \"Nawyk oszczędzania\"\n},\r\n  \"real-return\": {\n    \"question\": \"Przez rok założony nominalny zwrot to 2%, a inflacja 5%, bez opłat, podatku i przepływów. Jaki jest realny zwrot?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"+7%\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"+2%\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"0%\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Około −2,86%\"\n      }\n    ],\n    \"explanation\": \"1 000 zł zmienia się nominalnie w 1 020 zł, lecz 1 020 ÷ 1,05 ≈ 971,43 zł w cenach początku przykładu. Realny zwrot to około −2,86%; 2% − 5% = −3% jest tylko przybliżeniem przez odejmowanie, bez opłat, podatku i przepływów.\",\n    \"category\": \"Inflacja\"\n  },\r\n  \"rule-of-72\": {\n    \"question\": \"Załóż stałe nominalne 6%, roczną kapitalizację, brak opłat, podatku i przepływów. Co szacuje reguła 72?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"432 lata, gwarantowany wynik\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Około 12 lat do podwojenia, bez gwarancji\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"0,08 roku, gwarantowany wynik\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Dokładnie 12 lat nawet przy zmianach stopy\"\n      }\n    ],\n    \"explanation\": \"Reguła 72 szacuje nominalne podwojenie: 72 ÷ dodatnia roczna stopa w procentach. Przy założonych stałych 6%, rocznej kapitalizacji/reinwestowaniu i bez przepływów, opłat lub podatku wychodzi około 12 lat. To nie wynik dokładny, prognoza ani gwarancja; tutaj pomijamy inflację.\",\n    \"category\": \"Inflacja\"\n  },\r\n  \"inflation-hedge\": {\n    \"question\": \"Ktoś zapewnia, że inwestycja zawsze pokona inflację. Która odpowiedź jest uzasadniona?\",\n    \"answers\": [\n      {\n        \"id\": \"A\",\n        \"text\": \"Uznaj dobre dawne wyniki za gwarancję\"\n      },\n      {\n        \"id\": \"B\",\n        \"text\": \"Zainwestuj środki na niezbędne rachunki\"\n      },\n      {\n        \"id\": \"C\",\n        \"text\": \"Sprawdź ryzyko straty, koszty i dostęp; zysk nie jest pewny\"\n      },\n      {\n        \"id\": \"D\",\n        \"text\": \"Długi okres usuwa całe ryzyko straty\"\n      }\n    ],\n    \"explanation\": \"Żadna inwestycja automatycznie nie gwarantuje pokonania inflacji. Sprawdź możliwość straty, koszty i dostęp do pieniędzy. Dawne wyniki i długi czas nie są gwarancją. Chroń niezbędne wydatki i wymagane minimalne spłaty; przy zmiennych dochodach możesz odłożyć inwestowanie.\",\n    \"category\": \"Inflacja\"\n  },\r\n  \"debt-avalanche\": {\r\n    \"question\": \"Po potrzebach i wymaganych minimalnych spłatach zostaje 100 zł. Dług 1 000 zł ma 20%, a 500 zł 10% rocznie; stopy stałe, brak opłat, kar i zaległości. Gdzie kieruje nadwyżkę lawina?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Po równo, ignorując stopy\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Na najmniejszy dług bez względu na stopę\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Na dług oprocentowany 20%\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Zamiast minimum innego długu\"\r\n      }\r\n    ],\r\n    \"explanation\": \"Po podstawowych potrzebach i wymaganych minimalnych spłatach lawina kieruje dostępne dodatkowe 100 zł na wyższą stopę 20%. Model zakłada stałe stopy, brak opłat, kar i zaległości; rzeczywiste warunki nadpłaty sprawdza się w umowie. Brak nadwyżki nie wymaga nadpłaty.\",\r\n    \"category\": \"Kredyt i stopy procentowe\"\r\n  },\r\n  \"credit-score-factors\": {\r\n    \"question\": \"Które stwierdzenie odróżnia historię w BIK od zdolności kredytowej w Polsce?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Wysoki wynik gwarantuje nowy kredyt\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Terminowość jest istotna; bank bada też dochody i wydatki\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Punkty Coachfi zastępują ocenę banku\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Dochody nie mają znaczenia dla zdolności\"\r\n      }\r\n    ],\r\n    \"explanation\": \"Terminowość spłat jest istotna dla oceny ryzyka. Bank ocenia również dochody, wydatki i zobowiązania oraz podejmuje własną decyzję. Wynik BIK nie gwarantuje kredytu; punkty Coachfi nie są oceną BIK. Nie trzeba brać nowego długu ani kupować raportu, aby wykonać ćwiczenie.\",\r\n    \"category\": \"Kredyt i stopy procentowe\"\r\n  },\r\n  \"bond-prices\": {\r\n    \"question\": \"Przed wykupem sprzedajesz obligację o stałych przepływach. Wymagana rentowność rynkowa rośnie, inne czynniki bez zmian. Co dzieje się z ceną?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Rośnie\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Spada\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Kupon automatycznie rośnie\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Nominał przy wykupie automatycznie maleje\"\r\n      }\r\n    ],\r\n    \"explanation\": \"Dla tych samych stałych przepływów wyższa wymagana rentowność oznacza niższą cenę na rynku wtórnym. Nie zmienia to automatycznie kuponu ani umownego nominału przy wykupie. Cena sprzedaży, warunki wykupu i ryzyko niewypłacalności to różne sprawy; to nie reguła dla każdej obligacji.\",\r\n    \"category\": \"Kredyt i stopy procentowe\"\r\n  },\r\n  \"emergency-fund-characteristics\": {\r\n    \"question\": \"Która decyzja przeczy celowi szybko dostępnej rezerwy o niskiej zmienności?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Sprawdzenie czasu dostępu\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Sprawdzenie opłat i zakresu ochrony\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Cała rezerwa w zmiennych akcjach\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Odróżnienie rezerwy od planowanych wydatków\"\r\n      }\r\n    ],\r\n    \"explanation\": \"Cała rezerwa w zmiennych akcjach może stracić wartość, gdy jest potrzebna. Sprawdź dostęp, opłaty i warunki; niskie ryzyko nie oznacza braku strat lub kosztów. Ochrona depozytu zależy od podmiotu i produktu, a nie każda inwestycja jest objęta ochroną. To nie wybór dostawcy.\",\r\n    \"category\": \"Fundusz awaryjny\"\r\n  },\r\n  \"emergency-fund-start\": {\r\n    \"question\": \"Przykład: wpływ 1 000 zł, potrzeby 900 zł, wymagane minima 80 zł, brak innych kosztów i opłat. Który mały start mieści się w tych warunkach?\",\r\n    \"answers\": [\r\n      {\r\n        \"id\": \"A\",\r\n        \"text\": \"Przelać 100 zł, choć nadwyżka to tylko 20 zł\"\r\n      },\r\n      {\r\n        \"id\": \"B\",\r\n        \"text\": \"Dobrowolnie odłożyć 10 zł, pozostawiając 10 zł\"\r\n      },\r\n      {\r\n        \"id\": \"C\",\r\n        \"text\": \"Pożyczyć na oszczędzanie\"\r\n      },\r\n      {\r\n        \"id\": \"D\",\r\n        \"text\": \"Uznać miesiąc kosztów za obowiązkowy próg startu\"\r\n      }\r\n    ],\r\n    \"explanation\": \"1 000 − 900 − 80 = 20 zł. Dobrowolne 10 zł mieści się w nadwyżce i zostawia 10 zł; nie ma obowiązku przelewu. Przy 980 zł wpływu nadwyżka to 0 zł. Miesiąc wydatków nie jest wymaganym pierwszym celem; przy braku środków wstrzymaj przelew, nie pożyczaj na oszczędzanie.\",\r\n    \"category\": \"Fundusz awaryjny\"\r\n  },\r\n  \"compound-interest\": {\r\n    question: \"Czym jest procent składany?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Odsetki naliczane tylko od początkowej kwoty\" },\r\n      { id: \"B\", text: \"Opłata bankowa za wcześniejszą wypłatę\" },\r\n      { id: \"C\", text: \"Odsetki od kapitału i wcześniej naliczonych odsetek\" },\r\n      { id: \"D\", text: \"Odsetki płacone wyłącznie od kart kredytowych\" },\r\n    ],\r\n    explanation: \"Procent składany oznacza, że zarabiasz odsetki także od wcześniejszych odsetek.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  diversification: {\r\n    question: \"Co oznacza dywersyfikacja w inwestowaniu?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Włożenie wszystkich pieniędzy w jedną mocną akcję\" },\r\n      { id: \"B\", text: \"Rozłożenie inwestycji na różne aktywa, aby ograniczyć ryzyko\" },\r\n      { id: \"C\", text: \"Inwestowanie wyłącznie w obligacje skarbowe\" },\r\n      { id: \"D\", text: \"Zmienianie portfela co tydzień\" },\r\n    ],\r\n    explanation: \"Dywersyfikacja zmniejsza ryzyko, że jedna zła inwestycja zniszczy cały portfel.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"index-fund\": {\r\n    question: \"Jaki typ funduszu automatycznie śledzi indeks rynkowy przy niskich opłatach?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Fundusz hedgingowy\" },\r\n      { id: \"B\", text: \"Fundusz indeksowy lub ETF\" },\r\n      { id: \"C\", text: \"Fundusz venture capital\" },\r\n      { id: \"D\", text: \"Fundusz emerytalny\" },\r\n    ],\r\n    explanation: \"Fundusze indeksowe i ETF-y pasywnie śledzą indeks i zwykle mają niskie opłaty.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"etf-definition\": {\r\n    question: \"Czym jest ETF?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Konto oszczędnościowe z wyższym oprocentowaniem\" },\r\n      { id: \"B\", text: \"Elektroniczna opłata za przelew\" },\r\n      { id: \"C\", text: \"Fundusz notowany na giełdzie, czyli koszyk aktywów handlowany jak akcja\" },\r\n      { id: \"D\", text: \"Państwowy fundusz awaryjny\" },\r\n    ],\r\n    explanation: \"ETF łączy wiele aktywów w jeden instrument, którym można handlować na giełdzie.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"time-in-market\": {\r\n    question: \"Która strategia zwykle lepiej działa u inwestorów długoterminowych?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Idealne wyczucie rynku\" },\r\n      { id: \"B\", text: \"Konsekwentne pozostawanie na rynku przez długi czas\" },\r\n      { id: \"C\", text: \"Sprzedaż po spadku rynku o 10%\" },\r\n      { id: \"D\", text: \"Inwestowanie wyłącznie w złoto\" },\r\n    ],\r\n    explanation: \"Dla większości osób czas spędzony na rynku jest ważniejszy niż próba idealnego wejścia i wyjścia.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"retirement-purpose\": {\r\n    question: \"Jaki jest główny cel konta emerytalnego?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Finansowanie wakacji\" },\r\n      { id: \"B\", text: \"Zastąpienie dochodu po zakończeniu pracy dzięki wieloletniemu składaniu\" },\r\n      { id: \"C\", text: \"Spekulacja na bardzo ryzykownych aktywach\" },\r\n      { id: \"D\", text: \"Trzymanie gotówki awaryjnej\" },\r\n    ],\r\n    explanation: \"Konta emerytalne korzystają z wielu lat procentu składanego. Czas jest kluczowy.\",\r\n    category: \"Emerytura\",\r\n  },\r\n  \"retirement-early-start\": {\r\n    question: \"Jeśli inwestujesz 200 dolarów miesięcznie od 25. roku życia przy 7% rocznie, ile możesz mieć około 65. roku życia?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Około 96 000 dolarów\" },\r\n      { id: \"B\", text: \"Około 240 000 dolarów\" },\r\n      { id: \"C\", text: \"Około 525 000 dolarów\" },\r\n      { id: \"D\", text: \"Około 1 200 000 dolarów\" },\r\n    ],\r\n    explanation: \"Długi czas i procent składany mogą bardzo mocno zwiększyć końcową kwotę.\",\r\n    category: \"Emerytura\",\r\n  },\r\n  \"insurance-purpose\": {\r\n    question: \"Jaki jest główny cel ubezpieczenia na życie?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wzbogacenie się po czyjejś śmierci\" },\r\n      { id: \"B\", text: \"Zastąpienie dochodu dla bliskich, jeśli główny żywiciel umrze\" },\r\n      { id: \"C\", text: \"Oszczędność podatkowa\" },\r\n      { id: \"D\", text: \"Bezpieczne inwestowanie na giełdzie\" },\r\n    ],\r\n    explanation: \"Ubezpieczenie na życie chroni osoby zależne finansowo od Twojego dochodu.\",\r\n    category: \"Plan finansowy rodziny\",\r\n  },\r\n  \"joint-finances\": {\r\n    question: \"Jakie podejście do finansów jest zalecane dla par?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Jedna osoba zajmuje się wszystkim, druga nie musi wiedzieć\" },\r\n      { id: \"B\", text: \"Oboje partnerzy rozumieją pełny obraz finansów i planują razem\" },\r\n      { id: \"C\", text: \"Finanse zawsze muszą być całkowicie oddzielne\" },\r\n      { id: \"D\", text: \"Osoba zarabiająca więcej kontroluje wszystkie decyzje\" },\r\n    ],\r\n    explanation: \"Wspólna przejrzystość finansowa zmniejsza konflikty i poprawia decyzje.\",\r\n    category: \"Plan finansowy rodziny\",\r\n  },\r\n  \"teaching-kids-money\": {\r\n    question: \"Jaki jest skuteczny sposób uczenia dzieci o pieniądzach?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Dawać kieszonkowe bez żadnych zasad\" },\r\n      { id: \"B\", text: \"Pozwalać tylko obserwować i nigdy nie rozmawiać o pieniądzach\" },\r\n      { id: \"C\", text: \"Dawać kieszonkowe z zasadami oszczędzania, wydawania i dzielenia się\" },\r\n      { id: \"D\", text: \"Czekać z rozmową o finansach do 18. roku życia\" },\r\n    ],\r\n    explanation: \"Małe, realne decyzje finansowe uczą dzieci bez dużego ryzyka.\",\r\n    category: \"Plan finansowy rodziny\",\r\n  },\r\n  c1: {\r\n    question: \"Na czym polega zasada budżetu 50/30/20?\",\r\n    answers: [\r\n      { id: \"A\", text: \"50% oszczędności, 30% potrzeby, 20% zachcianki\" },\r\n      { id: \"B\", text: \"50% potrzeby, 30% zachcianki, 20% oszczędności\" },\r\n      { id: \"C\", text: \"50% spłata długu, 30% jedzenie, 20% zabawa\" },\r\n      { id: \"D\", text: \"50% podatek, 30% czynsz, 20% jedzenie\" },\r\n    ],\r\n    explanation: \"50% na potrzeby, 30% na zachcianki, 20% na oszczędności i spłatę długu.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c2: {\r\n    question: \"Czym jest procent składany?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Odsetki tylko od początkowej kwoty\" },\r\n      { id: \"B\", text: \"Opłata bankowa za wcześniejszą wypłatę\" },\r\n      { id: \"C\", text: \"Odsetki od kapitału i wcześniejszych odsetek\" },\r\n      { id: \"D\", text: \"Odsetki płacone tylko od kart kredytowych\" },\r\n    ],\r\n    explanation: \"Procent składany oznacza, że zarabiasz odsetki także od wcześniejszych odsetek.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c3: {\r\n    question: \"Co oznacza dywersyfikacja w inwestowaniu?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wszystko w jedną mocną akcję\" },\r\n      { id: \"B\", text: \"Rozłożenie inwestycji na różne aktywa\" },\r\n      { id: \"C\", text: \"Tylko obligacje skarbowe\" },\r\n      { id: \"D\", text: \"Zmiana portfela co tydzień\" },\r\n    ],\r\n    explanation: \"Dywersyfikacja zmniejsza ryzyko, że jedna zła inwestycja zniszczy cały portfel.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c4: {\r\n    question: \"Na czym polega strategia lawiny zadłużenia?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nowe pożyczki na stare długi\" },\r\n      { id: \"B\", text: \"Najpierw najmniejsze długi bez patrzenia na oprocentowanie\" },\r\n      { id: \"C\", text: \"Najpierw najwyżej oprocentowane długi\" },\r\n      { id: \"D\", text: \"Ignorowanie długu\" },\r\n    ],\r\n    explanation: \"Lawina długu minimalizuje koszt odsetek, bo zaczyna od najwyższego oprocentowania.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c5: {\r\n    question: \"Jaka jest realna stopa zwrotu, jeśli inflacja wynosi 5%, a bank daje 2%?\",\r\n    answers: [\r\n      { id: \"A\", text: \"+7%\" },\r\n      { id: \"B\", text: \"+2%\" },\r\n      { id: \"C\", text: \"0%\" },\r\n      { id: \"D\", text: \"-3%\" },\r\n    ],\r\n    explanation: \"Realna stopa zwrotu to 2% - 5%, czyli -3%.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c6: {\r\n    question: \"Jaki typ funduszu śledzi indeks rynkowy automatycznie przy niskich opłatach?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Fundusz hedgingowy\" },\r\n      { id: \"B\", text: \"Fundusz indeksowy lub ETF\" },\r\n      { id: \"C\", text: \"Fundusz venture capital\" },\r\n      { id: \"D\", text: \"Fundusz emerytalny\" },\r\n    ],\r\n    explanation: \"Fundusze indeksowe i ETF-y pasywnie śledzą indeks i zwykle mają niskie koszty.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c7: {\r\n    question: \"Czym jest DCA?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Kupowanie wszystkiego na dołku\" },\r\n      { id: \"B\", text: \"Sprzedaż przy spadkach\" },\r\n      { id: \"C\", text: \"Regularne inwestowanie stałej kwoty\" },\r\n      { id: \"D\", text: \"Zamiana oszczędności na dolary\" },\r\n    ],\r\n    explanation: \"DCA usuwa emocje z decyzji, bo inwestujesz regularnie tę samą kwotę.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c8: {\r\n    question: \"Czym jest reguła 72?\",\r\n    answers: [\r\n      { id: \"A\", text: \"72 miesiące na spłatę długu\" },\r\n      { id: \"B\", text: \"72 podzielone przez roczną stopę zwrotu daje przybliżony czas podwojenia kapitału\" },\r\n      { id: \"C\", text: \"Oszczędzaj 72% dochodu\" },\r\n      { id: \"D\", text: \"Emerytura w wieku 72 lat\" },\r\n    ],\r\n    explanation: \"To szybki skrót do szacowania efektu procentu składanego.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c9: {\r\n    question: \"Czym jest ETF?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Konto oszczędnościowe\" },\r\n      { id: \"B\", text: \"Elektroniczna opłata za przelew\" },\r\n      { id: \"C\", text: \"Fundusz notowany na giełdzie, czyli koszyk aktywów\" },\r\n      { id: \"D\", text: \"Państwowy fundusz awaryjny\" },\r\n    ],\r\n    explanation: \"ETF łączy wiele aktywów i jest notowany na giełdzie jak pojedynczy instrument.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c10: {\r\n    question: \"Co NIE jest cechą dobrego funduszu awaryjnego?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Łatwy dostęp\" },\r\n      { id: \"B\", text: \"Pokrycie 3-6 miesięcy wydatków\" },\r\n      { id: \"C\", text: \"Inwestowanie w ryzykowne akcje\" },\r\n      { id: \"D\", text: \"Oddzielenie od codziennego konta\" },\r\n    ],\r\n    explanation: \"Fundusz awaryjny ma być płynny i bezpieczny, a nie nastawiony na maksymalny wzrost.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c11: {\r\n    question: \"Co dzieje się z cenami obligacji, gdy stopy procentowe rosną?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Rosną\" },\r\n      { id: \"B\", text: \"Spadają\" },\r\n      { id: \"C\", text: \"Bez zmian\" },\r\n      { id: \"D\", text: \"Podwajają się\" },\r\n    ],\r\n    explanation: \"Obligacje i stopy procentowe zwykle poruszają się przeciwnie.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c12: {\r\n    question: \"Co oznacza inflacja stylu życia?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Podnoszenie płacy minimalnej\" },\r\n      { id: \"B\", text: \"Ceny rosną szybciej niż pensje\" },\r\n      { id: \"C\", text: \"Wydajesz więcej, gdy więcej zarabiasz\" },\r\n      { id: \"D\", text: \"Ubarwianie CV\" },\r\n    ],\r\n    explanation: \"Inflacja stylu życia sprawia, że podwyżki znikają w nowych wydatkach.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c13: {\r\n    question: \"Jaki jest główny cel konta emerytalnego?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wakacje\" },\r\n      { id: \"B\", text: \"Zastąpienie dochodu po zakończeniu pracy\" },\r\n      { id: \"C\", text: \"Spekulacja\" },\r\n      { id: \"D\", text: \"Gotówka awaryjna\" },\r\n    ],\r\n    explanation: \"Konto emerytalne jest długoterminowym narzędziem budowania kapitału na czas bez pracy.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n  c14: {\r\n    question: \"Co oznacza wartość netto?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Pensja po podatku\" },\r\n      { id: \"B\", text: \"Aktywa minus zobowiązania\" },\r\n      { id: \"C\", text: \"Gotówka w portfelu\" },\r\n      { id: \"D\", text: \"Ocena kredytowa\" },\r\n    ],\r\n    explanation: \"Wartość netto pokazuje pełniejszy obraz finansów niż sam dochód.\",\r\n    category: \"Wyzwanie\",\r\n  },\r\n\r\n  // ── Makroekonomia (NBP / IMF / Fed) ──────────────────────────────────────\r\n  \"nbp-inflation-target\": {\r\n    question: \"Jaki cel inflacyjny realizuje Narodowy Bank Polski od 2004 roku?\",\r\n    answers: [\r\n      { id: \"A\", text: \"0% — ceny nigdy nie powinny rosnąć\" },\r\n      { id: \"B\", text: \"2,5% z pasmem odchyleń ±1 punkt procentowy\" },\r\n      { id: \"C\", text: \"5%, aby zachęcać do wydawania\" },\r\n      { id: \"D\", text: \"Taki, jaki co roku ustali rząd\" },\r\n    ],\r\n    explanation: \"Od 2004 r. cel NBP to 2,5% (±1 pkt proc.), mierzony roczną zmianą wskaźnika CPI.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n  \"inflation-target-why\": {\r\n    question: \"Dlaczego banki centralne celują w niską, dodatnią inflację (~2–2,5%), a nie w 0%?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Aby waluta szybciej traciła wartość\" },\r\n      { id: \"B\", text: \"Mały, stabilny bufor wspiera wzrost i chroni przed groźną deflacją\" },\r\n      { id: \"C\", text: \"Bo wyższe ceny są zawsze dobre\" },\r\n      { id: \"D\", text: \"Tylko po to, by zwiększyć wpływy z podatków\" },\r\n    ],\r\n    explanation: \"Niski dodatni cel utrzymuje margines bezpieczeństwa od deflacji i zapewnia przewidywalność cen.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n  \"monetary-policy-tool\": {\r\n    question: \"Jakie jest główne narzędzie banku centralnego do sterowania inflacją?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Drukowanie banknotów dla obywateli\" },\r\n      { id: \"B\", text: \"Ustalanie referencyjnych stóp procentowych\" },\r\n      { id: \"C\", text: \"Ustalanie ceny chleba\" },\r\n      { id: \"D\", text: \"Zakaz importu\" },\r\n    ],\r\n    explanation: \"Zmieniając stopy referencyjne, bank centralny zmienia koszt kredytu w całej gospodarce.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n  \"rates-and-borrowing\": {\r\n    question: \"Co zwykle dzieje się, gdy bank centralny podnosi stopy procentowe?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Kredyt tanieje i wydatki rosną\" },\r\n      { id: \"B\", text: \"Kredyt drożeje, co schładza popyt i inflację\" },\r\n      { id: \"C\", text: \"Nic się nie zmienia dla gospodarstw domowych\" },\r\n      { id: \"D\", text: \"Konta oszczędnościowe zawsze płacą 0%\" },\r\n    ],\r\n    explanation: \"Podwyżki stóp podnoszą koszt kredytu, więc wydatki maleją i inflacja hamuje.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n  \"gdp-definition\": {\r\n    question: \"Co mierzy PKB (Produkt Krajowy Brutto)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Łączne oszczędności obywateli\" },\r\n      { id: \"B\", text: \"Wartość wszystkich dóbr i usług wytworzonych w gospodarce\" },\r\n      { id: \"C\", text: \"Ilość gotówki w obiegu\" },\r\n      { id: \"D\", text: \"Dług publiczny\" },\r\n    ],\r\n    explanation: \"PKB to łączna wartość rynkowa dóbr i usług wytworzonych w kraju w danym okresie.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n  \"deflation-risk\": {\r\n    question: \"Dlaczego utrzymująca się deflacja (spadające ceny) jest uważana za groźną?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wszyscy się bogacą i nie ma żadnych minusów\" },\r\n      { id: \"B\", text: \"Ludzie odkładają zakupy, popyt spada, a długi robią się realnie cięższe\" },\r\n      { id: \"C\", text: \"Zawsze podnosi pensje\" },\r\n      { id: \"D\", text: \"Nie ma wpływu na gospodarkę\" },\r\n    ],\r\n    explanation: \"Przy spadających cenach ludzie zwlekają z zakupami, a realny ciężar długów rośnie — to groźna spirala.\",\r\n    category: \"Makroekonomia\",\r\n  },\r\n\r\n  // ── Budżet domowy (CFPB / OECD) ──────────────────────────────────────────\r\n  \"zero-based-budget\": {\r\n    question: \"Czym jest budżet od zera (zero-based budgeting)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wydawaniem do zera na koncie\" },\r\n      { id: \"B\", text: \"Przypisaniem każdej złotówce zadania, aż dochód minus plan = 0\" },\r\n      { id: \"C\", text: \"Brakiem oszczędności\" },\r\n      { id: \"D\", text: \"Budżetowaniem tylko gotówki\" },\r\n    ],\r\n    explanation: \"W budżecie od zera każda złotówka ma zadanie — w tym oszczędności — więc nic nie wycieka bez planu.\",\r\n    category: \"Budżet domowy\",\r\n  },\r\n  \"track-before-budget\": {\r\n    question: \"Jaki jest zalecany pierwszy krok przed ułożeniem budżetu domowego?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Natychmiastowe anulowanie wszystkich subskrypcji\" },\r\n      { id: \"B\", text: \"Śledzenie rzeczywistych wydatków przez około 30 dni\" },\r\n      { id: \"C\", text: \"Wzięcie pożyczki na pokrycie braków\" },\r\n      { id: \"D\", text: \"Zgadywanie wydatków z pamięci\" },\r\n    ],\r\n    explanation: \"Najpierw ~30 dni śledzenia wydatków — nie zarządzisz tym, czego nie mierzysz.\",\r\n    category: \"Budżet domowy\",\r\n  },\r\n  \"sinking-fund\": {\r\n    question: \"Czym jest fundusz celowy (sinking fund) w budżecie domowym?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Pieniędzmi, które spodziewasz się stracić\" },\r\n      { id: \"B\", text: \"Gotówką odkładaną stopniowo na znany przyszły wydatek\" },\r\n      { id: \"C\", text: \"Rodzajem ryzykownej inwestycji\" },\r\n      { id: \"D\", text: \"Debetem na koncie\" },\r\n    ],\r\n    explanation: \"Fundusz celowy rozkłada duże znane koszty (serwis auta, wakacje, podatki) na małe miesięczne kwoty.\",\r\n    category: \"Budżet domowy\",\r\n  },\r\n  \"impulse-pause\": {\r\n    question: \"Jaka taktyka skutecznie ogranicza zakupy impulsowe?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Kup teraz, zdecyduj później, czy było potrzebne\" },\r\n      { id: \"B\", text: \"Okres oczekiwania (24–72h, a przy dużych zakupach 30 dni) przed rzeczami zbędnymi\" },\r\n      { id: \"C\", text: \"Zakupy zawsze w stresie\" },\r\n      { id: \"D\", text: \"Usunięcie cen, żeby ich nie widzieć\" },\r\n    ],\r\n    explanation: \"Wbudowana pauza pozwala impulsowi wygasnąć — większość zakupów impulsowych nie przeżywa czekania.\",\r\n    category: \"Budżet domowy\",\r\n  },\r\n\r\n  // ── Oszczędzanie i bezpieczeństwo depozytów ──────────────────────────────\r\n  \"emergency-first-milestone\": {\r\n    question: \"Jaki jest realistyczny PIERWSZY cel funduszu awaryjnego, gdy 3–6 miesięcy wydaje się odległe?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nie zaczynaj, dopóki nie odłożysz 6 miesięcy naraz\" },\r\n      { id: \"B\", text: \"Jeden miesiąc podstawowych wydatków\" },\r\n      { id: \"C\", text: \"Dwa lata wydatków\" },\r\n      { id: \"D\", text: \"Dokładnie roczna pensja\" },\r\n    ],\r\n    explanation: \"Już jeden miesiąc wydatków znacząco obniża ryzyko zaległości w rachunkach — zacznij mało, potem buduj do 3–6 miesięcy.\",\r\n    category: \"Fundusz awaryjny\",\r\n  },\r\n  \"bfg-guarantee\": {\r\n    question: \"Do jakiej kwoty depozyty bankowe w Polsce gwarantuje BFG?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nie ma żadnej gwarancji depozytów\" },\r\n      { id: \"B\", text: \"Równowartość 100 000 € na deponenta w danym banku\" },\r\n      { id: \"C\", text: \"Dokładnie 10 000 zł łącznie\" },\r\n      { id: \"D\", text: \"Bez limitu, zawsze 100%\" },\r\n    ],\r\n    explanation: \"Bankowy Fundusz Gwarancyjny chroni depozyty do równowartości 100 000 € na osobę w każdym banku, wypłacane w złotych.\",\r\n    category: \"Nawyk oszczędzania\",\r\n  },\r\n\r\n  // ── Długoterminowe inwestowanie (SEC / FINRA) ────────────────────────────\r\n  \"asset-allocation\": {\r\n    question: \"Co oznacza alokacja aktywów?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wybór jednej zwycięskiej akcji\" },\r\n      { id: \"B\", text: \"Podział inwestycji między akcje, obligacje i gotówkę\" },\r\n      { id: \"C\", text: \"Pożyczanie pieniędzy na inwestycje\" },\r\n      { id: \"D\", text: \"Trzymanie wszystkiego na rachunku bieżącym\" },\r\n    ],\r\n    explanation: \"Alokacja aktywów — Twój podział na akcje/obligacje/gotówkę — decyduje o większości długoterminowego ryzyka i zwrotu.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  rebalancing: {\r\n    question: \"Czym jest rebalancing portfela?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Sprzedażą wszystkiego, gdy rynek spada\" },\r\n      { id: \"B\", text: \"Okresowym przywracaniem docelowych proporcji portfela\" },\r\n      { id: \"C\", text: \"Dokupowaniem tylko najlepszej akcji\" },\r\n      { id: \"D\", text: \"Codziennym sprawdzaniem salda\" },\r\n    ],\r\n    explanation: \"Rebalancing przycina to, co urosło za bardzo, i uzupełnia to, co zmalało — ryzyko zostaje tam, gdzie je zaplanowano.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"fees-ter\": {\r\n    question: \"Dlaczego niskie opłaty bieżące (TER) są tak ważne w długoterminowym inwestowaniu?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nie są — opłaty są pomijalne\" },\r\n      { id: \"B\", text: \"Opłaty składają się przeciwko Tobie i po cichu zjadają dekady zwrotów\" },\r\n      { id: \"C\", text: \"Wyższe opłaty zawsze oznaczają wyższe zyski\" },\r\n      { id: \"D\", text: \"Opłaty są zwracane na emeryturze\" },\r\n    ],\r\n    explanation: \"Koszty składają się jak zwroty: 1% vs 0,2% rocznie przez 30 lat potrafi kosztować dużą część końcowego kapitału.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"risk-return\": {\r\n    question: \"Jaka jest ogólna zależność między ryzykiem a oczekiwanym zwrotem?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wyższy oczekiwany zwrot zwykle wiąże się z wyższym ryzykiem\" },\r\n      { id: \"B\", text: \"Wysokie zyski są gwarantowane bez ryzyka\" },\r\n      { id: \"C\", text: \"Ryzyko i zwrot nie mają związku\" },\r\n      { id: \"D\", text: \"Niższe ryzyko zawsze oznacza wyższy zwrot\" },\r\n    ],\r\n    explanation: \"Nie ma darmowego obiadu: wyższy potencjalny zwrot wymaga akceptacji większych wahań. Uważaj na oferty „wysoki zysk bez ryzyka”.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"invest-prerequisites\": {\r\n    question: \"Co warto mieć ZANIM zainwestujesz w zmienne aktywa?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Gorący typ giełdowy\" },\r\n      { id: \"B\", text: \"Fundusz awaryjny i opanowane drogie długi\" },\r\n      { id: \"C\", text: \"Wymaksowaną kartę kredytową\" },\r\n      { id: \"D\", text: \"Nic — inwestuj wszystko od razu\" },\r\n    ],\r\n    explanation: \"Najpierw fundamenty: fundusz awaryjny i spłacone wysoko oprocentowane długi chronią przed sprzedażą w najgorszym momencie.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n  \"speculative-allocation\": {\r\n    question: \"Jak początkujący powinni traktować wysoce spekulacyjne aktywa, np. kryptowaluty?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Włożyć wszystkie oszczędności dla maksymalnych zysków\" },\r\n      { id: \"B\", text: \"Ograniczyć do małej części, której utratę mogą w całości zaakceptować\" },\r\n      { id: \"C\", text: \"Pożyczyć pieniądze, by kupić więcej\" },\r\n      { id: \"D\", text: \"Traktować jako bezpieczny fundusz awaryjny\" },\r\n    ],\r\n    explanation: \"Aktywa spekulacyjne są bardzo zmienne — trzymaj je jako mały wycinek portfela i tylko za pieniądze, które możesz stracić.\",\r\n    category: \"Długoterminowe inwestowanie\",\r\n  },\r\n\r\n  // ── Emerytura w Polsce (IKE / IKZE / PPK) ────────────────────────────────\r\n  \"ike-vs-ikze\": {\r\n    question: \"Jaka jest kluczowa różnica podatkowa między IKE a IKZE?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Są identyczne pod każdym względem\" },\r\n      { id: \"B\", text: \"IKE: zyski bez podatku przy wypłacie na warunkach; IKZE: odliczasz wpłaty teraz, przy wypłacie 10% ryczałtu\" },\r\n      { id: \"C\", text: \"Oba są opodatkowane 19% co roku\" },\r\n      { id: \"D\", text: \"Żadne nie daje korzyści podatkowej\" },\r\n    ],\r\n    explanation: \"IKE nagradza później (zyski bez podatku), IKZE nagradza teraz (odliczenie od dochodu), z 10% ryczałtem przy wypłacie.\",\r\n    category: \"Emerytura\",\r\n  },\r\n  \"ppk-employer-match\": {\r\n    question: \"Ile w PPK dokłada pracodawca do podstawowej wpłaty pracownika (2%)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Nic — płaci tylko pracownik\" },\r\n      { id: \"B\", text: \"Podstawowe 1,5% pensji (plus opcjonalnie do 2,5% dodatkowo)\" },\r\n      { id: \"C\", text: \"Stałe 100 zł niezależnie od pensji\" },\r\n      { id: \"D\", text: \"10% pensji\" },\r\n    ],\r\n    explanation: \"Pracodawca dokłada podstawowe 1,5% Twojej pensji (może więcej) — to praktycznie darmowe pieniądze na emeryturę.\",\r\n    category: \"Emerytura\",\r\n  },\r\n  \"ppk-state-bonus\": {\r\n    question: \"Jakie dopłaty od państwa otrzymują uczestnicy PPK?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Żadnych\" },\r\n      { id: \"B\", text: \"250 zł wpłaty powitalnej i 240 zł dopłaty rocznej\" },\r\n      { id: \"C\", text: \"Jednorazowo 50 000 zł\" },\r\n      { id: \"D\", text: \"Darmowe akcje pracodawcy\" },\r\n    ],\r\n    explanation: \"Państwo dodaje 250 zł na start oraz 240 zł co roku — dodatkowy zwrot z oszczędzania w PPK.\",\r\n    category: \"Emerytura\",\r\n  },\r\n\r\n  // ── Rynki globalne ───────────────────────────────────────────────────────\r\n  \"deposit-guarantee-scope\": {\r\n    question: \"Co tak naprawdę chronią systemy gwarantowania depozytów (BFG, FDIC, unijne DGS, FGC)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Wszystkie inwestycje, w tym akcje i krypto\" },\r\n      { id: \"B\", text: \"Depozyty bankowe — nie akcje, fundusze, emerytury ani krypto\" },\r\n      { id: \"C\", text: \"Tylko gotówkę trzymaną w domu\" },\r\n      { id: \"D\", text: \"Twoją pensję po utracie pracy\" },\r\n    ],\r\n    explanation: \"Gwarancje depozytów obejmują pieniądze na rachunkach i lokatach. Inwestycje i krypto są poza nimi.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n  \"fdic-coverage\": {\r\n    question: \"Do jakiej kwoty FDIC ubezpiecza depozyty w USA (na deponenta, na bank)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"1 000 dolarów\" },\r\n      { id: \"B\", text: \"250 000 dolarów (na kategorię własności)\" },\r\n      { id: \"C\", text: \"Bez limitu\" },\r\n      { id: \"D\", text: \"W USA nie ma ubezpieczenia depozytów\" },\r\n    ],\r\n    explanation: \"FDIC ubezpiecza 250 000 USD na deponenta, na bank, dla każdej kategorii własności rachunku.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n  \"eu-dgs\": {\r\n    question: \"Do jakiej kwoty gwarantowane są depozyty bankowe w całej UE (w tym w Polsce)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"1 000 € na kraj\" },\r\n      { id: \"B\", text: \"100 000 € na deponenta w danym banku (lub równowartość w walucie krajowej)\" },\r\n      { id: \"C\", text: \"Zawsze 1 000 000 €\" },\r\n      { id: \"D\", text: \"W UE nic nie jest gwarantowane\" },\r\n    ],\r\n    explanation: \"Ochrona depozytów w UE jest zharmonizowana: 100 000 € na deponenta w każdym banku.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n  \"us-401k-match\": {\r\n    question: \"Masz w USA plan 401(k) z dopłatą pracodawcy. Jaki jest najmądrzejszy pierwszy ruch?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Pominąć — dopłaty to podstęp\" },\r\n      { id: \"B\", text: \"Wpłacać co najmniej tyle, by dostać pełną dopłatę pracodawcy (darmowe pieniądze)\" },\r\n      { id: \"C\", text: \"Wpłacać dopiero po 60. roku życia\" },\r\n      { id: \"D\", text: \"Wszystko w akcje jednej spółki\" },\r\n    ],\r\n    explanation: \"Dopłata pracodawcy to natychmiastowy 100% zwrot z tych wpłat — zawsze wykorzystaj ją w całości.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n  \"tax-advantaged-wrapper\": {\r\n    question: \"Co łączy brytyjskie ISA, japońskie NISA i polskie IKE?\",\r\n    answers: [\r\n      { id: \"A\", text: \"Gwarantują stały zysk 10%\" },\r\n      { id: \"B\", text: \"To konta z ulgą podatkową, które chronią zyski z inwestycji\" },\r\n      { id: \"C\", text: \"To rodzaje kart kredytowych\" },\r\n      { id: \"D\", text: \"Są tylko dla milionerów\" },\r\n    ],\r\n    explanation: \"ISA, NISA i IKE to opakowania podatkowe — pozwalają inwestycjom rosnąć bez zwykłego obciążenia podatkiem.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n  \"rbi-inflation-target\": {\r\n    question: \"Jaki cel inflacyjny ma bank centralny Indii (RBI)?\",\r\n    answers: [\r\n      { id: \"A\", text: \"4% z pasmem tolerancji ±2 punkty procentowe\" },\r\n      { id: \"B\", text: \"0%\" },\r\n      { id: \"C\", text: \"15%\" },\r\n      { id: \"D\", text: \"Nie ma celu\" },\r\n    ],\r\n    explanation: \"RBI celuje w 4% inflacji z pasmem ±2 pkt proc. (2–6%), utrzymanym na lata 2026–2031.\",\r\n    category: \"Rynki globalne\",\r\n  },\r\n};\r\n\r\nfunction localizeQuestion(question: UnifiedQuestion, locale?: Locale): UnifiedQuestion {\r\n  if (!locale || locale === \"en\") return question;\r\n\r\n  if (locale === \"pl\") {\r\n    const override = plQuestionOverrides[question.id];\r\n    // Fall back to the English question when no translation exists yet, so newly\r\n    // added questions are still shown (and counted by SRS) for every locale.\r\n    return override ? { ...question, ...override } : question;\r\n  }\r\n\r\n  const challengeOverride = challengeOverrides[locale]?.[question.id];\r\n  if (challengeOverride) return { ...question, ...challengeOverride };\r\n\r\n  const quizOverride = getQuizQuestions(locale).find((item) => item.id === question.id);\r\n  if (!quizOverride) return question;\r\n\r\n  return {\r\n    ...question,\r\n    question: quizOverride.question,\r\n    answers: quizOverride.answers,\r\n    explanation: quizOverride.retryMessage,\r\n    category: quizOverride.category,\r\n    reward: quizOverride.reward,\r\n  };\r\n}\r\n\r\nexport function getAllQuestions(locale?: Locale): UnifiedQuestion[] {\r\n  return allQuestions\r\n    .map((question) => localizeQuestion(question, locale))\r\n    .filter((question): question is UnifiedQuestion => Boolean(question));\r\n}\r\n\r\nexport function getAllQuestionIds(locale?: Locale): string[] {\r\n  return getAllQuestions(locale).map((q) => q.id);\r\n}\r\n\r\nexport function getQuestionById(id: string, locale?: Locale): UnifiedQuestion | undefined {\r\n  const question = allQuestions.find((q) => q.id === id);\r\n  return question ? localizeQuestion(question, locale) : undefined;\r\n}\r\n"
+    }
+  ],
+  "dependencies": {
+    "unchangedSinceC22": [
+      {
+        "path": "package-lock.json",
+        "sha256": "d810ad909d72a02a6bdb06d12e15f250256ac54f138a8aba919e5681ac6fc5f5"
+      },
+      {
+        "path": "package.json",
+        "sha256": "bc94bb86fe2ba2ddf90039b08683145279e31d8925623e577d6c481856c8ef8a"
+      }
+    ]
+  },
+  "priorAcceptedReceipt": {
+    "path": "evidence/cycle-22/final-stage.json",
+    "sha256": "dc108bec87a47f8ab7eaa599c1c751d5d7f91721012fb842d043739a510e8d25"
+  }
+}

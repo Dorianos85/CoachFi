@@ -1,4 +1,5 @@
 "use client";
+import { useProductStorage } from "@/lib/use-product-storage";
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -543,6 +544,7 @@ function fmtTvl(tvl?: number) {
 }
 
 export function YieldVault() {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
   const copy = pickLocalized(VAULT_COPY, locale);
   const [strategies, setStrategies] = useState<VaultStrategy[]>([]);
@@ -554,12 +556,14 @@ export function YieldVault() {
   const [busy, setBusy] = useState<"deposit" | "withdraw" | null>(null);
   const [withdrawResult, setWithdrawResult] = useState<{ principal: number; yield: number } | null>(null);
 
-  const refreshBalance = useCallback(() => setBalance(getTokenBalance()), []);
+  const refreshBalance = useCallback(() => {
+    if (storage.isCurrent()) setBalance(getTokenBalance(storage));
+  }, [storage]);
 
   useEffect(() => {
     refreshBalance();
-    const v = getVault();
-    if (v) setVault(syncYield(v));
+    const v = getVault(storage);
+    if (v && storage.isCurrent()) setVault(syncYield(v, storage));
 
     const onTokens = () => refreshBalance();
     window.addEventListener("coachfi-tokens", onTokens);
@@ -568,15 +572,15 @@ export function YieldVault() {
       window.removeEventListener("coachfi-tokens", onTokens);
       window.removeEventListener("storage", onTokens);
     };
-  }, [refreshBalance]);
+  }, [refreshBalance, storage]);
 
   // Auto-sync yield every 30 s
   useEffect(() => {
     const id = setInterval(() => {
-      setVault((prev) => (prev ? syncYield(prev) : prev));
+      if (storage.isCurrent()) setVault((prev) => (prev ? syncYield(prev, storage) : prev));
     }, 30_000);
     return () => clearInterval(id);
-  }, []);
+  }, [storage]);
 
   useEffect(() => {
     fetch("/api/vault")
@@ -591,29 +595,34 @@ export function YieldVault() {
 
   async function handleDeposit() {
     const amount = parseInt(depositInput, 10);
-    if (!selected || isNaN(amount) || amount < 1 || amount > balance) return;
+    if (!selected || isNaN(amount) || amount < 1 || amount > balance || !storage.isCurrent()) return;
     setBusy("deposit");
     await new Promise((r) => setTimeout(r, 700));
-    spendTokens(amount);
-    const newVault = deposit(amount, selected);
+    if (!storage.isCurrent()) return;
+    if (!spendTokens(amount, storage) || !storage.isCurrent()) return;
+    const newVault = deposit(amount, selected, storage);
+    if (!storage.isCurrent()) return;
     setVault(newVault);
-    setBalance(getTokenBalance());
+    setBalance(getTokenBalance(storage));
     setDepositInput("");
     setBusy(null);
   }
 
   async function handleWithdraw() {
-    if (!vault) return;
+    if (!vault || !storage.isCurrent()) return;
     setBusy("withdraw");
     await new Promise((r) => setTimeout(r, 900));
-    const synced = syncYield(vault);
-    const result = withdrawAll(synced);
-    addTokens(Math.floor(result.principal + result.yield));
+    if (!storage.isCurrent()) return;
+    const synced = syncYield(vault, storage);
+    const result = withdrawAll(synced, storage);
+    if (!storage.isCurrent()) return;
+    addTokens(Math.floor(result.principal + result.yield), undefined, undefined, storage);
+    if (!storage.isCurrent()) return;
     setVault(null);
-    setBalance(getTokenBalance());
+    setBalance(getTokenBalance(storage));
     setWithdrawResult(result);
     setBusy(null);
-    setTimeout(() => setWithdrawResult(null), 7000);
+    setTimeout(() => { if (storage.isCurrent()) setWithdrawResult(null); }, 7000);
   }
 
   const previewAmount = parseInt(depositInput, 10);

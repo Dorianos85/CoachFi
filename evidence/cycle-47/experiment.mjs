@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+const dir='evidence/cycle-47/';
+assert(!fs.existsSync(dir+'experiment.json'),'Preserve one-shot evidence');
+assert(!fs.existsSync(dir+'experiment-child.json'),'Preserve raw child evidence');
+const before=JSON.parse(fs.readFileSync(dir+'before.json','utf8'));
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+for(const m of before.manifests)assert.equal(hash(fs.readFileSync(m.path)),m.sha256,m.path);
+const rootNames=['@11labs/react','@anthropic-ai/sdk'];
+const removed=['@11labs/react','@11labs/client','@anthropic-ai/sdk','json-schema-to-ts','ts-algebra','standardwebhooks','@stablelib/base64','fast-sha256'].map(n=>'node_modules/'+n).sort();
+const temp=fs.mkdtempSync(path.join(os.tmpdir(),'coachfi-cycle47-lock-'));
+for(const m of before.manifests)fs.writeFileSync(path.join(temp,m.path),m.fullBefore);
+for(const n of ['user.npmrc','global.npmrc'])fs.writeFileSync(path.join(temp,n),'');
+const env={...process.env};for(const n of Object.keys(env))if(/^npm_config_/i.test(n)||/SUPABASE|CDP_|SOLANA|ANTHROPIC|OPENAI|OPENROUTER|ELEVENLABS|UPSTASH|COACHFI_DEV_DB|NODE_AUTH_TOKEN|NPM_TOKEN/.test(n))delete env[n];
+delete env.NODE_OPTIONS;delete env.NODE_PATH;
+env.NPM_CONFIG_USERCONFIG=path.join(temp,'user.npmrc');env.NPM_CONFIG_GLOBALCONFIG=path.join(temp,'global.npmrc');env.NPM_CONFIG_CACHE=path.join(temp,'empty-cache');env.NEXT_TELEMETRY_DISABLED='1';
+const npm=path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');assert(fs.existsSync(npm));
+const args=[npm,'uninstall',...rootNames,'--package-lock-only','--ignore-scripts','--offline','--no-audit','--no-fund','--update-notifier=false'];
+const startedAt=new Date().toISOString();const r=spawnSync(process.execPath,args,{cwd:temp,env,shell:false,windowsHide:true,encoding:'utf8',timeout:50000,maxBuffer:4*1024*1024});
+fs.writeFileSync(dir+'experiment-child.json',JSON.stringify({startedAt,completedAt:new Date().toISOString(),temp,childExitCode:r.status,error:r.error?.message??null,signal:r.signal,stdout:r.stdout,stderr:r.stderr},null,2)+'\n');
+const oldPkg=JSON.parse(before.manifests[0].fullBefore),oldLock=JSON.parse(before.manifests[1].fullBefore);
+const pkgText=fs.readFileSync(path.join(temp,'package.json'),'utf8'),lockText=fs.readFileSync(path.join(temp,'package-lock.json'),'utf8');
+const pkg=JSON.parse(pkgText),lock=JSON.parse(lockText),expectedPkg=structuredClone(oldPkg),expectedLock=structuredClone(oldLock);
+for(const n of rootNames){delete expectedPkg.dependencies[n];delete expectedLock.packages[''].dependencies[n];}for(const p of removed)delete expectedLock.packages[p];
+let minimal=false,reason=null;try{assert.equal(r.status,0);assert.deepEqual(pkg,expectedPkg);assert.deepEqual(lock,expectedLock);minimal=true;}catch(e){reason=String(e.message).slice(0,1200);}
+const packageKeysRemoved=Object.keys(oldLock.packages).filter(p=>!Object.hasOwn(lock.packages,p)).sort(),added=Object.keys(lock.packages).filter(p=>!Object.hasOwn(oldLock.packages,p)),retainedChanged=Object.keys(lock.packages).filter(p=>p!==''&&Object.hasOwn(oldLock.packages,p)&&JSON.stringify(lock.packages[p])!==JSON.stringify(oldLock.packages[p]));
+if(minimal){fs.writeFileSync(dir+'candidate-package.json',pkgText);fs.writeFileSync(dir+'candidate-lock.json',lockText);}
+for(const m of before.manifests)assert.equal(hash(fs.readFileSync(m.path)),m.sha256,'Repository manifests must remain unchanged');
+fs.writeFileSync(dir+'experiment.json',JSON.stringify({cycle:47,startedAt,completedAt:new Date().toISOString(),temp,command:['node','npm-cli.js',...args.slice(1)],childExitCode:r.status,error:r.error?.message??null,signal:r.signal,stdout:r.stdout,stderr:r.stderr,minimal,reason,packageKeysRemoved,added,retainedChanged,candidates:minimal?[{path:dir+'candidate-package.json',sha256:hash(pkgText)},{path:dir+'candidate-lock.json',sha256:hash(lockText)}]:[],repositoryUnchanged:true,scope:'Isolated TEMP npm lock-only experiment, empty cache/config, scripts/audit disabled; npm --offline requested, no OS network-isolation claim. No install, runtime prune, provider calls or clean-install claim.'},null,2)+'\n');
+console.log(JSON.stringify({childExitCode:r.status,minimal,removed:packageKeysRemoved,added:added.length,retainedChanged:retainedChanged.length,error:r.error?.message??null}));

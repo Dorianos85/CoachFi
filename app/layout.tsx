@@ -24,7 +24,7 @@ const notoSans = Noto_Sans({
 export const metadata: Metadata = {
   title: "Coach FI - Financial Education",
   description:
-    "Build saving habits, understand inflation, investing and long-term financial confidence with AI coach Mila.",
+    "Financial education for adults and parent-led family learning, with prepared exercises and examples in PLN.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "Coach FI - Financial Education",
     description:
-      "Learn saving, credit and investing through simulations, quizzes and daily steps with AI coach Mila.",
+      "Choose personal financial learning or parent-led family exercises with separate progress and prepared guidance.",
     siteName: "Coach FI",
   },
 };

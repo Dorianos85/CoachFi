@@ -1,0 +1,11 @@
+# C51 — odporny odczyt avatara
+
+Status: PLAN_LOCAL_REPRODUCTION.18.10.2026. Root autor kodu/narzędzi; c49_validation autor fixture Node/SSR + Playwright/config; c49_dependency_review source/tools reviewer; c49_advisories niezależny fixture/raw/ledger reviewer. Root peer fixture, nikt nie zatwierdza własnego rezultatu.
+
+Aktualny /avatar odczytuje getAvatar i używa gender/style w effect/render. Getter rzutuje dowolny JSON: null powoduje błąd effect, brak/nieobsługiwany style błąd kolejnego renderu. Plan: tylko shape/enum admission w lib/avatar.ts z existingDEFAULT fallback, sześć obecnych enumkombinacji i extras poprawnych records zachowane. Bez rawrepair/zapisu, saveAvatar, schema, finansowej polityki lub zmian UIcopy. Nie deklarować tego samego crasha dla AvatarDisplay.
+
+Dependency priority sprawdzono C50: brak zweryfikowanego metadata/artefaktu parsera; brak nowych danych uzasadniających kolejny network poll lub blindoverride. C51 niczego nie domyka w B10. Wstępny pomysł health-postreadrace odrzucony przez rzeczywisty makeHandle.postreadfence; nie traktować go jako naprawianego błędu.
+
+Przyjęcie: niezależne frozen oracles, jeden baseline na starym kodzie; te same testy po poprawce. Actual getter/productstorage/ownerleases oraz actual AvatarPage z jawnym lifecycleSSR/context/motion adapterem. Jeden powtórzony dotknięty C4personal suite ze względu na zmianę getAvatar; bez rerun C50 i pozostałych green suites. Jeden TypeScript i TEMP build; jeden Chrome6PLEN×null/badstyle/healthy na tej samej built kopii, workers1/retries0, czysty kontekst i syntetyczne dane. Po załadowaniu kontrola raw+6kluczy bezset/remove, keyboardSpace bezsave/voice i reload; API/pageErrors0. To lokalna bramka, bez realauth/cleaninstall/staging/produkcja PASS.
+
+Rozłączne pliki: root lib/avatar.ts +5narzędzi +report/ledgery; c49_validation tests/cycle51-avatar-read-review.test.ts, tests/e2e/cycle51-avatar-read.spec.ts, playwright.cycle51.config.ts, fixture-design; c49_dependency_review integrity-candidate/tool/source reviews; c49_advisories validation review. C39–50 immutable receipts, poprzednie141ścieżek i C50export/fixture zachowane. HEAD/branch/index bez zmiany; bez nowych gitadd/commit/push/deploy, danych produkcyjnych/sekretów, płatnych/provider calls. AI/cloud writes HARD_OFF.

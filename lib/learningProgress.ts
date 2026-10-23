@@ -1,5 +1,5 @@
 import { persistLearningState } from "@/lib/account-sync";
-import { isProgressVisible } from "@/lib/progress-visibility";
+import { assertCurrentPersonalStorage, captureCurrentPersonalStorage, type PersonalStorageHandle } from "@/lib/product-storage";
 
 import { getAllCards } from "./srs";
 import { notifyCloud } from "@/lib/sync/syncQueue";
@@ -28,34 +28,54 @@ export interface StageProgress {
   totalCount: number;
 }
 
-function getManualOverrides(): Record<string, "started" | "completed"> {
+function getManualOverrides(storage: PersonalStorageHandle): Record<string, "started" | "completed"> {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(MANUAL_KEY);
+    const raw = storage.getItem(MANUAL_KEY);
     return raw ? (JSON.parse(raw) as Record<string, "started" | "completed">) : {};
   } catch {
     return {};
   }
 }
 
-export function markStageStarted(stageId: string): void {
-  if (typeof window === "undefined") return;
-  const overrides = getManualOverrides();
+function readManualOverridesForWrite(storage: PersonalStorageHandle): Record<string, "started" | "completed"> {
+  if (typeof window === "undefined") throw new Error("Manual learning progress is unavailable");
+  const raw: unknown = storage.getItem(MANUAL_KEY);
+  if (raw instanceof Promise) void Promise.prototype.then.call(raw, undefined, () => undefined);
+  assertCurrentPersonalStorage(storage);
+  if (raw === null) return {};
+  if (typeof raw !== "string") throw new Error("Manual learning progress is unavailable");
+  const overrides: unknown = JSON.parse(raw);
+  if (overrides === null || typeof overrides !== "object" || Array.isArray(overrides) ||
+    Object.getPrototypeOf(overrides) !== Object.prototype ||
+    !Object.values(overrides).every(value => value === "started" || value === "completed")) {
+    throw new Error("Manual learning progress is unavailable");
+  }
+  return overrides as Record<string, "started" | "completed">;
+}
+
+export function markStageStarted(stageId: string, storage = captureCurrentPersonalStorage()): void {
+  assertCurrentPersonalStorage(storage);
+  const overrides = readManualOverridesForWrite(storage);
   if (!overrides[stageId]) {
     overrides[stageId] = "started";
-    localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+    if (!storage.setItem(MANUAL_KEY, JSON.stringify(overrides))) throw new Error("Storage session changed");
+    assertCurrentPersonalStorage(storage);
     notifyCloud("stages");
-    persistLearningState("learnManual");
+    assertCurrentPersonalStorage(storage);
+    persistLearningState("learnManual", storage);
   }
 }
 
-export function markStageCompleted(stageId: string): void {
-  if (typeof window === "undefined") return;
-  const overrides = getManualOverrides();
+export function markStageCompleted(stageId: string, storage = captureCurrentPersonalStorage()): void {
+  assertCurrentPersonalStorage(storage);
+  const overrides = readManualOverridesForWrite(storage);
   overrides[stageId] = "completed";
-  localStorage.setItem(MANUAL_KEY, JSON.stringify(overrides));
+  if (!storage.setItem(MANUAL_KEY, JSON.stringify(overrides))) throw new Error("Storage session changed");
+  assertCurrentPersonalStorage(storage);
   notifyCloud("stages");
-  persistLearningState("learnManual");
+  assertCurrentPersonalStorage(storage);
+  persistLearningState("learnManual", storage);
 }
 
 function emptyStageProgress(): StageProgress[] {
@@ -68,11 +88,11 @@ function emptyStageProgress(): StageProgress[] {
   }));
 }
 
-export function getAllStageProgress(): StageProgress[] {
-  if (typeof window !== "undefined" && !isProgressVisible()) return emptyStageProgress();
-  const cards = getAllCards();
+export function getAllStageProgress(storage = captureCurrentPersonalStorage()): StageProgress[] {
+  if (!storage.isCurrent()) return emptyStageProgress();
+  const cards = getAllCards(storage);
   const cardMap = new Map(cards.map((c) => [c.id, c]));
-  const overrides = getManualOverrides();
+  const overrides = getManualOverrides(storage);
   const stageIds = Object.keys(STAGE_QUESTION_IDS);
 
   return stageIds.map((stageId, index) => {

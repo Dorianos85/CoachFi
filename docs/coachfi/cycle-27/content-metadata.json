@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "cycle": 27,
+  "module": null,
+  "version": "challenge-c15-pl-en-v1-c27-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "DRAFT_READY_PENDING_FRESH_BASELINE_INDEPENDENT_FINANCIAL_REVIEW_AND_ROOT_GO",
+  "implementation_authorized": false,
+  "distinct_existing_questions": 1,
+  "language_versions": 2,
+  "lesson_steps_per_language": 0,
+  "new_question_ids": 0,
+  "new_lessons": 0,
+  "reward_total": 50,
+  "canonical_union_count_unchanged": 82,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending"
+    }
+  },
+  "scope": {
+    "productFiles": [
+      "data/challengeQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "id": "c15",
+    "englishOperation": "Replace one existing ChallengeQuestion object; raw EN has no category property and must keep that shape.",
+    "PLOperation": "Insert one NEW own plQuestionOverrides property; no c15 existed before. New approved PL category Decyzje kredytowe is copy only.",
+    "metadataCategory": "copy.en.category records the already inherited canonical Deep Dive category, not a new raw challenge field.",
+    "protected": "All other19 challenge records; all62 quiz records,82union,seven explicit c15 translations,stage/topic/defaultpool/SRS/save helpers/rotation and reward policies.",
+    "differentFromC26": "C26 teaches interpretation of survey measures; C27 applies financial knowledge to a hypothetical monthly affordability decision, with no replacement survey statistic."
+  },
+  "sources": [
+    {
+      "id": "knf-credit-education",
+      "publisher": "Urząd Komisji Nadzoru Finansowego / CEDUR",
+      "title": "Przewodnik po kredycie konsumenckim",
+      "publication_year": 2018,
+      "url": "https://www.knf.gov.pl/knf/pl/komponenty/img/Przewodnik%20po%20kredycie%20konsumenckim%202018_64304.pdf",
+      "checked_date": "2026-10-15",
+      "location": "General educational discussion of repayment capacity and credit costs, printed pp.10,21–23.",
+      "access": "Fresh public primary PDF read; no sessions, documents or application submission.",
+      "bounded_use": "Repayment involves principal, interest, dates and individual financial circumstances. Used only for the durable educational concepts of costs and ability to repay.",
+      "limits": "The publication describes2018 law. No legal rule, threshold, lender duty, current eligibility, APR formula or entitlement is imported into this question."
+    },
+    {
+      "id": "cfpb-affordability",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "How much can I afford to borrow for a car or auto loan?",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/how-much-can-i-afford-to-borrow-for-a-car-or-auto-loan-en-751/",
+      "checked_date": "2026-10-15",
+      "location": "Create a monthly spending plan; consider all costs.",
+      "access": "Fresh full primary public page read; no account, calculator or paid call.",
+      "bounded_use": "Compare monthly income and expenses and consider total costs when assessing what is affordable. Universal budgeting concept only.",
+      "limits": "No US loan law, product, fees, rate, car purchase recommendation, counselling provider or market rule imported."
+    }
+  ],
+  "claim_review": {
+    "old_unscoped_percentage": "The exact33% item/year/population remains unmatched, as documented separately in accepted C26. Do not call it universally false or replace it with a new percentage.",
+    "old_number_one_and_causal_outcomes": "The located evidence does not establish that this is the number-one knowledge gap or that it directly causes debt spirals and the stated broad PPK/PPE participation figure.",
+    "bounded_resolution": "Replace the unscoped statistic/ranking/causal attribution with an applied decision. Knowing a concept alone does not supply the missing cash in an explicitly closed example.",
+    "no_person_diagnosis": "The calculation is neither a creditworthiness decision about a real person nor a legal threshold."
+  },
+  "questions": [
+    {
+      "id": "c15",
+      "correctAnswer": "C",
+      "reward": 50,
+      "learning_goal": "Use financial knowledge to check a proposed repayment against the same-month resources, instead of treating knowledge itself as a guarantee.",
+      "copy": {
+        "pl": {
+          "id": "c15",
+          "question": "Hipotetyczny miesiąc: po podstawowych potrzebach i wymaganych spłatach zostaje 100 zł; brak innych środków. Nowa rata to 150 zł. Co wynika z budżetu?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Znajomość procentu składanego pokryje brakujące 50 zł"
+            },
+            {
+              "id": "B",
+              "text": "Niepotwierdzona podwyżka gwarantuje spłatę"
+            },
+            {
+              "id": "C",
+              "text": "Brakuje 50 zł; przed decyzją sprawdź koszty i możliwość spłaty"
+            },
+            {
+              "id": "D",
+              "text": "Pożycz 50 zł i uznaj, że budżet się nie zmienił"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "100 − 150 = −50 zł. W tym przykładzie podstawowe potrzeby i dotychczasowe wymagane spłaty odjęto już raz. Sama znajomość procentu składanego nie zapewnia dochodu ani spłaty. Przed nowym zobowiązaniem sprawdź pełne koszty, terminy i realny budżet; przy zmiennym dochodzie uwzględnij wahania. Dodatkowa pożyczka nie dowodzi pokrycia raty z podanego budżetu.",
+          "reward": 50,
+          "category": "Decyzje kredytowe"
+        },
+        "en": {
+          "id": "c15",
+          "question": "Hypothetical month: PLN 100 remains after essentials and required repayments; no other funds are available. A new payment is PLN 150. What does the budget show?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Knowing compound interest covers the missing PLN 50"
+            },
+            {
+              "id": "B",
+              "text": "An unconfirmed pay rise guarantees repayment"
+            },
+            {
+              "id": "C",
+              "text": "PLN 50 is missing; check costs and affordability before deciding"
+            },
+            {
+              "id": "D",
+              "text": "Borrow PLN 50 and assume the budget is unchanged"
+            }
+          ],
+          "correctAnswer": "C",
+          "explanation": "100 − 150 = −PLN 50. Essentials and existing required repayments have already been deducted once in this example. Knowing compound interest alone does not provide income or ensure repayment. Before a new commitment, check full costs, dates and a realistic budget; allow for fluctuations with variable income. Another loan does not prove that this payment is covered by the stated budget.",
+          "reward": 50,
+          "category": "Deep Dive"
+        }
+      },
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Wiedza o procencie składanym nie dodaje 50 zł do budżetu. Przy podanych zasobach100 zł rata150 zł nadal nie ma pełnego pokrycia.",
+          "en": "Knowing compound interest does not add PLN50 to the budget. With the stated PLN100, the PLN150 payment is still not fully covered."
+        },
+        "B": {
+          "pl": "Podwyżka, której nie potwierdzono, nie jest gwarantowanym zasobem w tym przykładzie. Nie usuwa wskazanego braku50 zł.",
+          "en": "An unconfirmed pay rise is not a guaranteed resource in this example. It does not remove the stated PLN50 shortfall."
+        },
+        "D": {
+          "pl": "Kolejna pożyczka tworzy nowe zobowiązanie i zmienia budżet. Nie dowodzi, że proponowana rata mieści się w podanych środkach bez zmian.",
+          "en": "Another loan creates a new obligation and changes the budget. It does not prove that the proposed payment fits the stated resources without changes."
+        }
+      },
+      "calculation_assumptions": {
+        "country": "PL",
+        "currency": "PLN",
+        "period": "One same hypothetical month for available resources and the proposed repayment.",
+        "amount_after_essentials_and_existing_required_repayments": 100,
+        "proposed_new_monthly_repayment": 150,
+        "remaining_after_new_payment": -50,
+        "shortfall": 50,
+        "other_resources": 0,
+        "existing_required_repayments_already_deducted_once": true,
+        "no_borrowing_or_unconfirmed_raise_as_assumed_resource": true,
+        "full_loan_cost_not_inferred_from_one_instalment": true,
+        "law_threshold": false,
+        "real_creditworthiness_assessment": false,
+        "new_data_collection": false
+      }
+    }
+  ],
+  "voice_checks": {
+    "format": "[question, ...answers.map(a => a.id + \". \" + a.text)].join(\" \")",
+    "maximum": 383,
+    "cases": [
+      {
+        "id": "c15",
+        "locale": "pl",
+        "text": "Hipotetyczny miesiąc: po podstawowych potrzebach i wymaganych spłatach zostaje 100 zł; brak innych środków. Nowa rata to 150 zł. Co wynika z budżetu? A. Znajomość procentu składanego pokryje brakujące 50 zł B. Niepotwierdzona podwyżka gwarantuje spłatę C. Brakuje 50 zł; przed decyzją sprawdź koszty i możliwość spłaty D. Pożycz 50 zł i uznaj, że budżet się nie zmienił",
+        "utf16_length": 369,
+        "question_length": 149,
+        "explanation_length": 355,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "c15",
+        "locale": "en",
+        "text": "Hypothetical month: PLN 100 remains after essentials and required repayments; no other funds are available. A new payment is PLN 150. What does the budget show? A. Knowing compound interest covers the missing PLN 50 B. An unconfirmed pay rise guarantees repayment C. PLN 50 is missing; check costs and affordability before deciding D. Borrow PLN 50 and assume the budget is unchanged",
+        "utf16_length": 383,
+        "question_length": 160,
+        "explanation_length": 387,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "limits": [
+    "Draft only, not author financial/product acceptance.",
+    "No individual loan recommendation, current rate, legal rule or research-effect guarantee.",
+    "C50 remains existing challenge reward; no reward/SRS/rotation implementation change.",
+    "Other seven explicit translations remain outside this PL/EN acceptance and must stay literal.",
+    "No mandatory new action or replacement statistic."
+  ]
+}

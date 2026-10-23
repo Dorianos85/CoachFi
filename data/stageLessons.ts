@@ -95,41 +95,41 @@ export const stageLessons: Record<string, StageLesson> = {
     tr: "Birikim Alışkanlığı" },
     {
       en: [
-        {
-          title: "Save on payday",
-          body: "The strongest habit is a fixed transfer right after you are paid. Waiting to save what is left usually leaves nothing. The transfer happens before spending starts. The rest of the month runs on what remains.",
-        },
-        {
-          title: "The 50/30/20 rule",
-          body: "The 50/30/20 rule splits take-home pay into needs, wants, and savings. About half covers needs such as rent and food. About 30% covers wants. About 20% goes to savings and paying down debt.",
-        },
-        {
-          title: "A high-yield savings account",
-          body: "A high-yield savings account pays much more interest than a standard account. It is still a savings account, not a stock investment. The extra interest helps cash keep up a little better. It is a place for money you may need soon.",
-        },
-        {
-          title: "Dollar-cost averaging",
-          body: "Dollar-cost averaging means investing a fixed amount on a regular schedule, whatever the price. You buy more when prices are low and less when they are high. You do not wait for a perfect day. The habit removes the guesswork.",
-        },
-      ],
+  {
+    "title": "Choose an affordable saving step",
+    "body": "First reserve essential costs and required minimum debt payments until the next income arrives. Example: PLN 2,500 available, PLN 2,100 for essentials, PLN 300 for minimum payments leaves PLN 100. Choosing PLN 50 to save is optional, not a target for everyone. With irregular income, recheck cash flow after each payment. An automatic transfer can help only when its amount and timing fit your balance; adjust or pause it when needed. No surplus means no transfer, without blame. Action: check upcoming bills before choosing an amount."
+  },
+  {
+    "title": "50/30/20 is a flexible guide",
+    "body": "For PLN 4,000 monthly take-home income, an illustrative split is PLN 2,000 needs, PLN 1,200 wants, PLN 800 savings and extra debt repayment. In this example only, required minimum debt payments are included once in needs, not again in the 20% bucket. This is our budgeting convention, not a universal definition. If essentials and minimum payments need more than half, adjust wants and saving; do not skip bills to hit a percentage. Exercise: calculate your essential costs first and choose a realistic split."
+  },
+  {
+    "title": "Compare deposit account conditions",
+    "body": "A savings account is a deposit account, not a stock investment. A higher advertised rate alone does not show the outcome. Compare how long it applies, qualifying conditions, amount limits, fees and access to withdrawals. Check the institution and applicable deposit guarantee scheme, including BFG coverage where relevant; protection has limits and exclusions. Interest does not guarantee that your purchasing power keeps pace with inflation. Action: read the current terms before choosing an account. This lesson recommends no provider or current rate."
+  },
+  {
+    "title": "DCA: equal amounts, different unit counts",
+    "body": "DCA means investing the same amount at regular intervals, without choosing dates based on price forecasts. Example: PLN 100 at PLN 10 per unit buys 10 units; PLN 100 at PLN 20 buys 5. You have 15 units after investing PLN 200. If their price falls to PLN 8, they are worth PLN 120: a PLN 80 loss, ignoring fees and taxes. DCA does not guarantee profit or the best buying time. Money needed soon should not rely on volatile investments. Exercise: explain why equal amounts buy different unit counts."
+  }
+],
       pl: [
-        {
-          title: "Oszczędzaj w dniu wypłaty",
-          body: "Najmocniejszy nawyk to stały przelew zaraz po wypłacie. Jak odkładasz dopiero to, co zostanie, zwykle nie zostaje nic. Najpierw przelew, potem wydatki. Resztę miesiąca przeżywasz z tego, co zostało.",
-        },
-        {
-          title: "Zasada 50/30/20",
-          body: "Zasada 50/30/20 dzieli wypłatę na rękę na trzy części. Około połowy idzie na potrzeby: czynsz, jedzenie, rachunki. Około 30% na zachcianki. Około 20% na oszczędności i spłatę długów.",
-        },
-        {
-          title: "Konto z wyższym oprocentowaniem",
-          body: "To konto oszczędnościowe z wyraźnie wyższym oprocentowaniem niż zwykłe. To nadal konto, nie akcje. Wyższe odsetki sprawiają, że gotówka wolniej traci na wartości. Trzymaj tu pieniądze, których możesz potrzebować wkrótce.",
-        },
-        {
-          title: "Uśrednianie ceny",
-          body: "Uśrednianie ceny, czyli DCA, to wpłacanie stałej kwoty w stałym rytmie, bez patrzenia na cenę. Gdy jest tanio, kupujesz więcej. Gdy jest drogo, mniej. Nie czekasz na idealny moment i nie musisz zgadywać.",
-        },
-      ],
+  {
+    "title": "Wybierz dostępną kwotę oszczędności",
+    "body": "Najpierw zabezpiecz podstawowe koszty i wymagane minimalne spłaty długu do kolejnego wpływu. Przykład: dostępne 2 500 zł, potrzeby 2 100 zł i minimalne spłaty 300 zł pozostawiają 100 zł. Odłożenie 50 zł jest opcjonalne, nie jest celem dla każdego. Przy nieregularnym dochodzie sprawdzaj przepływy po każdym wpływie. Automatyczny przelew może pomóc tylko wtedy, gdy kwota i termin pasują do salda; zmień go lub wstrzymaj w razie potrzeby. Bez nadwyżki nie rób przelewu, bez poczucia winy. Działanie: sprawdź przyszłe rachunki przed wyborem kwoty."
+  },
+  {
+    "title": "50/30/20 to elastyczna wskazówka",
+    "body": "Przy miesięcznym dochodzie 4 000 zł na rękę przykładowy podział to 2 000 zł na potrzeby, 1 200 zł na zachcianki i 800 zł na oszczędności oraz dodatkowe spłaty długu. Tylko w tym przykładzie wymagane minimalne spłaty liczymy raz w potrzebach, nie ponownie w części 20%. To nasza konwencja budżetowa, nie uniwersalna definicja. Jeśli potrzeby i minimalne spłaty wymagają ponad połowy, dostosuj zachcianki i oszczędności; nie pomijaj rachunków dla osiągnięcia procentu. Ćwiczenie: najpierw policz podstawowe koszty i wybierz realny podział."
+  },
+  {
+    "title": "Porównuj warunki kont depozytowych",
+    "body": "Konto oszczędnościowe jest kontem depozytowym, nie inwestycją w akcje. Sama wyższa reklamowana stawka nie opisuje wyniku. Porównaj czas jej obowiązywania, warunki, limity kwot, opłaty i dostęp do wypłat. Sprawdź instytucję i właściwy system gwarantowania depozytów, w tym ochronę BFG, jeśli ma zastosowanie; ochrona ma limity i wyłączenia. Odsetki nie gwarantują utrzymania siły nabywczej przy inflacji. Działanie: przed wyborem konta przeczytaj aktualne warunki. Lekcja nie poleca dostawcy ani bieżącej stawki."
+  },
+  {
+    "title": "DCA: równe kwoty, różne liczby jednostek",
+    "body": "DCA oznacza inwestowanie tej samej kwoty w regularnych odstępach, bez wybierania dat na podstawie prognoz cen. Przykład: 100 zł przy cenie 10 zł za jednostkę kupuje 10 jednostek; 100 zł przy cenie 20 zł kupuje 5. Masz 15 jednostek po wpłatach 200 zł. Jeśli cena spadnie do 8 zł, są warte 120 zł: strata 80 zł, bez opłat i podatków. DCA nie gwarantuje zysku ani najlepszego momentu zakupu. Pieniądze potrzebne wkrótce nie powinny zależeć od zmiennych inwestycji. Ćwiczenie: wyjaśnij, dlaczego równe kwoty kupują różne liczby jednostek."
+  }
+],
       ja: [
         {
           title: "給料日に貯める",
@@ -270,39 +270,39 @@ export const stageLessons: Record<string, StageLesson> = {
     {
       en: [
         {
-          title: "What inflation means",
-          body: "Inflation means money buys less over time. The same amount covers fewer groceries, or the same rent costs more. Rising prices are the usual sign. Cash that sits still loses purchasing power.",
+          "title": "Basket prices, not one price",
+          "body": "Inflation is a broad increase in prices of a weighted basket of goods and services, not every individual price rise. Some prices can fall, and each household's basket differs. Example: the same hypothetical basket costs PLN 1,000, then PLN 1,050 — a 5% rise; the same cash buys less of that basket. Try: does one dearer item prove general inflation? No. Action: optionally compare two prices for the same products. After a break, return to one comparison; no catching up is needed."
         },
         {
-          title: "Real return",
-          body: "Real return is the interest you earn minus inflation. If inflation is 5% and the bank pays 2%, the real return is about −3%. The balance can rise while its buying power falls. The rate on the account is not the whole story.",
+          "title": "More nominal cash, less real value",
+          "body": "Nominal change concerns the PLN balance; real change accounts for prices. One-year example with no deposits, withdrawals, fees or taxes: a hypothetical 2% turns PLN 1,000 into PLN 1,020. At 5% inflation, value in the example's starting prices is 1,020 ÷ 1.05 ≈ PLN 971.43. Real return: (1.02 ÷ 1.05 − 1) × 100% ≈ −2.86%. Subtracting 2% − 5% gives only the approximation −3%. Try: which grew — the balance or purchasing power? The balance. Action: distinguish both values in the example. After a break, repeat one division, without pressure."
         },
         {
-          title: "The rule of 72",
-          body: "The rule of 72 estimates how long money takes to double. Divide 72 by the yearly return. At 8% a year, money doubles in about 9 years. At 6%, it takes about 12 years.",
+          "title": "Rule of 72 is an estimate",
+          "body": "Rule of 72 estimates time to double nominal capital: 72 ÷ a positive annual rate in percent. Example: at a hypothetical fixed 6%, annual compounding and reinvestment, with no deposits or withdrawals, 72 ÷ 6 ≈ 12 years. We omit fees, taxes and inflation in this nominal example. This is an estimate, not an offer or guarantee; changing rates or losses alter the result. Try: estimate time at an assumed 8% — about 9 years. Action: add the assumptions to your calculation. After a break, return to 72 ÷ 6 alone; you do not have to invest."
         },
         {
-          title: "A long-term hedge",
-          body: "A hedge is something that has tended to grow faster than prices. Broad stock index funds have done that over many years. Cash under a mattress and a 1% savings account have not. The point is a long horizon, not a quick bet.",
-        },
+          "title": "Assess risk, not a promise",
+          "body": "No single investment guarantees beating inflation. Check possible loss, costs and access to money; diversification does not remove all risk. Example without fees or taxes: a hypothetical PLN 1,000 value falls to PLN 900 — a PLN 100 loss, or 10%. Try: does a long period or a good past result guarantee profit? No. Action: protect essential spending and required minimum repayments; with irregular income, you can postpone investing. After a break, return to one risk question. This step does not require a purchase."
+        }
       ],
       pl: [
         {
-          title: "Co znaczy inflacja",
-          body: "Inflacja znaczy, że z czasem za te same pieniądze kupisz mniej. Ta sama kwota starczy na mniej zakupów, a ten sam czynsz kosztuje więcej. Ceny idą w górę. Gotówka, która leży bez ruchu, traci siłę nabywczą.",
+          "title": "Ceny koszyka, nie jedna cena",
+          "body": "Inflacja to ogólny wzrost cen ważonego koszyka towarów i usług, nie każda pojedyncza podwyżka. Niektóre ceny mogą spadać, a koszyk każdego gospodarstwa jest inny. Przykład: ten sam hipotetyczny koszyk kosztuje 1 000 zł, potem 1 050 zł — wzrost o 5%; ta sama gotówka kupuje mniej tego koszyka. Ćwiczenie: czy jedna droższa rzecz dowodzi ogólnej inflacji? Nie. Działanie: opcjonalnie porównaj dwie ceny tych samych produktów. Po przerwie wróć do jednego porównania; nie trzeba nadrabiać."
         },
         {
-          title: "Realna stopa zwrotu",
-          body: "Realna stopa zwrotu to oprocentowanie minus inflacja. Jak inflacja wynosi 5%, a bank daje 2%, wychodzi około −3%. Na koncie może przybywać złotówek, a i tak kupisz za nie mniej. Samo oprocentowanie nie mówi, czy naprawdę zarabiasz.",
+          "title": "Nominalnie więcej, realnie mniej",
+          "body": "Nominalna zmiana dotyczy salda w złotych; realna uwzględnia ceny. Przykład na jeden rok, bez dopłat, wypłat, opłat i podatków: hipotetyczne 2% zmienia 1 000 zł w 1 020 zł. Przy inflacji 5% wartość w cenach początku przykładu to 1 020 ÷ 1,05 ≈ 971,43 zł. Realna stopa: (1,02 ÷ 1,05 − 1) × 100% ≈ −2,86%. Odejmowanie 2% − 5% daje tylko przybliżenie −3%. Ćwiczenie: co wzrosło — saldo czy siła nabywcza? Saldo. Działanie: odróżnij obie wartości w przykładzie. Po przerwie powtórz jedno dzielenie, bez presji."
         },
         {
-          title: "Reguła 72",
-          body: "Reguła 72 podpowiada, po ilu latach pieniądze się podwoją. Dzielisz 72 przez roczną stopę zwrotu. Przy 8% rocznie wychodzi około 9 lat. Przy 6% około 12 lat.",
+          "title": "Reguła 72 jest przybliżeniem",
+          "body": "Reguła 72 szacuje czas nominalnego podwojenia kapitału: 72 ÷ dodatnia roczna stopa w procentach. Przykład: przy hipotetycznych stałych 6%, rocznej kapitalizacji i reinwestowaniu, bez dopłat i wypłat, 72 ÷ 6 ≈ 12 lat. Pomijamy opłaty, podatki i inflację w tym nominalnym przykładzie. To przybliżenie, nie oferta ani gwarancja; zmienne stopy lub straty zmieniają wynik. Ćwiczenie: oszacuj czas przy założonych 8% — około 9 lat. Działanie: dopisz założenia do obliczenia. Po przerwie wróć do samego 72 ÷ 6; nie musisz inwestować."
         },
         {
-          title: "Ochrona na lata",
-          body: "Dobra ochrona przed inflacją to coś, co przez lata rosło szybciej niż ceny. Tak było z szerokimi funduszami indeksowymi akcji. Gotówka pod materacem i konto na 1% tak nie działają. Liczy się długi czas, nie szybki zysk.",
-        },
+          "title": "Oceń ryzyko, nie obietnicę",
+          "body": "Nie ma jednej inwestycji gwarantującej pokonanie inflacji. Sprawdź możliwość straty, koszty i dostęp do pieniędzy; dywersyfikacja nie usuwa całego ryzyka. Przykład bez opłat i podatków: hipotetyczna wartość 1 000 zł spada do 900 zł — strata 100 zł, czyli 10%. Ćwiczenie: czy długi czas lub dobry wynik z przeszłości gwarantują zysk? Nie. Działanie: chroń niezbędne wydatki i wymagane minimalne spłaty; przy nieregularnym dochodzie możesz odłożyć inwestowanie. Po przerwie wróć do jednego pytania o ryzyko. Ten krok nie wymaga zakupu."
+        }
       ],
       ja: [
         {
@@ -444,39 +444,39 @@ export const stageLessons: Record<string, StageLesson> = {
     {
       en: [
         {
-          title: "Variable rates",
-          body: "A variable-rate loan follows the market rate. When the central bank raises rates, the monthly payment usually goes up. A fixed rate stays put. With a variable loan, a higher rate means a higher bill.",
+          "title": "The contract sets the rate reset",
+          "body": "A variable rate may use a reference rate and margin; the contract sets the reset date, not just the day of a central-bank decision. A rate can be fixed or periodically fixed. Check how long the agreed rate applies and the contractual terms after that period; it does not freeze every fee. Hypothetical example: a 3% reference rate + a 2 percentage-point margin = 5%; at the contractual reset, 4% + 2 points = 6%. On a constant PLN 1,000 principal, that is PLN 60 simple interest for one year, with no repayments, compounding or fees. Try: identify when the change applies. Action: optionally find the reset date in a sample contract. With irregular income, allow for a possible higher installment without taking new debt. After a break, return to one date."
         },
         {
-          title: "The debt avalanche",
-          body: "The debt avalanche pays the highest-interest debt first. That cuts the interest you pay over the life of the debts. Paying the smallest balance first can feel easier, but it usually costs more. A new loan to pay an old one does not remove the cost.",
+          "title": "Avalanche after essentials and minimums",
+          "body": "First protect essentials and all debts' required minimum payments. Avalanche directs only available extra money to the highest interest rate. Example: an optional PLN 100 remains; comparable debts of PLN 1,000 and PLN 500 have fixed annual rates of 20% and 10%, respectively, with no fees, penalties or arrears. Avalanche chooses 20%. Separate simple model: PLN 100 repaid at the start of a year, each balance at least PLN 100, no later cash flows or compounding — PLN 20 versus PLN 10 less interest. This is not a full schedule or guarantee. Try: may this replace another debt's minimum? No. Action: optionally compare rates and prepayment terms. With irregular income and no surplus, no extra payment is required. After a break, return to one payment date."
         },
         {
-          title: "What moves a credit score",
-          body: "Payment history has the biggest effect on a credit score. Paying on time matters more than how many cards you hold. Income is not the main factor. A long record of on-time payments is the strongest signal.",
+          "title": "Repayment history is not full capacity",
+          "body": "In Poland, timely repayment history matters for credit-risk assessment. BIK scoring is not the same as repayment capacity: a lender also assesses income, expenses and other debts, then makes its own decision. This gives no approval promise or universal weight for one factor. Example: someone pays on time, but irregular income may not cover a new PLN 500 installment. Try: does timeliness guarantee a new loan? No. Action: optionally separate history from the budget in the example, without buying a report or taking new debt. Coachfi points are not a BIK score. After a break, return to one distinction."
         },
         {
-          title: "Bond prices and rates",
-          body: "Bond prices fall when interest rates rise. An older bond pays less than a new one, so buyers offer less for it. The two move in opposite directions. A rate increase does not leave bond prices where they were.",
-        },
+          "title": "Sale price versus contractual redemption",
+          "body": "For a tradable bond with fixed cash flows, a higher required market yield means a lower price, other factors unchanged. Example: in one year the contract provides PLN 1,000 principal + a PLN 100 coupon. Excluding fees, tax and default in the calculation: 1,100 ÷ 1.10 = PLN 1,000; at a required 20%: 1,100 ÷ 1.20 ≈ PLN 916.67. This compares the same one year to maturity; it is not a forecast. Try: did contractual principal fall? No, the sale price did. The issuer may fail to pay, and selling may be difficult. Action: optionally name those two risks. With irregular income, protect current essentials; no bond purchase is required. After a break, return to one cash flow."
+        }
       ],
       pl: [
         {
-          title: "Oprocentowanie zmienne",
-          body: "Kredyt ze zmienną stopą jest powiązany ze stopami na rynku. Gdy bank centralny je podnosi, rata zwykle rośnie. Przy stałej stopie rata zostaje taka sama. Wyższa stopa to wyższa rata.",
+          "title": "Stopa i termin zmiany w umowie",
+          "body": "Zmienna stopa może wynikać ze wskaźnika i marży; termin aktualizacji określa umowa, nie sam dzień decyzji banku centralnego. Oprocentowanie może być stałe lub okresowo stałe. Sprawdź, jak długo obowiązuje uzgodniona stopa i jakie warunki umowy stosuje się po tym okresie; nie zamraża ona wszystkich opłat. Przykład hipotetyczny: wskaźnik 3% + marża 2 pkt proc. = 5%; przy umownej aktualizacji 4% + 2 pkt proc. = 6%. Dla stałego kapitału 1 000 zł to 60 zł prostych odsetek przez rok, bez spłat, kapitalizacji i opłat. Ćwiczenie: wskaż moment zmiany. Działanie: opcjonalnie znajdź termin aktualizacji w przykładowej umowie. Przy nieregularnym dochodzie uwzględnij możliwość wyższej raty, bez nowego kredytu. Po przerwie wróć do jednego terminu."
         },
         {
-          title: "Lawina zadłużenia",
-          body: "W lawinie zadłużenia najpierw spłacasz dług z najwyższym oprocentowaniem. W całym okresie oddajesz wtedy mniej odsetek. Spłata najmniejszego długu może być łatwiejsza, ale zwykle wychodzi drożej. Nowy kredyt na spłatę starego niczego nie załatwia.",
+          "title": "Lawina dopiero po potrzebach i minimum",
+          "body": "Najpierw zabezpiecz podstawowe potrzeby i wymagane minimalne spłaty wszystkich długów. Lawina kieruje dopiero dostępną nadwyżkę na najwyższe oprocentowanie. Przykład: zostaje opcjonalne 100 zł; porównywalne długi 1 000 zł i 500 zł mają odpowiednio stałe roczne 20% i 10%, bez opłat, kar i zaległości. Lawina wybiera 20%. Osobny prosty model: 100 zł spłacone na początku roku, każde saldo co najmniej 100 zł, bez dalszych przepływów i kapitalizacji — 20 zł wobec 10 zł mniej odsetek. To nie pełny harmonogram ani gwarancja. Ćwiczenie: czy wolno zastąpić minimum innego długu? Nie. Działanie: opcjonalnie porównaj stopy i warunki nadpłaty. Przy nieregularnym dochodzie i braku nadwyżki nie musisz nadpłacać. Po przerwie wróć do jednego terminu spłaty."
         },
         {
-          title: "Ocena kredytowa",
-          body: "Na ocenę kredytową najbardziej wpływa historia płatności. To, czy płacisz w terminie, liczy się bardziej niż liczba kart. Dochód nie jest tu najważniejszy. Najwięcej daje długa historia płatności na czas.",
+          "title": "Historia spłat to nie cała zdolność",
+          "body": "W Polsce historia terminowych spłat jest istotna dla oceny ryzyka. Scoring BIK nie jest tym samym co zdolność kredytowa: bank ocenia też dochody, wydatki i inne zobowiązania oraz podejmuje własną decyzję. Nie ma tu obietnicy zgody ani uniwersalnej wagi jednego czynnika. Przykład: ktoś płaci na czas, ale nieregularne wpływy mogą nie wystarczać na nową ratę 500 zł. Ćwiczenie: czy terminowość gwarantuje nowy kredyt? Nie. Działanie: opcjonalnie odróżnij w przykładzie historię od budżetu, bez kupowania raportu lub nowego długu. Punkty Coachfi nie są oceną BIK. Po przerwie wróć do jednego rozróżnienia."
         },
         {
-          title: "Ceny obligacji i stopy",
-          body: "Gdy stopy procentowe rosną, ceny obligacji spadają. Stara obligacja płaci mniej niż nowa, więc kupujący dają za nią mniej. Cena i stopa idą w przeciwne strony. Podwyżka stóp ściąga ceny w dół.",
-        },
+          "title": "Cena sprzedaży a umowny wykup",
+          "body": "Dla zbywalnej obligacji o stałych przepływach wyższa wymagana rentowność rynkowa oznacza niższą cenę, przy innych czynnikach bez zmian. Przykład: za rok umowa przewiduje 1 000 zł nominału + 100 zł kuponu. Bez opłat, podatku i niewypłacalności w obliczeniu: 1 100 ÷ 1,10 = 1 000 zł; przy wymaganych 20%: 1 100 ÷ 1,20 ≈ 916,67 zł. To porównanie przy tym samym roku do wykupu, nie prognoza. Ćwiczenie: czy spadł umowny nominał? Nie, cena sprzedaży. Emitent może nie zapłacić, a sprzedaż może być trudna. Działanie: opcjonalnie nazwij te dwa ryzyka. Przy nieregularnym dochodzie chroń bieżące potrzeby; nie musisz kupować obligacji. Po przerwie wróć do jednego przepływu."
+        }
       ],
       ja: [
         {
@@ -618,31 +618,31 @@ export const stageLessons: Record<string, StageLesson> = {
     {
       en: [
         {
-          title: "How much to hold",
-          body: "An emergency fund covers about 3 to 6 months of expenses. It is for a job loss, a repair, or a medical bill. One week is only a start. The fund is not meant to hold ten years of expenses.",
+          "title": "A goal that fits the situation",
+          "body": "A reserve can help with unplanned costs or an income interruption, but does not remove every risk. The amount depends on needs, commitments and income uncertainty. A 3–6 month range can be an indicative choice, not a duty or guarantee. Example: we choose 3 months at PLN 2,000 of essential costs, already including required minimum repayments counted once. The goal is 3 × 2,000 = PLN 6,000, with constant costs and no interest or fees; this does not give a completion date. Try: what would a chosen 6 months mean? PLN 12,000. Action: optionally identify one number in the example without sharing personal data. With irregular income, the goal can change; no surplus means no required transfer. After a break, return to one multiplication."
         },
         {
-          title: "What belongs in it",
-          body: "A good emergency fund is easy to reach and kept apart from daily spending. It should cover a few months of expenses. It should not sit in high-risk stocks. The job is to be there when you need it, not to grow as fast as possible.",
+          "title": "Access, costs and risk",
+          "body": "A reserve should be accessible when needed, with limited volatility. Check withdrawal timing, fees and terms; lower risk does not mean no losses, costs or delays. Deposit protection depends on the institution and product; it does not automatically cover every investment. Example: a PLN 200 reserve, a PLN 150 unexpected cost and a hypothetical PLN 20 access fee leave PLN 30, if funds are available in time. Try: 200 − 150 − 20 = 30. Action: optionally check one condition in a sample description without buying or opening an account. With irregular income, protect current essentials and required minimums; shares may lose value just when money is needed. After a break, return to one access question."
         },
         {
-          title: "The first milestone",
-          body: "If 3 to 6 months feels too big, start with one month of essential expenses. That covers many common shocks. Add the next month after that. A round number that ignores your actual bills is a weaker first goal.",
-        },
+          "title": "A small start is an option",
+          "body": "One month of expenses is not a required first milestone. Choose a small achievable goal, then only available money after essentials and required minimum repayments. Example without fees: PLN 1,000 income, PLN 900 essentials and PLN 80 minimums leave PLN 20. You may optionally choose PLN 10 toward an illustrative PLN 50 goal, leaving the other PLN 10; this is not a duty or completion date. Try: what if income falls to PLN 980? Surplus is PLN 0, so transfer PLN 0. Action: optionally identify an amount in the example without making a transfer. With irregular income, check the amount and timing again; do not borrow to save. After using the reserve or taking a break, return to a small step without punishment or catching up."
+        }
       ],
       pl: [
         {
-          title: "Ile trzymać",
-          body: "Fundusz awaryjny ma pokryć około 3 do 6 miesięcy wydatków. Przyda się, gdy stracisz pracę, coś się zepsuje albo przyjdzie rachunek za leczenie. Jeden tydzień to za mało. Dziesięć lat to nie ten fundusz.",
+          "title": "Cel dopasowany do sytuacji",
+          "body": "Rezerwa pomaga przy nieplanowanych kosztach lub przerwie w dochodzie, lecz nie usuwa każdego ryzyka. Kwota zależy od potrzeb, zobowiązań i niepewności dochodów. Zakres 3–6 miesięcy można wybrać orientacyjnie; nie jest obowiązkiem ani gwarancją. Przykład: wybieramy 3 miesiące po 2 000 zł niezbędnych kosztów, już z wymaganymi minimalnymi spłatami liczonymi raz. Cel to 3 × 2 000 = 6 000 zł, przy stałych kosztach, bez odsetek i opłat; to nie termin zebrania kwoty. Ćwiczenie: ile dałby wybrany cel 6 miesięcy? 12 000 zł. Działanie: opcjonalnie wskaż jedną liczbę w przykładzie, bez podawania swoich danych. Przy nieregularnym dochodzie cel można zmieniać; bez nadwyżki nie ma obowiązku przelewu. Po przerwie wróć do jednego mnożenia."
         },
         {
-          title: "Co w nim trzymać",
-          body: "Dobry fundusz da się szybko wyjąć i leży z dala od codziennych wydatków. Ma starczyć na kilka miesięcy. Nie trzymaj go w ryzykownych akcjach. Ma być pod ręką, a nie rosnąć jak najszybciej.",
+          "title": "Dostępność, koszty i ryzyko",
+          "body": "Rezerwa ma być dostępna, gdy jej potrzebujesz, z ograniczoną zmiennością. Sprawdź czas wypłaty, opłaty i warunki; niskie ryzyko nie oznacza braku strat, kosztów lub opóźnień. Ochrona depozytu zależy od podmiotu i produktu; nie obejmuje automatycznie każdej inwestycji. Przykład: masz 200 zł rezerwy, nagły koszt 150 zł i hipotetyczną opłatę dostępu 20 zł — zostaje 30 zł, jeśli środki są dostępne na czas. Ćwiczenie: 200 − 150 − 20 = 30. Działanie: opcjonalnie sprawdź jeden warunek w przykładowym opisie, bez zakupu lub otwierania konta. Przy nieregularnym dochodzie chroń bieżące potrzeby i wymagane minima; akcje mogą stracić wartość w chwili potrzeby. Po przerwie wróć do pytania o dostęp."
         },
         {
-          title: "Od czego zacząć",
-          body: "Jak 3 do 6 miesięcy wydaje się za dużo, zacznij od jednego miesiąca niezbędnych wydatków. To już łapie sporo zwykłych niespodzianek. Potem dołóż kolejny miesiąc. Okrągła kwota z powietrza, bez Twoich prawdziwych rachunków, to słaby pierwszy cel.",
-        },
+          "title": "Mały początek jest opcją",
+          "body": "Nie trzeba zaczynać od miesiąca wydatków. Wybierz mały osiągalny cel i dopiero dostępną kwotę po potrzebach oraz wymaganych minimalnych spłatach. Przykład bez opłat: wpływ 1 000 zł, potrzeby 900 zł i minima 80 zł dają 20 zł nadwyżki. Możesz dobrowolnie wybrać 10 zł na przykładowy cel 50 zł, zostawiając pozostałe 10 zł; nie jest to obowiązek ani termin ukończenia. Ćwiczenie: co jeśli wpływ spadnie do 980 zł? Nadwyżka to 0 zł, więc przelew 0 zł. Działanie: opcjonalnie wskaż kwotę w przykładzie, bez wykonywania przelewu. Przy nieregularnym dochodzie sprawdź kwotę i termin od nowa; nie pożyczaj, żeby oszczędzać. Po wykorzystaniu rezerwy lub przerwie wróć do małego kroku, bez kary i nadrabiania."
+        }
       ],
       ja: [
         {
@@ -756,47 +756,47 @@ export const stageLessons: Record<string, StageLesson> = {
     {
       en: [
         {
-          title: "Compound interest",
-          body: "Compound interest is interest earned on the original amount and on the interest already added. The balance grows, and the next round of interest uses that larger balance. It is not a bank fee, and it is not limited to credit cards. Over many years the added interest becomes a large part of the total.",
+          "title": "Compounding in a model",
+          "body": "Goal: recognize interest on interest. Example: PLN 1,000 at a hypothetical constant 5% a year becomes PLN 1,050 after one year and PLN 1,102.50 after two. Compounding is annual, interest stays; no contributions, withdrawals, fees or tax. This nominal model ignores inflation and is not an offer or guaranteed investment profit. Exercise: where does the extra PLN 2.50 come from? Optionally calculate on paper, without buying anything. Essentials, required minimums and reserves come first; with irregular income and no surplus, pause and return calmly later."
         },
         {
-          title: "Diversification",
-          body: "Diversification means spreading money across different assets so one loss does not sink the plan. One stock, even a strong one, is a single bet. Bonds alone are not a full mix. The aim is lower risk, not a new portfolio every week.",
+          "title": "Diversification and remaining risk",
+          "body": "Goal: distinguish spreading risk from protection against every loss. Example: two companies in the same sector can fall together; the number of holdings does not prove independent risks. Exercise: can several funds own the same assets? Yes. Optionally compare fictional holdings on paper, without buying anything. Diversification can reduce concentration but cannot remove market losses. Essentials, required minimums and reserves come first; with irregular income and no surplus, pause. You can return to the exercise later."
         },
         {
-          title: "Index funds",
-          body: "An index fund tracks a market list automatically and charges a low fee. An ETF can do the same. A hedge fund and a venture fund are different products with higher costs. The low fee stays invested instead of being paid away.",
+          "title": "Index strategies and costs",
+          "body": "Goal: identify a strategy, not a return promise. Example: fictional fund A states that it tracks an index, while B selects assets freely. Exercise: which has an index objective? A; the name alone does not establish a lower fee. Check risks, actual costs and possible differences from the index. An ETF can be index-based or active. Optionally list questions for the documents, without buying anything. Essentials, required minimums and reserves come first; with irregular income and no surplus, you can pause and return later."
         },
         {
-          title: "What an ETF is",
-          body: "An ETF is an exchange-traded fund: a basket of assets you can buy and sell like a stock. It is not a savings account and not a transfer fee. One purchase can hold many companies or bonds. You get a mix without picking each piece yourself.",
+          "title": "ETF as a fund form",
+          "body": "Goal: recognize an exchange-traded fund. Example: an ETF can be actively managed and focus on one sector. Exercise: does the ETF label prove broad diversification? No. Check holdings, risks, fees and transaction costs, including the difference between buying and selling prices. Value can fall. Optionally write down these questions without buying anything. Essentials, required minimums and reserves come first; with irregular income and no surplus, pause. You can return to learning later."
         },
         {
-          title: "Time in the market",
-          body: "For long-term investors, staying invested has tended to beat buying the exact low and selling the exact high. Selling after a drop often misses the recovery. Gold alone is not the strategy these studies point to. Time in the market means remaining invested through ordinary ups and downs.",
-        },
+          "title": "Horizon and reassessing a plan",
+          "body": "Goal: connect a plan to needs, not a certain market bottom. Example: money needed in one year and money for a goal ten years away have different need dates. Exercise: do ten years guarantee profit? No. Consider reserves, possible losses and costs; a changed situation can call for reassessment. There is no always-hold or sell-after-a-drop rule. Optionally note a fictional goal date, without buying anything. Essentials, required minimums and reserves come first; no surplus with irregular income allows a pause and a later return."
+        }
       ],
       pl: [
         {
-          title: "Procent składany",
-          body: "Procent składany to odsetki od kapitału i od odsetek, które już doszły. Saldo rośnie, więc kolejne odsetki liczą się od większej kwoty. To nie opłata banku za wcześniejszą wypłatę i nie chodzi tylko o karty. Po latach te dopisane odsetki robią sporą część całej sumy.",
+          "title": "Procent składany w modelu",
+          "body": "Cel: rozpoznaj odsetki od odsetek. Przykład: 1 000 zł przy hipotetycznych stałych 5% rocznie daje 1 050 zł po roku i 1 102,50 zł po dwóch. Kapitalizacja roczna, odsetki zostają; bez dopłat, wypłat, opłat i podatku. To nominalny model bez inflacji, nie oferta ani gwarancja zysku z inwestycji. Ćwiczenie: skąd dodatkowe 2,50 zł? Opcjonalnie przelicz na kartce, bez zakupu. Potrzeby, wymagane minimum i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki zrób pauzę i wróć spokojnie później."
         },
         {
-          title: "Dywersyfikacja",
-          body: "Dywersyfikacja to rozłożenie pieniędzy na różne aktywa, żeby jedna wpadka nie zniszczyła planu. Jedna akcja, nawet mocna, to jeden zakład. Same obligacje też nie wystarczą. Chodzi o mniejsze ryzyko, a nie o nowy portfel co tydzień.",
+          "title": "Dywersyfikacja i pozostające ryzyko",
+          "body": "Cel: odróżnij rozłożenie ryzyka od ochrony przed każdą stratą. Przykład: dwie spółki z tego samego sektora mogą spadać jednocześnie; liczba pozycji nie dowodzi niezależności ryzyka. Ćwiczenie: czy wiele funduszy może mieć te same aktywa? Tak. Opcjonalnie porównaj fikcyjne składy na kartce, bez zakupu. Dywersyfikacja może ograniczać koncentrację, lecz nie usuwa strat rynkowych. Potrzeby, wymagane minimum i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki zrób pauzę. Do ćwiczenia możesz wrócić później."
         },
         {
-          title: "Fundusze indeksowe",
-          body: "Fundusz indeksowy sam śledzi indeks rynkowy i bierze niską opłatę. ETF robi to samo. Fundusz hedgingowy i fundusz venture capital to co innego i kosztują więcej. Niska opłata zostaje w inwestycji, zamiast iść do pośrednika.",
+          "title": "Strategia indeksowa i koszty",
+          "body": "Cel: rozpoznaj strategię, nie obietnicę wyniku. Przykład: fikcyjny fundusz A deklaruje śledzenie indeksu, a B swobodny dobór aktywów. Ćwiczenie: który ma cel indeksowy? A; sama nazwa nie potwierdza niższej opłaty. Sprawdź ryzyko, faktyczne koszty i możliwość różnic względem indeksu. ETF może być indeksowy lub aktywny. Opcjonalnie wypisz pytania do dokumentów, bez zakupu. Potrzeby, wymagane minimum i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki możesz zrobić pauzę i wrócić później."
         },
         {
-          title: "Czym jest ETF",
-          body: "ETF to fundusz notowany na giełdzie: koszyk aktywów, który kupujesz i sprzedajesz jak akcję. To nie konto oszczędnościowe i nie opłata za przelew. W jednym zakupie masz wiele firm albo obligacji. Nie musisz wybierać każdej z osobna.",
+          "title": "ETF jako forma funduszu",
+          "body": "Cel: rozpoznaj fundusz notowany na giełdzie. Przykład: ETF może być aktywnie zarządzany i skupiać się na jednym sektorze. Ćwiczenie: czy skrót ETF dowodzi szerokiego rozłożenia ryzyka? Nie. Sprawdź skład, ryzyko, opłaty i koszty transakcji, także różnicę cen kupna i sprzedaży. Wartość może spaść. Opcjonalnie zapisz te pytania bez zakupu. Potrzeby, wymagane minimum i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki zrób pauzę. Możesz wrócić do nauki później."
         },
         {
-          title: "Czas na rynku",
-          body: "Jak inwestujesz na lata, lepiej zostać na rynku niż zgadywać dokładny dołek i szczyt. Sprzedaż tuż po spadku często omija odbicie. Samo złoto nie jest tą strategią. Chodzi o to, żeby zostać w inwestycji przez zwykłe wzrosty i spadki.",
-        },
+          "title": "Horyzont i ponowna ocena planu",
+          "body": "Cel: powiąż plan z potrzebami, a nie pewnym dołkiem rynku. Przykład: pieniądze potrzebne za rok i odłożone na cel za dziesięć lat mają inne terminy potrzeby. Ćwiczenie: czy dziesięć lat gwarantuje zysk? Nie. Oceń rezerwę, możliwe straty i koszty; przy zmianie sytuacji można ponownie ocenić plan. Nie ma reguły zawsze trzymaj ani sprzedaj po spadku. Opcjonalnie zapisz termin fikcyjnego celu, bez zakupu. Potrzeby, wymagane minimum i rezerwa są pierwsze; brak nadwyżki przy nieregularnym dochodzie pozwala zrobić pauzę i wrócić później."
+        }
       ],
       ja: [
         {
@@ -966,23 +966,23 @@ export const stageLessons: Record<string, StageLesson> = {
     {
       en: [
         {
-          title: "Why the account exists",
-          body: "A retirement account is meant to replace income after you stop working. Money put in can compound for decades before you spend it. It is not a vacation fund or a place for emergency cash. The long wait is what makes the compounding useful.",
+          "title": "Future needs, not an account promise",
+          "body": "Goal: plan resources for future needs after work changes or ends. Example: a fictional person lists future expenses and possible income sources; the plan does not promise to replace today’s salary fully. Exercise: distinguish an urgent bill from an expense further in the future. Optionally write one question on paper, without buying anything, opening an account or giving personal details. Essentials, required minimum repayments and reserves come first. With irregular income and no surplus, you can pause and return calmly later."
         },
         {
-          title: "Starting early",
-          body: "A small monthly amount has a long time to compound if you start young. About $200 a month at a 7% yearly return, from age 25 to 65, grows to around $525,000. The same habit started much later needs a much larger payment to catch up. The early years do a large share of the work.",
-        },
+          "title": "More time only under stated assumptions",
+          "body": "Goal: distinguish compounding from a certain forecast. Example: PLN 1,000 once at a hypothetical constant 5% a year with annual compounding becomes PLN 1,050 after one year and PLN 1,102.50 after two. Interest stays; no later contributions, withdrawals, fees or tax, and inflation is ignored. Exercise: calculate the second interest payment, PLN 52.50. More time helps here because of the assumed positive rate; actual outcomes are not guaranteed and losses are possible. This is not a pension forecast. Optionally calculate without investing. Essentials, required minimum repayments and reserves come first; with irregular income and no surplus, pause and return later."
+        }
       ],
       pl: [
         {
-          title: "Po co jest to konto",
-          body: "Konto emerytalne ma zastąpić dochód, gdy przestaniesz pracować. Pieniądze leżą tam latami i przez ten czas pracuje procent składany. To nie fundusz na wakacje i nie miejsce na gotówkę awaryjną. Właśnie ten długi czas daje procentowi składanemu szansę zadziałać.",
+          "title": "Przyszłe potrzeby, nie obietnica konta",
+          "body": "Cel: zaplanuj środki na przyszłe potrzeby po zmianie lub zakończeniu pracy. Przykład: fikcyjna osoba spisuje przyszłe wydatki i możliwe źródła dochodu; plan nie obiecuje pełnego zastąpienia dzisiejszej pensji. Ćwiczenie: odróżnij pilny rachunek od wydatku w dalszej przyszłości. Opcjonalnie zapisz jedno pytanie na kartce, bez zakupu, otwierania konta lub podawania własnych danych. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze. Przy nieregularnym dochodzie bez nadwyżki możesz zrobić pauzę i wrócić spokojnie później."
         },
         {
-          title: "Wczesny start",
-          body: "Jak zaczniesz młodo, nawet niewielka kwota co miesiąc ma dużo czasu, żeby rosnąć. Około 200 dolarów miesięcznie przy 7% rocznie, od 25. do 65. roku życia, daje około 525 tysięcy dolarów. Ten sam nawyk zaczęty dużo później wymaga dużo większej wpłaty, żeby to dogonić. Najwięcej robią właśnie pierwsze lata.",
-        },
+          "title": "Więcej czasu tylko w jawnym modelu",
+          "body": "Cel: odróżnij kapitalizację od pewnej prognozy. Przykład: jednorazowe 1 000 zł przy hipotetycznych stałych 5% rocznie i kapitalizacji rocznej daje 1 050 zł po roku i 1 102,50 zł po dwóch. Odsetki zostają; bez dopłat, wypłat, opłat i podatku, inflacja pominięta. Ćwiczenie: policz drugie odsetki, 52,50 zł. Więcej czasu pomaga tu dzięki założonej dodatniej stopie; rzeczywisty wynik nie jest gwarantowany i można stracić. To nie prognoza emerytury. Opcjonalnie przelicz model bez inwestowania. Potrzeby, wymagane minimalne spłaty i rezerwa są pierwsze; przy nieregularnym dochodzie bez nadwyżki zrób pauzę i wróć później."
+        }
       ],
       ja: [
         {

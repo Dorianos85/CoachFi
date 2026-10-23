@@ -1,0 +1,19 @@
+# C24 independent actual UI review
+
+Reviewer: `daily_ui_review`; product authors: root (topic resolver), `daily_author` (three content files). Scope: the existing five-step `long-term-investing` lesson and five-card `investing` quiz in PL/EN.
+
+The first combined run had **14 cases:5 PASS/9 FAIL**. This review owns seven of those cases: **5 PASS/2 FAIL**. Both failures reproduced `C24-UI-01`: all five questions in the actual Polish topic and rendered QuizCard used English content while Polish canonical overrides already existed. The15 soft mismatch messages describe these two failed cases. All seven structured UI observations were retained by the verbose+JSON reporter. Twelve runtime fingerprints had zero drift. Raw results and the complete initial fixture remain preserved in `evidence/cycle-24/`.
+
+The first post-source combined run passed **14/14**, including the same **7/7 UI cases**. Both original failed case names now pass with the complete original fixture and oracles unchanged. `C24-UI-01` is closed; there are zero open UI findings. This run pinned the four product files and two selected fixtures: six inputs, zero drift. The separate legacy adapter work is outside these two fixtures' imports. These seven UI cases are a subset of14, not seven additional passes.
+
+The hard flow checks reached all five actual questions and their complete question-plus-A–D voice props. Real local SRS/token writers produced five acknowledged cards and the135-point question reward, taking the synthetic balance from125 to260. WrongA gave no reward; explicit retryC gave30 once. The actual generic lesson saved steps1..5 and linked to `/quiz?topic=investing`, while the lesson-only path retained125 tokens, empty SRS and0% quiz stage completion. Saving all five lesson steps and completing the quiz are separate measurements.
+
+Financial claims in the old source are observations for the independent financial reviewer. Passing the existing flow does not accept those claims. The canonical language comparison is a routing oracle; it does not mirror draft wording or introduce a new topic/ID.
+
+Independent post-run comparison of actual observations with the frozen reviewed draft confirmed ten rendered question versions, all options/success feedback, ten lesson steps and both wrong-answer rationales. Every complete question plus labelled A–D options is untruncated, at most262 characters under the500-character cap. Eight actual component/save helper boundaries remain unchanged.
+
+Static review independently reconstructed the three authored data files from twelve declared nodes and inverted them to the archived before bytes. The actual resolver matches the approved single span adding `long-term-investing` to the canonical PL/EN branch. Snapshot/runner boundaries and verbose reporting remain intact. A copied browser output-folder label was corrected tocycle24 before execution; `C24-TOOLS-01` is closed. Full before/after/inverse details are in the separate immutable `ui-root-tools-review.json` and `ui-root-integration-review.json` records.
+
+Four browser cases are prepared separately: PL/EN full lesson→quiz journeys combined with mobile keyboard/reflow, and PL/EN invalid step6 preservation. Root independently accepted the complete fixture before execution; browser execution is pending at this component-review checkpoint. Browser guests use a fixed UTC date, an explicit already-active same-day streak and disabled optional services. The no-write oracle concerns three progress keys, not all browser storage. Later browser results belong to a separate record; this component review remains literal.
+
+These are local synthetic component/hook checks, with real save helpers and explicit language/cloud/streak mocks. They do not execute real speech, providers or authentication and do not establish staging, RLS, CI, fresh-checkout or production readiness. No product or legacy fixture was edited by this reviewer.

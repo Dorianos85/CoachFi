@@ -1,0 +1,17 @@
+# C46 — niezależna recenzja dowodów i kodu
+
+Status: ACCEPTED_LIMITED_LOCAL_C46_EVIDENCE. Recenzent: c46_evidence; autor produktu: root. Otwarte findings: 0. Przyjęcie dotyczy lokalnej, niestage'owanej poprawki dwóch komunikatów PL/EN.
+
+Proponowane i wdrożone ciągi „Kamień milowy: 66 dni! Doceniaj swoją regularność. 🏆” oraz „Milestone: 66 days! Celebrate your consistency. 🏆” zachowują znaczenie kamienia milowego i zachętę, bez gwarancji powstania nawyku lub skuteczności finansowej. Pełny before/after, forward/inverse i AST potwierdzają dokładnie dwa literały milestone/pl i milestone/en. Pozostałe bytes badge, loading/unavailable, progi, format danych, nagrody, provider/writers oraz inne języki są zachowane.
+
+[Rejestr naukowych dowodów, prób dostępu i korekt](../../../evidence/cycle-46/evidence-review.json) zawiera krótką parafrazę [pierwotnego abstraktu wydawcy](https://onlinelibrary.wiley.com/doi/abs/10.1002/ejsp.674). Oficjalne pełne metody były niedostępne przez sprawdzone trasy. Nie deklaruję ich pełnej recenzji ani braku wszelkich korekt. To ograniczenie nie wymaga pozostawienia indywidualnej gwarancji w produkcie: nowy komunikat nie dodaje twierdzenia o skuteczności.
+
+Niezależnie odczytałem surowe wyniki: baseline SSR 10 PASS / 2 FAIL; te same 12 przypadków i literalne fixtures po poprawce 12 PASS. Dwa widoki to 24 próbki; cztery komunikaty soft failure pochodzą z dwóch przypadków. Parsowanie 12 structured records potwierdza tytuł i aria we wszystkich widokach. ReactDOMServer, framer-motion i badge są rzeczywiste; wejścia useStreak/locale jawnie mockowane. SSR nie jest retestem actual Provider/storage/notifications. Standalone TS exit0 i 10 pinów bez driftu; kompilator nie wykonuje SSR.
+
+Jeden build exit0: 34 strony, 35 tras, 544/543 wejścia, zero różnic aktualnych i TEMP. Cztery Chrome PL/EN ×66/3 przeszły raz, worker1/retry0, w tej samej zbudowanej kopii. Każdy z czterech załączników niezależnie zdekodowano: trzy fazy zachowują właściwy DOM title/aria, sześć kluczy danych, 125 tokenów i zero set/remove/API/pageErrors. Space wybiera odpowiedź bez submit; reload zachowuje dane. Nie jest to test wyglądu natywnego tooltipa, scoringu lub dostarczenia powiadomienia. Port wolny przed i po. 16 różnych przypadków w dwóch przebiegach, bez ponawiania C45 green. Nie uruchamiałem własnego runtime retestu.
+
+Build zachowuje nierozwiązane ostrzeżenia opcjonalnych importów CDP x402-fetch i @base-org/account. Niezależnie porównałem pełny stderr C45/C46: zgodny po normalizacji wyłącznie czasu kompilacji 49/50 s. Nie jest to warning-free build ani potwierdzenie gotowości CDP/Auth/providerów. Brak install i dodatkowego buildu.
+
+540 z 541 dawnych wejść i 109 ze 110 historycznych ścieżek pozostaje literalnych; jedyną kwalifikacją jest badge. Zachowano 112 oryginalnych tuples, 13 chronionych pinów, siedem receipts, dependency runtime 37 plików/dwóch konsumentów, HEAD/branch oraz hash wpisów indeksu. Oba rejestry zadań po 40 rekordów bez zmian. Root może po odczycie obu niezależnych finałów zapisać status przyjęcia w metadanych; ta recenzja nie autoryzuje zmian kodu, runtime, indeksu lub wdrożenia.
+
+Produkcja NO-GO. Brak stagingu, realnych kont, CI, clean install, fresh checkout lub badania efektów Coachfi. Inne języki i pozostałe claimy, B06/B10 oraz budżet pozostają odrębnym zakresem. AI i cloud writes hardOFF; bez commit/push/deploy, realnych sesji/sekretów lub płatnych wywołań.

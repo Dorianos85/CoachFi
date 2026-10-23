@@ -22,15 +22,15 @@ export const moneyMindsetLesson: LocalizedMap<LessonCopy> = {
     steps: [
       {
         title: "Net worth",
-        body: "Net worth is what you own minus what you owe. A paycheck shows money coming in. Net worth shows whether you are getting ahead. Savings and a home count as assets, and loans and card balances count as debts.",
+        body: "Net worth is the value of your assets (what you own) minus your liabilities (what you owe), measured on the same date. Income and expenses are flows over a period; net worth is a balance at one point in time. Assets of PLN 5,000 minus liabilities of PLN 2,000 give a net worth of PLN 3,000. A home can be an asset, but its value is not immediately available to pay a bill. Net worth is not your value as a person or a full picture of liquidity — whether money is available for current payments.",
       },
       {
         title: "Lifestyle inflation",
-        body: "Lifestyle inflation means you spend more as you earn more, so savings stay flat. A raise can vanish into higher rent, nicer meals, or a new subscription. The extra money arrives, then the extra spending uses it up. Saving the raise before you get used to it keeps the gain.",
+        body: "Lifestyle inflation means choosing more discretionary spending on a higher standard of living as income rises, for example an extra entertainment subscription. Higher food prices, necessary healthcare or changes in essential housing costs are different: more spending does not always mean a lifestyle choice. After a raise, review needs, commitments and optional spending. If a surplus remains, you can choose to save part of it. You do not have to save the entire raise.",
       },
       {
         title: "Pay yourself first",
-        body: "Pay yourself first means moving a set amount into savings as soon as you are paid. Do that before rent, food, and everything else. Waiting to save what is left usually leaves nothing. An automatic transfer on payday makes the habit happen without a fresh decision.",
+        body: "Pay yourself first means planning savings before discretionary spending, not before basic needs. First reserve money for rent, food, essential bills and required minimum debt payments until your next reasonably expected income. Only then choose an amount to save from the available surplus. With irregular income, review this after each payment; with no surplus, do not make a transfer. That is not a failure. An automatic transfer is an option with stable income and a checked balance, not a requirement.",
       },
     ],
   },
@@ -42,15 +42,15 @@ export const moneyMindsetLesson: LocalizedMap<LessonCopy> = {
     steps: [
       {
         title: "Wartość netto",
-        body: "Wartość netto to wszystko, co masz, minus wszystko, co jesteś winien. Pensja mówi tylko, ile wpływa na konto. Wartość netto mówi, czy naprawdę idziesz do przodu. Oszczędności i mieszkanie to aktywa. Kredyt i dług na karcie to zobowiązania.",
+        body: "Wartość netto to wartość aktywów (tego, co posiadasz) minus zobowiązania (to, co jesteś winien), policzona na ten sam dzień. Dochody i wydatki są przepływami za okres, a wartość netto jest stanem na dany dzień. Aktywa 5 000 zł minus zobowiązania 2 000 zł dają wartość netto 3 000 zł. Mieszkanie może być aktywem, ale jego wartości nie da się od razu użyć do zapłaty rachunku. Wartość netto nie jest oceną człowieka ani pełnym obrazem płynności — tego, czy masz środki na bieżące płatności.",
       },
       {
         title: "Inflacja stylu życia",
-        body: "Inflacja stylu życia jest wtedy, gdy zarabiasz więcej i od razu więcej wydajesz. Oszczędności stoją w miejscu. Podwyżka znika w wyższym czynszu, droższych obiadach albo nowej subskrypcji. Odłóż ją, zanim się do niej przyzwyczaisz. Wtedy zostaje u Ciebie.",
+        body: "Inflacja stylu życia to dobrowolne zwiększanie wydatków na wyższy standard życia wraz ze wzrostem dochodu, np. dodatkowa subskrypcja rozrywkowa. Wyższe ceny jedzenia, konieczne leczenie lub zmiana niezbędnych kosztów mieszkania to co innego: większe wydatki nie zawsze są wyborem stylu życia. Po podwyżce sprawdź potrzeby, zobowiązania i wydatki uznaniowe. Jeśli zostaje nadwyżka, możesz zdecydować o odłożeniu jej części. Nie musisz oszczędzać całej podwyżki.",
       },
       {
         title: "Najpierw zapłać sobie",
-        body: "Zapłać najpierw sobie: zaraz po wypłacie odłóż stałą kwotę, zanim zapłacisz czynsz, jedzenie i resztę. Jak czekasz na to, co zostanie, zwykle zostaje zero. Ustaw przelew stały na dzień wypłaty. Nie musisz co miesiąc decydować o tym od nowa.",
+        body: "Najpierw zapłać sobie oznacza planowanie oszczędności przed wydatkami uznaniowymi, nie przed podstawowymi potrzebami. Najpierw zabezpiecz pieniądze na czynsz, jedzenie, konieczne rachunki i wymagane minimalne spłaty długu do kolejnego realnie oczekiwanego wpływu. Dopiero z dostępnej nadwyżki wybierz kwotę do odłożenia. Przy nieregularnym dochodzie sprawdzaj ją po każdym wpływie; przy zerowej nadwyżce nie rób przelewu. To nie porażka. Przelew automatyczny jest opcją przy stabilnych wpływach i sprawdzonym saldzie, nie obowiązkiem.",
       },
     ],
   },

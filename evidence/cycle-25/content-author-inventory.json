@@ -1,0 +1,670 @@
+{
+  "cycle": 25,
+  "date": "2026-10-15",
+  "author": "daily_author",
+  "status": "ACTUAL_PRE_IMPLEMENTATION_INVENTORY_NOT_ACCEPTANCE",
+  "scope": {
+    "stage": "retirement",
+    "ids": [
+      "retirement-purpose",
+      "retirement-early-start"
+    ],
+    "keys": [
+      "B",
+      "C"
+    ],
+    "rewards": [
+      25,
+      35
+    ],
+    "totalReward": 60,
+    "productFiles": [
+      "data/stageLessons.ts",
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts"
+    ],
+    "localizedQuizUnchanged": true,
+    "stageCounts": {
+      "en": 2,
+      "pl": 2
+    },
+    "quizHref": "/quiz?topic=retirement"
+  },
+  "counts": {
+    "english": 62,
+    "canonical": 82,
+    "uniqueCanonical": 82,
+    "stages": 7,
+    "plainByLocale": {
+      "en": 4,
+      "pl": 4,
+      "es": 31,
+      "fr": 31,
+      "zh": 4,
+      "ja": 4,
+      "hi": 4,
+      "pt-BR": 4,
+      "tr": 4
+    }
+  },
+  "targetQuestions": [
+    {
+      "id": "retirement-purpose",
+      "question": "What is the primary purpose of a retirement account?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "To pay for vacations"
+        },
+        {
+          "id": "B",
+          "text": "To replace income when you stop working, using decades of compounding"
+        },
+        {
+          "id": "C",
+          "text": "To speculate on high-risk assets"
+        },
+        {
+          "id": "D",
+          "text": "To store emergency cash"
+        }
+      ],
+      "correctAnswer": "B",
+      "reward": 25,
+      "successMessage": "Retirement accounts leverage decades of compounding. Starting at 25 vs 35 can mean 2× the final balance. +25 points!",
+      "retryMessage": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+      "category": "Retirement"
+    },
+    {
+      "id": "retirement-early-start",
+      "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+      "answers": [
+        {
+          "id": "A",
+          "text": "~$96,000"
+        },
+        {
+          "id": "B",
+          "text": "~$240,000"
+        },
+        {
+          "id": "C",
+          "text": "~$525,000"
+        },
+        {
+          "id": "D",
+          "text": "~$1,200,000"
+        }
+      ],
+      "correctAnswer": "C",
+      "reward": 35,
+      "successMessage": "~$525,000 from just $200/month! That's 40 years of compounding. Starting at 45 would require ~$800/month for the same result. +35 points!",
+      "retryMessage": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+      "category": "Retirement"
+    }
+  ],
+  "targetUnifiedByLocale": {
+    "en": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "pl": [
+      {
+        "id": "retirement-purpose",
+        "question": "Jaki jest główny cel konta emerytalnego?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Finansowanie wakacji"
+          },
+          {
+            "id": "B",
+            "text": "Zastąpienie dochodu po zakończeniu pracy dzięki wieloletniemu składaniu"
+          },
+          {
+            "id": "C",
+            "text": "Spekulacja na bardzo ryzykownych aktywach"
+          },
+          {
+            "id": "D",
+            "text": "Trzymanie gotówki awaryjnej"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Konta emerytalne korzystają z wielu lat procentu składanego. Czas jest kluczowy.",
+        "category": "Emerytura",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "Jeśli inwestujesz 200 dolarów miesięcznie od 25. roku życia przy 7% rocznie, ile możesz mieć około 65. roku życia?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "Około 96 000 dolarów"
+          },
+          {
+            "id": "B",
+            "text": "Około 240 000 dolarów"
+          },
+          {
+            "id": "C",
+            "text": "Około 525 000 dolarów"
+          },
+          {
+            "id": "D",
+            "text": "Około 1 200 000 dolarów"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "Długi czas i procent składany mogą bardzo mocno zwiększyć końcową kwotę.",
+        "category": "Emerytura",
+        "reward": 35
+      }
+    ],
+    "es": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "fr": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "zh": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "ja": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "hi": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "pt-BR": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ],
+    "tr": [
+      {
+        "id": "retirement-purpose",
+        "question": "What is the primary purpose of a retirement account?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "To pay for vacations"
+          },
+          {
+            "id": "B",
+            "text": "To replace income when you stop working, using decades of compounding"
+          },
+          {
+            "id": "C",
+            "text": "To speculate on high-risk assets"
+          },
+          {
+            "id": "D",
+            "text": "To store emergency cash"
+          }
+        ],
+        "correctAnswer": "B",
+        "explanation": "Retirement accounts are long-term compounding vehicles. Time is the biggest asset — start early.",
+        "category": "Retirement",
+        "reward": 25
+      },
+      {
+        "id": "retirement-early-start",
+        "question": "If you invest $200/month at 7% annual return starting at age 25, approximately how much will you have at 65?",
+        "answers": [
+          {
+            "id": "A",
+            "text": "~$96,000"
+          },
+          {
+            "id": "B",
+            "text": "~$240,000"
+          },
+          {
+            "id": "C",
+            "text": "~$525,000"
+          },
+          {
+            "id": "D",
+            "text": "~$1,200,000"
+          }
+        ],
+        "correctAnswer": "C",
+        "explanation": "40 years of $200/month at 7% = ~$525,000. The power of time and compounding is extraordinary.",
+        "category": "Retirement",
+        "reward": 35
+      }
+    ]
+  },
+  "targetSteps": {
+    "en": [
+      {
+        "title": "Why the account exists",
+        "body": "A retirement account is meant to replace income after you stop working. Money put in can compound for decades before you spend it. It is not a vacation fund or a place for emergency cash. The long wait is what makes the compounding useful."
+      },
+      {
+        "title": "Starting early",
+        "body": "A small monthly amount has a long time to compound if you start young. About $200 a month at a 7% yearly return, from age 25 to 65, grows to around $525,000. The same habit started much later needs a much larger payment to catch up. The early years do a large share of the work."
+      }
+    ],
+    "pl": [
+      {
+        "title": "Po co jest to konto",
+        "body": "Konto emerytalne ma zastąpić dochód, gdy przestaniesz pracować. Pieniądze leżą tam latami i przez ten czas pracuje procent składany. To nie fundusz na wakacje i nie miejsce na gotówkę awaryjną. Właśnie ten długi czas daje procentowi składanemu szansę zadziałać."
+      },
+      {
+        "title": "Wczesny start",
+        "body": "Jak zaczniesz młodo, nawet niewielka kwota co miesiąc ma dużo czasu, żeby rosnąć. Około 200 dolarów miesięcznie przy 7% rocznie, od 25. do 65. roku życia, daje około 525 tysięcy dolarów. Ten sam nawyk zaczęty dużo później wymaga dużo większej wpłaty, żeby to dogonić. Najwięcej robią właśnie pierwsze lata."
+      }
+    ]
+  },
+  "plainTargetMembership": {
+    "en": [],
+    "pl": [],
+    "es": [],
+    "fr": [],
+    "zh": [],
+    "ja": [],
+    "hi": [],
+    "pt-BR": [],
+    "tr": []
+  },
+  "nonTargetRuntimeSha256": "88d7e5639efeed56e5966b78a24ab317e9606c034082f88c02f5fe594856e940",
+  "sourceFingerprints": [
+    {
+      "path": "data/stageLessons.ts",
+      "sha256": "48f7b3a7c9d9ad84e9ccb545bd3f430e3e47c00c436055827eed04806795bb2a"
+    },
+    {
+      "path": "data/quizQuestions.ts",
+      "sha256": "8e523767fd090b3ffe1190135514ae2488adf01f3cd3a203f9d3e340ab717db1"
+    },
+    {
+      "path": "lib/allQuestions.ts",
+      "sha256": "9bc6bfcd2a94d609bfeed532c39112dd1b8d87c675fbbfad4a5a80eb43524010"
+    },
+    {
+      "path": "lib/localizedQuiz.ts",
+      "sha256": "a85a1173d681bae61dc4836298c32b4254ea547e2e945b152d44cd7e0c5e9588"
+    },
+    {
+      "path": "lib/quiz-topic.ts",
+      "sha256": "c50992491026e4fa084b041e01ea0f7a46d36f80bc25519dc9c99e8a5979f60f"
+    },
+    {
+      "path": "lib/learningProgress.ts",
+      "sha256": "1c4cdbd47be3d1446bb0184bf8a22985c2351b9f3d52310626cd6f94ed0985da"
+    }
+  ],
+  "execution": {
+    "kind": "Restricted VM actual banks/declarations only; no test runner, window/process/storage/fetch exposed",
+    "modules": [
+      "data/quizQuestions.ts",
+      "lib/allQuestions.ts",
+      "data/challengeQuestions.ts",
+      "lib/product-storage.ts",
+      "lib/sync/local-sync-state.ts",
+      "lib/localizedChallenge.ts",
+      "lib/localizedQuiz.ts",
+      "data/stageLessons.ts"
+    ],
+    "storageFunctionsCalled": 0,
+    "networkCalls": 0,
+    "limits": "No actual UI, resolver, SRS, counters, cloud or provider verification."
+  }
+}

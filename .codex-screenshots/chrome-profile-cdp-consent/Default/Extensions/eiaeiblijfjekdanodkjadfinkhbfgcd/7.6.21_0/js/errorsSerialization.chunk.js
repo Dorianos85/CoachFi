@@ -1,1 +1,0 @@
-import{t as e}from"./ContentError.chunk.js";var t=t=>{let n;try{let{message:r,...i}=JSON.parse(t.message);n=new e(r,i)}catch{throw t}throw n};export{t};

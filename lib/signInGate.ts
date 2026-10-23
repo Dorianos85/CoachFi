@@ -1,6 +1,10 @@
 import { moneyMindsetLesson } from "@/data/moneyMindsetLesson";
 import { stageLessons } from "@/data/stageLessons";
 import { getAllStageProgress } from "@/lib/learningProgress";
+import { readLessonStepState, saveLessonStep } from "@/lib/lesson-step-save";
+import { createAgentTimeController, type AgentTimeStatus } from "@/lib/agent-time-save";
+import { assertCurrentPersonalStorage, captureCurrentPersonalStorage, getStorageOwnershipSnapshot,
+  subscribeStorageOwnership, type PersonalStorageHandle } from "@/lib/product-storage";
 
 const STEPS_KEY = "coachfi-lesson-steps";
 const AGENT_MS_KEY = "coachfi-agent-ms";
@@ -80,111 +84,104 @@ export function isSignInRequested() {
   return signInRequested;
 }
 
-const openConversations = new Set<string>();
-let storedAgentMs = 0;
-let agentLoaded = false;
-let activeSince: number | null = null;
+const agentTime = createAgentTimeController(notifyAgentProgress);
 let ticker: ReturnType<typeof setInterval> | null = null;
 let pagehideBound = false;
+let ownerRevision = getStorageOwnershipSnapshot().revision;
+subscribeStorageOwnership(() => {
+  const revision = getStorageOwnershipSnapshot().revision;
+  if (revision !== ownerRevision) {
+    ownerRevision = revision;
+    if (ticker !== null) clearInterval(ticker);
+    ticker = null; agentTime.reset(); signInRequested = false;
+  }
+  notify();
+});
 
 function notify() {
   listeners.forEach((listener) => listener());
 }
 
-function readSteps(): Record<string, number> {
-  if (typeof window === "undefined") return {};
-  try {
-    const raw = localStorage.getItem(STEPS_KEY);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const steps: Record<string, number> = {};
-    for (const [stageId, value] of Object.entries(parsed)) {
-      if (typeof value === "number" && value > 0) steps[stageId] = Math.floor(value);
+function notifyAgentProgress() {
+  let failed = false;
+  let firstError: unknown;
+  for (const listener of listeners) {
+    try {
+      const value: unknown = listener();
+      if (value !== null && (typeof value === "object" || typeof value === "function") &&
+        typeof (value as { then?: unknown }).then === "function") {
+        if (value instanceof Promise) void Promise.prototype.then.call(value, undefined, () => undefined);
+        throw new Error("Agent time subscribers must be synchronous");
+      }
+    } catch (error) {
+      if (!failed) { failed = true; firstError = error; }
     }
-    return steps;
-  } catch {
-    return {};
   }
+  if (failed) throw firstError;
 }
 
-function loadAgentMs() {
-  if (agentLoaded || typeof window === "undefined") return;
-  agentLoaded = true;
-  const raw = Number(localStorage.getItem(AGENT_MS_KEY));
-  storedAgentMs = Number.isFinite(raw) && raw > 0 ? raw : 0;
-  if (!pagehideBound) {
-    pagehideBound = true;
-    window.addEventListener("pagehide", commitRunningAgentTime);
-  }
+function readSteps(storage: PersonalStorageHandle): Record<string, number> {
+  const state = readLessonStepState(storage, lessonStepCounts());
+  return state.status === "ready" ? { ...state.steps } : {};
 }
 
-function saveAgentMs() {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(AGENT_MS_KEY, String(storedAgentMs));
-}
-
-function commitRunningAgentTime() {
-  if (activeSince == null) return;
-  storedAgentMs += Date.now() - activeSince;
-  activeSince = openConversations.size > 0 ? Date.now() : null;
-  saveAgentMs();
+function bindAgentPagehide() {
+  if (typeof window === "undefined" || pagehideBound) return;
+  pagehideBound = true;
+  window.addEventListener("pagehide", () => { agentTime.checkpointSafe(); stopTicker(); });
 }
 
 function ensureTicker() {
-  if (ticker != null || openConversations.size === 0) return;
-  ticker = setInterval(() => notify(), 1000);
+  if (ticker !== null || !agentTime.isActive()) return;
+  ticker = setInterval(() => { agentTime.tickSafe(); stopTicker(); }, 1000);
 }
 
 function stopTicker() {
-  if (ticker == null || openConversations.size > 0) return;
+  if (ticker === null || agentTime.isActive()) return;
   clearInterval(ticker);
   ticker = null;
 }
 
-export function getAgentConversationMs() {
-  loadAgentMs();
-  const running = activeSince == null ? 0 : Date.now() - activeSince;
-  return storedAgentMs + running;
-}
-
-export function beginAgentConversation(source: string) {
-  loadAgentMs();
-  if (openConversations.has(source)) return;
-  if (openConversations.size === 0) activeSince = Date.now();
-  openConversations.add(source);
-  ensureTicker();
-  notify();
-}
-
-export function endAgentConversation(source: string) {
-  loadAgentMs();
-  if (!openConversations.delete(source)) return;
-  if (openConversations.size === 0) commitRunningAgentTime();
+export function getAgentConversationMs(storage = captureCurrentPersonalStorage()) {
+  const value = agentTime.read(storage);
   stopTicker();
-  notify();
+  return value;
 }
 
-export function recordLessonStep(stageId: string, step: number) {
-  if (typeof window === "undefined" || step < 1) return;
-  const steps = readSteps();
-  if ((steps[stageId] ?? 0) >= step) return;
-  steps[stageId] = step;
-  localStorage.setItem(STEPS_KEY, JSON.stringify(steps));
-  notify();
+export function getAgentConversationStatus(storage = captureCurrentPersonalStorage()): AgentTimeStatus {
+  const status = agentTime.status(storage);
+  stopTicker();
+  return status;
 }
 
-export function currentSignInProgress(): SignInProgress {
+export function beginAgentConversation(source: string, storage = captureCurrentPersonalStorage()) {
+  bindAgentPagehide();
+  try { agentTime.begin(source, storage); ensureTicker(); } finally { stopTicker(); }
+}
+
+export function endAgentConversation(source: string, storage = captureCurrentPersonalStorage()) {
+  try { agentTime.end(source, storage); } finally { stopTicker(); }
+}
+
+export function recordLessonStep(stageId: string, step: number, storage = captureCurrentPersonalStorage()) {
+  saveLessonStep(stageId, step, storage, lessonStepCounts(), notify);
+}
+
+export function currentSignInProgress(storage = captureCurrentPersonalStorage()): SignInProgress {
   return {
-    stepsSeen: readSteps(),
-    completedStageIds: getAllStageProgress()
+    stepsSeen: readSteps(storage),
+    completedStageIds: getAllStageProgress(storage)
       .filter((stage) => stage.status === "completed")
       .map((stage) => stage.stageId),
-    agentConversationMs: getAgentConversationMs(),
+    agentConversationMs: getAgentConversationMs(storage),
     stepCounts: lessonStepCounts(),
   };
 }
 
 export function isSignInRequiredNow() {
+  if (SIGN_IN_GATE.lessonsFinished === 0 &&
+      SIGN_IN_GATE.stepsInAnotherLesson === 0 &&
+      SIGN_IN_GATE.agentConversationMs === 0) return false;
   return signInRequired(currentSignInProgress(), SIGN_IN_GATE);
 }
 

@@ -1,0 +1,13 @@
+# C23 — niezależny ledger QA
+
+15.10.2026, daily_ui_review. **ACCEPTED_LIMITED_LOCAL**,0otwartych findings. Produkcja **NO-GO**. Przyjęcie dotyczy jednego istniejącego pytania PL/EN; B25 i bank82 zachowane, bez nowej lekcji lub quiz route.
+
+Raw potwierdza10nowych PASS=finance3+actualUI7 w pierwszym post-source run. Baseline3PASS/7FAIL i brak consoletelemetryJSON-only zachowano;18UI mismatch messages to4cases. Legacy25distinct PASS=4+21 w7per-file runs,0powtórek/0appfail; pierwszy countgateFAIL oraz historyczna błędna predykcja selektora pozostają jawne. RecoveryTOOLS02 ma niezależny peer i rzeczywiste pokrycie25nazw.515literalnych expect/6describe/exactinverse zweryfikowano statycznie; to nie515nowych testów.
+
+Source2nodes/13strings exactinverse, nowa treść zgodna z frozen draftem; wrapper dotyczy wyłącznie historii. TS0/11pins, Chrome2single/retry0/API0/pageErrors0/port-after0, build34/34generatedpages/35routeentries/405pre404post. Read-only SHA404current+copied0mismatch,398old=390literal+8qualified,23freeze/package/lock/C22receipt zgodne. Guard1970tracked1558text1skip0findings. Żadnej bramki nie ponowiono.
+
+C23-LEDGER-01 CLOSED: root poprawił tylko dwa stare status_note C22, wszystkie inne pola JSON są identyczne. Current pre-qa6815dfec… i7before/afterpromotionSHA zweryfikowane. OwnUIbfdc pozostaje literalny. Jego peer07b282… jest historycznym stanem: usunięcie wyłącznie późniejszego pola legacyAdapter z current54548… odtwarza stare pełne bytes/hash; pełny stary peer zachowano w QAJSON. To późniejszy dodatek zakresu peer, bez ponownego wykonania lub utraty pierwotnego przyjęcia.
+
+Zezwalam wyłącznie na dokładny plannedRoutineCompletion w pre-qa:7opisanych promocji,18istniejących scopes i istniejący receipt/rootpointer; zachować literalne QAJSON/MD oraz23freeze/raw fakty. Receipt przypnie QA/MD i7pre/finalSHA, metadata-only scopedcheck0/selectedunstaged0; index przez Git-clean blob, oddzielnie od rawCRLF/runtimeSHA. Bez nowych ścieżek, źródeł, testów, narzędzi, runtime/gate repeats lub przepisania QA. Dopiero końcowy poprawny receipt potwierdzi finalstaging.
+
+Dane syntetyczne i jawne hook/context mocks, activityspy bez realnego bonusu; Review nie daje bezpośrednio25punktów. Chrome guest/provider-off nie potwierdza Auth/RLS/staging/CI/freshcheckout/produkcji ani realnego audio/pełnej dostępności. Frozen320085 pozostaje historycznym draftem, starySRS nie dowodzi nowego zrozumienia, pozostałe locale nie mają nowej akceptacji. Next long-term-investing5IDs to tylko sourcecandidate wymagający własnego inventory/baseline/finance. Bez commit/push/deploy/paid/AI/cloudwrites.

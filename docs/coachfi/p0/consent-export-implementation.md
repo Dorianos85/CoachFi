@@ -1,0 +1,43 @@
+# P0: zgody, eksport i lokalny odczyt — implementacja klienta
+
+Data: 2026-10-14. Repo: `source/CoachFi`, gałąź `codex/p0-security-consent-export`. Autor: curriculum_pilot, zadanie implementacyjne ról 11/15/12. Zmiany lokalne, bez wdrożenia. Dokument opisuje zachowanie kodu, nie stanowi zatwierdzenia prawnego ani wydania.
+
+## Zrealizowane zachowanie
+
+- `lib/consent.ts`: wszystkie opcjonalne cele domyślnie `false`; wyłącznie literalne `true` stanowi wybór. Brakujące pola, stringi i nieznane klucze nie przyznają uprawnień. Bieżąca wersja to `2026-10-14`; wcześniejsze rekordy, w tym majowe zgody z domyślnie aktywnym AI/głosem, nie są migrowane do nowego opt-in. Niepoprawne wymagane flagi lub data akceptacji unieważniają rekord.
+- `context/ConsentContext.tsx`: zmiana ustawień opcjonalnych nie akceptuje automatycznie zasad, jeśli nie istnieje prawidłowy rekord. Zmiany w tej karcie, inne karty oraz synchronizacja wywołują ponowną normalizację i powiadomienie o zmianie zgody. Zapis wywołuje synchroniczne zdarzenie przed powiadomieniem warstwy synchronizacji.
+- `components/ConsentManager.tsx`: przycisk wymaganych zasad zapisuje opcje wyłączone; wyraźny osobny wybór może zapisać opcje aktywne. PL/EN opisują obecny hard-off zewnętrznego AI/głosu i lokalny odczyt bez tej zgody. Banner jest w przepływie dokumentu, aby nie przechwytywać kliknięć footer/mobile menu. Modal korzysta z istniejącego Radix Dialog: ograniczenie fokusu, Escape i powrót do poprzedniego elementu.
+- `lib/client/api-credentials.ts`: jednorazowe poświadczenia korzystają z callbacku już istniejącego CDP SDK, zarejestrowanego przez `AccountSync` wewnątrz providera. Token nie jest przechowywany. Sprawdzenie zgody jest przed i po oczekiwaniu na SDK. Każda rejestracja callbacku zwiększa epokę: token z poprzedniej sesji jest odrzucany również przy ponownym użyciu tej samej funkcji. Błędy, wylogowanie, abort i CR/LF w tokenie kończą się `null`.
+- `components/MilaVoiceAgent.tsx`: stały hard-off nie montuje komponentu live. Nie następuje odczyt kontekstu profilu dla agenta, pobranie tokenu, montaż custom elementu ani załadowanie skryptu ConvAI. Nawet przyszła ścieżka wymaga signed URL; nie ma renderowania widgetu przez fallback publicznego `agentId` po błędzie API. Widoczna karta opisuje wyłączenie PL/EN.
+- `app/coach/page.tsx`: gość otrzymuje lokalne przygotowane przykłady bez poświadczeń, optional opt-in ani zapytania do dostawcy. Zewnętrzny chat ma stały hard-off. Mikrofon został wyłączony, ponieważ browser SpeechRecognition nie zapewnia przetwarzania tylko na urządzeniu. Widoczny komunikat opisuje ograniczenia PL/EN. Anulowanie unieważnia timery, strumień lokalny i ewentualne żądanie; spóźnione callbacks nie dopisują odpowiedzi. Odpowiedzi nie uruchamiają automatycznego odczytu.
+- `context/VoiceContext.tsx`, `lib/client/local-voice.ts`, `components/VoiceButton.tsx`: brak zewnętrznego TTS i fallback do głosu chmurowego. Odczyt wymaga `userInitiated: true` przekazanego w obsłudze kliknięcia oraz `SpeechSynthesisVoice.localService === true` i zgodnego języka. Bez takiego głosu pozostaje tekst i komunikat. Cofnięcie zgody zatrzymuje odczyt, abortuje żądania, wstrzymuje stare audio, odłącza callbacks, unieważnia generację i czyści/revokuje cache. W P0 nowy cache zewnętrznego audio nie jest tworzony.
+
+Serwerowy kontrakt jest opisany i recenzowany oddzielnie przez architecture_audit: publiczny lokalny tekst `/api/chat`, próby zewnętrzne kończą się `503 EXTERNAL_AI_DISABLED` przed połączeniem z dostawcą/CDP w P0, `/api/mila-token` wymaga POST i nie wydaje widget config/URL. Nie zmieniałem route handlers. `AccountSync` jest zmianą koordynatora, nie autora niniejszego dokumentu.
+
+## Eksport i usuwanie
+
+`lib/data-export.ts` czyta wyłącznie 12 nazw: `coachfi-srs`, `coachfi-learn-manual`, `coachfi-lesson-steps`, `coachfi-tokens`, `coachfi-streak`, `coachfi-health-check`, `coachfi-locale-v1`, `coachfi-avatar`, `coachfi-user`, `coachfi-challenge`, `coachfi-mode-v1`, `coachfi-consent-v1`. Nie enumeruje storage i nie czyta kluczy auth/SDK/cookies. Identyczna sanizacja obejmuje localStorage i sessionStorage.
+
+Każda wartość jest odbudowana według schematu. SRS dopuszcza identyfikatory aktualnego banku oraz liczbowe parametry i datę; etapy tylko znane ID/status/liczbę kroków; punkty i seria ograniczone liczby; diagnoza znane liczbowe i boolowskie odpowiedzi; avatar wyłącznie enumy; profil jedynie `setupDone`; język i tryb enumy; zgody bieżący znormalizowany rekord. Dowolne nested identity, token, auth i session są pomijane. Nazwy, cele i inne dowolne stringi nie są eksportowane — poświadczenie mogłoby być ukryte także w polu o poprawnej nazwie. JSON uszkodzony, przekraczający 262144 znaki lub o niewłaściwym typie jest pomijany, bez kopiowania raw wartości.
+
+`components/DataSafetyPanel.tsx` opisuje **wybrany eksport lokalny**, a nie kompletny eksport konta. „Usuń dane lokalne” usuwa wyłącznie powyższy zestaw produktu, pozostawia sesję SDK i nie obiecuje usunięcia konta, danych serwera ani dostawców. Synchronizacja może ponownie pobrać dane. Zmiana zgody jest ogłaszana przed reload. Pełne account deletion i authoritative ledger zgód pozostają oddzielnym zadaniem.
+
+## Weryfikacja
+
+Końcowy run autora: `node node_modules/vitest/vitest.mjs run lib/consent.test.ts lib/data-export.test.ts lib/client/api-credentials.test.ts tests/consent-voice.test.ts` — **35/35 PASS, 4 pliki**, 2026-10-14 12:07 czasu wyświetlonego przez runner. Testy zawierają jedynie syntetyczne credentials i adaptery; nie odczytano realnego user storage ani sesji SDK, nie wywołano dostawcy.
+
+Po korekcie schematu nowego age marker dodano strict `adultAgeRequirement:18` w eksporcie i szósty test eksportu; osobny retest `lib/data-export.test.ts` PASS 6/6. Łączny aktualny zestaw autora liczy 36 przypadków; wspólny końcowy run wykonuje koordynator.
+
+Pokryto wymagane-only/all-false; stringfalse/stringtrue/brak; starą wersję; niepoprawne metadane; synchroniczne wycofanie; allowlist bez odczytu nieznanych auth keys; nested secrets w dozwolonych rekordach; secrets w nazwie/goal; niepoprawny raw/oversize; dokładny zakres deletion; wylogowanie, cofnięcie i abort podczas oczekiwania na token; ponowną rejestrację tej samej funkcji; remote localService=false; brak świadomej akcji; zgodny lokalny głos oraz abort/pause/cache invalidation. Pierwsze wywołania sandbox zatrzymały się przed testami na EPERM rename cache; lokalny run poza sandbox został automatycznie dopuszczony. Nie było automatycznej odmowy.
+
+`npm run typecheck` przeszedł przed końcową ekstrakcją adaptera i zmianą Radix; końcowy wspólny typecheck/build/E2E wykonuje koordynator po zakończeniu testów przeglądarkowych, aby nie konkurować o `.next`. Nie deklaruję końcowego build PASS na podstawie wcześniejszego typecheck.
+
+Przegląd React: hooks pozostają bezwarunkowe we własnych komponentach; prywatny live komponent nie jest montowany podczas hard-off; callbacki mają abort/generation checks; cleanup obejmuje event listeners, timer/strumień, audio i URL; komponenty mają nazwy przycisków, aria-pressed dla opcji, dialog i status/error. Nie jest to pełny audyt WCAG ani certyfikacja rzeczywistych głosów urządzeń.
+
+## Niezależna recenzja i ograniczenia
+
+Recenzent: architecture_audit. Wykryty niezależnie wyścig rejestracji tego samego callbacku SDK poprawiono epoką rejestracji i testem regresji. Końcowa opinia **ACCEPT limited local P0 hard-off** jest w `docs/coachfi/reviews/p0-client-review.md`. Niezależny końcowy run: 57/57 PASS = 36 autora, 8 recenzenta, 13 historycznych testów adaptera/route. Wszystkie trzy findings recenzenta zamknięte; autor nie zatwierdza własnych zmian. E2E/przegląd UX prowadzą inni członkowie zespołu. Brak wdrożenia, logowania rzeczywistym kontem, pełnego cloud flow i testu lokalnego głosu na sprzęcie. Zewnętrzne funkcje pozostają wyłączone także po optional opt-in; przyszła aktywacja wymaga oddzielnej autoryzacji, trwałej kontroli zgód/revocation/quota/budżetu i przeglądu dostawcy.
+
+Po recenzji usunięto wyłącznie dodatkową pustą linię EOF w `lib/client/api-credentials.ts` i `lib/data-export.ts` na prośbę koordynatora. Brak zmiany zachowania; bez dodatkowego testowania whitespace. Fingerprint helpera po tej kosmetycznej korekcie przekazano recenzentowi/koordynatorowi do aktualizacji dowodu.
+
+Źródło semantyki API głosu: [MDN: SpeechSynthesisVoice.localService](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService) — bool rozróżniający głos lokalny i zdalny. Odczyt jest uzależniony od deklaracji przeglądarki; kod nie obiecuje offline dla głosów chmurowych.

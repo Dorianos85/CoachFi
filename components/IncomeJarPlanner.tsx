@@ -14,7 +14,9 @@ import { useMemo, useState } from "react";
 
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
+import { FINANCIAL_AMOUNT_MAX } from "@/lib/financial-score";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
+import { allocateIncomeCents } from "@/lib/income-allocation";
 import { cn, formatCurrency, LOCALE_INTL } from "@/lib/utils";
 
 type PlannerMode = "adult" | "kids";
@@ -460,23 +462,48 @@ export function IncomeJarPlanner({
   const { locale, t } = useLanguage();
   const copy = pickLocalized(COPY, locale)[mode];
   const [income, setIncome] = useState(mode === "kids" ? 100 : 5000);
+  const [incomeInput, setIncomeInput] = useState("5000");
   const intlLocale = INTL_LOCALES[locale] ?? "en-US";
-  const formattedIncome = formatCurrency(income, t.currency, intlLocale);
-
-  const jarRows = useMemo(
-    () =>
-      JARS.map((jar) => ({
-        ...jar,
-        amount: (income * jar.percent) / 100,
-        copy: copy.jars[jar.key],
-      })),
-    [copy.jars, income]
+  const allocation = useMemo(() => {
+    if (mode !== "adult") return null;
+    const raw = incomeInput.trim();
+    const value = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(raw) ? Number(raw) : NaN;
+    return allocateIncomeCents(value, JARS.map((jar) => jar.percent));
+  }, [incomeInput, mode]);
+  const adultInvalid = mode === "adult" && allocation === null;
+  const amountFormatter = useMemo(
+    () => new Intl.NumberFormat(intlLocale, {
+      style: "currency",
+      currency: "PLN",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }),
+    [intlLocale]
   );
+  const formatAmount = (amount: number) => mode === "adult"
+    ? amountFormatter.format(amount)
+    : formatCurrency(amount, t.currency, intlLocale);
+  const formattedIncome = allocation
+    ? formatAmount(allocation.totalCents / 100)
+    : mode === "kids" ? formatAmount(income) : "";
+  const maximumIncome = amountFormatter.format(FINANCIAL_AMOUNT_MAX);
+  const incomeError = locale === "pl"
+    ? `Wpisz kwotę od 0 do ${maximumIncome} z dokładnością do grosza.`
+    : `Enter an amount from 0 to ${maximumIncome} in increments of PLN 0.01.`;
 
-  const voiceText = [
+  const jarRows = useMemo(() => {
+    if (mode === "adult" && allocation === null) return [];
+    return JARS.map((jar, index) => ({
+      ...jar,
+      amount: allocation ? allocation.jarCents[index] / 100 : (income * jar.percent) / 100,
+      copy: copy.jars[jar.key],
+    }));
+  }, [allocation, copy.jars, income, mode]);
+
+  const voiceText = adultInvalid ? "" : [
     copy.voiceIntro(formattedIncome),
     ...jarRows.map((jar) => {
-      const amount = formatCurrency(jar.amount, t.currency, intlLocale);
+      const amount = formatAmount(jar.amount);
       return `${jar.copy.title}: ${jar.percent} percent, ${amount}. ${jar.copy.description}`;
     }),
   ].join(" ");
@@ -489,7 +516,9 @@ export function IncomeJarPlanner({
           <h2 className="mt-1 text-2xl font-black leading-tight text-text md:text-3xl">{copy.title}</h2>
           <p className="mt-2 text-sm font-semibold leading-6 text-muted md:text-base">{copy.description}</p>
         </div>
-        <VoiceButton text={voiceText} label={copy.readLabel} locale={locale} variant="pill" className="shrink-0" />
+        {!adultInvalid ? (
+          <VoiceButton text={voiceText} label={copy.readLabel} locale={locale} variant="pill" className="shrink-0" />
+        ) : null}
       </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
@@ -499,15 +528,27 @@ export function IncomeJarPlanner({
             <input
               type="number"
               min={0}
-              step={10}
-              value={income}
-              onChange={(event) => setIncome(Math.max(0, Number(event.target.value) || 0))}
+              step={mode === "adult" ? 0.01 : 10}
+              max={mode === "adult" ? FINANCIAL_AMOUNT_MAX : undefined}
+              value={mode === "adult" ? incomeInput : income}
+              aria-invalid={adultInvalid || undefined}
+              onChange={(event) => {
+                if (mode === "adult") {
+                  setIncomeInput(event.target.value);
+                  return;
+                }
+                setIncome(Math.max(0, Number(event.target.value) || 0));
+              }}
               className="min-h-12 rounded-lg border border-primary/20 bg-background/70 px-3 text-xl font-black text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             />
           </label>
           <div className="mt-4 rounded-lg bg-primary/10 p-4">
             <p className="text-xs font-black uppercase text-primary">{copy.totalLabel}</p>
-            <p className="mt-1 text-3xl font-black text-text">{formattedIncome}</p>
+            {adultInvalid ? (
+              <p role="alert" className="mt-1 text-sm font-bold text-attention">{incomeError}</p>
+            ) : (
+              <p className="mt-1 text-3xl font-black text-text">{formattedIncome}</p>
+            )}
             <p className="mt-2 text-xs font-bold leading-5 text-muted">{copy.incomeHelp}</p>
           </div>
         </div>
@@ -515,7 +556,7 @@ export function IncomeJarPlanner({
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {jarRows.map((jar) => {
             const Icon = jar.icon;
-            const amount = formatCurrency(jar.amount, t.currency, intlLocale);
+            const amount = formatAmount(jar.amount);
 
             return (
               <article key={jar.key} className="rounded-lg border border-primary/10 bg-background/45 p-4">

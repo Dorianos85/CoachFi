@@ -1,32 +1,22 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-
+import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { pickLocalized, type Locale } from "@/lib/i18n";
+import { CONSENT_CHANGED_EVENT } from "@/lib/consent";
+import { useProductStorage } from "@/lib/use-product-storage";
+import { STORAGE_OWNER_CHANGED_EVENT } from "@/lib/product-storage";
+import type { Locale } from "@/lib/i18n";
+import { createVoiceResources, startLocalSpeech } from "@/lib/client/local-voice";
 
 export interface VoiceSpeakOptions {
   locale?: Locale;
-  /** Legacy options are accepted for callers; Mila's voice is resolved on the server. */
+  userInitiated?: boolean;
   voiceId?: string;
   modelId?: string;
   speechLang?: string;
 }
-
-const TTS_TIMEOUT_MS = 22000;
-const MAX_TTS_TEXT_LENGTH = 500;
-const VOICE_UNAVAILABLE = {
-  en: "Mila's voice is temporarily unavailable. You can continue reading and try the audio again.",
-  pl: "Głos Mili jest chwilowo niedostępny. Możesz czytać dalej i ponownie spróbować odsłuchu.",
-  ja: "Mila の音声は一時的に利用できません。テキストを読み続けて、音声をもう一度お試しください。",
-  es: "La voz de Mila no está disponible temporalmente. Puedes seguir leyendo y volver a probar el audio.",
-  fr: "La voix de Mila est temporairement indisponible. Vous pouvez continuer à lire et réessayer l'audio.",
-  zh: "Mila 的语音暂时不可用。你可以继续阅读，稍后再试音频。",
-  hi: "Mila की आवाज़ फ़िलहाल उपलब्ध नहीं है। आप पढ़ना जारी रख सकते हैं और ऑडियो फिर से आज़मा सकते हैं।",
-  "pt-BR": "A voz da Mila está temporariamente indisponível. Você pode continuar lendo e tentar o áudio de novo.",
-  tr: "Mila'nın sesi geçici olarak kullanılamıyor. Okumaya devam edebilir ve sesi yeniden deneyebilirsin.",
-};
 
 interface VoiceContextValue {
   isPlaying: boolean;
@@ -37,147 +27,104 @@ interface VoiceContextValue {
 }
 
 const VoiceContext = createContext<VoiceContextValue>({
-  isPlaying: false,
-  isLoading: false,
-  currentText: "",
-  speak: async () => {},
-  stop: () => {},
+  isPlaying: false, isLoading: false, currentText: "", speak: async () => {}, stop: () => {},
 });
 
 export function VoiceProvider({ children }: { children: ReactNode }) {
+  const { storage } = useProductStorage();
   const { locale } = useLanguage();
+  const { consent } = useConsent();
+  const [resources] = useState(createVoiceResources);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentText, setCurrentText] = useState("");
   const [voiceError, setVoiceError] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const requestRef = useRef<AbortController | null>(null);
-  const audioCacheRef = useRef<Map<string, string>>(new Map());
-  const playbackIdRef = useRef(0);
 
-  useEffect(() => {
-    return () => {
-      playbackIdRef.current += 1;
-      requestRef.current?.abort();
-      audioRef.current?.pause();
-      for (const url of audioCacheRef.current.values()) URL.revokeObjectURL(url);
-      audioCacheRef.current.clear();
-    };
-  }, []);
-
-  function stop() {
-    playbackIdRef.current += 1;
-    requestRef.current?.abort();
-    requestRef.current = null;
-    if (audioRef.current) {
-      audioRef.current.onended = null;
-      audioRef.current.onerror = null;
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
+  const stop = useCallback(() => {
+    resources.cancel();
     setIsLoading(false);
     setIsPlaying(false);
     setCurrentText("");
     setVoiceError(false);
-  }
+  }, [resources]);
 
-  function finishPlayback(playbackId: number) {
-    if (playbackIdRef.current !== playbackId) return;
-    setIsLoading(false);
-    setIsPlaying(false);
-    setCurrentText("");
-  }
-
-  async function playAudioUrl(url: string, playbackId: number) {
-    const audio = new Audio(url);
-    audioRef.current = audio;
-    audio.volume = 1;
-    audio.onended = () => {
-      if (playbackIdRef.current !== playbackId) return;
-      audioRef.current = null;
-      finishPlayback(playbackId);
+  useEffect(() => {
+    const revoke = () => { resources.cancel(true); stop(); };
+    const ownerChanged = () => { if (!storage.isCurrent()) revoke(); };
+    // A settings update or withdrawal immediately invalidates playback and cache.
+    window.addEventListener(CONSENT_CHANGED_EVENT, revoke);
+    window.addEventListener(STORAGE_OWNER_CHANGED_EVENT, ownerChanged);
+    return () => {
+      window.removeEventListener(CONSENT_CHANGED_EVENT, revoke);
+      window.removeEventListener(STORAGE_OWNER_CHANGED_EVENT, ownerChanged);
+      resources.cancel(true);
     };
-    audio.onerror = () => {
-      if (playbackIdRef.current !== playbackId) return;
-      audioRef.current = null;
+  }, [resources, stop, storage]);
+
+  useEffect(() => {
+    resources.cancel(true);
+    stop();
+  }, [consent, resources, stop, storage]);
+
+  const speak = useCallback(async (text: string, options: VoiceSpeakOptions = {}) => {
+    if (!storage.isCurrent()) return;
+    stop();
+    // External AI/TTS is hard-off in P0. Automatic chat replies remain text.
+    if (options.userInitiated !== true || !text.trim()) return;
+    const cleanText = text.trim().slice(0, 500);
+    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
       setVoiceError(true);
-      finishPlayback(playbackId);
-    };
-    await audio.play();
-    if (playbackIdRef.current !== playbackId) {
-      audio.pause();
       return;
     }
-    setIsLoading(false);
-    setIsPlaying(true);
-  }
-
-  async function speak(text: string, options: VoiceSpeakOptions = {}) {
-    const cleanText = text.trim().slice(0, MAX_TTS_TEXT_LENGTH);
-    if (!cleanText) return;
-    stop();
-    const playbackId = ++playbackIdRef.current;
-    const selectedLocale = options.locale ?? locale;
-    const cacheKey = [selectedLocale, cleanText].join("::");
+    const generation = resources.generation;
     setIsLoading(true);
     setCurrentText(cleanText);
-
     try {
-      const cachedUrl = audioCacheRef.current.get(cacheKey);
-      if (cachedUrl) {
-        try {
-          await playAudioUrl(cachedUrl, playbackId);
-          return;
-        } catch {
-          URL.revokeObjectURL(cachedUrl);
-          audioCacheRef.current.delete(cacheKey);
-        }
-      }
-      const controller = new AbortController();
-      requestRef.current = controller;
-      const timeout = window.setTimeout(() => controller.abort(), TTS_TIMEOUT_MS);
-      let res: Response;
-      try {
-        res = await fetch("/api/tts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: cleanText, locale: selectedLocale }),
-          signal: controller.signal,
+      const utterance = startLocalSpeech(cleanText, options.locale ?? locale, true,
+        window.speechSynthesis, (value) => new SpeechSynthesisUtterance(value), (value) => {
+          const finish = () => {
+            if (!storage.isCurrent() || resources.generation !== generation) return;
+            setIsPlaying(false);
+            setIsLoading(false);
+            setCurrentText("");
+          };
+          value.onstart = () => {
+            if (!storage.isCurrent() || resources.generation !== generation) return;
+            setIsLoading(false);
+            setIsPlaying(true);
+          };
+          value.onend = finish;
+          value.onerror = () => {
+            if (!storage.isCurrent() || resources.generation !== generation) return;
+            finish();
+            setVoiceError(true);
+          };
         });
-      } finally {
-        window.clearTimeout(timeout);
-        if (requestRef.current === controller) requestRef.current = null;
+      if (!utterance) {
+        setIsLoading(false);
+        setCurrentText("");
+        setVoiceError(true);
       }
-      if (!res.ok || !(res.headers.get("Content-Type") ?? "").startsWith("audio/")) {
-        throw new Error("Mila voice unavailable");
-      }
-      if (playbackIdRef.current !== playbackId) return;
-      const blob = await res.blob();
-      if (blob.size === 0) throw new Error("Empty audio");
-      if (playbackIdRef.current !== playbackId) return;
-      const url = URL.createObjectURL(blob);
-      audioCacheRef.current.set(cacheKey, url);
-      await playAudioUrl(url, playbackId);
     } catch {
-      if (playbackIdRef.current !== playbackId) return;
-      // Keep Mila's identity consistent: recovery is visible text, never a different browser voice.
+      setIsLoading(false);
+      setIsPlaying(false);
+      setCurrentText("");
       setVoiceError(true);
-      finishPlayback(playbackId);
     }
-  }
+  }, [locale, resources, stop, storage]);
 
   return (
     <VoiceContext.Provider value={{ isPlaying, isLoading, currentText, speak, stop }}>
       {children}
       {voiceError ? (
         <p role="status" aria-live="polite" className="fixed bottom-24 left-1/2 z-[1500] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-2xl border border-primary/20 bg-white p-4 text-sm font-semibold text-text shadow-soft">
-          {pickLocalized(VOICE_UNAVAILABLE, locale)}
+          {locale === "pl"
+            ? "Zewnętrzny głos Mili jest wyłączony. Brak odpowiedniego lokalnego głosu na tym urządzeniu; możesz czytać tekst."
+            : "Mila's external voice is disabled. No suitable local voice is available on this device; you can read the text."}
         </p>
       ) : null}
     </VoiceContext.Provider>
   );
 }
 
-export function useVoice() {
-  return useContext(VoiceContext);
-}
+export function useVoice() { return useContext(VoiceContext); }

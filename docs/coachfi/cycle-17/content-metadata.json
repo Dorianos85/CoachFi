@@ -1,0 +1,744 @@
+{
+  "schema_version": 1,
+  "module": "emergency-fund",
+  "version": "emergency-fund-pl-en-v1-draft",
+  "created_date": "2026-10-15",
+  "market_country": "PL",
+  "jurisdiction": "Poland; EN is a language, not a new market",
+  "languages": [
+    "pl",
+    "en"
+  ],
+  "author": "daily_author",
+  "status": "local_implementation_pending_independent_actual_source_review",
+  "implementation_authorized": true,
+  "distinct_existing_questions": 3,
+  "language_versions": 6,
+  "new_question_ids": 0,
+  "canonical_union_count_unchanged": 82,
+  "lesson_steps_per_language": 3,
+  "reward_total": 70,
+  "reviewers": {
+    "financial": {
+      "name": "daily_data_review",
+      "status": "draft accepted; actual source review pending"
+    },
+    "frontend_localization": {
+      "name": "daily_ui_review",
+      "status": "pending draft review"
+    }
+  },
+  "actual_ui_baseline": {
+    "path": "evidence/cycle-17/ui-review-baseline.json",
+    "passed": 5,
+    "failed": 2,
+    "total": 7,
+    "scope": "Actual component functions under mocked hooks/context with synthetic guest. Two Polish fallback findings, not acceptance of old financial content; no browser/audio/production proof."
+  },
+  "sources": [
+    {
+      "id": "cfpb-emergency",
+      "publisher": "Consumer Financial Protection Bureau",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+      "supports": "Goals depend on circumstances; even a small start is possible; variable-income cash flow and account-access conditions matter.",
+      "limits": "General education only. No USA product/tax guidance, universal month threshold, fixed benefit or claim that one month covers most emergencies. Essentials/minimum safety and all hypothetical PLN examples are explicit Coachfi design assumptions.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page read by author",
+      "country_application": "PL adults; EN is a language, not another market"
+    },
+    {
+      "id": "knf-risk",
+      "publisher": "Komisja Nadzoru Finansowego",
+      "url": "https://www.knf.gov.pl/dla_konsumenta/kampanie_informacyjne/Inwestuj_swiadomie",
+      "supports": "Possible investment losses, understanding products and keeping money needed for daily life out of unsuitable risk.",
+      "limits": "No product recommendation, provider comparison, return forecast or claim that a low-risk label removes all risks.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page read by author",
+      "country_application": "PL adults; EN is a language, not another market"
+    },
+    {
+      "id": "bfg-scope",
+      "publisher": "Bankowy Fundusz Gwarancyjny",
+      "url": "https://bfg.pl/gwarantowanie-depozytow/",
+      "supports": "Deposit protection has a defined institution and product scope; it is not blanket protection for every financial investment.",
+      "limits": "No current legal coverage amount, deadline, provider recommendation or guaranteed instant access is taught. Checking scope is educational, not a compliance approval.",
+      "checked_date": "2026-10-15",
+      "access": "primary full page read by author",
+      "country_application": "PL adults; EN is a language, not another market"
+    },
+    {
+      "id": "eu-oecd-adult",
+      "publisher": "European Union / OECD",
+      "url": "https://finance.ec.europa.eu/system/files/2022-01/220111-financial-competence-framework-adults_en.pdf",
+      "checked_date": "2026-10-15",
+      "access": "primary PDF read; relevant savings-buffer and irregular-income sections",
+      "country_application": "PL adults",
+      "supports": "Design mapping for realistic savings goals, income uncertainty, liquid buffers and assessment of cost and risk.",
+      "limits": "Conceptual framework only, not a certified curriculum or evidence that Coachfi improves measured outcomes. No legal protection limits are taught."
+    }
+  ],
+  "steps": [
+    {
+      "question_id": "emergency-fund",
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "objective": {
+        "pl": "Dobierz orientacyjny cel do warunków i odróżnij go od obowiązkowego progu.",
+        "en": "Adapt an indicative goal to circumstances and distinguish it from a required threshold."
+      },
+      "copy": {
+        "pl": {
+          "title": "Cel dopasowany do sytuacji",
+          "body": "Rezerwa pomaga przy nieplanowanych kosztach lub przerwie w dochodzie, lecz nie usuwa każdego ryzyka. Kwota zależy od potrzeb, zobowiązań i niepewności dochodów. Zakres 3–6 miesięcy można wybrać orientacyjnie; nie jest obowiązkiem ani gwarancją. Przykład: wybieramy 3 miesiące po 2 000 zł niezbędnych kosztów, już z wymaganymi minimalnymi spłatami liczonymi raz. Cel to 3 × 2 000 = 6 000 zł, przy stałych kosztach, bez odsetek i opłat; to nie termin zebrania kwoty. Ćwiczenie: ile dałby wybrany cel 6 miesięcy? 12 000 zł. Działanie: opcjonalnie wskaż jedną liczbę w przykładzie, bez podawania swoich danych. Przy nieregularnym dochodzie cel można zmieniać; bez nadwyżki nie ma obowiązku przelewu. Po przerwie wróć do jednego mnożenia."
+        },
+        "en": {
+          "title": "A goal that fits the situation",
+          "body": "A reserve can help with unplanned costs or an income interruption, but does not remove every risk. The amount depends on needs, commitments and income uncertainty. A 3–6 month range can be an indicative choice, not a duty or guarantee. Example: we choose 3 months at PLN 2,000 of essential costs, already including required minimum repayments counted once. The goal is 3 × 2,000 = PLN 6,000, with constant costs and no interest or fees; this does not give a completion date. Try: what would a chosen 6 months mean? PLN 12,000. Action: optionally identify one number in the example without sharing personal data. With irregular income, the goal can change; no surplus means no required transfer. After a break, return to one multiplication."
+        }
+      },
+      "practice": {
+        "pl": "3 × 2 000 = 6 000 zł; dla wybranych 6 miesięcy 12 000 zł.",
+        "en": "3 × 2,000 = PLN 6,000; a chosen 6 months means PLN 12,000."
+      },
+      "optional_action": {
+        "pl": "Wskaż jedną liczbę w hipotetycznym planie, bez danych osobistych.",
+        "en": "Identify one number in the hypothetical plan without personal data."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego mnożenia; nie trzeba nadrabiać.",
+        "en": "Return to one multiplication; no catching up is required."
+      },
+      "irregular_income": {
+        "pl": "Cel jest elastyczny, a brak nadwyżki nie wymaga wpłaty.",
+        "en": "The goal is flexible and a lack of surplus requires no payment."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_monthly_essential_costs": 2000,
+        "required_minimum_repayments_already_included": true,
+        "minimum_repayments_counted_once": true,
+        "chosen_months": 3,
+        "illustrative_optional_range_months": [
+          3,
+          6
+        ],
+        "chosen_goal": 6000,
+        "alternative_six_month_goal": 12000,
+        "monthly_costs_constant": true,
+        "price_changes_ignored": true,
+        "interest_assumed": 0,
+        "fees_assumed": 0,
+        "not_actual_household_data": true,
+        "not_a_required_minimum_or_safety_guarantee": true,
+        "goal_arithmetic_not_savings_timeline": true
+      }
+    },
+    {
+      "question_id": "emergency-fund-characteristics",
+      "source_ids": [
+        "cfpb-emergency",
+        "knf-risk",
+        "bfg-scope"
+      ],
+      "objective": {
+        "pl": "Oceń dostęp, koszty i ryzyko rezerwy bez uznawania niskiego ryzyka za gwarancję.",
+        "en": "Assess reserve access, costs and risk without treating lower risk as a guarantee."
+      },
+      "copy": {
+        "pl": {
+          "title": "Dostępność, koszty i ryzyko",
+          "body": "Rezerwa ma być dostępna, gdy jej potrzebujesz, z ograniczoną zmiennością. Sprawdź czas wypłaty, opłaty i warunki; niskie ryzyko nie oznacza braku strat, kosztów lub opóźnień. Ochrona depozytu zależy od podmiotu i produktu; nie obejmuje automatycznie każdej inwestycji. Przykład: masz 200 zł rezerwy, nagły koszt 150 zł i hipotetyczną opłatę dostępu 20 zł — zostaje 30 zł, jeśli środki są dostępne na czas. Ćwiczenie: 200 − 150 − 20 = 30. Działanie: opcjonalnie sprawdź jeden warunek w przykładowym opisie, bez zakupu lub otwierania konta. Przy nieregularnym dochodzie chroń bieżące potrzeby i wymagane minima; akcje mogą stracić wartość w chwili potrzeby. Po przerwie wróć do pytania o dostęp."
+        },
+        "en": {
+          "title": "Access, costs and risk",
+          "body": "A reserve should be accessible when needed, with limited volatility. Check withdrawal timing, fees and terms; lower risk does not mean no losses, costs or delays. Deposit protection depends on the institution and product; it does not automatically cover every investment. Example: a PLN 200 reserve, a PLN 150 unexpected cost and a hypothetical PLN 20 access fee leave PLN 30, if funds are available in time. Try: 200 − 150 − 20 = 30. Action: optionally check one condition in a sample description without buying or opening an account. With irregular income, protect current essentials and required minimums; shares may lose value just when money is needed. After a break, return to one access question."
+        }
+      },
+      "practice": {
+        "pl": "200 − 150 − 20 = 30 zł; sprawdź również czas dostępu.",
+        "en": "200 − 150 − 20 = PLN 30; also check access timing."
+      },
+      "optional_action": {
+        "pl": "Przeczytaj jeden warunek przykładowego opisu, bez wyboru dostawcy.",
+        "en": "Read one condition in a sample description without choosing a provider."
+      },
+      "calm_return": {
+        "pl": "Wróć do jednego pytania o dostęp.",
+        "en": "Return to one question about access."
+      },
+      "irregular_income": {
+        "pl": "Chroń bieżące potrzeby i wymagane minimum; nie trzeba kupować produktu.",
+        "en": "Protect current essentials and required minimums; no product purchase is needed."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_reserve": 200,
+        "unexpected_cost": 150,
+        "hypothetical_access_fee": 20,
+        "remainder": 30,
+        "cost_available_in_time_assumed_for_arithmetic": true,
+        "no_market_return_assumed": true,
+        "no_product_recommended": true,
+        "low_risk_not_zero_loss_or_zero_cost_or_instant_access": true,
+        "deposit_coverage_requires_checking_institution_and_product": true,
+        "no_coverage_amount_or_legal_advice": true
+      }
+    },
+    {
+      "question_id": "emergency-fund-start",
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "objective": {
+        "pl": "Wybierz osiągalny dobrowolny początek dopiero po potrzebach i wymaganych minimum.",
+        "en": "Choose an achievable optional start only after essentials and required minimums."
+      },
+      "copy": {
+        "pl": {
+          "title": "Mały początek jest opcją",
+          "body": "Nie trzeba zaczynać od miesiąca wydatków. Wybierz mały osiągalny cel i dopiero dostępną kwotę po potrzebach oraz wymaganych minimalnych spłatach. Przykład bez opłat: wpływ 1 000 zł, potrzeby 900 zł i minima 80 zł dają 20 zł nadwyżki. Możesz dobrowolnie wybrać 10 zł na przykładowy cel 50 zł, zostawiając pozostałe 10 zł; nie jest to obowiązek ani termin ukończenia. Ćwiczenie: co jeśli wpływ spadnie do 980 zł? Nadwyżka to 0 zł, więc przelew 0 zł. Działanie: opcjonalnie wskaż kwotę w przykładzie, bez wykonywania przelewu. Przy nieregularnym dochodzie sprawdź kwotę i termin od nowa; nie pożyczaj, żeby oszczędzać. Po wykorzystaniu rezerwy lub przerwie wróć do małego kroku, bez kary i nadrabiania."
+        },
+        "en": {
+          "title": "A small start is an option",
+          "body": "One month of expenses is not a required first milestone. Choose a small achievable goal, then only available money after essentials and required minimum repayments. Example without fees: PLN 1,000 income, PLN 900 essentials and PLN 80 minimums leave PLN 20. You may optionally choose PLN 10 toward an illustrative PLN 50 goal, leaving the other PLN 10; this is not a duty or completion date. Try: what if income falls to PLN 980? Surplus is PLN 0, so transfer PLN 0. Action: optionally identify an amount in the example without making a transfer. With irregular income, check the amount and timing again; do not borrow to save. After using the reserve or taking a break, return to a small step without punishment or catching up."
+        }
+      },
+      "practice": {
+        "pl": "1 000 − 900 − 80 = 20 zł; przy 980 zł wpływu nadwyżka i przelew to 0 zł.",
+        "en": "1,000 − 900 − 80 = PLN 20; at PLN 980 income, surplus and transfer are PLN 0."
+      },
+      "optional_action": {
+        "pl": "Wskaż dobrowolną kwotę na papierowym przykładzie; przelew nie jest wymagany.",
+        "en": "Identify an optional amount in the paper example; no transfer is required."
+      },
+      "calm_return": {
+        "pl": "Po przerwie lub wykorzystaniu rezerwy wróć do małego kroku bez kary.",
+        "en": "After a break or using the reserve, return to a small step without punishment."
+      },
+      "irregular_income": {
+        "pl": "Przy zerowej lub ujemnej nadwyżce wybierz 0 zł; nie pożyczaj na oszczędzanie.",
+        "en": "With zero or negative surplus choose PLN 0; do not borrow to save."
+      },
+      "country": "PL",
+      "author": "daily_author",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_income": 1000,
+        "essential_costs_excluding_debt_minimums": 900,
+        "required_minimum_repayments": 80,
+        "other_required_costs": 0,
+        "available_surplus": 20,
+        "optional_chosen_transfer": 10,
+        "uncommitted_surplus_left": 10,
+        "illustrative_small_goal": 50,
+        "one_month_not_required_first_goal": true,
+        "fees_assumed": 0,
+        "borrowing_to_save": 0,
+        "transfer_required": false,
+        "no_surplus_transfer": 0,
+        "irregular_income_requires_fresh_check": true,
+        "no_completion_date_or_months_of_coverage_promised": true
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "emergency-fund",
+      "correct_answer": "C",
+      "reward": 25,
+      "level": "calculate",
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "2 000 zł odpowiada jednemu miesiącowi, a w tym przykładzie wybrano trzy.",
+          "en": "PLN 2,000 covers one month, while this example chooses three."
+        },
+        "B": {
+          "pl": "4 000 zł odpowiada dwóm miesiącom po 2 000 zł, nie wybranym trzem.",
+          "en": "PLN 4,000 covers two months at PLN 2,000, not the chosen three."
+        },
+        "D": {
+          "pl": "12 000 zł to sześć miesięcy. To inny możliwy cel, ale nie wybrane trzy miesiące z pytania.",
+          "en": "PLN 12,000 is six months. That is a different possible goal, not the three months chosen in the question."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "emergency-fund",
+          "question": "W przykładzie wybierasz 3 miesiące po 2 000 zł niezbędnych kosztów (w tym wymagane minimum długu, liczone raz). Ile wynosi cel przy stałych kosztach?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "2 000 zł"
+            },
+            {
+              "id": "B",
+              "text": "4 000 zł"
+            },
+            {
+              "id": "C",
+              "text": "6 000 zł"
+            },
+            {
+              "id": "D",
+              "text": "12 000 zł"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Wybrany cel: 3 × 2 000 = 6 000 zł. To przykład, nie obowiązkowy próg. +25 lokalnych punktów.",
+          "retryMessage": "3 × 2 000 zł = 6 000 zł przy podanych stałych kosztach, z minimum długu już uwzględnionym raz. Wielkość rezerwy zależy od sytuacji; 3–6 miesięcy można wybrać orientacyjnie, bez gwarancji ochrony. To nie termin zebrania kwoty ani obowiązek przelewu.",
+          "category": "Fundusz awaryjny"
+        },
+        "en": {
+          "id": "emergency-fund",
+          "question": "In this example you choose 3 months at PLN 2,000 of essential costs (required debt minimums included once). What is the goal with constant costs?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "PLN 2,000"
+            },
+            {
+              "id": "B",
+              "text": "PLN 4,000"
+            },
+            {
+              "id": "C",
+              "text": "PLN 6,000"
+            },
+            {
+              "id": "D",
+              "text": "PLN 12,000"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Chosen goal: 3 × 2,000 = PLN 6,000. An example, not a required threshold. +25 local points.",
+          "retryMessage": "3 × PLN 2,000 = PLN 6,000 under the stated constant costs, with debt minimums already included once. Reserve size depends on circumstances; 3–6 months can be an indicative choice without guaranteed protection. This gives no completion date or transfer obligation.",
+          "category": "Emergency Fund"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "objective": {
+        "pl": "Dobierz orientacyjny cel do warunków i odróżnij go od obowiązkowego progu.",
+        "en": "Adapt an indicative goal to circumstances and distinguish it from a required threshold."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_monthly_essential_costs": 2000,
+        "required_minimum_repayments_already_included": true,
+        "minimum_repayments_counted_once": true,
+        "chosen_months": 3,
+        "illustrative_optional_range_months": [
+          3,
+          6
+        ],
+        "chosen_goal": 6000,
+        "alternative_six_month_goal": 12000,
+        "monthly_costs_constant": true,
+        "price_changes_ignored": true,
+        "interest_assumed": 0,
+        "fees_assumed": 0,
+        "not_actual_household_data": true,
+        "not_a_required_minimum_or_safety_guarantee": true,
+        "goal_arithmetic_not_savings_timeline": true
+      }
+    },
+    {
+      "id": "emergency-fund-characteristics",
+      "correct_answer": "C",
+      "reward": 25,
+      "level": "assess",
+      "source_ids": [
+        "cfpb-emergency",
+        "knf-risk",
+        "bfg-scope"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "Sprawdzenie czasu dostępu pomaga ustalić, czy rezerwa będzie dostępna na czas; nie gwarantuje natychmiastowej wypłaty.",
+          "en": "Checking access timing helps establish whether the reserve is available in time; it does not guarantee instant withdrawal."
+        },
+        "B": {
+          "pl": "Sprawdzenie opłat i zakresu ochrony jest zasadne; ochrona zależy od podmiotu i produktu, nie samej nazwy rezerwa.",
+          "en": "Checking fees and protection scope is appropriate; protection depends on the institution and product, not the label reserve."
+        },
+        "D": {
+          "pl": "Odróżnienie rezerwy od planowanych wydatków pomaga określić jej cel; nie wymaga nowego produktu lub konta.",
+          "en": "Distinguishing the reserve from planned spending helps define its purpose; no new product or account is required."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "emergency-fund-characteristics",
+          "question": "Która decyzja przeczy celowi szybko dostępnej rezerwy o niskiej zmienności?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Sprawdzenie czasu dostępu"
+            },
+            {
+              "id": "B",
+              "text": "Sprawdzenie opłat i zakresu ochrony"
+            },
+            {
+              "id": "C",
+              "text": "Cała rezerwa w zmiennych akcjach"
+            },
+            {
+              "id": "D",
+              "text": "Odróżnienie rezerwy od planowanych wydatków"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Zmienna cena akcji może obniżyć rezerwę w chwili potrzeby. +25 lokalnych punktów.",
+          "retryMessage": "Cała rezerwa w zmiennych akcjach może stracić wartość, gdy jest potrzebna. Sprawdź dostęp, opłaty i warunki; niskie ryzyko nie oznacza braku strat lub kosztów. Ochrona depozytu zależy od podmiotu i produktu, a nie każda inwestycja jest objęta ochroną. To nie wybór dostawcy.",
+          "category": "Fundusz awaryjny"
+        },
+        "en": {
+          "id": "emergency-fund-characteristics",
+          "question": "Which decision conflicts with a readily accessible reserve with low volatility?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Check access timing"
+            },
+            {
+              "id": "B",
+              "text": "Check fees and protection scope"
+            },
+            {
+              "id": "C",
+              "text": "Put the entire reserve in volatile shares"
+            },
+            {
+              "id": "D",
+              "text": "Distinguish reserves from planned spending"
+            }
+          ],
+          "correctAnswer": "C",
+          "reward": 25,
+          "successMessage": "Changing share prices may reduce the reserve just when needed. +25 local points.",
+          "retryMessage": "An entire reserve in volatile shares may lose value when needed. Check access, fees and terms; lower risk does not mean no losses or costs. Deposit protection depends on the institution and product, and does not cover every investment. This is not a provider choice.",
+          "category": "Emergency Fund"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "objective": {
+        "pl": "Oceń dostęp, koszty i ryzyko rezerwy bez uznawania niskiego ryzyka za gwarancję.",
+        "en": "Assess reserve access, costs and risk without treating lower risk as a guarantee."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_reserve": 200,
+        "unexpected_cost": 150,
+        "hypothetical_access_fee": 20,
+        "remainder": 30,
+        "cost_available_in_time_assumed_for_arithmetic": true,
+        "no_market_return_assumed": true,
+        "no_product_recommended": true,
+        "low_risk_not_zero_loss_or_zero_cost_or_instant_access": true,
+        "deposit_coverage_requires_checking_institution_and_product": true,
+        "no_coverage_amount_or_legal_advice": true
+      }
+    },
+    {
+      "id": "emergency-fund-start",
+      "correct_answer": "B",
+      "reward": 20,
+      "level": "apply",
+      "source_ids": [
+        "cfpb-emergency"
+      ],
+      "wrong_option_explanations": {
+        "A": {
+          "pl": "100 zł przekracza obliczoną nadwyżkę 20 zł i narusza środki zarezerwowane na potrzeby lub minimum.",
+          "en": "PLN 100 exceeds the calculated PLN 20 surplus and uses money reserved for essentials or minimums."
+        },
+        "C": {
+          "pl": "Nowy dług na oszczędzanie dodaje zobowiązanie; ten mały krok korzysta wyłącznie z dostępnej nadwyżki.",
+          "en": "Borrowing to save adds a liability; this small step uses only available surplus."
+        },
+        "D": {
+          "pl": "Miesiąc kosztów nie jest obowiązkowym pierwszym progiem; mała osiągalna kwota może być dobrowolnym początkiem.",
+          "en": "One month of costs is not a required first threshold; a small achievable amount can be an optional start."
+        }
+      },
+      "copy": {
+        "pl": {
+          "id": "emergency-fund-start",
+          "question": "Przykład: wpływ 1 000 zł, potrzeby 900 zł, wymagane minima 80 zł, brak innych kosztów i opłat. Który mały start mieści się w tych warunkach?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Przelać 100 zł, choć nadwyżka to tylko 20 zł"
+            },
+            {
+              "id": "B",
+              "text": "Dobrowolnie odłożyć 10 zł, pozostawiając 10 zł"
+            },
+            {
+              "id": "C",
+              "text": "Pożyczyć na oszczędzanie"
+            },
+            {
+              "id": "D",
+              "text": "Uznać miesiąc kosztów za obowiązkowy próg startu"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "Nadwyżka to 20 zł; 10 zł jest dobrowolnym wyborem, nie obowiązkiem. +20 lokalnych punktów.",
+          "retryMessage": "1 000 − 900 − 80 = 20 zł. Dobrowolne 10 zł mieści się w nadwyżce i zostawia 10 zł; nie ma obowiązku przelewu. Przy 980 zł wpływu nadwyżka to 0 zł. Miesiąc wydatków nie jest wymaganym pierwszym celem; przy braku środków wstrzymaj przelew, nie pożyczaj na oszczędzanie.",
+          "category": "Fundusz awaryjny"
+        },
+        "en": {
+          "id": "emergency-fund-start",
+          "question": "Example: PLN 1,000 income, PLN 900 essentials, PLN 80 required minimums, no other costs or fees. Which small start fits these conditions?",
+          "answers": [
+            {
+              "id": "A",
+              "text": "Transfer PLN 100 from a PLN 20 surplus"
+            },
+            {
+              "id": "B",
+              "text": "Optionally save PLN 10, leaving PLN 10"
+            },
+            {
+              "id": "C",
+              "text": "Borrow to save"
+            },
+            {
+              "id": "D",
+              "text": "Treat one month of costs as a required first threshold"
+            }
+          ],
+          "correctAnswer": "B",
+          "reward": 20,
+          "successMessage": "Surplus is PLN 20; PLN 10 is an optional choice, not a duty. +20 local points.",
+          "retryMessage": "1,000 − 900 − 80 = PLN 20. An optional PLN 10 fits the surplus and leaves PLN 10; no transfer is required. At PLN 980 income, surplus is PLN 0. One month of expenses is not a required first goal; without funds, pause the transfer and do not borrow to save.",
+          "category": "Emergency Fund"
+        }
+      },
+      "country": "PL",
+      "languages": [
+        "pl",
+        "en"
+      ],
+      "author": "daily_author",
+      "reviewer": "daily_data_review",
+      "review_date": null,
+      "status": "draft_pending_independent_review",
+      "version": "emergency-fund-pl-en-v1-draft",
+      "created_date": "2026-10-15",
+      "objective": {
+        "pl": "Wybierz osiągalny dobrowolny początek dopiero po potrzebach i wymaganych minimum.",
+        "en": "Choose an achievable optional start only after essentials and required minimums."
+      },
+      "calculation_assumptions": {
+        "currency": "PLN",
+        "illustrative_income": 1000,
+        "essential_costs_excluding_debt_minimums": 900,
+        "required_minimum_repayments": 80,
+        "other_required_costs": 0,
+        "available_surplus": 20,
+        "optional_chosen_transfer": 10,
+        "uncommitted_surplus_left": 10,
+        "illustrative_small_goal": 50,
+        "one_month_not_required_first_goal": true,
+        "fees_assumed": 0,
+        "borrowing_to_save": 0,
+        "transfer_required": false,
+        "no_surplus_transfer": 0,
+        "irregular_income_requires_fresh_check": true,
+        "no_completion_date_or_months_of_coverage_promised": true
+      }
+    }
+  ],
+  "independent_hypothetical_examples": true,
+  "review_scenarios_not_additional_quiz_items": [
+    {
+      "income": 1000,
+      "essentials": 900,
+      "minimums": 80,
+      "other_required_costs": 0,
+      "raw_surplus": 20,
+      "chosen_transfer": 10
+    },
+    {
+      "income": 980,
+      "essentials": 900,
+      "minimums": 80,
+      "other_required_costs": 0,
+      "raw_surplus": 0,
+      "chosen_transfer": 0
+    },
+    {
+      "income": 970,
+      "essentials": 900,
+      "minimums": 80,
+      "other_required_costs": 0,
+      "raw_surplus": -10,
+      "chosen_transfer": 0
+    }
+  ],
+  "voice_checks": {
+    "status": "Static complete draft text calculation only; not actual UI/audio verification",
+    "maximum": 318,
+    "cases": [
+      {
+        "id": "emergency-fund",
+        "locale": "pl",
+        "text": "W przykładzie wybierasz 3 miesiące po 2 000 zł niezbędnych kosztów (w tym wymagane minimum długu, liczone raz). Ile wynosi cel przy stałych kosztach? A. 2 000 zł B. 4 000 zł C. 6 000 zł D. 12 000 zł",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 198,
+        "unicode_code_points": 198,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-fund",
+        "locale": "en",
+        "text": "In this example you choose 3 months at PLN 2,000 of essential costs (required debt minimums included once). What is the goal with constant costs? A. PLN 2,000 B. PLN 4,000 C. PLN 6,000 D. PLN 12,000",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 198,
+        "unicode_code_points": 198,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-fund-characteristics",
+        "locale": "pl",
+        "text": "Która decyzja przeczy celowi szybko dostępnej rezerwy o niskiej zmienności? A. Sprawdzenie czasu dostępu B. Sprawdzenie opłat i zakresu ochrony C. Cała rezerwa w zmiennych akcjach D. Odróżnienie rezerwy od planowanych wydatków",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 226,
+        "unicode_code_points": 226,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-fund-characteristics",
+        "locale": "en",
+        "text": "Which decision conflicts with a readily accessible reserve with low volatility? A. Check access timing B. Check fees and protection scope C. Put the entire reserve in volatile shares D. Distinguish reserves from planned spending",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 228,
+        "unicode_code_points": 228,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-fund-start",
+        "locale": "pl",
+        "text": "Przykład: wpływ 1 000 zł, potrzeby 900 zł, wymagane minima 80 zł, brak innych kosztów i opłat. Który mały start mieści się w tych warunkach? A. Przelać 100 zł, choć nadwyżka to tylko 20 zł B. Dobrowolnie odłożyć 10 zł, pozostawiając 10 zł C. Pożyczyć na oszczędzanie D. Uznać miesiąc kosztów za obowiązkowy próg startu",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 318,
+        "unicode_code_points": 318,
+        "limit": 500,
+        "untruncated": true
+      },
+      {
+        "id": "emergency-fund-start",
+        "locale": "en",
+        "text": "Example: PLN 1,000 income, PLN 900 essentials, PLN 80 required minimums, no other costs or fees. Which small start fits these conditions? A. Transfer PLN 100 from a PLN 20 surplus B. Optionally save PLN 10, leaving PLN 10 C. Borrow to save D. Treat one month of costs as a required first threshold",
+        "formatter": "[question, ...answers.map(id + \". \" + text)].join(\" \")",
+        "utf16_length": 297,
+        "unicode_code_points": 297,
+        "limit": 500,
+        "untruncated": true
+      }
+    ]
+  },
+  "deferred_related_records": [
+    {
+      "id": "emergency-first-milestone",
+      "reason": "Existing separate non-target ID. Its one-month-first and research-related claim are not changed or accepted in this three-ID module.",
+      "status": "explicitly deferred; not fixed by C17"
+    }
+  ],
+  "boundaries": [
+    "Draft only; no changes to five product sources, tests, legacy helpers or historical artifacts.",
+    "3–6 month range is an illustrative optional choice; no universal threshold or guarantee and no attribution to NBP expense guidance.",
+    "One month can be an independently chosen example, but is not required as the first step.",
+    "No real expenses, profile fields, analytics, data collection, market, paid calls, production or AI/cloud writes.",
+    "Seven other written locale blocks and inherited fallback content are outside independent PL/EN acceptance.",
+    "No learning-effectiveness, bank guarantee, legal compliance or production readiness claim."
+  ],
+  "curriculum_mapping": {
+    "status": "author design mapping; not independently accepted or measured competence",
+    "framework_source": "eu-oecd-adult",
+    "steps": [
+      {
+        "id": "emergency-fund",
+        "competence_ids": [
+          142,
+          152,
+          154
+        ],
+        "design_link": "Hypothetical needs, realistic target choice and purpose of a reserve."
+      },
+      {
+        "id": "emergency-fund-characteristics",
+        "competence_ids": [
+          155,
+          164,
+          168
+        ],
+        "design_link": "Access, fees and risks of saving methods without choosing a provider."
+      },
+      {
+        "id": "emergency-fund-start",
+        "competence_ids": [
+          143,
+          152,
+          156
+        ],
+        "design_link": "Optional achievable step under income uncertainty; essentials/minimum safety remains an explicit Coachfi condition."
+      }
+    ]
+  },
+  "source_state_at_draft": {
+    "sourceHashes": {
+      "data/stageLessons.ts": "7330ed5921dcfda729f3994e8f13693dce659e11aee4f08c000f33dac47fd974",
+      "data/quizQuestions.ts": "e235466a41038a8ef6142ed95544f3fd1abc10c9443e9fe9844d4212eea75cf5",
+      "lib/allQuestions.ts": "feaa6f77b463884e672c21334743f033574ad7e87b710538781106eb51ce6289",
+      "lib/localizedQuiz.ts": "f924f91651e2b86a19952e4b7d2cab81fa72326d117d1580d256239ccc61f123",
+      "lib/quiz-topic.ts": "032da182f95c85a3a1d6ecb79929e1edabb97c01656bc6cf9f418d0a3d62bcc5"
+    },
+    "mismatches": [],
+    "method": "Read-only hash comparison against preserved pre-C17 five-file inventory; no product/test/legacy writes"
+  }
+}

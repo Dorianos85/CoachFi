@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+test.skip(true, "Kids Mode is deferred in the adult release. The blocked route and age gate are tested in p0-safety.spec.ts.");
+
 // E2E for the Kids Mode entry: mode selector → Kids → Kids dashboard, with no
 // parent/guardian consent step. Required consent is seeded so that only the
 // mode selector stands between a fresh profile and the app.

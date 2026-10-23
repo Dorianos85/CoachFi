@@ -1,0 +1,17 @@
+# C20 — uczciwy odczyt postępu Home i ścieżki nauki
+
+15.10.2026. C20: przyjęty lokalnie w ograniczonym zakresie po niezależnym ledger QA; paczka staged, receipt w final-stage.json.
+
+B26 Home i ProgressPath odróżniają pustą historię od niedostępnego odczytu, pokazują kontrolowany błąd i ponowny odczyt PL/EN, chronią przed starymi callbackami oraz sprawdzają historię przed istniejącym startem lekcji. Złe dane pozostają bez nadpisania. Ręczny znacznik ukończenia i zdrowe liczniki zachowują dotychczasowe znaczenie. Po rzeczywistym finding Chrome poprawiono też przekazywanie liczbowego value do wspólnego Radix Progress.Root; DOM udostępnia teraz prawidłowe aria-valuenow.
+
+106 nowych przypadków PASS w czterech rozłącznych pierwszych przebiegach30+44+27+5, bez globalnego ponawiania2453 historycznych. Pierwsze30 wykonano przed czterema type-only non-null assertions w fixture; niezależny dowód identycznego emitowanego JS zachowany, bez fresh runtime claim końcowych bytes tego fixture. TS końcowy0. Chrome końcowy8/8single,retry0,API0,pageErrors0; początkowe2PASS/6FAIL i osobna próba8 błędów uruchomienia po złej nazwie env zachowane. Build34/34pages35routes,395/394inputs. Parity272porównania/163ścieżki/394inputs,0mismatch. C19core10 i siedem granic bez zmian. Brak push/deploy/commit/AI/cloudwrites; produkcjaNO-GO.
+
+Actual UI baseline2PASS/11FAIL oraz6 helper obserwacji zachowane. Dwie jawne selector clarifications w czterech runtime przypadkach zawężają zero akcji do startów etapów, zachowując osobny read-only Retry; pozostałe oracles bez osłabienia. Potwierdzono zamknięcie sześciu UI findings; C20-BROWSER-01 zamknięto niezależnie po sprawdzeniu rzeczywistych5SSR i końcowego Chrome8; osobny ui-progress-aria-retest.json zachowuje oryginalne wyniki i props-only zakres own27. Initial TS4TS18048 poprawiono wyłącznie w testowym typowaniu, z pełnym inverse i niezależną kontrolą JS. Błędy launch-only wynikały z pomylonej nazwy zmiennej w wrapperze roota; ustawiono istniejące COACHFI_P0_BROWSER_CHANNEL, bez instalacji przeglądarki ani zmiany E2E.
+
+Home w Chrome działa w istniejącej gałęzi health-off/demo; prawdziwy licznik lekcji sprawdza wyłącznie actualcomponent harness z jawną syntetyczną odpowiedzią health. Own27 bada props Progress, a nowy rzeczywisty Radix ma osobne5SSR oraz Chrome33/100. Brak nowego PASS Auth/RLS/staging/CI/fresh-checkout/produkcji. Start preflight nie zapewnia CAS, rollback ani ogólnej atomowości; komunikat po błędzie istniejącego writer ujawnia możliwość częściowego zapisu. Bez zmiany mapy etapów, progów, ekonomii nagród i banku82. Financial draft emergency-first-milestone oraz sześć obserwacji C18 pozostają odroczone.
+
+Następny kandydat B27: osobny actual baseline SignInGate i jawnego żądania logowania na syntetycznym CDP/storage, bez zmiany progów ani wymyślania required=true/false dla unknown. To statyczna wykonalność, bez akceptacji implementacji. Jeśli wymaga nowej polityki dostępu, wrócić do odroczonego B06 draftu.
+
+[Weryfikacja](../../../evidence/cycle-20/verification.json), [przypadki106](../../../evidence/cycle-20/unit-summary.json), [Chrome](../../../evidence/cycle-20/browser-postflight.json), [osobna recenzja źródeł](../../../evidence/cycle-20/source-review-final.json).
+
+Końcowy guard1796tracked/1401text/1skip/0findings, scoped17paths exit0. Wszystkie ścieżki paczki istniały przed tym guardem; po QA pozostaje rutynowa promocja istniejących siedmiu metadanych i staging bez zmian źródeł.

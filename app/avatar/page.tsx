@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Shield, User, Volume2 } from "lucide-react";
+import { Check, User, Volume2 } from "lucide-react";
 
 import { SectionHeader } from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { useVoice } from "@/context/VoiceContext";
 import { AVATAR_STYLES, type AvatarGender, type AvatarStyle, getAvatar, saveAvatar } from "@/lib/avatar";
+import { useProductStorage } from "@/lib/use-product-storage";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -38,7 +39,7 @@ const AVATAR_COPY: LocalizedMap<
     title: "Your Financial Avatar",
     description: "Choose your character, build your financial shield and meet your AI coach Mila.",
     readText: "Create your personalized financial avatar and hear Mila's voice.",
-    livePreview: "Live preview",
+    livePreview: "Appearance preview",
     save: "Save avatar",
     saved: "Saved!",
     chooseCharacter: "Choose character",
@@ -58,7 +59,7 @@ const AVATAR_COPY: LocalizedMap<
     title: "Twój finansowy avatar",
     description: "Wybierz postać, zbuduj tarczę finansową i poznaj coachkę AI Milę.",
     readText: "Stwórz swój finansowy avatar i posłuchaj głosu Mili.",
-    livePreview: "Podgląd na żywo",
+    livePreview: "Podgląd wyglądu",
     save: "Zapisz avatar",
     saved: "Zapisano!",
     chooseCharacter: "Wybierz postać",
@@ -266,21 +267,28 @@ export default function AvatarPage() {
   const { locale } = useLanguage();
   const copy = pickLocalized(AVATAR_COPY, locale);
   const styleCopy = pickLocalized(STYLE_COPY, locale);
+  const { storage } = useProductStorage();
+  const [saveFailed, setSaveFailed] = useState(false);
   const [gender, setGender] = useState<AvatarGender>("female");
   const [style, setStyle] = useState<AvatarStyle>("warrior");
   const [saved, setSaved] = useState(false);
   const { isPlaying, speak, stop } = useVoice();
 
   useEffect(() => {
-    const storedAvatar = getAvatar();
+    const storedAvatar = getAvatar(storage);
     setGender(storedAvatar.gender);
     setStyle(storedAvatar.style);
-  }, []);
+    setSaved(false); setSaveFailed(false);
+  }, [storage]);
 
   function handleSave() {
-    saveAvatar({ gender, style });
+    if (!storage.isCurrent()) return;
+    try { saveAvatar({ gender, style }, storage); }
+    catch { if (storage.isCurrent()) setSaveFailed(true); return; }
+    if (!storage.isCurrent()) return;
+    setSaveFailed(false);
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setTimeout(() => { if (storage.isCurrent()) setSaved(false); }, 2000);
   }
 
   return (
@@ -325,28 +333,10 @@ export default function AvatarPage() {
                 </p>
               </div>
 
-              {/* Stats strip */}
-              <div className="grid w-full grid-cols-3 gap-2 text-center">
-                {[
-                  { label: "Saving", val: "67%" },
-                  { label: "Investing", val: "40%" },
-                  { label: "Credit", val: "80%" },
-                ].map(({ label, val }) => (
-                  <div key={label} className="rounded-xl bg-primary/5 p-2">
-                    <p className="text-sm font-black text-primary">{val}</p>
-                    <p className="text-[10px] font-bold text-muted">{label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex w-full items-center gap-2 rounded-xl bg-primary/5 px-3 py-2">
-                <Shield className="h-4 w-4 text-primary" aria-hidden="true" />
-                <span className="text-xs font-bold text-text">Financial Shield</span>
-                <span className="ml-auto text-xs font-black text-primary">62 / 100</span>
-              </div>
             </div>
           </div>
 
+          {saveFailed ? <p role="alert" className="text-sm text-attention">{locale === "pl" ? "Nie udało się zapisać danych lokalnych. Spróbuj ponownie." : "Local data could not be saved. Please try again."}</p> : null}
           <Button type="button" size="lg" className="w-full gap-2" onClick={handleSave}>
             {saved ? (
               <>

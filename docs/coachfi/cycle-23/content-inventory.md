@@ -1,0 +1,21 @@
+# C23 — jeden istniejący cel rezerwy
+
+15.10.2026. Autor: daily_author. Zakres: dorośli w Polsce, PL/EN. Stosuję skille curriculum, quiz-quality, localization i financial-review. Autor nie wydaje własnego werdyktu przyjęcia.
+
+Rzeczywisty bank przed zmianą zawierał 62 pytania quizu i 20 wyzwań, łącznie 82 unikalne IDs. `emergency-first-milestone` ma klucz B i nagrodę 25. Nie należy do żadnego z ośmiu etapów. Default plain pool PL/EN ma po cztery inne pytania. Jawne lokalne reprezentacje tego ID w `localizedQuiz.ts` istnieją wyłącznie dla ES/FR, dlatego ten plik pozostaje dosłownie niezmieniony. Pięć innych canonical locale dziedziczy EN; nie oznacza to osobnego przyjęcia lokalizacji lub nowego rynku.
+
+Inwentaryzację rzeczywistych banków i ich deklaracyjnych zależności wykonano w ograniczonym VM bez window, process, storage lub fetch. Nie wywoływano funkcji storage. Pierwsza pięcioelementowa allowlista zatrzymała się na niedozwolonym imporcie product-storage, przed zapisem artefaktu lub produktu; po odczycie źródeł jawnie dodano dwa moduły deklaracji. Nie ładowano SDK. Mapa etapów pochodzi z literalnego AST, bez uruchamiania jej zależności. Pełne stare rekordy, dziewięć locale, runtime non-targets i hashes znajdują się w `evidence/cycle-23/content-author-inventory.json`.
+
+Po świeżym baseline i niezależnym financial-draft-review root zwolnił implementację. Zmieniono wyłącznie rekord EN w `data/quizQuestions.ts` i PL override w `lib/allQuestions.ts`: łącznie 13 literałów tekstowych wewnątrz dwóch istniejących węzłów AST. ID, B, 25, kategorie i IDs odpowiedzi zachowano dosłownie. Poza węzłami wszystkie bajty są identyczne. Dowód `content-author-source-change.json` zachowuje stare i nowe fragmenty, pełny draft oraz odwołanie do pełnych źródeł przed zmianą w root before.json. Root otrzymał DATA SOURCE READY; od tego momentu produkt jest zamrożony.
+
+Obecne źródła pokazują dobrowolne 5 PLN z hipotetycznej nadwyżki 20 PLN po potrzebach i wymaganych minimum. Brak nadwyżki pozwala zrobić pauzę bez pożyczania na rezerwę. Nie narzucają miesiąca jako pierwszego progu i nie obiecują ilościowego wpływu na zaległości. Samego draftu C18 nigdy nie przyjęto; świeży C23 draft i recenzja są oddzielnymi artefaktami.
+
+`content-metadata.json` SHA320085… pozostaje dosłownym historycznym DRAFT. Jego `implementation_authorized:false` opisuje chwilę zamrożenia propozycji, a nie późniejszy stan produktu. Późniejsze SOURCE GO, testy i końcowy status dokumentują odrębne dowody autora oraz root REPORT/verification. Pozwala to zachować niezmienne wejście snapshotu i nie przypisuje autorowi prawa do samodzielnego przyjęcia treści.
+
+Historyczne pełne non-target assertions sześciu fixtures wymagają jawnej projekcji tylko tej zatwierdzonej zmiany. Nowy testowy wrapper `cycle23-legacy-preservation.ts` składa ją przed niezmienionymi helperami C17/C16/C15. Źródłowo dopuszcza wyłącznie dokładny stary lub zatwierdzony nowy węzeł; inne zmiany rzucają błąd. Runtime odtwarza tylko pola copy i zachowuje pozostałe pola, w tym nieznane; zmiana klucza, nagrody, kategorii lub nieoczekiwanego copy jest odrzucana. Historyczny rekord C17 „deferred” pozostaje wyłącznie widokiem pre-C23, a nie opisem bieżącego produktu.
+
+Pięć starszych fixtures zmienia tylko ścieżkę importu. C17 dodatkowo otrzymuje aliasy i projekcję quizu/canonical oraz projekcję źródła przed maską. Całe regiony describe/it i wszystkie 515 istniejących assertions pozostają literalne; pełne before, pozycje zmian i inverse są w `legacy-adapter-proof.json`. Złote baselines, stare metadane oraz trzy historyczne helpery są niezmienione. Autor nie uruchamiał testów ani nie zatwierdzał tego adaptera.
+
+`legacy-selection.json` wskazuje dokładnie 25 historycznych przypadków z sześciu plików, obejmujących dotknięte źródła quiz/allQuestions, runtime non-targets, deferred i adapter guards. Pomija zdrowe treści innych modułów, nietknięte maski stage/localizedQuiz i niezmienione testy historycznych hashes. Niezależna recenzja i root kontrolują uruchomienie oraz rzeczywisty wynik.
+
+Granice: bez nowych pytań, lekcji, tras, pól profilu, zapisów produkcyjnych, migracji SRS, cloud lub płatnych wywołań. Dotychczasowa historia zachowuje ID; dawna odpowiedź nie jest dowodem zrozumienia nowego tekstu. Pozostałe ES/FR twierdzenia nie otrzymują finansowego PASS w tej paczce.

@@ -1,0 +1,56 @@
+{
+  "cycle": "C71",
+  "at": "2026-10-19T07:22:50.759Z",
+  "baseline": {
+    "path": "evidence/cycle-71/before.json",
+    "sha256": "78316d51d1b41caaa9653aff01d035cde9bba388589bdfb5a1974263ee8a44c4"
+  },
+  "owner": "root",
+  "roles": [
+    {
+      "owner": "c49_advisories",
+      "files": [
+        "evidence/cycle-71/acquire.mjs",
+        "evidence/cycle-71/acquisition-plan.json",
+        "optionalinspectiontool/design"
+      ],
+      "reviewer": "c49_dependency_review plus boundedvalidationpeer"
+    },
+    {
+      "owner": "c49_validation",
+      "files": [
+        "evidence/cycle-71/advisory-compatibility.json",
+        "docs/coachfi/cycle-71/advisory-compatibility.md"
+      ],
+      "reviewer": "c49_dependency_review; own oracle/design excluded from later ownapproval"
+    },
+    {
+      "owner": "c49_dependency_review",
+      "files": [
+        "evidence/cycle-71/review.json",
+        "docs/coachfi/cycle-71/review.md"
+      ],
+      "reviewer": "independent from acquisition/advisory/design authors"
+    },
+    {
+      "owner": "root",
+      "files": [
+        "before/workplan/release/actualrecords/report/verification/metadata/finalclosure/pointer"
+      ],
+      "reviewer": "primary+boundedPRODUCT+separateactualpostwriteledger"
+    }
+  ],
+  "gates": [
+    "Freezeinputs/currentold310+614/p13r32sdk15/runtime/Git.",
+    "Independentreview fixedofficialmetadataGET + conditionaltarball only from validexactnameversion/officialURL/canonicalSRI.",
+    "Metadataoutputminimization noauthors/maintainers/emails/header/rawbodyPII; recordbodyhash/projection.",
+    "SRIverifiedbinary only; optionalbounded readonlytarinspection/list/hash/sanitizedpkgjson, noextractionorpackageexecution.",
+    "Verify currentofficialGHSA primaryreferences and cross-major two-consumer testdesign; no assertioncandidatepatched/compatible fromtagnames alone.",
+    "Archivefindings/retest/actualoutcomes; no blindoverride/install/advisoryclosure/C71freshappgreen.",
+    "Finalindependentreview/metadataexactwrites + actualpostwritegate."
+  ],
+  "networkBudget": "Atmost2acquisitionGETs (oneexactnpmversionmetadata+conditionaloneofficialtarball), no redirects/retries. Separate currentofficialadvisoryprimarywebreads are sourceverification, not paid/provider/productcalls.",
+  "production": "NO_GO",
+  "AI": "HARD_OFF",
+  "cloudWrites": "HARD_OFF"
+}

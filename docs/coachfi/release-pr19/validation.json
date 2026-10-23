@@ -1,0 +1,114 @@
+{
+  "at": "2026-10-19T14:44:52.123Z",
+  "status": "LOCAL_CHECKS_ACCEPTED_PRODUCTION_NO_GO",
+  "scope": "Adult Poland PL/EN; PR19 integration and seven live-audit urgent items",
+  "originalPR": "15de7163a39a1cfc2cce1eb241ff2c9d14de1b86",
+  "main": "810c3d93ea0aeb2b363afad7a3c00fd9b461d626",
+  "combinedRegisteredCases": 3592,
+  "files": 180,
+  "uniqueFileAndTitleIdentities": 3553,
+  "repeatedTitleInstances": 39,
+  "singleAllGreenFullSuite": false,
+  "retiredDeferredE2ECases": {
+    "count": 4,
+    "executed": false,
+    "countedAsPass": false
+  },
+  "typecheck": "PASS",
+  "build": {
+    "status": "PASS",
+    "fontMockResponses": 2,
+    "routes": 35,
+    "sourceInputs": 817,
+    "scopedRuntimeRecords": 650,
+    "wholeRuntimeHash": false,
+    "optionalCDPWarnings": 2
+  },
+  "audit": {
+    "high": 5,
+    "moderate": 7,
+    "critical": 0,
+    "highDirectAdvisories": 1,
+    "highScope": "dev-tool Tailwind/braces chain",
+    "closed": false
+  },
+  "privacyReady": false,
+  "stagingAccepted": false,
+  "externalAI": "HARD_OFF",
+  "automaticCloudWrites": "HARD_OFF",
+  "appDeployed": false,
+  "loop": "PAUSED",
+  "evidenceWorkspaceDirectory": "evidence/release-pr19-2026-10-19",
+  "evidencePins": [
+    {
+      "file": "suite-1-run.json",
+      "sha256": "c66b9a3cef28275b06b24f099f097c33cdda1ba734a0bc86850888d698cbc304"
+    },
+    {
+      "file": "suite-1-tests.json",
+      "sha256": "fdbaebd4a117655efe0ab51f0286bbb59e05d2b878d68bf54bd7825f3d1cdf41"
+    },
+    {
+      "file": "six-failures-retest-1-run.json",
+      "sha256": "fe39fa3eb96a8be7b33b71f9a1fbdcb08c7d6a036db380c9dfe575c9d5618f70"
+    },
+    {
+      "file": "preservation-retest-1-run.json",
+      "sha256": "7662618f4621d49c58b4fe6693d96b0ec556f65c58dfef469be20585bb94c194"
+    },
+    {
+      "file": "c14-diagnostic-1-run.json",
+      "sha256": "20b0428d844a21a2f44ceeecd2f0f955c3d0995d63c8ce4b24ba844906fa449f"
+    },
+    {
+      "file": "typecheck-1-run.json",
+      "sha256": "0b14c514b4d4e715047b3a05a322357fdcaa340ab28f3e71050926f9ec098638"
+    },
+    {
+      "file": "typecheck-2-launch.json",
+      "sha256": "722453d68ec85c8496922e339ed224125c9d7a9a24c73249fe6a659a103e9a46"
+    },
+    {
+      "file": "typecheck-3-run.json",
+      "sha256": "43234f044f90f4f4c724f915e9fc8f04f2870432e4c0dce7b5c88b217a769391"
+    },
+    {
+      "file": "final-1-build-interruption.json",
+      "sha256": "65f1fa0150c7890633c81f35d801abc2ec85e79c01fe8083918af3618ed3b910"
+    },
+    {
+      "file": "final-2-build-run.json",
+      "sha256": "25b0d57ee7451d393bda7ddff439a010c84e02ba3ae380f97da81ec6e09244f3"
+    },
+    {
+      "file": "audit-1-run.json",
+      "sha256": "72258697a5be3e16f052b1736fb6cb03290abc4fc45fc8d0e01c79192d76f66c"
+    },
+    {
+      "file": "privacy-peer-retest-results.json",
+      "sha256": "2ec997990b38f68af6c707e224d17bf5b5fe849fb85bf61b4b85f1238dd5bc04"
+    },
+    {
+      "file": "root-react-review.json",
+      "sha256": "08ff4b56233ca474ed80e898231a7efdc08931d873d1533df3b6a16e09c099a8"
+    },
+    {
+      "file": "security-peer-react-final.json",
+      "sha256": "8e8ba24ba642b00438213ecbe96fdf80d3b1bf80034dc176315b72ba378a9e7a"
+    },
+    {
+      "file": "security-dependency-triage.json",
+      "sha256": "13285e1c256660de5fafd77768df4c7752e6f16d41d4220575805a81e3ad4b94"
+    },
+    {
+      "file": "finance-peer-domain-retest.json",
+      "sha256": "3ad36125f8f3777d181693e72942b2bd4a6a66c127c0bba686b51c6026d8c0ad"
+    }
+  ],
+  "limits": [
+    "C14 async setup failed twice then unchanged isolated retry passed, cause unconfirmed",
+    "Fresh npm-ci used --ignore-scripts; build used scoped runtime checks and synthetic fonts",
+    "No native browser/real font/SDK/Auth/RLS/two-account/staging/production acceptance",
+    "OWNER-TRANSIENT-01 is unconfirmed source hypothesis; mailbox and legal facts remain pending"
+  ]
+}

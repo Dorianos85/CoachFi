@@ -5,6 +5,23 @@ dist/
 out/
 *.tsbuildinfo
 .env*.local
+.env
+.env.*
+!.env.example
+
+# Local automation output and profiles must never enter Git.
+.codex-screenshots/
+.codex-logs/
+.codex-temp/
+.codex-traces/
+trace/
+traces/
+tmp/
+temp/
+test-results/
+playwright-report/
+.mcp.json
+supabase/.temp/
 .DS_Store
 .cursor/scratchpad.md
 my_notes.txt

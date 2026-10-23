@@ -8,17 +8,18 @@ import { getDailyQuestion } from "../../data/challengeQuestions";
 // don't block the flow (the app is local-first; no login required).
 
 const CONSENT = {
-  version: "2026-05-10",
+  version: "2026-10-14",
   acceptedAt: new Date().toISOString(),
   termsAccepted: true,
   privacyAccepted: true,
-  optional: { aiCoach: true, voice: true, leaderboard: false, blockchain: false },
+  optional: { aiCoach: false, voice: false, leaderboard: false, blockchain: false },
 };
 
 const MODE = {
   mode: "adult",
   selectedAt: new Date().toISOString(),
   adultConfirmedAt: new Date().toISOString(),
+  adultAgeRequirement: 18,
 };
 
 const USER = { name: "E2E Tester", goal: "testing", setupDone: true };
