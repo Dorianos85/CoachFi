@@ -5,10 +5,9 @@ import type { ReactNode } from "react";
 
 import { notifyCloud } from "@/lib/sync/syncQueue";
 
-// Teen uses the adult screens and navigation; only the mode switcher is styled differently.
-export type CoachFiMode = "adult" | "teen" | "kids";
+export type CoachFiMode = "adult" | "kids";
 
-const MODES: CoachFiMode[] = ["adult", "teen", "kids"];
+const MODES: CoachFiMode[] = ["adult", "kids"];
 
 export interface ModeRecord {
   mode: CoachFiMode;
@@ -23,7 +22,6 @@ interface ModeContextValue {
   isKidsMode: boolean;
   settingsOpen: boolean;
   selectAdultMode: () => void;
-  selectTeenMode: () => void;
   selectKidsMode: () => void;
   resetMode: () => void;
   openSettings: () => void;
@@ -39,7 +37,6 @@ const ModeContext = createContext<ModeContextValue>({
   isKidsMode: false,
   settingsOpen: false,
   selectAdultMode: () => {},
-  selectTeenMode: () => {},
   selectKidsMode: () => {},
   resetMode: () => {},
   openSettings: () => {},
@@ -51,9 +48,15 @@ function readModeRecord(): ModeRecord | null {
   try {
     const raw = window.localStorage.getItem(MODE_STORAGE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as ModeRecord;
-    if (!MODES.includes(parsed.mode)) return null;
-    return parsed;
+    const parsed = JSON.parse(raw) as Omit<ModeRecord, "mode"> & { mode: string };
+    // Teen mode was removed; people who picked it used the adult screens, so they stay in Adult.
+    if (parsed.mode === "teen") {
+      const migrated: ModeRecord = { mode: "adult", selectedAt: parsed.selectedAt, adultConfirmedAt: parsed.selectedAt };
+      writeModeRecord(migrated);
+      return migrated;
+    }
+    if (!MODES.includes(parsed.mode as CoachFiMode)) return null;
+    return parsed as ModeRecord;
   } catch {
     return null;
   }
@@ -86,16 +89,6 @@ export function ModeProvider({ children }: { children: ReactNode }) {
           mode: "adult",
           selectedAt: now,
           adultConfirmedAt: now,
-        };
-        writeModeRecord(record);
-        setModeRecord(record);
-        setSettingsOpen(false);
-        notifyCloud("profile");
-      },
-      selectTeenMode: () => {
-        const record: ModeRecord = {
-          mode: "teen",
-          selectedAt: new Date().toISOString(),
         };
         writeModeRecord(record);
         setModeRecord(record);

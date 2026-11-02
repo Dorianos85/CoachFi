@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 // E2E for the bottom mode switcher: it is the way out of Kids Mode on a phone, it switches between
-// Kids / Teen / Adult and lands on each mode's start screen, the choice survives reloads, and the
+// Kids / Adult and lands on each mode's start screen, the choice survives reloads, and the
 // bar hides while scrolling down and comes back on scroll up, at the end of the page and on focus.
 
 const CONSENT = {
@@ -87,26 +87,18 @@ test.describe("on a phone", () => {
     expect(await storedMode(page)).toBe("adult");
   });
 
-  test("Teen Mode opens the adult start screen in vaporwave, and Kids Mode is one tap away", async ({ page }) => {
-    await seed(page, "adult");
+  test("offers only Kids and Adult, and a saved Teen choice from before falls back to Adult", async ({ page }) => {
+    await seed(page, "teen");
     await page.goto("/learn");
 
     const bar = modeBar(page);
-    await bar.getByRole("button", { name: "Teen mode", exact: true }).click();
-    await expect(page).toHaveURL(/:\d+\/$/);
-    await expectActive(bar, "Teen mode");
-    await expect(bar).toHaveAttribute("data-theme", "teen");
-    expect(await storedMode(page)).toBe("teen");
+    await expect(bar.getByRole("button")).toHaveCount(2);
+    await expect(bar.getByRole("button", { name: "Teen mode", exact: true })).toHaveCount(0);
+    await expectActive(bar, "Adult mode");
+    expect(await storedMode(page)).toBe("adult");
 
-    await page.reload();
-    await expectActive(modeBar(page), "Teen mode");
-    expect(await storedMode(page)).toBe("teen");
-    await expect(page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link")).toHaveCount(5);
-
-    await modeBar(page).getByRole("button", { name: "Kids mode", exact: true }).click();
+    await bar.getByRole("button", { name: "Kids mode", exact: true }).click();
     await expect(page).toHaveURL(/\/kids$/);
-    await expect(page.getByRole("heading", { name: "Learning modules" })).toBeVisible();
-    await expect(page.locator("main").getByText(/parent|rodzic|opiekun/i)).toHaveCount(0);
     expect(await storedMode(page)).toBe("kids");
 
     await page.reload();
@@ -144,7 +136,7 @@ test.describe("on a phone", () => {
 
     await page.mouse.wheel(0, 600);
     await expect(dock).toHaveAttribute("data-hidden", "true");
-    await bar.getByRole("button", { name: "Teen mode", exact: true }).focus();
+    await bar.getByRole("button", { name: "Adult mode", exact: true }).focus();
     await expect(dock).not.toHaveAttribute("data-hidden");
 
     await page.mouse.wheel(0, 600);
