@@ -11,3 +11,8 @@ my_notes.txt
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+
+# Local tool state, logs and browser profiles: never commit
+.codex-screenshots/
+.codex-logs/
+.claude/settings.local.json
