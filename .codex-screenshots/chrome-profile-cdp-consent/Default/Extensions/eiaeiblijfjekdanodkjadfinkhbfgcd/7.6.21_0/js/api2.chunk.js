@@ -1,1 +1,0 @@
-import{t as e}from"./api3.chunk.js";export{e as api};

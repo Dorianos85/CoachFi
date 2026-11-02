@@ -1,1 +1,0 @@
-import{v as e}from"./appSlice.chunk.js";import{n as t}from"./hooks.chunk.js";var n=()=>t(e)??navigator.onLine;export{n as t};
