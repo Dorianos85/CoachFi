@@ -26,7 +26,7 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
-import { CRISIS_COPY, type CrisisCopy } from "@/lib/crisisCopy";
+import { CRISIS_COPY, getCrisisRegionData, type CrisisCopy, type CrisisRegionData, type CrisisTemplateId } from "@/lib/crisisCopy";
 import { pickLocalized } from "@/lib/i18n";
 import { addTokens, getTokenBalance } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
@@ -44,26 +44,10 @@ type Resource = {
   phone?: string;
 };
 
-// Names, links and phone numbers are the same in every language; the texts come from CRISIS_COPY by position.
-const resalePlatforms = [
-  { name: "Vinted", href: "https://www.vinted.pl/" },
-  { name: "OLX", href: "https://www.olx.pl/" },
-  { name: "Allegro Lokalnie", href: "https://allegrolokalnie.pl/" },
-  { name: "Facebook Marketplace", href: "https://www.facebook.com/marketplace/" },
-  { name: "eBay", href: "https://www.ebay.pl/" },
-];
-
-const emotionalSupportContacts: { title?: string; href: string; urgent?: boolean }[] = [
-  { title: "112", href: "tel:112", urgent: true },
-  { title: "116 123", href: "tel:116123" },
-  { title: "800 70 2222", href: "tel:800702222" },
-  { title: "116sos.pl", href: "https://116sos.pl/otrzymaj-pomoc/telefon" },
-  { href: "https://www.gov.pl/web/zdrowie/centra-zdrowia-psychicznego" },
-];
-
+// Step ids keep the progress saved in localStorage stable across locales.
 const actionStepIds = ["write-close-person", "call-creditor", "book-free-legal", "contact-mops", "sell-unused"];
 
-// Formal documents for Polish institutions stay in Polish in every locale.
+// Formal documents for Polish institutions stay in Polish. They are only shown in the Polish region.
 const loanAgreementTemplate = `UMOWA POŻYCZKI
 
 Zawarta w dniu [DATA] w [MIASTO] pomiędzy:
@@ -118,7 +102,8 @@ Data i podpis: ____________________`;
 export default function CrisisPage() {
   const { locale } = useLanguage();
   const copy = pickLocalized(CRISIS_COPY, locale);
-  const [city, setCity] = useState("Warszawa");
+  const region = useMemo(() => getCrisisRegionData(locale), [locale]);
+  const [city, setCity] = useState(region.defaultCity);
   const [copied, setCopied] = useState<string | null>(null);
   const [done, setDone] = useState<Set<string>>(new Set());
   const [tokenBalance, setTokenBalance] = useState(125);
@@ -133,23 +118,28 @@ export default function CrisisPage() {
     }
   }, []);
 
-  const resources = useMemo(() => buildResources(city, copy), [city, copy]);
+  useEffect(() => {
+    setCity(region.defaultCity);
+  }, [region.defaultCity]);
+
+  const resources = useMemo(() => buildResources(city, copy, region), [city, copy, region]);
   const voiceText = copy.voiceText.join(" ");
   const rewardLabel = copy.firstDay.reward.replace("{reward}", String(ACTION_REWARD));
-  const templates = [
-    { id: "emotional", title: copy.templates.titles.emotional, text: copy.templates.emotionalText, polishDocument: false },
-    { id: "request", title: copy.templates.titles.request, text: copy.templates.requestText, polishDocument: false },
-    { id: "loan", title: copy.templates.titles.loan, text: loanAgreementTemplate, polishDocument: true },
-    { id: "bank", title: copy.templates.titles.bank, text: bankRequestTemplate, polishDocument: true },
-    { id: "mops", title: copy.templates.titles.mops, text: mopsTemplate, polishDocument: true },
-  ];
+  const templates = region.templateIds
+    .map((id) => buildTemplate(id, copy, region))
+    .filter((template): template is NonNullable<typeof template> => template !== null);
 
   function markDone(id: string) {
     if (done.has(id)) return;
     const nextDone = new Set(done).add(id);
     setDone(nextDone);
-    localStorage.setItem(REWARD_KEY, JSON.stringify(Array.from(nextDone)));
-    setTokenBalance(addTokens(ACTION_REWARD));
+    try {
+      localStorage.setItem(REWARD_KEY, JSON.stringify(Array.from(nextDone)));
+    } catch {
+      // Progress is a convenience; the page works without storage.
+    }
+    // Token rewards for SOS steps are only kept in the Polish community version.
+    if (region.actionRewards) setTokenBalance(addTokens(ACTION_REWARD));
   }
 
   async function copyText(id: string, text: string) {
@@ -164,7 +154,9 @@ export default function CrisisPage() {
     <section aria-labelledby="crisis-title">
       <SectionHeader eyebrow={copy.eyebrow} title={copy.title} description={copy.description} readText={voiceText} />
 
-      {locale !== "pl" && <p className="mb-4 text-sm font-bold leading-6 text-muted">{copy.polandNotice}</p>}
+      {(region.region === "US" || locale !== "pl") && (
+        <p className="mb-4 text-sm font-bold leading-6 text-muted">{copy.regionNotice}</p>
+      )}
 
       <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="rounded-lg border border-warning/30 bg-warning/15 p-5">
@@ -176,9 +168,9 @@ export default function CrisisPage() {
               <h2 className="text-2xl font-black text-text">{copy.safety.title}</h2>
               <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.safety.body}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <EmergencyLink href="tel:112" label="112" detail={copy.safety.emergencyDetail} />
-                <EmergencyLink href="tel:116123" label="116 123" detail={copy.safety.mentalDetail} />
-                <EmergencyLink href="https://116sos.pl/" label="116sos.pl" detail={copy.safety.onlineDetail} />
+                {region.safetyLinks.map((link) => (
+                  <EmergencyLink key={link.href} href={link.href} label={link.label} detail={copy.safety[link.detail]} />
+                ))}
               </div>
             </div>
           </div>
@@ -190,12 +182,14 @@ export default function CrisisPage() {
             <CardDescription>{copy.tokens.description.replace("{reward}", String(ACTION_REWARD))}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="rounded-lg bg-primary p-5 text-center text-on-primary">
-              <Coins className="mx-auto h-8 w-8 text-accent" aria-hidden="true" />
-              <p className="mt-2 text-4xl font-black">{tokenBalance}</p>
-              <p className="text-sm font-bold text-on-primary/80">Coach FI Tokens</p>
-            </div>
-            <VoiceButton text={voiceText} label={copy.tokens.readPlan} locale={locale} variant="pill" className="mt-4 w-full justify-center" />
+            {region.actionRewards && (
+              <div className="mb-4 rounded-lg bg-primary p-5 text-center text-on-primary">
+                <Coins className="mx-auto h-8 w-8 text-accent" aria-hidden="true" />
+                <p className="mt-2 text-4xl font-black">{tokenBalance}</p>
+                <p className="text-sm font-bold text-on-primary/80">Coach FI Tokens</p>
+              </div>
+            )}
+            <VoiceButton text={voiceText} label={copy.tokens.readPlan} locale={locale} variant="pill" className="w-full justify-center" />
           </CardContent>
         </Card>
       </div>
@@ -219,9 +213,9 @@ export default function CrisisPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 lg:grid-cols-5">
-            {emotionalSupportContacts.map((contact, index) => {
+            {region.emotionalContacts.map((contact, index) => {
               const text = copy.emotional.contacts[index];
-              const title = contact.title ?? copy.emotional.mentalHealthCentre;
+              const title = contact.title ?? copy.emotional.mentalHealthCentre ?? "";
               return (
                 <a
                   key={contact.href}
@@ -343,7 +337,7 @@ export default function CrisisPage() {
                   {copied === template.id ? copy.templates.copied : copy.templates.copy}
                 </Button>
               </div>
-              {template.polishDocument && locale !== "pl" && (
+              {template.polishDocument && locale !== "pl" && copy.templates.polishDocumentNote && (
                 <p className="mb-2 text-xs font-bold leading-5 text-muted">{copy.templates.polishDocumentNote}</p>
               )}
               <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-lg bg-card/80 p-3 text-xs font-semibold leading-5 text-muted">
@@ -365,7 +359,7 @@ export default function CrisisPage() {
           </div>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-          {resalePlatforms.map((platform, index) => (
+          {region.resalePlatforms.map((platform, index) => (
             <a
               key={platform.name}
               href={platform.href}
@@ -385,58 +379,39 @@ export default function CrisisPage() {
   );
 }
 
-function buildResources(city: string, copy: CrisisCopy): Resource[] {
+function buildResources(city: string, copy: CrisisCopy, region: CrisisRegionData): Resource[] {
   const cleanCity = city.trim() || copy.city.fallback;
-  const q = encodeURIComponent(cleanCity);
-  // The institutions are Polish, so the search phrases stay in Polish.
-  const search = (phrase: string) => `https://www.google.com/search?q=${encodeURIComponent(`${phrase} ${cleanCity}`)}`;
-  const items = copy.resources.items;
+  const encodedCity = encodeURIComponent(city.trim());
   const withCity = (text: string) => text.replace("{city}", cleanCity);
 
-  return [
-    {
-      id: "oik",
-      ...items.oik,
-      href: search("Ośrodek Interwencji Kryzysowej"),
-      cta: withCity(items.oik.cta),
-      phone: copy.resources.oikPhone,
-    },
-    {
-      id: "legal",
-      ...items.legal,
-      href: "https://zapisy-np.ms.gov.pl/",
-      source: "gov.pl",
-    },
-    {
-      id: "mops",
-      ...items.mops,
-      href: search("MOPS OPS zasiłek celowy"),
-      cta: withCity(items.mops.cta),
-      source: "gov.pl",
-    },
-    {
-      id: "zus",
-      ...items.zus,
-      href: "https://www.zus.pl/firmy/ulgi/ulgi-w-splacie-naleznosci",
-    },
-    {
-      id: "alimony",
-      ...items.alimony,
-      href: "https://www.gov.pl/web/gov/uzyskaj-swiadczenia-z-funduszu-alimentacyjnego",
-      source: "gov.pl",
-    },
-    {
-      id: "credit",
-      ...items.credit,
-      href: "https://www.bgk.pl/produkty/fundusz-wsparcia-kredytobiorcow/",
-      source: "BGK",
-    },
-    {
-      id: "city-office",
-      ...items.cityOffice,
-      href: `https://www.google.com/search?q=${encodeURIComponent(`urząd miasta gminy pomoc kryzysowa ${cleanCity}`)}&near=${q}`,
-    },
-  ];
+  return region.resources.flatMap((link) => {
+    const text = copy.resources.items[link.id];
+    if (!text) return [];
+    return [
+      {
+        id: link.id,
+        title: text.title,
+        body: withCity(text.body),
+        cta: withCity(text.cta),
+        href: link.href.replace("{city}", encodedCity),
+        source: link.source,
+        phone: link.phone ?? (link.id === "oik" ? copy.resources.oikPhone : undefined),
+      },
+    ];
+  });
+}
+
+function buildTemplate(id: CrisisTemplateId, copy: CrisisCopy, region: CrisisRegionData) {
+  const title = copy.templates.titles[id];
+  if (!title) return null;
+  if (id === "emotional") return { id, title, text: copy.templates.emotionalText, polishDocument: false };
+  if (id === "request") return { id, title, text: copy.templates.requestText, polishDocument: false };
+  if (region.region === "US") {
+    const text = id === "loan" ? copy.templates.loanText : id === "bank" ? copy.templates.bankText : undefined;
+    return text ? { id, title, text, polishDocument: false } : null;
+  }
+  const polishText = id === "loan" ? loanAgreementTemplate : id === "bank" ? bankRequestTemplate : mopsTemplate;
+  return { id, title, text: polishText, polishDocument: true };
 }
 
 function EmergencyLink({ href, label, detail }: { href: string; label: string; detail: string }) {
@@ -454,9 +429,22 @@ function EmergencyLink({ href, label, detail }: { href: string; label: string; d
   );
 }
 
+const RESOURCE_ICONS: Record<string, typeof Search> = {
+  legal: Gavel,
+  mops: Home,
+  zus: Landmark,
+  credit: Banknote,
+  alimony: Scale,
+  oik: LifeBuoy,
+  nfcc: Banknote,
+  cfpb: Scale,
+  housing: Home,
+  help211: LifeBuoy,
+  utilities: Landmark,
+};
+
 function ResourceCard({ resource, sourceLabel }: { resource: Resource; sourceLabel: string }) {
-  const icon = resource.id === "legal" ? Gavel : resource.id === "mops" ? Home : resource.id === "zus" ? Landmark : resource.id === "credit" ? Banknote : resource.id === "alimony" ? Scale : resource.id === "oik" ? LifeBuoy : Search;
-  const Icon = icon;
+  const Icon = RESOURCE_ICONS[resource.id] ?? Search;
 
   return (
     <a
