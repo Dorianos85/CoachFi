@@ -117,7 +117,7 @@ export function NotificationBanner() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 32 }}
           transition={{ type: "spring", stiffness: 320, damping: 26 }}
-          className="fixed bottom-24 left-3 right-3 z-50 mx-auto max-w-sm rounded-xl border border-primary/15 bg-white p-4 shadow-2xl lg:bottom-6"
+          className="notification-banner fixed left-3 right-3 z-[70] mx-auto max-w-sm rounded-xl border border-primary/15 bg-white p-4 shadow-2xl"
           role="alertdialog"
           aria-label={copy.aria}
         >

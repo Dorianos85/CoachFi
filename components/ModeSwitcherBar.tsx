@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Sparkles, UserRoundCheck } from "lucide-react";
+import { Baby, UserRoundCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -11,21 +11,20 @@ import { useMode, type CoachFiMode } from "@/context/ModeContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { nextBarState, type BarScrollState } from "@/lib/scrollVisibility";
 
-const COPY: LocalizedMap<{ group: string; option: string; kids: string; teen: string; adult: string }> = {
-  en: { group: "Choose mode", option: "{label} mode", kids: "Kids", teen: "Teen", adult: "Adult" },
-  pl: { group: "Wybierz tryb", option: "Tryb {label}", kids: "Kids", teen: "Teen", adult: "Dorosły" },
-  es: { group: "Elige el modo", option: "Modo {label}", kids: "Niños", teen: "Jóvenes", adult: "Adultos" },
-  fr: { group: "Choisir le mode", option: "Mode {label}", kids: "Enfants", teen: "Ados", adult: "Adultes" },
-  zh: { group: "选择模式", option: "{label}模式", kids: "儿童", teen: "青少年", adult: "成人" },
-  ja: { group: "モードを選択", option: "{label}モード", kids: "キッズ", teen: "ティーン", adult: "大人" },
-  hi: { group: "मोड चुनें", option: "{label} मोड", kids: "बच्चे", teen: "किशोर", adult: "वयस्क" },
-  "pt-BR": { group: "Escolha o modo", option: "Modo {label}", kids: "Crianças", teen: "Jovens", adult: "Adultos" },
-  tr: { group: "Modu seç", option: "{label} modu", kids: "Çocuk", teen: "Genç", adult: "Yetişkin" },
+const COPY: LocalizedMap<{ group: string; option: string; kids: string; adult: string }> = {
+  en: { group: "Choose mode", option: "{label} mode", kids: "Kids", adult: "Adult" },
+  pl: { group: "Wybierz tryb", option: "Tryb {label}", kids: "Kids", adult: "Dorosły" },
+  es: { group: "Elige el modo", option: "Modo {label}", kids: "Niños", adult: "Adultos" },
+  fr: { group: "Choisir le mode", option: "Mode {label}", kids: "Enfants", adult: "Adultes" },
+  zh: { group: "选择模式", option: "{label}模式", kids: "儿童", adult: "成人" },
+  ja: { group: "モードを選択", option: "{label}モード", kids: "キッズ", adult: "大人" },
+  hi: { group: "मोड चुनें", option: "{label} मोड", kids: "बच्चे", adult: "वयस्क" },
+  "pt-BR": { group: "Escolha o modo", option: "Modo {label}", kids: "Crianças", adult: "Adultos" },
+  tr: { group: "Modu seç", option: "{label} modu", kids: "Çocuk", adult: "Yetişkin" },
 };
 
 const OPTIONS: Array<{ mode: CoachFiMode; icon: LucideIcon; home: string }> = [
   { mode: "kids", icon: Baby, home: "/kids" },
-  { mode: "teen", icon: Sparkles, home: "/" },
   { mode: "adult", icon: UserRoundCheck, home: "/" },
 ];
 
@@ -42,7 +41,7 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
   const pathname = usePathname();
   const { locale } = useLanguage();
   const copy = pickLocalized(COPY, locale);
-  const { selectAdultMode, selectTeenMode, selectKidsMode } = useMode();
+  const { selectAdultMode, selectKidsMode } = useMode();
   const [visible, setVisible] = useState(true);
   const dockRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,7 +51,6 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
   function choose(next: CoachFiMode, home: string) {
     if (next === mode) return;
     if (next === "kids") selectKidsMode();
-    else if (next === "teen") selectTeenMode();
     else selectAdultMode();
     router.push(home);
   }
@@ -67,7 +65,7 @@ function ModeSwitcherDock({ mode, highContrast }: { mode: CoachFiMode; highContr
         role="group"
         aria-label={copy.group}
         data-theme={highContrast || mode === "adult" ? undefined : mode}
-        className="mode-switcher pointer-events-auto grid w-full max-w-md grid-cols-3 gap-1 p-1 lg:w-[26rem]"
+        className="mode-switcher pointer-events-auto grid w-full max-w-xs grid-cols-2 gap-1 p-1 lg:w-[18rem]"
         onFocus={() => setVisible(true)}
       >
         {OPTIONS.map((option) => {
