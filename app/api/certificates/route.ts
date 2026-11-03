@@ -1,13 +1,11 @@
 import { assertSameOrigin, isLikelySolanaAddress, jsonError, rateLimit, readJsonWithLimit } from "@/lib/api-security";
 import {
-  CERTIFICATE_IDS,
   accountStorageConfigured,
   listCertificates,
   saveCertificate,
-  type CertificateId,
   type CertificateRecord,
 } from "@/lib/account-store";
-import { ownedCoachCertificates, readCoachCertificate } from "@/lib/certificate-chain";
+import { readVerifiedCertificate, verifiedOwnedCertificates } from "@/lib/server/verified-certificates";
 import { compareCertificateState, type SeenCertificate, type StoredCertificate } from "@/lib/certificate-compare";
 import { cdpAuthConfigured, verifyCdpUser } from "@/lib/cdp-server";
 
@@ -80,15 +78,11 @@ export async function POST(req: Request) {
 
   let hintAddress = "";
   let hintTx = "";
-  let hintCertificateId: CertificateId | "" = "";
   try {
     const body = await readJsonWithLimit<{ assetAddress?: unknown; txHash?: unknown; certificateId?: unknown }>(req, 1400);
     if (body && typeof body === "object" && !Array.isArray(body)) {
       if (typeof body.assetAddress === "string" && isLikelySolanaAddress(body.assetAddress)) hintAddress = body.assetAddress;
-      if (typeof body.txHash === "string" && body.txHash.length <= 128) hintTx = body.txHash.trim();
-      if (typeof body.certificateId === "string" && (CERTIFICATE_IDS as readonly string[]).includes(body.certificateId)) {
-        hintCertificateId = body.certificateId as CertificateId;
-      }
+      if (typeof body.txHash === "string" && /^[1-9A-HJ-NP-Za-km-z]{32,128}$/.test(body.txHash.trim())) hintTx = body.txHash.trim();
     }
   } catch {
     return jsonError("Invalid payload", 400);
@@ -99,16 +93,8 @@ export async function POST(req: Request) {
     const userId = session.userId;
     const wallet = session.solanaAddress;
     let rows = await listCertificates(userId);
-    if (wallet && hintCertificateId && hintAddress) {
-      await saveCertificate(userId, {
-        certificateId: hintCertificateId,
-        status: "owned",
-        assetAddress: hintAddress,
-        ownerAddress: wallet,
-        txHash: hintTx || null,
-      });
-      rows = await listCertificates(userId);
-    }
+    // The client hint is never stored as-is: it is only used as an address to read on-chain below,
+    // and only assets whose update authority is our mint wallet count (lib/server/verified-certificates).
     if (!wallet) {
       return Response.json({ ok: true, configured: true, certificates: rows.map(publicCertificate) });
     }
@@ -116,13 +102,18 @@ export async function POST(req: Request) {
     let lookupError = "";
     let owned: SeenCertificate[] = [];
     try {
-      owned = await ownedCoachCertificates(wallet);
+      owned = await verifiedOwnedCertificates(wallet);
     } catch (error) {
       lookupError = error instanceof Error ? error.message : "Certificate lookup failed";
       console.error("[certificates sync]", lookupError);
     }
 
-    const hint = hintAddress ? await readCoachCertificate(hintAddress) : null;
+    let hint = hintAddress ? await readVerifiedCertificate(hintAddress) : null;
+    if (hintAddress && !hint) {
+      // A freshly minted asset can lag behind on the RPC node for a moment.
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      hint = await readVerifiedCertificate(hintAddress);
+    }
     if (hint && hint.ownerAddress === wallet && !owned.some((item) => item.assetAddress === hint.assetAddress)) {
       owned.push(hint);
     }
@@ -131,7 +122,7 @@ export async function POST(req: Request) {
     if (!lookupError) {
       for (const row of rows) {
         if (owned.some((item) => item.assetAddress === row.assetAddress)) continue;
-        const looked = await readCoachCertificate(row.assetAddress);
+        const looked = await readVerifiedCertificate(row.assetAddress);
         if (looked) storedLooks.push(looked);
       }
     }

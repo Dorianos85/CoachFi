@@ -7,8 +7,10 @@ import {
   rateLimit,
   readJsonWithLimit,
   requireConsentHeader,
-  sanitizeDisplayName,
 } from "@/lib/api-security";
+import { enforceLimits, limitExceededResponse } from "@/lib/ratelimit";
+import { escapeLikePattern, leaderboardName } from "@/lib/server/leaderboard";
+import { leaderboardWriteRules } from "@/lib/server/limits";
 import { getOptionalEnv } from "@/lib/server-env";
 
 function getTableName() {
@@ -38,7 +40,12 @@ export interface LeaderboardEntry {
 }
 
 // GET /api/leaderboard — returns top 20
-export async function GET() {
+export async function GET(req: Request) {
+  try {
+    rateLimit(req, "leaderboard-read", 60);
+  } catch {
+    return jsonError("Too many requests", 429);
+  }
   const supabase = getClient();
   if (!supabase) {
     return Response.json({ entries: [], configured: false });
@@ -53,21 +60,22 @@ export async function GET() {
 
   if (error) {
     console.error("[leaderboard GET]", error.message);
-    return Response.json({ entries: [], configured: true, error: error.message });
+    return Response.json({ entries: [], configured: true, error: "Leaderboard unavailable" });
   }
 
   return Response.json({ entries: data ?? [], configured: true });
 }
 
-// POST /api/leaderboard — upsert a score by name (simple, no auth for hackathon)
+// POST /api/leaderboard — upsert a score by display name.
+// Anonymous writes stay (the Leaderboard UI posts without sign-in), so they are bound by shared
+// per-IP/global write limits, name sanitising, a reserved-name filter and exact-name matching.
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req);
     requireConsentHeader(req, "leaderboard");
-    rateLimit(req, "leaderboard", 20);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Request blocked";
-    return jsonError(message, message === "Too many requests" ? 429 : 403);
+    return jsonError(message, 403);
   }
 
   const supabase = getClient();
@@ -83,19 +91,29 @@ export async function POST(req: Request) {
     return jsonError("Invalid payload", 400);
   }
 
-  const name = sanitizeDisplayName(body.name);
+  if (!body || typeof body !== "object" || Array.isArray(body)) return jsonError("Invalid payload", 400);
+  const name = leaderboardName(body.name);
   const score = clampNumber(body.score, 0, 100);
   const streak = clampNumber(body.streak, 0, 3650);
   if (!name || typeof body.score !== "number") {
     return Response.json({ ok: false, error: "Invalid payload" }, { status: 400 });
   }
 
-  // Upsert: match on name (case-insensitive via lower), update if score is higher
-  const { data: existing } = await supabase
+  const decision = await enforceLimits(leaderboardWriteRules(req));
+  if (!decision.ok) return limitExceededResponse(decision);
+
+  // Upsert: case-insensitive exact name match (wildcards escaped), update only if score is higher
+  const { data: existing, error: lookupError } = await supabase
     .from(table)
     .select("id, score")
-    .ilike("name", name)
+    .ilike("name", escapeLikePattern(name))
+    .limit(1)
     .maybeSingle();
+
+  if (lookupError) {
+    console.error("[leaderboard POST lookup]", lookupError.message);
+    return Response.json({ ok: false, error: "Leaderboard unavailable" }, { status: 500 });
+  }
 
   if (existing && existing.score >= score) {
     // Don't downgrade the score
@@ -112,7 +130,8 @@ export async function POST(req: Request) {
         .insert({ name, score, streak });
 
   if (error) {
-    return Response.json({ ok: false, error: error.message }, { status: 500 });
+    console.error("[leaderboard POST]", error.message);
+    return Response.json({ ok: false, error: "Leaderboard unavailable" }, { status: 500 });
   }
 
   return Response.json({ ok: true, updated: true });

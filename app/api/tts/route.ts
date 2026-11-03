@@ -1,9 +1,10 @@
 import {
   assertSameOrigin,
   jsonError,
-  rateLimit,
   readJsonWithLimit,
 } from "@/lib/api-security";
+import { enforceLimits, limitExceededResponse } from "@/lib/ratelimit";
+import { aiDisabled, ttsRules } from "@/lib/server/limits";
 import { resolveMilaVoice } from "@/lib/server/mila-voice";
 
 const DEFAULT_MODEL = "eleven_flash_v2_5";
@@ -52,10 +53,9 @@ function isVoiceLocale(value: unknown): value is VoiceLocale {
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req);
-    rateLimit(req, "tts", 30);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Request blocked";
-    return jsonError(message, message === "Too many requests" ? 429 : 403);
+    return jsonError(message, 403);
   }
 
   let payload: TtsPayload;
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
   const locale = isVoiceLocale(payload.locale) ? payload.locale : undefined;
   const apiKey = getEnv("ELEVENLABS_API_KEY");
 
-  if (!apiKey) {
+  if (!apiKey || aiDisabled()) {
     return Response.json({ error: "Mila voice unavailable" }, { status: 503 });
   }
 
@@ -93,6 +93,10 @@ export async function POST(req: Request) {
   }
   // Let the provider validate its configured model; never switch models after a rejection.
   const model = voice.modelId ?? getEnv("ELEVENLABS_MODEL_ID") ?? DEFAULT_MODEL;
+
+  // Shared per-IP request/character budgets plus a global daily character budget.
+  const decision = await enforceLimits(ttsRules(req, text.length));
+  if (!decision.ok) return limitExceededResponse(decision, "Mila voice limit reached. Please try again later.");
 
   try {
     const query = new URLSearchParams({
