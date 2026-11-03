@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 
-import { CheckCircle2, LifeBuoy, LockKeyhole, Mail, Share2, Sparkles, Trophy } from "lucide-react";
+import { CheckCircle2, LifeBuoy, LockKeyhole, Mail, MessageCircle, Share2, Sparkles, Trophy } from "lucide-react";
 import Link from "next/link";
 
 import { FamilyActionPlan } from "@/components/FamilyActionPlan";
@@ -15,8 +15,8 @@ import { Button } from "@/components/ui/button";
 import { getDisplayName, getUser } from "@/lib/user";
 import { getStreak } from "@/lib/streak";
 import { useLanguage } from "@/context/LanguageContext";
+import { scoreBand } from "@/context/progressHooks";
 import { useStreak } from "@/context/StreakContext";
-import { mockUser } from "@/data/mockUser";
 import { getHealthCheck, saveHealthCheck } from "@/lib/healthCheck";
 import { getLocalizedContent } from "@/lib/localizedContent";
 
@@ -33,155 +33,264 @@ interface HealthForm {
   mainFinancialGoal: string;
 }
 
-const inputClass =
-  "min-h-12 rounded-input border-2 border-border bg-white px-3 text-text shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+type NumberKey = "monthlyIncome" | "monthlyExpenses" | "savings" | "debt" | "cashHeld";
+type NumberDraft = Record<NumberKey, string>;
 
-const GATE_COPY: LocalizedMap<Record<"previewReady" | "previewBody" | "emailLabel" | "acceptTerms" | "marketing" | "unlock" | "trialActiveTitle" | "trialBody" | "trialActive" | "trialStart" | "pressure" | "freeHelp" | "locked" | "lockedBody", string>> = {
+const EMPTY_NUMBERS: NumberDraft = { monthlyIncome: "", monthlyExpenses: "", savings: "", debt: "", cashHeld: "" };
+
+/** Unlock state for the score gate; survives reloads on this device. */
+const UNLOCK_KEY = "coachfi-health-unlocked";
+
+function readUnlocked(): boolean {
+  try {
+    return window.localStorage.getItem(UNLOCK_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
+function writeUnlocked(savedRemotely: boolean) {
+  try {
+    window.localStorage.setItem(UNLOCK_KEY, JSON.stringify({ unlockedAt: new Date().toISOString(), savedRemotely }));
+  } catch {
+    // Storage blocked: the result stays unlocked for this visit only.
+  }
+}
+
+function toNumber(value: string) {
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function formFromSaved(answers: Record<string, unknown>): { numbers: NumberDraft; rest: Omit<HealthForm, NumberKey> } {
+  const str = (value: unknown) => (typeof value === "number" && Number.isFinite(value) ? String(value) : "");
+  return {
+    numbers: {
+      monthlyIncome: str(answers.monthlyIncome),
+      monthlyExpenses: str(answers.monthlyExpenses),
+      savings: str(answers.savings),
+      debt: str(answers.debt),
+      cashHeld: str(answers.cashHeld),
+    },
+    rest: {
+      hasEmergencyFund: answers.hasEmergencyFund === true,
+      understandsInflation: answers.understandsInflation === true,
+      hasRetirementPlan: answers.hasRetirementPlan === true,
+      investsAlready: answers.investsAlready === true,
+      mainFinancialGoal: typeof answers.mainFinancialGoal === "string" ? answers.mainFinancialGoal : "",
+    },
+  };
+}
+
+const inputClass =
+  "min-h-12 rounded-input border-2 border-border bg-white px-3 text-text shadow-sm placeholder:text-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+
+type GateCopy = Record<
+  | "previewReady"
+  | "previewBody"
+  | "emailLabel"
+  | "acceptTerms"
+  | "marketing"
+  | "unlock"
+  | "saving"
+  | "invalidEmail"
+  | "offlineNote"
+  | "earlyAccessTitle"
+  | "earlyAccessBody"
+  | "askMila"
+  | "pressure"
+  | "freeHelp"
+  | "locked"
+  | "lockedBody"
+  | "goalPlaceholder"
+  | "amountPlaceholder",
+  string
+>;
+
+const GATE_COPY: LocalizedMap<GateCopy> = {
   en: {
     previewReady: "Your preview diagnosis is ready",
-    previewBody: "The full score and family plan unlock after login and Terms/Privacy acceptance.",
-    emailLabel: "Login email",
-    acceptTerms: "I accept Terms, Privacy Policy and understand Coach FI is educational.",
+    previewBody: "Add your email to see your full score and family plan. We store only your email, language, consent choice and score range — never your amounts.",
+    emailLabel: "Email",
+    acceptTerms: "I accept the Terms and Privacy Policy and understand Coach FI is educational.",
     marketing: "I want educational launch emails. This consent is optional.",
     unlock: "Unlock score and plan",
-    trialActiveTitle: "Mila trial active",
-    trialBody: "7-day test with limits for voice sessions, analyses and family lessons. Premium has full access with fair-use.",
-    trialActive: "Trial active",
-    trialStart: "Start trial",
+    saving: "Saving...",
+    invalidEmail: "Please enter a valid email address.",
+    offlineNote: "We couldn't save your email right now, but your result is unlocked on this device.",
+    earlyAccessTitle: "Free during early access",
+    earlyAccessBody: "Mila's voice coaching, analyses and family lessons are free while Coach FI is in early access.",
+    askMila: "Ask Mila about my score",
     pressure: "The score suggests financial pressure. Free help is available, but it is not the main Coach FI product.",
     freeHelp: "Show free help",
     locked: "Score is locked",
-    lockedBody: "Run the free analysis. Full score and solution unlock after login and terms acceptance.",
+    lockedBody: "Run the free analysis. Your full score and plan unlock once you add your email.",
+    goalPlaceholder: "e.g. Build an emergency fund",
+    amountPlaceholder: "0",
   },
   pl: {
     previewReady: "Wstępna diagnoza jest gotowa",
-    previewBody: "Pełny wynik i plan rodzinny pokażemy po logowaniu oraz akceptacji regulaminu i polityki prywatności.",
-    emailLabel: "Email do logowania",
-    acceptTerms: "Akceptuję regulamin, politykę prywatności i rozumiem, że Coach FI ma charakter edukacyjny.",
+    previewBody: "Podaj email, aby zobaczyć pełny wynik i plan rodzinny. Zapisujemy tylko email, język, zgodę i przedział wyniku — nigdy Twoje kwoty.",
+    emailLabel: "Email",
+    acceptTerms: "Akceptuję regulamin i politykę prywatności oraz rozumiem, że Coach FI ma charakter edukacyjny.",
     marketing: "Chcę otrzymywać edukacyjne materiały i informacje o premierze. To zgoda dobrowolna.",
     unlock: "Odblokuj wynik i plan",
-    trialActiveTitle: "Trial Mili aktywny",
-    trialBody: "7 dni testu z limitami rozmów głosowych, analiz i lekcji rodzinnych. Premium ma pełny dostęp z zasadami fair-use.",
-    trialActive: "Trial aktywny",
-    trialStart: "Włącz trial",
+    saving: "Zapisywanie...",
+    invalidEmail: "Wpisz poprawny adres email.",
+    offlineNote: "Nie udało się teraz zapisać emaila, ale wynik jest odblokowany na tym urządzeniu.",
+    earlyAccessTitle: "Bezpłatnie we wczesnym dostępie",
+    earlyAccessBody: "Głosowe prowadzenie Mili, analizy i lekcje rodzinne są bezpłatne, dopóki Coach FI jest we wczesnym dostępie.",
+    askMila: "Zapytaj Milę o mój wynik",
     pressure: "Wynik wskazuje napięcie finansowe. Ścieżka bezpłatnej pomocy jest dostępna, ale nie jest głównym produktem Coach FI.",
     freeHelp: "Pokaż bezpłatną pomoc",
     locked: "Wynik jest zablokowany",
-    lockedBody: "Zrób darmową analizę. Pełny wynik i rozwiązanie pokażemy po logowaniu oraz akceptacji zasad.",
+    lockedBody: "Zrób darmową analizę. Pełny wynik i plan odblokujesz, podając email.",
+    goalPlaceholder: "np. Zbudować poduszkę bezpieczeństwa",
+    amountPlaceholder: "0",
   },
   es: {
     previewReady: "Tu diagnóstico preliminar está listo",
-    previewBody: "La puntuación completa y el plan familiar se desbloquean al iniciar sesión y aceptar los Términos y la Privacidad.",
-    emailLabel: "Correo para iniciar sesión",
+    previewBody: "Añade tu correo para ver tu puntuación completa y el plan familiar. Solo guardamos tu correo, idioma, consentimiento y rango de puntuación, nunca tus importes.",
+    emailLabel: "Correo electrónico",
     acceptTerms: "Acepto los Términos y la Política de privacidad, y entiendo que Coach FI es educativo.",
     marketing: "Quiero recibir correos educativos sobre el lanzamiento. Este consentimiento es opcional.",
     unlock: "Desbloquear puntuación y plan",
-    trialActiveTitle: "Prueba de Mila activa",
-    trialBody: "Prueba de 7 días con límites en sesiones de voz, análisis y lecciones familiares. Premium ofrece acceso completo con uso razonable.",
-    trialActive: "Prueba activa",
-    trialStart: "Iniciar prueba",
+    saving: "Guardando...",
+    invalidEmail: "Introduce un correo electrónico válido.",
+    offlineNote: "No pudimos guardar tu correo ahora, pero tu resultado está desbloqueado en este dispositivo.",
+    earlyAccessTitle: "Gratis durante el acceso anticipado",
+    earlyAccessBody: "El coaching por voz de Mila, los análisis y las lecciones familiares son gratis mientras Coach FI esté en acceso anticipado.",
+    askMila: "Preguntar a Mila por mi puntuación",
     pressure: "La puntuación indica presión financiera. Hay ayuda gratuita disponible, aunque no es el producto principal de Coach FI.",
     freeHelp: "Ver ayuda gratuita",
     locked: "La puntuación está bloqueada",
-    lockedBody: "Haz el análisis gratuito. La puntuación completa y la solución se desbloquean al iniciar sesión y aceptar las condiciones.",
+    lockedBody: "Haz el análisis gratuito. Tu puntuación completa y tu plan se desbloquean al añadir tu correo.",
+    goalPlaceholder: "p. ej. Crear un fondo de emergencia",
+    amountPlaceholder: "0",
   },
   fr: {
     previewReady: "Votre diagnostic préliminaire est prêt",
-    previewBody: "Le score complet et le plan familial se débloquent après connexion et acceptation des Conditions et de la Confidentialité.",
-    emailLabel: "E-mail de connexion",
+    previewBody: "Ajoutez votre e-mail pour voir votre score complet et le plan familial. Nous ne conservons que votre e-mail, votre langue, votre consentement et la tranche de score — jamais vos montants.",
+    emailLabel: "E-mail",
     acceptTerms: "J'accepte les Conditions et la Politique de confidentialité, et je comprends que Coach FI est éducatif.",
     marketing: "Je souhaite recevoir des e-mails éducatifs sur le lancement. Ce consentement est facultatif.",
     unlock: "Débloquer le score et le plan",
-    trialActiveTitle: "Essai de Mila actif",
-    trialBody: "Essai de 7 jours avec des limites pour les sessions vocales, les analyses et les leçons en famille. Premium offre un accès complet avec usage raisonnable.",
-    trialActive: "Essai actif",
-    trialStart: "Démarrer l'essai",
+    saving: "Enregistrement...",
+    invalidEmail: "Saisissez une adresse e-mail valide.",
+    offlineNote: "Impossible d'enregistrer votre e-mail pour le moment, mais votre résultat est débloqué sur cet appareil.",
+    earlyAccessTitle: "Gratuit pendant l'accès anticipé",
+    earlyAccessBody: "Le coaching vocal de Mila, les analyses et les leçons en famille sont gratuits tant que Coach FI est en accès anticipé.",
+    askMila: "Demander à Mila à propos de mon score",
     pressure: "Le score suggère une pression financière. Une aide gratuite est disponible, mais ce n'est pas le produit principal de Coach FI.",
     freeHelp: "Voir l'aide gratuite",
     locked: "Le score est verrouillé",
-    lockedBody: "Lancez l'analyse gratuite. Le score complet et la solution se débloquent après connexion et acceptation des conditions.",
+    lockedBody: "Lancez l'analyse gratuite. Votre score complet et votre plan se débloquent avec votre e-mail.",
+    goalPlaceholder: "ex. Constituer une épargne de précaution",
+    amountPlaceholder: "0",
   },
   zh: {
     previewReady: "你的初步诊断已准备好",
-    previewBody: "登录并接受条款和隐私政策后，即可解锁完整得分和家庭计划。",
-    emailLabel: "登录邮箱",
+    previewBody: "填写邮箱即可查看完整得分和家庭计划。我们只保存你的邮箱、语言、授权选择和得分区间，绝不保存你的金额。",
+    emailLabel: "邮箱",
     acceptTerms: "我接受条款和隐私政策，并理解 Coach FI 属于教育性质。",
     marketing: "我希望收到有关上线的教育类邮件。此授权为可选。",
     unlock: "解锁得分和计划",
-    trialActiveTitle: "Mila 试用中",
-    trialBody: "7 天试用，语音会话、分析和家庭课程有次数限制。高级版在合理使用规则下提供完整访问。",
-    trialActive: "试用中",
-    trialStart: "开始试用",
+    saving: "正在保存...",
+    invalidEmail: "请输入有效的邮箱地址。",
+    offlineNote: "暂时无法保存你的邮箱，但你的结果已在此设备上解锁。",
+    earlyAccessTitle: "抢先体验期间免费",
+    earlyAccessBody: "在 Coach FI 抢先体验期间，Mila 的语音辅导、分析和家庭课程均免费。",
+    askMila: "向 Mila 询问我的得分",
     pressure: "得分显示存在财务压力。可以获得免费帮助，但这不是 Coach FI 的主要产品。",
     freeHelp: "查看免费帮助",
     locked: "得分已锁定",
-    lockedBody: "完成免费分析。登录并接受条款后，即可解锁完整得分和解决方案。",
+    lockedBody: "完成免费分析。填写邮箱后即可解锁完整得分和计划。",
+    goalPlaceholder: "例如：建立应急基金",
+    amountPlaceholder: "0",
   },
   ja: {
     previewReady: "仮の診断ができました",
-    previewBody: "ログインして利用規約とプライバシーに同意すると、スコア全体と家族プランが表示されます。",
-    emailLabel: "ログイン用メールアドレス",
+    previewBody: "メールアドレスを入力すると、スコア全体と家族プランが表示されます。保存するのはメール、言語、同意の選択、スコアの範囲だけで、金額は保存しません。",
+    emailLabel: "メールアドレス",
     acceptTerms: "利用規約とプライバシーポリシーに同意し、Coach FIが教育目的であることを理解しました。",
     marketing: "公開に関する学習用メールを受け取りたいです。この同意は任意です。",
     unlock: "スコアとプランを表示",
-    trialActiveTitle: "Milaのトライアル実施中",
-    trialBody: "音声セッション、分析、家族レッスンに上限のある7日間のトライアルです。Premiumは適正利用の範囲で制限なく使えます。",
-    trialActive: "トライアル実施中",
-    trialStart: "トライアルを開始",
+    saving: "保存中...",
+    invalidEmail: "有効なメールアドレスを入力してください。",
+    offlineNote: "現在メールを保存できませんでしたが、結果はこの端末で表示できます。",
+    earlyAccessTitle: "アーリーアクセス期間中は無料",
+    earlyAccessBody: "Coach FIのアーリーアクセス期間中、Milaの音声コーチング、分析、家族レッスンは無料です。",
+    askMila: "スコアについてMilaに聞く",
     pressure: "スコアは家計への負担を示しています。無料のサポートもありますが、Coach FIの主な機能ではありません。",
     freeHelp: "無料サポートを見る",
     locked: "スコアはロックされています",
-    lockedBody: "無料の分析を行ってください。ログインして規約に同意すると、スコア全体と解決策が表示されます。",
+    lockedBody: "無料の分析を行ってください。メールアドレスを入力すると、スコア全体とプランが表示されます。",
+    goalPlaceholder: "例：緊急資金をつくる",
+    amountPlaceholder: "0",
   },
   hi: {
     previewReady: "आपकी शुरुआती जांच तैयार है",
-    previewBody: "लॉगिन करने और शर्तें व गोपनीयता स्वीकार करने के बाद पूरा स्कोर और पारिवारिक योजना खुलते हैं।",
-    emailLabel: "लॉगिन ईमेल",
+    previewBody: "पूरा स्कोर और पारिवारिक योजना देखने के लिए अपना ईमेल दें। हम सिर्फ़ ईमेल, भाषा, सहमति और स्कोर की सीमा सहेजते हैं — आपकी रकम कभी नहीं।",
+    emailLabel: "ईमेल",
     acceptTerms: "मैं शर्तें और गोपनीयता नीति स्वीकार करता/करती हूं और समझता/समझती हूं कि Coach FI शैक्षिक है।",
     marketing: "मुझे लॉन्च से जुड़े शैक्षिक ईमेल चाहिए। यह सहमति वैकल्पिक है।",
     unlock: "स्कोर और योजना अनलॉक करें",
-    trialActiveTitle: "Mila ट्रायल चालू है",
-    trialBody: "वॉइस सत्रों, विश्लेषणों और पारिवारिक पाठों की सीमाओं के साथ 7 दिन का ट्रायल। Premium में उचित उपयोग के साथ पूरी पहुंच मिलती है।",
-    trialActive: "ट्रायल चालू है",
-    trialStart: "ट्रायल शुरू करें",
+    saving: "सहेजा जा रहा है...",
+    invalidEmail: "कृपया सही ईमेल पता दर्ज करें।",
+    offlineNote: "अभी आपका ईमेल सहेजा नहीं जा सका, लेकिन आपका नतीजा इस डिवाइस पर अनलॉक है।",
+    earlyAccessTitle: "अर्ली एक्सेस के दौरान मुफ़्त",
+    earlyAccessBody: "जब तक Coach FI अर्ली एक्सेस में है, Mila की वॉइस कोचिंग, विश्लेषण और पारिवारिक पाठ मुफ़्त हैं।",
+    askMila: "अपने स्कोर के बारे में Mila से पूछें",
     pressure: "स्कोर वित्तीय दबाव का संकेत देता है। मुफ़्त मदद उपलब्ध है, लेकिन यह Coach FI का मुख्य उत्पाद नहीं है।",
     freeHelp: "मुफ़्त मदद देखें",
     locked: "स्कोर लॉक है",
-    lockedBody: "मुफ़्त विश्लेषण करें। लॉगिन करने और शर्तें स्वीकार करने के बाद पूरा स्कोर और समाधान खुलते हैं।",
+    lockedBody: "मुफ़्त विश्लेषण करें। ईमेल देने पर पूरा स्कोर और योजना खुल जाते हैं।",
+    goalPlaceholder: "जैसे: इमरजेंसी फ़ंड बनाना",
+    amountPlaceholder: "0",
   },
   "pt-BR": {
     previewReady: "Seu diagnóstico preliminar está pronto",
-    previewBody: "A pontuação completa e o plano familiar são liberados após o login e a aceitação dos Termos e da Privacidade.",
-    emailLabel: "E-mail de login",
+    previewBody: "Informe seu e-mail para ver a pontuação completa e o plano familiar. Guardamos apenas e-mail, idioma, consentimento e faixa de pontuação — nunca seus valores.",
+    emailLabel: "E-mail",
     acceptTerms: "Aceito os Termos e a Política de Privacidade e entendo que o Coach FI é educacional.",
     marketing: "Quero receber e-mails educacionais sobre o lançamento. Este consentimento é opcional.",
     unlock: "Desbloquear pontuação e plano",
-    trialActiveTitle: "Teste da Mila ativo",
-    trialBody: "Teste de 7 dias com limites para sessões de voz, análises e aulas em família. O Premium tem acesso completo com uso justo.",
-    trialActive: "Teste ativo",
-    trialStart: "Começar teste",
+    saving: "Salvando...",
+    invalidEmail: "Digite um endereço de e-mail válido.",
+    offlineNote: "Não conseguimos salvar seu e-mail agora, mas seu resultado está desbloqueado neste dispositivo.",
+    earlyAccessTitle: "Grátis durante o acesso antecipado",
+    earlyAccessBody: "O coaching por voz da Mila, as análises e as aulas em família são gratuitos enquanto o Coach FI estiver em acesso antecipado.",
+    askMila: "Perguntar à Mila sobre minha pontuação",
     pressure: "A pontuação indica pressão financeira. Há ajuda gratuita disponível, mas ela não é o produto principal do Coach FI.",
     freeHelp: "Ver ajuda gratuita",
     locked: "A pontuação está bloqueada",
-    lockedBody: "Faça a análise gratuita. A pontuação completa e a solução são liberadas após o login e a aceitação dos termos.",
+    lockedBody: "Faça a análise gratuita. A pontuação completa e o plano são liberados com seu e-mail.",
+    goalPlaceholder: "ex.: Montar uma reserva de emergência",
+    amountPlaceholder: "0",
   },
   tr: {
     previewReady: "Ön teşhisin hazır",
-    previewBody: "Tam puan ve aile planı, giriş yapıp Koşulları ve Gizliliği kabul ettikten sonra açılır.",
-    emailLabel: "Giriş e-postası",
+    previewBody: "Tam puanını ve aile planını görmek için e-postanı ekle. Yalnızca e-posta, dil, onay seçimi ve puan aralığını saklarız — tutarlarını asla.",
+    emailLabel: "E-posta",
     acceptTerms: "Koşulları ve Gizlilik Politikası'nı kabul ediyorum ve Coach FI'ın eğitim amaçlı olduğunu anlıyorum.",
     marketing: "Lansmanla ilgili eğitici e-postalar almak istiyorum. Bu onay isteğe bağlıdır.",
     unlock: "Puanı ve planı aç",
-    trialActiveTitle: "Mila denemesi etkin",
-    trialBody: "Sesli oturumlar, analizler ve aile dersleri için sınırları olan 7 günlük deneme. Premium, adil kullanım kurallarıyla tam erişim sunar.",
-    trialActive: "Deneme etkin",
-    trialStart: "Denemeyi başlat",
+    saving: "Kaydediliyor...",
+    invalidEmail: "Lütfen geçerli bir e-posta adresi gir.",
+    offlineNote: "E-postanı şu anda kaydedemedik, ancak sonucun bu cihazda açık.",
+    earlyAccessTitle: "Erken erişim süresince ücretsiz",
+    earlyAccessBody: "Coach FI erken erişimdeyken Mila'nın sesli koçluğu, analizler ve aile dersleri ücretsizdir.",
+    askMila: "Puanımı Mila'ya sor",
     pressure: "Puan finansal baskıya işaret ediyor. Ücretsiz yardım mevcut, ancak bu Coach FI'ın ana ürünü değil.",
     freeHelp: "Ücretsiz yardımı göster",
     locked: "Puan kilitli",
-    lockedBody: "Ücretsiz analizi yap. Tam puan ve çözüm, giriş yapıp koşulları kabul ettikten sonra açılır.",
+    lockedBody: "Ücretsiz analizi yap. Tam puanın ve planın e-postanı eklediğinde açılır.",
+    goalPlaceholder: "örn. Acil durum fonu oluşturmak",
+    amountPlaceholder: "0",
   },
 };
+
+const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 export default function HealthCheckPage() {
   const { locale, t } = useLanguage();
@@ -189,46 +298,107 @@ export default function HealthCheckPage() {
   const copy = getLocalizedContent(locale);
   const { markActive } = useStreak();
   const [shareOpen, setShareOpen] = useState(false);
-  const [form, setForm] = useState<HealthForm>({
-    monthlyIncome: mockUser.monthlyIncome,
-    monthlyExpenses: mockUser.monthlyExpenses,
-    savings: mockUser.savings,
-    debt: mockUser.debt,
-    cashHeld: mockUser.cashHeld,
+  // The form starts empty: placeholders only, never demo numbers.
+  const [numbers, setNumbers] = useState<NumberDraft>(EMPTY_NUMBERS);
+  const [answers, setAnswers] = useState<Omit<HealthForm, NumberKey>>({
     hasEmergencyFund: false,
     understandsInflation: false,
     hasRetirementPlan: false,
-    investsAlready: mockUser.investsAlready,
-    mainFinancialGoal: mockUser.mainFinancialGoal,
+    investsAlready: false,
+    mainFinancialGoal: "",
   });
-  // Start from the last saved result on this device (falls back to the demo value).
-  const [score, setScore] = useState(() => getHealthCheck()?.score ?? mockUser.financialHealthScore);
+  const [score, setScore] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [scoreUnlocked, setScoreUnlocked] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
-  const [trialActive, setTrialActive] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  const [gateError, setGateError] = useState("");
+  const [leadNote, setLeadNote] = useState("");
 
+  const form: HealthForm = {
+    monthlyIncome: toNumber(numbers.monthlyIncome),
+    monthlyExpenses: toNumber(numbers.monthlyExpenses),
+    savings: toNumber(numbers.savings),
+    debt: toNumber(numbers.debt),
+    cashHeld: toNumber(numbers.cashHeld),
+    ...answers,
+  };
+
+  // Restore the last result on this device (and whether it was unlocked).
+  useEffect(() => {
+    const saved = getHealthCheck();
+    if (!saved) return;
+    const restored = formFromSaved(saved.answers as Record<string, unknown>);
+    setNumbers(restored.numbers);
+    setAnswers(restored.rest);
+    setScore(saved.score);
+    setSubmitted(true);
+    setScoreUnlocked(readUnlocked());
+  }, []);
+
+  const shownScore = score ?? 0;
   const diagnosis =
-    score < 40
+    shownScore < 40
       ? t.healthCheck.interpretation.poor
-      : score < 65
+      : shownScore < 65
         ? t.healthCheck.interpretation.fair
-        : score < 82
+        : shownScore < 82
           ? t.healthCheck.interpretation.good
           : t.healthCheck.interpretation.excellent;
-  const scoreVoiceText = copy.health.scoreVoice(score);
+  const scoreVoiceText = copy.health.scoreVoice(shownScore);
   const previewInsights = getPreviewInsights(form, locale);
-  const canUnlock = submitted && loginEmail.includes("@") && termsAccepted;
-  const showEmergencyPath = scoreUnlocked && score < 40;
+  const canUnlock = submitted && EMAIL_PATTERN.test(loginEmail.trim()) && termsAccepted && !unlocking;
+  const showEmergencyPath = scoreUnlocked && shownScore < 40;
+  const showResult = submitted && scoreUnlocked && score !== null;
 
-  function updateBool(field: keyof HealthForm, val: string) {
-    setForm((f) => ({ ...f, [field]: val === "yes" }));
+  function updateBool(field: keyof Omit<HealthForm, NumberKey>, val: string) {
+    setAnswers((f) => ({ ...f, [field]: val === "yes" }));
   }
 
-  function updateNum(field: keyof HealthForm, val: string) {
-    setForm((f) => ({ ...f, [field]: Number(val) }));
+  function updateNum(field: NumberKey, val: string) {
+    setNumbers((f) => ({ ...f, [field]: val }));
+  }
+
+  async function unlock() {
+    if (!canUnlock || score === null) return;
+    const email = loginEmail.trim();
+    if (!EMAIL_PATTERN.test(email)) {
+      setGateError(gate.invalidEmail);
+      return;
+    }
+    setGateError("");
+    setUnlocking(true);
+    let savedRemotely = false;
+    let note = "";
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          locale,
+          marketingConsent,
+          scoreBand: scoreBand(score),
+          source: "health-check",
+        }),
+      });
+      if (res.status === 400) {
+        setGateError(gate.invalidEmail);
+        setUnlocking(false);
+        return;
+      }
+      savedRemotely = res.ok;
+      if (!res.ok) note = gate.offlineNote;
+    } catch {
+      note = gate.offlineNote;
+    }
+    // The result unlocks locally even when lead storage is unavailable.
+    writeUnlocked(savedRemotely);
+    setLeadNote(note);
+    setScoreUnlocked(true);
+    setUnlocking(false);
   }
 
   return (
@@ -237,7 +407,11 @@ export default function HealthCheckPage() {
         eyebrow={t.healthCheck.eyebrow}
         title={t.healthCheck.title}
         description={t.healthCheck.description}
-        readText={`${t.healthCheck.scoreTitle}: ${score} ${t.healthCheck.scoreLabel}. ${diagnosis}`}
+        readText={
+          showResult
+            ? `${t.healthCheck.scoreTitle}: ${shownScore} ${t.healthCheck.scoreLabel}. ${diagnosis}`
+            : `${t.healthCheck.title}. ${t.healthCheck.description}`
+        }
       />
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_390px]">
@@ -250,7 +424,8 @@ export default function HealthCheckPage() {
             // result survives navigation and feeds the home dashboard.
             saveHealthCheck(nextScore, { ...form });
             setSubmitted(true);
-            setScoreUnlocked(false);
+            // Someone who already unlocked keeps seeing their (new) result.
+            setScoreUnlocked(readUnlocked());
             markActive();
           }}
           className="focus-card rounded-lg p-5 md:p-6"
@@ -264,52 +439,59 @@ export default function HealthCheckPage() {
           <div className="grid gap-4 md:grid-cols-2">
             <NumberField
               label={t.healthCheck.labelIncome}
-              value={form.monthlyIncome}
+              value={numbers.monthlyIncome}
               onChange={(v) => updateNum("monthlyIncome", v)}
               currency={t.currencySymbol}
+              placeholder={gate.amountPlaceholder}
+              required
             />
             <NumberField
               label={t.healthCheck.labelExpenses}
-              value={form.monthlyExpenses}
+              value={numbers.monthlyExpenses}
               onChange={(v) => updateNum("monthlyExpenses", v)}
               currency={t.currencySymbol}
+              placeholder={gate.amountPlaceholder}
+              required
             />
             <NumberField
               label={t.healthCheck.labelSavings}
-              value={form.savings}
+              value={numbers.savings}
               onChange={(v) => updateNum("savings", v)}
               currency={t.currencySymbol}
+              placeholder={gate.amountPlaceholder}
             />
             <NumberField
               label={t.healthCheck.labelDebt}
-              value={form.debt}
+              value={numbers.debt}
               onChange={(v) => updateNum("debt", v)}
               currency={t.currencySymbol}
+              placeholder={gate.amountPlaceholder}
             />
             <NumberField
               label={t.healthCheck.labelCash}
-              value={form.cashHeld}
+              value={numbers.cashHeld}
               onChange={(v) => updateNum("cashHeld", v)}
               currency={t.currencySymbol}
+              placeholder={gate.amountPlaceholder}
             />
 
             <YesNoField
               label={t.healthCheck.labelHasEmergencyFund}
-              value={form.hasEmergencyFund}
+              value={answers.hasEmergencyFund}
               onChange={(v) => updateBool("hasEmergencyFund", v)}
               yes={t.healthCheck.yes}
               no={t.healthCheck.no}
             />
             <YesNoField
               label={t.healthCheck.labelUnderstandsInflation}
-              value={form.understandsInflation}
+              value={answers.understandsInflation}
               onChange={(v) => updateBool("understandsInflation", v)}
               yes={t.healthCheck.yes}
               no={t.healthCheck.no}
             />
             <YesNoField
               label={t.healthCheck.labelHasRetirementPlan}
-              value={form.hasRetirementPlan}
+              value={answers.hasRetirementPlan}
               onChange={(v) => updateBool("hasRetirementPlan", v)}
               yes={t.healthCheck.yes}
               no={t.healthCheck.no}
@@ -318,8 +500,9 @@ export default function HealthCheckPage() {
             <label className="grid gap-1.5 text-sm font-bold text-text md:col-span-2">
               {t.healthCheck.labelGoal}
               <input
-                value={form.mainFinancialGoal}
-                onChange={(e) => setForm((f) => ({ ...f, mainFinancialGoal: e.target.value }))}
+                value={answers.mainFinancialGoal}
+                onChange={(e) => setAnswers((f) => ({ ...f, mainFinancialGoal: e.target.value }))}
+                placeholder={gate.goalPlaceholder}
                 className={inputClass}
               />
             </label>
@@ -361,10 +544,11 @@ export default function HealthCheckPage() {
                     />
                     <input
                       type="email"
+                      autoComplete="email"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
                       placeholder="you@example.com"
-                      className={`${inputClass} pl-10`}
+                      className={`${inputClass} w-full pl-10`}
                     />
                   </span>
                 </label>
@@ -393,20 +577,31 @@ export default function HealthCheckPage() {
                   </span>
                 </label>
 
+                {gateError && (
+                  <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm font-semibold text-text">
+                    {gateError}
+                  </p>
+                )}
+
                 <Button
                   type="button"
                   size="lg"
                   disabled={!canUnlock}
-                  onClick={() => setScoreUnlocked(true)}
+                  onClick={() => void unlock()}
                 >
-                  {gate.unlock}
+                  {unlocking ? gate.saving : gate.unlock}
                 </Button>
               </div>
             </div>
           )}
 
-          {submitted && scoreUnlocked && (
+          {showResult && (
             <div className="mt-4 flex flex-col gap-2">
+              {leadNote && (
+                <p role="status" className="rounded-lg bg-primary/5 p-3 text-sm font-semibold text-muted">
+                  {leadNote}
+                </p>
+              )}
               <p
                 className="rounded-lg bg-success/20 p-3 text-center text-sm font-bold text-text"
                 aria-live="polite"
@@ -426,7 +621,7 @@ export default function HealthCheckPage() {
                   {t.healthCheck.shareScore}
                 </Button>
                 <Link
-                  href={`/achievement?name=${encodeURIComponent(getDisplayName(getUser()))}&score=${score}&streak=${getStreak().currentStreak}`}
+                  href={`/achievement?name=${encodeURIComponent(getDisplayName(getUser()))}&score=${shownScore}&streak=${getStreak().currentStreak}`}
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-primary/15 bg-primary/5 px-4 py-2.5 text-sm font-bold text-primary transition hover:bg-primary hover:text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <Trophy className="h-4 w-4" aria-hidden="true" />
@@ -438,27 +633,25 @@ export default function HealthCheckPage() {
         </form>
 
         <div className="grid content-start gap-3">
-          {scoreUnlocked ? (
+          {showResult ? (
             <>
-              <FinancialScoreCard score={score} diagnosis={diagnosis} />
+              <FinancialScoreCard score={shownScore} diagnosis={diagnosis} />
               <VoiceButton text={scoreVoiceText} label={copy.voice.readScore} variant="pill" className="justify-center py-2.5" />
-              <div className="rounded-lg border border-accent/40 bg-accent/35 p-4">
+              <div className="rounded-lg border border-accent/40 bg-accent/35 p-4" data-testid="early-access-note">
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[#7A5A00]" aria-hidden="true" />
                   <div>
-                    <p className="font-black text-text">
-                      {trialActive
-                        ? gate.trialActiveTitle
-                        : "Mila Voice Coach Trial"}
-                    </p>
+                    <p className="font-black text-text">{gate.earlyAccessTitle}</p>
                     <p className="mt-1 text-sm font-semibold leading-6 text-muted">
-                      {gate.trialBody}
+                      {gate.earlyAccessBody}
                     </p>
-                    <Button type="button" size="sm" className="mt-3" onClick={() => setTrialActive(true)}>
-                      {trialActive
-                        ? gate.trialActive
-                        : gate.trialStart}
-                    </Button>
+                    <Link
+                      href="/coach"
+                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
+                      <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                      {gate.askMila}
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -493,21 +686,19 @@ export default function HealthCheckPage() {
         </div>
       </div>
 
-      {submitted && scoreUnlocked && (
+      {showResult && (
         <div className="mt-6">
           <FamilyActionPlan
-            score={score}
+            score={shownScore}
             monthlyIncome={form.monthlyIncome}
             monthlyExpenses={form.monthlyExpenses}
             savings={form.savings}
             goal={form.mainFinancialGoal}
-            trialActive={trialActive}
-            onStartTrial={() => setTrialActive(true)}
           />
         </div>
       )}
 
-      <ShareScoreCard score={score} open={shareOpen} onClose={() => setShareOpen(false)} />
+      <ShareScoreCard score={shownScore} open={shareOpen} onClose={() => setShareOpen(false)} />
     </section>
   );
 }
@@ -517,19 +708,28 @@ function NumberField({
   value,
   onChange,
   currency,
+  placeholder,
+  required = false,
 }: {
   label: string;
-  value: number;
+  value: string;
   onChange: (v: string) => void;
   currency: string;
+  placeholder: string;
+  required?: boolean;
 }) {
   return (
     <label className="grid gap-1.5 text-sm font-bold text-text">
-      {label} <span className="font-semibold text-muted">({currency})</span>
+      <span>
+        {label} <span className="whitespace-nowrap font-semibold text-muted">({currency})</span>
+      </span>
       <input
         type="number"
         min="0"
+        inputMode="decimal"
         value={value}
+        placeholder={placeholder}
+        required={required}
         onChange={(e) => onChange(e.target.value)}
         className={inputClass}
       />
