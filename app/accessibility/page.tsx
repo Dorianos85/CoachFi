@@ -1,5 +1,6 @@
 "use client";
 
+import { useHealthSnapshot } from "@/context/progressHooks";
 import { CalendarDays, CheckCircle2, ShieldAlert, Volume2 } from "lucide-react";
 import { useState } from "react";
 
@@ -152,6 +153,19 @@ const accessibilityVoiceCopy: LocalizedMap<
   },
 };
 
+// Read when the user has no Health Check result yet (never a demo score).
+const NO_SCORE_VOICE: LocalizedMap<string> = {
+  en: "You don't have a Financial Health Score yet. Run the free Health Check to get yours.",
+  pl: "Nie masz jeszcze wyniku zdrowia finansowego. Zrób darmową diagnozę, aby go poznać.",
+  es: "Aún no tienes una puntuación de salud financiera. Haz el chequeo gratuito para obtenerla.",
+  fr: "Vous n'avez pas encore de score de santé financière. Faites le bilan gratuit pour l'obtenir.",
+  zh: "你还没有财务健康得分。完成免费的财务检查即可获得。",
+  ja: "まだファイナンシャルヘルススコアがありません。無料診断でスコアを取得してください。",
+  hi: "आपके पास अभी वित्तीय स्वास्थ्य स्कोर नहीं है। इसे पाने के लिए मुफ़्त जांच करें।",
+  "pt-BR": "Você ainda não tem uma pontuação de saúde financeira. Faça o check-up gratuito para obter a sua.",
+  tr: "Henüz Finansal Sağlık Puanın yok. Puanını almak için ücretsiz kontrolü yap.",
+};
+
 export default function AccessibilityPage() {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale).accessibility;
@@ -159,8 +173,12 @@ export default function AccessibilityPage() {
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const voiceScripts = voiceDemoScripts[voiceLocale];
+  const health = useHealthSnapshot();
+  const scoreText = health
+    ? getLocalizedContent(locale).health.scoreVoice(health.score)
+    : pickLocalized(NO_SCORE_VOICE, locale);
   const voiceFirstActions = [
-    { id: "financial-score", label: voiceCopy.actions[0], text: voiceScripts.financialScore },
+    { id: "financial-score", label: voiceCopy.actions[0], text: scoreText },
     { id: "inflation", label: voiceCopy.actions[1], text: voiceScripts.inflationWakeUp },
     { id: "next-lesson", label: voiceCopy.actions[2], text: voiceScripts.milaIntro },
     { id: "quiz-question", label: voiceCopy.actions[3], text: voiceScripts.kidsCoach },

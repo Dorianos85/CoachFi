@@ -13,7 +13,6 @@ import {
   Landmark,
   Mic,
   PiggyBank,
-  Plus,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -27,8 +26,9 @@ import { VoiceButton } from "@/components/VoiceButton";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { mockUser } from "@/data/mockUser";
+import { EXAMPLE_SCORE, useHealthSnapshot, type HealthAnswers } from "@/context/progressHooks";
 import { getAllQuestionIds } from "@/lib/allQuestions";
-import { getHealthCheck } from "@/lib/healthCheck";
+import { getAllStageProgress } from "@/lib/learningProgress";
 import { getAllCards } from "@/lib/srs";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { dashboardCopy } from "@/lib/dashboardCopy";
@@ -86,7 +86,92 @@ const demoCopy: LocalizedMap<{ badge: string; note: string; yourScore: string }>
   },
 };
 
-const DEMO_STABILITY_SCORE = 62;
+// Copy for values derived from the user's own Health Check answers.
+const realCopy: LocalizedMap<{
+  nextNoSurplus: string;
+  nextCushionDone: string;
+  risk: { none: string; low: string; medium: string; high: string };
+  budgetNote: string;
+}> = {
+  en: {
+    nextNoSurplus: "Your expenses are at or above your income. Start by finding one regular cost you can cut this month.",
+    nextCushionDone: "Your emergency fund covers about 6 months. Next, learn how long-term investing works before taking any risk.",
+    risk: { none: "no debt", low: "low debt load", medium: "medium debt load", high: "high debt load" },
+    budgetNote: "Example categories — Coach FI does not read your bank data.",
+  },
+  pl: {
+    nextNoSurplus: "Wydatki są równe dochodom lub je przekraczają. Zacznij od znalezienia jednego stałego kosztu do obcięcia w tym miesiącu.",
+    nextCushionDone: "Poduszka finansowa pokrywa ok. 6 miesięcy. Teraz poznaj zasady długoterminowego inwestowania, zanim podejmiesz ryzyko.",
+    risk: { none: "brak długu", low: "niskie zadłużenie", medium: "średnie zadłużenie", high: "wysokie zadłużenie" },
+    budgetNote: "Przykładowe kategorie — Coach FI nie czyta danych z Twojego banku.",
+  },
+  es: {
+    nextNoSurplus: "Tus gastos igualan o superan tus ingresos. Empieza por encontrar un gasto fijo que puedas recortar este mes.",
+    nextCushionDone: "Tu fondo de emergencia cubre unos 6 meses. Ahora aprende cómo funciona la inversión a largo plazo antes de asumir riesgos.",
+    risk: { none: "sin deudas", low: "deuda baja", medium: "deuda media", high: "deuda alta" },
+    budgetNote: "Categorías de ejemplo: Coach FI no lee tus datos bancarios.",
+  },
+  fr: {
+    nextNoSurplus: "Vos dépenses égalent ou dépassent vos revenus. Commencez par repérer une dépense régulière à réduire ce mois-ci.",
+    nextCushionDone: "Votre épargne de précaution couvre environ 6 mois. Découvrez maintenant l'investissement à long terme avant de prendre des risques.",
+    risk: { none: "aucune dette", low: "endettement faible", medium: "endettement moyen", high: "endettement élevé" },
+    budgetNote: "Catégories d'exemple — Coach FI ne lit pas vos données bancaires.",
+  },
+  zh: {
+    nextNoSurplus: "你的支出已等于或超过收入。先找出本月可以削减的一项固定开支。",
+    nextCushionDone: "你的应急基金大约可覆盖 6 个月。下一步，在承担风险前先了解长期投资的原理。",
+    risk: { none: "无负债", low: "负债较低", medium: "负债中等", high: "负债较高" },
+    budgetNote: "示例类别 — Coach FI 不会读取你的银行数据。",
+  },
+  ja: {
+    nextNoSurplus: "支出が収入と同じか上回っています。まず今月削れる固定費を1つ見つけましょう。",
+    nextCushionDone: "緊急資金は約6か月分あります。次はリスクを取る前に長期投資のしくみを学びましょう。",
+    risk: { none: "借入なし", low: "借入は少なめ", medium: "借入は中程度", high: "借入が多め" },
+    budgetNote: "カテゴリはサンプルです。Coach FIは銀行データを読み取りません。",
+  },
+  hi: {
+    nextNoSurplus: "आपका खर्च आपकी आय के बराबर या उससे ज़्यादा है। इस महीने घटाने लायक एक नियमित खर्च ढूंढकर शुरुआत करें।",
+    nextCushionDone: "आपका इमरजेंसी फ़ंड लगभग 6 महीने का है। अब जोखिम लेने से पहले लंबी अवधि के निवेश को समझें।",
+    risk: { none: "कोई कर्ज़ नहीं", low: "कम कर्ज़", medium: "मध्यम कर्ज़", high: "ज़्यादा कर्ज़" },
+    budgetNote: "उदाहरण श्रेणियां — Coach FI आपका बैंक डेटा नहीं पढ़ता।",
+  },
+  "pt-BR": {
+    nextNoSurplus: "Seus gastos igualam ou superam sua renda. Comece encontrando um custo fixo que você possa cortar este mês.",
+    nextCushionDone: "Sua reserva de emergência cobre cerca de 6 meses. Agora aprenda como funciona o investimento de longo prazo antes de correr riscos.",
+    risk: { none: "sem dívidas", low: "dívida baixa", medium: "dívida média", high: "dívida alta" },
+    budgetNote: "Categorias de exemplo — o Coach FI não lê seus dados bancários.",
+  },
+  tr: {
+    nextNoSurplus: "Giderlerin gelirine eşit ya da daha fazla. Bu ay kısabileceğin bir düzenli gideri bularak başla.",
+    nextCushionDone: "Acil durum fonun yaklaşık 6 ayı karşılıyor. Risk almadan önce uzun vadeli yatırımın nasıl işlediğini öğren.",
+    risk: { none: "borç yok", low: "düşük borç", medium: "orta borç", high: "yüksek borç" },
+    budgetNote: "Örnek kategoriler — Coach FI banka verilerini okumaz.",
+  },
+};
+
+type DebtLevel = "none" | "low" | "medium" | "high";
+
+/** Plain-number view of the user's own Health Check answers. */
+function deriveFromAnswers(answers: HealthAnswers) {
+  const surplus = answers.monthlyIncome - answers.monthlyExpenses;
+  const cushionMonths = answers.monthlyExpenses > 0 ? answers.savings / answers.monthlyExpenses : 0;
+  const savingsRate = answers.monthlyIncome > 0 ? Math.max(0, surplus) / answers.monthlyIncome : 0;
+  // Same debt-pressure measure the Health Check score uses.
+  const debtPressure = answers.monthlyIncome > 0 ? answers.debt / (answers.monthlyIncome * 4) : answers.debt > 0 ? 1 : 0;
+  const debtLevel: DebtLevel =
+    answers.debt <= 0 ? "none" : debtPressure < 0.25 ? "low" : debtPressure < 0.75 ? "medium" : "high";
+  // A monthly transfer the user can actually afford: half of the surplus, rounded to 10.
+  const suggestedTransfer = surplus > 0 ? Math.max(10, Math.round((surplus * 0.5) / 10) * 10) : 0;
+  return { surplus, cushionMonths, savingsRate, debtPressure, debtLevel, suggestedTransfer };
+}
+
+function ExampleBadge({ label }: { label: string }) {
+  return (
+    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
+      {label}
+    </span>
+  );
+}
 
 const routeVisuals = [
   { icon: ShieldCheck, progress: 53, tone: "var(--cf-area-mila)" },
@@ -122,62 +207,61 @@ export default function Page() {
   const fmt = (v: number) => formatCurrency(v, t.currency, intlLocale);
   const demo = pickLocalized(demoCopy, locale);
 
-  // Real score + metrics once the user has run the diagnosis; demo until then.
-  const [realScore, setRealScore] = useState<number | null>(null);
-  const [answers, setAnswers] = useState<{
-    monthlyIncome: number;
-    monthlyExpenses: number;
-    savings: number;
-  } | null>(null);
+  const real = pickLocalized(realCopy, locale);
+
+  // Real score + metrics once the user has run the diagnosis; labelled examples until then.
+  const health = useHealthSnapshot();
+  const realScore = health?.score ?? null;
+  const answers = health?.answers ?? null;
+  const derived = answers ? deriveFromAnswers(answers) : null;
   const [lessonsDone, setLessonsDone] = useState(0);
   const [lessonsTotal, setLessonsTotal] = useState(0);
+  const [stageProgress, setStageProgress] = useState<Record<string, number>>({});
   useEffect(() => {
     const read = () => {
-      const stored = getHealthCheck();
-      setRealScore(stored?.score ?? null);
-      const a = stored?.answers as Record<string, number> | undefined;
-      setAnswers(
-        a && typeof a.monthlyExpenses === "number"
-          ? {
-              monthlyIncome: Number(a.monthlyIncome) || 0,
-              monthlyExpenses: Number(a.monthlyExpenses) || 0,
-              savings: Number(a.savings) || 0,
-            }
-          : null
-      );
       const ids = getAllQuestionIds(locale);
       setLessonsTotal(ids.length);
       const seen = new Set(getAllCards().filter((c) => c.repetitions > 0).map((c) => c.id));
       setLessonsDone(ids.filter((id) => seen.has(id)).length);
+      setStageProgress(Object.fromEntries(getAllStageProgress().map((stage) => [stage.stageId, stage.progressPct])));
     };
     read();
-    window.addEventListener("coachfi-health-check", read);
+    window.addEventListener("coachfi-learning", read);
     window.addEventListener("coachfi-cloud-synced", read);
     return () => {
-      window.removeEventListener("coachfi-health-check", read);
+      window.removeEventListener("coachfi-learning", read);
       window.removeEventListener("coachfi-cloud-synced", read);
     };
   }, [locale]);
   const isDemo = realScore === null;
+  const shownScore = realScore ?? EXAMPLE_SCORE;
+  const scoreArc = Math.round((Math.max(0, Math.min(100, shownScore)) / 100) * 360);
 
   // Derive the headline metrics from the user's own Health Check answers once
-  // they exist; the hardcoded figures are only an illustrative fallback.
+  // they exist; the hardcoded figures are only a labelled example before that.
   const metrics = copy.metrics.map((metric, index) => {
-    if (!answers) {
+    if (!answers || !derived) {
       return { ...metric, value: metric.value === "dynamic" ? fmt(840) : metric.value };
     }
     if (index === 0) {
       // Cushion: savings as a share of a 6-month emergency-fund goal.
-      const goal = Math.max(1, answers.monthlyExpenses * 6);
-      const pct = Math.max(0, Math.min(100, Math.round((answers.savings / goal) * 100)));
+      const pct = Math.max(0, Math.min(100, Math.round((derived.cushionMonths / 6) * 100)));
       return { ...metric, value: `${pct}%` };
     }
     if (index === 1) {
       // Monthly surplus: income minus expenses.
-      return { ...metric, value: fmt(answers.monthlyIncome - answers.monthlyExpenses) };
+      return { ...metric, value: fmt(derived.surplus) };
     }
     return { ...metric, value: `${lessonsDone}/${lessonsTotal}` };
   });
+
+  const nextStepText = !derived
+    ? copy.score.nextText(fmt(500))
+    : derived.surplus <= 0
+      ? real.nextNoSurplus
+      : derived.cushionMonths >= 6
+        ? real.nextCushionDone
+        : copy.score.nextText(fmt(derived.suggestedTransfer));
 
   const spendingSignals = spendingSignalsData.map((signal, index) => ({
     label: copy.budget.signals[index] ?? "",
@@ -250,7 +334,7 @@ export default function Page() {
                       </Link>
                     </Button>
                     <Link
-                      href="/voice-demo"
+                      href="/coach"
                       className="inline-flex items-center gap-1.5 text-sm font-black text-primary hover:underline"
                     >
                       <Mic className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -284,27 +368,22 @@ export default function Page() {
                     <p className="text-sm font-black uppercase text-muted">
                       {isDemo ? copy.score.title : demo.yourScore}
                     </p>
-                    {isDemo && (
-                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
-                        {demo.badge}
-                      </span>
-                    )}
+                    {isDemo && <ExampleBadge label={demo.badge} />}
                   </div>
-                  <p className="mt-2 text-6xl font-black leading-none text-text">
-                    {realScore ?? DEMO_STABILITY_SCORE}
+                  <p className="mt-2 text-6xl font-black leading-none text-text" data-testid="home-score">
+                    {shownScore}
                   </p>
                   <p className="mt-1 text-sm font-bold text-muted">{copy.score.outOf}</p>
                 </div>
                 <div
                   className="grid h-24 w-24 shrink-0 place-items-center rounded-full"
                   style={{
-                    background:
-                      "conic-gradient(var(--cf-grape) 0deg 223deg, var(--cf-surface) 223deg 360deg)",
+                    background: `conic-gradient(var(--cf-grape) 0deg ${scoreArc}deg, var(--cf-surface) ${scoreArc}deg 360deg)`,
                   }}
                   aria-hidden="true"
                 >
-                  <div className="grid h-16 w-16 place-items-center rounded-full bg-white text-lg font-black text-primary">
-                    {copy.score.delta}
+                  <div className="grid h-16 w-16 place-items-center rounded-full bg-white text-primary">
+                    <ShieldCheck className="h-7 w-7" aria-hidden="true" />
                   </div>
                 </div>
               </div>
@@ -317,7 +396,7 @@ export default function Page() {
 
               <div className="mt-7 rounded-lg bg-white/72 p-4">
                 <p className="text-sm font-black text-text">{copy.score.nextTitle}</p>
-                <p className="mt-2 text-sm font-semibold leading-6 text-muted">{copy.score.nextText(fmt(500))}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-muted" data-testid="home-next-step">{nextStepText}</p>
                 <Link
                   href="/coach"
                   className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-lg cf-press bg-primary px-4 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -333,10 +412,18 @@ export default function Page() {
         <CoachPocket copy={copy.coachPocket} />
       </section>
 
-      <FinanceRoute copy={copy} fmt={fmt} />
+      <FinanceRoute
+        copy={copy}
+        fmt={fmt}
+        derived={derived}
+        stageProgress={stageProgress}
+        riskLabels={real.risk}
+        exampleLabel={demo.badge}
+        exampleNote={demo.note}
+      />
 
       <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.15fr)_420px]">
-        <DecisionSimulator copy={copy} fmt={fmt} />
+        <DecisionSimulator copy={copy} fmt={fmt} answers={answers} />
 
         <div className="grid gap-6">
           <section className="rounded-lg border border-primary/10 bg-white/90 p-5 shadow-soft">
@@ -345,10 +432,10 @@ export default function Page() {
                 <p className="text-xs font-black uppercase text-primary">{copy.budget.eyebrow}</p>
                 <h2 className="mt-1 text-2xl font-black text-text">{copy.budget.title}</h2>
               </div>
-              <Button size="icon" variant="outline" aria-label={copy.budget.addExpense}>
-                <Plus className="h-5 w-5" aria-hidden="true" />
-              </Button>
+              <ExampleBadge label={demo.badge} />
             </div>
+            {/* No spending data is ever collected, so this section is always an example. */}
+            <p className="mt-2 text-xs font-bold text-muted">{real.budgetNote}</p>
 
             <div className="mt-5 space-y-3">
               {spendingSignals.map((signal) => (
@@ -457,23 +544,76 @@ function CoachAction({
   );
 }
 
-function FinanceRoute({ copy, fmt }: { copy: DashboardCopy; fmt: (value: number) => string }) {
-  const steps = copy.route.steps.map((step, index) => ({
-    ...step,
-    ...routeVisuals[index],
-    subtitle: step.surplus ? `${fmt(840)} ${step.subtitle}` : step.subtitle,
-  }));
+function FinanceRoute({
+  copy,
+  fmt,
+  derived,
+  stageProgress,
+  riskLabels,
+  exampleLabel,
+  exampleNote,
+}: {
+  copy: DashboardCopy;
+  fmt: (value: number) => string;
+  derived: ReturnType<typeof deriveFromAnswers> | null;
+  stageProgress: Record<string, number>;
+  riskLabels: Record<DebtLevel, string>;
+  exampleLabel: string;
+  exampleNote: string;
+}) {
+  const clampPct = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
+  const steps = copy.route.steps.map((step, index) => {
+    const visual = routeVisuals[index];
+    if (!derived) {
+      // Illustrative example, labelled as such above the grid.
+      return { ...step, ...visual, subtitle: step.surplus ? `${fmt(840)} ${step.subtitle}` : step.subtitle };
+    }
+    if (index === 0) {
+      const months = Math.round(derived.cushionMonths * 10) / 10;
+      return {
+        ...step,
+        ...visual,
+        subtitle: `${formatNumber(months)} / ${copy.simulator.results.months(6)}`,
+        progress: clampPct((derived.cushionMonths / 6) * 100),
+      };
+    }
+    if (index === 1) {
+      return {
+        ...step,
+        ...visual,
+        subtitle: `${fmt(derived.surplus)} ${step.subtitle}`,
+        // Share of income left over, against a 20% target.
+        progress: clampPct((derived.savingsRate / 0.2) * 100),
+      };
+    }
+    if (index === 2) {
+      return {
+        ...step,
+        ...visual,
+        subtitle: riskLabels[derived.debtLevel],
+        progress: clampPct((1 - Math.min(1, derived.debtPressure)) * 100),
+      };
+    }
+    // Investing / retirement: the stage description, with progress from the matching lessons.
+    const stageId = index === 3 ? "long-term-investing" : "retirement";
+    return { ...step, ...visual, progress: clampPct(stageProgress[stageId] ?? 0) };
+  });
 
   return (
     <section className="rounded-lg border border-primary/10 bg-white/88 p-5 shadow-soft" aria-labelledby="route-title">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-black uppercase text-primary">{copy.route.eyebrow}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs font-black uppercase text-primary">{copy.route.eyebrow}</p>
+            {!derived && <ExampleBadge label={exampleLabel} />}
+          </div>
           <h2 id="route-title" className="mt-1 text-2xl font-black text-text">
             {copy.route.title}
           </h2>
         </div>
-        <p className="max-w-xl text-sm font-semibold leading-6 text-muted">{copy.route.description}</p>
+        <p className="max-w-xl text-sm font-semibold leading-6 text-muted">
+          {derived ? copy.route.description : exampleNote}
+        </p>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -525,15 +665,26 @@ function RouteStep({
   );
 }
 
-function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: number) => string }) {
+function DecisionSimulator({
+  copy,
+  fmt,
+  answers,
+}: {
+  copy: DashboardCopy;
+  fmt: (value: number) => string;
+  answers: HealthAnswers | null;
+}) {
   const [monthlySaving, setMonthlySaving] = useState(900);
   const [years, setYears] = useState(15);
   const [overpayment, setOverpayment] = useState(400);
 
   const simulation = useMemo(() => {
-    const monthlyExpenses = mockUser.monthlyExpenses;
+    // The user's own expenses and savings once they ran the Health Check;
+    // a sample household until then (this is a what-if simulator).
+    const monthlyExpenses = answers ? answers.monthlyExpenses : mockUser.monthlyExpenses;
+    const savings = answers ? answers.savings : mockUser.savings;
     const emergencyTarget = monthlyExpenses * 6;
-    const emergencyGap = Math.max(emergencyTarget - mockUser.savings, 0);
+    const emergencyGap = Math.max(emergencyTarget - savings, 0);
     const monthsToEmergency = Math.max(1, Math.ceil(emergencyGap / monthlySaving));
     const monthlyRate = 0.055 / 12;
     const months = years * 12;
@@ -565,7 +716,7 @@ function DecisionSimulator({ copy, fmt }: { copy: DashboardCopy; fmt: (value: nu
       estimatedInterestSaved,
       chartData,
     };
-  }, [copy.simulator, monthlySaving, overpayment, years]);
+  }, [answers, copy.simulator, monthlySaving, overpayment, years]);
 
   return (
     <section className="rounded-lg border border-primary/10 bg-white/90 p-5 shadow-soft" aria-labelledby="sim-title">

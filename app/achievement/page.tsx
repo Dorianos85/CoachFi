@@ -1,5 +1,6 @@
 "use client";
 
+import { APP_HOST } from "@/components/brand";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -13,6 +14,8 @@ import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getDisplayName, getUser } from "@/lib/user";
 import { resolveCssColor } from "@/lib/cssColor";
 import { getStreak } from "@/lib/streak";
+import { getHealthCheck } from "@/lib/healthCheck";
+import Link from "next/link";
 
 const BADGE_COLORS = [
   { score: 80, label: "Financial Champion", emoji: "🏆", from: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
@@ -129,6 +132,18 @@ const achievementCopy: LocalizedMap<AchievementCopy> = {
   },
 };
 
+const NO_SCORE_COPY: LocalizedMap<{ title: string; body: string; cta: string }> = {
+  en: { title: "No score yet", body: "Your achievement card uses your real Financial Health Score. Run the free Health Check to get it.", cta: "Run the free Health Check" },
+  pl: { title: "Nie masz jeszcze wyniku", body: "Karta osiągnięcia pokazuje Twój prawdziwy wynik zdrowia finansowego. Zrób darmową diagnozę, aby go poznać.", cta: "Zrób darmową diagnozę" },
+  es: { title: "Aún no tienes puntuación", body: "Tu tarjeta de logro usa tu puntuación real de salud financiera. Haz el chequeo gratuito para obtenerla.", cta: "Hacer el chequeo gratuito" },
+  fr: { title: "Pas encore de score", body: "Votre carte de réussite utilise votre vrai score de santé financière. Faites le bilan gratuit pour l'obtenir.", cta: "Faire le bilan gratuit" },
+  zh: { title: "还没有得分", body: "成就卡片使用你真实的财务健康得分。完成免费的财务检查即可获得。", cta: "进行免费检查" },
+  ja: { title: "まだスコアがありません", body: "実績カードには実際のファイナンシャルヘルススコアを使います。無料診断でスコアを取得してください。", cta: "無料診断を受ける" },
+  hi: { title: "अभी कोई स्कोर नहीं", body: "आपका उपलब्धि कार्ड आपके असली वित्तीय स्वास्थ्य स्कोर का उपयोग करता है। इसे पाने के लिए मुफ़्त जांच करें।", cta: "मुफ़्त जांच करें" },
+  "pt-BR": { title: "Ainda sem pontuação", body: "Seu cartão de conquista usa sua pontuação real de saúde financeira. Faça o check-up gratuito para obtê-la.", cta: "Fazer o check-up gratuito" },
+  tr: { title: "Henüz puanın yok", body: "Başarı kartın gerçek Finansal Sağlık Puanını kullanır. Puanını almak için ücretsiz kontrolü yap.", cta: "Ücretsiz kontrolü yap" },
+};
+
 function getBadgeLabel(score: number, labels: string[]) {
   const index = BADGE_COLORS.findIndex((badge) => score >= badge.score);
   return labels[index === -1 ? labels.length - 1 : index] ?? labels[labels.length - 1] ?? "";
@@ -188,7 +203,7 @@ function AchievementCard({
           </div>
         </div>
 
-        <p className="mt-6 text-xs font-bold opacity-60">coachfi.app</p>
+        <p className="mt-6 text-xs font-bold opacity-60">{APP_HOST}</p>
       </div>
     </div>
   );
@@ -205,7 +220,9 @@ function AchievementPageContent() {
   const paramStreak = searchParams.get("streak");
 
   const [name, setName] = useState(paramName ?? "");
-  const [score, setScore] = useState(paramScore ? Number(paramScore) : 0);
+  const [score, setScore] = useState<number | null>(paramScore !== null && Number.isFinite(Number(paramScore)) ? Math.max(0, Math.min(100, Math.round(Number(paramScore)))) : null);
+  const [scoreLoaded, setScoreLoaded] = useState(paramScore !== null);
+  const noScore = pickLocalized(NO_SCORE_COPY, locale);
   const [streak, setStreak] = useState(paramStreak ? Number(paramStreak) : 0);
 
   useEffect(() => {
@@ -219,24 +236,26 @@ function AchievementPageContent() {
 
   useEffect(() => {
     if (!paramScore) {
-      const user = (typeof window !== "undefined" && JSON.parse(localStorage.getItem("coachfi-user") ?? "{}")) as { financialHealthScore?: number };
-      setScore(user.financialHealthScore ?? 72);
+      // The user's own Health Check result — never an invented number.
+      setScore(getHealthCheck()?.score ?? null);
+      setScoreLoaded(true);
     }
     if (!paramStreak) {
       setStreak(getStreak().currentStreak);
     }
   }, [paramScore, paramStreak]);
 
-  const badge = getBadge(score);
-  const badgeLabel = getBadgeLabel(score, copy.badgeLabels);
+  const badge = getBadge(score ?? 0);
+  const badgeLabel = getBadgeLabel(score ?? 0, copy.badgeLabels);
 
   const shareUrl = typeof window !== "undefined"
     ? `${window.location.origin}/achievement?name=${encodeURIComponent(name)}&score=${score}&streak=${streak}`
     : `/achievement?name=${encodeURIComponent(name)}&score=${score}&streak=${streak}`;
 
-  const shareText = `${copy.shareText(score, `${badge.emoji} ${badgeLabel}`)}`;
+  const shareText = `${copy.shareText(score ?? 0, `${badge.emoji} ${badgeLabel}`)}`;
 
   async function downloadCard() {
+    if (score === null) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -307,13 +326,36 @@ function AchievementPageContent() {
 
     ctx.font = "bold 13px system-ui";
     ctx.globalAlpha = 0.5;
-    ctx.fillText("coachfi.app", 48, H - 28);
+    ctx.fillText(APP_HOST, 48, H - 28);
     ctx.globalAlpha = 1;
 
     const link = document.createElement("a");
     link.download = "coachfi-achievement.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
+  }
+
+  if (score === null) {
+    return (
+      <section className="mx-auto max-w-lg" aria-labelledby="achievement-title">
+        <div className="mb-6 flex items-center gap-2">
+          <Trophy className="h-5 w-5 text-primary" aria-hidden="true" />
+          <h1 id="achievement-title" className="text-xl font-black text-text">{copy.title}</h1>
+        </div>
+        {scoreLoaded ? (
+          <div className="rounded-3xl border-2 border-dashed border-primary/25 bg-white p-8 text-center" data-testid="achievement-no-score">
+            <p className="text-2xl font-black text-text">{noScore.title}</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-muted">{noScore.body}</p>
+            <Link
+              href="/health-check"
+              className="mt-5 inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              {noScore.cta}
+            </Link>
+          </div>
+        ) : null}
+      </section>
+    );
   }
 
   return (

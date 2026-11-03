@@ -75,11 +75,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI pomaga rodzinom zamienić dochód w spokojny system: świadome wydatki, automatyczne odkładanie, edukację dzieci i plan bez tradingowego szumu.",
       diagnosis: "Zrób darmową diagnozę",
       continueLearning: "Zobacz plan",
-      voiceDemo: "Trial Mili",
+      voiceDemo: "Porozmawiaj z Milą",
     },
     metrics: [
       { label: "Poduszka", value: "53%", caption: "celu" },
-      { label: "Nadwyżka", value: "dynamic", caption: "maj" },
+      { label: "Nadwyżka", value: "dynamic", caption: "miesięcznie" },
       { label: "Lekcje", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -96,7 +96,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila AI",
       title: "Rodzinny briefing",
       briefing:
-        "Diagnoza jest darmowa. Pełny wynik, rodzinny plan i głosowe prowadzenie Mili odblokowujesz po akceptacji zasad. Premium rozwija codzienny system bez presji.",
+        "Diagnoza jest darmowa. Pełny wynik i rodzinny plan odblokujesz, podając email. We wczesnym dostępie wszystko, łącznie z głosem Mili, jest bezpłatne.",
       actions: [
         { href: "/health-check", label: "Zrób diagnozę" },
         { href: "/coach", label: "Zapytaj Milę" },
@@ -104,12 +104,12 @@ export const dashboardCopy: LocalizedMap<
       ],
     },
     route: {
-      eyebrow: "Mapa postepu",
+      eyebrow: "Mapa postępu",
       title: "Od diagnozy do rodzinnego systemu",
       description: "Każdy etap ma lekcję, głos Mili i jedną akcję w realnym budżecie.",
       steps: [
         { title: "Poduszka", subtitle: "3.2 / 6 mies." },
-        { title: "Budżet", subtitle: "surplus", surplus: true },
+        { title: "Budżet", subtitle: "nadwyżki", surplus: true },
         { title: "Kredyty", subtitle: "ryzyko niskie" },
         { title: "Inwestycje", subtitle: "start ETF/obligacje" },
         { title: "Emerytura", subtitle: "plan 15+ lat" },
@@ -126,16 +126,16 @@ export const dashboardCopy: LocalizedMap<
       results: {
         emergency: "Poduszka 6 mies.",
         months: (months) => `${months} mies.`,
-        growth: "Kapital przy 5.5%",
-        overpayment: "Efekt nadplaty",
+        growth: "Kapitał przy 5,5%",
+        overpayment: "Efekt nadpłaty",
       },
-      chartTitle: "Wplaty kontra scenariusz 5.5%",
-      chartCash: "Wplaty",
+      chartTitle: "Wpłaty kontra scenariusz 5,5%",
+      chartCash: "Wpłaty",
       chartInvest: "5.5%",
       yearTick: (year) => `${year}r`,
     },
     budget: {
-      eyebrow: "Radar budzetu",
+      eyebrow: "Radar budżetu",
       title: "Co zmieniło się w tym miesiącu",
       addExpense: "Dodaj wydatek",
       signals: ["Subskrypcje", "Jedzenie poza domem", "Transport", "Oszczędności"],
@@ -160,11 +160,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI helps families turn income into a calm system: conscious spending, automatic saving, children's education and no trading noise.",
       diagnosis: "Run free diagnosis",
       continueLearning: "See plan",
-      voiceDemo: "Mila trial",
+      voiceDemo: "Talk to Mila",
     },
     metrics: [
       { label: "Cushion", value: "53%", caption: "of goal" },
-      { label: "Surplus", value: "dynamic", caption: "May" },
+      { label: "Surplus", value: "dynamic", caption: "per month" },
       { label: "Lessons", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -181,7 +181,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila AI",
       title: "Family briefing",
       briefing:
-        "Diagnosis is free. Full score, family plan and Mila voice guidance unlock after terms acceptance. Premium turns this into a daily system.",
+        "The diagnosis is free. Your full score and family plan unlock with your email. Everything, including Mila's voice, is free during early access.",
       actions: [
         { href: "/health-check", label: "Run diagnosis" },
         { href: "/coach", label: "Ask Mila" },
@@ -245,11 +245,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FIは貯蓄、信用、投資を一日の計画につなげます。プレッシャーも取引ノイズもなく、次の行動を明確にします。",
       diagnosis: "診断を始める",
       continueLearning: "学習を続ける",
-      voiceDemo: "音声デモを試す",
+      voiceDemo: "Milaと話す",
     },
     metrics: [
       { label: "緊急資金", value: "53%", caption: "達成" },
-      { label: "余剰", value: "dynamic", caption: "5月" },
+      { label: "余剰", value: "dynamic", caption: "毎月" },
       { label: "レッスン", value: "7/24", caption: "進行中" },
     ],
     score: {
@@ -330,11 +330,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI ayuda a las familias a convertir sus ingresos en un sistema tranquilo: gasto consciente, ahorro automático, educación de los hijos y nada de ruido de trading.",
       diagnosis: "Hacer diagnóstico gratuito",
       continueLearning: "Ver plan",
-      voiceDemo: "Prueba de Mila",
+      voiceDemo: "Hablar con Mila",
     },
     metrics: [
       { label: "Colchón", value: "53%", caption: "del objetivo" },
-      { label: "Excedente", value: "dynamic", caption: "mayo" },
+      { label: "Excedente", value: "dynamic", caption: "al mes" },
       { label: "Lecciones", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -351,7 +351,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila IA",
       title: "Informe familiar",
       briefing:
-        "El diagnóstico es gratuito. La puntuación completa, el plan familiar y la guía de voz de Mila se desbloquean al aceptar las condiciones. Premium lo convierte en un sistema diario.",
+        "El diagnóstico es gratuito. Tu puntuación completa y el plan familiar se desbloquean con tu correo. Todo, incluida la voz de Mila, es gratis durante el acceso anticipado.",
       actions: [
         { href: "/health-check", label: "Hacer diagnóstico" },
         { href: "/coach", label: "Preguntar a Mila" },
@@ -415,11 +415,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI aide les familles à transformer leurs revenus en un système serein : dépenses conscientes, épargne automatique, éducation des enfants et aucun bruit de trading.",
       diagnosis: "Lancer le diagnostic gratuit",
       continueLearning: "Voir le plan",
-      voiceDemo: "Essai de Mila",
+      voiceDemo: "Parler à Mila",
     },
     metrics: [
       { label: "Matelas", value: "53%", caption: "de l'objectif" },
-      { label: "Excédent", value: "dynamic", caption: "mai" },
+      { label: "Excédent", value: "dynamic", caption: "par mois" },
       { label: "Leçons", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -436,7 +436,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila IA",
       title: "Point famille",
       briefing:
-        "Le diagnostic est gratuit. Le score complet, le plan familial et l'accompagnement vocal de Mila se débloquent après acceptation des conditions. Premium en fait un système quotidien.",
+        "Le diagnostic est gratuit. Votre score complet et le plan familial se débloquent avec votre e-mail. Tout, y compris la voix de Mila, est gratuit pendant l'accès anticipé.",
       actions: [
         { href: "/health-check", label: "Lancer le diagnostic" },
         { href: "/coach", label: "Demander à Mila" },
@@ -500,11 +500,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI 帮助家庭把收入变成从容的系统：有意识的消费、自动储蓄、孩子的教育，没有交易噪音。",
       diagnosis: "开始免费诊断",
       continueLearning: "查看计划",
-      voiceDemo: "试用 Mila",
+      voiceDemo: "和 Mila 聊聊",
     },
     metrics: [
       { label: "缓冲", value: "53%", caption: "目标完成度" },
-      { label: "结余", value: "dynamic", caption: "5月" },
+      { label: "结余", value: "dynamic", caption: "每月" },
       { label: "课程", value: "7/24", caption: "冲刺" },
     ],
     score: {
@@ -521,7 +521,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila AI",
       title: "家庭简报",
       briefing:
-        "诊断免费。接受条款后即可解锁完整得分、家庭计划和 Mila 语音指导。高级版把这一切变成每日系统。",
+        "诊断免费。填写邮箱即可解锁完整得分和家庭计划。抢先体验期间，包括 Mila 语音在内的一切都免费。",
       actions: [
         { href: "/health-check", label: "开始诊断" },
         { href: "/coach", label: "问问 Mila" },
@@ -585,11 +585,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI परिवारों को आय को एक शांत सिस्टम में बदलने में मदद करता है: सोच-समझकर खर्च, स्वचालित बचत, बच्चों की शिक्षा और ट्रेडिंग का कोई शोर नहीं।",
       diagnosis: "मुफ़्त जांच करें",
       continueLearning: "योजना देखें",
-      voiceDemo: "Mila ट्रायल",
+      voiceDemo: "Mila से बात करें",
     },
     metrics: [
       { label: "कुशन", value: "53%", caption: "लक्ष्य का" },
-      { label: "बचत", value: "dynamic", caption: "मई" },
+      { label: "बचत", value: "dynamic", caption: "प्रति माह" },
       { label: "पाठ", value: "7/24", caption: "स्प्रिंट" },
     ],
     score: {
@@ -606,7 +606,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila AI",
       title: "पारिवारिक ब्रीफ़िंग",
       briefing:
-        "जांच मुफ़्त है। पूरा स्कोर, पारिवारिक योजना और Mila की आवाज़ में मार्गदर्शन शर्तें स्वीकार करने के बाद खुलते हैं। Premium इसे रोज़ का सिस्टम बना देता है।",
+        "जांच मुफ़्त है। ईमेल देने पर पूरा स्कोर और पारिवारिक योजना खुलते हैं। अर्ली एक्सेस के दौरान Mila की आवाज़ समेत सब कुछ मुफ़्त है।",
       actions: [
         { href: "/health-check", label: "जांच करें" },
         { href: "/coach", label: "Mila से पूछें" },
@@ -670,11 +670,11 @@ export const dashboardCopy: LocalizedMap<
         "O Coach FI ajuda famílias a transformar a renda em um sistema tranquilo: gastos conscientes, poupança automática, educação dos filhos e nada de ruído de trading.",
       diagnosis: "Fazer diagnóstico gratuito",
       continueLearning: "Ver plano",
-      voiceDemo: "Teste da Mila",
+      voiceDemo: "Conversar com a Mila",
     },
     metrics: [
       { label: "Colchão", value: "53%", caption: "da meta" },
-      { label: "Sobra", value: "dynamic", caption: "maio" },
+      { label: "Sobra", value: "dynamic", caption: "por mês" },
       { label: "Aulas", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -691,7 +691,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila IA",
       title: "Resumo da família",
       briefing:
-        "O diagnóstico é gratuito. A pontuação completa, o plano familiar e a orientação por voz da Mila são liberados após a aceitação dos termos. O Premium transforma isso em um sistema diário.",
+        "O diagnóstico é gratuito. A pontuação completa e o plano familiar são liberados com seu e-mail. Tudo, inclusive a voz da Mila, é grátis durante o acesso antecipado.",
       actions: [
         { href: "/health-check", label: "Fazer diagnóstico" },
         { href: "/coach", label: "Perguntar à Mila" },
@@ -755,11 +755,11 @@ export const dashboardCopy: LocalizedMap<
         "Coach FI, ailelerin gelirini sakin bir sisteme dönüştürmesine yardım eder: bilinçli harcama, otomatik birikim, çocukların eğitimi ve al-sat gürültüsü yok.",
       diagnosis: "Ücretsiz teşhisi başlat",
       continueLearning: "Planı gör",
-      voiceDemo: "Mila denemesi",
+      voiceDemo: "Mila ile konuş",
     },
     metrics: [
       { label: "Yastık", value: "53%", caption: "hedefin" },
-      { label: "Fazla", value: "dynamic", caption: "Mayıs" },
+      { label: "Fazla", value: "dynamic", caption: "aylık" },
       { label: "Dersler", value: "7/24", caption: "sprint" },
     ],
     score: {
@@ -776,7 +776,7 @@ export const dashboardCopy: LocalizedMap<
       eyebrow: "Mila AI",
       title: "Aile özeti",
       briefing:
-        "Teşhis ücretsizdir. Tam puan, aile planı ve Mila'nın sesli rehberliği koşullar kabul edildikten sonra açılır. Premium bunu günlük bir sisteme dönüştürür.",
+        "Teşhis ücretsizdir. Tam puanın ve aile planın e-postanla açılır. Erken erişim süresince Mila'nın sesi dahil her şey ücretsizdir.",
       actions: [
         { href: "/health-check", label: "Teşhisi başlat" },
         { href: "/coach", label: "Mila'ya sor" },
