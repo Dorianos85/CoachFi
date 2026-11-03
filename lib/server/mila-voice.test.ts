@@ -77,7 +77,7 @@ describe("Mila canonical voice", () => {
     const { POST } = await import("../../app/api/tts/route");
     for (const locale of ["pl", "en"]) {
       const response = await POST(new Request("http://localhost:3000/api/tts", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json", Origin: "http://localhost:3000" },
         body: JSON.stringify({ text: "QA speech", locale, voiceId: "other-voice", modelId: "other-model" }),
       }));
       expect(response.status).toBe(200);
@@ -174,7 +174,7 @@ describe("Mila canonical voice", () => {
     const { POST } = await import("../../app/api/tts/route");
     for (const locale of ["pl", "en"]) {
       const response = await POST(new Request("http://localhost:3000/api/tts", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json", Origin: "http://localhost:3000" },
         body: JSON.stringify({ text: "QA speech", locale, voiceId: "other-voice", modelId: "other-model" }),
       }));
       expect(response.status).toBe(200);
@@ -200,7 +200,7 @@ describe("Mila canonical voice", () => {
     vi.stubGlobal("fetch", fetchMock);
     const { POST } = await import("../../app/api/tts/route");
     const response = await POST(new Request("http://localhost:3000/api/tts", {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST", headers: { "Content-Type": "application/json", Origin: "http://localhost:3000" },
       body: JSON.stringify({ text: "QA speech", locale: "pl" }),
     }));
     expect(response.status).toBe(502);
