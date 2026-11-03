@@ -30,6 +30,19 @@ const inflationVoiceCta: LocalizedMap<string> = {
   tr: "Enflasyonun neden önemli olduğunu dinle",
 };
 
+// User-facing subtitle (replaces the internal design brief that used to show here).
+const inflationSubtitle: LocalizedMap<string> = {
+  en: "See how much buying power your cash loses each year, and why leaving money idle is also a choice.",
+  pl: "Zobacz, ile siły nabywczej co roku traci gotówka i dlaczego trzymanie pieniędzy bez planu to też decyzja.",
+  es: "Mira cuánto poder de compra pierde tu efectivo cada año y por qué dejar el dinero quieto también es una decisión.",
+  fr: "Voyez combien de pouvoir d'achat votre argent liquide perd chaque année, et pourquoi le laisser dormir est aussi un choix.",
+  zh: "看看你的现金每年会损失多少购买力，以及为什么让钱闲置也是一种选择。",
+  ja: "現金が毎年どれだけ購買力を失うか、そしてお金を寝かせておくことも一つの選択である理由を確認しましょう。",
+  hi: "देखें कि आपकी नकदी हर साल कितनी क्रय शक्ति खोती है, और पैसे को यूं ही रखना भी एक फ़ैसला क्यों है।",
+  "pt-BR": "Veja quanto poder de compra seu dinheiro parado perde a cada ano e por que deixá-lo parado também é uma escolha.",
+  tr: "Nakit paranın her yıl ne kadar satın alma gücü kaybettiğini ve parayı atıl bırakmanın da bir tercih olduğunu gör.",
+};
+
 export default function InflationPage() {
   const { locale, t } = useLanguage();
   const copy = getLocalizedContent(locale);
@@ -66,7 +79,7 @@ export default function InflationPage() {
       <SectionHeader
         eyebrow={t.inflation.eyebrow}
         title={copy.inflation.title}
-        description={copy.inflation.description}
+        description={pickLocalized(inflationSubtitle, locale)}
         readText={inflationVoiceText}
       />
 
