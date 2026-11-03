@@ -525,7 +525,8 @@ export function MilaVoiceFab() {
         if (cancelled) return;
         const url = data.signedUrl?.trim() ?? "";
         setSignedUrl(url);
-        setAgentId(url ? data.agentId?.trim() || AGENT_ID : PUBLIC_AGENT_FALLBACK);
+        // The server decides whether a bare agent id is allowed; the client never invents one in production.
+        setAgentId(data.agentId?.trim() || (url ? AGENT_ID : PUBLIC_AGENT_FALLBACK));
         setWidgetConfig(data.widgetConfig ? JSON.stringify(data.widgetConfig) : "");
       })
       .catch(() => {

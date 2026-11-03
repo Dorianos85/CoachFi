@@ -57,7 +57,7 @@ test("the form starts empty: placeholders only, never demo numbers", async ({ pa
   for (const label of ["Monthly income ($)", "Monthly expenses ($)", "Current savings ($)", "Total debt ($)", "Cash on hand ($)"]) {
     await expect(page.getByLabel(label)).toHaveValue("");
   }
-  await expect(page.getByLabel("Financial goal amount")).toHaveValue("");
+  await expect(page.getByLabel(/Your main money goal/)).toHaveValue("");
 });
 
 test("financial health funnel unlocks the 30-day family action plan", async ({ page }) => {
