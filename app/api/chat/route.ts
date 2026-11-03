@@ -3,15 +3,29 @@ import Anthropic from "@anthropic-ai/sdk";
 import {
   assertSameOrigin,
   jsonError,
-  rateLimit,
   readJsonWithLimit,
   requireConsentHeader,
 } from "@/lib/api-security";
 import { localeClaudeLanguage, pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
+import { enforceLimits, limitExceededResponse } from "@/lib/ratelimit";
+import { ChatHistoryError, sanitizeChatHistory, sanitizeChatMessage, type ChatTurn } from "@/lib/server/chat-history";
+import { aiDisabled, chatRules } from "@/lib/server/limits";
 import { getNumberEnv, getOptionalEnv } from "@/lib/server-env";
 
 const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
-const DEFAULT_OPENROUTER_MODEL = "openrouter/auto";
+// Pinned, cheap fallback model. Router ids (openrouter/auto etc.) may pick an expensive model.
+const DEFAULT_OPENROUTER_MODEL = "anthropic/claude-haiku-4.5";
+const DEFAULT_MAX_TOKENS = 400;
+const MAX_TOKENS_CEILING = 600;
+
+function getOpenRouterModel() {
+  const configured = getOptionalEnv("OPENROUTER_MODEL");
+  if (!configured || configured.startsWith("openrouter/") || !configured.includes("/")) {
+    if (configured) console.warn("[chat] OPENROUTER_MODEL must be an explicit provider/model id; using", DEFAULT_OPENROUTER_MODEL);
+    return DEFAULT_OPENROUTER_MODEL;
+  }
+  return configured;
+}
 
 const SYSTEM_PROMPT = `You are Mila, Coach FI's warm and direct financial education coach.
 
@@ -58,15 +72,15 @@ function getLanguageInstruction(locale: string | undefined) {
 }
 
 type ChatPayload = {
-  message?: string;
-  history?: { role: "user" | "assistant"; content: string }[];
-  messages?: { role: "user" | "assistant"; content: string }[];
+  message?: unknown;
+  history?: unknown;
+  messages?: unknown;
   locale?: string;
 };
 
 type NormalizedChat = {
   message: string;
-  safeHistory: { role: "user" | "assistant"; content: string }[];
+  safeHistory: ChatTurn[];
   locale?: string;
 };
 
@@ -115,37 +129,29 @@ const SAVING_FALLBACK: LocalizedMap<string> = {
   tr: "Güçlü tasarruf alışkanlığı otomatik ve tekrar edilecek kadar küçük olmalıdır. Maaştan hemen sonra sabit bir tutarı ayır, küçük olsa bile, bunu gelecekteki kendine ödeme gibi gör.",
 };
 
+// Throws ChatHistoryError for forged roles (system/tool/...) or malformed history.
 function normalizePayload(payload: ChatPayload): NormalizedChat | null {
-  const message =
-    typeof payload.message === "string"
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+  const messages = Array.isArray(payload.messages) ? payload.messages : null;
+  const lastMessage = messages?.[messages.length - 1] as { role?: unknown; content?: unknown } | undefined;
+  const rawMessage =
+    payload.message !== undefined
       ? payload.message
-      : Array.isArray(payload.messages)
-        ? [...payload.messages].reverse().find((item) => item.role === "user")?.content ?? ""
-        : "";
+      : lastMessage?.role === "user"
+        ? lastMessage.content
+        : undefined;
 
-  if (typeof message !== "string" || message.trim().length === 0 || message.length > 800) {
-    return null;
-  }
+  const message = sanitizeChatMessage(rawMessage);
+  if (!message) return null;
 
-  const rawHistory = Array.isArray(payload.history)
-    ? payload.history
-    : Array.isArray(payload.messages)
-      ? payload.messages.slice(0, -1)
-      : [];
-
-  const safeHistory = rawHistory
-    .filter(
-      (item) =>
-        (item.role === "user" || item.role === "assistant") &&
-        typeof item.content === "string" &&
-        item.content.length <= 1000
-    )
-    .slice(-6);
+  const safeHistory = sanitizeChatHistory(
+    payload.history !== undefined ? payload.history : messages ? messages.slice(0, -1) : undefined
+  );
 
   return {
-    message: message.trim(),
+    message,
     safeHistory,
-    locale: payload.locale,
+    locale: typeof payload.locale === "string" ? payload.locale : undefined,
   };
 }
 
@@ -186,7 +192,7 @@ function createFallbackResponse(chat: NormalizedChat) {
 async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
   const client = new Anthropic({ apiKey });
   const model = getOptionalEnv("ANTHROPIC_MODEL") ?? DEFAULT_ANTHROPIC_MODEL;
-  const maxTokens = getNumberEnv("ANTHROPIC_MAX_TOKENS", 600, 64, 1024);
+  const maxTokens = getNumberEnv("ANTHROPIC_MAX_TOKENS", DEFAULT_MAX_TOKENS, 64, MAX_TOKENS_CEILING);
 
   const message = await client.messages.create({
     model,
@@ -217,8 +223,8 @@ async function createAnthropicResponse(apiKey: string, chat: NormalizedChat) {
 }
 
 async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
-  const model = getOptionalEnv("OPENROUTER_MODEL") ?? DEFAULT_OPENROUTER_MODEL;
-  const maxTokens = getNumberEnv("OPENROUTER_MAX_TOKENS", 600, 64, 1024);
+  const model = getOpenRouterModel();
+  const maxTokens = getNumberEnv("OPENROUTER_MAX_TOKENS", DEFAULT_MAX_TOKENS, 64, MAX_TOKENS_CEILING);
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -237,11 +243,12 @@ async function createOpenRouterResponse(apiKey: string, chat: NormalizedChat) {
         { role: "user", content: chat.message },
       ],
     }),
+    signal: AbortSignal.timeout(20_000),
   });
 
   if (!res.ok) {
     const errorText = await res.text();
-    console.error("[openrouter]", res.status, errorText);
+    console.error("[openrouter]", res.status, errorText.slice(0, 300));
     throw new Error("OpenRouter error");
   }
 
@@ -269,23 +276,36 @@ export async function POST(req: Request) {
   try {
     assertSameOrigin(req);
     requireConsentHeader(req, "ai-coach");
-    rateLimit(req, "chat", 20);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Request blocked";
-    return jsonError(message, message === "Too many requests" ? 429 : 403);
+    return jsonError(message, 403);
   }
 
   try {
-    const payload = await readJsonWithLimit<ChatPayload>(req, 6000);
-    const chat = normalizePayload(payload);
+    const payload = await readJsonWithLimit<ChatPayload>(req, 48_000);
+    let chat: NormalizedChat | null;
+    try {
+      chat = normalizePayload(payload);
+    } catch (error) {
+      if (error instanceof ChatHistoryError) return jsonError("Invalid history", 400);
+      throw error;
+    }
 
     if (!chat) {
       return jsonError("Invalid message", 400);
     }
 
+    if (aiDisabled()) return createFallbackResponse(chat);
+
     const preferredProvider = getOptionalEnv("AI_PROVIDER");
     const anthropicApiKey = getOptionalEnv("ANTHROPIC_API_KEY");
     const openRouterApiKey = getOptionalEnv("OPENROUTER_API_KEY");
+
+    // Only paid calls count against the shared budgets; the canned fallback is free.
+    if (anthropicApiKey || openRouterApiKey) {
+      const decision = await enforceLimits(chatRules(req));
+      if (!decision.ok) return limitExceededResponse(decision, "Chat limit reached. Please try again later.");
+    }
 
     const providers =
       preferredProvider === "openrouter"
