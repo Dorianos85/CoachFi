@@ -13,7 +13,11 @@ export interface StoryCard {
   textLight: boolean;
 }
 
-export const storyCards: StoryCard[] = [
+/**
+ * International cards for Polish and the locales without a US version.
+ * Their texts are translated by position in localizedStoryCardText below.
+ */
+const internationalStoryCards: StoryCard[] = [
   {
     id: "illiteracy-cost",
     category: "Big picture",
@@ -210,10 +214,294 @@ export const storyCards: StoryCard[] = [
   },
 ];
 
+/**
+ * US cards for English and Spanish (the US launch market).
+ * Sources checked 2026-11-03. Spanish text is matched by position in usSpanishText below.
+ */
+export const usStoryCards: StoryCard[] = [
+  {
+    id: "illiteracy-cost",
+    category: "Big picture",
+    emoji: "💸",
+    bigStat: "$246B",
+    statLabel: "lost by Americans in a year to gaps in money knowledge, by their own estimates",
+    headline: "In a 2026 survey, Americans estimated that gaps in money knowledge cost them about $948 each in a year.",
+    tip: "You're already ahead — knowing the problem exists is step one.",
+    source: "National Financial Educators Council survey (self-reported), Jan 2026",
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
+    textLight: true,
+  },
+  {
+    id: "global-illiteracy",
+    category: "Global",
+    emoji: "🌍",
+    bigStat: "3.5B",
+    statLabel: "adults worldwide lack basic financial literacy",
+    headline: "Two in three adults worldwide can't correctly answer basic questions about interest, inflation and risk.",
+    tip: "Understanding compound interest alone puts you ahead of most of the world.",
+    source: "S&P Global FinLit Survey (2014, published 2015)",
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
+    textLight: true,
+  },
+  {
+    id: "gen-z-score",
+    category: "Gen Z",
+    emoji: "📱",
+    bigStat: "38%",
+    statLabel: "of personal-finance questions Gen Z answered correctly",
+    headline: "Gen Z scored the lowest of any generation — yet they face the most complex financial world.",
+    tip: "10 minutes a day adds up: that's about 60 hours of learning in a year.",
+    source: "TIAA Institute–GFLEC P-Fin Index 2025",
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
+    textLight: true,
+  },
+  {
+    id: "compound-power",
+    category: "Investing",
+    emoji: "📈",
+    bigStat: "Rule of 72",
+    statLabel: "divide 72 by your annual return to see when money doubles",
+    headline: "At an 8% return your money doubles about every 9 years. At 6%, about every 12 years.",
+    tip: "Starting at 25 instead of 35 could roughly double your retirement balance (hypothetical 7% a year; real returns vary).",
+    source: "Rule of 72 (math shortcut)",
+    gradient: { from: "var(--cf-area-progress)", via: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
+    textLight: true,
+  },
+  {
+    id: "emergency-fund",
+    category: "Safety net",
+    emoji: "🛡️",
+    bigStat: "3–6",
+    statLabel: "months of expenses — a common emergency fund target",
+    headline: "37% of U.S. adults couldn't cover a $400 surprise expense with cash or its equivalent.",
+    tip: "Even $500 set aside makes the next surprise smaller. Start there.",
+    source: "Federal Reserve, Economic Well-Being of U.S. Households in 2025 (May 2026)",
+    gradient: { from: "var(--cf-area-rewards)", via: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
+    textLight: true,
+  },
+  {
+    id: "inflation-silent",
+    category: "Inflation",
+    emoji: "🔥",
+    bigStat: "−3%",
+    statLabel: "real return on savings when inflation is 5% and your bank pays 2%",
+    headline: "Cash under the mattress doesn't grow — and inflation quietly shrinks what it can buy.",
+    tip: "A return below inflation means losing buying power. Compare your rate with the latest CPI.",
+    source: "Example calculation",
+    gradient: { from: "var(--cf-area-care)", via: "var(--cf-area-care)", to: "var(--cf-area-care)" },
+    textLight: true,
+  },
+  {
+    id: "saving-rate",
+    category: "Habits",
+    emoji: "🐷",
+    bigStat: "20%",
+    statLabel: "of take-home pay — the savings share in the 50/30/20 rule",
+    headline: "The 50/30/20 rule: 50% needs, 30% wants, 20% savings and extra debt payments. A simple starting point — adjust the split to your real costs.",
+    tip: "Automate your savings transfer for payday so you don't have to rely on willpower.",
+    source: "Elizabeth Warren & Amelia Warren Tyagi, All Your Worth (2005)",
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
+    textLight: true,
+  },
+  {
+    id: "debt-interest",
+    category: "Debt",
+    emoji: "⚠️",
+    bigStat: "20%+",
+    statLabel: "a common credit card APR",
+    headline: "A $5,000 credit card balance at 24% APR costs about $1,200 a year in interest alone.",
+    tip: "Paying down a 24% APR card saves you 24% interest on that balance — more than investments can reliably promise.",
+    source: "Federal Reserve G.19 Consumer Credit",
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
+    textLight: true,
+  },
+  {
+    id: "index-funds",
+    category: "Investing",
+    emoji: "📊",
+    bigStat: "~10%",
+    statLabel: "S&P 500 average annual total return over the last 30 years, before inflation",
+    headline: "Historically, the S&P 500 (with dividends) hasn't had a losing 20-year stretch since the 1920s. Past results don't guarantee future ones.",
+    tip: "In 2025 alone, 79% of active large-cap U.S. funds trailed the S&P 500 — and over longer periods most do.",
+    source: "S&P Dow Jones Indices, SPIVA U.S. Year-End 2025",
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
+    textLight: true,
+  },
+  {
+    id: "us-bills",
+    category: "Safety net",
+    emoji: "🧾",
+    bigStat: "16%",
+    statLabel: "of U.S. adults didn't pay all their bills in full the month before the survey",
+    headline: "About 1 in 6 adults fell behind on at least one bill in a single month.",
+    tip: "Even one month of essential expenses set aside makes the next surprise smaller.",
+    source: "Federal Reserve, Economic Well-Being of U.S. Households in 2025 (May 2026)",
+    gradient: { from: "var(--cf-area-rewards)", via: "var(--cf-area-rewards)", to: "var(--cf-area-rewards)" },
+    textLight: true,
+  },
+  {
+    id: "us-pfin",
+    category: "Financial literacy",
+    emoji: "📉",
+    bigStat: "49%",
+    statLabel: "of basic money questions U.S. adults answered correctly",
+    headline: "U.S. adults answered about half of basic personal-finance questions correctly — the same as in 2017. Risk was the hardest topic.",
+    tip: "Understanding risk is your best defense against \"guaranteed return\" pitches.",
+    source: "TIAA Institute–GFLEC P-Fin Index 2025",
+    gradient: { from: "var(--cf-area-care)", via: "var(--cf-area-care)", to: "var(--cf-area-care)" },
+    textLight: true,
+  },
+  {
+    id: "us-fdic",
+    category: "Safety net",
+    emoji: "🏦",
+    bigStat: "$250,000",
+    statLabel: "FDIC insurance per depositor, per insured bank, per ownership category",
+    headline: "Money in checking, savings, money market accounts and CDs at an FDIC-insured bank is protected if the bank fails.",
+    tip: "Credit unions have the same $250,000 coverage through the NCUA. Stocks, funds and crypto aren't covered.",
+    source: "FDIC · NCUA",
+    gradient: { from: "var(--cf-area-mila)", via: "var(--cf-area-mila)", to: "var(--cf-area-mila)" },
+    textLight: true,
+  },
+  {
+    id: "us-401k",
+    category: "Retirement",
+    emoji: "🏖️",
+    bigStat: "$24,500",
+    statLabel: "2026 401(k) employee contribution limit ($32,500 if 50+)",
+    headline: "Workplace plans like a 401(k) or 403(b) let you save for retirement with a tax break — and many employers add a match.",
+    tip: "Contributing enough to get the full employer match is a common first step. Limits change most years — check irs.gov.",
+    source: "IRS, Nov 2025",
+    gradient: { from: "var(--cf-area-learn)", via: "var(--cf-area-learn)", to: "var(--cf-area-learn)" },
+    textLight: true,
+  },
+  {
+    id: "us-credit-reports",
+    category: "Credit",
+    emoji: "📋",
+    bigStat: "Weekly",
+    statLabel: "free credit reports from all three bureaus at AnnualCreditReport.com",
+    headline: "Check your Equifax, Experian and TransUnion reports for free — mistakes can cost you on loan rates.",
+    tip: "AnnualCreditReport.com is the official site, and it's free. You don't need a credit card.",
+    source: "FTC, 2023",
+    gradient: { from: "var(--cf-area-goals)", via: "var(--cf-area-goals)", to: "var(--cf-area-goals)" },
+    textLight: true,
+  },
+  {
+    id: "us-emergency-1000",
+    category: "Safety net",
+    emoji: "☔",
+    bigStat: "53%",
+    statLabel: "of U.S. adults said they don't have enough savings or access to funds for a $1,000 emergency",
+    headline: "More than half of Americans would struggle to cover a $1,000 surprise bill.",
+    tip: "Automate a small transfer to savings on payday — even $25 adds up.",
+    source: "Bankrate Emergency Savings Report, Feb 2026",
+    gradient: { from: "var(--cf-area-progress)", via: "var(--cf-area-progress)", to: "var(--cf-area-progress)" },
+    textLight: true,
+  },
+];
+
+/** Spanish text for usStoryCards, by position. */
+const usSpanishText: Array<Pick<StoryCard, "category" | "statLabel" | "headline" | "tip">> = [
+  {
+    category: "Panorama general",
+    statLabel: "perdidos en un año por los estadounidenses por falta de conocimientos financieros, según sus propias estimaciones",
+    headline: "En una encuesta de 2026, los estadounidenses estimaron que la falta de conocimientos financieros les costó unos $948 a cada uno en un año.",
+    tip: "Ya llevas ventaja: saber que el problema existe es el primer paso.",
+  },
+  {
+    category: "Global",
+    statLabel: "adultos en el mundo no tienen conocimientos financieros básicos",
+    headline: "Dos de cada tres adultos en el mundo no saben responder bien a preguntas básicas sobre interés, inflación y riesgo.",
+    tip: "Solo con entender el interés compuesto ya vas por delante de la mayor parte del mundo.",
+  },
+  {
+    category: "Generación Z",
+    statLabel: "de las preguntas de finanzas personales que acertó la Generación Z",
+    headline: "La Generación Z obtuvo la puntuación más baja de todas las generaciones, y enfrenta el mundo financiero más complejo.",
+    tip: "10 minutos al día suman: son unas 60 horas de aprendizaje en un año.",
+  },
+  {
+    category: "Inversión",
+    statLabel: "divide 72 entre tu rendimiento anual para ver cuándo se duplica el dinero",
+    headline: "Con un rendimiento del 8%, tu dinero se duplica más o menos cada 9 años. Con un 6%, cada 12 años.",
+    tip: "Empezar a los 25 en vez de a los 35 podría duplicar tu saldo para la jubilación (7% anual hipotético; los rendimientos reales varían).",
+  },
+  {
+    category: "Red de seguridad",
+    statLabel: "meses de gastos: una meta común para el fondo de emergencia",
+    headline: "El 37% de los adultos de EE. UU. no podría cubrir un gasto imprevisto de $400 con efectivo o su equivalente.",
+    tip: "Incluso $500 apartados hacen más pequeña la próxima sorpresa. Empieza por ahí.",
+  },
+  {
+    category: "Inflación",
+    statLabel: "rendimiento real de tus ahorros cuando la inflación es del 5% y tu banco paga el 2%",
+    headline: "El efectivo bajo el colchón no crece, y la inflación reduce en silencio lo que puede comprar.",
+    tip: "Un rendimiento por debajo de la inflación significa perder poder de compra. Compara tu tasa con el último IPC.",
+  },
+  {
+    category: "Hábitos",
+    statLabel: "de tus ingresos netos: la parte de ahorro en la regla 50/30/20",
+    headline: "La regla 50/30/20: 50% necesidades, 30% deseos, 20% ahorro y pagos extra de deudas. Es un punto de partida: ajusta el reparto a tus gastos reales.",
+    tip: "Programa tu transferencia de ahorro para el día de pago y no dependas de la fuerza de voluntad.",
+  },
+  {
+    category: "Deuda",
+    statLabel: "una tasa de interés anual (APR) común en tarjetas de crédito",
+    headline: "Un saldo de $5,000 en la tarjeta al 24% APR cuesta unos $1,200 al año solo en intereses.",
+    tip: "Pagar una tarjeta al 24% APR te ahorra un 24% de intereses sobre ese saldo, más de lo que una inversión puede prometer de forma fiable.",
+  },
+  {
+    category: "Inversión",
+    statLabel: "rendimiento total anual promedio del S&P 500 en los últimos 30 años, antes de inflación",
+    headline: "Históricamente, el S&P 500 (con dividendos) no ha tenido un periodo de 20 años con pérdidas desde la década de 1920. Los resultados pasados no garantizan los futuros.",
+    tip: "Solo en 2025, el 79% de los fondos activos de gran capitalización de EE. UU. quedó por detrás del S&P 500, y en plazos más largos la mayoría también.",
+  },
+  {
+    category: "Red de seguridad",
+    statLabel: "de los adultos de EE. UU. no pagó completas todas sus facturas el mes anterior a la encuesta",
+    headline: "Aproximadamente 1 de cada 6 adultos se atrasó con al menos una factura en un solo mes.",
+    tip: "Incluso un mes de gastos esenciales apartado hace más pequeña la próxima sorpresa.",
+  },
+  {
+    category: "Educación financiera",
+    statLabel: "de las preguntas básicas de dinero que acertaron los adultos de EE. UU.",
+    headline: "Los adultos de EE. UU. acertaron alrededor de la mitad de las preguntas básicas de finanzas personales, igual que en 2017. El riesgo fue el tema más difícil.",
+    tip: "Entender el riesgo es tu mejor defensa ante las promesas de «ganancia garantizada».",
+  },
+  {
+    category: "Red de seguridad",
+    statLabel: "seguro de la FDIC por depositante, por banco asegurado y por categoría de titularidad",
+    headline: "El dinero en cuentas corrientes, de ahorro, del mercado monetario y CDs de un banco asegurado por la FDIC está protegido si el banco quiebra.",
+    tip: "Las cooperativas de crédito tienen la misma cobertura de $250,000 a través de la NCUA. Las acciones, los fondos y las cripto no están cubiertos.",
+  },
+  {
+    category: "Jubilación",
+    statLabel: "límite de aporte del empleado al 401(k) en 2026 ($32,500 a partir de los 50)",
+    headline: "Los planes del trabajo como el 401(k) o el 403(b) te permiten ahorrar para la jubilación con un beneficio fiscal, y muchos empleadores añaden un aporte.",
+    tip: "Aportar lo suficiente para recibir todo el aporte del empleador es un primer paso común. Los límites cambian casi cada año: consulta irs.gov.",
+  },
+  {
+    category: "Crédito",
+    statLabel: "informes de crédito gratuitos de las tres agencias en AnnualCreditReport.com",
+    headline: "Revisa gratis tus informes de Equifax, Experian y TransUnion: los errores pueden encarecer tus préstamos.",
+    tip: "AnnualCreditReport.com es el sitio oficial y es gratis. No necesitas tarjeta de crédito.",
+  },
+  {
+    category: "Red de seguridad",
+    statLabel: "de los adultos de EE. UU. dijo no tener ahorros ni acceso a fondos suficientes para una emergencia de $1,000",
+    headline: "Más de la mitad de los estadounidenses tendría problemas para cubrir una factura imprevista de $1,000.",
+    tip: "Programa una pequeña transferencia al ahorro el día de pago: incluso $25 suman.",
+  },
+];
+
+/** English source for the cards: the US set. */
+export const storyCards: StoryCard[] = usStoryCards;
+
 const localizedStoryCardText: LocalizedMap<
   Array<Pick<StoryCard, "category" | "statLabel" | "headline" | "tip">>
 > = {
-  en: storyCards.map(({ category, statLabel, headline, tip }) => ({ category, statLabel, headline, tip })),
+  en: internationalStoryCards.map(({ category, statLabel, headline, tip }) => ({ category, statLabel, headline, tip })),
   pl: [
     {
       category: "Duży obraz",
@@ -408,104 +696,6 @@ const localizedStoryCardText: LocalizedMap<
       statLabel: "のポーランド人が金融姿勢の最低スコアに達しています：OECD平均のおよそ半分",
       headline: "金融姿勢（今日だけを生きるのではなく将来を計画すること）は、ポーランドで最も弱い金融能力です。",
       tip: "どんなに小さくても、具体的なお金の目標を一つ決めることが、短期的なやりくりから長期的な備えへの第一歩です。",
-    },
-  ],
-  es: [
-    {
-      category: "Panorama general",
-      statLabel: "se pierden cada año por la falta de educación financiera en EE. UU.",
-      headline: "El escaso conocimiento financiero le cuesta al estadounidense medio 948 dólares cada año.",
-      tip: "Ya llevas ventaja: saber que el problema existe es el primer paso.",
-    },
-    {
-      category: "Global",
-      statLabel: "adultos en el mundo carecen de educación financiera",
-      headline: "Medio planeta no sabe responder bien a preguntas básicas sobre interés, inflación o riesgo.",
-      tip: "Solo con entender el interés compuesto ya vas por delante de la mayor parte del mundo.",
-    },
-    {
-      category: "Generación Z",
-      statLabel: "de respuestas correctas: la puntuación de la Generación Z en educación financiera",
-      headline: "La Generación Z obtuvo la puntuación más baja de todas las generaciones, y afronta el mundo financiero más complejo.",
-      tip: "10 minutos de aprendizaje financiero al día = más conocimiento que el 95% de tus compañeros en un año.",
-    },
-    {
-      category: "Inversión",
-      statLabel: "divide 72 entre tu rentabilidad anual para ver cuándo se duplica el dinero",
-      headline: "Con un 8% de rentabilidad tu dinero se duplica cada 9 años. Con un 6%, cada 12 años.",
-      tip: "Empieza a los 25 en lugar de a los 35 y podrías acabar con el doble de saldo para la jubilación.",
-    },
-    {
-      category: "Red de seguridad",
-      statLabel: "meses de gastos: el objetivo de tu fondo de emergencia",
-      headline: "El 57% de los estadounidenses no puede cubrir una emergencia de 1.000 dólares sin endeudarse.",
-      tip: "Incluso 500 dólares en una cuenta de emergencia reducen muchísimo el estrés financiero. Empieza por ahí.",
-    },
-    {
-      category: "Inflación",
-      statLabel: "rentabilidad real de los ahorros cuando la inflación es del 5% y tu banco da el 2%",
-      headline: "El efectivo bajo el colchón no se queda quieto: encoge en silencio cada día.",
-      tip: "Cualquier rentabilidad por debajo de la inflación es perder dinero en términos reales. Compárala siempre con el IPC.",
-    },
-    {
-      category: "Hábitos",
-      statLabel: "de tus ingresos: el objetivo de ahorro en la regla 50/30/20",
-      headline: "La regla 50/30/20: 50% necesidades, 30% deseos, 20% ahorro. Sencilla. Probada. Te cambia la vida.",
-      tip: "Automatiza la transferencia del 20% en cuanto llegue tu nómina. No pongas a prueba tu fuerza de voluntad.",
-    },
-    {
-      category: "Deuda",
-      statLabel: "TAE habitual de una tarjeta de crédito que se come tu poder adquisitivo",
-      headline: "Un saldo de 5.000 dólares en la tarjeta al 24% TAE cuesta 1.200 dólares al año solo en intereses.",
-      tip: "Liquida la deuda con intereses altos antes de invertir: es una rentabilidad garantizada de más del 20%.",
-    },
-    {
-      category: "Inversión",
-      statLabel: "rentabilidad media anual del S&P 500 en los últimos 30 años",
-      headline: "En ningún periodo de 20 años el S&P 500 ha perdido dinero. El tiempo en el mercado vence al intento de acertar el momento.",
-      tip: "Los ETF indexados de bajo coste superan al 92% de los fondos de gestión activa a 15 años, según el informe SPIVA de S&P.",
-    },
-    {
-      category: "Web3",
-      statLabel: "coste por certificado en Solana: casi gratis",
-      headline: "Las credenciales en blockchain se están convirtiendo en el nuevo estándar. Universidades y empresas ya las adoptan.",
-      tip: "Tu certificado Coach FI en Solana es tuyo para siempre: ninguna institución puede revocarlo.",
-    },
-    {
-      category: "Polonia",
-      statLabel: "de los polacos confiaba en los empleados de las instituciones financieras en 2021",
-      headline: "La confianza de Polonia en las instituciones financieras tocó fondo con un 6% en 2021. Se recuperó hasta el 15% en 2022, y sigue siendo muy baja.",
-      tip: "La confianza empieza con la educación, no con el marketing. Entender las finanzas es tu mejor protección contra los malos consejos.",
-    },
-    {
-      category: "Polonia",
-      statLabel: "de los polacos entiende bien el interés compuesto: la brecha crítica",
-      headline: "Solo 1 de cada 3 polacos entiende cómo funciona realmente el interés compuesto. Es la mayor brecha de educación financiera del país.",
-      tip: "No entender el interés compuesto explica por qué la deuda crece más rápido de lo esperado y por qué ahorrar para la jubilación parece imposible.",
-    },
-    {
-      category: "Polonia",
-      statLabel: "puntuación de Polonia en competencia financiera de la OCDE: en la mitad de la tabla",
-      headline: "Polonia obtuvo 13 de 21 en el índice de competencia financiera de la OCDE. Los 8 puntos que faltan son riqueza real perdida para millones de personas.",
-      tip: "El 75% de los polacos entiende la inflación y la diversificación; la brecha está en el interés compuesto y la planificación a largo plazo.",
-    },
-    {
-      category: "Mentalidad",
-      statLabel: "de los polacos siente que sus finanzas controlan su vida, y no al revés",
-      headline: "Casi la mitad de los polacos vive el dinero como fuente de estrés e impotencia. La educación financiera devuelve el control.",
-      tip: "El paso de «el dinero me controla» a «yo controlo el dinero» empieza con una decisión: aprender cómo funciona de verdad.",
-    },
-    {
-      category: "Jubilación",
-      statLabel: "de los empleados de grandes empresas polacas usa los planes de pensiones voluntarios PPK/PPE",
-      headline: "Menos de la mitad de los trabajadores con derecho participa en los programas voluntarios de pensiones de Polonia, sobre todo porque el interés compuesto resulta abstracto.",
-      tip: "Las aportaciones al PPK las complementan tu empresa y el Estado. Cada año que lo retrasas, dejas dinero gratis sobre la mesa.",
-    },
-    {
-      category: "Polonia",
-      statLabel: "de los polacos alcanza la puntuación mínima de actitud financiera: aproximadamente la mitad de la media de la OCDE",
-      headline: "La actitud financiera (planificar el futuro frente a vivir solo el presente) es la competencia financiera más débil de Polonia.",
-      tip: "Fijar aunque sea un objetivo financiero concreto, por pequeño que sea, es el primer paso de la supervivencia a corto plazo a la resiliencia a largo plazo.",
     },
   ],
   fr: [
@@ -1001,8 +1191,12 @@ const localizedStoryCardText: LocalizedMap<
 };
 
 export function getStoryCards(locale: Locale): StoryCard[] {
+  // English and Spanish are the US launch market: US cards, no Poland-specific cards.
+  if (locale === "en") return usStoryCards;
+  if (locale === "es") return usStoryCards.map((card, index) => ({ ...card, ...(usSpanishText[index] ?? {}) }));
+
   const localized = localizedStoryCardText[locale] ?? localizedStoryCardText.en;
-  return storyCards.map((card, index) => ({
+  return internationalStoryCards.map((card, index) => ({
     ...card,
     ...(localized[index] ?? {}),
   }));

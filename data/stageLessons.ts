@@ -283,7 +283,7 @@ export const stageLessons: Record<string, StageLesson> = {
         },
         {
           title: "A long-term hedge",
-          body: "A hedge is something that has tended to grow faster than prices. Broad stock index funds have done that over many years. Cash under a mattress and a 1% savings account have not. The point is a long horizon, not a quick bet.",
+          body: "A hedge is something that has tended to grow faster than prices. Broad stock index funds have done that over most long periods in the past — with big drops along the way, and no guarantee. Cash under a mattress and a 1% savings account have not. The point is a long horizon, not a quick bet.",
         },
       ],
       pl: [
@@ -445,7 +445,7 @@ export const stageLessons: Record<string, StageLesson> = {
       en: [
         {
           title: "Variable rates",
-          body: "A variable-rate loan follows the market rate. When the central bank raises rates, the monthly payment usually goes up. A fixed rate stays put. With a variable loan, a higher rate means a higher bill.",
+          body: "A variable-rate loan follows the market rate. When the Federal Reserve raises rates, variable rates tied to the prime rate or SOFR usually rise too — credit cards, HELOCs and adjustable-rate loans. A fixed rate stays put. With a variable loan, a higher rate means a higher bill.",
         },
         {
           title: "The debt avalanche",
@@ -453,11 +453,11 @@ export const stageLessons: Record<string, StageLesson> = {
         },
         {
           title: "What moves a credit score",
-          body: "Payment history has the biggest effect on a credit score. Paying on time matters more than how many cards you hold. Income is not the main factor. A long record of on-time payments is the strongest signal.",
+          body: "In the FICO® Score model, payment history counts for about 35% — the biggest single factor. Paying on time matters more than how many cards you hold, and income isn't part of the score. You can check your credit reports free every week at AnnualCreditReport.com.",
         },
         {
           title: "Bond prices and rates",
-          body: "Bond prices fall when interest rates rise. An older bond pays less than a new one, so buyers offer less for it. The two move in opposite directions. A rate increase does not leave bond prices where they were.",
+          body: "Bond prices fall when interest rates rise. An older bond pays less than a new one, so buyers offer less for it. The two move in opposite directions. That is why bond funds can lose value when rates go up.",
         },
       ],
       pl: [
@@ -499,7 +499,7 @@ export const stageLessons: Record<string, StageLesson> = {
       es: [
         {
           title: "Tipos variables",
-          body: "Un préstamo a tipo variable sigue el tipo de mercado. Cuando el banco central sube los tipos, la cuota mensual suele subir. Un tipo fijo se mantiene. Con un préstamo variable, un tipo más alto significa una factura más alta.",
+          body: "Un préstamo a tipo variable sigue el tipo de mercado. Cuando la Reserva Federal sube las tasas, las tasas variables ligadas a la tasa preferencial (prime) o a SOFR suelen subir también: tarjetas de crédito, líneas HELOC y préstamos de tasa ajustable. Una tasa fija se mantiene. Con un préstamo variable, una tasa más alta significa una factura más alta.",
         },
         {
           title: "La avalancha de deudas",
@@ -507,11 +507,11 @@ export const stageLessons: Record<string, StageLesson> = {
         },
         {
           title: "Qué mueve el historial crediticio",
-          body: "El historial de pagos es lo que más influye en la puntuación crediticia. Pagar a tiempo importa más que cuántas tarjetas tengas. Los ingresos no son el factor principal. Un largo historial de pagos puntuales es la señal más fuerte.",
+          body: "En el modelo FICO®, el historial de pagos cuenta alrededor del 35%: es el factor individual más importante. Pagar a tiempo importa más que cuántas tarjetas tengas, y los ingresos no forman parte del puntaje. Puedes revisar gratis tus informes de crédito cada semana en AnnualCreditReport.com.",
         },
         {
           title: "Precios de los bonos y tipos",
-          body: "Los precios de los bonos bajan cuando suben los tipos de interés. Un bono antiguo paga menos que uno nuevo, así que los compradores ofrecen menos por él. Ambos se mueven en direcciones opuestas. Una subida de tipos no deja los precios de los bonos donde estaban.",
+          body: "Los precios de los bonos bajan cuando suben los tipos de interés. Un bono antiguo paga menos que uno nuevo, así que los compradores ofrecen menos por él. Ambos se mueven en direcciones opuestas. Por eso los fondos de bonos pueden perder valor cuando suben las tasas.",
         },
       ],
       fr: [
@@ -619,7 +619,7 @@ export const stageLessons: Record<string, StageLesson> = {
       en: [
         {
           title: "How much to hold",
-          body: "An emergency fund covers about 3 to 6 months of expenses. It is for a job loss, a repair, or a medical bill. One week is only a start. The fund is not meant to hold ten years of expenses.",
+          body: "An emergency fund covers about 3 to 6 months of expenses. It is for a job loss, a repair, or a medical bill. One week is only a start. Keep it somewhere safe and easy to reach, like an FDIC- or NCUA-insured savings account.",
         },
         {
           title: "What belongs in it",
@@ -773,7 +773,7 @@ export const stageLessons: Record<string, StageLesson> = {
         },
         {
           title: "Time in the market",
-          body: "For long-term investors, staying invested has tended to beat buying the exact low and selling the exact high. Selling after a drop often misses the recovery. Gold alone is not the strategy these studies point to. Time in the market means remaining invested through ordinary ups and downs.",
+          body: "For long-term investors, staying invested has tended to beat buying the exact low and selling the exact high. Selling after a drop often misses the recovery. For long-term investors, staying invested through ups and downs has usually beaten trying to jump in and out.",
         },
       ],
       pl: [
@@ -967,11 +967,11 @@ export const stageLessons: Record<string, StageLesson> = {
       en: [
         {
           title: "Why the account exists",
-          body: "A retirement account is meant to replace income after you stop working. Money put in can compound for decades before you spend it. It is not a vacation fund or a place for emergency cash. The long wait is what makes the compounding useful.",
+          body: "A retirement account is meant to replace income after you stop working. In the U.S., a 401(k) or 403(b) through work and an IRA you open yourself give that money a tax break — in 2026 up to $24,500 in a 401(k) and $7,500 in an IRA (more if you're 50+; limits change most years, so check irs.gov). Social Security replaces only about 40% of an average earner's pay, so your own savings fill the gap. It is not a vacation fund or a place for emergency cash.",
         },
         {
           title: "Starting early",
-          body: "A small monthly amount has a long time to compound if you start young. About $200 a month at a 7% yearly return, from age 25 to 65, grows to around $525,000. The same habit started much later needs a much larger payment to catch up. The early years do a large share of the work.",
+          body: "A small monthly amount has a long time to compound if you start young. About $200 a month at a hypothetical 7% yearly return, from age 25 to 65, grows to around $525,000; start at 45 and you'd need about $1,000 a month to catch up. If your employer matches contributions, contributing enough to get the full match is a common first step. Real returns vary and can be negative.",
         },
       ],
       pl: [
@@ -997,11 +997,11 @@ export const stageLessons: Record<string, StageLesson> = {
       es: [
         {
           title: "Para qué sirve la cuenta",
-          body: "Una cuenta de jubilación está pensada para sustituir los ingresos cuando dejas de trabajar. El dinero aportado puede capitalizarse durante décadas antes de que lo gastes. No es un fondo para vacaciones ni un lugar para el dinero de emergencia. La larga espera es lo que hace útil el interés compuesto.",
+          body: "Una cuenta de jubilación está pensada para reemplazar tus ingresos cuando dejas de trabajar. En EE. UU., un 401(k) o 403(b) del trabajo y una IRA que abres por tu cuenta dan a ese dinero un beneficio fiscal: en 2026, hasta $24,500 en un 401(k) y $7,500 en una IRA (más a partir de los 50; los límites cambian casi cada año, consulta irs.gov). El Seguro Social reemplaza solo alrededor del 40% del sueldo de una persona con ingresos promedio, así que tus ahorros cubren el resto. No es un fondo para vacaciones ni para emergencias.",
         },
         {
           title: "Empezar pronto",
-          body: "Una pequeña cantidad mensual tiene mucho tiempo para capitalizarse si empiezas joven. Unos 200 dólares al mes con una rentabilidad anual del 7%, de los 25 a los 65 años, crecen hasta unos 525.000 dólares. El mismo hábito iniciado mucho más tarde necesita una aportación mucho mayor para alcanzarlo. Los primeros años hacen gran parte del trabajo.",
+          body: "Una pequeña cantidad mensual tiene mucho tiempo para crecer si empiezas joven. Unos $200 al mes con un rendimiento hipotético del 7% anual, de los 25 a los 65 años, llegan a unos $525,000; si empiezas a los 45, necesitarías unos $1,000 al mes para alcanzarlo. Si tu empleador iguala tus aportes, aportar lo suficiente para recibir todo ese aporte es un primer paso común. Los rendimientos reales varían y pueden ser negativos.",
         },
       ],
       fr: [

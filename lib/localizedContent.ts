@@ -167,12 +167,12 @@ const en: LocalizedContent = {
       {
         id: "financial-score",
         label: "Read my financial score",
-        text: "Your Financial Health Score is 42 out of 100. You have potential to improve. First, we will build your financial awareness and your first saving habit.",
+        text: "Your Financial Health Score appears here after you run the Health Check. It's an educational estimate based on your answers, not a credit score. Then we'll build your first saving habit together.",
       },
       {
         id: "inflation",
         label: "Explain inflation",
-        text: "If you kept twenty thousand Polish zloty in cash for five years with average annual inflation of seven percent, your real purchasing power could fall to about fourteen thousand two hundred sixty zloty. Not acting is also a financial decision.",
+        text: "If you kept twenty thousand dollars in cash for five years and prices rose three and a half percent a year, it would buy only about what sixteen thousand eight hundred dollars buys today. Doing nothing is also a financial decision.",
       },
       {
         id: "next-lesson",
@@ -187,13 +187,13 @@ const en: LocalizedContent = {
       {
         id: "progress",
         label: "Show my progress",
-        text: "You have completed one stage, earned one hundred twenty five Coach FI Points, and unlocked your first education certificate.",
+        text: "Your progress shows the lessons you have completed, the points you have earned and the certificates you have unlocked. Points are for learning and have no cash value.",
       },
     ],
     commandExamples: "Voice command examples",
     commands: ["Read my financial score", "Start next lesson", "Explain inflation simply", "Repeat the question"],
     checklistTitle: "Accessibility checklist",
-    checklistDesc: "WCAG-minded interface decisions included in the MVP.",
+    checklistDesc: "Accessibility features built with WCAG 2.2 guidelines in mind.",
     checklist: [
       "Keyboard navigable buttons and forms",
       "Screen-reader labels and live updates",
@@ -218,7 +218,7 @@ const en: LocalizedContent = {
       "You do not need to be rich to start saving. You need a system.",
       "Today's task: set aside 5 percent of your income and finish the inflation lesson.",
       "Your goal is not perfection. Your goal is your first repeatable habit.",
-      "Public pensions may not be enough. Build your own financial resilience, step by step.",
+      "Social Security replaces only part of your paycheck in retirement — about 40% for an average earner. Your own savings fill the gap.",
     ],
     quickActions: [
       "Explain inflation simply",
@@ -231,7 +231,7 @@ const en: LocalizedContent = {
     quickReplies: {},
     fallback:
       "Financial confidence starts with basics: spend less than you earn, build an emergency fund, understand inflation and automate one small saving habit. Which step should we start with?",
-    live: "Mila AI - live (Claude Haiku)",
+    live: "Mila (AI) · live",
     offline: "Mila AI - offline/local mode",
     consentNotice: "External AI mode is off. Mila answers locally without sending the conversation to an AI provider.",
     changeConsent: "Change consent",
@@ -261,11 +261,11 @@ const en: LocalizedContent = {
     scoreVoice: (score) =>
       `Your Financial Health Score is ${score} out of 100. Your next step is to build a simple saving habit and understand how inflation affects your money.`,
     achievement: "My achievement",
-    cardDescription: "Educational diagnosis using demo data.",
+    cardDescription: "Educational estimate based on your answers — not a credit score and not financial advice.",
   },
   inflation: {
     title: "Cash can feel safe while losing power.",
-    description: "Show, emotionally and visually, why not investing is also a financial decision.",
+    description: "See how inflation shrinks cash over time — and why doing nothing is also a choice.",
     amount: "Starting amount",
     years: "Period in years",
     rate: "Average annual inflation %",
@@ -279,8 +279,8 @@ const en: LocalizedContent = {
   common: {
     tokens: "Coach FI Points",
     rewardAvailable: "Reward available",
-    tokenDemo: "Mock point balance for the demo story.",
-    nextAction: "Next recommended action",
+    tokenDemo: "Points you earn for learning. They have no cash value and can't be traded.",
+    nextAction: "Suggested next step",
     firstFocus: "First focus: starter emergency fund",
     nextLesson: "Next lesson: inflation and purchasing power",
   },
@@ -533,12 +533,12 @@ const es: LocalizedContent = {
       {
         id: "financial-score",
         label: "Lee mi puntuación financiera",
-        text: "Tu puntuación de salud financiera es 42 de 100. Tienes potencial para mejorar. Primero construiremos tu conciencia financiera y tu primer hábito de ahorro.",
+        text: "Tu puntuación de salud financiera aparece aquí después de hacer el Chequeo de salud financiera. Es una estimación educativa basada en tus respuestas, no una puntuación de crédito. Después crearemos juntos tu primer hábito de ahorro.",
       },
       {
         id: "inflation",
         label: "Explica la inflación",
-        text: "Si guardaras veinte mil eslotis polacos en efectivo durante cinco años con una inflación media anual del siete por ciento, tu poder adquisitivo real podría bajar a unos catorce mil doscientos sesenta eslotis. No actuar también es una decisión financiera.",
+        text: "Si guardaras veinte mil dólares en efectivo durante cinco años y los precios subieran un tres y medio por ciento al año, solo podrías comprar lo que hoy compran unos dieciséis mil ochocientos dólares. No hacer nada también es una decisión financiera.",
       },
       {
         id: "next-lesson",
@@ -553,13 +553,13 @@ const es: LocalizedContent = {
       {
         id: "progress",
         label: "Muestra mi progreso",
-        text: "Has completado una etapa, has ganado ciento veinticinco Puntos Coach FI y has desbloqueado tu primer certificado educativo.",
+        text: "Tu progreso muestra las lecciones que completaste, los puntos que ganaste y los certificados que desbloqueaste. Los puntos son para aprender y no tienen valor en dinero.",
       },
     ],
     commandExamples: "Ejemplos de comandos de voz",
     commands: ["Lee mi puntuación financiera", "Empieza la siguiente lección", "Explica la inflación de forma sencilla", "Repite la pregunta"],
     checklistTitle: "Lista de accesibilidad",
-    checklistDesc: "Decisiones de interfaz pensadas con WCAG incluidas en el MVP.",
+    checklistDesc: "Funciones de accesibilidad creadas teniendo en cuenta las pautas WCAG 2.2.",
     checklist: [
       "Botones y formularios navegables con teclado",
       "Etiquetas para lectores de pantalla y actualizaciones en vivo",
@@ -584,7 +584,7 @@ const es: LocalizedContent = {
       "No necesitas ser rico para empezar a ahorrar. Necesitas un sistema.",
       "Tarea de hoy: aparta el 5 por ciento de tus ingresos y termina la lección sobre la inflación.",
       "Tu objetivo no es la perfección. Tu objetivo es tu primer hábito repetible.",
-      "Las pensiones públicas pueden no ser suficientes. Construye tu propia resiliencia financiera, paso a paso.",
+      "El Seguro Social reemplaza solo una parte de tu sueldo en la jubilación: alrededor del 40% para una persona con ingresos promedio. Tus propios ahorros cubren el resto.",
     ],
     quickActions: [
       "Explica la inflación de forma sencilla",
@@ -597,7 +597,7 @@ const es: LocalizedContent = {
     quickReplies: {},
     fallback:
       "La confianza financiera empieza por lo básico: gastar menos de lo que ganas, crear un fondo de emergencia, entender la inflación y automatizar un pequeño hábito de ahorro. ¿Por qué paso empezamos?",
-    live: "Mila IA - en vivo (Claude Haiku)",
+    live: "Mila (IA) · en vivo",
     offline: "Mila IA - modo sin conexión/local",
     consentNotice: "El modo de IA externa está desactivado. Mila responde localmente sin enviar la conversación a un proveedor de IA.",
     changeConsent: "Cambiar consentimiento",
@@ -627,11 +627,11 @@ const es: LocalizedContent = {
     scoreVoice: (score) =>
       `Tu puntuación de salud financiera es ${score} de 100. Tu siguiente paso es crear un hábito de ahorro sencillo y entender cómo afecta la inflación a tu dinero.`,
     achievement: "Mi logro",
-    cardDescription: "Diagnóstico educativo con datos de demostración.",
+    cardDescription: "Estimación educativa basada en tus respuestas: no es una puntuación de crédito ni asesoría financiera.",
   },
   inflation: {
     title: "El efectivo puede parecer seguro mientras pierde valor.",
-    description: "Mostrar, de forma emocional y visual, por qué no invertir también es una decisión financiera.",
+    description: "Mira cómo la inflación reduce el valor del efectivo con el tiempo, y por qué no hacer nada también es una decisión.",
     amount: "Importe inicial",
     years: "Periodo en años",
     rate: "Inflación media anual %",
@@ -645,8 +645,8 @@ const es: LocalizedContent = {
   common: {
     tokens: "Puntos Coach FI",
     rewardAvailable: "Recompensa disponible",
-    tokenDemo: "Saldo de puntos simulado para la historia de la demo.",
-    nextAction: "Siguiente acción recomendada",
+    tokenDemo: "Puntos que ganas al aprender. No tienen valor en dinero y no se pueden intercambiar.",
+    nextAction: "Siguiente paso sugerido",
     firstFocus: "Primer foco: fondo de emergencia inicial",
     nextLesson: "Siguiente lección: inflación y poder adquisitivo",
   },

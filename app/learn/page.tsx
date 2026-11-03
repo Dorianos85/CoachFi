@@ -3,6 +3,7 @@
 import { ProgressPath } from "@/components/ProgressPath";
 import { IncomeJarPlanner } from "@/components/IncomeJarPlanner";
 import { SectionHeader } from "@/components/SectionHeader";
+import { BudgetSplit } from "./_components/BudgetSplit";
 import { VoiceButton } from "@/components/VoiceButton";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLocalizedContent } from "@/lib/localizedContent";
@@ -32,7 +33,12 @@ export default function LearnPage() {
         </p>
       </div>
 
-      <IncomeJarPlanner mode="adult" className="mb-5" />
+      {/* US audience (English, Spanish): 50/30/20. Polish and other locales keep the 6-jar planner. */}
+      {locale === "en" || locale === "es" ? (
+        <BudgetSplit className="mb-5" />
+      ) : (
+        <IncomeJarPlanner mode="adult" className="mb-5" />
+      )}
 
       <ProgressPath />
     </section>

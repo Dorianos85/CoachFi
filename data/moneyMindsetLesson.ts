@@ -30,7 +30,7 @@ export const moneyMindsetLesson: LocalizedMap<LessonCopy> = {
       },
       {
         title: "Pay yourself first",
-        body: "Pay yourself first means moving a set amount into savings as soon as you are paid. Do that before rent, food, and everything else. Waiting to save what is left usually leaves nothing. An automatic transfer on payday makes the habit happen without a fresh decision.",
+        body: "Pay yourself first means moving a set amount into savings as soon as you are paid. Do it on payday, before discretionary spending — after you've made sure rent, food and other essentials are covered. Waiting to save what is left usually leaves nothing. An automatic transfer on payday makes the habit happen without a fresh decision.",
       },
     ],
   },
@@ -90,7 +90,7 @@ export const moneyMindsetLesson: LocalizedMap<LessonCopy> = {
       },
       {
         title: "Págate primero",
-        body: "Pagarte primero significa mover una cantidad fija al ahorro en cuanto cobras. Hazlo antes del alquiler, la comida y todo lo demás. Esperar a ahorrar lo que sobre suele dejar nada. Una transferencia automática el día de cobro hace que el hábito ocurra sin tener que decidirlo cada vez.",
+        body: "Pagarte primero significa mover una cantidad fija al ahorro en cuanto cobras. Hazlo el día de pago, antes de los gastos opcionales, después de asegurarte de cubrir el alquiler, la comida y otros gastos básicos. Esperar a ahorrar lo que sobre suele dejar nada. Una transferencia automática el día de cobro hace que el hábito ocurra sin tener que decidirlo cada vez.",
       },
     ],
   },
