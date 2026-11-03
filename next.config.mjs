@@ -45,7 +45,6 @@ const nextConfig = {
       ...common,
       `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${jsdelivrSampler} https://challenges.cloudflare.com`,
       `worker-src 'self' blob: ${jsdelivrSampler}`,
-      "upgrade-insecure-requests",
     ].join("; ");
 
     const securityHeaders = [
@@ -62,7 +61,7 @@ const nextConfig = {
       {
         key: "Permissions-Policy",
         value:
-          "camera=(), microphone=(self), geolocation=(), payment=(), usb=(), serial=(), hid=(), bluetooth=(), display-capture=(), browsing-topics=()",
+          "camera=(), microphone=(self), geolocation=(), payment=(), usb=(), serial=(), hid=(), display-capture=(), browsing-topics=()",
       },
       { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
     ];

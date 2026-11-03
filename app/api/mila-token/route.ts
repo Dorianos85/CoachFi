@@ -5,6 +5,7 @@ import { aiDisabled, milaTokenRules } from "@/lib/server/limits";
 import { resolveMilaVoice } from "@/lib/server/mila-voice";
 
 const NO_STORE = { "Cache-Control": "no-store" };
+let warnedDevFallback = false;
 
 async function loadWidgetConfig(agentId: string) {
   try {
@@ -83,6 +84,9 @@ export async function GET(req: Request) {
   }
 
   // Local development without an API key: public agent id, as before.
-  console.warn("[mila-token] no signed URL (development): returning the public agent id");
+  if (!warnedDevFallback) {
+    warnedDevFallback = true;
+    console.warn("[mila-token] no signed URL (development): returning the public agent id");
+  }
   return Response.json({ agentId, widgetConfig }, { headers: NO_STORE });
 }
