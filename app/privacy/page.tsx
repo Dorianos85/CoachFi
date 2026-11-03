@@ -8,6 +8,8 @@ import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 type PrivacyCopy = {
   eyebrow: string;
   title: string;
+  /** Visible "draft" label until the text has been reviewed by a lawyer. */
+  draftBadge?: string;
   updatedAt: string;
   notice: string;
   blocks: Array<{ title: string; items: string[] }>;
@@ -15,70 +17,119 @@ type PrivacyCopy = {
   providersText: string;
 };
 
+const FALLBACK_BADGE = "Draft — pending legal review";
+
 const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
   en: {
     eyebrow: "Privacy and data",
-    title: "Coach FI Privacy Policy",
-    updatedAt: "May 10, 2026",
-    notice: "This is an MVP draft and should be reviewed by a lawyer before production launch.",
+    title: "CoachfiAI Privacy Policy",
+    draftBadge: "Draft — pending legal review",
+    updatedAt: "Last updated November 3, 2026",
+    notice:
+      "This is a beta draft. It describes what the app actually does today, but it has not been reviewed by a lawyer yet. Items in [brackets] are still to be completed.",
     blocks: [
       {
-        title: "What data we process",
+        title: "Who we are",
         items: [
-          "Local data: name or nickname, goal, progress, streak, voice settings, language and consents.",
-          "Educational form data: amounts entered in the financial check are calculated in the browser.",
-          "AI data: question text and short chat history are sent to the AI provider only with consent.",
-          "Voice data: short text snippets are sent to ElevenLabs only after you click a read-aloud button.",
-          "Leaderboard data: display name, score and streak are sent to Supabase only with consent.",
-          "Blockchain data: wallet address and certificate metadata can be public and difficult to delete.",
+          "CoachfiAI is operated by [Company name, address — to be completed] (\"we\", \"us\").",
+          "Privacy questions and requests: [privacy contact email — to be completed].",
         ],
       },
       {
-        title: "Why we process data",
+        title: "Data stored on your device",
         items: [
-          "To save progress and settings on this device.",
-          "To personalize Mila's educational replies.",
-          "To read answers aloud when voice is enabled.",
-          "To show leaderboard and education certificates.",
-          "To secure API endpoints, rate limits and configuration diagnostics.",
+          "Your name or nickname, goal, lesson progress, streak, points, review cards, settings, language and consent choices are saved in your browser's storage.",
+          "Health Check answers (income, expenses, savings, debt, cash, your goal) and your score are calculated in your browser and saved on this device.",
+          "You can export or delete this data at any time in the data panel on this page.",
         ],
       },
       {
-        title: "Legal basis and consents",
+        title: "Data sent to our service providers",
         items: [
-          "Using the app requires acceptance of terms and privacy information.",
-          "External features are optional and can be enabled or disabled in consent settings.",
-          "Withdrawing consent does not affect processing that happened before withdrawal.",
-          "We do not ask for bank passwords, card numbers, national IDs or financial institution login data.",
+          "Account (if you sign in): sign-in by email is handled by Coinbase Developer Platform, which also creates an embedded wallet for you. We store your email, display name and wallet addresses with your account in our database (Supabase).",
+          "Health Check (if you're signed in): your answers — income, expenses, savings, debt, cash and goal — and your score are saved to your account in Supabase so you can see your progress on other devices.",
+          "Progress sync (if you're signed in): lesson progress, streaks, review cards, points, certificates and your consent history are saved in Supabase.",
+          "AI chat (only with the AI coach consent on): the text you type and up to six recent messages are sent to Anthropic to generate Mila's reply. If Anthropic is unavailable, the same text may be sent through OpenRouter, which passes it to another AI model provider.",
+          "Voice conversations (only with the AI coach and voice consents on): when you talk to Mila, your microphone audio and the conversation transcript are streamed to ElevenLabs to run the conversation. [ElevenLabs retention period — to be confirmed in the ElevenLabs settings.]",
+          "Read-aloud: when you use a read-aloud button, that text is sent to ElevenLabs to create audio.",
+          "Leaderboard (only if you opt in): your display name, score and streak are saved in Supabase and shown to other users.",
+          "Certificates (only if you opt in): your wallet address and certificate details are written to a public Solana test network. Blockchain records can be public and permanent.",
+          "Hosting and security: the app runs on Vercel, which processes technical data such as IP address, browser type and request logs. Upstash (Redis) may be used to count beta invite codes; it stores codes and counters, not your answers.",
         ],
       },
       {
-        title: "Your rights",
+        title: "What we don't do",
         items: [
-          "You can delete local app data from this device.",
-          "You can export local data stored by Coach FI.",
-          "You can change optional consents in the footer.",
-          "Production deployment must add controller details, privacy contact and GDPR request handling.",
+          "We don't sell your personal information, and we don't share it for cross-context behavioral (targeted) advertising.",
+          "We don't show ads.",
+          "We never ask for bank passwords, card numbers, Social Security numbers or bank logins. Please don't type them into the chat.",
+        ],
+      },
+      {
+        title: "Why we use data",
+        items: [
+          "To run the app, save your progress and sync it across your devices.",
+          "To generate Mila's educational replies and voice.",
+          "To show the leaderboard and certificates if you opt in.",
+          "To keep the service secure, prevent abuse (for example with rate limits) and fix errors.",
+        ],
+      },
+      {
+        title: "How long we keep it",
+        items: [
+          "On your device: until you delete it or clear your browser data.",
+          "Account data in Supabase: while your account is active, and deleted within [retention period — to be completed] after you ask us to delete your account.",
+          "AI and voice providers keep data according to their own retention settings: [Anthropic, OpenRouter and ElevenLabs retention — to be confirmed].",
+          "Data written to a blockchain can't be deleted.",
+        ],
+      },
+      {
+        title: "Your choices and rights",
+        items: [
+          "Turn AI, voice, leaderboard and certificate features on or off at any time in the consent settings (footer).",
+          "Export or delete the data on this device with the data panel on this page.",
+          "Ask for a copy of your account data, or ask us to correct or delete it, by emailing [privacy contact email — to be completed].",
+          "U.S. residents: depending on your state (for example California under the CCPA/CPRA), you may have the right to know what personal information we collect, to access, correct and delete it, and to opt out of its sale or sharing. We don't sell or share personal information. You can use an authorized agent, and we won't treat you differently for using your rights.",
+          "Users in the EU, EEA or UK (including Poland): under the GDPR you can access, correct, delete, restrict or port your data, object to processing and withdraw consent at any time. You can also complain to your data protection authority (in Poland: UODO).",
+        ],
+      },
+      {
+        title: "Children and Kids Mode",
+        items: [
+          "Kids Mode is meant to be set up and used by a parent or guardian together with their child. It has no wallet, no leaderboard and no ads.",
+          "Mila's voice assistant and AI chat stay available in Kids Mode. If a child talks or types to Mila, their voice and words are processed by ElevenLabs and our AI providers in the same way as for adults.",
+          "A parent or guardian should decide whether to keep AI and voice on, and can turn them off in the consent settings. Children shouldn't create an account or enter personal information.",
+          "[Parental consent process for children under 13 (COPPA) — to be completed after legal review.] If you think a child gave us personal information, contact [privacy contact email — to be completed] and we'll delete it.",
+        ],
+      },
+      {
+        title: "Transfers and changes",
+        items: [
+          "Our providers may process data in the United States and other countries.",
+          "If we change this policy, we'll update the date at the top and, for important changes, tell you in the app.",
         ],
       },
     ],
-    providersTitle: "External providers",
+    providersTitle: "Service providers",
     providersText:
-      "The app can integrate with Anthropic, ElevenLabs, Supabase and Solana Devnet. Before production, confirm processing regions, data processing agreements, retention and international transfers for each provider.",
+      "Supabase (database), Coinbase Developer Platform (sign-in and embedded wallets), Anthropic (AI chat), OpenRouter (AI chat fallback), ElevenLabs (voice conversations and read-aloud), Vercel (hosting), Upstash (beta invite-code counters) and the Solana test network (public certificates). [Data processing agreements, processing regions and retention for each provider — to be confirmed.]",
   },
   pl: {
     eyebrow: "Prywatność i dane",
     title: "Polityka prywatności Coach FI",
-    updatedAt: "10 maja 2026",
+    draftBadge: "Wersja robocza — czeka na weryfikację prawną",
+    updatedAt: "Aktualizacja: 3 listopada 2026",
     notice: "Ten dokument jest roboczym wzorem dla MVP i powinien zostać sprawdzony przez prawnika przed produkcyjnym wdrożeniem.",
     blocks: [
       {
         title: "Jakie dane przetwarzamy",
         items: [
           "Dane lokalne: imię lub pseudonim, cel finansowy, postępy, seria, ustawienia głosu, język i zgody.",
-          "Dane formularzy edukacyjnych: kwoty wpisane w diagnozie finansowej są liczone w przeglądarce.",
-          "Dane AI: treść pytania i krótka historia rozmowy są wysyłane do modelu AI tylko po wyrażeniu zgody.",
-          "Dane głosowe: krótkie fragmenty tekstu są wysyłane do ElevenLabs tylko po kliknięciu przycisku odczytu.",
+          "Diagnoza finansowa: kwoty (dochód, wydatki, oszczędności, dług, gotówka, cel) i wynik są liczone w przeglądarce, a po zalogowaniu zapisywane na Twoim koncie w bazie danych (Supabase).",
+          "Konto i synchronizacja (po zalogowaniu): logowanie e-mailem obsługuje Coinbase Developer Platform, który tworzy też portfel. W Supabase zapisujemy e-mail, nazwę, adresy portfela, postępy, serie, punkty, certyfikaty i historię zgód.",
+          "Czat AI (tylko ze zgodą na AI): treść pytania i do sześciu ostatnich wiadomości trafiają do Anthropic, a gdy Anthropic jest niedostępny — przez OpenRouter do innego dostawcy modelu.",
+          "Rozmowa głosowa (tylko ze zgodą na AI i głos): dźwięk z mikrofonu i transkrypcja rozmowy są przesyłane do ElevenLabs. Odczyt na głos: tekst z ekranu trafia do ElevenLabs po kliknięciu przycisku odczytu.",
+          "Hosting: aplikacja działa na Vercel (adres IP, typ przeglądarki, logi). Upstash (Redis) może liczyć kody zaproszeń do bety.",
           "Ranking: nazwa wyświetlana, wynik i seria są wysyłane do Supabase tylko po wyrażeniu zgody.",
           "Blockchain: adres portfela i metadane certyfikatu mogą być publiczne i trudne do usunięcia.",
         ],
@@ -108,13 +159,15 @@ const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
           "Możesz usunąć lokalne dane aplikacji z tego urządzenia.",
           "Możesz wyeksportować lokalne dane zapisane przez Coach FI.",
           "Możesz zmienić zgody opcjonalne w stopce aplikacji.",
-          "W produkcji trzeba uzupełnić dane administratora, kontakt privacy oraz procedury obsługi żądań RODO.",
+          "Na podstawie RODO masz prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia, sprzeciwu i wycofania zgody, a także prawo skargi do Prezesa UODO.",
+          "Administrator: [Nazwa firmy, adres — do uzupełnienia]. Kontakt w sprawach prywatności: [e-mail — do uzupełnienia].",
+          "Tryb dla dzieci: asystent głosowy i czat z Milą działają także w trybie dla dzieci. Jeśli dziecko rozmawia z Milą, jego głos i wypowiedzi przetwarzają ElevenLabs i dostawcy AI tak jak w przypadku dorosłych. Rodzic lub opiekun może wyłączyć AI i głos w ustawieniach zgód.",
         ],
       },
     ],
     providersTitle: "Dostawcy zewnętrzni",
     providersText:
-      "Aplikacja może integrować się z Anthropic, ElevenLabs, Supabase i Solana Devnet. Przed wersją produkcyjną należy potwierdzić region przetwarzania, umowy powierzenia, retencję danych oraz transfery poza EOG dla każdego dostawcy.",
+      "Supabase (baza danych), Coinbase Developer Platform (logowanie i portfele), Anthropic (czat AI), OpenRouter (zapasowy czat AI), ElevenLabs (rozmowy głosowe i odczyt), Vercel (hosting), Upstash (liczniki kodów zaproszeń) i sieć testowa Solana (publiczne certyfikaty). [Umowy powierzenia, regiony przetwarzania i okresy retencji — do potwierdzenia.] Nie sprzedajemy danych osobowych i nie wyświetlamy reklam.",
   },
   ja: {
     eyebrow: "プライバシーとデータ",
@@ -132,53 +185,97 @@ const PRIVACY_COPY: LocalizedMap<PrivacyCopy> = {
   },
   es: {
     eyebrow: "Privacidad y datos",
-    title: "Política de privacidad de Coach FI",
-    updatedAt: "10 de mayo de 2026",
-    notice: "Este es un borrador de MVP y debe revisarlo un abogado antes del lanzamiento en producción.",
+    title: "Política de privacidad de CoachfiAI",
+    draftBadge: "Borrador — pendiente de revisión legal",
+    updatedAt: "Última actualización: 3 de noviembre de 2026",
+    notice:
+      "Este es un borrador de la beta. Describe lo que la app hace hoy, pero todavía no lo ha revisado un abogado. Lo que aparece entre [corchetes] está pendiente de completar.",
     blocks: [
       {
-        title: "Qué datos tratamos",
+        title: "Quiénes somos",
         items: [
-          "Datos locales: nombre o apodo, objetivo, progreso, racha, ajustes de voz, idioma y consentimientos.",
-          "Datos de formularios educativos: los importes introducidos en el chequeo financiero se calculan en el navegador.",
-          "Datos de IA: el texto de la pregunta y un breve historial del chat se envían al proveedor de IA solo con consentimiento.",
-          "Datos de voz: se envían fragmentos cortos de texto a ElevenLabs solo después de pulsar un botón de lectura en voz alta.",
-          "Datos de clasificación: el nombre visible, la puntuación y la racha se envían a Supabase solo con consentimiento.",
-          "Datos de blockchain: la dirección del monedero y los metadatos del certificado pueden ser públicos y difíciles de eliminar.",
+          "CoachfiAI está operada por [Nombre de la empresa, dirección — pendiente de completar] («nosotros»).",
+          "Preguntas y solicitudes de privacidad: [correo de contacto de privacidad — pendiente de completar].",
         ],
       },
       {
-        title: "Para qué tratamos los datos",
+        title: "Datos guardados en tu dispositivo",
         items: [
-          "Para guardar el progreso y los ajustes en este dispositivo.",
-          "Para personalizar las respuestas educativas de Mila.",
-          "Para leer las respuestas en voz alta cuando la voz está activada.",
-          "Para mostrar la clasificación y los certificados educativos.",
-          "Para proteger los endpoints de la API, aplicar límites de uso y diagnosticar la configuración.",
+          "Tu nombre o apodo, tu meta, el progreso de las lecciones, la racha, los puntos, las tarjetas de repaso, los ajustes, el idioma y tus consentimientos se guardan en el almacenamiento de tu navegador.",
+          "Las respuestas del Chequeo de salud financiera (ingresos, gastos, ahorros, deudas, efectivo, tu meta) y tu puntuación se calculan en tu navegador y se guardan en este dispositivo.",
+          "Puedes exportar o borrar estos datos cuando quieras en el panel de datos de esta página.",
         ],
       },
       {
-        title: "Base legal y consentimientos",
+        title: "Datos que enviamos a nuestros proveedores",
         items: [
-          "Usar la app requiere aceptar las condiciones y la información de privacidad.",
-          "Las funciones externas son opcionales y se pueden activar o desactivar en los ajustes de consentimiento.",
-          "Retirar el consentimiento no afecta al tratamiento realizado antes de la retirada.",
-          "No pedimos contraseñas bancarias, números de tarjeta, documentos de identidad ni datos de acceso a entidades financieras.",
+          "Cuenta (si inicias sesión): el inicio de sesión por correo lo gestiona Coinbase Developer Platform, que también crea una billetera integrada para ti. Guardamos tu correo, tu nombre visible y las direcciones de tu billetera con tu cuenta en nuestra base de datos (Supabase).",
+          "Chequeo de salud financiera (si iniciaste sesión): tus respuestas —ingresos, gastos, ahorros, deudas, efectivo y meta— y tu puntuación se guardan en tu cuenta en Supabase para que veas tu progreso en otros dispositivos.",
+          "Sincronización del progreso (si iniciaste sesión): el progreso de las lecciones, las rachas, las tarjetas de repaso, los puntos, los certificados y tu historial de consentimientos se guardan en Supabase.",
+          "Chat con IA (solo con el consentimiento del coach de IA activado): el texto que escribes y hasta seis mensajes recientes se envían a Anthropic para generar la respuesta de Mila. Si Anthropic no está disponible, el mismo texto puede enviarse a través de OpenRouter, que lo pasa a otro proveedor de modelos de IA.",
+          "Conversaciones de voz (solo con los consentimientos de coach de IA y de voz activados): cuando hablas con Mila, el audio de tu micrófono y la transcripción se transmiten a ElevenLabs para mantener la conversación. [Plazo de conservación de ElevenLabs — pendiente de confirmar en su configuración.]",
+          "Lectura en voz alta: cuando usas un botón de lectura, ese texto se envía a ElevenLabs para crear el audio.",
+          "Clasificación (solo si la activas): tu nombre visible, tu puntuación y tu racha se guardan en Supabase y otros usuarios pueden verlos.",
+          "Certificados (solo si los activas): la dirección de tu billetera y los datos del certificado se escriben en una red de prueba pública de Solana. Los registros en blockchain pueden ser públicos y permanentes.",
+          "Alojamiento y seguridad: la app funciona en Vercel, que procesa datos técnicos como la dirección IP, el tipo de navegador y los registros de solicitudes. Upstash (Redis) puede usarse para contar códigos de invitación de la beta; guarda códigos y contadores, no tus respuestas.",
         ],
       },
       {
-        title: "Tus derechos",
+        title: "Lo que no hacemos",
         items: [
-          "Puedes eliminar los datos locales de la app de este dispositivo.",
-          "Puedes exportar los datos locales guardados por Coach FI.",
-          "Puedes cambiar los consentimientos opcionales en el pie de página.",
-          "La versión de producción debe añadir los datos del responsable, un contacto de privacidad y la gestión de solicitudes RGPD.",
+          "No vendemos tu información personal ni la compartimos para publicidad dirigida.",
+          "No mostramos anuncios.",
+          "Nunca te pedimos contraseñas del banco, números de tarjeta, números de Seguro Social ni accesos a tu banco. Por favor, no los escribas en el chat.",
+        ],
+      },
+      {
+        title: "Para qué usamos los datos",
+        items: [
+          "Para que la app funcione, guardar tu progreso y sincronizarlo entre tus dispositivos.",
+          "Para generar las respuestas educativas y la voz de Mila.",
+          "Para mostrar la clasificación y los certificados si los activas.",
+          "Para mantener el servicio seguro, evitar abusos (por ejemplo, con límites de uso) y corregir errores.",
+        ],
+      },
+      {
+        title: "Cuánto tiempo los guardamos",
+        items: [
+          "En tu dispositivo: hasta que los borres o limpies los datos del navegador.",
+          "Datos de la cuenta en Supabase: mientras tu cuenta esté activa, y se borran en un plazo de [plazo — pendiente de completar] después de que nos pidas eliminar tu cuenta.",
+          "Los proveedores de IA y voz conservan los datos según su propia configuración: [conservación de Anthropic, OpenRouter y ElevenLabs — pendiente de confirmar].",
+          "Los datos escritos en una blockchain no se pueden borrar.",
+        ],
+      },
+      {
+        title: "Tus opciones y derechos",
+        items: [
+          "Activa o desactiva cuando quieras la IA, la voz, la clasificación y los certificados en la configuración de consentimientos (pie de página).",
+          "Exporta o borra los datos de este dispositivo con el panel de datos de esta página.",
+          "Pide una copia de los datos de tu cuenta, o que los corrijamos o borremos, escribiendo a [correo de contacto de privacidad — pendiente de completar].",
+          "Residentes de EE. UU.: según tu estado (por ejemplo, California con la CCPA/CPRA), puedes tener derecho a saber qué información personal recopilamos, a acceder a ella, corregirla y borrarla, y a excluirte de su venta o intercambio. No vendemos ni compartimos información personal. Puedes usar un agente autorizado y no te trataremos de forma distinta por ejercer tus derechos.",
+          "Usuarios de la UE, el EEE o el Reino Unido: según el RGPD puedes acceder a tus datos, corregirlos, borrarlos, limitar su uso o llevártelos, oponerte al tratamiento y retirar tu consentimiento en cualquier momento. También puedes reclamar ante tu autoridad de protección de datos.",
+        ],
+      },
+      {
+        title: "Niños y Modo niños",
+        items: [
+          "El Modo niños está pensado para que lo configure y use un padre, madre o tutor junto con su hijo o hija. No tiene billetera, clasificación ni anuncios.",
+          "El asistente de voz de Mila y el chat con IA siguen disponibles en el Modo niños. Si un niño habla o escribe a Mila, su voz y sus palabras las procesan ElevenLabs y nuestros proveedores de IA igual que las de un adulto.",
+          "El padre, la madre o el tutor debe decidir si mantiene activadas la IA y la voz, y puede desactivarlas en la configuración de consentimientos. Los niños no deben crear una cuenta ni escribir información personal.",
+          "[Proceso de consentimiento parental para menores de 13 años (COPPA) — pendiente de completar tras la revisión legal.] Si crees que un niño nos dio información personal, escríbenos a [correo de contacto de privacidad — pendiente de completar] y la borraremos.",
+        ],
+      },
+      {
+        title: "Transferencias y cambios",
+        items: [
+          "Nuestros proveedores pueden tratar datos en Estados Unidos y en otros países.",
+          "Si cambiamos esta política, actualizaremos la fecha de arriba y, si el cambio es importante, te avisaremos en la app.",
         ],
       },
     ],
-    providersTitle: "Proveedores externos",
+    providersTitle: "Proveedores de servicios",
     providersText:
-      "La app puede integrarse con Anthropic, ElevenLabs, Supabase y Solana Devnet. Antes de pasar a producción, confirma con cada proveedor las regiones de tratamiento, los contratos de encargo de tratamiento, la conservación y las transferencias internacionales.",
+      "Supabase (base de datos), Coinbase Developer Platform (inicio de sesión y billeteras integradas), Anthropic (chat con IA), OpenRouter (respaldo del chat con IA), ElevenLabs (conversaciones de voz y lectura en voz alta), Vercel (alojamiento), Upstash (contadores de códigos de invitación de la beta) y la red de prueba de Solana (certificados públicos). [Acuerdos de tratamiento de datos, regiones y conservación de cada proveedor — pendientes de confirmar.]",
   },
   fr: {
     eyebrow: "Confidentialité et données",
@@ -440,6 +537,9 @@ export default function PrivacyPage() {
   return (
     <section className="space-y-6" aria-labelledby="privacy-title">
       <div className="focus-card rounded-lg p-6 md:p-8">
+        <p className="mb-3 inline-flex items-center rounded-full border border-warning/40 bg-warning/15 px-3 py-1 text-xs font-black uppercase text-warning" data-testid="legal-draft-badge">
+          {copy.draftBadge ?? FALLBACK_BADGE}
+        </p>
         <p className="text-sm font-black uppercase text-primary">{copy.eyebrow}</p>
         <div className="mt-2 flex items-start justify-between gap-3">
           <h1 id="privacy-title" className="text-3xl font-black text-text">
