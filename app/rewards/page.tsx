@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import type { WalletName } from "@solana/wallet-adapter-base";
 import { useGetAccessToken, useIsInitialized, useIsSignedIn, useSignOut, useSolanaAddress } from "@coinbase/cdp-hooks";
@@ -21,6 +20,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/context/LanguageContext";
+import { readHealthSnapshot, useTokenBalance } from "@/context/progressHooks";
+import { useStreak } from "@/context/StreakContext";
 import { certificates } from "@/data/certificates";
 import {
   CERTIFICATE_STAGE_IDS,
@@ -29,12 +30,9 @@ import {
 } from "@/lib/certificate-cards";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getAllStageProgress, type StageProgress } from "@/lib/learningProgress";
-import { createMockTransactionHash, wait } from "@/lib/solanaMock";
 import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
 import { hideSavedProgress } from "@/lib/progress-visibility";
 import { requestSignIn } from "@/lib/signInGate";
-import { getTokenBalance } from "@/lib/tokens";
-import { getDisplayName, getUser } from "@/lib/user";
 import { getVoiceDemoLanguage, getVoiceDemoLocale, voiceDemoScripts } from "@/lib/voiceDemoScripts";
 
 type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
@@ -42,7 +40,8 @@ type MintStep = "idle" | "preparing" | "signing" | "confirming" | "done";
 const phantomWalletEnabled = false;
 const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID?.trim() ?? "";
 const devMintRecipient = process.env.NEXT_PUBLIC_DEV_MINT_RECIPIENT?.trim() ?? "";
-const mintImmediately = process.env.NODE_ENV === "development";
+// Local development only: lets a developer mint to a fixed Devnet address without signing in.
+const devMintAllowed = process.env.NODE_ENV === "development" && devMintRecipient !== "";
 
 const rewardsCopy: LocalizedMap<
   {
@@ -484,20 +483,202 @@ const rewardsCopy: LocalizedMap<
   },
 };
 
+type MintCopy = {
+  intro: string;
+  noneReady: string;
+  readyFor: (title: string) => string;
+  signInFirst: string;
+  signInAction: string;
+  accountsUnavailable: string;
+  consentAction: string;
+  preparing: string;
+  recording: string;
+  notConfigured: string;
+  authFailed: string;
+  rateLimited: string;
+  failed: string;
+  dialogDescription: (title: string) => string;
+};
+
+const MINT_COPY: LocalizedMap<MintCopy> = {
+  en: {
+    intro: "Record a certificate you have earned on Solana Devnet as proof of your learning.",
+    noneReady: "No certificate is ready yet. Finish a learning stage to unlock your first one.",
+    readyFor: (title) => `Ready to record: ${title}.`,
+    signInFirst: "Sign in to record certificates. Your account gets a Devnet address that owns them.",
+    signInAction: "Sign in to mint",
+    accountsUnavailable: "Recording certificates needs an account, which is not available in this version yet. Your progress is saved on this device.",
+    consentAction: "Allow certificate consent",
+    preparing: "Preparing certificate...",
+    recording: "Recording on Solana Devnet...",
+    notConfigured: "Certificate recording is not available right now. Nothing was recorded. Your progress is saved, so please try again later.",
+    authFailed: "Your session has expired. Sign in again to record the certificate. Nothing was recorded.",
+    rateLimited: "Too many attempts. Please wait a few minutes and try again. Nothing was recorded.",
+    failed: "Recording the certificate failed. Nothing was recorded. Please try again later.",
+    dialogDescription: (title) => `Your ${title} was recorded on Solana Devnet.`,
+  },
+  pl: {
+    intro: "Zapisz zdobyty certyfikat w Solana Devnet jako dowód swojej nauki.",
+    noneReady: "Żaden certyfikat nie jest jeszcze gotowy. Ukończ etap nauki, aby odblokować pierwszy.",
+    readyFor: (title) => `Gotowy do zapisania: ${title}.`,
+    signInFirst: "Zaloguj się, aby zapisywać certyfikaty. Twoje konto dostaje adres Devnet, który jest ich właścicielem.",
+    signInAction: "Zaloguj się, aby zapisać",
+    accountsUnavailable: "Zapis certyfikatów wymaga konta, które nie jest jeszcze dostępne w tej wersji. Twój postęp jest zapisany na tym urządzeniu.",
+    consentAction: "Włącz zgodę na certyfikaty",
+    preparing: "Przygotowywanie certyfikatu...",
+    recording: "Zapisywanie w Solana Devnet...",
+    notConfigured: "Zapis certyfikatów jest teraz niedostępny. Nic nie zostało zapisane. Twój postęp jest bezpieczny, spróbuj ponownie później.",
+    authFailed: "Sesja wygasła. Zaloguj się ponownie, aby zapisać certyfikat. Nic nie zostało zapisane.",
+    rateLimited: "Zbyt wiele prób. Odczekaj kilka minut i spróbuj ponownie. Nic nie zostało zapisane.",
+    failed: "Nie udało się zapisać certyfikatu. Nic nie zostało zapisane. Spróbuj ponownie później.",
+    dialogDescription: (title) => `${title} został zapisany w Solana Devnet.`,
+  },
+  es: {
+    intro: "Registra en Solana Devnet un certificado que hayas ganado como prueba de tu aprendizaje.",
+    noneReady: "Aún no hay ningún certificado listo. Termina una etapa de aprendizaje para desbloquear el primero.",
+    readyFor: (title) => `Listo para registrar: ${title}.`,
+    signInFirst: "Inicia sesión para registrar certificados. Tu cuenta recibe una dirección de Devnet que los posee.",
+    signInAction: "Inicia sesión para registrar",
+    accountsUnavailable: "Registrar certificados requiere una cuenta, que aún no está disponible en esta versión. Tu progreso se guarda en este dispositivo.",
+    consentAction: "Permitir consentimiento de certificados",
+    preparing: "Preparando el certificado...",
+    recording: "Registrando en Solana Devnet...",
+    notConfigured: "El registro de certificados no está disponible ahora. No se registró nada. Tu progreso está guardado; inténtalo más tarde.",
+    authFailed: "Tu sesión ha caducado. Vuelve a iniciar sesión para registrar el certificado. No se registró nada.",
+    rateLimited: "Demasiados intentos. Espera unos minutos y vuelve a intentarlo. No se registró nada.",
+    failed: "No se pudo registrar el certificado. No se registró nada. Inténtalo más tarde.",
+    dialogDescription: (title) => `Tu ${title} se registró en Solana Devnet.`,
+  },
+  fr: {
+    intro: "Enregistrez sur Solana Devnet un certificat obtenu, comme preuve de votre apprentissage.",
+    noneReady: "Aucun certificat n'est encore prêt. Terminez une étape d'apprentissage pour débloquer le premier.",
+    readyFor: (title) => `Prêt à enregistrer : ${title}.`,
+    signInFirst: "Connectez-vous pour enregistrer des certificats. Votre compte reçoit une adresse Devnet qui les détient.",
+    signInAction: "Se connecter pour enregistrer",
+    accountsUnavailable: "L'enregistrement des certificats nécessite un compte, pas encore disponible dans cette version. Votre progression est conservée sur cet appareil.",
+    consentAction: "Autoriser le consentement certificats",
+    preparing: "Préparation du certificat...",
+    recording: "Enregistrement sur Solana Devnet...",
+    notConfigured: "L'enregistrement des certificats est indisponible pour le moment. Rien n'a été enregistré. Votre progression est conservée ; réessayez plus tard.",
+    authFailed: "Votre session a expiré. Reconnectez-vous pour enregistrer le certificat. Rien n'a été enregistré.",
+    rateLimited: "Trop de tentatives. Patientez quelques minutes puis réessayez. Rien n'a été enregistré.",
+    failed: "L'enregistrement du certificat a échoué. Rien n'a été enregistré. Réessayez plus tard.",
+    dialogDescription: (title) => `Votre ${title} a été enregistré sur Solana Devnet.`,
+  },
+  zh: {
+    intro: "将你获得的证书记录到 Solana Devnet，作为学习的证明。",
+    noneReady: "还没有可用的证书。完成一个学习阶段即可解锁第一个证书。",
+    readyFor: (title) => `可以记录：${title}。`,
+    signInFirst: "登录后才能记录证书。你的账户会获得一个拥有证书的 Devnet 地址。",
+    signInAction: "登录以记录",
+    accountsUnavailable: "记录证书需要账户，此版本暂不提供。你的进度已保存在此设备上。",
+    consentAction: "允许证书授权",
+    preparing: "正在准备证书...",
+    recording: "正在记录到 Solana Devnet...",
+    notConfigured: "证书记录功能暂时不可用，未记录任何内容。你的进度已保存，请稍后再试。",
+    authFailed: "会话已过期。请重新登录以记录证书，未记录任何内容。",
+    rateLimited: "尝试次数过多。请等几分钟再试，未记录任何内容。",
+    failed: "证书记录失败，未记录任何内容。请稍后再试。",
+    dialogDescription: (title) => `你的${title}已记录到 Solana Devnet。`,
+  },
+  ja: {
+    intro: "獲得した証明書を学習の証としてSolana Devnetに記録します。",
+    noneReady: "まだ準備できた証明書はありません。学習ステージを1つ終えると最初の証明書が解放されます。",
+    readyFor: (title) => `記録できます：${title}`,
+    signInFirst: "証明書を記録するにはログインしてください。アカウントに証明書を所有するDevnetアドレスが作られます。",
+    signInAction: "ログインして記録",
+    accountsUnavailable: "証明書の記録にはアカウントが必要ですが、このバージョンではまだ利用できません。進捗はこの端末に保存されています。",
+    consentAction: "証明書の同意を許可",
+    preparing: "証明書を準備中...",
+    recording: "Solana Devnetに記録中...",
+    notConfigured: "現在、証明書の記録は利用できません。何も記録されていません。進捗は保存されているので、後でもう一度お試しください。",
+    authFailed: "セッションの有効期限が切れました。もう一度ログインして記録してください。何も記録されていません。",
+    rateLimited: "試行回数が多すぎます。数分待ってからもう一度お試しください。何も記録されていません。",
+    failed: "証明書を記録できませんでした。何も記録されていません。後でもう一度お試しください。",
+    dialogDescription: (title) => `${title}がSolana Devnetに記録されました。`,
+  },
+  hi: {
+    intro: "अपनी सीखने की प्रगति के सबूत के तौर पर कमाया हुआ प्रमाणपत्र Solana Devnet पर दर्ज करें।",
+    noneReady: "अभी कोई प्रमाणपत्र तैयार नहीं है। पहला प्रमाणपत्र पाने के लिए एक सीखने का चरण पूरा करें।",
+    readyFor: (title) => `दर्ज करने के लिए तैयार: ${title}।`,
+    signInFirst: "प्रमाणपत्र दर्ज करने के लिए साइन इन करें। आपके खाते को एक Devnet पता मिलता है जो उनका मालिक होता है।",
+    signInAction: "दर्ज करने के लिए साइन इन करें",
+    accountsUnavailable: "प्रमाणपत्र दर्ज करने के लिए खाता चाहिए, जो इस संस्करण में अभी उपलब्ध नहीं है। आपकी प्रगति इस डिवाइस पर सहेजी गई है।",
+    consentAction: "प्रमाणपत्र सहमति दें",
+    preparing: "प्रमाणपत्र तैयार हो रहा है...",
+    recording: "Solana Devnet पर दर्ज हो रहा है...",
+    notConfigured: "प्रमाणपत्र दर्ज करना अभी उपलब्ध नहीं है। कुछ भी दर्ज नहीं हुआ। आपकी प्रगति सहेजी गई है, बाद में फिर कोशिश करें।",
+    authFailed: "आपका सत्र समाप्त हो गया। प्रमाणपत्र दर्ज करने के लिए फिर से साइन इन करें। कुछ भी दर्ज नहीं हुआ।",
+    rateLimited: "बहुत ज़्यादा प्रयास। कुछ मिनट रुककर फिर कोशिश करें। कुछ भी दर्ज नहीं हुआ।",
+    failed: "प्रमाणपत्र दर्ज नहीं हो सका। कुछ भी दर्ज नहीं हुआ। बाद में फिर कोशिश करें।",
+    dialogDescription: (title) => `आपका ${title} Solana Devnet पर दर्ज हो गया।`,
+  },
+  "pt-BR": {
+    intro: "Registre na Solana Devnet um certificado que você conquistou, como prova do seu aprendizado.",
+    noneReady: "Nenhum certificado está pronto ainda. Conclua uma etapa de aprendizado para desbloquear o primeiro.",
+    readyFor: (title) => `Pronto para registrar: ${title}.`,
+    signInFirst: "Entre para registrar certificados. Sua conta recebe um endereço Devnet que é dono deles.",
+    signInAction: "Entrar para registrar",
+    accountsUnavailable: "Registrar certificados exige uma conta, que ainda não está disponível nesta versão. Seu progresso está salvo neste dispositivo.",
+    consentAction: "Permitir consentimento de certificados",
+    preparing: "Preparando o certificado...",
+    recording: "Registrando na Solana Devnet...",
+    notConfigured: "O registro de certificados não está disponível agora. Nada foi registrado. Seu progresso está salvo; tente novamente mais tarde.",
+    authFailed: "Sua sessão expirou. Entre novamente para registrar o certificado. Nada foi registrado.",
+    rateLimited: "Muitas tentativas. Aguarde alguns minutos e tente novamente. Nada foi registrado.",
+    failed: "Não foi possível registrar o certificado. Nada foi registrado. Tente novamente mais tarde.",
+    dialogDescription: (title) => `Seu ${title} foi registrado na Solana Devnet.`,
+  },
+  tr: {
+    intro: "Kazandığın bir sertifikayı öğrenmenin kanıtı olarak Solana Devnet'e kaydet.",
+    noneReady: "Henüz hazır sertifika yok. İlkini açmak için bir öğrenme aşamasını tamamla.",
+    readyFor: (title) => `Kaydetmeye hazır: ${title}.`,
+    signInFirst: "Sertifika kaydetmek için giriş yap. Hesabın, sertifikaların sahibi olan bir Devnet adresi alır.",
+    signInAction: "Kaydetmek için giriş yap",
+    accountsUnavailable: "Sertifika kaydetmek için hesap gerekir; bu sürümde henüz yok. İlerlemen bu cihazda kayıtlı.",
+    consentAction: "Sertifika onayını ver",
+    preparing: "Sertifika hazırlanıyor...",
+    recording: "Solana Devnet'e kaydediliyor...",
+    notConfigured: "Sertifika kaydı şu anda kullanılamıyor. Hiçbir şey kaydedilmedi. İlerlemen kayıtlı; daha sonra tekrar dene.",
+    authFailed: "Oturumun sona erdi. Sertifikayı kaydetmek için tekrar giriş yap. Hiçbir şey kaydedilmedi.",
+    rateLimited: "Çok fazla deneme. Birkaç dakika bekleyip tekrar dene. Hiçbir şey kaydedilmedi.",
+    failed: "Sertifika kaydedilemedi. Hiçbir şey kaydedilmedi. Daha sonra tekrar dene.",
+    dialogDescription: (title) => `${title} Solana Devnet'e kaydedildi.`,
+  },
+};
+
+/** English names sent to the mint API (metadata URI + on-chain attribute). */
+const CERTIFICATE_API_NAMES: Record<CertificateCardId, string> = {
+  "money-mindset": "Money Mindset",
+  "saving-habit": "Saving Habit",
+  "inflation-fighter": "Inflation Fighter",
+};
+
+type MintPhase = "idle" | "preparing" | "recording";
+type MintResult = { certificateId: CertificateCardId; title: string; txHash: string; explorerUrl: string };
+
+/** Readiness comes only from real progress on this device. */
+function isCertificateEarned(id: CertificateCardId, stageCompleted: boolean, longestStreak: number) {
+  if (id === "saving-habit") return stageCompleted && longestStreak >= 3;
+  return stageCompleted;
+}
+
 export default function RewardsPage() {
   const { locale, t } = useLanguage();
   const copy = pickLocalized(rewardsCopy, locale);
+  const mintCopy = pickLocalized(MINT_COPY, locale);
   const { hasOptionalConsent, openSettings } = useConsent();
+  const { streak } = useStreak();
   const voiceLocale = getVoiceDemoLocale(locale);
   const voiceLanguage = getVoiceDemoLanguage(voiceLocale);
   const certificateVoiceText = voiceDemoScripts[voiceLocale].certificateUnlock;
   const { connected, connecting, publicKey, select, connect, disconnect, wallets } = useWallet();
   const [embeddedAddress, setEmbeddedAddress] = useState<string | null>(null);
-  const [mintStep, setMintStep] = useState<MintStep>("idle");
+  const [mintPhase, setMintPhase] = useState<MintPhase>("idle");
+  const [mintResult, setMintResult] = useState<MintResult | null>(null);
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
-  const [mockTxHash, setMockTxHash] = useState("");
   const [mintError, setMintError] = useState("");
-  const [tokenBalance, setTokenBalance] = useState(0);
+  const tokenBalance = useTokenBalance();
   const [stageProgress, setStageProgress] = useState<StageProgress[]>([]);
   const [savedCertificates, setSavedCertificates] = useState<SavedCertificate[]>([]);
   const accessToken = useRef<(() => Promise<string | null>) | null>(null);
@@ -506,118 +687,125 @@ export default function RewardsPage() {
     const stageId = CERTIFICATE_STAGE_IDS[certificate.id];
     const stage = stageProgress.find((item) => item.stageId === stageId);
     const row = savedCertificates.find((item) => item.certificateId === certificate.id) ?? null;
-    const label = certificateCardLabel(
-      stage?.status === "completed",
-      row?.status ?? null,
-      certificate.id === "saving-habit",
-    );
+    const minted = mintResult?.certificateId === certificate.id ? mintResult : null;
+    const earned = isCertificateEarned(certificate.id, stage?.status === "completed", streak.longestStreak);
+    const label = minted ? "minted" : certificateCardLabel(earned, row?.status ?? null);
     return {
       ...certificate,
       title: text?.title ?? certificate.title,
       description: text?.description ?? certificate.description,
       status: copy.statusLabels[label],
+      label,
       statusVariant: label === "minted" ? "success" as const : label === "ready" ? "accent" as const : "muted" as const,
-      txHash: row?.txHash || undefined,
+      txHash: minted?.txHash || row?.txHash || undefined,
       assetAddress: row?.assetAddress,
     };
   });
+  const mintTarget = localizedCertificates.find((certificate) => certificate.label === "ready") ?? null;
 
   useEffect(() => {
-    const refresh = () => {
-      setTokenBalance(getTokenBalance());
-      setStageProgress(getAllStageProgress());
-    };
+    const refresh = () => setStageProgress(getAllStageProgress());
     refresh();
-    window.addEventListener("coachfi-tokens", refresh);
     window.addEventListener("coachfi-learning", refresh);
+    window.addEventListener("coachfi-cloud-synced", refresh);
     return () => {
-      window.removeEventListener("coachfi-tokens", refresh);
       window.removeEventListener("coachfi-learning", refresh);
+      window.removeEventListener("coachfi-cloud-synced", refresh);
     };
   }, []);
 
+  const phantomAddress = phantomWalletEnabled && connected && publicKey ? publicKey.toBase58() : null;
+  const ownerAddress = phantomAddress ?? embeddedAddress ?? (devMintAllowed ? devMintRecipient : "");
+  const hasBlockchainConsent = hasOptionalConsent("blockchain");
+  const isMinting = mintPhase !== "idle";
+
   async function handleMintCertificate() {
-    if (!hasOptionalConsent("blockchain")) {
+    if (!mintTarget) return;
+    if (!hasBlockchainConsent) {
       openSettings();
+      return;
+    }
+    if (!ownerAddress) {
+      if (cdpProjectId) requestSignIn();
       return;
     }
 
     setMintError("");
-    setMintStep(mintImmediately ? "confirming" : "preparing");
-    if (!mintImmediately) {
-      await wait(400);
-      setMintStep("signing");
-    }
+    setMintPhase("preparing");
+    const token = (await accessToken.current?.().catch(() => null)) ?? null;
+    const healthScore = readHealthSnapshot()?.score;
+    setMintPhase("recording");
 
-    const phantomAddress =
-      phantomWalletEnabled && connected && publicKey ? publicKey.toBase58() : null;
-    const ownerAddress = phantomAddress ?? embeddedAddress ?? (mintImmediately ? devMintRecipient : "");
+    try {
+      const res = await fetch("/api/mint-nft", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CoachFI-Consent": "blockchain",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        // No name or other personal data goes on-chain; the score is sent only
+        // when the user has a real Health Check result.
+        body: JSON.stringify({
+          recipientAddress: ownerAddress,
+          certificateId: mintTarget.id,
+          certificateName: CERTIFICATE_API_NAMES[mintTarget.id],
+          ...(typeof healthScore === "number" ? { score: healthScore } : {}),
+        }),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean; txHash?: string; assetAddress?: string; explorerUrl?: string; error?: string;
+      };
 
-    if (ownerAddress) {
-      // Attempt real on-chain mint via API
-      try {
-        setMintStep("confirming");
-        const userName = getDisplayName(getUser());
-        const res = await fetch("/api/mint-nft", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CoachFI-Consent": "blockchain",
-          },
-          body: JSON.stringify({
-            recipientAddress: ownerAddress,
-            certificateName: "Saving Habit",
-            userName,
-            score: 42,
-          }),
-        });
-        const json = (await res.json()) as {
-          ok: boolean; txHash?: string; assetAddress?: string; explorerUrl?: string; fallback?: boolean; error?: string;
+      if (res.ok && json.ok && typeof json.txHash === "string" && json.txHash) {
+        const result: MintResult = {
+          certificateId: mintTarget.id,
+          title: mintTarget.title,
+          txHash: json.txHash,
+          explorerUrl: `https://explorer.solana.com/tx/${encodeURIComponent(json.txHash)}?cluster=devnet`,
         };
-
-        if (json.ok && json.txHash) {
-          setMockTxHash(json.txHash);
-          setMintStep("done");
-          setMintDialogOpen(true);
-          const token = await accessToken.current?.();
-          if (token) {
-            const saved = await syncCertificates(token, {
-              certificateId: "saving-habit",
-              assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
-              txHash: json.txHash,
-            });
-            if (saved) setSavedCertificates(saved);
-          }
-          return;
+        setMintResult(result);
+        setMintPhase("idle");
+        setMintDialogOpen(true);
+        if (token) {
+          const saved = await syncCertificates(token, {
+            certificateId: mintTarget.id,
+            assetAddress: typeof json.assetAddress === "string" ? json.assetAddress : "",
+            txHash: json.txHash,
+          });
+          if (saved) setSavedCertificates(saved);
         }
-        if (mintImmediately) {
-          setMintStep("idle");
-          setMintError(json.error || "Mint failed");
-          return;
-        }
-        // Server returned fallback — fall through to mock
-      } catch {
-        if (mintImmediately) {
-          setMintStep("idle");
-          setMintError("Mint request failed");
-          return;
-        }
+        return;
       }
-    }
 
-    // Fallback: simulated mint (no wallet or API not configured)
-    if (!mintImmediately) {
-      await wait(800);
-      setMintStep("confirming");
-      await wait(1000);
+      setMintPhase("idle");
+      if (res.status === 503) setMintError(mintCopy.notConfigured);
+      else if (res.status === 401) setMintError(mintCopy.authFailed);
+      else if (res.status === 429) setMintError(mintCopy.rateLimited);
+      else setMintError(mintCopy.failed);
+    } catch {
+      setMintPhase("idle");
+      setMintError(mintCopy.failed);
     }
-    const hash = createMockTransactionHash();
-    setMockTxHash(hash);
-    setMintStep("done");
-    setMintDialogOpen(true);
   }
 
-  const isMinting = mintStep !== "idle" && mintStep !== "done";
+  let mintStatusText = mintCopy.noneReady;
+  let mintButtonLabel = t.rewards.mint;
+  let mintButtonDisabled = isMinting || !mintTarget;
+  if (mintTarget) {
+    mintStatusText = mintCopy.readyFor(mintTarget.title);
+    if (!hasBlockchainConsent) {
+      mintButtonLabel = mintCopy.consentAction;
+    } else if (!ownerAddress) {
+      if (cdpProjectId) {
+        mintStatusText = `${mintStatusText} ${mintCopy.signInFirst}`;
+        mintButtonLabel = mintCopy.signInAction;
+      } else {
+        mintStatusText = `${mintStatusText} ${mintCopy.accountsUnavailable}`;
+        mintButtonDisabled = true;
+      }
+    }
+  }
 
   return (
     <section aria-labelledby="rewards-title">
@@ -666,7 +854,7 @@ export default function RewardsPage() {
                   help={copy.embeddedHelp}
                   loginLabel={copy.embeddedLogin}
                   logoutLabel={copy.embeddedLogout}
-                  hasConsent={hasOptionalConsent("blockchain")}
+                  hasConsent={hasBlockchainConsent}
                   onNeedConsent={openSettings}
                   onAddress={setEmbeddedAddress}
                 />
@@ -674,11 +862,14 @@ export default function RewardsPage() {
             </div>
           )}
 
-          {/* Mint button with step display */}
-          <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
+          {/* Mint: only real API results are ever shown as recorded. */}
+          <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft" data-testid="mint-card">
             <h2 className="text-base font-black text-text">{t.rewards.mint}</h2>
-            <p className="mt-1 text-sm text-muted">{copy.mintDescription}</p>
-            {!hasOptionalConsent("blockchain") && (
+            <p className="mt-1 text-sm text-muted">{mintCopy.intro}</p>
+            <p className="mt-3 rounded-lg bg-primary/5 p-3 text-xs font-semibold leading-5 text-text" data-testid="mint-status">
+              {mintStatusText}
+            </p>
+            {mintTarget && !hasBlockchainConsent && (
               <p className="mt-3 rounded-lg bg-primary/5 p-3 text-xs font-semibold leading-5 text-muted">
                 {copy.consentRequired}
               </p>
@@ -694,68 +885,20 @@ export default function RewardsPage() {
               size="lg"
               className="mt-4 w-full"
               onClick={handleMintCertificate}
-              disabled={isMinting}
+              disabled={mintButtonDisabled}
             >
               {isMinting ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                  {copy.mintSteps[mintStep]}
-                </>
-              ) : mintStep === "done" ? (
-                <>
-                  <BadgeCheck className="h-5 w-5" aria-hidden="true" />
-                  {t.rewards.minted}
+                  {mintPhase === "preparing" ? mintCopy.preparing : mintCopy.recording}
                 </>
               ) : (
                 <>
                   <Sparkles className="h-5 w-5" aria-hidden="true" />
-                  {t.rewards.mint}
+                  {mintButtonLabel}
                 </>
               )}
             </Button>
-
-            {/* Step progress indicator */}
-            <AnimatePresence>
-              {isMinting && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mt-4 overflow-hidden"
-                >
-                  {(["preparing", "signing", "confirming"] as MintStep[]).map((step, i) => {
-                    const steps: MintStep[] = ["preparing", "signing", "confirming"];
-                    const currentIdx = steps.indexOf(mintStep);
-                    const stepIdx = steps.indexOf(step);
-                    const done = stepIdx < currentIdx;
-                    const active = stepIdx === currentIdx;
-                    return (
-                      <div key={step} className="flex items-center gap-3 py-1.5">
-                        <span
-                          className={
-                            done
-                              ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success text-text"
-                              : active
-                                ? "grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-on-primary"
-                                : "h-5 w-5 shrink-0 rounded-full border-2 border-primary/20"
-                          }
-                        >
-                          {done && <BadgeCheck className="h-3 w-3" />}
-                          {active && (
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                          )}
-                        </span>
-                        <span
-                          className={`text-xs font-bold ${active ? "text-text" : done ? "text-success" : "text-muted"}`}
-                        >
-                          {copy.mintSteps[step]}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
 
@@ -773,7 +916,7 @@ export default function RewardsPage() {
             />
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            {localizedCertificates.map((certificate) => (
+            {localizedCertificates.map(({ label: _label, ...certificate }) => (
               <NFTCertificateCard key={certificate.title} {...certificate} />
             ))}
           </div>
@@ -786,41 +929,33 @@ export default function RewardsPage() {
         </div>
       </div>
 
-      {/* Mint success dialog */}
-      <Dialog open={mintDialogOpen} onOpenChange={setMintDialogOpen}>
+      {/* Mint success dialog: shown only for a transaction the API confirmed. */}
+      <Dialog open={mintDialogOpen && mintResult !== null} onOpenChange={setMintDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <BadgeCheck className="h-5 w-5 text-success" />
               {copy.dialogTitle}
             </DialogTitle>
-            <DialogDescription>{copy.dialogDescription}</DialogDescription>
+            <DialogDescription>{mintResult ? mintCopy.dialogDescription(mintResult.title) : ""}</DialogDescription>
           </DialogHeader>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-xl border border-success/30 bg-success/10 p-4"
-          >
+          <div className="rounded-xl border border-success/30 bg-success/10 p-4">
             <p className="text-xs font-black uppercase text-muted">{copy.transactionHash}</p>
-            <p className="mt-1.5 break-all font-mono text-sm font-bold text-text">
-              {mockTxHash}
-            </p>
-          </motion.div>
+            <p className="mt-1.5 break-all font-mono text-sm font-bold text-text">{mintResult?.txHash}</p>
+          </div>
 
-          <motion.a
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            href={`https://explorer.solana.com/tx/${mockTxHash}?cluster=devnet`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl cf-press bg-primary px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          >
-            <ExternalLink className="h-4 w-4" aria-hidden="true" />
-            {copy.explorer}
-          </motion.a>
+          {mintResult ? (
+            <a
+              href={mintResult.explorerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 rounded-xl cf-press bg-primary px-4 py-3 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              {copy.explorer}
+            </a>
+          ) : null}
 
           <p className="text-center text-xs font-semibold text-muted">{copy.dialogFootnote}</p>
         </DialogContent>
