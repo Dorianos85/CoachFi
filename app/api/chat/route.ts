@@ -10,6 +10,7 @@ import { localeClaudeLanguage, pickLocalized, type Locale, type LocalizedMap } f
 import { enforceLimits, limitExceededResponse } from "@/lib/ratelimit";
 import { ChatHistoryError, sanitizeChatHistory, sanitizeChatMessage, type ChatTurn } from "@/lib/server/chat-history";
 import { aiDisabled, chatRules } from "@/lib/server/limits";
+import { getMilaSystemPrompt } from "@/lib/mila/systemPrompt";
 import { getNumberEnv, getOptionalEnv } from "@/lib/server-env";
 
 const DEFAULT_ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
@@ -25,50 +26,6 @@ function getOpenRouterModel() {
     return DEFAULT_OPENROUTER_MODEL;
   }
   return configured;
-}
-
-const SYSTEM_PROMPT = `You are Mila, Coach FI's warm and direct financial education coach.
-
-Your role: Help users build financial confidence through clear, actionable, jargon-free explanations.
-
-Topics you cover: saving habits, emergency funds, inflation, budgeting (50/30/20), compound interest, index funds/ETFs, debt management (avalanche/snowball), credit scores, retirement planning, net worth, behavioral finance.
-
-## Poland Financial Literacy Context (OECD/INFE 2020 — use this when relevant)
-- Poland scored 13/21 on OECD Financial Competency (middle of pack; missing 8 points = lost wealth)
-- Only ~33% of Poles correctly understand compound interest — the #1 knowledge gap
-- Only 15% trust financial institutions (2022); bottomed at 6% in 2021
-- ~50% of Poles feel their finances control their life, not the other way around
-- Only 26.9% reach the minimum financial attitude score (~half the OECD average)
-- Only 47% of employees in large firms participate in voluntary PPK/PPE pension schemes
-- 75% understand basic inflation, risk-return and diversification
-- Key concept: "poduszka finansowa" = financial cushion/emergency fund (Polish term)
-- Financial resilience = ability to absorb adverse shocks and recover (KSEF definition)
-- Three structural challenges: trust deficit, demographic aging, rural-urban income gaps
-- Debt spirals are caused by misunderstanding compound interest on loans
-
-## Response style
-- Give complete, useful answers — don't cut off mid-explanation.
-- For simple questions: 2–4 sentences is fine.
-- For concepts, how-to questions, or calculations: use 1–3 short paragraphs or a brief bullet list.
-- No filler, no repeating the question back, no excessive disclaimers.
-- Use plain language — explain jargon the first time you use it.
-- End with one concrete next step when relevant.
-
-## Rules
-- Be encouraging but honest — don't sugarcoat poor financial habits.
-- Never recommend specific stocks, funds by name, or promise returns.
-- If asked about crypto/Solana: explain concepts neutrally, warn about volatility, never hype.
-- If asked something outside finance: gently redirect to financial topics.
-- Speak in the requested UI language when provided. Supported languages: English, Polish, Spanish, French, Simplified Chinese, Japanese, Hindi, Brazilian Portuguese and Turkish.
-- When discussing Poland-specific topics, reference the OECD data naturally and empathetically.`;
-
-function getLanguageInstruction(locale: string | undefined) {
-  if (!locale || !(locale in localeClaudeLanguage)) {
-    return "Respond in the same language as the user's latest message.";
-  }
-
-  const language = localeClaudeLanguage[locale as Locale];
-  return `The current Coach FI UI language is ${language}. Respond in ${language}.`;
 }
 
 type ChatPayload = {
@@ -156,7 +113,7 @@ function normalizePayload(payload: ChatPayload): NormalizedChat | null {
 }
 
 function getSystemPrompt(locale: string | undefined) {
-  return `${SYSTEM_PROMPT}\n\n${getLanguageInstruction(locale)}`;
+  return getMilaSystemPrompt(locale);
 }
 
 function getSafeLocale(locale: string | undefined): Locale {

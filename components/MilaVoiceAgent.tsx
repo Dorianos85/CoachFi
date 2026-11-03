@@ -19,6 +19,9 @@ import { getDisplayName, getUser } from "@/lib/user";
 import { getMilaAgentId } from "@/lib/mila-voice";
 
 const AGENT_ID = getMilaAgentId();
+// In production Mila connects only through a short-lived signed URL from /api/mila-token, so the
+// server-side limits apply. The bare public agent id is a local-development fallback only.
+const PUBLIC_AGENT_FALLBACK = process.env.NODE_ENV !== "production" ? AGENT_ID : "";
 const TEXT_ONLY_KEY = "coachfi-agent-text-only";
 const LAUNCHER_DOCK_CLASS = "mila-launcher-dock pointer-events-none fixed bottom-[calc(7rem+env(safe-area-inset-bottom,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))] z-[45] max-w-[calc(100vw-2rem)] md:right-[calc(1.5rem+env(safe-area-inset-right,0px))] lg:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]";
 
@@ -514,17 +517,21 @@ export function MilaVoiceFab() {
     let cancelled = false;
 
     fetch("/api/mila-token", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((data: { signedUrl?: string; agentId?: string; widgetConfig?: unknown }) => {
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`mila-token ${response.status}`);
+        return (await response.json()) as { signedUrl?: string; agentId?: string; widgetConfig?: unknown };
+      })
+      .then((data) => {
         if (cancelled) return;
-        setSignedUrl(data.signedUrl?.trim() ?? "");
-        setAgentId(data.agentId?.trim() || AGENT_ID);
+        const url = data.signedUrl?.trim() ?? "";
+        setSignedUrl(url);
+        setAgentId(url ? data.agentId?.trim() || AGENT_ID : PUBLIC_AGENT_FALLBACK);
         setWidgetConfig(data.widgetConfig ? JSON.stringify(data.widgetConfig) : "");
       })
       .catch(() => {
         if (!cancelled) {
           setSignedUrl("");
-          setAgentId(AGENT_ID);
+          setAgentId(PUBLIC_AGENT_FALLBACK);
           setWidgetConfig("");
         }
       });
@@ -909,7 +916,7 @@ export function MilaVoiceFab() {
           {t.voiceAgent.end}
         </button>
       ) : null}
-      {enabled ? (
+      {enabled && (signedUrl || agentId) ? (
       <MilaWidgetFrame onReady={markWidgetFrameReady} open={callOpen}>
       <elevenlabs-convai
         ref={widgetRef}

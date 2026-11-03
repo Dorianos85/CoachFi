@@ -7,65 +7,99 @@ import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 type LegalPageCopy = {
   eyebrow: string;
   title: string;
+  /** Visible "draft" label until the text has been reviewed by a lawyer. */
+  draftBadge?: string;
   updatedAt: string;
   notice: string;
   blocks: Array<{ title: string; items: string[] }>;
 };
 
+const FALLBACK_BADGE = "Draft — pending legal review";
+
 const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
   en: {
     eyebrow: "Terms",
-    title: "Coach FI Terms of Use",
-    updatedAt: "May 10, 2026",
+    title: "CoachfiAI Terms of Use",
+    draftBadge: "Draft — pending legal review",
+    updatedAt: "Last updated November 3, 2026",
     notice:
-      "Draft MVP terms, not final legal advice. Before production, add administrator details, contact, jurisdiction and complaint process.",
+      "These are beta terms. They haven't been reviewed by a lawyer yet. Items in [brackets] are still to be completed.",
     blocks: [
       {
-        title: "1. Nature of the app",
+        title: "1. Who we are",
         items: [
-          "Coach FI is an educational app for financial literacy and habit building.",
-          "The app does not provide investment, tax, legal or credit advice.",
-          "Mila AI can explain concepts, but does not replace a licensed advisor.",
+          "CoachfiAI is operated by [Company name, address — to be completed].",
+          "Contact: [contact email — to be completed].",
         ],
       },
       {
-        title: "2. User rules",
+        title: "2. Education only",
         items: [
-          "Use the app lawfully and do not enter third-party personal data without a valid basis.",
-          "Do not enter passwords, card numbers, ID numbers or bank login data.",
-          "Educational content may include simplifications; financial decisions remain your responsibility.",
+          "CoachfiAI is an educational app for financial literacy and money habits.",
+          "We are not a registered investment adviser, broker-dealer, financial planner, tax preparer, credit counselor or law firm. Nothing in the app is investment, tax, legal or credit advice, and using the app doesn't create a fiduciary or advisory relationship.",
+          "Content is general and may simplify things. Check important information and talk to a qualified professional before you make financial decisions. Your decisions are your own.",
+          "Examples with returns are hypothetical. Investments can lose value.",
         ],
       },
       {
-        title: "3. AI, voice and leaderboard",
+        title: "3. Mila is an AI",
         items: [
-          "AI, ElevenLabs voice, global leaderboard and blockchain features require separate optional consent.",
-          "Without consent, core learning remains available through local replies and local storage.",
-          "The global leaderboard may show your display name, score and streak to other users.",
+          "Mila is an AI system, not a person. Her text and voice replies are generated automatically and can be wrong or incomplete.",
+          "Mila won't tell you what to buy or sell, or how to split your money.",
+          "CoachfiAI is not a crisis service. If you're thinking about suicide or might hurt yourself, call or text 988 (U.S.). In an emergency, call 911. Outside the U.S., call your local emergency number.",
         ],
       },
       {
-        title: "4. Certificates",
+        title: "4. Who can use the app",
         items: [
-          "Certificates prove completion of educational elements; they are not investment products.",
-          "Public blockchain data can be visible, permanent and difficult to delete.",
-          "The MVP uses Solana Devnet, a test network with no guaranteed economic value.",
+          "You must be 18 or older to create an account. Teens 13–17 may use the app only with a parent's or guardian's permission.",
+          "Kids Mode is for children using the app together with a parent or guardian, who is responsible for that use.",
         ],
       },
       {
-        title: "5. Liability",
+        title: "5. Your responsibilities",
         items: [
-          "Coach FI is provided as an MVP and may contain bugs, interruptions or limited features.",
-          "We do not guarantee financial outcomes, profits, savings or user decisions.",
-          "Users should verify information before making financial decisions.",
+          "Use the app lawfully and don't enter other people's personal data without permission.",
+          "Never enter passwords, card numbers, Social Security numbers or bank logins.",
+          "Don't misuse the service (for example by trying to break security limits or by automated scraping).",
         ],
       },
       {
-        title: "6. Data and privacy",
+        title: "6. Optional features",
         items: [
-          "Data processing rules are described in the Privacy Policy.",
-          "Most app data is stored locally in the browser.",
-          "Users can change optional consents and remove local app data.",
+          "AI chat, ElevenLabs voice, the global leaderboard and blockchain certificates each need your separate, optional consent. You can turn them off at any time.",
+          "Without them, lessons, quizzes and the Health Check still work with local data.",
+          "If you join the leaderboard, other users can see your display name, score and streak.",
+        ],
+      },
+      {
+        title: "7. Points and certificates",
+        items: [
+          "Points are a learning reward. They have no cash value and can't be sold, exchanged or withdrawn.",
+          "Certificates show that you completed lessons. They are not investment products. During the beta they are recorded on a Solana test network, which can be reset.",
+          "Data written to a public blockchain may be visible and permanent.",
+        ],
+      },
+      {
+        title: "8. Beta service and pricing",
+        items: [
+          "The app is in beta. It may have bugs, change or be interrupted, and is provided \"as is\" to the extent the law allows.",
+          "The beta is free. If we introduce paid plans or a trial that turns into a paid plan, we'll show the price, how renewal works and how to cancel before you pay anything.",
+        ],
+      },
+      {
+        title: "9. Liability",
+        items: [
+          "We don't guarantee any financial outcome, savings or returns.",
+          "To the extent the law allows, we're not liable for decisions you make based on the app's content. Nothing in these terms limits rights you have under consumer protection laws that can't be waived.",
+        ],
+      },
+      {
+        title: "10. Privacy, law and changes",
+        items: [
+          "How we handle data is explained in the Privacy Policy.",
+          "Governing law and how disputes are resolved: [to be completed after legal review].",
+          "If we change these terms, we'll update the date above and tell you in the app about important changes.",
         ],
       },
     ],
@@ -73,7 +107,8 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
   pl: {
     eyebrow: "Regulamin",
     title: "Regulamin korzystania z Coach FI",
-    updatedAt: "10 maja 2026",
+    draftBadge: "Wersja robocza — czeka na weryfikację prawną",
+    updatedAt: "Aktualizacja: 3 listopada 2026",
     notice:
       "To roboczy regulamin MVP, nie finalna opinia prawna. Przed publikacją produkcyjną uzupełnij dane administratora, kontakt, jurysdykcję i proces reklamacji.",
     blocks: [
@@ -83,6 +118,9 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
           "Coach FI jest aplikacją edukacji finansowej i budowania nawyków.",
           "Aplikacja nie świadczy doradztwa inwestycyjnego, podatkowego, prawnego ani kredytowego.",
           "Mila AI może pomagać wyjaśniać pojęcia, ale nie zastąpi licencjonowanego doradcy.",
+          "Mila to system sztucznej inteligencji, nie człowiek. Jej odpowiedzi mogą zawierać błędy.",
+          "Aplikacja nie jest usługą kryzysową. Jeśli myślisz o samobójstwie lub zrobieniu sobie krzywdy, zadzwoń pod 116 123 lub 800 70 2222, a w sytuacji zagrożenia życia pod 112.",
+          "Administrator: [Nazwa firmy, adres — do uzupełnienia]. Kontakt: [e-mail — do uzupełnienia].",
         ],
       },
       {
@@ -143,57 +181,87 @@ const TERMS_COPY: LocalizedMap<LegalPageCopy> = {
   },
   es: {
     eyebrow: "Términos",
-    title: "Términos de uso de Coach FI",
-    updatedAt: "10 de mayo de 2026",
+    title: "Términos de uso de CoachfiAI",
+    draftBadge: "Borrador — pendiente de revisión legal",
+    updatedAt: "Última actualización: 3 de noviembre de 2026",
     notice:
-      "Borrador de términos del MVP, no es asesoramiento legal definitivo. Antes de producción, añade los datos del administrador, el contacto, la jurisdicción y el procedimiento de reclamaciones.",
+      "Estos son los términos de la beta. Todavía no los ha revisado un abogado. Lo que aparece entre [corchetes] está pendiente de completar.",
     blocks: [
       {
-        title: "1. Naturaleza de la app",
+        title: "1. Quiénes somos",
         items: [
-          "Coach FI es una app educativa para la cultura financiera y la creación de hábitos.",
-          "La app no ofrece asesoramiento de inversión, fiscal, legal ni de crédito.",
-          "Mila IA puede explicar conceptos, pero no sustituye a un asesor autorizado.",
+          "CoachfiAI está operada por [Nombre de la empresa, dirección — pendiente de completar].",
+          "Contacto: [correo de contacto — pendiente de completar].",
         ],
       },
       {
-        title: "2. Normas para el usuario",
+        title: "2. Solo educación",
         items: [
-          "Usa la app conforme a la ley y no introduzcas datos personales de terceros sin una base válida.",
-          "No introduzcas contraseñas, números de tarjeta, números de identificación ni datos de acceso bancario.",
-          "El contenido educativo puede incluir simplificaciones; las decisiones financieras siguen siendo tu responsabilidad.",
+          "CoachfiAI es una app educativa de finanzas personales y hábitos con el dinero.",
+          "No somos asesores de inversión registrados, corredores de bolsa, planificadores financieros, preparadores de impuestos, consejeros de crédito ni un bufete de abogados. Nada en la app es asesoría de inversión, fiscal, legal ni de crédito, y usar la app no crea una relación fiduciaria ni de asesoría.",
+          "El contenido es general y puede simplificar las cosas. Verifica la información importante y consulta a un profesional calificado antes de tomar decisiones financieras. Tus decisiones son tuyas.",
+          "Los ejemplos con rendimientos son hipotéticos. Las inversiones pueden perder valor.",
         ],
       },
       {
-        title: "3. IA, voz y clasificación",
+        title: "3. Mila es una IA",
         items: [
-          "La IA, la voz de ElevenLabs, la clasificación global y las funciones de blockchain requieren un consentimiento opcional aparte.",
-          "Sin consentimiento, el aprendizaje básico sigue disponible mediante respuestas locales y almacenamiento local.",
-          "La clasificación global puede mostrar tu nombre visible, puntuación y racha a otros usuarios.",
+          "Mila es un sistema de inteligencia artificial, no una persona. Sus respuestas de texto y voz se generan automáticamente y pueden ser incorrectas o incompletas.",
+          "Mila no te dirá qué comprar o vender ni cómo repartir tu dinero.",
+          "CoachfiAI no es un servicio de crisis. Si piensas en el suicidio o temes hacerte daño, llama o envía un mensaje de texto al 988 (EE. UU.; marca 2 para español). En una emergencia, llama al 911. Fuera de EE. UU., llama al número de emergencias local.",
         ],
       },
       {
-        title: "4. Certificados",
+        title: "4. Quién puede usar la app",
         items: [
-          "Los certificados acreditan haber completado elementos educativos; no son productos de inversión.",
-          "Los datos en una blockchain pública pueden ser visibles, permanentes y difíciles de eliminar.",
-          "El MVP usa Solana Devnet, una red de pruebas sin valor económico garantizado.",
+          "Debes tener 18 años o más para crear una cuenta. Los adolescentes de 13 a 17 años solo pueden usar la app con permiso de su padre, madre o tutor.",
+          "El Modo niños es para niños que usan la app junto con un padre, una madre o un tutor, que es responsable de ese uso.",
         ],
       },
       {
-        title: "5. Responsabilidad",
+        title: "5. Tus responsabilidades",
         items: [
-          "Coach FI se ofrece como MVP y puede contener errores, interrupciones o funciones limitadas.",
-          "No garantizamos resultados financieros, beneficios, ahorros ni las decisiones de los usuarios.",
-          "Los usuarios deben verificar la información antes de tomar decisiones financieras.",
+          "Usa la app de forma legal y no escribas datos personales de otras personas sin su permiso.",
+          "Nunca escribas contraseñas, números de tarjeta, números de Seguro Social ni accesos a tu banco.",
+          "No hagas un mal uso del servicio (por ejemplo, intentando saltarte los límites de seguridad o extrayendo datos de forma automática).",
         ],
       },
       {
-        title: "6. Datos y privacidad",
+        title: "6. Funciones opcionales",
         items: [
-          "Las normas de tratamiento de datos se describen en la Política de privacidad.",
-          "La mayoría de los datos de la app se guardan localmente en el navegador.",
-          "Los usuarios pueden cambiar los consentimientos opcionales y eliminar los datos locales de la app.",
+          "El chat con IA, la voz de ElevenLabs, la clasificación global y los certificados en blockchain necesitan cada uno tu consentimiento opcional por separado. Puedes desactivarlos cuando quieras.",
+          "Sin ellos, las lecciones, los quizzes y el Chequeo de salud financiera siguen funcionando con datos locales.",
+          "Si te unes a la clasificación, otros usuarios pueden ver tu nombre visible, tu puntuación y tu racha.",
+        ],
+      },
+      {
+        title: "7. Puntos y certificados",
+        items: [
+          "Los puntos son una recompensa por aprender. No tienen valor en dinero y no se pueden vender, intercambiar ni retirar.",
+          "Los certificados muestran que completaste lecciones. No son productos de inversión. Durante la beta se registran en una red de prueba de Solana, que puede reiniciarse.",
+          "Los datos escritos en una blockchain pública pueden ser visibles y permanentes.",
+        ],
+      },
+      {
+        title: "8. Servicio beta y precios",
+        items: [
+          "La app está en beta. Puede tener errores, cambiar o interrumpirse, y se ofrece «tal cual» en la medida que permita la ley.",
+          "La beta es gratuita. Si añadimos planes de pago o una prueba que se convierta en un plan de pago, te mostraremos el precio, cómo funciona la renovación y cómo cancelar antes de que pagues nada.",
+        ],
+      },
+      {
+        title: "9. Responsabilidad",
+        items: [
+          "No garantizamos ningún resultado financiero, ahorro ni rendimiento.",
+          "En la medida que permita la ley, no somos responsables de las decisiones que tomes según el contenido de la app. Nada en estos términos limita los derechos irrenunciables que te dan las leyes de protección al consumidor.",
+        ],
+      },
+      {
+        title: "10. Privacidad, ley aplicable y cambios",
+        items: [
+          "Cómo tratamos los datos se explica en la Política de privacidad.",
+          "Ley aplicable y resolución de disputas: [pendiente de completar tras la revisión legal].",
+          "Si cambiamos estos términos, actualizaremos la fecha de arriba y te avisaremos en la app de los cambios importantes.",
         ],
       },
     ],
@@ -493,6 +561,9 @@ export default function TermsPage() {
   return (
     <section className="space-y-6" aria-labelledby="terms-title">
       <div className="focus-card rounded-lg p-6 md:p-8">
+        <p className="mb-3 inline-flex items-center rounded-full border border-warning/40 bg-warning/15 px-3 py-1 text-xs font-black uppercase text-warning" data-testid="legal-draft-badge">
+          {copy.draftBadge ?? FALLBACK_BADGE}
+        </p>
         <p className="text-sm font-black uppercase text-primary">{copy.eyebrow}</p>
         <div className="mt-2 flex items-start justify-between gap-3">
           <h1 id="terms-title" className="text-3xl font-black text-text">

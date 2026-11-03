@@ -1,8 +1,15 @@
-import type { LocalizedMap } from "@/lib/i18n";
+import type { Locale, LocalizedMap } from "@/lib/i18n";
 
-/** Text of the financial crisis page. Phone numbers, institutions and links stay Polish in every locale. */
+/**
+ * Text of the financial crisis page.
+ *
+ * The page is region-aware (see getCrisisRegionData below):
+ * - "en" and "es" show United States resources (911, 988, Crisis Text Line, 211, NFCC, 1-800-GAMBLER).
+ * - "pl" and the remaining locales keep the Polish resources (112, 116 123, MOPS, Polish document templates).
+ * Phone numbers and links live in the region data; texts are matched to them by position or by id.
+ */
 export interface CrisisCopy {
-  polandNotice: string;
+  regionNotice: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -14,6 +21,7 @@ export interface CrisisCopy {
     mentalDetail: string;
     onlineDetail: string;
   };
+  /** Side card. In regions with action rewards it shows the token balance; elsewhere only the read-aloud button. */
   tokens: {
     title: string;
     description: string;
@@ -25,7 +33,8 @@ export interface CrisisCopy {
     description: string;
     voiceText: string;
     voiceLabel: string;
-    mentalHealthCentre: string;
+    /** Fallback title for a contact without its own title (Polish Mental Health Centre). */
+    mentalHealthCentre?: string;
     contacts: { subtitle: string; body: string; cta: string }[];
     steps: { title: string; body: string }[];
   };
@@ -38,13 +47,15 @@ export interface CrisisCopy {
   };
   resources: {
     source: string;
-    oikPhone: string;
-    items: Record<"oik" | "legal" | "mops" | "zus" | "alimony" | "credit" | "cityOffice", { title: string; body: string; cta: string }>;
+    oikPhone?: string;
+    /** Keyed by the resource ids of the region (see CRISIS_REGION_RESOURCES). */
+    items: Record<string, { title: string; body: string; cta: string }>;
   };
   firstDay: {
     title: string;
     description: string;
     done: string;
+    /** Button label for an unfinished step. May contain {reward} in regions with action rewards. */
     reward: string;
     steps: { title: string; body: string }[];
   };
@@ -57,10 +68,14 @@ export interface CrisisCopy {
     description: string;
     copy: string;
     copied: string;
-    polishDocumentNote: string;
-    titles: Record<"emotional" | "request" | "loan" | "bank" | "mops", string>;
+    polishDocumentNote?: string;
+    titles: Partial<Record<CrisisTemplateId, string>>;
     emotionalText: string;
     requestText: string;
+    /** Local-language loan agreement (US region). The Polish region uses the Polish formal document. */
+    loanText?: string;
+    /** Local-language hardship letter (US region). */
+    bankText?: string;
   };
   resale: {
     title: string;
@@ -71,8 +86,122 @@ export interface CrisisCopy {
   };
 }
 
+export type CrisisTemplateId = "emotional" | "request" | "loan" | "bank" | "mops";
+export type CrisisRegion = "US" | "PL";
+
+export interface CrisisRegionData {
+  region: CrisisRegion;
+  /** Token rewards for SOS steps. Only kept for the Polish community version. */
+  actionRewards: boolean;
+  defaultCity: string;
+  safetyLinks: { label: string; href: string; detail: "emergencyDetail" | "mentalDetail" | "onlineDetail" }[];
+  /** Matched by position with copy.emotional.contacts. */
+  emotionalContacts: { title?: string; href: string; urgent?: boolean }[];
+  resources: { id: string; href: string; source?: string; phone?: string; usesCity?: boolean }[];
+  /** Matched by position with copy.resale.platforms. */
+  resalePlatforms: { name: string; href: string }[];
+  templateIds: CrisisTemplateId[];
+}
+
+export function crisisRegionForLocale(locale: Locale): CrisisRegion {
+  return locale === "en" || locale === "es" ? "US" : "PL";
+}
+
+/** Google search for a phrase near the user's city; the page fills in `{city}`. */
+function googleSearch(phrase: string) {
+  return `https://www.google.com/search?q=${encodeURIComponent(phrase)}+{city}`;
+}
+
+/**
+ * Links and phone numbers for the crisis page. `{city}` in an href is replaced with the URL-encoded city.
+ * US numbers verified 2026-11-03: 988lifeline.org, crisistextline.org, 211.org, nfcc.org, hud.gov, ncpgambling.org.
+ */
+export function getCrisisRegionData(locale: Locale): CrisisRegionData {
+  if (crisisRegionForLocale(locale) === "US") {
+    const spanish = locale === "es";
+    return {
+      region: "US",
+      actionRewards: false,
+      defaultCity: "",
+      safetyLinks: [
+        { label: "911", href: "tel:911", detail: "emergencyDetail" },
+        { label: "988", href: "tel:988", detail: "mentalDetail" },
+        {
+          label: "988lifeline.org",
+          href: spanish ? "https://988lifeline.org/es/inicio/" : "https://988lifeline.org/",
+          detail: "onlineDetail",
+        },
+      ],
+      emotionalContacts: [
+        { title: "911", href: "tel:911", urgent: true },
+        { title: "988", href: "tel:988" },
+        { title: "741741", href: spanish ? "sms:741741?&body=AYUDA" : "sms:741741?&body=HOME" },
+        { title: "211", href: "tel:211" },
+        { title: "1-800-GAMBLER", href: "tel:+18004262537" },
+      ],
+      resources: [
+        { id: "nfcc", href: "https://www.nfcc.org/", source: "nfcc.org", phone: "1-800-388-2227" },
+        { id: "legal", href: "https://www.lawhelp.org/", source: "LawHelp.org" },
+        { id: "cfpb", href: spanish ? "https://www.consumerfinance.gov/es/" : "https://www.consumerfinance.gov/consumer-tools/debt-collection/", source: "consumerfinance.gov" },
+        { id: "housing", href: "https://www.hud.gov/stat/sfh/housing-counseling", source: "hud.gov", phone: "1-800-569-4287" },
+        { id: "help211", href: "https://www.211.org/", source: "211.org", phone: "211", usesCity: true },
+        { id: "utilities", href: "https://www.acf.hhs.gov/ocs/programs/liheap", source: "acf.hhs.gov" },
+        {
+          id: "local",
+          href: googleSearch(spanish ? "ayuda de emergencia alquiler banco de comida" : "emergency rental assistance food bank"),
+          usesCity: true,
+        },
+      ],
+      resalePlatforms: [
+        { name: "Facebook Marketplace", href: "https://www.facebook.com/marketplace/" },
+        { name: "OfferUp", href: "https://offerup.com/" },
+        { name: "eBay", href: "https://www.ebay.com/" },
+        { name: "Mercari", href: "https://www.mercari.com/" },
+        { name: "Poshmark", href: "https://poshmark.com/" },
+      ],
+      templateIds: ["emotional", "request", "loan", "bank"],
+    };
+  }
+
+  return {
+    region: "PL",
+    actionRewards: true,
+    defaultCity: "Warszawa",
+    safetyLinks: [
+      { label: "112", href: "tel:112", detail: "emergencyDetail" },
+      { label: "116 123", href: "tel:116123", detail: "mentalDetail" },
+      { label: "116sos.pl", href: "https://116sos.pl/", detail: "onlineDetail" },
+    ],
+    emotionalContacts: [
+      { title: "112", href: "tel:112", urgent: true },
+      { title: "116 123", href: "tel:116123" },
+      { title: "800 70 2222", href: "tel:800702222" },
+      { title: "116sos.pl", href: "https://116sos.pl/otrzymaj-pomoc/telefon" },
+      { href: "https://www.gov.pl/web/zdrowie/centra-zdrowia-psychicznego" },
+    ],
+    // The institutions are Polish, so the search phrases stay in Polish.
+    resources: [
+      { id: "oik", href: googleSearch("Ośrodek Interwencji Kryzysowej"), usesCity: true },
+      { id: "legal", href: "https://zapisy-np.ms.gov.pl/", source: "gov.pl" },
+      { id: "mops", href: googleSearch("MOPS OPS zasiłek celowy"), source: "gov.pl", usesCity: true },
+      { id: "zus", href: "https://www.zus.pl/firmy/ulgi/ulgi-w-splacie-naleznosci" },
+      { id: "alimony", href: "https://www.gov.pl/web/gov/uzyskaj-swiadczenia-z-funduszu-alimentacyjnego", source: "gov.pl" },
+      { id: "credit", href: "https://www.bgk.pl/produkty/fundusz-wsparcia-kredytobiorcow/", source: "BGK" },
+      { id: "cityOffice", href: googleSearch("urząd miasta gminy pomoc kryzysowa"), usesCity: true },
+    ],
+    resalePlatforms: [
+      { name: "Vinted", href: "https://www.vinted.pl/" },
+      { name: "OLX", href: "https://www.olx.pl/" },
+      { name: "Allegro Lokalnie", href: "https://allegrolokalnie.pl/" },
+      { name: "Facebook Marketplace", href: "https://www.facebook.com/marketplace/" },
+      { name: "eBay", href: "https://www.ebay.pl/" },
+    ],
+    templateIds: ["emotional", "request", "loan", "bank", "mops"],
+  };
+}
+
 const pl: CrisisCopy = {
-  polandNotice: "Numery telefonów, instytucje i wzory pism na tej stronie dotyczą Polski.",
+  regionNotice: "Numery telefonów, instytucje i wzory pism na tej stronie dotyczą Polski.",
   eyebrow: "Kryzys finansowy",
   title: "Plan awaryjny, kiedy kończą się pieniądze.",
   description:
@@ -283,277 +412,282 @@ const pl: CrisisCopy = {
 };
 
 const en: CrisisCopy = {
-  polandNotice: "The phone numbers, institutions and document templates on this page apply to Poland.",
-  eyebrow: "Financial crisis",
-  title: "An emergency plan for when the money runs out.",
+  regionNotice:
+    "These phone numbers and services are for the United States. If you're somewhere else, call your local emergency number.",
+  eyebrow: "Money crisis help",
+  title: "A plan for when the money runs out.",
   description:
-    "Coach FI helps you stop the panic, find free help, contact institutions and recover the first cash without going deeper into debt.",
+    "Slow the panic down, find free help, talk to the right people and raise your first bit of cash — without going deeper into debt.",
   voiceText: [
-    "Coach FI financial crisis plan.",
-    "First, protect life, health, food, medicine, a roof over your head and contact with another person.",
-    "If you have suicidal thoughts or fear you may hurt yourself, call 112 or 116 123.",
-    "Debts can be sorted out step by step. You do not have to go through this alone.",
-    "Do not take another expensive loan under pressure.",
-    "Contact free legal aid, the social welfare centre (MOPS or OPS), your bank and the person you trust most.",
-    "List unused things for sale to recover the first cash without adding debt.",
+    "CoachfiAI money crisis plan.",
+    "First, protect your life and health, food, medicine, a roof over your head and contact with another person.",
+    "If you're thinking about suicide or might hurt yourself, call or text 988, or chat at 988lifeline.org. It's free and open 24/7. If you're in immediate danger, call 911.",
+    "Debt can be worked out step by step. You don't have to go through this alone.",
+    "Don't take out another expensive loan under pressure.",
+    "Reach out to a nonprofit credit counselor, free legal aid, 211 for local help, your lender and the person you trust most.",
+    "List a few things you don't use and sell them, so you can raise some cash without adding debt.",
   ],
   safety: {
     title: "Safety first",
-    body: "If there is a threat to life or health, violence or immediate danger, call 112. If you are in a mental health crisis, use the 116 123 helpline or centrumwsparcia.pl.",
+    body: "If you're thinking about suicide or might hurt yourself, call or text 988, or chat at 988lifeline.org. It's free and open 24/7. If you're in immediate danger, call 911.",
     emergencyDetail: "emergency",
-    mentalDetail: "mental health crisis",
-    onlineDetail: "online",
+    mentalDetail: "call or text, 24/7",
+    onlineDetail: "online chat",
   },
   tokens: {
-    title: "Tokens for action",
-    description: "Every completed SOS step gives +{reward} Coach FI Tokens.",
-    readPlan: "Read the SOS plan",
+    title: "Hear this plan",
+    description: "Mila can read the steps on this page out loud.",
+    readPlan: "Read the plan aloud",
   },
   emotional: {
-    eyebrow: "The person first, the debt second",
-    title: "When debt causes a breakdown, depression or suicidal thoughts",
+    eyebrow: "You first, the debt second",
+    title: "When debt leads to panic, depression or thoughts of suicide",
     description:
-      "This module is for adults. If you feel you cannot cope, do not stay alone with it. Call, write to someone you trust, ask someone to stay with you. Debt is a problem that can be solved, but safety has to come first.",
+      "This section is for adults. If you feel you can't cope, don't stay alone with it. Call or text someone you trust and ask them to stay with you. Debt is a problem that can be solved — but your safety comes first.",
     voiceText:
-      "If debt is causing a breakdown, depression or suicidal thoughts, take care of safety first. Call 112 if you might hurt yourself. Call 116 123 or 800 70 2222 if you need to talk to someone now. You do not have to go through this alone.",
+      "If debt is causing panic, depression or thoughts of suicide, take care of your safety first. If you're thinking about suicide or might hurt yourself, call or text 988, or chat at 988lifeline.org. It's free and open 24/7. If you're in immediate danger, call 911. You can also text HOME to 741741. You don't have to go through this alone.",
     voiceLabel: "Read help now",
-    mentalHealthCentre: "Mental Health Centre (CZP)",
     contacts: [
       {
-        subtitle: "Immediate threat to life or health",
-        body: "Call right away if you might hurt yourself, you are in immediate danger or someone near you is at risk.",
-        cta: "Call 112",
+        subtitle: "Immediate danger",
+        body: "Call right away if you might hurt yourself, you're in immediate danger, or someone near you is at risk.",
+        cta: "Call 911",
       },
       {
-        subtitle: "Helpline for adults",
-        body: "Free, anonymous help for adults in a mental or emotional crisis.",
-        cta: "Call 116 123",
+        subtitle: "988 Suicide & Crisis Lifeline",
+        body: "Free, confidential support 24/7 by call, text or chat at 988lifeline.org. Veterans: press 1. Spanish: press 2.",
+        cta: "Call or text 988",
       },
       {
-        subtitle: "Support Centre for adults",
-        body: "Round-the-clock psychological support for adults in a mental health crisis.",
-        cta: "Call 800 70 2222",
+        subtitle: "Crisis Text Line",
+        body: "Text with a trained crisis counselor. Free and open 24/7.",
+        cta: "Text HOME to 741741",
       },
       {
-        subtitle: "Online help",
-        body: "A platform for adults: phone, information, online help and a directory of support places.",
-        cta: "Open 116sos.pl",
+        subtitle: "Local help with rent, food and utilities",
+        body: "211 connects you with local programs for rent, food, utility bills and other basics. Free and confidential.",
+        cta: "Call 211",
       },
       {
-        subtitle: "Free help without a referral",
-        body: "An adult can seek support at the Mental Health Centre for their place of residence, also in an emergency.",
-        cta: "Find a centre",
+        subtitle: "Gambling problem",
+        body: "Free, confidential help with gambling and gambling debt. You can also call or text 1-800-MY-RESET (1-800-697-3738).",
+        cta: "Call 1-800-GAMBLER",
       },
     ],
     steps: [
       {
         title: "1. Tell someone",
-        body: "Send a short message: I am in a crisis and I need you to stay in touch with me.",
+        body: "Send a short message: I'm in a crisis and I need you to stay in touch with me.",
       },
       {
-        title: "2. Move the risk away",
-        body: "Put away things you could hurt yourself with. Go to a place where other people are.",
+        title: "2. Move away from danger",
+        body: "Put away anything you could hurt yourself with. Go somewhere other people are.",
       },
       {
         title: "3. Make one call",
-        body: "You do not have to explain everything. Just say: I am in a crisis, I need help now. In an emergency you can also call 999 or go to a hospital emergency department.",
+        body: "You don't have to explain everything. Just say: I'm in a crisis and I need help now. In an emergency, call 911 or go to the nearest emergency room.",
       },
     ],
   },
   city: {
-    title: "Find help in your city",
+    title: "Find help near you",
     description:
-      "Enter your city. Coach FI will suggest where to look for a crisis intervention centre, the social welfare centre, free legal aid and support for borrowers.",
-    label: "Your city",
-    placeholder: "e.g. Warsaw, Kraków, Gdańsk",
-    fallback: "my city",
+      "Enter your city or ZIP code. We'll point you to nonprofit credit counseling, free legal aid, housing counseling and local help with bills.",
+    label: "City or ZIP code",
+    placeholder: "e.g., Columbus, OH",
+    fallback: "your area",
   },
   resources: {
     source: "Source",
-    oikPhone: "local crisis centre number",
     items: {
-      oik: {
-        title: "Crisis Intervention Centre (OIK)",
-        body: "Help in a crisis, a conversation, intervention, sometimes shelter or psychological support. Look for your local centre.",
-        cta: "Search OIK: {city}",
+      nfcc: {
+        title: "Nonprofit credit counseling (NFCC)",
+        body: "A certified counselor can review your budget and debts for free or at low cost, and explain options like a debt management plan.",
+        cta: "Find a counselor",
       },
       legal: {
         title: "Free legal aid",
-        body: "Public points across Poland. You can get legal advice, civic advice or mediation.",
-        cta: "Book advice",
+        body: "Nonprofit legal aid can help with debt collection lawsuits, eviction, wage garnishment and more. Find help in your state.",
+        cta: "Find legal aid",
       },
-      mops: {
-        title: "Social welfare centre (MOPS / OPS)",
-        body: "Ask about a special-purpose benefit, food, medicine, fuel, rent and contact with a social worker.",
-        cta: "Search MOPS/OPS: {city}",
+      cfpb: {
+        title: "Your rights with debt collectors",
+        body: "Debt collectors have to follow federal rules. Learn what they can and can't do, and file a complaint if you need to.",
+        cta: "Know your rights (CFPB)",
       },
-      zus: {
-        title: "Social insurance (ZUS)",
-        body: "If you run a business or have overdue contributions, check deferral, instalments or relief in repayment.",
-        cta: "Check ZUS relief",
+      housing: {
+        title: "HUD-approved housing counseling",
+        body: "Behind on rent or your mortgage? A HUD-approved counselor can help for free or at low cost.",
+        cta: "Find a housing counselor",
       },
-      alimony: {
-        title: "Child support and the maintenance fund",
-        body: "If someone should contribute to supporting a child or family, check child support and benefits.",
-        cta: "Check the fund",
+      help211: {
+        title: "211: local help with the basics",
+        body: "Rent, food, utility bills, child care and more. 211 connects you with programs in {city}.",
+        cta: "Find your local 211",
       },
-      credit: {
-        title: "Mortgage and instalments",
-        body: "Ask your bank about payment holidays, restructuring, a grace period and the Borrowers' Support Fund.",
-        cta: "Check the fund (FWK)",
+      utilities: {
+        title: "Help with energy bills (LIHEAP)",
+        body: "The Low Income Home Energy Assistance Program helps pay heating and cooling bills. Ask 211 or your utility company how to apply.",
+        cta: "Learn about LIHEAP",
       },
-      cityOffice: {
-        title: "City or municipal office",
-        body: "Local websites often publish current numbers for crisis centres, welfare centres, legal aid points and food help.",
-        cta: "Search locally",
+      local: {
+        title: "Emergency help near you",
+        body: "Search for emergency rental assistance, food banks and community action agencies.",
+        cta: "Search for help in {city}",
       },
     },
   },
   firstDay: {
     title: "The first 24 hours",
-    description: "Take small steps in the right order. Do not solve everything at once.",
+    description: "Take small steps in the right order. You don't have to solve everything at once.",
     done: "Done",
-    reward: "+{reward} tokens",
+    reward: "Mark as done",
     steps: [
       {
-        title: "Write to the person closest to you",
-        body: "Ask for a short loan for basic needs only. Agree a repayment date and write a simple agreement.",
+        title: "Reach out to someone you trust",
+        body: "Tell them what's going on. If you ask to borrow money, keep it to the basics and agree on a repayment date in writing.",
       },
       {
-        title: "Contact your bank or creditor",
-        body: "Ask about restructuring, a grace period, instalments or available payment holidays.",
+        title: "Call your lender or creditor",
+        body: "Ask about a hardship program, a lower payment, a new due date or a short pause. Ask them to confirm it in writing.",
       },
       {
-        title: "Book free legal aid",
-        body: "Do not ignore letters from the court, a bailiff or the bank. A lawyer will help set the order of actions.",
+        title: "Talk to a nonprofit credit counselor",
+        body: "An NFCC member agency can review your budget and debts. Avoid companies that charge upfront fees to \"settle\" your debt.",
       },
       {
-        title: "Check the social welfare centre",
-        body: "Ask about a special-purpose benefit, food, medicine, fuel, rent or other living support.",
+        title: "Call 211",
+        body: "Ask about local help with rent, food, utility bills and transportation.",
       },
       {
-        title: "List 3 unused things",
-        body: "Recover the first cash without new debt. Start with clothes, electronics and appliances.",
+        title: "List 3 things you don't use",
+        body: "Raise some cash without new debt. Start with clothes, electronics and small appliances.",
       },
     ],
   },
   avoid: {
     title: "What not to do in a panic",
     items: [
-      "Do not take a payday loan just to repay another payday loan.",
-      "Do not ignore letters from the bank, the court, a bailiff or ZUS.",
-      "Do not promise family a repayment without a date, an amount and simple terms.",
-      "Do not sell things you need for work or health.",
-      "Do not sign a settlement whose costs you do not understand.",
+      "Don't take out a payday loan to pay off another payday loan.",
+      "Don't ignore letters from your lender, a court or a debt collector.",
+      "Don't pay a company upfront fees to settle or \"erase\" your debt.",
+      "Don't sell things you need for work or your health.",
+      "Don't sign anything whose costs you don't understand.",
     ],
   },
   templates: {
-    title: "Message and request templates",
-    description: "These are educational drafts to adapt. For legal matters, use free legal aid.",
+    title: "Message and letter templates",
+    description:
+      "Educational drafts to adapt. Never put your Social Security number or full account numbers in a message. For legal questions, contact free legal aid.",
     copy: "Copy",
     copied: "Copied",
-    polishDocumentNote: "Template in Polish: this is the form submitted to Polish institutions.",
     titles: {
-      emotional: "Message to someone close when you are breaking down",
-      request: "Loan request to someone close",
-      loan: "Simple loan agreement template",
-      bank: "Request to the bank for repayment relief",
-      mops: "Request to the social welfare centre for help",
+      emotional: "Message to someone close when you're struggling",
+      request: "Asking someone close for a short-term loan",
+      loan: "Simple family loan agreement",
+      bank: "Hardship request to your lender",
     },
     emotionalText:
-      "Hi [NAME],\n\nI am in a very hard place. The debts and the stress are too much for me. I am not asking you to fix everything right now.\n\nI need someone to stay in touch with me for the next hour.\nCan you call me or write back?\n\nIf I do not answer, please try again or call for help.\nI want to get through this moment safely.",
+      "Hi [NAME],\n\nI'm in a really hard place. The debt and the stress are too much for me right now. I'm not asking you to fix everything.\n\nI need someone to stay in touch with me for the next hour.\nCan you call me or text me back?\n\nIf I don't answer, please try again or call for help.\nI want to get through this safely.",
     requestText:
-      "Hi [NAME],\n\nI am writing because I have an urgent financial situation and I need help with basic expenses: [food/medicine/rent/transport].\n\nCould you lend me [AMOUNT] until [REPAYMENT DATE]?\nI want to do this fairly and clearly, so I can send a simple loan agreement with the repayment date right away.\n\nI am not asking for a gift. I am asking for short-term help that I will pay back on the agreed date.\nThank you for reading this.",
+      "Hi [NAME],\n\nI'm writing because I'm in an urgent money situation and I need help with basic costs: [food/medicine/rent/transportation].\n\nCould you lend me $[AMOUNT] until [REPAYMENT DATE]?\nI want to keep this fair and clear, so I can send you a simple written agreement with the repayment date right away.\n\nI'm not asking for a gift. I'm asking for short-term help that I'll pay back on the date we agree on.\nThank you for reading this.",
+    loanText:
+      "FAMILY LOAN AGREEMENT\n\nDate: [DATE]\nLender: [FULL NAME]\nBorrower: [FULL NAME]\n\n1. The Lender is lending the Borrower $[AMOUNT].\n2. The Borrower will repay the full amount by [REPAYMENT DATE] (or in payments of $[AMOUNT] on [DATES]).\n3. Repayment will be made by [bank transfer / payment app / cash with a written receipt].\n4. No interest will be charged unless written here: [TERMS].\n5. If the Borrower can't make a payment on time, both sides will talk before the due date and write down any new date.\n\nLender signature: ____________________\nBorrower signature: ____________________\n\nThis is a simple educational template, not legal advice. Rules differ by state.",
+    bankText:
+      "HARDSHIP REQUEST\n\nDate: [DATE]\nTo: [LENDER OR CREDITOR NAME]\nAccount ending in: [LAST 4 DIGITS]\nName: [FULL NAME]\nPhone or email: [CONTACT]\n\nI'm writing to ask for help because of a financial hardship. My income dropped because of [JOB LOSS / ILLNESS / FEWER HOURS / OTHER] starting [DATE].\n\nI want to keep paying and avoid falling behind. Please tell me whether I qualify for any of these:\n- a temporary lower payment or a pause (forbearance)\n- a lower interest rate or waived late fees\n- a longer repayment plan or a loan modification\n- a different due date\n\nRight now I can pay $[AMOUNT] a month. Please reply in writing and tell me which documents you need.\n\nThank you,\n[NAME]",
   },
   resale: {
-    title: "Recover cash through reselling",
+    title: "Raise cash by selling things",
     description: "The fastest small cash boost is often in things you no longer use.",
     voiceText:
-      "List three unused things. Check Vinted for clothes and accessories. Use OLX or Facebook Marketplace for bigger local items. Compare electronics and higher-value items on Allegro Lokalnie.",
-    voiceLabel: "Read reselling tips",
+      "List three things you don't use. Try Facebook Marketplace or OfferUp for bigger local items, eBay or Mercari for electronics and collectibles, and Poshmark for clothes and accessories. Meet buyers in a public place.",
+    voiceLabel: "Read selling tips",
     platforms: [
-      { bestFor: "Clothes, shoes, accessories, lifestyle items.", tip: "Start with things you have not used for 90 days." },
       {
-        bestFor: "Furniture, appliances, electronics, bikes, bigger items sold locally.",
-        tip: "Good photos and local pickup often speed up the sale.",
+        bestFor: "Furniture, appliances, bikes and bigger items sold locally.",
+        tip: "Good photos and local pickup speed up the sale. Meet buyers in a public place.",
       },
       {
-        bestFor: "Electronics, books, hobby items, higher-value things.",
-        tip: "It is worth comparing the price with similar active listings.",
+        bestFor: "Fast local sales of everyday items.",
+        tip: "Never accept an overpayment or click a link a buyer sends you.",
       },
       {
-        bestFor: "Fast local sales and neighbourhood groups.",
-        tip: "Do not click suspicious links from buyers. Keep payment in a safe channel.",
+        bestFor: "Electronics, collectibles and higher-value items.",
+        tip: "Compare your price with recently sold listings.",
       },
       {
-        bestFor: "Collectibles, electronics, niche items with international potential.",
-        tip: "Factor in fees, shipping and handling time.",
+        bestFor: "Electronics, games, books and household items shipped nationwide.",
+        tip: "Factor in fees and shipping before you set a price.",
+      },
+      {
+        bestFor: "Clothes, shoes and accessories.",
+        tip: "Start with what you haven't worn in 90 days.",
       },
     ],
   },
 };
 
 const es: CrisisCopy = {
-  polandNotice: "Los números de teléfono, las instituciones y los modelos de documentos de esta página corresponden a Polonia.",
-  eyebrow: "Crisis financiera",
-  title: "Un plan de emergencia para cuando se acaba el dinero.",
+  regionNotice:
+    "Estos números y servicios son para los Estados Unidos. Si estás en otro país, llama al número de emergencias local.",
+  eyebrow: "Ayuda en una crisis de dinero",
+  title: "Un plan para cuando se acaba el dinero.",
   description:
-    "Coach FI te ayuda a frenar el pánico, encontrar ayuda gratuita, contactar con las instituciones y recuperar el primer dinero sin endeudarte más.",
+    "Frena el pánico, encuentra ayuda gratuita, habla con las personas adecuadas y consigue algo de dinero sin endeudarte más.",
   voiceText: [
-    "Plan de crisis financiera de Coach FI.",
-    "Primero, protege la vida, la salud, la comida, los medicamentos, un techo y el contacto con otra persona.",
-    "Si tienes pensamientos suicidas o temes hacerte daño, llama al 112 o al 116 123.",
+    "Plan de crisis financiera de CoachfiAI.",
+    "Primero, protege tu vida y tu salud, la comida, los medicamentos, un techo y el contacto con otra persona.",
+    "Si piensas en el suicidio o temes hacerte daño, llama o envía un mensaje de texto al 988 y marca 2 para hablar en español. Es gratis, confidencial y funciona las 24 horas. Si estás en peligro inmediato, llama al 911.",
     "Las deudas se pueden ordenar paso a paso. No tienes que pasar por esto a solas.",
     "No pidas otro préstamo caro bajo presión.",
-    "Contacta con la asistencia jurídica gratuita, el centro de servicios sociales (MOPS u OPS), tu banco y la persona de mayor confianza.",
-    "Pon a la venta cosas que no usas para recuperar el primer dinero sin aumentar la deuda.",
+    "Busca a un consejero de crédito sin fines de lucro, asistencia legal gratuita, el 211 para ayuda local, a tu prestamista y a la persona en quien más confías.",
+    "Haz una lista de cosas que no usas y véndelas para conseguir algo de dinero sin deuda nueva.",
   ],
   safety: {
     title: "Primero, la seguridad",
-    body: "Si hay riesgo para la vida o la salud, violencia o peligro inmediato, llama al 112. Si estás en una crisis de salud mental, usa la línea 116 123 o centrumwsparcia.pl.",
+    body: "Si piensas en el suicidio o temes hacerte daño, llama o envía un mensaje de texto al 988 (marca 2 para español) o chatea en 988lifeline.org. Es gratis y funciona las 24 horas. Si estás en peligro inmediato, llama al 911.",
     emergencyDetail: "emergencias",
-    mentalDetail: "crisis de salud mental",
-    onlineDetail: "en línea",
+    mentalDetail: "llamada o texto, 24/7",
+    onlineDetail: "chat en línea",
   },
   tokens: {
-    title: "Tokens por actuar",
-    description: "Cada paso SOS completado da +{reward} Coach FI Tokens.",
-    readPlan: "Leer el plan SOS",
+    title: "Escucha este plan",
+    description: "Mila puede leer en voz alta los pasos de esta página.",
+    readPlan: "Leer el plan en voz alta",
   },
   emotional: {
-    eyebrow: "Primero la persona, después la deuda",
-    title: "Cuando las deudas provocan un derrumbe, depresión o pensamientos suicidas",
+    eyebrow: "Primero tú, después la deuda",
+    title: "Cuando las deudas causan pánico, depresión o pensamientos suicidas",
     description:
-      "Este módulo es para adultos. Si sientes que no puedes más, no te quedes a solas con ello. Llama, escribe a alguien de confianza, pide que alguien se quede contigo. La deuda es un problema que se puede resolver, pero primero hay que cuidar la seguridad.",
+      "Esta sección es para adultos. Si sientes que no puedes más, no te quedes a solas con ello. Llama o escribe a alguien de confianza y pídele que se quede contigo. La deuda es un problema que se puede resolver, pero primero va tu seguridad.",
     voiceText:
-      "Si las deudas te provocan un derrumbe, depresión o pensamientos suicidas, primero cuida tu seguridad. Llama al 112 si puedes hacerte daño. Llama al 116 123 o al 800 70 2222 si necesitas hablar con alguien ahora. No tienes que pasar por esto a solas.",
+      "Si las deudas te causan pánico, depresión o pensamientos suicidas, primero cuida tu seguridad. Llama o envía un mensaje de texto al 988 y marca 2 para español. Es gratis y funciona las 24 horas. Si estás en peligro inmediato, llama al 911. También puedes enviar la palabra AYUDA al 741741. No tienes que pasar por esto a solas.",
     voiceLabel: "Leer la ayuda ahora",
-    mentalHealthCentre: "Centro de Salud Mental (CZP)",
     contacts: [
       {
-        subtitle: "Riesgo inmediato para la vida o la salud",
-        body: "Llama de inmediato si puedes hacerte daño, estás en peligro inmediato o alguien a tu lado corre riesgo.",
-        cta: "Llamar al 112",
+        subtitle: "Peligro inmediato",
+        body: "Llama de inmediato si puedes hacerte daño, estás en peligro o alguien a tu lado corre riesgo.",
+        cta: "Llamar al 911",
       },
       {
-        subtitle: "Línea de apoyo para adultos",
-        body: "Ayuda gratuita y anónima para adultos en crisis psicológica o emocional.",
-        cta: "Llamar al 116 123",
+        subtitle: "988 Línea de Prevención del Suicidio y Crisis",
+        body: "Apoyo gratuito y confidencial las 24 horas por llamada, texto o chat. Marca 2 para español. Veteranos: marca 1.",
+        cta: "Llamar o escribir al 988",
       },
       {
-        subtitle: "Centro de Apoyo para adultos",
-        body: "Apoyo psicológico las 24 horas para adultos en crisis de salud mental.",
-        cta: "Llamar al 800 70 2222",
+        subtitle: "Crisis Text Line en español",
+        body: "Escribe con un consejero bilingüe capacitado, gratis y las 24 horas. También por WhatsApp: 442-AYUDAME.",
+        cta: "Envía AYUDA al 741741",
       },
       {
-        subtitle: "Ayuda en línea",
-        body: "Plataforma para adultos: teléfono, información, ayuda en línea y un directorio de lugares de apoyo.",
-        cta: "Abrir 116sos.pl",
+        subtitle: "Ayuda local con alquiler, comida y servicios",
+        body: "El 211 te conecta con programas locales para el alquiler, la comida, las facturas de servicios y otras necesidades. Gratis y confidencial.",
+        cta: "Llamar al 211",
       },
       {
-        subtitle: "Ayuda gratuita sin derivación",
-        body: "Una persona adulta puede buscar apoyo en el Centro de Salud Mental de su lugar de residencia, también en una urgencia.",
-        cta: "Buscar un centro",
+        subtitle: "Problemas con el juego",
+        body: "Ayuda gratuita y confidencial con el juego y las deudas de juego. También puedes llamar o escribir al 1-800-MY-RESET (1-800-697-3738).",
+        cta: "Llamar al 1-800-GAMBLER",
       },
     ],
     steps: [
@@ -562,150 +696,155 @@ const es: CrisisCopy = {
         body: "Envía un mensaje corto: estoy en crisis y necesito que sigas en contacto conmigo.",
       },
       {
-        title: "2. Aleja el riesgo",
+        title: "2. Aléjate del peligro",
         body: "Aparta las cosas con las que podrías hacerte daño. Ve a un lugar donde haya otras personas.",
       },
       {
         title: "3. Haz una llamada",
-        body: "No tienes que saber explicarlo todo. Di solo: estoy en crisis, necesito ayuda ahora. En una emergencia también puedes llamar al 999 o ir a urgencias de un hospital.",
+        body: "No tienes que explicarlo todo. Di solo: estoy en crisis y necesito ayuda ahora. En una emergencia, llama al 911 o ve a la sala de emergencias más cercana.",
       },
     ],
   },
   city: {
-    title: "Busca ayuda en tu ciudad",
+    title: "Busca ayuda cerca de ti",
     description:
-      "Escribe tu ciudad. Coach FI te indicará dónde buscar un centro de intervención en crisis, los servicios sociales, asistencia jurídica gratuita y apoyo para personas con hipoteca.",
-    label: "Tu ciudad",
-    placeholder: "p. ej., Varsovia, Cracovia, Gdansk",
-    fallback: "mi ciudad",
+      "Escribe tu ciudad o código postal. Te indicaremos dónde buscar asesoría de crédito sin fines de lucro, asistencia legal gratuita, asesoría de vivienda y ayuda local con las facturas.",
+    label: "Ciudad o código postal",
+    placeholder: "p. ej., Houston, TX",
+    fallback: "tu zona",
   },
   resources: {
     source: "Fuente",
-    oikPhone: "número local del centro de crisis",
     items: {
-      oik: {
-        title: "Centro de Intervención en Crisis (OIK)",
-        body: "Ayuda en una crisis, conversación, intervención y, a veces, alojamiento o apoyo psicológico. Busca el centro de tu zona.",
-        cta: "Buscar OIK: {city}",
+      nfcc: {
+        title: "Asesoría de crédito sin fines de lucro (NFCC)",
+        body: "Un consejero certificado puede revisar tu presupuesto y tus deudas gratis o a bajo costo, y explicarte opciones como un plan de manejo de deudas.",
+        cta: "Buscar un consejero",
       },
       legal: {
-        title: "Asistencia jurídica gratuita",
-        body: "Puntos públicos en toda Polonia. Puedes obtener asesoramiento jurídico, orientación ciudadana o mediación.",
-        cta: "Pedir cita",
+        title: "Asistencia legal gratuita",
+        body: "La asistencia legal sin fines de lucro puede ayudarte con demandas por deudas, desalojos, embargos de salario y más. Busca ayuda en tu estado.",
+        cta: "Buscar asistencia legal",
       },
-      mops: {
-        title: "Servicios sociales (MOPS / OPS)",
-        body: "Pregunta por la ayuda puntual, alimentos, medicamentos, calefacción, alquiler y el contacto con un trabajador social.",
-        cta: "Buscar MOPS/OPS: {city}",
+      cfpb: {
+        title: "Tus derechos ante los cobradores de deudas",
+        body: "Los cobradores de deudas deben seguir reglas federales. Aprende qué pueden y qué no pueden hacer, y presenta una queja si hace falta.",
+        cta: "Conoce tus derechos (CFPB)",
       },
-      zus: {
-        title: "Seguridad social (ZUS)",
-        body: "Si tienes un negocio o cotizaciones atrasadas, consulta el aplazamiento, el pago a plazos o las facilidades de pago.",
-        cta: "Ver facilidades de ZUS",
+      housing: {
+        title: "Asesoría de vivienda aprobada por HUD",
+        body: "¿Atrasado con el alquiler o la hipoteca? Un consejero aprobado por HUD puede ayudarte gratis o a bajo costo.",
+        cta: "Buscar un consejero de vivienda",
       },
-      alimony: {
-        title: "Pensión alimenticia y fondo de alimentos",
-        body: "Si alguien debe contribuir al sustento de un hijo o de la familia, consulta la pensión alimenticia y las prestaciones.",
-        cta: "Consultar el fondo",
+      help211: {
+        title: "211: ayuda local con lo básico",
+        body: "Alquiler, comida, facturas de servicios, cuidado infantil y más. El 211 te conecta con programas en {city}.",
+        cta: "Busca tu 211 local",
       },
-      credit: {
-        title: "Hipoteca y cuotas",
-        body: "Pregunta en tu banco por la moratoria de pagos, la reestructuración, el periodo de carencia y el Fondo de Apoyo a los Prestatarios.",
-        cta: "Consultar el fondo (FWK)",
+      utilities: {
+        title: "Ayuda con las facturas de energía (LIHEAP)",
+        body: "El Programa de Asistencia de Energía para Hogares de Bajos Ingresos ayuda a pagar la calefacción y el aire acondicionado. Pregunta al 211 o a tu compañía de servicios cómo solicitarlo.",
+        cta: "Información sobre LIHEAP",
       },
-      cityOffice: {
-        title: "Ayuntamiento",
-        body: "Las webs locales suelen publicar los números actualizados de centros de crisis, servicios sociales, puntos de asesoría jurídica y ayuda alimentaria.",
-        cta: "Buscar en tu zona",
+      local: {
+        title: "Ayuda de emergencia cerca de ti",
+        body: "Busca programas de ayuda con el alquiler, bancos de comida y agencias de acción comunitaria.",
+        cta: "Buscar ayuda en {city}",
       },
     },
   },
   firstDay: {
     title: "Las primeras 24 horas",
-    description: "Da pasos pequeños en el orden correcto. No intentes resolverlo todo a la vez.",
+    description: "Da pasos pequeños en el orden correcto. No tienes que resolverlo todo a la vez.",
     done: "Hecho",
-    reward: "+{reward} tokens",
+    reward: "Marcar como hecho",
     steps: [
       {
-        title: "Escribe a la persona más cercana",
-        body: "Pide un préstamo breve solo para necesidades básicas. Acordad una fecha de devolución y redactad un acuerdo sencillo.",
+        title: "Habla con alguien de confianza",
+        body: "Cuéntale lo que pasa. Si pides dinero prestado, que sea solo para lo básico y acuerden por escrito una fecha de devolución.",
       },
       {
-        title: "Contacta con el banco o el acreedor",
-        body: "Pide una reestructuración, un periodo de carencia, un pago a plazos o que revisen las moratorias disponibles.",
+        title: "Llama a tu prestamista o acreedor",
+        body: "Pregunta por un programa para dificultades económicas, un pago más bajo, otra fecha de pago o una pausa breve. Pide que te lo confirmen por escrito.",
       },
       {
-        title: "Pide cita en la asistencia jurídica gratuita",
-        body: "No ignores las cartas del juzgado, del agente ejecutor o del banco. Un abogado te ayudará a ordenar los pasos.",
+        title: "Habla con un consejero de crédito sin fines de lucro",
+        body: "Una agencia miembro de la NFCC puede revisar tu presupuesto y tus deudas. Evita las empresas que cobran por adelantado para \"liquidar\" deudas.",
       },
       {
-        title: "Consulta los servicios sociales",
-        body: "Pregunta por la ayuda puntual, alimentos, medicamentos, calefacción, alquiler u otra ayuda para lo básico.",
+        title: "Llama al 211",
+        body: "Pregunta por ayuda local con el alquiler, la comida, las facturas de servicios y el transporte.",
       },
       {
-        title: "Pon a la venta 3 cosas que no usas",
-        body: "Recupera el primer dinero sin deuda nueva. Empieza por ropa, electrónica y aparatos.",
+        title: "Haz una lista de 3 cosas que no usas",
+        body: "Consigue algo de dinero sin deuda nueva. Empieza por ropa, electrónica y electrodomésticos pequeños.",
       },
     ],
   },
   avoid: {
     title: "Qué no hacer con pánico",
     items: [
-      "No pidas un préstamo rápido solo para pagar otro préstamo rápido.",
-      "No ignores las cartas del banco, del juzgado, del agente ejecutor ni de la seguridad social (ZUS).",
-      "No prometas a la familia una devolución sin fecha, importe y condiciones sencillas.",
+      "No pidas un préstamo de día de pago (payday loan) para pagar otro.",
+      "No ignores las cartas de tu prestamista, de un tribunal o de un cobrador de deudas.",
+      "No pagues por adelantado a una empresa que promete liquidar o \"borrar\" tus deudas.",
       "No vendas cosas que necesitas para trabajar o para tu salud.",
-      "No firmes un acuerdo cuyos costes no entiendes.",
+      "No firmes nada cuyos costos no entiendas.",
     ],
   },
   templates: {
-    title: "Modelos de mensajes y solicitudes",
-    description: "Son borradores educativos para adaptar. En asuntos legales, acude a la asistencia jurídica gratuita.",
+    title: "Modelos de mensajes y cartas",
+    description:
+      "Son borradores educativos para adaptar. Nunca pongas tu número de Seguro Social ni números de cuenta completos en un mensaje. Para asuntos legales, busca asistencia legal gratuita.",
     copy: "Copiar",
     copied: "Copiado",
-    polishDocumentNote: "Modelo en polaco: así se presenta en las instituciones polacas.",
     titles: {
-      emotional: "Mensaje a una persona cercana cuando te derrumbas",
-      request: "Petición de préstamo a una persona cercana",
-      loan: "Modelo sencillo de contrato de préstamo",
-      bank: "Solicitud al banco de facilidades de pago",
-      mops: "Solicitud de ayuda a los servicios sociales",
+      emotional: "Mensaje a alguien cercano cuando lo estás pasando mal",
+      request: "Pedir un préstamo breve a alguien cercano",
+      loan: "Acuerdo sencillo de préstamo familiar",
+      bank: "Solicitud a tu prestamista por dificultades económicas",
     },
     emotionalText:
-      "Hola, [NOMBRE]:\n\nestoy pasando por un momento muy difícil. Las deudas y el estrés me superan. No te pido que lo resuelvas todo ahora.\n\nNecesito que alguien esté en contacto conmigo durante la próxima hora.\n¿Puedes llamarme o contestarme?\n\nSi no respondo, por favor inténtalo de nuevo o pide ayuda.\nQuiero pasar este momento de forma segura.",
+      "Hola, [NOMBRE]:\n\nestoy pasando por un momento muy difícil. Las deudas y el estrés me superan. No te pido que lo resuelvas todo.\n\nNecesito que alguien esté en contacto conmigo durante la próxima hora.\n¿Puedes llamarme o contestarme?\n\nSi no respondo, por favor inténtalo de nuevo o pide ayuda.\nQuiero pasar este momento de forma segura.",
     requestText:
-      "Hola, [NOMBRE]:\n\nte escribo porque tengo una situación económica urgente y necesito ayuda para gastos básicos: [comida/medicamentos/alquiler/transporte].\n\n¿Podrías prestarme [IMPORTE] hasta el [FECHA DE DEVOLUCIÓN]?\nQuiero hacerlo de forma honesta y clara, así que puedo enviarte ya un contrato de préstamo sencillo con la fecha de devolución.\n\nNo te pido un regalo. Te pido una ayuda breve que devolveré en la fecha acordada.\nGracias por leer esto.",
+      "Hola, [NOMBRE]:\n\nte escribo porque tengo una situación económica urgente y necesito ayuda con gastos básicos: [comida/medicamentos/alquiler/transporte].\n\n¿Podrías prestarme $[CANTIDAD] hasta el [FECHA DE DEVOLUCIÓN]?\nQuiero hacerlo de forma justa y clara, así que puedo enviarte ya un acuerdo sencillo por escrito con la fecha de devolución.\n\nNo te pido un regalo. Te pido una ayuda breve que devolveré en la fecha que acordemos.\nGracias por leer esto.",
+    loanText:
+      "ACUERDO DE PRÉSTAMO FAMILIAR\n\nFecha: [FECHA]\nPrestamista: [NOMBRE COMPLETO]\nPrestatario: [NOMBRE COMPLETO]\n\n1. El Prestamista presta al Prestatario $[CANTIDAD].\n2. El Prestatario devolverá la cantidad completa a más tardar el [FECHA DE DEVOLUCIÓN] (o en pagos de $[CANTIDAD] en [FECHAS]).\n3. La devolución se hará por [transferencia bancaria / aplicación de pagos / efectivo con recibo por escrito].\n4. No se cobrarán intereses, salvo que se indique aquí: [CONDICIONES].\n5. Si el Prestatario no puede pagar a tiempo, ambas partes hablarán antes de la fecha de pago y anotarán la nueva fecha.\n\nFirma del Prestamista: ____________________\nFirma del Prestatario: ____________________\n\nEs un modelo educativo sencillo, no asesoría legal. Las reglas varían según el estado.",
+    bankText:
+      "SOLICITUD POR DIFICULTADES ECONÓMICAS\n\nFecha: [FECHA]\nPara: [NOMBRE DEL PRESTAMISTA O ACREEDOR]\nCuenta que termina en: [ÚLTIMOS 4 DÍGITOS]\nNombre: [NOMBRE COMPLETO]\nTeléfono o correo: [CONTACTO]\n\nLes escribo para pedir ayuda por una dificultad económica. Mis ingresos bajaron por [PÉRDIDA DE EMPLEO / ENFERMEDAD / MENOS HORAS / OTRO] desde el [FECHA].\n\nQuiero seguir pagando y no atrasarme. Por favor, díganme si califico para alguna de estas opciones:\n- un pago más bajo por un tiempo o una pausa (forbearance)\n- una tasa de interés más baja o la exención de cargos por pago tardío\n- un plan de pagos más largo o una modificación del préstamo\n- otra fecha de pago\n\nAhora mismo puedo pagar $[CANTIDAD] al mes. Por favor, respondan por escrito e indíquenme qué documentos necesitan.\n\nGracias,\n[NOMBRE]",
   },
   resale: {
-    title: "Recupera dinero revendiendo",
-    description: "El pequeño ingreso más rápido suele estar en cosas que ya no usas.",
+    title: "Consigue dinero vendiendo cosas",
+    description: "El ingreso pequeño más rápido suele estar en cosas que ya no usas.",
     voiceText:
-      "Pon a la venta tres cosas que no usas. Mira Vinted para ropa y accesorios. Usa OLX o Facebook Marketplace para cosas grandes de venta local. Compara la electrónica y los artículos de más valor en Allegro Lokalnie.",
-    voiceLabel: "Leer consejos de reventa",
+      "Haz una lista de tres cosas que no usas. Prueba Facebook Marketplace u OfferUp para cosas grandes de venta local, eBay o Mercari para electrónica y coleccionables, y Poshmark para ropa y accesorios. Reúnete con los compradores en un lugar público.",
+    voiceLabel: "Leer consejos de venta",
     platforms: [
-      { bestFor: "Ropa, calzado, accesorios y artículos de estilo de vida.", tip: "Empieza por lo que no has usado en 90 días." },
       {
-        bestFor: "Muebles, electrodomésticos, electrónica, bicicletas y cosas grandes de venta local.",
-        tip: "Unas buenas fotos y la recogida en persona suelen acelerar la venta.",
+        bestFor: "Muebles, electrodomésticos, bicicletas y cosas grandes de venta local.",
+        tip: "Unas buenas fotos y la recogida en persona aceleran la venta. Reúnete en un lugar público.",
       },
       {
-        bestFor: "Electrónica, libros, aficiones y artículos de más valor.",
-        tip: "Conviene comparar el precio con anuncios activos parecidos.",
+        bestFor: "Ventas locales rápidas de artículos del día a día.",
+        tip: "Nunca aceptes un pago de más ni hagas clic en enlaces que te envíe un comprador.",
       },
       {
-        bestFor: "Venta local rápida y grupos de barrio.",
-        tip: "No hagas clic en enlaces sospechosos de compradores. Mantén el pago en un canal seguro.",
+        bestFor: "Electrónica, coleccionables y artículos de más valor.",
+        tip: "Compara tu precio con anuncios que ya se vendieron.",
       },
       {
-        bestFor: "Colecciones, electrónica y artículos de nicho con potencial internacional.",
-        tip: "Ten en cuenta las comisiones, el envío y el tiempo de gestión.",
+        bestFor: "Electrónica, juegos, libros y artículos del hogar con envío a todo el país.",
+        tip: "Ten en cuenta las comisiones y el envío antes de poner el precio.",
+      },
+      {
+        bestFor: "Ropa, zapatos y accesorios.",
+        tip: "Empieza por lo que no te has puesto en 90 días.",
       },
     ],
   },
 };
 
 const fr: CrisisCopy = {
-  polandNotice: "Les numéros de téléphone, les institutions et les modèles de documents de cette page concernent la Pologne.",
+  regionNotice: "Les numéros de téléphone, les institutions et les modèles de documents de cette page concernent la Pologne.",
   eyebrow: "Crise financière",
   title: "Un plan d'urgence quand l'argent vient à manquer.",
   description:
@@ -916,7 +1055,7 @@ const fr: CrisisCopy = {
 };
 
 const zh: CrisisCopy = {
-  polandNotice: "本页的电话号码、机构和文件模板均适用于波兰。",
+  regionNotice: "本页的电话号码、机构和文件模板均适用于波兰。",
   eyebrow: "财务危机",
   title: "钱快用完时的应急计划。",
   description:
@@ -1127,7 +1266,7 @@ const zh: CrisisCopy = {
 };
 
 const ja: CrisisCopy = {
-  polandNotice: "このページの電話番号、機関、書類のひな形はポーランド向けのものです。",
+  regionNotice: "このページの電話番号、機関、書類のひな形はポーランド向けのものです。",
   eyebrow: "お金の危機",
   title: "お金が尽きそうなときの緊急プラン。",
   description:
@@ -1338,7 +1477,7 @@ const ja: CrisisCopy = {
 };
 
 const hi: CrisisCopy = {
-  polandNotice: "इस पेज पर दिए गए फ़ोन नंबर, संस्थान और दस्तावेज़ों के नमूने पोलैंड के लिए हैं।",
+  regionNotice: "इस पेज पर दिए गए फ़ोन नंबर, संस्थान और दस्तावेज़ों के नमूने पोलैंड के लिए हैं।",
   eyebrow: "वित्तीय संकट",
   title: "जब पैसे खत्म होने लगें, तब के लिए आपातकालीन योजना।",
   description:
@@ -1549,7 +1688,7 @@ const hi: CrisisCopy = {
 };
 
 const ptBR: CrisisCopy = {
-  polandNotice: "Os telefones, as instituições e os modelos de documentos desta página valem para a Polônia.",
+  regionNotice: "Os telefones, as instituições e os modelos de documentos desta página valem para a Polônia.",
   eyebrow: "Crise financeira",
   title: "Um plano de emergência para quando o dinheiro acaba.",
   description:
@@ -1760,7 +1899,7 @@ const ptBR: CrisisCopy = {
 };
 
 const tr: CrisisCopy = {
-  polandNotice: "Bu sayfadaki telefon numaraları, kurumlar ve belge şablonları Polonya için geçerlidir.",
+  regionNotice: "Bu sayfadaki telefon numaraları, kurumlar ve belge şablonları Polonya için geçerlidir.",
   eyebrow: "Finansal kriz",
   title: "Para bittiğinde uygulanacak acil durum planı.",
   description:
