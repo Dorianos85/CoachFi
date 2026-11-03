@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Users } from "lucide-react";
+import { Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -18,97 +18,99 @@ interface Player {
   isYou?: boolean;
 }
 
-const FALLBACK_PLAYERS: Player[] = [
-  { name: "Aleksandra K.", score: 94, streak: 14 },
-  { name: "Marek W.", score: 88, streak: 9 },
-  { name: "Julia P.", score: 81, streak: 7 },
-  { name: "Tomasz R.", score: 76, streak: 5 },
-  { name: "Ewa M.", score: 71, streak: 3 },
-];
-
 const MEDAL = ["1", "2", "3"];
 const COPY: LocalizedMap<
-  { global: string; local: string; setup: string; consent: string; change: string; pts: string }
+  { global: string; empty: string; unavailable: string; consent: string; change: string; pts: string }
 > = {
   en: {
     global: "Global",
-    local: "Local",
-    setup: "Global leaderboard requires Supabase setup. Showing local rankings.",
+    empty: "No one is on the leaderboard yet. Finish a quiz and allow the leaderboard consent to be the first.",
+    unavailable: "The leaderboard is not available yet. Your quiz results stay on this device.",
     consent: "Your score is not submitted without leaderboard consent.",
     change: "Change consent",
     pts: "pts",
   },
   pl: {
     global: "Globalny",
-    local: "Lokalny",
-    setup: "Ranking globalny wymaga konfiguracji Supabase. Pokazuję ranking lokalny.",
+    empty: "W rankingu nie ma jeszcze nikogo. Ukończ quiz i włącz zgodę na ranking, aby być pierwszą osobą.",
+    unavailable: "Ranking nie jest jeszcze dostępny. Twoje wyniki quizów zostają na tym urządzeniu.",
     consent: "Twój wynik nie jest wysyłany bez zgody na ranking.",
     change: "Zmień zgodę",
     pts: "pkt",
   },
-  ja: { global: "グローバル", local: "ローカル", setup: "グローバルランキングには Supabase 設定が必要です。ローカルを表示します。", consent: "ランキング同意なしではスコア送信されません。", change: "同意を変更", pts: "点" },
+  ja: {
+    global: "グローバル",
+    empty: "まだランキングに参加者がいません。クイズを終えてランキングへの同意をオンにすると最初の参加者になれます。",
+    unavailable: "ランキングはまだ利用できません。クイズの結果はこの端末に保存されます。",
+    consent: "ランキング同意なしではスコア送信されません。",
+    change: "同意を変更",
+    pts: "点",
+  },
   es: {
     global: "Global",
-    local: "Local",
-    setup: "La clasificación global requiere configurar Supabase. Se muestran las clasificaciones locales.",
+    empty: "Todavía no hay nadie en la clasificación. Termina un cuestionario y permite el consentimiento para ser el primero.",
+    unavailable: "La clasificación aún no está disponible. Tus resultados se quedan en este dispositivo.",
     consent: "Tu puntuación no se envía sin el consentimiento para la clasificación.",
     change: "Cambiar consentimiento",
     pts: "pts",
   },
   fr: {
     global: "Mondial",
-    local: "Local",
-    setup: "Le classement mondial nécessite la configuration de Supabase. Affichage des classements locaux.",
+    empty: "Personne n'est encore au classement. Terminez un quiz et autorisez le classement pour être le premier.",
+    unavailable: "Le classement n'est pas encore disponible. Vos résultats restent sur cet appareil.",
     consent: "Votre score n'est pas envoyé sans consentement au classement.",
     change: "Modifier le consentement",
     pts: "pts",
   },
   zh: {
     global: "全球",
-    local: "本地",
-    setup: "全球排行榜需要配置 Supabase。当前显示本地排名。",
+    empty: "排行榜上还没有人。完成一次测验并允许排行榜授权，成为第一名。",
+    unavailable: "排行榜暂不可用。你的测验结果保存在此设备上。",
     consent: "未授权排行榜时不会提交你的得分。",
     change: "更改授权",
     pts: "分",
   },
   hi: {
     global: "ग्लोबल",
-    local: "स्थानीय",
-    setup: "ग्लोबल लीडरबोर्ड के लिए Supabase सेटअप ज़रूरी है। स्थानीय रैंकिंग दिखाई जा रही है।",
+    empty: "लीडरबोर्ड पर अभी कोई नहीं है। पहले बनने के लिए एक क्विज़ पूरा करें और लीडरबोर्ड सहमति दें।",
+    unavailable: "लीडरबोर्ड अभी उपलब्ध नहीं है। आपके क्विज़ नतीजे इसी डिवाइस पर रहते हैं।",
     consent: "लीडरबोर्ड सहमति के बिना आपका स्कोर नहीं भेजा जाता।",
     change: "सहमति बदलें",
     pts: "पॉइंट",
   },
   "pt-BR": {
     global: "Global",
-    local: "Local",
-    setup: "O ranking global exige a configuração da Supabase. Mostrando os rankings locais.",
+    empty: "Ainda não há ninguém no ranking. Conclua um quiz e permita o consentimento do ranking para ser o primeiro.",
+    unavailable: "O ranking ainda não está disponível. Seus resultados ficam neste dispositivo.",
     consent: "Sua pontuação não é enviada sem o consentimento para o ranking.",
     change: "Alterar consentimento",
     pts: "pts",
   },
   tr: {
     global: "Küresel",
-    local: "Yerel",
-    setup: "Küresel sıralama için Supabase kurulumu gerekir. Yerel sıralamalar gösteriliyor.",
+    empty: "Sıralamada henüz kimse yok. İlk olmak için bir testi bitir ve sıralama onayını ver.",
+    unavailable: "Sıralama henüz kullanılamıyor. Test sonuçların bu cihazda kalır.",
     consent: "Sıralama onayı olmadan puanın gönderilmez.",
     change: "Onayı değiştir",
     pts: "puan",
   },
 };
 
-type Tab = "global" | "local";
-
-export function Leaderboard({ userScore }: { userScore: number }) {
+/**
+ * Real leaderboard only: rows come from /api/leaderboard. There are no invented
+ * players; without data (or without Supabase) the board shows an empty state.
+ * `userScore` is the user's latest quiz score, or null before they finish one.
+ */
+export function Leaderboard({ userScore }: { userScore: number | null }) {
   const { locale, t } = useLanguage();
   const copy = pickLocalized(COPY, locale);
   const { hasOptionalConsent, openSettings } = useConsent();
   const { streak } = useStreak();
-  const [tab, setTab] = useState<Tab>("global");
   const [globalPlayers, setGlobalPlayers] = useState<Player[]>([]);
   const [configured, setConfigured] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState(t.leaderboard.you);
+  const canSubmit = hasOptionalConsent("leaderboard");
 
   useEffect(() => {
     const refreshName = () => setUserName(getUser().name?.trim() || t.leaderboard.you);
@@ -118,23 +120,23 @@ export function Leaderboard({ userScore }: { userScore: number }) {
   }, [t.leaderboard.you]);
 
   useEffect(() => {
+    let cancelled = false;
     async function load() {
       try {
         const res = await fetch("/api/leaderboard");
-        const json = (await res.json()) as { entries: Player[]; configured: boolean };
-        setConfigured(json.configured);
-        if (json.configured && json.entries.length > 0) {
-          setGlobalPlayers(json.entries);
-        }
+        const json = (await res.json()) as { entries?: Player[]; configured?: boolean };
+        if (cancelled) return;
+        setConfigured(json.configured === true);
+        setGlobalPlayers(Array.isArray(json.entries) ? json.entries : []);
       } catch {
-        setConfigured(false);
+        if (!cancelled) setConfigured(false);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
 
     async function submit() {
-      if (!hasOptionalConsent("leaderboard")) return;
+      if (!canSubmit || userScore === null) return;
       if (!userName || userName === t.leaderboard.you) return;
       try {
         await fetch("/api/leaderboard", {
@@ -150,67 +152,35 @@ export function Leaderboard({ userScore }: { userScore: number }) {
       }
     }
 
-    load();
-    submit();
-  }, [hasOptionalConsent, userName, userScore, streak.currentStreak, t.leaderboard.you]);
+    void submit().finally(load);
+    return () => {
+      cancelled = true;
+    };
+  }, [canSubmit, userName, userScore, streak.currentStreak, t.leaderboard.you]);
 
-  const localPlayers = [
-    ...FALLBACK_PLAYERS,
-    { name: userName, score: userScore, streak: streak.currentStreak, isYou: true },
-  ].sort((a, b) => b.score - a.score);
-
-  const activePlayers: Player[] =
-    tab === "global" && configured && globalPlayers.length > 0
-      ? globalPlayers.map((player) => ({
-          ...player,
-          isYou: player.name.toLowerCase() === userName.toLowerCase(),
-        }))
-      : localPlayers;
-
+  const players = globalPlayers.map((player) => ({
+    ...player,
+    isYou: player.name.toLowerCase() === userName.toLowerCase(),
+  }));
   const displayPlayers =
-    tab === "global" && configured && !activePlayers.some((player) => player.isYou)
-      ? [...activePlayers, { name: userName, score: userScore, streak: streak.currentStreak, isYou: true }]
+    canSubmit && userScore !== null && !players.some((player) => player.isYou) && players.length > 0
+      ? [...players, { name: userName, score: userScore, streak: streak.currentStreak, isYou: true }]
           .sort((a, b) => b.score - a.score)
           .slice(0, 12)
-      : activePlayers;
-
+      : players;
   const userRank = displayPlayers.findIndex((player) => player.isYou) + 1;
 
   return (
-    <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft">
+    <div className="rounded-2xl border border-primary/10 bg-white p-5 shadow-soft" data-testid="leaderboard">
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-lg font-black text-text">{t.leaderboard.title}</h2>
-
-        <div className="flex rounded-lg border border-primary/15 p-0.5 text-xs font-bold">
-          <button
-            type="button"
-            onClick={() => setTab("global")}
-            className={cn(
-              "flex items-center gap-1 rounded-md px-2.5 py-1.5 transition",
-              tab === "global" ? "bg-primary text-on-primary" : "text-muted hover:text-text"
-            )}
-          >
-            <Globe className="h-3 w-3" />
-            {copy.global}
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("local")}
-            className={cn(
-              "flex items-center gap-1 rounded-md px-2.5 py-1.5 transition",
-              tab === "local" ? "bg-primary text-on-primary" : "text-muted hover:text-text"
-            )}
-          >
-            <Users className="h-3 w-3" />
-            {copy.local}
-          </button>
-        </div>
+        <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md bg-primary/10 px-2.5 py-1.5 text-xs font-bold text-primary">
+          <Globe className="h-3 w-3" aria-hidden="true" />
+          {copy.global}
+        </span>
       </div>
 
-      {tab === "global" && !configured && (
-        <p className="mt-2 rounded-lg bg-primary/5 px-3 py-2 text-xs font-bold text-muted">{copy.setup}</p>
-      )}
-      {tab === "global" && configured && !hasOptionalConsent("leaderboard") && (
+      {configured && !canSubmit && (
         <p className="mt-2 rounded-lg bg-primary/5 px-3 py-2 text-xs font-bold text-muted">
           {copy.consent}{" "}
           <button type="button" onClick={openSettings} className="text-primary underline">
@@ -220,12 +190,16 @@ export function Leaderboard({ userScore }: { userScore: number }) {
       )}
 
       <div className="mt-4 space-y-2">
-        {loading && tab === "global" ? (
+        {loading ? (
           <div className="space-y-2">
             {[1, 2, 3].map((index) => (
               <div key={index} className="h-10 animate-pulse rounded-xl bg-primary/5" />
             ))}
           </div>
+        ) : displayPlayers.length === 0 ? (
+          <p className="rounded-xl bg-primary/5 px-3 py-4 text-center text-sm font-semibold text-muted" data-testid="leaderboard-empty">
+            {configured ? copy.empty : copy.unavailable}
+          </p>
         ) : (
           displayPlayers.slice(0, 10).map((player, index) => {
             const isYou = !!player.isYou;
@@ -261,7 +235,6 @@ export function Leaderboard({ userScore }: { userScore: number }) {
       {userRank > 0 && (
         <p className="mt-3 text-center text-xs font-bold text-muted">
           {t.leaderboard.rank} #{userRank}
-          {tab === "global" && configured && <span className="ml-1 text-primary">- {copy.global}</span>}
         </p>
       )}
     </div>

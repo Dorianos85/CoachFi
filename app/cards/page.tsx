@@ -1,5 +1,6 @@
 "use client";
 
+import { APP_HOST, APP_URL } from "@/components/brand";
 import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight, Copy, Check, Share2, Download } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
@@ -255,7 +256,7 @@ function buildShareText(cards: StoryCard[], idx: number, copy: CardsCopy): strin
     `💡 ${card.tip}`,
     ``,
     `${copy.source}: ${card.source}`,
-    `${copy.learnMore} -> coachfi.app`,
+    `${copy.learnMore} -> ${APP_HOST}`,
   ].join("\n");
 }
 
@@ -327,7 +328,7 @@ async function exportCard(
   ctx.font = "16px system-ui, sans-serif";
   ctx.fillStyle = tokenWithAlpha("text", 0.7);
   ctx.fillText(`${copy.source}: ${card.source}`, 48, 900);
-  ctx.fillText("coachfi.app", 48, 930);
+  ctx.fillText(APP_HOST, 48, 930);
 
   canvas.toBlob((blob) => {
     if (!blob) return;
@@ -429,7 +430,7 @@ function KnowledgeCard({ card, copy, style, onDragEnd }: {
             <p className="text-xs opacity-80">
               {copy.source}: {card.source}
             </p>
-            <p className="text-xs font-black opacity-80">coachfi.app</p>
+            <p className="text-xs font-black opacity-80">{APP_HOST}</p>
           </div>
         </div>
       </div>
@@ -457,7 +458,7 @@ export default function CardsPage() {
   async function handleShare() {
     const text = buildShareText(cards, current, copy);
     if (navigator.share) {
-      try { await navigator.share({ title: copy.shareTitle, text, url: "https://coachfi.app" }); }
+      try { await navigator.share({ title: copy.shareTitle, text, url: APP_URL }); }
       catch { /* cancelled */ }
     } else {
       await navigator.clipboard.writeText(text);

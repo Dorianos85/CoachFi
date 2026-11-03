@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, XCircle, ChevronRight, RotateCcw } from "lucide-react";
 
 import type { QuizQuestion } from "@/data/quizQuestions";
@@ -129,6 +129,13 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
     }
   }
 
+  const navRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!submitted) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    navRef.current?.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+  }, [submitted]);
+
   function handleNext() {
     setQuestionIndex((i) => i + 1);
     setSelected("");
@@ -255,9 +262,13 @@ export function QuizCard({ onReward, onComplete, startQuestionId, topic }: QuizC
         )}
       </AnimatePresence>
 
-      {/* Navigation */}
+      {/* Navigation — scrolled clear of the fixed mode switcher once it appears. */}
       {submitted && (
-        <div className="mt-4 flex gap-3">
+        <div
+          ref={navRef}
+          className="mt-4 flex gap-3 scroll-mb-[calc(var(--cf-mode-bar-space,0px)+1.5rem)]"
+          data-testid="quiz-nav"
+        >
           {isCorrect && !isLast && (
             <Button type="button" size="lg" className="flex-1" onClick={handleNext}>
               {t.quiz.next}

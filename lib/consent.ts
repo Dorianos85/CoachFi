@@ -13,12 +13,37 @@ export interface ConsentRecord {
   optional: Record<OptionalConsentKey, boolean>;
 }
 
+// Every optional consent starts OFF. "Accept required" therefore never turns on
+// AI, voice, leaderboard or certificates; only "Accept all", an explicit toggle,
+// or an inline prompt at the feature (e.g. opening Mila) can.
 export const DEFAULT_OPTIONAL_CONSENTS: Record<OptionalConsentKey, boolean> = {
-  aiCoach: true,
-  voice: true,
+  aiCoach: false,
+  voice: false,
   leaderboard: false,
   blockchain: false,
 };
+
+export const ALL_OPTIONAL_CONSENTS: Record<OptionalConsentKey, boolean> = {
+  aiCoach: true,
+  voice: true,
+  leaderboard: true,
+  blockchain: true,
+};
+
+/** Optional consents granted when the user only accepts the required terms. */
+export function requiredOnlyConsents(): Record<OptionalConsentKey, boolean> {
+  return { ...DEFAULT_OPTIONAL_CONSENTS };
+}
+
+/** Grant some optional consents on top of the ones already given. */
+export function withOptionalConsents(
+  current: Partial<Record<OptionalConsentKey, boolean>> | null | undefined,
+  grant: OptionalConsentKey[],
+): Record<OptionalConsentKey, boolean> {
+  const next = { ...DEFAULT_OPTIONAL_CONSENTS, ...(current ?? {}) };
+  for (const key of grant) next[key] = true;
+  return next;
+}
 
 export function createConsentRecord(
   optional: Record<OptionalConsentKey, boolean>

@@ -146,12 +146,15 @@ async function prepare(page: Page, pending = false, preflight = false) {
 }
 
 async function widgetReady(page: Page) {
+  // The vendor widget script is lazy: it loads on the first intent (hover/focus/tap) on the launcher.
+  await page.getByTestId("mila-launcher").hover();
   const widget = page.locator("elevenlabs-convai");
   await expect(widget).toHaveAttribute("agent-id", "agent_qaclose");
   await expect(widget).toHaveAttribute("override-config", /.+/);
   await expect.poll(() => widget.evaluate((element) =>
     Array.from(element.shadowRoot?.querySelectorAll("button") ?? []).some((button) => button.getAttribute("aria-label") === "Rozpocznij rozmowę"),
-  )).toBe(true);
+  // The lazily loaded vendor script needs a moment on a cold server.
+  ), { timeout: 15_000 }).toBe(true);
   return widget;
 }
 

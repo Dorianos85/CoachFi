@@ -5,7 +5,20 @@ import { Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
+import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
+
+const DESCRIPTION: LocalizedMap<string> = {
+  en: "Educational diagnosis based on your answers.",
+  pl: "Edukacyjna diagnoza na podstawie Twoich odpowiedzi.",
+  es: "Diagnóstico educativo basado en tus respuestas.",
+  fr: "Diagnostic éducatif basé sur vos réponses.",
+  zh: "基于你的回答的教育性诊断。",
+  ja: "あなたの回答にもとづく学習用の診断です。",
+  hi: "आपके जवाबों पर आधारित शैक्षिक जांच।",
+  "pt-BR": "Diagnóstico educacional com base nas suas respostas.",
+  tr: "Yanıtlarına dayanan eğitim amaçlı teşhis.",
+};
 
 export function FinancialScoreCard({
   score,
@@ -24,7 +37,7 @@ export function FinancialScoreCard({
     <Card className="border-primary/10 bg-white/90">
       <CardHeader>
         <CardTitle>{copy.scoreLabel}</CardTitle>
-        <CardDescription>{copy.health.cardDescription}</CardDescription>
+        <CardDescription>{pickLocalized(DESCRIPTION, locale)}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid place-items-center rounded-lg bg-primary/5 p-6 text-center">

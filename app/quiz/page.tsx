@@ -12,7 +12,8 @@ import { TokenRewardCard } from "@/components/TokenRewardCard";
 import { useLanguage } from "@/context/LanguageContext";
 import { useStreak } from "@/context/StreakContext";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
-import { addTokens, getTokenBalance } from "@/lib/tokens";
+import { addTokens } from "@/lib/tokens";
+import { useTokenBalance } from "@/context/progressHooks";
 import { getDisplayName, getUser } from "@/lib/user";
 
 type QuizUiCopy = {
@@ -138,14 +139,13 @@ function QuizPageContent() {
   const challengeScore = searchParams.get("score");
   const startQuestionId = searchParams.get("challenge") ?? undefined;
 
-  const [tokenBalance, setTokenBalance] = useState(() => getTokenBalance());
+  const tokenBalance = useTokenBalance();
   const [solved, setSolved] = useState(false);
   const [quizDone, setQuizDone] = useState(false);
   const [myScore, setMyScore] = useState(0);
 
   function handleReward(amount: number) {
-    const next = addTokens(amount);
-    setTokenBalance(next);
+    addTokens(amount, "Quiz answer", "quiz");
     setSolved(true);
     markActive();
   }
@@ -198,7 +198,7 @@ function QuizPageContent() {
 
         <div className="grid gap-5">
           <TokenRewardCard balance={tokenBalance} status={solved ? t.quiz.checkKnowledge : t.rewards.tokens} />
-          <Leaderboard userScore={42} />
+          <Leaderboard userScore={quizDone ? myScore : null} />
         </div>
       </div>
     </section>

@@ -14,7 +14,6 @@ import {
   Gift,
   HeartPulse,
   Home,
-  Info,
   LayoutGrid,
   LifeBuoy,
   Loader2,
@@ -50,10 +49,10 @@ import { Logo } from "@/components/Logo";
 import { NotificationBanner } from "@/components/NotificationBanner";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { StreakBadge } from "@/components/StreakBadge";
-import { Badge } from "@/components/ui/badge";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useMode } from "@/context/ModeContext";
+import { EXAMPLE_SCORE } from "@/context/progressHooks";
 import { clearSignedInName, endLearningSession } from "@/lib/account-sync";
 import { pickLocalized, type Locale, type LocalizedMap } from "@/lib/i18n";
 import { getLocalizedContent } from "@/lib/localizedContent";
@@ -143,6 +142,11 @@ const NAV_LABEL_OVERRIDES: Partial<Record<NavKey, LocalizedMap<string>>> = {
   },
 };
 
+// Shorter labels for the 5-column mobile bar, where long words would break mid-word.
+const MOBILE_LABEL_OVERRIDES: Partial<Record<NavKey, Partial<Record<Locale, string>>>> = {
+  challenge: { pl: "Wyzwanie" },
+};
+
 // Primary loop: the 6 destinations a new user needs, always expanded.
 // Everything else lives behind a single "More" disclosure — one collapsed
 // section beats three, and Partner Portal (B2B) is deliberately absent from
@@ -182,7 +186,8 @@ const NAV_GROUPS: Array<{
       "pt-BR": "Mais",
       tr: "Daha fazla",
     },
-    keys: ["quiz", "learn", "review", "cards", "inflation", "shopping", "vault", "accessibility"],
+    // Yield Vault and Partner are hidden from every menu (routes still work).
+    keys: ["quiz", "learn", "review", "cards", "inflation", "shopping", "accessibility"],
   },
 ];
 
@@ -282,7 +287,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: string;
     primaryNav: string;
     mobileNav: string;
-    mvpBadge: string;
     kidsMode: string;
     changeMode: string;
     demoBadge: string;
@@ -293,7 +297,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Go to Coach FI home",
     primaryNav: "Primary navigation",
     mobileNav: "Mobile navigation",
-    mvpBadge: "Hackathon MVP",
     kidsMode: "Kids Mode",
     changeMode: "Change mode",
     demoBadge: "Example",
@@ -303,7 +306,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Przejdź do strony głównej Coach FI",
     primaryNav: "Główna nawigacja",
     mobileNav: "Nawigacja mobilna",
-    mvpBadge: "MVP hackathonu",
     kidsMode: "Kids Mode",
     changeMode: "Zmień tryb",
     demoBadge: "Przykład",
@@ -313,7 +315,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Coach FIホームへ移動",
     primaryNav: "メインナビゲーション",
     mobileNav: "モバイルナビゲーション",
-    mvpBadge: "ハッカソンMVP",
     kidsMode: "Kids Mode",
     changeMode: "Change mode",
     demoBadge: "サンプル",
@@ -323,7 +324,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Ir al inicio de Coach FI",
     primaryNav: "Navegación principal",
     mobileNav: "Navegación móvil",
-    mvpBadge: "MVP de hackathon",
     kidsMode: "Modo niños",
     changeMode: "Cambiar modo",
     demoBadge: "Ejemplo",
@@ -333,7 +333,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Aller à l'accueil de Coach FI",
     primaryNav: "Navigation principale",
     mobileNav: "Navigation mobile",
-    mvpBadge: "MVP de hackathon",
     kidsMode: "Mode enfants",
     changeMode: "Changer de mode",
     demoBadge: "Exemple",
@@ -343,7 +342,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "前往 Coach FI 首页",
     primaryNav: "主导航",
     mobileNav: "移动端导航",
-    mvpBadge: "黑客松 MVP",
     kidsMode: "儿童模式",
     changeMode: "切换模式",
     demoBadge: "示例",
@@ -353,7 +351,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Coach FI होम पर जाएं",
     primaryNav: "मुख्य नेविगेशन",
     mobileNav: "मोबाइल नेविगेशन",
-    mvpBadge: "हैकथॉन MVP",
     kidsMode: "किड्स मोड",
     changeMode: "मोड बदलें",
     demoBadge: "उदाहरण",
@@ -363,7 +360,6 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Ir para o início do Coach FI",
     primaryNav: "Navegação principal",
     mobileNav: "Navegação móvel",
-    mvpBadge: "MVP de hackathon",
     kidsMode: "Modo infantil",
     changeMode: "Trocar de modo",
     demoBadge: "Exemplo",
@@ -373,15 +369,12 @@ const SHELL_COPY: LocalizedMap<
     homeAria: "Coach FI ana sayfasına git",
     primaryNav: "Ana gezinme",
     mobileNav: "Mobil gezinme",
-    mvpBadge: "Hackathon MVP",
     kidsMode: "Çocuk modu",
     changeMode: "Modu değiştir",
     demoBadge: "Örnek",
   },
 };
 
-/** Illustrative score shown in the sidebar until the user runs the Health Check. */
-const DEMO_PLAN_SCORE = 42;
 const ACCESSIBILITY_STORAGE_KEY = "coachfi-accessibility-v1";
 const TEXT_SCALES: TextScale[] = ["normal", "large", "xlarge"];
 
@@ -401,7 +394,8 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
   const [tokenBalance, setTokenBalance] = useState(0);
   // null until the user runs the Health Check — the sidebar then shows a demo value.
   const [healthScore, setHealthScore] = useState<number | null>(null);
-  const planScore = healthScore ?? DEMO_PLAN_SCORE;
+  // Same example value as the home dashboard, always labelled "Example".
+  const planScore = healthScore ?? EXAMPLE_SCORE;
   const footer = pickLocalized(FOOTER_COPY, locale);
 
   useEffect(() => {
@@ -486,7 +480,11 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
   };
   const navGroups = isKidsMode ? KIDS_NAV_GROUPS : NAV_GROUPS;
   const mobileNavKeys: NavKey[] = isKidsMode ? ["kids"] : ["home", "healthCheck", "challenge", "coach", "kids"];
-  const mobileNavItems = mobileNavKeys.map(getNavItem);
+  const mobileNavItems = mobileNavKeys.map((key) => {
+    const item = getNavItem(key);
+    const short = MOBILE_LABEL_OVERRIDES[key]?.[locale];
+    return short ? { ...item, label: short } : item;
+  });
 
   return (
     <div
@@ -530,17 +528,8 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
                 {shellCopy.kidsMode}
               </button>
             ) : null}
-            {cdpEnabled ? (
-              <HeaderProgress tokenBalance={tokenBalance} tokenUnit={t.common.tokenUnit} />
-            ) : (
-              <>
-                <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">
-                  <Coins className="h-4 w-4 text-primary" aria-hidden="true" />
-                  {tokenBalance} {t.common.tokenUnit}
-                </div>
-                <StreakBadge compact />
-              </>
-            )}
+            {/* Local progress is shown to everyone, signed in or not. */}
+            <HeaderProgress tokenBalance={tokenBalance} tokenUnit={t.common.tokenUnit} />
             {cdpEnabled ? <HeaderAccount locale={locale} /> : <AccountButton />}
             <LanguageSwitcher />
             <AccessibilityToggle
@@ -557,21 +546,12 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
       <div className="relative mx-auto flex max-w-[1480px] gap-6 px-4 pb-28 pt-6 lg:px-6">
         <aside className="hidden w-64 shrink-0 lg:block" aria-label={shellCopy.primaryNav}>
           <div className="glass-panel sticky top-24 rounded-card p-3">
-            {cdpEnabled ? (
-              <SignedInPlanScore
-                copy={copy}
-                planScore={planScore}
-                healthScore={healthScore}
-                demoBadge={shellCopy.demoBadge}
-              />
-            ) : (
-              <PlanScoreCard
-                copy={copy}
-                planScore={planScore}
-                healthScore={healthScore}
-                demoBadge={shellCopy.demoBadge}
-              />
-            )}
+            <PlanScoreCard
+              copy={copy}
+              planScore={planScore}
+              healthScore={healthScore}
+              demoBadge={shellCopy.demoBadge}
+            />
 
             <div className="space-y-1.5">
               {navGroups.map((group) => {
@@ -623,8 +603,10 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
         </motion.main>
       </div>
 
+      {/* Below every modal (consent z-90, mode gate z-85, dialogs) so their buttons
+          stay clickable on phones; above page content and the Mila dock (z-45). */}
       <nav
-        className="fixed bottom-3 left-3 right-3 z-[1100] rounded-card border border-border-subtle bg-surface p-2 shadow-soft lg:hidden"
+        className="fixed bottom-3 left-3 right-3 z-[49] rounded-card border border-border-subtle bg-surface p-2 shadow-soft lg:hidden"
         aria-label={shellCopy.mobileNav}
       >
         <div
@@ -709,10 +691,6 @@ export function AppNavigation({ children }: { children: React.ReactNode }) {
               <Baby className="h-3.5 w-3.5" aria-hidden="true" />
               {shellCopy.changeMode}
             </button>
-            <Badge variant="muted">
-              <Info className="h-3.5 w-3.5" aria-hidden="true" />
-              {shellCopy.mvpBadge}
-            </Badge>
           </div>
         </div>
       </footer>
@@ -792,29 +770,7 @@ function PlanScoreCard({
   );
 }
 
-function SignedInPlanScore({
-  copy,
-  planScore,
-  healthScore,
-  demoBadge,
-}: {
-  copy: { planLabel: string; scoreLabel: string };
-  planScore: number;
-  healthScore: number | null;
-  demoBadge: string;
-}) {
-  const { isInitialized } = useIsInitialized();
-  const { isSignedIn } = useIsSignedIn();
-  if (!isInitialized || !isSignedIn) return null;
-  return (
-    <PlanScoreCard copy={copy} planScore={planScore} healthScore={healthScore} demoBadge={demoBadge} />
-  );
-}
-
 function HeaderProgress({ tokenBalance, tokenUnit }: { tokenBalance: number; tokenUnit: string }) {
-  const { isInitialized } = useIsInitialized();
-  const { isSignedIn } = useIsSignedIn();
-  if (!isInitialized || !isSignedIn) return null;
   return (
     <>
       <div className="hidden items-center gap-2 rounded-lg border border-primary/10 bg-white/75 px-3 py-2 text-sm font-bold text-text shadow-sm md:flex">

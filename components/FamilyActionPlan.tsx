@@ -42,8 +42,6 @@ type FamilyActionPlanProps = {
   monthlyExpenses: number;
   savings: number;
   goal: string;
-  trialActive: boolean;
-  onStartTrial: () => void;
 };
 
 type PlanCopy = {
@@ -59,9 +57,8 @@ type PlanCopy = {
   trial: {
     title: string;
     description: string;
-    active: string;
-    inactive: string;
-    fairUse: string;
+    free: string;
+    cta: string;
   };
   readPlan: string;
   checklist: string;
@@ -98,11 +95,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "First 10% education/investing jar",
     },
     trial: {
-      title: "Mila Voice Coach trial",
-      description: "Use Mila for score narration, daily learning and family money conversations for 7 days.",
-      active: "Trial active",
-      inactive: "Start 7-day trial",
-      fairUse: "Premium removes daily learning limits and keeps fair-use protection for AI, voice and OCR.",
+      title: "Mila, your voice coach",
+      description: "Hear your score, learn a little every day and talk about money as a family with Mila.",
+      free: "Free during early access",
+      cta: "Talk to Mila",
     },
     readPlan: "Read my family plan",
     checklist: "30-day checklist",
@@ -250,11 +246,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "Pierwszy słoik 10% edukacja/inwestycje",
     },
     trial: {
-      title: "Trial głosowej Mili",
-      description: "Użyj Mili przez 7 dni do odczytu wyniku, nauki dziennej i rodzinnych rozmów o pieniądzach.",
-      active: "Trial aktywny",
-      inactive: "Włącz 7-dniowy trial",
-      fairUse: "Premium usuwa dzienne limity nauki i zachowuje fair-use dla AI, głosu i OCR.",
+      title: "Mila, Twoja głosowa coachka",
+      description: "Posłuchaj swojego wyniku, ucz się codziennie po trochu i rozmawiaj o pieniądzach w rodzinie z Milą.",
+      free: "Bezpłatnie we wczesnym dostępie",
+      cta: "Porozmawiaj z Milą",
     },
     readPlan: "Odczytaj mój plan rodzinny",
     checklist: "Checklist 30 dni",
@@ -402,11 +397,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "Primer bote del 10% para educación/inversión",
     },
     trial: {
-      title: "Prueba de Mila Voice Coach",
-      description: "Usa a Mila para escuchar tu puntuación, aprender cada día y tener conversaciones familiares sobre el dinero durante 7 días.",
-      active: "Prueba activa",
-      inactive: "Empezar prueba de 7 días",
-      fairUse: "Premium elimina los límites diarios de aprendizaje y mantiene la protección de uso razonable para IA, voz y OCR.",
+      title: "Mila, tu coach por voz",
+      description: "Escucha tu puntuación, aprende un poco cada día y habla de dinero en familia con Mila.",
+      free: "Gratis durante el acceso anticipado",
+      cta: "Hablar con Mila",
     },
     readPlan: "Leer mi plan familiar",
     checklist: "Lista de 30 días",
@@ -554,11 +548,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "Première enveloppe de 10 % éducation/investissement",
     },
     trial: {
-      title: "Essai de Mila Voice Coach",
-      description: "Utilisez Mila pendant 7 jours pour écouter votre score, apprendre chaque jour et parler d'argent en famille.",
-      active: "Essai actif",
-      inactive: "Démarrer l'essai de 7 jours",
-      fairUse: "Premium supprime les limites quotidiennes d'apprentissage et conserve une protection d'usage raisonnable pour l'IA, la voix et l'OCR.",
+      title: "Mila, votre coach vocale",
+      description: "Écoutez votre score, apprenez un peu chaque jour et parlez d'argent en famille avec Mila.",
+      free: "Gratuit pendant l'accès anticipé",
+      cta: "Parler à Mila",
     },
     readPlan: "Lire mon plan familial",
     checklist: "Liste des 30 jours",
@@ -706,11 +699,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "第一个 10% 教育/投资罐",
     },
     trial: {
-      title: "Mila 语音教练试用",
-      description: "在 7 天内使用 Mila 来讲解得分、每日学习和开展家庭金钱对话。",
-      active: "试用中",
-      inactive: "开始 7 天试用",
-      fairUse: "高级版取消每日学习上限，并对 AI、语音和 OCR 保留合理使用保护。",
+      title: "Mila，你的语音教练",
+      description: "和 Mila 一起听取得分讲解、每天学一点，并在家里聊聊钱的话题。",
+      free: "抢先体验期间免费",
+      cta: "和 Mila 聊聊",
     },
     readPlan: "朗读我的家庭计划",
     checklist: "30 天清单",
@@ -858,11 +850,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "पहला 10% शिक्षा/निवेश जार",
     },
     trial: {
-      title: "Mila वॉइस कोच ट्रायल",
-      description: "7 दिन तक स्कोर सुनने, रोज़ सीखने और परिवार में पैसे पर बातचीत के लिए Mila का उपयोग करें।",
-      active: "ट्रायल चालू है",
-      inactive: "7 दिन का ट्रायल शुरू करें",
-      fairUse: "Premium रोज़ाना सीखने की सीमाएं हटाता है और AI, आवाज़ और OCR के लिए उचित उपयोग सुरक्षा बनाए रखता है।",
+      title: "Mila, आपकी वॉइस कोच",
+      description: "Mila के साथ अपना स्कोर सुनें, रोज़ थोड़ा सीखें और परिवार में पैसे पर बात करें।",
+      free: "अर्ली एक्सेस के दौरान मुफ़्त",
+      cta: "Mila से बात करें",
     },
     readPlan: "मेरी पारिवारिक योजना पढ़ें",
     checklist: "30 दिन की चेकलिस्ट",
@@ -1010,11 +1001,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "Primeiro pote de 10% para educação/investimento",
     },
     trial: {
-      title: "Teste da Mila Voice Coach",
-      description: "Use a Mila por 7 dias para ouvir sua pontuação, aprender todo dia e conversar sobre dinheiro em família.",
-      active: "Teste ativo",
-      inactive: "Começar teste de 7 dias",
-      fairUse: "O Premium remove os limites diários de aprendizado e mantém a proteção de uso justo para IA, voz e OCR.",
+      title: "Mila, sua coach por voz",
+      description: "Ouça sua pontuação, aprenda um pouco todo dia e converse sobre dinheiro em família com a Mila.",
+      free: "Grátis durante o acesso antecipado",
+      cta: "Conversar com a Mila",
     },
     readPlan: "Ler meu plano familiar",
     checklist: "Checklist de 30 dias",
@@ -1162,11 +1152,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "İlk %10'luk eğitim/yatırım kavanozu",
     },
     trial: {
-      title: "Mila Sesli Koç denemesi",
-      description: "7 gün boyunca puan anlatımı, günlük öğrenme ve aile içi para sohbetleri için Mila'yı kullan.",
-      active: "Deneme etkin",
-      inactive: "7 günlük denemeyi başlat",
-      fairUse: "Premium günlük öğrenme sınırlarını kaldırır ve AI, ses ve OCR için adil kullanım korumasını sürdürür.",
+      title: "Mila, sesli koçun",
+      description: "Mila ile puanını dinle, her gün biraz öğren ve ailece para hakkında konuş.",
+      free: "Erken erişim süresince ücretsiz",
+      cta: "Mila ile konuş",
     },
     readPlan: "Aile planımı oku",
     checklist: "30 günlük kontrol listesi",
@@ -1314,11 +1303,10 @@ const PLAN_COPY: LocalizedMap<PlanCopy> = {
       firstJar: "最初の10%の教育・投資用の瓶",
     },
     trial: {
-      title: "Milaボイスコーチのトライアル",
-      description: "7日間、スコアの読み上げ、毎日の学習、家族でのお金の会話にMilaを使えます。",
-      active: "トライアル実施中",
-      inactive: "7日間のトライアルを開始",
-      fairUse: "Premiumは毎日の学習の上限をなくし、AI・音声・OCRには適正利用の保護を保ちます。",
+      title: "Mila、あなたの音声コーチ",
+      description: "Milaと一緒にスコアを聞き、毎日少しずつ学び、家族でお金について話しましょう。",
+      free: "アーリーアクセス期間中は無料",
+      cta: "Milaと話す",
     },
     readPlan: "家族プランを読み上げる",
     checklist: "30日チェックリスト",
@@ -1473,8 +1461,6 @@ export function FamilyActionPlan({
   monthlyExpenses,
   savings,
   goal,
-  trialActive,
-  onStartTrial,
 }: FamilyActionPlanProps) {
   const { locale, t } = useLanguage();
   const copy = pickLocalized(PLAN_COPY, locale);
@@ -1506,7 +1492,7 @@ export function FamilyActionPlan({
     copy.scoreBand[variant].title,
     copy.scoreBand[variant].description,
     ...steps.map((step) => `${step.day}. ${step.title}. ${step.description}`),
-    copy.trial.fairUse,
+    copy.trial.free,
   ].join(". ");
 
   function toggleStep(step: PlanStep) {
@@ -1559,12 +1545,15 @@ export function FamilyActionPlan({
           <div>
             <p className="font-black text-text">{copy.trial.title}</p>
             <p className="mt-1 text-sm font-semibold leading-6 text-muted">{copy.trial.description}</p>
-            <p className="mt-1 text-xs font-bold text-amber-800">{copy.trial.fairUse}</p>
+            <p className="mt-1 text-xs font-bold text-amber-800">{copy.trial.free}</p>
           </div>
         </div>
-        <Button type="button" variant={trialActive ? "success" : "default"} onClick={onStartTrial}>
-          {trialActive ? copy.trial.active : copy.trial.inactive}
-        </Button>
+        <Link
+          href="/coach"
+          className="inline-flex min-h-10 items-center rounded-lg bg-primary px-4 py-2 text-sm font-black text-on-primary transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          {copy.trial.cta}
+        </Link>
       </div>
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
