@@ -276,7 +276,7 @@ export const en = {
     reward: "Double reward",
     rewardValue: "+50 points",
     correctBanner: "Correct! You earned 50 points 🎉",
-    wrongBanner: "Not quite — check the explanation. New question tomorrow!",
+    wrongBanner: "Not this time — check the explanation. New question tomorrow!",
     explanation: "Explanation",
     answerButton: "Submit answer",
     hours: "h",
