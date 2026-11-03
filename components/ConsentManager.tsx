@@ -3,12 +3,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { BadgeCheck, Bot, Database, FileText, ShieldCheck, Trophy, Volume2, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useConsent } from "@/context/ConsentContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { DEFAULT_OPTIONAL_CONSENTS, type OptionalConsentKey } from "@/lib/consent";
+import { ALL_OPTIONAL_CONSENTS, DEFAULT_OPTIONAL_CONSENTS, requiredOnlyConsents, type OptionalConsentKey } from "@/lib/consent";
 import { pickLocalized, type LocalizedMap } from "@/lib/i18n";
 
 const OPTION_ICONS: Record<OptionalConsentKey, typeof Bot> = {
@@ -45,7 +45,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Coach FI terms of use",
     intro: "Minimum data stays on this device. External features are enabled with separate optional consent.",
     bannerBody:
-      "You can browse the demo now. Accept the required terms when you want to unlock your full result, save progress or use external integrations.",
+      "You can look around right away. Accept the required terms when you want to unlock your full result, save progress or use external integrations.",
     reviewSettings: "Review settings",
     requiredTitle: "I accept the Terms and Privacy Policy",
     requiredDesc: "This consent is required to use the app. Documents are available here:",
@@ -82,7 +82,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Zasady korzystania z Coach FI",
     intro: "Minimum danych zostaje na tym urządzeniu. Funkcje zewnętrzne włączasz osobnymi zgodami.",
     bannerBody:
-      "Możesz od razu obejrzeć demo. Wymagane zasady akceptujesz wtedy, gdy chcesz odblokować pełny wynik, zapisać postęp albo użyć integracji zewnętrznych.",
+      "Możesz od razu rozejrzeć się po aplikacji. Wymagane zasady akceptujesz wtedy, gdy chcesz odblokować pełny wynik, zapisać postęp albo użyć integracji zewnętrznych.",
     reviewSettings: "Sprawdź ustawienia",
     requiredTitle: "Akceptuję Regulamin i Politykę prywatności",
     requiredDesc: "To jest wymagana zgoda na korzystanie z aplikacji. Dokumenty są dostępne tutaj:",
@@ -118,7 +118,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     eyebrow: "データ安全",
     title: "Coach FI 利用規約",
     intro: "最小限のデータはこの端末に残ります。外部機能には個別の同意が必要です。",
-    bannerBody: "デモはすぐに閲覧できます。結果の保存や外部連携を使う場合は必須同意を承認してください。",
+    bannerBody: "アプリはすぐに閲覧できます。結果の保存や外部連携を使う場合は必須同意を承認してください。",
     reviewSettings: "設定を確認",
     requiredTitle: "利用規約とプライバシーポリシーに同意します",
     requiredDesc: "アプリ利用に必要な同意です。文書はこちら：",
@@ -143,7 +143,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Condiciones de uso de Coach FI",
     intro: "Los datos mínimos se quedan en este dispositivo. Las funciones externas se activan con un consentimiento opcional aparte.",
     bannerBody:
-      "Ya puedes explorar la demo. Acepta las condiciones obligatorias cuando quieras desbloquear tu resultado completo, guardar tu progreso o usar integraciones externas.",
+      "Ya puedes explorar la app. Acepta las condiciones obligatorias cuando quieras desbloquear tu resultado completo, guardar tu progreso o usar integraciones externas.",
     reviewSettings: "Revisar ajustes",
     requiredTitle: "Acepto los Términos y la Política de privacidad",
     requiredDesc: "Este consentimiento es necesario para usar la app. Los documentos están disponibles aquí:",
@@ -180,7 +180,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Conditions d'utilisation de Coach FI",
     intro: "Le minimum de données reste sur cet appareil. Les fonctions externes sont activées par un consentement facultatif distinct.",
     bannerBody:
-      "Vous pouvez parcourir la démo dès maintenant. Acceptez les conditions requises lorsque vous souhaitez débloquer votre résultat complet, enregistrer vos progrès ou utiliser des intégrations externes.",
+      "Vous pouvez parcourir l'application dès maintenant. Acceptez les conditions requises lorsque vous souhaitez débloquer votre résultat complet, enregistrer vos progrès ou utiliser des intégrations externes.",
     reviewSettings: "Revoir les paramètres",
     requiredTitle: "J'accepte les Conditions et la Politique de confidentialité",
     requiredDesc: "Ce consentement est nécessaire pour utiliser l'application. Les documents sont disponibles ici :",
@@ -217,7 +217,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Coach FI 使用条款",
     intro: "最少量的数据保留在本设备上。外部功能需单独的可选授权才会启用。",
     bannerBody:
-      "你现在就可以浏览演示。当你想解锁完整结果、保存进度或使用外部集成时，再接受必需条款。",
+      "你现在就可以浏览应用。当你想解锁完整结果、保存进度或使用外部集成时，再接受必需条款。",
     reviewSettings: "查看设置",
     requiredTitle: "我接受条款和隐私政策",
     requiredDesc: "使用本应用需要此授权。相关文件见此处：",
@@ -254,7 +254,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Coach FI उपयोग की शर्तें",
     intro: "कम से कम डेटा इसी डिवाइस पर रहता है। बाहरी सुविधाएं अलग वैकल्पिक सहमति से चालू होती हैं।",
     bannerBody:
-      "आप अभी डेमो देख सकते हैं। जब आप अपना पूरा नतीजा अनलॉक करना, प्रगति सहेजना या बाहरी इंटीग्रेशन इस्तेमाल करना चाहें, तब ज़रूरी शर्तें स्वीकार करें।",
+      "आप अभी ऐप देख सकते हैं। जब आप अपना पूरा नतीजा अनलॉक करना, प्रगति सहेजना या बाहरी इंटीग्रेशन इस्तेमाल करना चाहें, तब ज़रूरी शर्तें स्वीकार करें।",
     reviewSettings: "सेटिंग देखें",
     requiredTitle: "मैं शर्तें और गोपनीयता नीति स्वीकार करता/करती हूं",
     requiredDesc: "ऐप इस्तेमाल करने के लिए यह सहमति ज़रूरी है। दस्तावेज़ यहां उपलब्ध हैं:",
@@ -291,7 +291,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Termos de uso do Coach FI",
     intro: "O mínimo de dados fica neste dispositivo. Os recursos externos são ativados com um consentimento opcional separado.",
     bannerBody:
-      "Você já pode explorar a demo. Aceite os termos obrigatórios quando quiser desbloquear seu resultado completo, salvar o progresso ou usar integrações externas.",
+      "Você já pode explorar o app. Aceite os termos obrigatórios quando quiser desbloquear seu resultado completo, salvar o progresso ou usar integrações externas.",
     reviewSettings: "Revisar configurações",
     requiredTitle: "Aceito os Termos e a Política de Privacidade",
     requiredDesc: "Este consentimento é necessário para usar o app. Os documentos estão disponíveis aqui:",
@@ -328,7 +328,7 @@ const consentCopy: LocalizedMap<ConsentCopy> = {
     title: "Coach FI kullanım koşulları",
     intro: "Asgari veri bu cihazda kalır. Harici özellikler ayrı, isteğe bağlı onayla etkinleşir.",
     bannerBody:
-      "Demoya şimdi göz atabilirsin. Tam sonucunu açmak, ilerlemeni kaydetmek veya harici entegrasyonları kullanmak istediğinde zorunlu koşulları kabul et.",
+      "Uygulamaya hemen göz atabilirsin. Tam sonucunu açmak, ilerlemeni kaydetmek veya harici entegrasyonları kullanmak istediğinde zorunlu koşulları kabul et.",
     reviewSettings: "Ayarları gözden geçir",
     requiredTitle: "Koşulları ve Gizlilik Politikası'nı kabul ediyorum",
     requiredDesc: "Uygulamayı kullanmak için bu onay gereklidir. Belgeler burada:",
@@ -387,15 +387,7 @@ export function ConsentManager() {
     setOptional(consent?.optional ?? DEFAULT_OPTIONAL_CONSENTS);
   }, [consent, open, requiredAccepted]);
 
-  const allOptional = useMemo(
-    () => ({
-      aiCoach: true,
-      voice: true,
-      leaderboard: true,
-      blockchain: true,
-    }),
-    []
-  );
+  const allOptional = ALL_OPTIONAL_CONSENTS;
 
   function toggle(key: OptionalConsentKey) {
     setOptional((current) => ({ ...current, [key]: !current[key] }));
@@ -447,7 +439,7 @@ export function ConsentManager() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => acceptRequired(DEFAULT_OPTIONAL_CONSENTS)}
+                onClick={() => acceptRequired(requiredOnlyConsents())}
                 className="w-full sm:w-auto"
               >
                 <BadgeCheck className="h-4 w-4" aria-hidden="true" />
@@ -545,6 +537,9 @@ export function ConsentManager() {
                       <button
                         key={key}
                         type="button"
+                        role="switch"
+                        aria-checked={optional[key]}
+                        aria-label={option.title}
                         onClick={() => toggle(key)}
                         className="rounded-lg border border-primary/12 bg-white p-4 text-left transition hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       >
@@ -584,7 +579,7 @@ export function ConsentManager() {
               </div>
             </div>
 
-            <div className="shrink-0 border-t border-primary/10 bg-white p-3 md:p-4">
+            <div className="shrink-0 border-t border-primary/10 bg-white p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] md:p-4">
               {!requiredAccepted && !requiredChecked && (
                 <p className="mb-2 text-xs font-semibold leading-5 text-muted">{copy.requiredHint}</p>
               )}
