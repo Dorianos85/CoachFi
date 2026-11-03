@@ -153,7 +153,8 @@ async function widgetReady(page: Page) {
   await expect(widget).toHaveAttribute("override-config", /.+/);
   await expect.poll(() => widget.evaluate((element) =>
     Array.from(element.shadowRoot?.querySelectorAll("button") ?? []).some((button) => button.getAttribute("aria-label") === "Rozpocznij rozmowę"),
-  )).toBe(true);
+  // The lazily loaded vendor script needs a moment on a cold server.
+  ), { timeout: 15_000 }).toBe(true);
   return widget;
 }
 
