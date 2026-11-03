@@ -167,7 +167,7 @@ function deriveFromAnswers(answers: HealthAnswers) {
 
 function ExampleBadge({ label }: { label: string }) {
   return (
-    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
+    <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-black uppercase tracking-wide text-amber-700">
       {label}
     </span>
   );
@@ -415,6 +415,7 @@ export default function Page() {
       <FinanceRoute
         copy={copy}
         fmt={fmt}
+        intlLocale={intlLocale}
         derived={derived}
         stageProgress={stageProgress}
         riskLabels={real.risk}
@@ -547,6 +548,7 @@ function CoachAction({
 function FinanceRoute({
   copy,
   fmt,
+  intlLocale,
   derived,
   stageProgress,
   riskLabels,
@@ -555,6 +557,7 @@ function FinanceRoute({
 }: {
   copy: DashboardCopy;
   fmt: (value: number) => string;
+  intlLocale: string;
   derived: ReturnType<typeof deriveFromAnswers> | null;
   stageProgress: Record<string, number>;
   riskLabels: Record<DebtLevel, string>;
@@ -573,7 +576,7 @@ function FinanceRoute({
       return {
         ...step,
         ...visual,
-        subtitle: `${formatNumber(months)} / ${copy.simulator.results.months(6)}`,
+        subtitle: `${months.toLocaleString(intlLocale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} / ${copy.simulator.results.months(6)}`,
         progress: clampPct((derived.cushionMonths / 6) * 100),
       };
     }
