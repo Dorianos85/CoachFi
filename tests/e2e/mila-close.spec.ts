@@ -146,6 +146,8 @@ async function prepare(page: Page, pending = false, preflight = false) {
 }
 
 async function widgetReady(page: Page) {
+  // The vendor widget script is lazy: it loads on the first intent (hover/focus/tap) on the launcher.
+  await page.getByTestId("mila-launcher").hover();
   const widget = page.locator("elevenlabs-convai");
   await expect(widget).toHaveAttribute("agent-id", "agent_qaclose");
   await expect(widget).toHaveAttribute("override-config", /.+/);

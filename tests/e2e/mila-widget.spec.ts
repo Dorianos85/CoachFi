@@ -73,6 +73,8 @@ async function prepareWidget(page: Page, locale: TestLocale, textOnly = false, t
 }
 
 async function readyWidget(page: Page) {
+  // The vendor widget script is lazy: it loads on the first intent (hover/focus/tap) on the launcher.
+  await page.getByTestId("mila-launcher").hover();
   const widget = page.locator("elevenlabs-convai");
   // The backend fixture changes the React key. Wait for that final instance
   // before changing native controls or attaching deterministic click fixtures.
@@ -270,6 +272,7 @@ test("a delayed token response closes the replaced widget and never auto-starts 
   await page.goto("/");
   const initialWidget = page.locator("elevenlabs-convai");
   await expect(initialWidget).not.toHaveAttribute("agent-id", "agent_qaonly");
+  await page.getByTestId("mila-launcher").hover();
   await expect.poll(() => initialWidget.evaluate((element) =>
     Array.from(element.shadowRoot?.querySelectorAll("button") ?? [])
       .some((button) => button.getAttribute("aria-label") === "Rozpocznij rozmowę"),
